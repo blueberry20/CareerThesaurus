@@ -1,0 +1,161 @@
+﻿#adminPage .container {
+    padding-bottom:30px;
+}
+
+.noGroupsAdded {
+    margin:30px 0;
+}
+
+.dropdownWrapper {
+    margin: 0 0 30px;
+}
+
+/*.dropdownWrapper>.col-sm-6 {
+    padding:0 5px;
+}*/
+
+.dropdown-toggle select {
+    cursor: pointer;
+}
+
+.dropdown-toggle option {
+    height: 50px;
+    line-height: 50px;
+    font-size:18px !important;
+}
+
+.dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active, .open .dropdown-toggle.btn-default {
+    color: #000;
+    background-color: #fff !important; 
+    border: 1px solid #27AEC0 !important;
+}
+
+.control-label {
+    float:left;
+    margin-right: 10px;
+}
+
+.dropdown {
+    width: 80%;
+    float: left;
+}
+
+.classDiv h3 {
+    text-transform: capitalize;
+    font-size:22px;
+}
+
+
+.classDiv {
+    padding: 12px 20px;
+    margin: 0 0 10px;
+}
+
+
+.classDiv .year, .classDiv .grade {
+    display: inline-block;
+    color: #666;
+    font-style: italic;
+    margin-right: 10px;
+}
+
+.pinCode, .studentLink {
+    font-weight: 600;
+}
+
+/*.nopadding {
+    padding: 0;
+}
+
+.smallPadding {
+    padding:0 5px;
+}*/
+
+/*.control-label {
+    float:right;
+}*/
+
+@media only screen and (max-width: 992px) {
+    .dropdown {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .noGroupsAdded {
+        margin: 15px 0;
+    }
+
+    #adminPage .container {
+        padding-bottom:10px;
+    }
+
+    /*.dropdown {
+        margin: 10px 0;
+    }*/
+
+    .dropdownWrapper {
+        padding: 10px 10px 15px;
+        margin: 0 0 20px;
+    }
+
+    .control-label {
+        height: 50px;
+        line-height: 50px;
+        margin-top: 10px;
+        min-width: 60px;
+    }
+
+    .dropdown-toggle {
+        font-size: 14px;
+    }
+
+    .classDiv a {       
+        ms-word-break: break-word;
+        word-break: break-word;
+    }
+
+    .classDiv h3 {
+        text-transform: capitalize;
+        font-size: 18px;
+    }
+
+    .viewAnalyticsBtn {
+        margin-bottom: 10px;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+    .dropdown {
+        width:80%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .dropdownWrapper .col-xs-12 {
+        padding:0;
+    }
+
+    .classDiv p {
+        FONT-size: 12px;
+    }
+
+    .classDiv h3 {
+        text-transform: capitalize;
+        font-size: 16px;
+    }
+
+    .dropdown {
+         width:100%;
+     }
+
+     .control-label {
+        height: 40px;
+        line-height: 40px;
+        margin-top: 10px;
+        min-width: 40px;
+        width: 100%;
+        margin: 0;
+    }
+}

@@ -1,0 +1,397 @@
+﻿@using System.Xml
+@using SkillCow.Classes.Helpers
+@using SkillCow.Classes.Cloud.TableStorage
+
+@model SkillCow.Classes.Cloud.TableStorage.JobPosting
+           
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    
+    <table>
+    @{
+        XmlNodeList items = ViewBag.XmlDoc.GetElementsByTagName("listing");
+        foreach (XmlNode node in items)
+        {
+            if (node.E("reference_number") == Model.ReferenceId)
+            {
+                XmlNode programvaluesnode = node.SelectSingleNode("program_values");
+                XmlNode programnode = null;
+                if (programvaluesnode != null)
+                {
+                    XmlNodeList programnodes = programvaluesnode.SelectNodes("item");
+                    if (programnodes.Count > 0)
+                    {
+                        programnode = programnodes[0];
+                    }
+                }
+                
+                <tr><td width=100>Client ID</td><td>@node.E("client_id")</td></tr>
+                <tr><td><img src="@node.E("logo_image")" /></td><td style="font-size: 18pt;"> @node.E("client_name")</td></tr>
+                <tr><td>Title</td><td style="font-size: 24pt;">@programnode.E("value")</td></tr>
+                <tr><td>Description</td><td>@programnode.E("description2")</td></tr>
+                <tr><td></td><td>&nbsp;</td></tr>
+                <tr><td>Logo URL</td><td>@node.E("logo_image")</td></tr>
+                <tr><td>City</td><td>@node.E("city")</td></tr>
+                <tr><td>State</td><td>@node.E("state")</td></tr>
+                <tr><td>Country</td><td>@node.E("country")</td></tr>
+                
+
+                <tr><td>Form ID</td><td>@node.E("form_id")</td></tr>
+                <tr><td>Campus Key</td><td>@node.E("campus_key")</td></tr>
+                <tr><td>Campus Value</td><td>@node.E("campus_value")</td></tr>
+
+                <tr><td>Date</td><td>@node.E("date")</td></tr>
+                <tr><td>Reference Number</td><td><b>@node.E("reference_number")</b></td></tr>
+                <tr><td>Link</td><td>@programnode.E("link")</td></tr>
+                <tr><td>Job Type</td><td>@programnode.E("job_type")</td></tr>
+                
+        
+                break;
+            }
+        }
+    }
+     
+       
+        <tr><td></td><td>&nbsp;</td></tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <table class="attributes">
+                    <tr><td dimension="Attitude" class="@(Model.DimensionAttitude=="Extravert"?"selected":"")">Extravert</td><td dimension="Attitude" class="@(Model.DimensionAttitude=="Introvert"?"selected":"")">Introvert</td><td dimension="Attitude" class="@(Model.DimensionAttitude=="Either"?"selected":"")">Either</td></tr>
+                    <tr><td dimension="Information" class="@(Model.DimensionInformation == "Facts" ? "selected" : "")">Facts</td><td dimension="Information" class="@(Model.DimensionInformation == "Imagination" ? "selected" : "")">Imagination</td><td dimension="Information" class="@(Model.DimensionInformation=="Either"?"selected":"")">Either</td></tr>
+                    <tr><td dimension="Processing" class="@(Model.DimensionProcessing=="Rational"?"selected":"")">Rational</td><td dimension="Processing" class="@(Model.DimensionProcessing == "Emotional" ? "selected" : "")">Emotional</td><td dimension="Processing" class="@(Model.DimensionProcessing == "Either" ? "selected" : "")">Either</td></tr>
+
+                    <tr><td dimension="Action" class="@(Model.DimensionAction == "Process" ? "selected" : "")">Process</td><td dimension="Action" class="@(Model.DimensionAction == "Result" ? "selected" : "")">Result</td><td dimension="Action" class="@(Model.DimensionAction=="Either"?"selected":"")">Either</td></tr>
+                    <tr><td dimension="Endurance" class="@(Model.DimensionEndurance=="Stationary"?"selected":"")">Stationary</td><td dimension="Endurance" class="@(Model.DimensionEndurance == "Mobile" ? "selected" : "")">Mobile</td><td dimension="Endurance" class="@(Model.DimensionEndurance == "Either" ? "selected" : "")">Either</td></tr>
+                    <tr><td dimension="Presence" class="@(Model.DimensionPresence == "Present" ? "selected" : "")">Present</td><td dimension="Presence" class="@(Model.DimensionPresence == "Remote" ? "selected" : "")">Remote</td><td dimension="Presence" class="@(Model.DimensionPresence=="Either"?"selected":"")">Either</td></tr>
+
+                    <tr><td dimension="Concentration" class="@(Model.DimensionConcentration=="Relaxed"?"selected":"")">Relaxed</td><td dimension="Concentration" class="@(Model.DimensionConcentration == "Focused" ? "selected" : "")">Focused</td><td dimension="Concentration" class="@(Model.DimensionConcentration == "Either" ? "selected" : "")">Either</td></tr>
+                    <tr><td dimension="Patterns" class="@(Model.DimensionPatterns == "Discover" ? "selected" : "")">Discover</td><td dimension="Patterns" class="@(Model.DimensionPatterns == "Routine" ? "selected" : "")">Routine</td><td dimension="Patterns" class="@(Model.DimensionPatterns=="Either"?"selected":"")">Either</td></tr>
+                    <tr><td dimension="Compensation" class="@(Model.DimensionCompensation == "Fixed" ? "selected" : "")">Fixed</td><td dimension="Compensation" class="@(Model.DimensionCompensation == "Variable" ? "selected" : "")">Variable</td><td dimension="Compensation" class="@(Model.DimensionCompensation=="Extravert"?"selected":"")">Either</td></tr>
+                </table>
+
+                <table class="importantthings">
+                    <tr><td class="@(Model.ImportantThingsBeauty == "Beauty" ? "selected" : "")">Beauty</td><td class="@(Model.ImportantThingsPeople == "People" ? "selected" : "")">People</td><td class="@(Model.ImportantThingsCreativity == "Creativity" ? "selected" : "")">Creativity</td></tr>
+                    <tr><td class="@(Model.ImportantThingsHelping == "Helping" ? "selected" : "")">Helping</td><td class="@(Model.ImportantThingsScience == "Science" ? "selected" : "")">Science</td><td class="@(Model.ImportantThingsAdmiration == "Admiration" ? "selected" : "")">Admiration</td></tr>
+                    <tr><td class="@(Model.ImportantThingsAdventure == "Adventure" ? "selected" : "")">Adventure</td><td class="@(Model.ImportantThingsEasy == "Easy" ? "selected" : "")">Easy</td><td class="@(Model.ImportantThingsCompetition == "Competition" ? "selected" : "")">Competition</td></tr>
+                    <tr><td class="@(Model.ImportantThingsSafety == "Safety" ? "selected" : "")">Safety</td><td class="@(Model.ImportantThingsDuty == "Duty" ? "selected" : "")">Duty</td><td class="@(Model.ImportantThingsAnimals == "Animals" ? "selected" : "")">Animals</td></tr>
+                    <tr><td class="@(Model.ImportantThingsTechnology == "Technology" ? "selected" : "")">Technology</td><td class="@(Model.ImportantThingsGrowth == "Growth" ? "selected" : "")">Growth</td><td class="@(Model.ImportantThingsPolitics == "Politics" ? "selected" : "")">Politics</td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <br />
+
+  
+
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        <input type="submit" value="Save" />
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IsLive)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.IsLive)
+                @Html.ValidationMessageFor(model => model.IsLive)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.GeoTarget)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.GeoTarget)
+                @Html.ValidationMessageFor(model => model.GeoTarget)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.GeoTarget2)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.GeoTarget2)
+                @Html.ValidationMessageFor(model => model.GeoTarget2)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.GeoTarget3)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.GeoTarget3)
+                @Html.ValidationMessageFor(model => model.GeoTarget3)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.GeoTargetType)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.GeoTargetType)
+                @Html.ValidationMessageFor(model => model.GeoTargetType)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Industry)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Industry)
+                @Html.ValidationMessageFor(model => model.Industry)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Category)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Category)
+                @Html.ValidationMessageFor(model => model.Category)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SubCategory)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SubCategory)
+                @Html.ValidationMessageFor(model => model.SubCategory)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ExperienceLevel)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ExperienceLevel)
+                @Html.ValidationMessageFor(model => model.ExperienceLevel)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.JobTitle)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.JobTitle)
+                @Html.ValidationMessageFor(model => model.JobTitle)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CompanyName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CompanyName)
+                @Html.ValidationMessageFor(model => model.CompanyName)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FormattedLocation)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FormattedLocation)
+                @Html.ValidationMessageFor(model => model.FormattedLocation)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.PositionLocationId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.PositionLocationId)
+                @Html.ValidationMessageFor(model => model.PositionLocationId)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.PositionLocationName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.PositionLocationName)
+                @Html.ValidationMessageFor(model => model.PositionLocationName)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Description2)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Description2)
+                @Html.ValidationMessageFor(model => model.Description2)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Keywords)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Keywords)
+                @Html.ValidationMessageFor(model => model.Keywords)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Logo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Logo)
+                @Html.ValidationMessageFor(model => model.Logo)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Source)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Source)
+                @Html.ValidationMessageFor(model => model.Source)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ReferenceId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ReferenceId)
+                @Html.ValidationMessageFor(model => model.ReferenceId)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FormId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FormId)
+                @Html.ValidationMessageFor(model => model.FormId)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BasePay)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BasePay)
+                @Html.ValidationMessageFor(model => model.BasePay)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BasePayAmount)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BasePayAmount)
+                @Html.ValidationMessageFor(model => model.BasePayAmount)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BasePayPer)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BasePayPer)
+                @Html.ValidationMessageFor(model => model.BasePayPer)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CommissionPay)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CommissionPay)
+                @Html.ValidationMessageFor(model => model.CommissionPay)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CommissionStructure)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CommissionStructure)
+                @Html.ValidationMessageFor(model => model.CommissionStructure)
+            </div>
+            
+
+            @Html.HiddenFor(model => model.DimensionAttitude)
+            @Html.HiddenFor(model => model.DimensionInformation)
+            @Html.HiddenFor(model => model.DimensionProcessing)
+
+            @Html.HiddenFor(model => model.DimensionAction)
+            @Html.HiddenFor(model => model.DimensionEndurance)
+            @Html.HiddenFor(model => model.DimensionPresence)
+
+            @Html.HiddenFor(model => model.DimensionConcentration)
+            @Html.HiddenFor(model => model.DimensionPatterns)
+            @Html.HiddenFor(model => model.DimensionCompensation)
+
+
+            @Html.HiddenFor(model => model.ImportantThingsBeauty)
+            @Html.HiddenFor(model => model.ImportantThingsHelping)
+            @Html.HiddenFor(model => model.ImportantThingsAdventure)
+            @Html.HiddenFor(model => model.ImportantThingsSafety)
+            @Html.HiddenFor(model => model.ImportantThingsTechnology)
+
+            @Html.HiddenFor(model => model.ImportantThingsPeople)
+            @Html.HiddenFor(model => model.ImportantThingsScience)
+            @Html.HiddenFor(model => model.ImportantThingsEasy)
+            @Html.HiddenFor(model => model.ImportantThingsDuty)
+            @Html.HiddenFor(model => model.ImportantThingsGrowth)
+
+            @Html.HiddenFor(model => model.ImportantThingsCreativity)
+            @Html.HiddenFor(model => model.ImportantThingsAdmiration)
+            @Html.HiddenFor(model => model.ImportantThingsCompetition)
+            @Html.HiddenFor(model => model.ImportantThingsAnimals)
+            @Html.HiddenFor(model => model.ImportantThingsPolitics)
+            
+            @Html.HiddenFor(model => model.RowKey)
+
+
+
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+</div>
+
+<script>
+    function document_ready() {
+
+        $('.attributes tr td').click(function () {
+            $('td[dimension="' + $(this).attr('dimension') + '"]').removeClass('selected');
+            $('td[dimension="' + $(this).attr('dimension') + '"]').filter(':contains("' + $(this).html() + '")').addClass('selected');
+
+            setDimensionVariable($(this).attr('dimension'), $(this).html());
+        });
+
+        $('.importantthings tr td').click(function () {
+            var e = $('.importantthings td').filter(':contains("' + $(this).html() + '")');
+
+            if (e.hasClass('selected')) {
+                e.removeClass('selected');
+                setImportantThingVariable($(this).html(), '');
+            }
+            else {
+                e.addClass('selected');
+                setImportantThingVariable($(this).html(), $(this).html());
+            }
+
+        });
+    }
+
+    function setDimensionVariable(dimension, value) {
+        $('#Dimension' + dimension).val(value);
+    }
+    function setImportantThingVariable(name, value) {
+        $('#ImportantThings' + name).val(value);
+    }
+</script>
+
+<style>
+    .attributes { background-color: #fff; padding: 20px; border-radius: 10px 10px; display: inline-block;}
+    .attributes tr td {font-size: 24pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; font-weight: bold;}
+    .attributes tr td.selected {color: rgba(128,0,0,1);}
+    
+    .importantthings { background-color: #fff; padding: 20px; border-radius: 10px 10px;display: inline-block;}
+    .importantthings tr td {font-size: 18pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; font-weight: bold;}
+    .importantthings tr td.selected {color: rgba(0,0,128,1);}
+</style>

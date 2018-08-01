@@ -1,0 +1,464 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    #_school_scrollablecontent div {display: inline-block;}
+    #school_shortdesc * {margin: 0px 10px 0 0;}
+    #school_shortdesc p {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc h1 {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc h2 {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc h3 {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc h4 {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc h5 {margin-left: 0px; margin-top: 20px; margin-bottom: 10px;}
+    #school_shortdesc table {border: thin none yellow; margin-top: 20px;}
+    #school_shortdesc img {margin: 0px;}
+    #school_shortdesc img[align='right'] {margin-left: 20px;}
+</style>
+
+<div id="_school" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    <div id="customclientcontent" style="position: absolute; top: 0px; left: 0px; bottom: 0px; display: none;">
+       
+    </div>
+
+    <div id="_school_description_viewport" style="position: absolute; top: @(ViewBag.IsMobileDevice?"0px":"80px"); left: @(ViewBag.IsMobileDevice?"80px":"125px"); width: 400px; bottom: 80px; overflow-y: scroll; border: thin none yellow;">
+        <div id="_school_description_scrollablecontent" style="overflow-x: hidden; opacity: 1; ">
+
+            <div style="color: #fff; padding-left: 0px; padding-top: 10px; padding-bottom: 90px;">
+                <img id="school_image" src="" style="position: relative; max-width: 300px; max-height: 80px; left: 0px; top: -10px;"/>
+                <br /><br />
+                <div>
+                    <h1 id="school_name" style="margin: 0 0 5px 0; font-size: 36pt; text-shadow: 3px 3px 2px rgba(0, 0, 32, 0.5);"></h1>
+                    <h1 id="school_address" style="margin: 0 0 20px 0; font-size: 12pt;"></h1>
+                    <p id="school_shortdesc" class="" style="margin: 0px 40px 0 0 ; font-size: 12pt;">
+                    
+                    </p>
+                
+                    <h1 style="margin: 20px 0 10px 0; font-size: 14pt;">Available programs</h1>
+                    <ul id="school_programs" class="" style="margin: 0px 0 0 0px; font-size: 10pt; list-style-type: none;">
+
+
+                    </ul>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+    
+    <div id="slideshowbutton" style="position: absolute; bottom: 0px; left:0px; padding-top: @(ViewBag.IsMobileDevice?"22px":"18px"); height: @(ViewBag.IsMobileDevice?"58px":"62px"); width: 240px; background-color: #000; font-size: 24pt; text-align:center; display: none;">Slideshow</div>
+    <div id="_slideshow_viewport" style="position: absolute; bottom: 0px; left: @(ViewBag.IsMobileDevice?"80px":"0px"); height: 300px; overflow-x: scroll; overflow-y: hidden; border: thin none red; display: none; background-color:#000;" class="shadow20">
+        <div id="_slideshow_scrollablecontent" style="overflow-y: hidden; height: 300px; margin-left: 100px; opacity: 0; border: thin none blue;">
+            <div id="slideshowimages" style="overflow: hidden;">
+                        
+            </div>
+        </div>
+    </div>
+
+    <div id="_school_backbutton" class="backbutton" ></div>
+
+    @if (ViewBag.IsMobileDevice)
+    {
+        <div style="position: absolute; background-color: rgba(0,0,0,0.5); top: 0px; right: 0px; width: 80px; height: 100%;">
+            <div id="_school_showformbutton" class="forwardbutton" style="bottom: 12px; right: 12px;" ></div>
+        </div> 
+    }
+    
+    @if (ViewBag.IsMobileDevice)
+    {
+        @Html.Partial("_scrollable_form")
+    }
+    else
+    {
+        @Html.Partial("_school_form")
+    }
+</div>
+
+<script>
+    //BlobJsonResourceManager.Instance.SaveJsonResource("customhtml", "skillcowjobs", "JSON", updateditem.RowKey, htmljson.ToJSON());
+    function $customhtml_ready(json) {
+        $('#customclientcontent').html(json.html);
+        $('#customclientcontent').show();
+    }
+</script>
+
+<script>
+
+    var _school_listingtype = '';
+    var _school_submittedkey = '';
+    var _school_clientid = '';
+    var _school_clientrowkey = '';
+    var _school_programrowkey = '';
+    var _school_formid = '';
+    var _school_image = '';
+    var _school_name = '';
+    var _school_clienttype = '';
+    var _school_logoclientid = '';
+
+    var _school_loaded = false;
+
+    var programsfordropdown = new Array();
+
+    var customcontent = false;
+
+    function showSchool(e) {
+        
+        try
+        {
+
+        var ismobile = @(ViewBag.IsMobileDevice?"true":"false");
+
+        showOverlay('_school');
+
+        _school_clientid = $(e).attr('clientid');
+        _school_submittedkey = $(e).attr('clientid');
+        if($(e).attr('submittedkeyoverride')!='') {
+            _school_submittedkey = $(e).attr('submittedkeyoverride');
+        }
+        _school_listingtype = $(e).attr('listingtype');
+        _school_formid = $(e).attr('formid');
+        _school_clientrowkey = $(e).attr('clientrowkey');
+        _school_programrowkey = $(e).attr('programrowkey');
+        _school_clienttype = $(e).attr('clienttype');
+        _school_logoclientid = $(e).attr('logoclientid');
+        _school_image = $(e).attr('image');
+        _school_name = $(e).attr('frontendname');
+                 
+        if(_school_listingtype=='scjob')
+        {
+            getBlobData('skillcowjobs', 'JSON', $(e).attr('jobkey') + '.js');
+            customcontent = true;
+            $('#_school_description_viewport').hide();
+            //$('#customclientcontent').show();
+            $('#authorization_school_name').html(_school_name);
+        }
+        else
+        {
+            customcontent=false;
+            $('#customclientcontent').hide();
+            $('#_school_description_viewport').show();
+        
+            $('#school_image').attr('onerror', '$(this).attr(\'src\', \'' + _school_image + '\');');
+            $('#school_image').attr('src', 'https://chaindate.blob.core.windows.net/logooverrides/' + _school_clienttype + '/' + _school_logoclientid);
+
+            $('#school_name').html(_school_name);
+            $('#authorization_school_name').html(_school_name);
+
+            var shortdesc = $('#schooldesc' + _school_clientid).html();
+            if(shortdesc!=null)
+            {
+                shortdesc = shortdesc.replace(/â/g,'\'');
+            }
+
+            $('#school_shortdesc').html(shortdesc); 
+
+            var programjson = decodeURIComponent($(e).attr('programjson'));
+        
+            var jsono = null;
+            try {
+                jsono = $.parseJSON(programjson);
+            }
+            catch (e) {
+            }
+
+            var location = $(e).attr('location');
+            var isonline = false;
+            for (var i = 0; i < jsono.items.length; i++) {
+                if ($.trim(jsono.items[i].campustype).toLowerCase() == 'online') {
+                    isonline = true;
+                    break;
+                }
+            }
+
+            if ($.trim(location) == ',' || $.trim(location) == '0,0' || $.trim(location) == '0, 0') {
+                location = '';
+            }
+
+            if (isonline) {
+                if (location == '') {
+                    location = '<span style="color: #ff5500">Online</span>';
+                }
+                else {
+                    location += ' <span style="color: #ff5500">Online programs available!</span>';
+                }
+            }
+            $('#school_address').html(location);
+
+            loadPrograms(jsono);
+
+        }
+        
+
+        if(!ismobile)
+        {
+            showSchoolForm(_school_clientid, _school_formid, 0, customcontent);
+        }
+        
+        setTimeout(function () {
+            $('#_school_scrollablecontent').animate({ 'margin-left': '115px', 'opacity': 1 }, 1500);
+        }, 500);
+
+        if (!_school_loaded) {
+            $('#_school_backbutton').press(function () {
+                hideOverlay('_school');
+
+                if(ismobile)
+                {
+                    $('.btnsubmitform').hide();
+                    $('#scrollableform').hide();
+                }
+
+            });
+            
+            $('#_school_description_scrollablecontent').press(function () 
+            { 
+                minimizeSlideshow(); 
+            });
+            $('#slideshowbutton').press(function () 
+            { 
+                if (slideshowminimized) {
+                    maximizeSlideshow();
+                }
+            });
+            
+
+            if(ismobile)
+            {
+                $('#_school_showformbutton').press(function () {
+                    showScrollableForm(_school_clientid, _school_formid, _school_image, _school_name, _school_clienttype, _school_logoclientid, 300);
+                    $('.btnsubmitform').show();
+                    $('#scrollableform').show();
+                });
+            }
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_school');
+                }
+            });
+            _school_loaded = true;
+        }
+
+        resizeSchoolControls();
+        $("#_school_description_viewport").scrollTop(0);
+        
+
+        createSlideShow(_school_clienttype, _school_logoclientid);
+
+        }
+        catch(ex)
+        {
+            debugalert(ex.message);
+        }
+    }
+
+    function resizeSchoolControls(){
+        
+        var scrollablewidth = 18000; //125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280
+        
+        $('#_school_scrollablecontent').css('width', scrollablewidth);
+        $("#_school_viewport").niceScroll("#_school_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+        $("#_school_viewport").getNiceScroll().resize();
+        $("#_school_viewport").show();
+
+        $('#customclientcontent').css('width', document.documentElement.clientWidth - 697);
+        $('#customclientcontent').css('height', document.documentElement.clientHeight);
+
+        if(ismobile)
+        {
+            $('#_school_description_viewport').css('width', document.documentElement.clientWidth - 90 - 71);
+            $('#_slideshow_viewport').css('width', document.documentElement.clientWidth - 80 - 80);
+        }
+        else{
+            $('#_school_description_viewport').css('width', document.documentElement.clientWidth - 125 - 700);
+            $('#_slideshow_viewport').css('width', document.documentElement.clientWidth - 698);
+        }
+        
+        $("#_school_description_viewport").niceScroll("#_school_description_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorwidth: "20px", cursorborderradius: "10px", cursorborder: "1px none #fff" });
+        $("#_school_description_viewport").getNiceScroll().resize();
+
+        
+    }
+
+    function loadPrograms(programs) {
+
+        $('#school_programs').html('');
+
+        programsfordropdown = new Array();
+
+        try {
+            for (var i = 0; i < programs.items.length; i++) {
+                addSchoolProgram(i, programs.items[i]);
+                programsfordropdown.push({ "value": programs.items[i].campuskey + "!" + programs.items[i].id, "label": programs.items[i].type + ': ' + programs.items[i].name });
+            }
+        }
+        catch (e) {
+        }        
+    }
+
+    function addSchoolProgram(sequence, program) {
+        $('#school_programs').append('<li><span style="font-weight: normal;">' + program.typename + '</span> - ' + program.name + ' - ' + program.campustype + '</li>');
+    }
+    
+</script>
+
+<script>
+    function window_resize() {
+        resizeControls();
+    }
+</script>
+
+
+<!-- SLIDE SHOW -->
+<style>
+    .slidecaptionholder h1,h2,h3,h4,h5 {color:#fff; margin: 0px;}
+    .slidecaptionholder h2 {font-size: 18pt;}
+</style>
+<script>
+    var slideshowjustloaded = false;
+    var cancelminimize = false;
+    var slideshowminimized = false;
+    var slidecount = 0;
+    var loadedslidecount = 0;
+    var minimizetimeout;
+
+    function $slideshow_ready(slideshow, container, resourceid) {
+        slidecount = slideshow.slides.length;
+        if (slidecount == 0) {
+            return;
+        }
+        $('#_slideshow_viewport').show();
+        $('#_slideshow_scrollablecontent').css('width', 15000);
+        $("#_slideshow_viewport").niceScroll("#_slideshow_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_slideshow_viewport").getNiceScroll().resize();
+        $('#_slideshow_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1000);
+        $("#_slideshow_viewport").scrollLeft(0);
+
+        $('#slideshowimages').html('');
+        for (var i = 0; i < slideshow.slides.length; i++) {
+            var slide = slideshow.slides[i];
+            $('#slideshowimages').append('<div style="position: relative; display: inline-block; height: 400px;" >' +
+                '<img class="slideshowslideholder" src="https://chaindate.blob.core.windows.net/slideshows/' + slideshow.id + '/' + slide.id + '"' +
+                ' onload="slideloaded(this)"' +
+                ' style="max-height: 300px; margin: 0px; padding: 0px; boarder: 0px;"' +
+                ' onclick="slideshowslideclicked(\'' + slide.id + '\', \'' + slideshow.id + '\')" />' +
+                '<div class="slidecaptionholder" style="position: absolute; bottom: '+(ismobile?'0px':'100px')+'; left: 0px; width: 100%; background-color: rgba(0,0,0,0.6); color: #fff; text-align: left; font-size: 16pt;">' +
+                (slide.caption != '' ? '<div style="margin: ' + (ismobile ? '15px 20px 15px 20px;' : '5px;') + '">' + (slide.caption!=null ? slide.caption.replace(/\n/g, '<br>') : "") + '</div>' : '') +
+                '</div>' +
+                '</div>');
+        }
+
+        $('.slideshowslideholder').mouseover(function () { slide_mouseover(this); });
+        $('.slideshowslideholder').mouseout(function () { slide_mouseout(this); });
+        $('.slideshowslideholder').press(function () { slide_pressed(this) });
+        
+    }
+
+    function slide_mouseover(e) {
+        $('.activeslidecaption').stop();
+        $('.activeslidecaption').animate({ 'bottom': 0 }, 300);
+        $('.activeslidecaption').removeClass('activeslidecaption');
+
+        var element = $(e).siblings('.slidecaptionholder');
+
+        element.animate({ 'bottom': '100' }, 500);
+        element.addClass('activeslidecaption');
+
+        cancelminimize = true;
+    }
+
+    function slide_mouseout(e) {
+        var element = $(e).children('.slidecaptionholder');
+        element.animate({ 'bottom': 0 }, 300);
+    }
+    function slide_pressed(e) {
+        if (slideshowminimized) {
+            maximizeSlideshow();
+        }
+    }
+
+    function slideshowslideclicked(slideid, slideshowid) {
+
+    }
+
+    function createSlideShow(clienttype, clientid) {
+
+        clearTimeout(minimizetimeout);
+
+        maximizeSlideshow();
+
+        $('#_slideshow_viewport').hide();
+
+        slidecount = 0;
+        slideshowjustloaded = true;
+        cancelminimize = false;
+        
+        getBlobData('clientslideshows', clienttype, clientid.replace(/\s/g, '') + '.js');
+
+        if (!customcontent) {
+            minimizetimeout = setTimeout(function () {
+
+                if (cancelminimize == false) {
+                    minimizeSlideshow();
+                }
+
+            }, 2000);
+        }
+
+    }
+    function maximizeSlideshow() {
+        
+        $("#slideshowbutton").hide();
+        $('#_slideshow_scrollablecontent').css('height', 300);
+        $('#_slideshow_scrollablecontent').css('margin-left', '100px');
+        $('#_slideshow_scrollablecontent').css('opacity', 0);
+        $('#_slideshow_viewport').css('left', (ismobile ? 80 : 0));
+        $('#_slideshow_viewport').css('width', (ismobile ? document.documentElement.clientWidth - 80 - 79 : document.documentElement.clientWidth - 697));
+        $("#_slideshow_viewport").css('height', 300);
+        $('#_slideshow_scrollablecontent img').css('max-height', 300);
+
+        resizeslideshow();
+        slideshowminimized = false;
+    }
+    function minimizeSlideshow() {
+        if (slidecount == 0) {
+            return;
+        }
+        var slideshowwidth = ismobile ? document.documentElement.clientWidth - 80 - 79 - 240 : document.documentElement.clientWidth - 697 - 240;
+
+        $("#slideshowbutton").show();
+        $("#slideshowbutton").css('left',(ismobile?80:0));
+
+        $('#_slideshow_scrollablecontent').css('height', 80);
+        $('#_slideshow_viewport').animate({ 'height': 80, 'left': (ismobile ? 240 + 80 : 240), 'width': slideshowwidth }, 500);
+        $('#_slideshow_scrollablecontent img').css('max-height', 80);
+        
+        setTimeout(function () {
+            resizeslideshow();
+            slideshowminimized = true;
+        }, 500);
+    }
+    function slideloaded(img) {
+        loadedslidecount++;
+        if (loadedslidecount >= slidecount) {
+            resizeslideshow();
+        }
+    }
+    function resizeslideshow() {
+        var slides = $('#_slideshow_scrollablecontent img');
+        var totalwidth = 0;
+        for (var i = 0; i < slides.length; i++) {
+            totalwidth += $(slides[i]).width();
+        }
+
+        $('#_slideshow_scrollablecontent').css('width', totalwidth + 2);
+        $("#_slideshow_viewport").niceScroll("#_slideshow_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_slideshow_viewport").getNiceScroll().resize();
+        $("#_slideshow_viewport").show();
+        $('#_slideshow_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1000);
+
+        $("#_slideshow_viewport").scrollLeft(0);
+
+        slideshowjustloaded = true;
+    }
+</script>

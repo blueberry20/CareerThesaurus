@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_0_declarations.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_1_downloader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_2_createcookiesetter.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_2_createeventhandlers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_2_createform.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_2_createvalidation.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_generic.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_specialized_dropdown.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_specialized_input_text.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_specialized_uncategorized.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/RecordForm/formcontrols_submission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    #recordformcontainer {padding: 25px;}
+    #recordformcontainer input[type='text'] {width: 550px; font-family: Roboto; font-weight: 100;  }
+    
+    #recordformcontainer .logocontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); padding-bottom: 20px;}
+    
+    #recordformcontainer .controlcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0); min-height: 45px; margin-bottom: 1px; }
+    #recordformcontainer .controlcontainer .label { position: relative; width: 240px; left: 10px; padding-top: 9px; font-size: 14pt; }
+    #recordformcontainer .controlcontainer .control { position: absolute; left: 260px; top: 0px; }
+    #recordformcontainer .controlcontainer .control input[type='text'] { font-size: 14pt; padding: 7px; width: 300px; font-weight: 400; border: thin solid rgba(255,255,255,0.1);}
+    #recordformcontainer .controlcontainer .control div.touchscreeninput { position: relative; font-size: 14pt; padding: 7px; margin-top: 2px; width: 300px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 25px;}
+    #recordformcontainer .controlcontainer .control div.formdropdown { position: relative; font-size: 14pt; padding: 7px; margin-top: 2px; width: 300px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); }
+    #recordformcontainer .controlcontainer .control select { font-size: 12pt; width: 350px; padding: 5px; color:#333; }
+    
+    #recordformcontainer .textareacontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #recordformcontainer .textareacontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;}
+    #recordformcontainer .textareacontainer .control { position: relative; width: 200px;  padding: 9px;}
+    #recordformcontainer .textareacontainer .control textarea { font-family: Arial; font-size: 12pt; padding: 5px; width: 475px; color:#333; }
+    
+    #recordformcontainer .checkboxcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #recordformcontainer .checkboxcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;max-width: 475px;}
+    #recordformcontainer .checkboxcontainer .control { position: relative; width: 200px;  padding: 9px;}
+            
+    #recordformcontainer .fieldgroupcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #recordformcontainer .fieldgroupcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px; max-width: 475px;}
+    #recordformcontainer .fieldgroupcontainer .control { position: relative; margin-left:200px;  padding: 9px;}
+    #recordformcontainer .fieldgroupcontainer .control select { font-size: 12pt; padding: 0px; color:#333; display: inline-block; padding: 5px;}
+    
+
+</style>
+    
+
+<div id="recordform" style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 0px; padding: 0px; background-color: rgba(0,0,32,0.9); z-index: 9999999; overflow: hidden;" class="formoverlay">
+    <div id="recordformcontainer"></div>
+    <div id="btnsubmitrecordform" class="button" style="position: absolute; right: 0px; bottom: 0px; width: 360px; padding: 30px; font-size: 20pt; font-weight: 100;">Submit</div>
+</div>
+
+    
+<script>
+
+    var _record_form_loaded = false;
+
+    var _record_request_type = '';
+    var _record_request_id = '';
+    var _record_request_data = '';
+
+    function showRecordForm(type, id, data, eduintent, speed) {
+
+        _record_request_type = type;
+        _record_request_id = id;
+        _record_request_data = data;
+
+        setCookie("record_type", type, 7);
+        setCookie("record_data", data, 7);
+
+        if (eduintent) {
+            setCookie("edu_intent", "YES", 7);
+        }
+        else {
+            setCookie("edu_intent", "NO", 7);
+        }
+
+        var formanimationspeed = (speed!=null ? speed : 1000);
+
+        $('#recordform').animate({ "width": "625px" }, formanimationspeed);
+
+        var requiredfields = new Array();
+        
+        requiredfields.push({ name: "salutation", label: "Salutation", type: "dropdown", required: true, selectedvalue: "mr" });
+        
+        requiredfields.push({ name: "firstname", label: "First Name", type: "text", required: true });
+        requiredfields.push({ name: "lastname", label: "Last Name", type: "text", required: true });
+        requiredfields.push({ name: "phone", label: "Phone", type: "text", required: true });
+        requiredfields.push({ name: "email", label: "Email", type: "text", required: true });
+        requiredfields.push({ name: "zip", label: "ZIP", type: "text", required: true });
+
+        try {
+            createRecordForm(requiredfields);
+            createRecordFormEventHandlers(requiredfields);
+            createRecordFormValidation();
+            createRecordFormCookieSetter();
+
+            $('#recordformcontainer div[keyboardtype="email"]').press(function () { showKeyboardForEmail(this); });
+            $('#recordformcontainer div[keyboardtype="standard"]').press(function () { showKeyboardForStandard(this); });
+            $('#recordformcontainer div[keyboardtype="phone"]').press(function () { showKeyboardForPhone(this); });
+            $('#recordformcontainer div[keyboardtype="numeric"]').press(function () {
+                if ($(this).attr('id') == 'zip') {
+                    showKeyboardForNumeric(this, false, false, 5);
+                }
+                else {
+                    showKeyboardForNumeric(this);
+                }
+            });
+
+        }
+        catch (e) {
+            alert('Error 1: ' + e.message);
+        }
+
+
+        if (!_record_form_loaded) {
+            _record_form_loaded = true;
+            $('#btnsubmitrecordform').press(function () {
+                submitRecordForm();
+            });
+            
+        }
+    }
+    
+</script>

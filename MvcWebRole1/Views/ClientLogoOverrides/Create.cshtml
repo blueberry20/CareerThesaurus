@@ -1,0 +1,63 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientLogoOverrides.ClientLogoOverride
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+</style>
+
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h2>Create</h2>
+
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Client Logo Override</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientName)
+                @Html.ValidationMessageFor(model => model.ClientName)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientType)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientType)
+                @Html.ValidationMessageFor(model => model.ClientType)
+            </div>
+
+            <div class="editor-label">
+                Client Set ID
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </div>
+
+        
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+</div>

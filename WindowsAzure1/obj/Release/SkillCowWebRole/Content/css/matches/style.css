@@ -1,0 +1,128 @@
+﻿#graphcanvas
+{
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    
+    width:100%;
+    
+    
+}
+#sidebar
+{
+    display:none;
+    position: absolute;
+    
+    width: 140px;
+    
+    top:120px;
+    right:0px;
+    bottom: 120px;
+    
+    min-height: 500px;
+    
+    padding:10px;
+    
+    background-color: rgba(0,0,0,0.5);
+    border: thin none #fff; 
+    
+    color: #fff;
+    vertical-align: top;
+}
+#sidebar a {color: #f5f5f5;}
+#sidebar .pictureholder 
+{
+    overflow: hidden;
+}
+#sidebar_picture
+{
+    position: relative;
+    cursor: pointer;
+    border: thin solid #000;
+    margin-top: 5px;
+}
+#sidebar_picture:hover {top: -1px; left: -1px;}
+.sidebar_details
+{
+    position: absolute;
+    top: 263px;
+    width: 140px;
+    border-top: thin solid #666;
+}
+#match_annotation {position: relative; padding: 5px 0 5px 0; }
+#recommendation_annotation {position: relative; margin: 0 0 0 5px; padding: 5px 0 5px 0; border-top: thin solid #666; }
+#confirmation_annotation {position: relative; margin: 0 0 0 5px; padding: 5px 0 5px 0; border-top: thin solid #666; }
+#sidebar_preloader
+{
+    position: absolute;
+    left: 30px; 
+    top: 185px;
+    display: none;
+}
+ul.links {list-style: none; margin: 0 0 0 5px;  padding: 5px 0 5px 0; border-top: thin none #666; font-family: Arial; font-size: 0.8em;}
+ol.influences {list-style: none; margin: 0 0 0 5px;  padding: 5px 0 5px 0; border-top: thin solid #666; }
+ul.links li { margin: 0 0 0 0;  padding: 0 0 0 0; }
+ol.influences li { margin: 0 0 0 0;  padding: 0 0 0 10px; }
+h1{ margin-bottom: 5px;color: #fff;font-family: Arial;font-size: 2em;}
+h2{ margin-bottom: 5px; color: #fff;font-family: Arial;font-size: 1.2em; margin: 0 0 0 0; padding:0 0 0 0; }
+#sidebar input[type='button'] {width: 100%;}
+div.thumbs_up
+{
+    position: absolute;
+    right: 15px;
+    top: 180px;
+    width:35px;
+    height:38px;
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_up.png");
+    background-repeat:no-repeat;
+    cursor: pointer;
+}
+div.thumbs_up:hover
+{
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_up_hover.png");
+    background-repeat:no-repeat;
+}
+div.thumbs_up:active
+{
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_up_pressed.png");
+    background-repeat:no-repeat;
+}
+div.thumbs_down
+{
+    position: absolute;
+    right: 15px;
+    top: 220px;
+    width:35px;
+    height:38px;
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_down.png");
+    background-repeat:no-repeat;
+    cursor: pointer;
+}
+div.thumbs_down:hover
+{
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_down_hover.png");
+    background-repeat:no-repeat;
+}
+div.thumbs_down:active
+{
+    background-image: url("/Content/Images/ThumbnailAssembly/thumbs_down_pressed.png");
+    background-repeat:no-repeat;
+}
+div.bggradientmain
+{
+    background: #5b6fa8; /* for non-css3 browsers */ /*6c93af*/ /*7b8fb8*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6fa8', endColorstr='#eeeeff', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#5b6fa8), to(#eeeeff)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #5b6fa8,  #eeeeff); /* for firefox 3.6+ */
+}
+
+#tileview{position: absolute; left: 20px; bottom: 150px; width:100px; height:100px; cursor: pointer;}
+#graphview{position: absolute; left: 50px; bottom: 50px; width:100px; height:100px; cursor: pointer;}
+#listview{position: absolute; left: 150px; bottom: 20px; width:100px; height:100px; cursor: pointer;}
+#tileview:hover {background-color: rgba(0,0,0,0.5); left:15px; bottom: 149px}
+#graphview:hover {background-color: rgba(0,0,0,0.5); left:45px; bottom: 45px;}
+#listview:hover {background-color: rgba(0,0,0,0.5); left:149px; bottom: 15px}
+#tileview:active {background-color: rgba(0,0,255,1); }
+#graphview:active {background-color: rgba(0,0,255,1); }
+#listview:active {background-color: rgba(0,0,255,1); }

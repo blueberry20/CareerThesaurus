@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Helpers;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class StudentPortalController : AuthenticatedControllerController
+    {
+        //
+        // GET: /StudentPortal/
+        List<ImportantThings> importantThings = new List<ImportantThings>() {
+            new  ImportantThings { name = "beauty", caption = "Beauty & Visual Perfection" },
+            new  ImportantThings { name = "helping", caption = "Helping Others" },
+            new  ImportantThings { name = "adventure", caption = "Risk & Adventure" },
+            new  ImportantThings { name = "safety", caption = "Safety of Others" },
+            new  ImportantThings { name = "people", caption = "Working with People" },
+            new  ImportantThings { name = "science", caption = "Scientific Methods & Precision" },
+            new  ImportantThings { name = "duty", caption = "Sense of Duty" },
+            new  ImportantThings { name = "admiration", caption = "Being in a Spot Light" },
+            new  ImportantThings { name = "creativity", caption = "Creativity" },
+            new  ImportantThings { name = "competition", caption = "Competitiveness" },
+            new  ImportantThings { name = "animals", caption = "Nature & Animals" },
+            new  ImportantThings { name = "politics", caption = "Politics & Strategy" },
+            new  ImportantThings { name = "technology", caption = "Technology & Gadgets" },
+            new  ImportantThings { name = "machinery", caption = "Machinery" },
+            new  ImportantThings { name = "handlabor", caption = "Hand Labor" },
+            new  ImportantThings { name = "strength", caption = "Using Body Strength" },
+            new  ImportantThings { name = "drafting", caption = "Drafting & Sketching" },
+            new  ImportantThings { name = "coordinating", caption = "Coordinating Groups" },
+            new  ImportantThings { name = "numbers", caption = "Working with Numbers" },
+            new  ImportantThings { name = "critical", caption = "Giving Critical Advice" },
+            new  ImportantThings { name = "salesy", caption = "Salesiness" }
+        };
+        public ActionResult Index()
+        {
+            string user = AuthTokens[1];
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            List<AssessmentInterestRating> importantThingRatings = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndStudent(student.School, user));
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            List<AssessmentCareerRating> careerRatings = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(student.School, user));
+            ViewBag.CareersRated = careerRatings.Count == 0 ? "no" : "yes";
+            ViewBag.School = student.School;
+            if (importantThingRatings.Where(x => x.Rating == "1").ToList().Count == 3)
+            {
+                ViewBag.ImportantThings = "yes";
+            }
+            else
+            {
+                ViewBag.ImportantThings = "no";
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult RateInterests()
+        {
+            string user = AuthTokens[1];
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            ViewBag.School = student.School;
+            ViewBag.importantThings = importantThings;
+            return View();
+        }
+        [HttpPost]
+        public void SaveInterest(string user, string interest, string rating)
+        {
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            AssessmentInterestRating interestRating = airc.GetByPartitionAndRowKey(student.School, user + interest);
+            if (interestRating == null)
+            {
+                airc.AddNewItem(new AssessmentInterestRating { PartitionKey = student.School, RowKey = user + interest, Interest = interest, Rating = rating, GradYear = student.GradYear, Student = user, Teacher = student.Teacher, Group = student.Group });
+            }
+            else
+            {
+                interestRating.Rating = rating;
+                airc.Update(interestRating);
+            }
+        }
+        public ActionResult Report(string id)
+        {
+            if (id != null && id != "")
+            {
+                StudentProfileClient spc = new StudentProfileClient();
+                StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(id), id);
+                if (student != null && AuthTokens[3] == "administrator" && student.Teacher == AuthTokens[1])
+                {
+                    UserAccountClient uac = new UserAccountClient();
+                    UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(id), id);
+                    // ViewBag.StudentName = account.FirstName + " " + account.LastName;
+                    ViewBag.StudentFirstName = account.FirstName;
+                    ViewBag.StudentLastName = account.LastName;
+                    ViewBag.StudentToShow = id;
+                }
+            }
+            else if (AuthTokens[3] == "administrator")
+            {
+                return RedirectToAction("Assessment", "Index");
+            }
+            return View();
+        }
+    }
+}

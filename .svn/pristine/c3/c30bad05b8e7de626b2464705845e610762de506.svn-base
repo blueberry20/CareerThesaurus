@@ -1,0 +1,143 @@
+﻿@using System.Xml
+@using SkillCow.Classes.Helpers
+@using SkillCow.Classes.Cloud.TableStorage
+@model XmlDocument
+@{
+    ViewBag.Title = "All";
+}
+@{
+    JobPostingClient jpc = new JobPostingClient();
+    Dictionary<string, JobPosting> dictjobpostings = new Dictionary<string, JobPosting>();
+    
+    List<JobPosting> alljobpostings = new List<JobPosting>(jpc.GetAllBySource("TEN").Execute());
+
+    foreach (JobPosting jp in alljobpostings)
+    {
+        if(jp.ReferenceId.Length>=19)
+        {
+            string referenceid = jp.ReferenceId.Substring(0, 19);
+
+            if (!dictjobpostings.ContainsKey(referenceid))
+            {
+                dictjobpostings.Add(referenceid, jp);
+            }
+        }
+    }
+        
+    
+    XmlNodeList items = Model.GetElementsByTagName("listing");
+
+    int cnt = 0;
+}
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h1 style="color: Red;">TEN postings: @items.Count; SkillCow postings: @alljobpostings.Count()</h1>
+
+    @try
+    {
+        
+        <table>
+            <tr>
+                <th>#</th>
+                <th>...</th>
+                <th>Clientid</th>
+                <th>Job title</th>
+                <th>clientname</th>
+                <th>city</th>
+                <th>state</th>
+                <th>country</th>
+                
+
+                <th>formid</th>
+                <th>campuskey</th>
+                <th>campusvalue</th>
+
+                <th>zips</th>
+                <th>keywords</th>
+                <th>referencenumber</th>
+
+                <th>jobtype</th>
+                
+            </tr>
+            
+            @foreach (XmlNode node in items)
+            {
+                string referencenumber = node.E("reference_number").Substring(0,19);
+
+                bool postingexists = dictjobpostings.ContainsKey(referencenumber);
+
+                if (!postingexists)
+                {
+
+
+                    XmlNode programvaluesnode = node.SelectSingleNode("program_values");
+                    XmlNode programnode = null;
+                    if (programvaluesnode != null)
+                    {
+                        XmlNodeList programnodes = programvaluesnode.SelectNodes("item");
+                        if (programnodes.Count > 0)
+                        {
+                            programnode = programnodes[0];
+                        }
+                    }
+
+                    JobPosting template = null;
+
+                    foreach (JobPosting item in alljobpostings.Where(x => x.JobTitle == programnode.E("value")))
+                    {
+                        template = item;
+                        break;
+                    }
+                    
+                    <tr>
+                        <td>@(++cnt)</td>
+                        <td>
+                            <nobr>
+                                @Html.Raw(!postingexists ? "<a href=\"javascript:window.open('/tenjobs/createlisting/" + node.E("reference_number") + "')\">Create</a>" : "") 
+                                @Html.Raw(!postingexists ? " | <a href=\"javascript:window.open('/tenjobs/MarkListingAsFailedImport/" + node.E("reference_number") + "')\">Fail</a>" : "") 
+                                @Html.Raw(template != null ? " | <a style=\"font-size:10pt\" href=\"javascript:window.open('/tenjobs/CreateFromTemplate?tenid=" + node.E("reference_number") + "&templateid=" + template.RowKey + "')\">Use " + template.JobTitle + "</a>" : "")
+                            </nobr>
+
+                            @Html.Raw(postingexists ? "<a href=\"/tenjobs/editlisting/" + dictjobpostings[referencenumber].RowKey + "\" style=\"color:#888;\">Edit</a>" : "")
+                        </td>
+                        <td>@node.E("client_id")</td>
+                        <td>@programnode.E("value")</td>
+                        <td>@node.E("client_name")</td>
+                        <td>@node.E("city")</td>
+                        <td>@node.E("state")</td>
+                        <td>@node.E("country")</td>
+                        
+
+                        <td>@node.E("form_id")</td>
+                        <td>@node.E("campus_key")</td>
+                        <td>@node.E("campus_value")</td>
+
+                        <td></td>
+                        <td></td>
+                        <td>@node.E("reference_number")</td>
+            
+                        <td>@programnode.E("job_type")</td>
+                        
+
+                        
+                    </tr>
+                
+                    if (cnt > 20)
+                    {
+                        break;
+                    }
+                }
+            }
+
+        </table>
+        
+    }
+    catch (Exception e)
+    {
+        <h1 style="color: Red;">@e.Message</h1>
+    }
+</div>
+<style>
+td {padding: 10px;}
+td a {font-size: 18pt;}
+</style>

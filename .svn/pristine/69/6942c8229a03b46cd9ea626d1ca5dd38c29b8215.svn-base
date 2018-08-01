@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ITT Technical Institute</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css' />
+    <style type="text/css">
+        * {font-family: Arial;}
+        html,body{
+	        min-height: 480px;
+	        margin: 0px;
+	        padding: 1px;
+        }
+        .dfb {
+	        font-size: 11px;
+	        line-height: 15px;
+	        color: #333;
+	        text-align: center;
+        }
+        .asdc {
+	        font-size: 13px;
+	        text-transform: uppercase;
+	        color: #1F4976;
+	        text-align: center;
+        }
+        div.actionbutton 
+        {
+            cursor: pointer;
+            position: relative;
+            border-radius: 7px 7px;
+            border: 1px solid #0090f0;
+            
+            text-shadow: 1px 1px 1px #005fa2;
+            
+            color: #fff;
+            font-size: 18pt;
+            font-weight: bold;
+            padding: 20px;
+            margin: 10px;
+            
+            text-decoration: none;
+            
+            background: #0099ff; /* Old browsers */
+            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOTlmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDgzZGIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+            background: -moz-linear-gradient(top,  #0099ff 0%, #0083db 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099ff), color-stop(100%,#0083db)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #0099ff 0%,#0083db 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#0083db',GradientType=0 ); /* IE6-8 */
+
+
+            height: 30px;
+
+        }
+        div.actionbutton:active
+        {
+            background-color: #1e497a;
+        }
+        div.actionbutton span {position: relative; display: inline-block; margin-left: 10px;}
+    </style>
+</head>
+
+<body>
+
+<table style="border: 1px solid #eee; max-width: 600px;" border="0" cellpadding="0" cellspacing="0" align="center">
+<tbody>
+<tr>
+    <td><img src="http://skillcow.com/content/email/itt/ittlogowhite.png" alt="ITT-header" style="width: 100%" border="0" /></td>
+</tr>
+
+
+<tr>
+    <td style="background-color: #1e497a; font-size: 32px; font-weight: bold; color: #ffffff; text-align: center; padding-top: 4px; padding-bottom: 4px;" valign="top">
+    NOW ENROLLING
+    </td>
+</tr>
+<tr>
+<td valign="top"><img src="http://skillcow.com/content/email/itt/img.jpg" alt="ITT Students" width="100%;"  border="0" /></td>
+</tr>
+
+
+<tr>
+    <td style="font-size: 13px; font-weight: bold; text-align: center; padding-top: 4px; padding-bottom: 4px;" valign="top">
+        <br /> 
+        <span style="font-size: 18px; font-style: italic;">@FIRSTNAME, It's not too late!</span>
+        <br /> <br /> 
+        The ITT Technical Institute is accepting applications for the upcoming quarter.
+        <br /><br />
+        <!--<a target="_blank" title="ITT" href="http://www.collegesurfing.com/ce/itt-host/?firstname={u(fname)}&lastname={u(lname)}&phone={u(phone)}&address1={u(address1)}&address2={u(address2)}&gradyear={u(gradyear)}&city={u(city)}&state={u(state)}&zip={u(zip)}&email={u(email)}&campaign_id=13321332">
+            <span style="font-size: large;">GO HERE FOR MORE INFORMATION</span>
+        </a>-->
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td style="padding-bottom: 10px;" valign="top" align="center">
+        <div class="actionbutton" onclick="document.location='http://www.collegesurfing.com/ce/itt-host/?firstname=@FIRSTNAME&lastname=@LASTNAME&phone=@PHONE&address1=@ADDRESS&address2=&gradyear=@GRADYEAR&city=@CITY&state=@STATE&zip=@ZIP&email=@EMAIL&campaign_id=@CAMPAIGNID';">
+            <span>LEARN MORE</span>
+            <span><img style="position: absolute; display: block; top: -20px; opacity: 0.5;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+            <span><img style="position: absolute; display: block; top: -20px; opacity: 0.25;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+        </div>
+    </td>
+</tr>
+
+
+    <tr>
+    <td style="padding-top: 7px; padding-left: 10px; padding-bottom: 7px; font-size: 14px; line-height: 18px;">
+    <table style="margin: 0px;" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+    <td style="font-size: 13px; text-transform: uppercase; color: #333; text-align: left; vertical-align: top;">Technology Focused</td>
+    <td style="font-size: 13px; text-transform: uppercase; color: #333; text-align: left; vertical-align: top;">Convenient</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;">
+        <p style="padding-right: 10px; font-size: 9pt; color: #555;">Emphasis is placed on teaching students skills and knowledge that can have practical value in the workplace.</p>
+    </td>
+    <td style="vertical-align: top;">
+        <p style="padding-right: 10px; font-size: 9pt; color: #555;">Class sessions are generally available in the day and evening, depending on student enrollment.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="font-size: 13px; text-transform: uppercase; color: #333; text-align: left; vertical-align: top;">Learn and Apply</td>
+    <td style="font-size: 13px; text-transform: uppercase; color: #555; text-align: left; vertical-align: top;">Career Services</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;">
+        <p style="padding-right: 10px; font-size: 9pt; color: #555;">In most campus-based programs, students participate in a hands-on learning environment, applying in a laboratory environment what is taught in the classroom.</p>
+    </td>
+    <td style="vertical-align: top;">
+        <p style="padding-right: 10px; font-size: 9pt; color: #555;">Assistance is offered on job-seeking and job-keeping skills and techniques before graduation. In addition, students are advised of entry-level job openings and interview opportunities.</p>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </td>
+    </tr>
+
+    <tr><td style="border-top: thin solid #eee;">
+    <p style="padding: 10px; font-size: 8pt; color: #555;">
+    We take your privacy seriously.  You are receiving this email because you or someone else used this email address to subscribe to <a href="http://SkillCow.com">SkillCow.com</a>
+    <br /><br />
+    If you would like to unsubscribe please click <a href="http://SkillCow.com/unsubscribe?email=@EMAIL">here</a>
+    </p>
+    </td></tr>
+</tbody>
+</table>
+
+</body>
+</html>

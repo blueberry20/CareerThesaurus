@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "StudentList";
+}
+
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <a href="../Analytics">Analytics Home<i class="icon-right-open-big"></i></a>
+                <a href="/Analytics/Byinterest">By Interests<i class="icon-right-open-big"></i></a>
+                <span>Student List</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1>students who picked beauty & visual perfection</h1>
+                <p class="subheading">Click to view student's report card</p>
+            </div>
+        </div>
+
+        <div class="row studentNames">
+            <ol class="studentList">
+                <li class="studentName"><a href="/Analytics/StudentReport">John Brown</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Svetlana Zelenkina</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Martin Gray</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Christina Ivanova</a><i class="icon-right-open-big arrowRight"></i></li>
+            </ol>
+        </div>
+    </div>
+</div>

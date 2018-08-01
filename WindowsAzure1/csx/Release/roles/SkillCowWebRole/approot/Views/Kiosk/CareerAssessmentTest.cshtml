@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "CareerAssessmentTest";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+<script type="text/javascript">
+    
+    var _sizing_scrollable_content_height = @(ViewBag.IsMobileDevice?"document.documentElement.clientHeight - 80 - 80":"700");
+
+    var _sizing_q_panel_width = document.documentElement.clientWidth;
+
+    var _sizing_q_div_left = @(ViewBag.IsMobileDevice?"0":"40");
+    var _sizing_q_div_width = @(ViewBag.IsMobileDevice?"document.documentElement.clientWidth":"1500");
+    var _sizing_q_div_height = @(ViewBag.IsMobileDevice?"document.documentElement.clientHeight - 80 - 80":"650");
+
+    var _sizing_q_header_font_size = '@(ViewBag.IsMobileDevice?"24pt":"48pt")';
+    var _sizing_q_header_top = @(ViewBag.IsMobileDevice?"85":"70");
+    var _sizing_q_header_left = @(ViewBag.IsMobileDevice?"70":"70");
+
+    var _sizing_q_text_top = @(ViewBag.IsMobileDevice?"150":"150");
+    var _sizing_q_text_left = @(ViewBag.IsMobileDevice?"210":"200");
+    var _sizing_q_text_width = @(ViewBag.IsMobileDevice?"document.documentElement.clientWidth - _sizing_q_text_left - 40":"1100");
+    var _sizing_q_text_font_size = '@(ViewBag.IsMobileDevice?"15pt":"24pt")';
+
+    var _sizing_q_a_annot_top = @(ViewBag.IsMobileDevice?"200":"250");
+    var _sizing_q_a_annot_left = @(ViewBag.IsMobileDevice?"200":"360");
+    var _sizing_q_a_annot_width = @(ViewBag.IsMobileDevice?"540":"800");
+    var _sizing_q_a_annot_font_size = '@(ViewBag.IsMobileDevice?"10pt":"16pt")';
+</script>
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/helper_functions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/flow.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/processinput.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/testcomplete.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/careerchoices.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/schoolformparser.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/formsubmission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/resettest.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/groupschools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/schools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/showsummary.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/statemapping.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/puzzlewidget.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/puzzlewidgetie8.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/importantthings.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<br /><br />
+<br /><br />
+
+
+<div id="console" style="position: fixed; width: 300px; top: 100px; left: 0px;">
+</div>
+
+
+<div id="_questions_viewport" style="position: absolute; width: 100%; border: thin none red; bottom: 0px; height: @(ViewBag.IsMobileDevice?"":"800px"); @(ViewBag.IsMobileDevice ? "margin-bottom: 76px;" : "") overflow-x: scroll; hidden; display: none; ">
+    <div id="_questions_scrollablecontent" style="overflow-y: hidden; margin-left: 200px; opacity: 0; width: 0;">
+        <!--QUESTIONS GO HERE-->
+    </div>
+</div>
+
+
+<div style="position: fixed; width: 100%;  margin-left: @(ViewBag.IsMobileDevice?"13px":""); bottom: @(ViewBag.IsMobileDevice?"20px":"30px"); text-align: @(ViewBag.IsMobileDevice?"left":"center");">
+    <div id="progress" style="margin: 0 auto; font-size: @(ViewBag.IsMobileDevice?"24pt":"24pt");"></div>
+</div>
+
+<div style="display: none;">
+    @Html.Partial("_attributes")
+</div>
+
+<div id="___OBSOLETE___btnimportantthings" class="button" style="position: absolute; right: 0px; bottom: 0px; padding: @(ViewBag.IsMobileDevice?"21px":"30px"); font-size: 20pt; width: 316px; display: none; ">Next...</div>
+
+<div id="btnimportantthings" class="forwardbutton" style="display: none;"></div>
+
+@Html.Partial("_important_things")
+
+<style>
+    input.answerbutton { background-color: #0066cc; font-size: 14pt; padding: 11px; color: white; border: none; text-transform: capitalize;}
+    input.answerbutton:active { background: #ff6600; color: white; }
+    input.selectedanswer { background-color: #ff6600; }
+    div.answerbutton { background-color: #0066cc; font-size: 14pt; padding: 11px; color: white; border: none; text-transform: capitalize;}
+    div.answerbutton:active { background: #ff6600; color: white; }
+    div.selectedanswer { background-color: #ff6600; }
+    
+    input.infobutton:active { background: #003366; color: white; }
+    div.infobutton:active { background: #003366; color: white; }
+</style>
+
+<script>
+    
+</script>
+    

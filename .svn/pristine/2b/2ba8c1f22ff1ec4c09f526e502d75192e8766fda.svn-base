@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Email Results";
+}
+
+<link href="~/Content/css/Skilltest/locked.css?v=@ViewBag.AppVersion" rel=" stylesheet" />
+<link href="~/Content/css/Skilltest/EmailResults.css?v=@ViewBag.AppVersion" rel=" stylesheet" />
+
+<div class="pageContainer lockedMode takeTest" id="emailResultsPage">
+    <div id="percentageProgress"><p>100%</p></div>
+    <div class="container">
+        <form id="emailForm" method="post">
+            <input type="hidden" name="interests" id="interests" value="" />
+            <input type="hidden" name="selectedschool" id="selectedSchool" value="" />
+            <input type="hidden" name="otherschools" id="otherSchools" value="" />
+            <h1>Let us email you your results for safekeeping</h1>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-12" for="name">Your Name</label>
+                <div class="shortField col-lg-12 col-md-12">
+                    <input type="text" class=" form-control required" name="name" id="name" value="" placeholder="Your name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-12" for="email">Your E-mail</label>
+                <div class="shortField col-lg-12 col-md-12">
+                    <input type="email" class=" form-control required" name="email" id="email" value="" placeholder="Your e-mail">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-12" for="email">Your Phone Number (optional) to receive a job placement consultation call </label>
+                <div class="shortField col-lg-12 col-md-12">
+                    <input type="tel" class="form-control" name="phone" id="phone" value="" placeholder="Your phone number (optional)">
+                </div>
+                @*<div class="smallFont col-lg-12">To receive a job placement consultation call</div>*@
+            </div>
+            <div class="form-group row checkboxRow">
+                @*<input id="termsCheckbox" type="checkbox"><p>I agree to <a id="openTerms">terms and conditions</a></p>*@
+            </div>
+            <div class="text-center">
+                <button type="button" id="joinNewsletterBtn" class="btn btn-default">Submit</button>
+            </div>
+            <div class="form-group row termsRow">
+                <p><b>Your information is safe with us.</b> By entering my information and clicking "Submit," I am providing express consent to be contacted by CareerThesaurus.com and its partners via email, phone and text, including my wireless phone number, regarding job openings, career services and educational opportunities using automated technology. Standard message and data rates may apply to text messages. You are not required to provide consent to receive services from CareerThesaurus.com. I also understand that the CareerThesaurus.com Privacy Policy governs the collection of this information. </p>
+            </div>
+            <p class="errorMsg"></p>
+            <p id="checkboxError">You haven't agreed to terms and conditions.</p>
+        </form>
+
+        <div class="extraMargin text-center">
+            <a href="/TakeTest/TestResults" onclick="gaReport();">Not now</a>
+        </div>
+
+        @*<div class="divider"></div>*@
+
+        <div class="adsenseResponsive">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- CareerThesaurus -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3486420009474810"
+                 data-ad-slot="6576327288"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+</div>
+
+<!-- Google Code for Test Taking Conversion Page -->
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt=""
+             src="//www.googleadservices.com/pagead/conversion/995211493/?label=IGQjCMO1m1sQ5fHG2gM&guid=ON&script=0" />
+    </div>
+</noscript>
+<script src="~/Scripts/CbnRecords/records.js"></script>
+<script>
+    function document_ready() {
+        if (localStorage.interestsList) {
+            $('#interests').val(localStorage.interestsList);
+        }
+        if (localStorage.selectedSchool) {
+            $('#selectedSchool').val(localStorage.selectedSchool);
+        }
+        if (localStorage.otherSchools) {
+            $('#otherSchools').val(localStorage.otherSchools);
+        }
+        $('#regularMenu, footer').hide();
+        $('#lockedModeMenu').show();
+        $("form").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+
+        $('#openTerms').click(function () {
+            window.open('http://careerthesaurus.com/about/terms', 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=400,height=350");
+        });
+
+        //$('#joinNewsletterBtn').click(function () {
+        //    if (validateName($('#name').val()) && validateEmail($('#email').val())) {
+        //        setCookie('resultsEmailed', 'yes', 365);
+        //        //setCookie('locked', null, -1);
+        //        gaReport("Signed up");
+        //        $('form').submit();
+        //    } else {
+        //        if (!validateName($('#name').val()) && validateEmail($('#email').val())) {
+        //            // alert('name not valid');
+        //            $('.errorMsg').text('Please enter a valid name');
+        //        } else if (!validateEmail($('#email').val()) && validateName($('#name').val())) {
+        //            // alert('email not valid');
+        //            $('.errorMsg').text('Please enter a valid email');
+        //        }
+        //        else {
+        //            $('.errorMsg').text('Please enter a valid name and email');
+        //        }
+        //    }
+        //});
+
+        $('#joinNewsletterBtn').click(function () {
+            if (validateName($('#name').val()) && validateEmail($('#email').val())) {
+                // submit cbn request and submit form, if it will create problems, we can wait for cbn request to comback and then submit form. to do so replace 'null' in next line with 'submitForm' and comment out line after that
+                validateInputAndSubmit($('#name').val(), $('#email').val(), $('#phone').val(), null);
+                gaReport("Signed up");
+                submitForm();
+            }
+            else {
+                if (!validateName($('#name').val()) && validateEmail($('#email').val())) {
+                    // alert('name not valid');
+                    $('.errorMsg').text('Name is not valid. Please try again.');
+                } else if (!validateEmail($('#email').val()) && validateName($('#name').val())) {
+                    // alert('email not valid');
+                    $('.errorMsg').text('Email is not valid. Please try again.');
+                }
+                else if (!validateEmail($('#email').val()) && !validateName($('#name').val())) {
+                    $('.errorMsg').text('Email and name are not valid. Please try again.');
+                }
+                else {
+                    $('.errorMsg').text('');
+                }
+
+                //if (!$('#termsCheckbox').is(':checked')) {
+                //    $('#checkboxError').show();
+                //} else {
+                //    $('#checkboxError').hide();
+                //}
+            }
+        });
+    }
+
+    function submitForm() {
+        $('form').submit();
+    }
+
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+    function gaReport(value) {
+        if (ga) ga('send', 'event', 'Email Me My Results', value ? value : "No thanx", value ? value : "No thanx");
+    }
+</script>

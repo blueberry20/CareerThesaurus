@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Browse Careers";
+}
+
+<style>
+    h1 {color: #000; }
+    
+    #branches {}
+    div.branchholder { position: relative; display: inline-block; margin: 5px; overflow: hidden; cursor: pointer; width: 270px; height: 288px; background-color: #000;}
+    div.branchholder .imageholder { position: absolute; top: 0px; left: 0px; overflow: hidden; cursor: pointer; width: 270px; height: 270px; }
+    div.branchholder .imageholder img { position: absolute; top: 0px; left: 0px; }
+    div.branchholder .footer { position: absolute; background-color: #000; color: #fff; bottom: 0; left: 0; width: 100%; min-height: 18px; font-family: Verdana; font-size: 10pt;}
+    div.branchholder .details { position: absolute; top: 0px; left: 0; width: 100%; opacity: 0; }
+    div.branchholder .details h1 { color: #fff; }
+    
+</style>
+
+<div class="pagecontent" style="margin: 0 auto; background-color: rgba(255,255,255,0.3); text-align: center; padding: 0 20px 20px 20px;">
+    
+    
+    <!--BROWSE CAREERS BY BRANCH-->
+    <div id="branches">
+    
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/Controllers/Careers/Index/branches.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Careers/Index/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+

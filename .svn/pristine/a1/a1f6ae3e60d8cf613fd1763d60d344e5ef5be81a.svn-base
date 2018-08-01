@@ -1,0 +1,281 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterest;
+@using SkillCowResponsive.Classes.Helpers;
+@{
+    AssessmentInterestClient airc = new AssessmentInterestClient();
+    ViewBag.Title = "Rate Interests";
+}
+
+<!--========================Student Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Careers/selectinterests.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage" id="rateInterestsPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active activeTab"><a href="/StudentPortal">Student Portal</a></li>
+                    <li><a href="/StudentPortal/Report">Report Card</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+            <ol class="breadcrumb">
+                <li><a href="/StudentPortal">Home</a></li>
+                <li class="active">Rate Interests</li>
+            </ol>
+        </div>*@
+
+        <div class="row">
+            <h1>Pick Your Life Interests</h1>
+            <p class="text-center">Select top 3 things that are important to you</p>
+        </div>
+
+        @*<div class="ratingTable">
+                @{
+                    List<ImportantThings> importantThings = ViewBag.importantThings;
+                    string user = ViewBag.Email;
+                    string school = ViewBag.School;
+                    for (var i = 0; i < importantThings.Count; i++)
+                    {
+                        string like = "";
+                        string dislike = "";
+                        if (user != "" && user != null)
+                        {
+                            AssessmentInterestRating rating = airc.GetByPartitionAndRowKey(school, user + importantThings[i].name);
+                            if (rating != null)
+                            {
+                                like = rating.Rating == "1" ? "chosenDiv" : "";
+                                dislike = rating.Rating == "0" ? "chosenDiv" : "";
+                            }
+                        }
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 interestName" data-name="@importantThings[i].name">@importantThings[i].caption</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="importanceDiv @like" data-value="1">Important</div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="importanceDiv @dislike" data-value="0">Not Important</div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>*@
+
+
+        <div class="ratingTable">
+            <div class="row">
+                @{
+                    List<ImportantThings> importantThings = ViewBag.importantThings;
+                    string user = ViewBag.Email;
+                    string school = ViewBag.School;
+                    string year = ViewBag.Year;
+                    string grade = ViewBag.Grade;
+                    for (var i = 0; i < importantThings.Count; i++)
+                    {
+                        string like = "";
+                        //string dislike = "";
+                        string value = "";
+                        if (user != "" && user != null)
+                        {
+                            AssessmentInterest rating = airc.GetByPartitionAndRowKey(school, user + year + grade + importantThings[i].name);
+                            if (rating != null)
+                            {
+                                like = rating.Value == "1" ? "active" : "";
+                                value = rating.Value;
+                                //dislike = rating.Rating == "0" ? "active" : "";
+                            }
+                        }
+                        // <span class="impThingsSpan @like" data-value="@value" data-name="@importantThings[i].name">@importantThings[i].caption</span>
+                        <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6" >
+                            <div class="imgOverlay" data-interest="" data-value="@value" data-name="@importantThings[i].name">
+                                <img class="img-responsive" src="../../Content/images/interests/beauty.jpg" alt="" />
+                                <div class="textOverlay">
+                                    <p>@importantThings[i].caption</p>
+                                    <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftSide">
+                <a class="uppercase blueBorderBtn" href="/StudentPortal">Back to Student Portal</a>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightSide">
+                <a class="blueBorderBtn" href="/SkillTest">Go to Next Step</a>
+            </div>
+       </div>
+        <div id="selectionSummary" class="row">
+            Please select up to 3 interests to proceed
+        </div>
+        <!--<div class="row lastRow">
+            <a class="uppercase" href="/StudentPortal">Back to Student Portal</a>
+            <a class="btn btn-info blueStripesBtn" href="/Analytics/StudentReport">Go To My Report Card<i class="fa fa-angle-right pull-right arrowRight"></i></a>
+        </div>-->
+
+        <div class="modal fade twoButtonsModal" id="threeInterestsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="confirmBody">
+                        <p>You selected 3 interestes.</p>
+                        <p>Select what you would like to do next.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default twoButtons" id="changeInterests" data-dismiss="modal">Change Interests</button>
+                        <a href="/SkillTest" class="btn btn-default twoButtons" id="goToResults">Go to Next Step</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade oneButtonModal" id="instructionsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>You can't select more than 3 interests.</p>
+                        <p>Unselect one of the interests before selecting another one.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default schoolAddedBtn oneButton" data-dismiss="modal">Ok</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div>
+</div>
+
+
+<script>
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+    var interestsStar = getCookie('interests') ? JSON.parse(getCookie('interests')) : [];
+    function document_ready() {
+        var interestCount = interestsStar.length;
+        for (var i = 0; i < interestsStar.length; i++) {
+            $('[data-name="' + interestsStar[i] + '"]').addClass('selected');
+        }
+
+
+        //$('.importanceDiv').click(function () {
+        //    $(this).closest('.row').find('.importanceDiv').removeClass('chosenDiv').removeClass('notChosenDiv');
+        //    $(this).addClass('chosenDiv');
+        //    var name = $(this).closest('.row').find('.interestName').data('name');
+        //    var value = $(this).data('value');
+        //    saveInterest(name, value);
+        //});
+
+
+        //$('.impThingsSpan').click(function (element) {
+        //    var name = $(this).data('name');
+        //    $(this).toggleClass('active');
+        //    var value = $(this).hasClass('active') ? "1" : "0";
+        //    $(this).data('value', value);
+        //    saveInterest(name, value);
+        //});
+
+        //center text in boxes
+        $('.textOverlay p').each(function () {
+            $(this).css('margin-top', ($(this).height() / 2 * -1));
+        });
+        $(window).resize(function () {
+            $('.textOverlay p').each(function () {
+                $(this).css('margin-top', ($(this).height() / 2 * -1));
+            });
+        });
+
+        //attach images
+        $('.imgOverlay').each(function (i, elem) {
+            var interestName = $(elem).data('name');
+            $(elem).find('.img-responsive').attr('src', '../../Content/images/interests/' + interestName + '.jpg');
+        });
+
+
+        //on click save selected interests to student profile
+        interestCount = $('.imgOverlay.selected').length;
+        $('.imgOverlay').click(function (element) {
+            var name = $(this).data('name');
+            if (interestCount < 3) {
+                $(this).toggleClass('selected');
+                var value = $(this).hasClass('selected') ? "1" : "0";
+                $(this).data('value', value);
+                saveInterest(name, value);
+                if ($(this).hasClass('selected')) {
+                    interestCount++;
+                }
+                else { //unselected
+                    interestCount--;
+                }
+            }
+            else { //interestcount >3
+                if ($(this).hasClass('selected')) {
+                    var value = $(this).hasClass('selected') ? "0" : "1";
+                    $(this).removeClass('selected');
+                    $(this).data('value', value);
+                    interestCount--;
+                    saveInterest(name, value);
+                }
+                else {
+                    $('#instructionsModal').modal();
+                    return;
+                }
+            }
+            updateSummary();
+            checkifthree();
+        });
+
+
+        checkifthree();
+        function checkifthree() {
+            if (interestCount == 3) {
+                $('#threeInterestsModal').modal();
+            }
+        }
+        //var interestSelected = 0;
+        //if (localStorage.interestsList) {
+        //    var interestValues = JSON.parse(localStorage.interestsList);
+        //    interestSelected = interestValues.length;
+        //    for (var i = 0; i < interesSelected; i++) {
+        //        $('[data-interest="' + interestValues[i] + '"]').addClass('selected');
+        //    }
+        //}
+
+    }
+
+    function updateSummary() {
+        var selections = [];
+        var interestValues = [];
+        $('.selected').each(function () {
+            selections.push($(this).find('.textOverlay p').text());
+            interestValues.push($(this).data('interest'));
+        });
+        $('#selectionSummary').text((selections.length == 0 ? 'Please select up to 3 interests to proceed' : 'Interests you\'ve selected: ' + selections.join(', ') + '.'));
+
+    }
+
+
+
+    function saveInterest(interest, rating) {
+        if (user != null && user != '' && profileType == 'student') {
+            $.post(appserverurl + '/StudentPortal/SaveInterest', { user: user, interest: interest, rating: rating });
+            if (interestsStar.indexOf(interest) != -1 && rating == 0) {
+                interestsStar.splice(interestsStar.indexOf(interest), 1);
+            } else if (interestsStar.indexOf(interest) == -1 && rating == 1) {
+                interestsStar.push(interest);
+            }
+            setCookie('interests', JSON.stringify(interestsStar), 7);
+        }
+    }
+</script>

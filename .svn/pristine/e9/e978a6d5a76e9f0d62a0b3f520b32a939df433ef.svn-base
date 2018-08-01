@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "AudioTest";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Audio Tag Support</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    </head>
+    <body>
+        <audio id="audiotag" autoplay controls>
+            <source src="https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.ogg" type="audio/ogg">
+            <source src="https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+
+        </audio>
+    </body>
+</html>

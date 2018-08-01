@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Newsletter";
+}
+<!--===========================Newsletter signup form========================================-->
+
+<link href="~/Content/css/About/newsletter.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div id="newsletterPage" class="pageContainer aboutContainer whiteBgPage">
+    <div class="container">
+  
+        <form id="newsletterForm" method="post">
+            <h2>Join Our Newsletter</h2>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-3 col-md-4" for="name">Your Name</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="text" class=" form-control required" name="name" id="name" value="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="shortLabel col-lg-3 col-md-4" for="email">Your E-mail</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="email" class=" form-control required" name="email" id="email" value="">
+                </div>
+            </div>
+            <div class="form-group row checkboxRow">
+                <label class="shortLabel col-lg-3 col-md-4" for="email"></label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input id="termsCheckbox" type="checkbox">
+                    <p>I agree to <a id="openTerms">terms and conditions</a></p>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" id="joinNewsletterBtn" class="btn btn-default">Submit</button>
+            </div>
+            <p class="errorMsg"></p>
+            <p id="checkboxError">You haven't agreed to terms and conditions.</p>
+        </form>
+
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $("form").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+
+        //newHeight = $(window).height() - 150;
+        //$('#newsletterPage .container').css('min-height', newHeight);
+
+        //$(window).resize(function () {
+        //    newHeight = $(window).height() - 150;
+        //    $('#newsletterPage .container').css('min-height', newHeight);
+        //})
+
+        
+        $('#joinNewsletterBtn').click(function () {
+            if (validateName($('#name').val()) && validateEmail($('#email').val()) && $('#termsCheckbox').is(':checked')) {
+                $('form').submit();
+            }
+            else {
+                if (!validateName($('#name').val()) && validateEmail($('#email').val())) {
+                   // alert('name not valid');
+                    $('.errorMsg').text('Name is not valid. Please try again.');
+                } else if (!validateEmail($('#email').val()) && validateName($('#name').val())) {
+                   // alert('email not valid');
+                    $('.errorMsg').text('Email is not valid. Please try again.');
+                }
+                else if (!validateEmail($('#email').val()) && !validateName($('#name').val())) {
+                    $('.errorMsg').text('Email and name are not valid. Please try again.');
+                }
+                else {
+                    $('.errorMsg').text('');
+                }
+
+                if (!$('#termsCheckbox').is(':checked')) {
+                    $('#checkboxError').show();
+                } else {
+                    $('#checkboxError').hide();
+                }
+            }
+        });
+
+        $('#openTerms').click(function () {
+            window.open('http://careerthesaurus.com/about/terms', 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=400,height=350");
+        });
+
+        //generate years for grad year select
+        //var yearslisted;
+        //var myDate = new Date();
+        //var year = myDate.getFullYear();
+        //for (var i = year; i > year - 100; i--) {
+        //    yearslisted += '<option value="' + i + '">' + i + '</option>'
+        //}
+        //$('#gradYearSelect').append(yearslisted);
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;    
+    }
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+</script>

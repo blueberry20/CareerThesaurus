@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "Results";
+}
+
+<link href="../../Content/css/Custom.css" rel="Stylesheet" />
+<link href="~/Content/css/Careers/Careers.css" rel="stylesheet" />
+
+<script src='/Scripts/Thesaurus/ctProfessions.js'></script>
+<script src='/Scripts/Thesaurus/ctProfessionsCodes.js'></script>
+
+<div class="pageContainer" id="testResultsPage">
+    <div class="container">
+        <div id="main" class="row">
+        </div>
+        <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+                <button type="button" id="field" class="btn btn-default displayBy" onclick="popularityResults(this);">By Field</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" id="edulevel" class="btn btn-default displayBy" onclick="educationResults(this);">By Education</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" id="salary" class="btn btn-default displayBy" onclick="salaryResults(this);">By Salary</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+
+    var dimensions = { attitude: "", information: "", processing: "", action: "", endurance: "", presence: "", concentration: "", patterns: "", compensation: "" };
+    var userzip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '10001';
+    var matchedProfessions = [];
+    var ctSalaryRange = [{ min: 0, max: 30000, caption: 'under 30k' }, { min: 30000, max: 60000, caption: '30k to 60k' }, { min: 60000, max: 100000, caption: '60k to 100k' }, { min: 100000, max: Infinity, caption: 'over 100k' }];
+
+    function document_ready() {
+        getDimensions(); // get dimensions from cookies
+    }
+
+    function getDimensions() {
+        for (var property in dimensions) {
+            if (dimensions.hasOwnProperty(property)) {
+                dimensions[property] = getCookie(property) ? getCookie(property) : '';
+            }
+        }
+        matchResults();
+    }
+
+    function matchResults() {
+        matchedProfessions = [];
+        for (var i = 0; i < professions.length; i++) {
+            matchProfession(professions[i]);
+        }
+        popularityResults($('#field'));
+    }
+    function matchProfession(item) {
+        var rank = 0;
+        if (dimensions.attitude != '' && (!(item.attitude == '' || item.attitude == dimensions.attitude))) { return; } else if (dimensions.attitude != '' && item.attitude == dimensions.attitude) { rank++; }
+        if (dimensions.information != '' && (!(item.information == '' || item.information == dimensions.information))) { return; } else if (dimensions.information != '' && item.information == dimensions.information) { rank++; }
+        if (dimensions.processing != '' && (!(item.processing == '' || item.processing == dimensions.processing))) { return; } else if (dimensions.processing != '' && item.processing == dimensions.processing) { rank++; }
+        if (dimensions.action != '' && (!(item.action == '' || item.action == dimensions.action))) { return; } else if (dimensions.action != '' && item.action == dimensions.action) { rank++; }
+        if (dimensions.endurance != '' && (!(item.endurance == '' || item.endurance == dimensions.endurance))) { return; } else if (dimensions.endurance != '' && item.endurance == dimensions.endurance) { rank++; }
+        if (dimensions.presence != '' && (!(item.presence == '' || item.presence == dimensions.presence))) { return; } else if (dimensions.presence != '' && item.presence == dimensions.presence) { rank++; }
+        if (dimensions.concentration != '' && (!(item.concentration == '' || item.concentration == dimensions.concentration))) { return; } else if (dimensions.concentration != '' && item.concentration == dimensions.concentration) { rank++; }
+        if (dimensions.patterns != '' && (!(item.patterns == '' || item.patterns == dimensions.patterns))) { return; } else if (dimensions.patterns != '' && item.patterns == dimensions.patterns) { rank++; }
+        if (dimensions.compensation != '' && (!(item.compensation == '' || item.compensation == dimensions.compensation))) { return; } else if (dimensions.compensation != '' && item.compensation == dimensions.compensation) { rank++; }
+        item.rank = rank;
+        matchedProfessions.push(item);
+    }
+
+    function popularityResults(el) {
+        var popular = matchedProfessions.map(function (x) { x.fieldPopularity = matchedProfessions.filter(function (y) { return y.minor == x.minor }).map(function (z) { return z.popularity; }).reduce(function (a, b) { return a + b }); return x; });
+        popular.sort(sort_by('fieldPopularity', { name: 'popularity', primer: null, reverse: false })).reverse();
+        var html = '<div><h2>You will do GREAT as ...</h2></div>';
+        var currentField;
+        for (var i = 0; i < popular.length; i++) {
+            if (currentField != popular[i].minor) {
+                html += currentField ? '<div><a href="/Jobs?q=' + ctMinor[currentField].replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&r=&salary=&st=&jt=">View all jobs in ' + ctMinor[currentField] + '</a></div>' : '';
+                currentField = popular[i].minor;
+                html += '<div>in ' + ctMinor[currentField] + '</div>';
+            }
+            html += '<div>... ' + popular[i].title + ' <span id="indeed' + i + '"></span> <a href="/Jobs?q=' + popular[i].title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&r=&salary=&st=&jt=">View these jobs</a></div>';
+        }
+        html += '<div><a href="/Jobs?q=' + ctMinor[currentField].replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&r=&salary=&st=&jt=">View all jobs in ' + ctMinor[currentField] + '</a></div>';
+        $('#main').html(html);
+        $('.displayBy').removeClass('active');
+        $(el).addClass('active');
+        console.log(popular);
+        getJobs(popular, false);
+    }
+
+    function educationResults(el) {
+        var educationSort = matchedProfessions;
+        educationSort.sort(sort_by('minedulevel', { name: 'popularity', primer: null, reverse: false })).reverse();
+        var html = '<div><h2>You will do GREAT as ...</h2></div>';
+        var currentEduLevel;
+        for (var i = 0; i < educationSort.length; i++) {
+            if (currentEduLevel != educationSort[i].minedulevel) {
+                html += currentEduLevel ? '<div>View all jobs with ' + ctEduLevel[currentEduLevel] + '</div>' : '';
+                currentEduLevel = educationSort[i].minedulevel;
+                html += '<div>with ' + ctEduLevel[currentEduLevel] + '</div>';
+            }
+            html += '<div>... ' + educationSort[i].title + ' <a href="/Jobs?q=' + educationSort[i].title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&r=&salary=&st=&jt=">View these jobs</a></div>';
+        }
+        html += '<div>View all jobs with ' + ctEduLevel[currentEduLevel] + '</div>';
+        $('#main').html(html);
+        $('.displayBy').removeClass('active');
+        $(el).addClass('active');
+    }
+
+    function salaryResults(el) {
+        var salarySort = matchedProfessions;
+        var lastLine;
+        salarySort.sort(sort_by('salary', { name: 'popularity', primer: null, reverse: false })).reverse();
+        var html = '<div><h2>You will do GREAT as ...</h2></div>';
+        var currentSalaryRange = getSalaryRange(Math.max.apply(Math, salarySort.map(function(x) { return x.salary;})));
+        for (var i = 0; i < salarySort.length; i++) {
+            if (ctSalaryRange[currentSalaryRange].min > salarySort[i].salary || ctSalaryRange[currentSalaryRange].max <= salarySort[i].salary) {
+                html += currentSalaryRange ? '<div><a href="/Jobs?q=&loc=' + userzip + '&r=&st=&jt=&salary=' + ctSalaryRange[currentSalaryRange].min + '">View all jobs with ' + ctSalaryRange[currentSalaryRange].caption + '</a></div>' : '';
+                currentSalaryRange = getSalaryRange(salarySort[i].salary);
+                html += '<div>with ' + ctSalaryRange[currentSalaryRange].caption + '</div>';
+            }
+            html += '<div>... ' + salarySort[i].title + ' <a href="/Jobs?q=' + salarySort[i].title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&r=&st=&jt=&salary=' + ctSalaryRange[currentSalaryRange].min + '">View these jobs</a></div>';
+        }
+        html += '<div><a href="/Jobs?q=&loc=' + userzip + '&r=&st=&jt=&salary=' + ctSalaryRange[currentSalaryRange].min + '">View all jobs with ' + ctSalaryRange[currentSalaryRange].caption + '</a></div>';
+        $('#main').html(html);
+        $('.displayBy').removeClass('active');
+        $(el).addClass('active');
+    }
+
+    function sortByPopularity(a, b) {
+        if (a.popularity > b.popularity) return -1; if (a.popularity < b.popularity) return 1; return 0;
+    }
+
+    function getSalaryRange(salary) {
+        if (salary - 100000 > 0) {
+            return 3;
+        } else if (salary - 60000 > 0) {
+            return 2;
+        } else if (salary - 30000 > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    function getJobs(professions, salary) {
+        console.log(professions);
+        for (var i = 0; i < professions.length; i++) {
+            setTimeout(function() {
+                getIndeed(i, professions[i].title.replace(/[^a-zA-Z]+/g, '+'), salary ? ctSalaryRange[getSalaryRange(professions[i].salary)].min : null);
+            }, 100);
+        }
+    }
+
+    function getIndeed(id, q, salary) {
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: q,
+                l: userzip,
+                limit: "25",
+                salary: salary ? salary : ''
+            }
+        }).success(function (response) {
+            console.log(response);
+            $('#indeed' + id).text(id);
+        }).error(function (error) {
+            console.log(error);
+            $('#indeed' + id).text('error');
+        });
+        
+    }
+
+    var sort_by;
+
+    (function () {
+        // utility functions
+        var default_cmp = function (a, b) {
+            if (a == b) return 0;
+            return a < b ? -1 : 1;
+        },
+            getCmpFunc = function (primer, reverse) {
+                var dfc = default_cmp, // closer in scope
+                    cmp = default_cmp;
+                if (primer) {
+                    cmp = function (a, b) {
+                        return dfc(primer(a), primer(b));
+                    };
+                }
+                if (reverse) {
+                    return function (a, b) {
+                        return -1 * cmp(a, b);
+                    };
+                }
+                return cmp;
+            };
+
+        // actual implementation
+        sort_by = function () {
+            var fields = [],
+                n_fields = arguments.length,
+                field, name, reverse, cmp;
+
+            // preprocess sorting options
+            for (var i = 0; i < n_fields; i++) {
+                field = arguments[i];
+                if (typeof field === 'string') {
+                    name = field;
+                    cmp = default_cmp;
+                }
+                else {
+                    name = field.name;
+                    cmp = getCmpFunc(field.primer, field.reverse);
+                }
+                fields.push({
+                    name: name,
+                    cmp: cmp
+                });
+            }
+
+            // final comparison function
+            return function (A, B) {
+                var a, b, name, result;
+                for (var i = 0; i < n_fields; i++) {
+                    result = 0;
+                    field = fields[i];
+                    name = field.name;
+
+                    result = field.cmp(A[name], B[name]);
+                    if (result !== 0) break;
+                }
+                return result;
+            }
+        }
+    }());
+</script>

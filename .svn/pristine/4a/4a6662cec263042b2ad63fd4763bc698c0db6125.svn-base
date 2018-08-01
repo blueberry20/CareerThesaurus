@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Change Password";
+}
+<!--========================Account.Change Password.========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer blueBackground" id="changePasswordPage">
+    <div class="container">
+        <div class="centerBox">
+            <div class="row">
+                <h1>Change Password</h1>
+                @{
+                    if (ViewBag.PasswordUpdated != null)
+                    {
+                        <div>Password has been updated</div>
+                    }
+                    else
+                    {
+                        <form role="form" method="POST">
+                            <div class="form-group row">
+                                @*<label for="oldPassword" class="col-lg-12 control-label">Old Password</label>*@
+                                <div class="col-lg-12">
+                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Old Password">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @*<label for="newPassword" class="col-lg-12 control-label">New Password</label>*@
+                                <div class="col-lg-12">
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @*<label for="confirmNewPassword" class="col-lg-12 control-label">Confirm New Password</label>*@
+                                <div class="col-lg-12">
+                                    <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <button type="button" id="changeBtn" class="btn btn-success changeBtn">Change password</button>
+                            </div>
+                            <div class="row text-center errorForm" id="errorMessage">
+                                @{
+                        if (ViewBag.InvalidPassword != null)
+                        {
+                            <span>
+                                Old password doesn't match our records. Please reenter your old password.
+                            </span>
+                            <div class="extraPadding"><a href="/Account/ResetPassword/">reset password</a></div>
+                            
+                        }
+                                }
+                            </div>
+                        </form>
+                        <div><a href="/Account/Login/">Back to login page</a></div>
+                    }
+}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function document_ready() {
+        $('#changeBtn').click(function () {
+            var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/);
+            var oldPassword = $('#oldPassword').val();
+            var newPassword = $('#newPassword').val();
+            var confirmNewPassword = $('#confirmNewPassword').val();
+            if (newPassword == '' || newPassword == null) {
+                $('#errorMessage').text('Password must have 6 symbols including at least one digit, one lowercase letter, one uppercase letter and may contain underscore');
+            } else if (oldPassword == newPassword) {
+                $('#errorMessage').text('Your new password must be different from old password');
+            } else if (!regex.test(newPassword)) {
+                $('#errorMessage').text('Password must have 6 symbols including at least one digit, one lowercase letter, one uppercase letter and may contain underscore');
+            } else if (newPassword != confirmNewPassword) {
+                $('#errorMessage').text('Your new password and confirm password don\'t match');
+            } else {
+                $('form').submit();
+            }
+        });
+    }
+</script>

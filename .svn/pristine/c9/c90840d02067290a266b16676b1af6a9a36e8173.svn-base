@@ -1,0 +1,100 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientLogoOverrides.ClientLogoOverride
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+</style>
+<link href="/content/css/pictureuploader/fileuploader.css" rel="stylesheet" type="text/css">
+
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Client Logo Override</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientName)
+                @Html.ValidationMessageFor(model => model.ClientName)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientType)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientType)
+                @Html.ValidationMessageFor(model => model.ClientType)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </div>
+
+            <div class="editor-label">
+                Logo image
+            </div>
+
+            <div class="editor-field">
+                <div id="logocontainer">
+                    <img src="https://chaindate.blob.core.windows.net/logooverrides/@Model.ClientType/@Model.ClientId" alt="Logo Override Image"/>
+                </div>
+                <div id="file-uploader-container" style="color:#333;"></div>
+            </div>
+
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+        
+        @Html.HiddenFor(model => model.RowKey)
+        @Html.HiddenFor(model => model.PartitionKey)
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+<script>
+    var uploader;
+
+    function document_ready() {
+
+        uploader = new qq.FileUploader({
+            multiple: false,
+            element: document.getElementById('file-uploader-container'),
+            action: '/ClientLogoOverrides/UploadLogo?clienttype=@(Model.ClientType)&clientid=@(Model.ClientId)',
+            debug: false,
+            onComplete: function (id, fileName, responseJSON) {
+                var d = new Date();
+                $('#logocontainer').html('<img style="" src="https://chaindate.blob.core.windows.net/logooverrides/@(Model.ClientType)/@(Model.ClientId)?' + d.getTime + '" />');
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,375 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AccessCode;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorAccount;
+@{
+    AccessCodeClient acc = new AccessCodeClient();
+    AdminAccountClient aac = new AdminAccountClient();
+    UserAccountClient uac = new UserAccountClient();
+    CounselorAccountClient cac = new CounselorAccountClient();
+    ViewBag.Title = "Groups";
+}
+
+<!--=============================ADMIN GROUPS=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Counselor/counselor.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/Groups.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="groupsPage">
+    <div class="container positionRelative">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Manage Groups</h2>
+                            <p>View existing groups and create new ones.</p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row">
+            <div class="row orgRow">
+                <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="pull-right">
+                            <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                            <span class="changePw">
+                                <a href="/Account/ChangePassword">Change Password</a>
+                            </span>
+                        </li>
+                        <li><a href="/AdminPortal">Administrator Portal</a></li>
+                        <li class="active activeTab"><a href="/AdminPortal/Groups">Groups</a></li>
+                        <li><a href="/AdminPortal/Students">Students</a></li>
+                        <li><a href="/Analytics">Analytics</a></li>
+                    </ul>
+                </div>
+            </div>
+            @*<div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Home</li>
+                </ol>
+            </div>*@
+            <h1>Groups</h1>
+            <div id="existingGroups">
+                @{
+                    string email = ViewBag.Email;
+                    AdminAccount admin = aac.GetByPartitionAndRowKey("admin", email);
+                    UserAccount adminUser = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(email), email);
+                    if (!admin.ConnectionToSchoolConfirmed)
+                    {
+                        <div class="noSchoolsAdded notReady">
+                            <p>You haven't associated yourself with a school or it's in a pending status</p>
+                        </div>
+                    }
+                    else
+                    {
+
+                        List<AccessCode> groups = new List<AccessCode>(acc.GetAllBySchool(admin.School));
+                        if (groups.Count == 0)
+                        {
+                            <div class="shortBlueDiv"><p>This is your next step! Please click on the button below to create a group(s). This will allow you to obtain an assignment link that will need to be passed on to your students.</p></div>
+                        }
+                        else
+                        {
+                            List<string> years = groups.Select(x => x.Year).Distinct().ToList();
+                            List<string> grades = groups.Select(x => x.Grade).Distinct().ToList();
+                            <div>
+                                <div class="row dropdownWrapper">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <label class="control-label">Grad. Yr:</label>
+                                        <div class="dropdown">
+                                            <select id="yearSelect" class="dropdown-toggle">
+                                                <option value="all">All</option>
+                                                @{
+                                                    years.Sort();
+                                                    foreach (string year in years)
+                                                    {
+                                                        <option value="@year">@year</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <label class="control-label">Grade:</label>
+                                        <div class="dropdown">
+                                            <select id="gradeSelect" class="dropdown-toggle">
+                                                <option value="all">All</option>
+                                                @{
+                                                    grades.Sort();
+                                                    foreach (string grade in grades)
+                                                    {
+                                                        <option value="@grade">@grade</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach (AccessCode group in groups)
+                                {
+                                    UserAccount counselor = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(group.Counselor), group.Counselor);
+                                    <div class="groupWrapper classDiv row group @(group.Year)year @(group.Grade)grade">
+                                        <h3 class="name">Name of the group: @group.GroupName</h3>
+                                        <div class="grayInfo">Counselor: @counselor.FirstName @counselor.LastName</div>
+                                        <div class="grayInfo">Year: @group.Year</div>
+                                        <div class="grayInfo">Grade: @group.Grade</div>
+                                        <div class="grayInfo bold">Student access Code: @group.Code</div>
+                                        <div class="grayInfo">Student link: <a href="http://CareerThesaurus.com/SignUp/Student">http://CareerThesaurus.com/SignUp/Student</a></div>
+                                        <div class="grayInfo grayBlock">Link to send to students: <a href="http://CareerThesaurus.com/Assessment/AccessCode/@group.RowKey">http://CareerThesaurus.com/Assessment/AccessCode/@group.RowKey</a></div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            @if (admin.ConnectionToSchoolConfirmed)
+            {
+                <div class="newGroupsWrapper">
+                    @{
+                        List<CounselorAccount> counselors = new List<CounselorAccount>(cac.GetAllBySchoolActive(admin.School));
+                        <div class="changeAlignment">
+                            <button id="createGroupsBtn" class="expandButton" onclick="showSection(this);" data-toggle="collapse" data-target="#groupFormWrapper" aria-expanded="true" aria-controls="groupFormWrapper">Create new groups<i class="fa fa-angle-down"></i></button>
+                        </div>
+                            <div id="groupFormWrapper" class="collapse ">
+                                <form method="post" role="form" id="groupsForm">
+                                    <div class="newGroup">
+                                        <h4>Create new group</h4>
+                                        <div class="form-group">
+                                            <label for="year[0]">Year</label>
+                                            <input type="text" class="form-control years" id="year[0]" name="year[0]" placeholder="year" value="@AccessCodeClient.CurrentGradYear()" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="grade[0]">Grade</label>
+                                            <select class="form-control grades" id="grade[0]" name="grade[0]">
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="cs">College Student</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="counselor[0]">Counselor</label>
+                                            <select class="form-control counselors" id="counselor[0]" name="counselor[0]">
+                                                <option value="@adminUser.RowKey">@adminUser.FirstName @adminUser.LastName</option>
+                                                @{
+                                                    if (counselors.Count != 0)
+                                                    {
+                                                        foreach (CounselorAccount counselor in counselors)
+                                                        {
+                                                            UserAccount userInfo = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                                            <option value="@userInfo.RowKey">@userInfo.FirstName @userInfo.LastName</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="groupname[0]">Group name</label>
+                                            <input type="text" class="form-control groupnames" id="groupname[0]" name="groupname[0]" placeholder="Group Name">
+                                        </div>
+                                        <div class="changeAlignment">
+                                            <button class="btn remove disabled hidden" onclick="removeThisGroup(this);">Remove this group</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row addMargin changeAlignment">
+                                    <button class="btn btn-default addCounselorBtn" onclick="addOneMore();">Add one more</button>
+                                </div>
+                                <div class="row text-center">
+                                    <button class="btn btn-info submitBtn" onclick="submitGroups();">Submit</button>
+                                </div>
+                            </div>
+                        @*if (counselors.Count == 0)
+                        {
+                            <div class="shortBlueDiv">
+                                <p>There are no active counselors yet. Please go to <a href="home">Administrator Portal </a> to add counselors.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="changeAlignment">
+                                <button id="createGroupsBtn" class="expandButton" onclick="showSection(this);" data-toggle="collapse" data-target="#groupFormWrapper" aria-expanded="true" aria-controls="groupFormWrapper">Create new groups<i class="fa fa-angle-down"></i></button>
+                            </div>
+                            <div id="groupFormWrapper" class="collapse ">
+                                <form method="post" role="form" id="groupsForm">
+                                    <div class="newGroup">
+                                        <h4>Create new group</h4>
+                                        <div class="form-group">
+                                            <label for="year[0]">Year</label>
+                                            <input type="text" class="form-control years" id="year[0]" name="year[0]" placeholder="year" value="@AccessCodeClient.CurrentGradYear()" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="grade[0]">Grade</label>
+                                            <select class="form-control grades" id="grade[0]" name="grade[0]">
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="counselor[0]">Counselor</label>
+                                            <select class="form-control counselors" id="counselor[0]" name="counselor[0]">
+                                                @{
+                                                    foreach (CounselorAccount counselor in counselors)
+                                                    {
+                                                        UserAccount userInfo = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                                        <option value="@userInfo.RowKey">@userInfo.FirstName @userInfo.LastName</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="groupname[0]">Group name</label>
+                                            <input type="text" class="form-control groupnames" id="groupname[0]" name="groupname[0]" placeholder="Group Name">
+                                        </div>
+                                        <div class="changeAlignment">
+                                            <button class="btn remove disabled hidden" onclick="removeThisGroup(this);">Remove this group</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row addMargin changeAlignment">
+                                    <button class="btn btn-default" onclick="addOneMore();">Add one more</button>
+                                </div>
+                                <div class="row text-center">
+                                    <button class="btn btn-info submitBtn" onclick="submitGroups();">Submit</button>
+                                </div>
+                            </div>
+                        }*@
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    var currentYear = '@ViewBag.CurrentYear';
+    var yearToShow = 'all';
+    var gradeToShow = 'all';
+    var groupHtml;
+    function document_ready() {
+        groupHtml = $('#groupsForm').html();
+        $('#yearSelect').change(function () {
+            yearToShow = $(this).val();
+            showResults();
+        });
+        $('#gradeSelect').change(function () {
+            gradeToShow = $(this).val();
+            showResults();
+        });
+
+        $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        $(window).resize(function () {
+            $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        });
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        });
+    }
+
+    var expandSection = false;
+    function showSection(button) {
+        expandSection = !expandSection;
+        if (expandSection) {
+            $(button).html('Hide create new group <i class="fa fa-angle-up"></i>');
+        } else {
+            $(button).html('Create new groups <i class="fa fa-angle-down"></i>');
+        }
+    }
+
+    function showResults(value) {
+        $('.groupWrapper').hide();
+        if (!value) {
+            $('.groupWrapper' + (yearToShow == 'all' ? '' : '.' + yearToShow + 'year') + (gradeToShow == 'all' ? '' : '.' + gradeToShow + 'grade')).show();
+        } else {
+            $('.groupWrapper' + (yearToShow == 'all' ? '' : '.' + yearToShow + 'year') + (gradeToShow == 'all' ? '' : '.' + gradeToShow + 'grade')).each(function (index, element) {
+                var text = $(element).find('.name').text();
+                if (text.toLowerCase().indexOf(value)) {
+                    $(element).show();
+                }
+            });
+        }
+    }
+    function addOneMore() {
+        $('#groupsForm').append(groupHtml);
+        $('.remove').removeClass('disabled').removeClass('hidden');
+        updateImageIndexes();
+    }
+    function removeThisGroup(element) {
+        if ($('.newGroup').length != 1) {
+            $(element).closest('.newGroup').remove();
+            updateImageIndexes();
+            if ($('.newGroup').length == 1) {
+                $('.remove').addClass('disabled').addClass('hidden');
+            }
+        }
+    }
+    function submitGroups() {
+        var valid = true;
+        $('.newGroup').each(function (index, element) {
+            var year = $(element).find('.years').val();
+            var grade = $(element).find('.grades').val();
+            var counselor = $(element).find('.counselors').val();
+            var groupname = $(element).find('.groupnames').val();
+            if (year != currentYear || grade == '' || grade == null || counselor == '' || counselor == null || groupname == '' || groupname == null) {
+                valid = false;
+            }
+        });
+        if (valid) {
+            $('#groupsForm').submit();
+        }
+    }
+    function updateImageIndexes() {
+        $('.years').each(function (index, element) {
+            $(element).attr('id', 'year[' + index + ']').attr('name', 'year[' + index + ']').siblings('label').attr('for', 'year[' + index + ']');
+        });
+        $('.grades').each(function (index, element) {
+            $(element).attr('id', 'grade[' + index + ']').attr('name', 'grade[' + index + ']').siblings('label').attr('for', 'grade[' + index + ']');
+        });
+        $('.counselors').each(function (index, element) {
+            $(element).attr('id', 'counselor[' + index + ']').attr('name', 'counselor[' + index + ']').siblings('label').attr('for', 'counselor[' + index + ']');
+        });
+        $('.groupnames').each(function (index, element) {
+            $(element).attr('id', 'groupname[' + index + ']').attr('name', 'groupname[' + index + ']').siblings('label').attr('for', 'groupname[' + index + ']');
+        });
+    }
+</script>

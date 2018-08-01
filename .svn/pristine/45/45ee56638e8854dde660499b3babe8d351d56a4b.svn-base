@@ -1,0 +1,242 @@
+﻿@using SkillCow.Controllers
+@model List<CoverageProfession>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Undergrad Coverage</title>
+</head>
+<style>
+    table tr td {padding: 0 5px 0 5px;}
+</style>
+<body>
+    <table cellpadding=0 cellspacing=0 style="border-color: #fff;">
+        <tr>
+            <td>Career</td>
+            <td>Discipline</td>
+            <td>Branch</td>
+            <td>Specialty</td>
+
+            <td>Profession</td>
+            <td>ProgramID</td>
+            <td>New ProgramID</td>
+
+            <td>Local</td>
+            <td>Online</td>
+            <td>Far</td>
+        </tr>
+        @{
+            int totallocal = 0;
+            int totalfar = 0;
+            int totalonline = 0;
+
+            int professionswithlocalcoverage = 0;
+            int professionswithonlinecoverage = 0;
+            int professionswithlocaloronlinecoverage = 0;
+            int professionswithfarcoverage = 0;
+
+            List<CoverageProgramResult> coverage = ViewBag.Coverage;
+            
+            Dictionary<string, string> idmap = new Dictionary<string,string>();
+            
+            //Communications
+            idmap.Add("Journalist", "28");
+            idmap.Add("Broadcaster", "28");
+            idmap.Add("Radio/TV Announcer", "28");
+                
+                    
+            //Web Design
+            idmap.Add("3-D Animator", "30");
+            idmap.Add("3-D Object Modeler", "30");
+            idmap.Add("Art Director", "30");
+            idmap.Add("Artist/Illustrator", "30");
+            idmap.Add("Assistant Designer", "30");
+            idmap.Add("Commercial Artist", "30");
+            idmap.Add("Computer Graphics Spec.", "30");
+            idmap.Add("Desktop Publisher", "30");
+            idmap.Add("Digital Artist", "30");
+            idmap.Add("Digital Media Specialist", "30");
+            idmap.Add("Graphic Designer", "30");
+            idmap.Add("Media Buyer", "30");
+            idmap.Add("Publisher", "30");
+            idmap.Add("Technical Illustrator", "30");
+            idmap.Add("Web Designer", "30");
+                            
+            //Criminal justice
+            idmap.Add("Border Patrol Agent", "142");
+            idmap.Add("Correctional Officer", "142");
+            idmap.Add("Homeland Security Officer", "142");
+            idmap.Add("Law Enforcement Officer", "142");
+            idmap.Add("Parole Officer", "142");
+            
+            //Law
+            idmap.Add("Lawyer", "341");
+            idmap.Add("Legal Nurse Consultant", "341");
+            idmap.Add("Legal Secretary", "341");
+            idmap.Add("Paralegal", "341");
+            
+            //Education
+            idmap.Add("Special Ed. Teacher", "874");
+            idmap.Add("University Administrator", "871");
+            idmap.Add("University Dean", "871");
+            
+            //Medical
+            idmap.Add("Health Information Technician", "49");
+            idmap.Add("Dietitian", "840");
+            idmap.Add("Nutritionist", "840");
+            
+            //Computer networks
+            idmap.Add("Network Admin", "218");
+            idmap.Add("Network Engineer", "95");
+            idmap.Add("Cisco Network Engineer", "95");
+            idmap.Add("Cisco Certified Operations Technician", "95");
+            
+            //COMPUTER ENGINEEING
+            idmap.Add("Computer Engineer", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("A+ Certified Configuration Associate", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Computer Hardware Technician", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Computer Support Specialist", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Computer Systems Technician", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Computer Technical Support Help Desk", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Help Desk Technician", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("It Support Specialist", "94,105,98,99,100,102,103,104,125");
+            idmap.Add("Pc Support Specialist", "94,105,98,99,100,102,103,104,125");
+            
+
+            //Business management
+            idmap.Add("Estimator", "138");
+            idmap.Add("Facilities Manager", "138");
+            idmap.Add("Fast Food Manager", "138");
+            idmap.Add("Groundskeeper", "138");
+            idmap.Add("International Courier", "138");
+            idmap.Add("Restaurant Manager", "138");
+            idmap.Add("Retail Store Manager", "138");
+                                                    
+            //programming
+            idmap.Add("Developer", "118,119,127,101,219,130,89");
+            idmap.Add("Computer Programme", "118,119,127,101,219,130,89");
+            idmap.Add("Software Engineer", "118,119,127,101,219,130,89");
+            idmap.Add("Systems Analyst", "118,119,127,101,219,130,89");
+            idmap.Add("Systems Engineer", "118,119,127,101,219,130,89");
+            idmap.Add("Systems Programmer", "118,119,127,101,219,130,89");
+    
+            //Construction management
+            idmap.Add("Appraiser", "304");
+
+            //Mechanical engineering
+            idmap.Add("Auto Repair Technician", "121");
+            idmap.Add("Motorcycle Technician Specialist", "121");
+            
+            //Engineering
+            idmap.Add("Automotive Designer", "837");
+            idmap.Add("Autocad Technician", "837");
+            idmap.Add("Cad Design Engineer", "837");
+            idmap.Add("Industrial Designer", "837");
+            idmap.Add("Industrial Engineer", "837");
+            idmap.Add("Urban Planner", "837");
+            idmap.Add("Aerospace Engineer", "837");
+            
+            
+        }
+
+        @foreach (CoverageProfession p in Model)
+        {
+            IGrouping<string, CoverageProgramResult> localcampuses = null;
+            IGrouping<string, CoverageProgramResult> onlinecampuses = null;
+            IGrouping<string, CoverageProgramResult> farcampuses = null;
+
+
+            string programid = ViewBag.Controller.ResolveProgramId(p, idmap);
+
+            bool idremapped = false;
+            if (programid != p.ProgramId)
+            {
+                idremapped = true;
+            }
+
+            string[] tokens = programid.Split(',');
+
+            List<CoverageProgramResult> filtered = new List<CoverageProgramResult>();
+            
+            foreach(string pid in tokens)
+            {
+                filtered.AddRange(coverage.Where(x => x.ProgramId == pid));
+            }
+            
+            int localcampuscount = 0;
+            int onlinecampuscount = 0;
+            int farcampuscount = 0;
+            
+            if (filtered.Count() > 0)
+            {
+                //filtered = new List<CoverageProgramResult>(filtered.Where(x => x.ClientSetId != "94" && x.ClientSetId != "3239" && x.ClientSetId != "1759"));
+
+                IEnumerable<IGrouping<string, CoverageProgramResult>> grouppings = filtered.GroupBy(x => x.CampusProximity);
+                localcampuses = grouppings.SingleOrDefault(x => x.Key == "localcampus");
+                onlinecampuses = grouppings.SingleOrDefault(x => x.Key == "online");
+                farcampuses = grouppings.SingleOrDefault(x => x.Key == "farcampus");
+
+                professionswithlocalcoverage += localcampuses != null ? 1 : 0;
+                professionswithonlinecoverage += onlinecampuses != null ? 1 : 0;
+                professionswithlocaloronlinecoverage += (localcampuses != null || onlinecampuses != null) ? 1 : 0;
+                professionswithfarcoverage += farcampuses != null ? 1 : 0;
+
+                localcampuscount = localcampuses != null ? localcampuses.Count() : 0;
+                onlinecampuscount = onlinecampuses != null ? onlinecampuses.Count() : 0;
+                farcampuscount = farcampuses != null ? farcampuses.Count() : 0;
+
+                totallocal += localcampuscount;
+                totalfar += farcampuscount;
+                totalonline += onlinecampuscount; ;
+            }
+
+            string rowcolor = "";
+
+            if (localcampuscount + farcampuscount + onlinecampuscount == 0)
+            {
+                rowcolor = "rgba(255,0,0,0.6)";
+            }
+            if (idremapped)
+            {
+                rowcolor = "rgba(0,255,0,0.6)";
+            }
+            
+        <tr style="background-color:@rowcolor ">
+            <td valign=top>@p.CareerVertical</td>
+            <td valign=top>@p.Discipline</td>
+            <td valign=top>@p.Branch</td>
+            <td valign=top>@(p.Program)</td>
+
+            <td valign=top><b>@p.Profession</b></td>
+            <td valign=top>@(p.ProgramId)</td>
+            <td valign=top>@(idremapped ? programid : "")</td>
+
+            <td style="text-align: center; background-color: #eeffee;">@(localcampuses != null ? localcampuses.Count().ToString():"")</td>
+            <td style="text-align: center; background-color: #ffddcc;">@(onlinecampuses != null ? onlinecampuses.Count().ToString() : "")</td>
+            <td style="text-align: center; background-color: #eeeeff;">@(farcampuses != null ? farcampuses.Count().ToString() : "")</td>
+
+            
+        </tr>
+        }
+    </table>
+
+    <div style="position: absolute; top: 0; right: 0; text-align: right; padding: 20px; background-color: #fff;">
+        <b>Program count</b><br />
+        Local: @(totallocal)<br />
+        Online: @(totalonline)<br />
+        Far: @(totalfar)<br />
+
+        <br />
+
+        <b>% Professions w/ Coverage</b><br />
+        <div style="font-size: 18pt;">
+        Local: @professionswithlocalcoverage or <b>@String.Format("{0:0%}", (double)professionswithlocalcoverage / Model.Count)</b><br />
+        Online: @professionswithonlinecoverage or <b>@String.Format("{0:0%}", (double)professionswithonlinecoverage / Model.Count)</b><br />
+        Local or online: @professionswithlocaloronlinecoverage or <b>@String.Format("{0:0%}", (double)professionswithlocaloronlinecoverage / Model.Count)</b><br />
+        50+ miles away: @String.Format("{0:0%}", (double)professionswithfarcoverage / Model.Count)<br />
+        </div>
+    </div>
+</body>
+</html>

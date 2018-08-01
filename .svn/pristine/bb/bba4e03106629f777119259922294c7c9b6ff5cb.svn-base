@@ -1,0 +1,361 @@
+﻿@{
+    ViewBag.Title = "Select Sport";
+}
+
+<link href="~/Content/css/SkilltestV2/skilltest.css?v=@ViewBag.AppVersion" rel=" stylesheet" />
+<link href="~/Content/css/SkilltestV2/takeTest.css?v=@ViewBag.AppVersion" rel=" stylesheet" />
+
+<div class="pageContainer takeTest" id="shapePage">
+    <div class="container">
+        <div id="main" class="row">
+            <div id="topBanner468">
+            </div>
+            <div class="headersText">
+                <h1 id="questionText">Which<span class="highlitedText"> sport</span> would you be more likely to enjoy?</h1>
+                <div id="testMenuIcon" class="mobile">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+
+            <div class="questionNumber">13</div>
+            <div id="percentageProgress"><p></p></div>
+
+            <!--  Nav Menu Desktop -->
+            <div id="navigationWrapper">
+                <nav id="bt-menu" class="bt-menu">
+                    <div id="triggerWrapper" class="bt-menu-trigger">
+                        <a href="#" class=""><span>Menu</span></a>
+                    </div>
+                    <div class="btn-group" id="leftside">
+                        <div class="row">
+                            <p>Select which question you want to switch to</p>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/1" id="question_1" class="btn btn-default desktopNav" title="extrovert or introvert">1</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/2" id="question_2" class="btn btn-default desktopNav" title="mobile or stationary">2</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/3" id="question_3" class="btn btn-default desktopNav" title="process or result">3</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/4" id="question_4" class="btn btn-default desktopNav" title="focused or relaxed">4</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/5" id="question_5" class="btn btn-default desktopNav" title="facts or imagination">5</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/6" id="question_6" class="btn btn-default desktopNav" title="rational or emotion">6</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/7" id="question_7" class="btn btn-default desktopNav" title="present or remote">7</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/8" id="question_8" class="btn btn-default desktopNav" title="routine or discovery">8</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/9" id="question_9" class="btn btn-default desktopNav" title="variable or fixed">9</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Interests" type="button" id="question_10" class="btn btn-default desktopNav" title="">10</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Color" type="button" id="question_11" class="btn btn-default desktopNav" title="">11</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Shape" type="button" id="question_12" class="btn btn-default desktopNav" title="">12</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Sport" type="button" id="question_13" class="btn btn-default desktopNav" title="">13</a>
+                            </div>
+                            @*<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/School" type="button" id="question_14" class="btn btn-default desktopNav" title="">14</a>
+                            </div>*@
+                        </div>
+                    </div>
+                    <ul id="rightside">
+                        <li><a href="/CareerTest/TakeTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                        <li><a href="/TakeTest/Emailresults" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="row">
+                <div class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="option">
+                        <div class="optionDescription">
+                            <h3>Voleyball</h3>
+                            <p>Volleyball is a team sport where personal skill is combined with ability to work collaboratively in order to defeat the opponent.</p>
+                            <button class="btn closeBtn">Close</button>
+                        </div>
+                        <div class="sport">
+                            <img class="img-responsive" src="~/Content/images/volleyball.jpg" />
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" class="sportRadio" name="optionsRadios" value="voleyball">
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-info detailsBtn">Explanation...</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="option">
+                        <div class="optionDescription">
+                            <h3>Archery</h3>
+                            <p>Archery is a sport where you compete by yourself. It requires concentration, precision, and strength to become victorious.</p>
+                            <button class="btn closeBtn">Close</button>
+                        </div>
+                        <div class="sport">
+                            <img class="img-responsive" src="~/Content/images/archery.jpg" />
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" class="sportRadio" name="optionsRadios" value="archery">
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-info detailsBtn">Explanation...</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="option">
+                        <div class="optionDescription">                          
+                            <h3>Hurdling</h3>
+                            <p>Hurdling is sport that requires you to compete against others by running and overtaking obstacles.</p>
+                            <button class="btn closeBtn">Close</button>
+                        </div>
+                        <div class="sport">
+                            <img class="img-responsive" src="~/Content/images/hurdling.jpg" />
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" class="sportRadio" name="optionsRadios" value="hurdling">
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-info detailsBtn" id="detailsBtn">Explanation...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center positionRelative">
+                <a href="javascript:void(0);" onclick="nextQuestion();" id="continue" class="btn">Next Question<i class="fa fa-angle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!--Mobile Menu-->
+    <div class="mobileMenu">
+        <div class="row">
+            <div class="leftSideMenu col-sm-6 col-xs-6">
+                <ul class="nav">
+                    <li><a href="/CareerTest/TakeTest/1" class="mobileNavigation" id="mobile_question_1">Question 1</a></li>
+                    <li><a href="/CareerTest/TakeTest/2" class="mobileNavigation" id="mobile_question_2">Question 2</a></li>
+                    <li><a href="/CareerTest/TakeTest/3" class="mobileNavigation" id="mobile_question_3">Question 3</a></li>
+                    <li><a href="/CareerTest/TakeTest/4" class="mobileNavigation" id="mobile_question_4">Question 4</a></li>
+                    <li><a href="/CareerTest/TakeTest/5" class="mobileNavigation" id="mobile_question_5">Question 5</a></li>
+                    <li><a href="/CareerTest/TakeTest/6" class="mobileNavigation" id="mobile_question_6">Question 6</a></li>
+                    <li><a href="/CareerTest/TakeTest/7" class="mobileNavigation" id="mobile_question_7">Question 7</a></li>
+                    <li><a href="/CareerTest/TakeTest/8" class="mobileNavigation" id="mobile_question_8">Question 8</a></li>
+                    <li><a href="/CareerTest/TakeTest/9" class="mobileNavigation" id="mobile_question_9">Question 9</a></li>
+                    <li><a href="/TakeTest/Interests" type="button" id="mobile_question_10" class="mobileNavigation" title="">Question 10</a></li>
+                    <li><a href="/TakeTest/Color" type="button" id="mobile_question_11" class="mobileNavigation" title="">Question 11</a></li>
+                    <li><a href="/TakeTest/Shape" type="button" id="mobile_question_12" class="mobileNavigation" title="">Question 12</a></li>
+                    <li><a href="/TakeTest/Sport" type="button" id="mobile_question_13" class="mobileNavigation" title="">Question 13</a></li>
+                    @*<li><a href="/TakeTest/School" type="button" id="mobile_question_14" class="mobileNavigation" title="">Question 14</a></li>*@
+                </ul>
+            </div>
+            <div class="rightSideMenu col-sm-6 col-xs-6">
+                <div class="row">
+                    <div id="testCloseIcon">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
+                <ul id="rightsideMobile">
+                    <li><a href="/TakeTest/Emailresults" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                    <li><a href="/CareerTest/TakeTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                    @{
+                        string homeLink = ViewBag.ProfileType == "student" ? "/StudentPortal" : "/Home";
+                    }
+                    @*
+                        <li><a href="@homeLink" id="homeButton" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><p class="p1">Home</p></a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/SkillTestV2/navigation.js?v=@ViewBag.AppVersion"></script>
+<script>
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false;
+    var winWidth;
+    var nua = navigator.userAgent;
+    var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1);
+    function document_ready() {
+        setCookie('currentQuestion', '13', 365);
+        setNavigation();
+        //if ($(window).width() > 768) {
+        //    $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="5701034089"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        //} else {
+        //    $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="7456968880"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        //}
+
+        //add ads only on iphone
+        if (isDeviceMobile && !isiPad && !isAndroid) {
+            $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="7456968880"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        }
+        if (isDeviceMobile && ! isiPad) {
+            $('.headersText').append('<h1 class="mobileText"></h1>');
+            //break question text into spans
+            var words = $('#questionText').text().replace(/\<[^>]+\>/g, '').split(' ');
+            for (var i = 0; i < words.length; i++) {
+                $('.mobileText').append('<span class="word">' + words[i] + '</span>');
+            }
+        }
+
+        setTimeout(function () {
+            $('.detailsBtn').addClass('animateColor');
+        }, 1000);
+
+        $('.detailsBtn').click(function () {
+            $('.optionDescription').css({ 'visibility': 'hidden', 'opacity': '0' });
+            $(this).closest('.option').find('.optionDescription').css({ 'visibility': 'visible', 'opacity': '1' });
+            gaReport('Details', $(this).closest('.option').find('h3'));
+        });
+
+        $('.closeBtn').click(function () {
+            $(this).closest('.optionDescription').css({ 'visibility': 'hidden', 'opacity': '0' });
+        });
+
+        if (getCookie('sport') != null) {
+            $('.sportRadio').each(function (i, el) {
+                if ($(el).attr('value') == getCookie('sport')) {
+                    $(el).click();
+                }
+            });
+            $('#continue').show();
+            //if ($(window).width() > 768) {
+            //    $("#continue").css({ width: '260px', 'position': 'absolute', 'background-color': '#38D5A3' }).animate({ "right": winWidth / 2 - 130 + 'px' }, 500);
+            //}
+            //else { //mobile
+            //    $('#continue').css('display', 'block');
+            //    $("#continue").css({ 'position': 'static', 'background-color': '#38D5A3', 'margin': '20px auto' }).animate({ "right": winWidth / 2 - 130 + 'px' }, 500);
+            //}
+        }
+
+        if (isDeviceMobile) {
+            $('input[type = "radio"]').hide();
+        }
+
+        $('.sport').click(function () {
+            $('.sport').removeClass('selectedBorder');
+            $('.option').removeClass('selectedBackground');
+            $(this).closest('.option').find('.sportRadio').click();
+            if (isDeviceMobile) {
+                $(this).addClass('selectedBorder');
+                $(this).closest('.kolonka').find('.option').addClass('selectedBackground');
+            }
+        });
+
+        $('.sportRadio').change(function () {
+            //if ($(window).width() > 768) {
+            //    $("#continue").css({ width: '260px', 'position': 'absolute', 'background-color': '#38D5A3' }).animate({ "right": winWidth / 2 - 130 + 'px' }, 500);
+            //}
+            //else { //mobile
+            //    $('#continue').css('display', 'block');
+            //    $("#continue").css({ 'position': 'static', 'background-color': '#38D5A3', 'margin': '20px auto' }).animate({ "right": winWidth / 2 - 130 + 'px' }, 500);
+            //}
+            $('#continue').show();
+            gaReport('Selected', $(this).val());
+            setCookie('question13', '1', 365);
+            setCookie('sport', $(this).val(), 365);
+        });
+
+        //open/close nav menu overlay in mobile
+        $('#testMenuIcon').click(function () {
+            $('.mobileMenu').height($(window).height()).show();
+            $('.mobileWrapper').hide();
+            $('.headersText').hide();
+            $('.container').hide();
+            // $('html, body').css('height', '100%');
+        });
+
+        $('#testCloseIcon').click(function () {
+            $('.mobileMenu').hide();
+            $('.mobileWrapper').show();
+            $('.headersText').show();
+            $('.container').show();
+        });
+
+        $('.startOver').click(function (event) {
+            var dimensions = ["attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation"];
+            for (var i = 0; i < 9; i++) {
+                setCookie(dimensions[i], '', -1);
+            }
+            answers = 0;
+            answered = 0;
+            setCookie('question1', '', -1);
+            setCookie('gender', '', -1);
+            setCookie('firstname', '', -1);
+            setCookie('lastname', '', -1);
+            setCookie('email', '', -1);
+            setCookie('clr', '', -1);
+            setCookie('question10', '', -1);
+            setCookie('question11', '', -1);
+            setCookie('question12', '', -1);
+            setCookie('question13', '', -1);
+            setCookie('question14', '', -1);
+            setCookie('shape', '', -1);
+            setCookie('sport', '', -1);
+            setCookie('school', '', -1);
+            setCookie('color', '', -1);
+            setCookie('currentQuestion', '', -1);
+            setCookie('educationSelected', '', -1);
+            localStorage.removeItem('interestsList');
+            localStorage.removeItem('resultsEmailed');
+        });
+
+        if (isiPad) {
+            if (Math.abs(window.orientation) === 90) {
+                winWidth = screen.height;
+                winHeight = screen.width - 97;
+                //landscape
+            } else {
+                //portrait
+                winWidth = document.documentElement.clientWidth;
+                winHeight = document.documentElement.clientHeight;
+            }
+        } else {
+            winWidth = document.documentElement.clientWidth;
+            winHeight = document.documentElement.clientHeight;
+        }
+
+        //open test menu on menu navbar icon click
+        var clicked = false;
+        $('.bt-menu-trigger').click(function () {
+            if (clicked == false) {
+                // odd clicks
+                $('.bt-menu').addClass('bt-menu-open');
+                var overlay = $('.bt-menu').append('<div class="bt-overlay"></div>');
+                $('.bt-overlay').click(function () {
+                    resetMenu();
+                })
+                clicked = true;
+            } else {
+                // even clicks
+                resetMenu();
+                $('.bt-overlay').remove();
+
+                clicked = false;
+            }
+        });
+
+        function resetMenu() {
+            $('.bt-menu').removeClass('bt-menu-open');
+            $('.bt-menu').addClass('bt-menu-close');
+        }
+
+    }
+    function gaReport(action, value) {
+        if (ga) ga('send', 'event', 'Sport', action, value);
+    }
+</script>

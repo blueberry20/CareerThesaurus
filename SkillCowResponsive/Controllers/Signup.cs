@@ -1,0 +1,327 @@
+﻿using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorInvite;
+using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AccessCode;
+
+//using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+//using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+//using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+//using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroupPinCode;
+
+using SkillCowResponsive.Classes.Encryption;
+using SkillCowResponsive.Classes.Email;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Text;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes;
+using SkillCowResponsive.Classes.Helpers;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class SignupController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Signup/
+        [HttpGet]
+        //public ActionResult Student(string school, string code)
+        public ActionResult Student(string id)
+        {
+            if (id != null)
+            {
+                AccessCodeClient acc = new AccessCodeClient();
+                AccessCode code = acc.GetByPartitionAndRowKey("accesscode", id);
+
+                //AssessmentGroupPinCodeClient agpcc = new AssessmentGroupPinCodeClient();
+                //AssessmentGroupPinCode groupInfo = agpcc.GetByPartitionAndRowKey("pincodes", id);
+                if (code != null && code.School != "CareerThesaurus Demo School")
+                {
+                    SchoolAccountClient sac = new SchoolAccountClient();
+                    SchoolAccount schoolAccount = sac.GetByPartitionAndRowKey("school", code.School);
+                    ViewBag.SignUpSchoolZip = schoolAccount.ZipCode;
+                    ViewBag.SignUpSchool = code.School;
+                    ViewBag.SignUpSchoolName = schoolAccount.SchoolName;
+                    ViewBag.SignUpCode = code.Code;
+                    ViewBag.SignUpGrade = code.Grade;
+                    ViewBag.SignUpCounselor = code.Counselor;
+                    ViewBag.SignUpGroupName = code.GroupName;
+                }
+                else
+                {
+                    ViewBag.InvalidLink = true;
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Student(FormCollection collection)
+        {
+            UserAccountClient uac = new UserAccountClient();
+            UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), collection["email"]);
+            if (account == null)
+            {
+                AccessCodeClient aac = new AccessCodeClient();
+                AccessCode code  = aac.GetBySchoolPinCodeCounselorGrade(collection["school"], collection["accesscode"], collection["counselor"], collection["grade"]);
+
+                if (code == null || code.School == "7181234567")
+                {
+                    ViewBag.ErrorMessage = "Invalid fields";
+                    return RedirectToAction("Index"); 
+                }
+
+                uac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), RowKey = collection["email"].ToLower(), FirstName = collection["firstname"], LastName = collection["lastname"], Email = collection["email"], Password = collection["password"], ProfileType = "student" });
+
+                StudentAccountClient sac = new StudentAccountClient();
+                sac.AddNewItem(new StudentAccount { PartitionKey = StudentAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), RowKey = collection["email"].ToLower(), Gender = collection["gender"], StudentID = collection["studentid"], School = collection["school"], Counselor = collection["counselor"], Year = code.Year, Grade = collection["grade"], GroupName = code.GroupName });
+                
+                //StudentProfileClient spc = new StudentProfileClient();
+                //spc.AddNewItem(new StudentProfile { PartitionKey = StudentProfileClient.GetPartitionKeyForEmail(collection["email"]), RowKey = collection["email"].ToLower(), Gender = collection["gender"], GradYear = collection["gradyear"], School = school, SchoolZip = collection["zipcode"], Teacher = teacher, Group = group });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "There is an account already associated with this email. Please log in instead.";
+                return View();             
+            }
+
+            SendVerificationEmail(collection["email"].ToLower(), collection["firstname"]);
+
+            SchoolAccountClient saclient = new SchoolAccountClient();
+            SchoolAccount schoolAccount = saclient.GetByPartitionAndRowKey("school", collection["school"]);
+            UserAccount adminAccount = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["counselor"]), collection["counselor"]);
+            EmailManager emailManager = new EmailManager();
+            string str = "<p>Full name: " + collection["firstname"] + " " + collection["lastname"] + "</p><p>Email: " + collection["email"].ToLower() + "</p><p>School: " + (schoolAccount != null ? schoolAccount.SchoolName : "") + "</p><p>Counselor: " + (adminAccount != null ? adminAccount.FirstName + " " + adminAccount.LastName : "") + "</p><p>Grade: " + collection["grade"] + "</p><p>Year: " + collection["year"] + "</p>";
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "HS Student", str);
+            return RedirectToAction("Complete");            
+        }
+        [HttpGet]
+        public ActionResult Administrator()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Administrator(FormCollection collection)
+        {
+            UserAccountClient uac = new UserAccountClient();
+            UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), collection["email"].ToLower());
+            if (account == null)
+            {
+                uac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), RowKey = collection["email"].ToLower(), FirstName = collection["firstname"], LastName = collection["lastname"], Email = collection["email"], Password = collection["password"], ProfileType = "administrator" });
+                
+                //AdminProfileClient apc = new AdminProfileClient();
+                //apc.AddNewItem(new AdminProfile { RowKey = collection["email"].ToLower(), PhoneNumber = collection["phonenumber"] });
+
+                AdminAccountClient aac = new AdminAccountClient();
+                aac.AddNewItem(new AdminAccount { RowKey = collection["email"].ToLower(), PhoneNumber = collection["phonenumber"], PhoneExtension = collection["extension"] });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "There is an account already associated with this email. Please log in instead.";
+                return View();
+
+            }
+
+            SendVerificationEmail(collection["email"].ToLower(), collection["firstname"]);
+
+            EmailManager emailManager = new EmailManager();
+            string str = "<p>Full name: " + collection["firstname"] + " " + collection["lastname"] + "</p><p>Email: " + collection["email"] + "</p><p>Phone Number: " + collection["phonenumber"] + "</p><p>" + collection["extension"] + "</p>";
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "HS Admin", str);
+            return RedirectToAction("ThankYou");        
+        }
+
+        [HttpGet]
+        public ActionResult Counselor(string id)
+        {
+            if (id != null)
+            {
+                CounselorInviteClient cic = new CounselorInviteClient();
+                CounselorInvite invite = cic.GetByPartitionAndRowKey("invite", id);
+                if (invite != null)
+                {
+                    ViewBag.Invite = invite;
+                    return View();
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpPost]
+        public ActionResult Counselor(FormCollection collection)
+        {
+            string adminEmail = "";
+            UserAccountClient uac = new UserAccountClient();
+            CounselorInviteClient cic = new CounselorInviteClient();
+            SchoolAccountClient sac = new SchoolAccountClient();
+            UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), collection["email"].ToLower());
+            CounselorInvite invite = cic.GetByPartitionAndRowKey("invite", collection["invite"]);
+            SchoolAccount school = sac.GetByPartitionAndRowKey("school", collection["school"]);
+            if (invite != null)
+            {
+                if (invite.Email == collection["email"].ToLower())
+                {
+                    if (account == null)
+                    {
+                        uac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(collection["email"].ToLower()), RowKey = collection["email"].ToLower(), FirstName = collection["firstname"], LastName = collection["lastname"], Email = collection["email"], Password = collection["password"], ProfileType = "counselor", EmailConfirmed = true });
+                        CounselorAccountClient сac = new CounselorAccountClient();
+                        AdminAccountClient aac = new AdminAccountClient();
+                        AdminAccount admin = aac.GetBySchool(collection["school"]);
+                        if (admin != null) {
+                            adminEmail = admin.RowKey;
+                        }
+                        сac.AddNewItem(new CounselorAccount { RowKey = collection["email"].ToLower(), PhoneNumber = collection["phonenumber"], PhoneExtension = collection["extension"], School = collection["school"] });
+                        cic.Delete(invite);
+                    }
+                    else
+                    {
+                        ViewBag.Invite = invite;
+                        ViewBag.ErrorMessage = "There is an account already associated with this email. Please log in instead.";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Invite = invite;
+                    ViewBag.EmailMatch = "Email has to match";
+                    return View();
+                }
+            }
+            else 
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string sessionkey = ClientSession.GetClientSessionKey("user", collection["email"].ToLower(), collection["firstname"] + " " + collection["lastname"], "counselor");
+            Response.Cookies["sessionkey"].Value = sessionkey;
+            Response.Cookies["sessionkey"].Expires = DateTime.UtcNow.AddDays(7);
+            Response.Cookies["sessionusername"].Value = collection["email"].ToLower();
+            Response.Cookies["sessionusername"].Expires = DateTime.UtcNow.AddDays(7);
+            Response.Cookies["cbnvm"].Value = "1";
+            Response.Cookies["cbnvm"].Expires = DateTime.UtcNow.AddDays(7);
+            SendCongratulationsEmailToCounselor(collection["email"], collection["firstname"] + " " + collection["lastname"]);
+            SendUpdateEmailToAdmin(adminEmail, collection["firstname"] + " " + collection["lastname"]);
+
+            EmailManager emailManager = new EmailManager();
+            string schooStr = "";
+            if (school != null)
+            {
+                schooStr = "<p>School name: " + school.SchoolName + "</p>";
+            }
+            string str = "<p>Full name: " + collection["firstname"] + " " + collection["lastname"] + "</p><p>Email: " + collection["email"] + "</p><p>Phone Number: " + collection["phonenumber"] + "</p><p>" + collection["extension"] + "</p>" + schooStr;
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "HS Counselor", str);
+            TempData["counselor"] = true;
+            return RedirectToAction("Index", "CounselorPortal");        
+        }
+        public ActionResult ThankYou()
+        {
+            return View();
+        }
+        public ActionResult Complete()
+        {
+            return View("ThankYou");
+        }
+        [HttpPost]
+        public HttpResponse GetSchoolsByZip(string zipcode)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            List<SchoolAccount> schoolList = new List<SchoolAccount>(sac.GetByZipCode(zipcode));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string response = schoolList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(schoolList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse GetTeacherAndGroup(string pincode, string school, string grade)
+        {
+            string response;
+
+            AccessCodeClient acc = new AccessCodeClient();
+            AccessCode code = acc.GetBySchoolPinCodeGradeCurrent(school, pincode, grade);
+
+            //AssessmentGroupClient agc = new AssessmentGroupClient();
+            //AssessmentGroup group = agc.GetByPartitionAndRowKey(school, pincode);
+            if (code != null) {
+                if (code.School == school && code.Grade == grade)
+                {
+                    response = "{\"result\": \"ok\", \"counselor\":\"" + code.Counselor + "\", \"grade\":\"" + code.Grade + "\", \"year\":\"" + code.Year + "\", \"groupname\":\"" + code.GroupName + "\"}";
+                }
+                else
+                {
+                    response = "{\"result\": \"error\"}";
+                }
+            }
+            else
+            {
+                response = "{\"result\": \"error\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        private void SendVerificationEmail(string email, string name)
+        {
+            SimpleAES aes = new SimpleAES();
+            string token = aes.EncryptToString(email.ToLower());
+            string url = "http://CareerThesaurus.com/Account/ConfirmEmail/" + token;
+            EmailManager emailManager = new EmailManager();
+            EmailTemplateHelper eth = new EmailTemplateHelper();
+            string body = eth.GetTemplate("confirmemail");
+            body = body.Replace("{{name}}", name);
+            body = body.Replace("{{url}}", url);
+            emailManager.SendMail("no-reply@careerthesaurus.com", "CareerThesaurus", email, "Account Notification - Confirm Email", body);
+        }
+        [HttpPost]
+        public HttpResponse AdminDemo()
+        {
+            string sessionkey = ClientSession.GetClientSessionKey("demo", "ed.rooney@careerthesaurus.com", "Ed Rooney", "administrator");
+            Response.Cookies["sessionkey"].Value = sessionkey;
+            Response.Cookies["sessionkey"].Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies["sessionusername"].Value = "ed.rooney@careerthesaurus.com";
+            Response.Cookies["sessionusername"].Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies["cbnvm"].Value = "1";
+            Response.Cookies["cbnvm"].Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies["demosteps"].Value = "";
+            Response.Cookies["demosteps"].Expires = DateTime.UtcNow.AddDays(1);
+            string response = "{\"result\": \"ok\"}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+
+        // private functions
+        private void SendCongratulationsEmailToCounselor(string email, string name)
+        {
+            EmailManager emailManager = new EmailManager();
+            EmailTemplateHelper eth = new EmailTemplateHelper();
+            string body = eth.GetTemplate("counselorreg");
+            body = body.Replace("{{name}}", name);
+            emailManager.SendMail("admin@careerthesaurus.com", "CareerThesaurus", email, "Your CareerThesaurus Account Registration", body);
+        }
+        private void SendUpdateEmailToAdmin(string email, string name)
+        {
+            EmailManager emailManager = new EmailManager();
+            EmailTemplateHelper eth = new EmailTemplateHelper();
+            string body = eth.GetTemplate("counseloraccept");
+            body = body.Replace("{{counselor}}", name);
+            emailManager.SendMail("admin@careerthesaurus.com", "CareerThesaurus", email, "Your Invitation was Accepted", body);
+        }
+        private void ResendEmails()
+        {
+            UserAccountClient uac = new UserAccountClient();
+            List<UserAccount> users = new List<UserAccount>(uac.GetAllNotConfirmEmails());
+            foreach (UserAccount user in users) 
+            {
+                SendVerificationEmail(user.RowKey, user.FirstName + " " + user.LastName);
+            }
+        }
+    }
+}

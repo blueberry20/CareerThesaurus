@@ -1,0 +1,420 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "Traits";
+}
+
+<!--================================ By Trait Analytics================================================== -->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+
+<div class="pageContainer whiteBgPage blueBackground" id="traitReportPage">
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                        <h2>Analyze Personality Traits</h2>
+                        <p>See how your students' personalities stack up. </p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                            <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next</a>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                            <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            }
+
+                    @*<div class="row orgRow">
+                            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <a href="/AdminPortal">Administrator Portal</a>
+                                <span>|</span>
+                                <a href="../Analytics">Analytics<i class="fa fa-angle-right"></i></a>
+                                <span>Traits</span>
+
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                            </div>
+                        </div>*@
+                    <div class="row orgRow">
+                        <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="pull-right">
+                                    <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                                    <span class="changePw">
+                                        <a href="/Account/ChangePassword">Change Password</a>
+                                    </span>
+                                </li>
+                                <li><a href="/AdminPortal">Administrator Portal</a></li>
+                                <li class="active"><a href="/Analytics">Analytics</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="/Analytics">Home</a></li>
+                            <li class="active">Traits</li>
+                        </ol>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h1>Report by Personality Traits</h1>
+                        </div>
+                    </div>
+
+                    <div class="reportContent">
+                        <div class="row dropdownWrapper">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                <label class="control-label">School:</label>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                <div class="dropdown schoolDropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-school" data-toggle="dropdown">
+                                        <span class="btnLabel" id="schoolLabel">
+                                            Select School
+                                        </span>
+                                        <span class="caret"></span>
+                                    </button>
+
+
+                                    @{
+                            string teacher = ViewBag.Email;
+                            List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllActive(teacher));
+                            if (connections.Count == 0)
+                            {
+                                <script>
+                                    var noSchools = true;
+                                </script>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li role="presentation"><a role="menuitem" tabindex="-1">No schools added</a></li>
+                                        </ul>
+                            }
+                            else
+                            {
+                                <ul class="dropdown-menu" role="menu">
+                                    @{
+                                List<SchoolAccount> schools = new List<SchoolAccount>();
+                                foreach (SchoolToTeacherConnection connection in connections)
+                                {
+                                    schools.Add(sac.GetByPartitionAndRowKey("school", connection.RowKey));
+                                }
+                                schools.Sort(delegate(SchoolAccount a, SchoolAccount b)
+                                {
+                                    return a.SchoolName.CompareTo(b.SchoolName);
+                                });
+                                foreach (SchoolAccount school in schools)
+                                {
+                                    <li id="btn1" role="presentation"><a role="menuitem" tabindex="-1" data-rowkey="@school.RowKey" onclick="getGroups(this);">@school.SchoolName</a></li>
+                                }
+                                    }
+                                </ul>
+                                        <script>
+                                            var noSchools = false;
+                                        </script>
+                            }
+                                    }
+
+                                </div>
+
+                            </div>
+                            <div class="groupLabel col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                <label class="control-label">Groups:</label>
+                            </div>
+                            <div class="groupDropdown col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-class" data-toggle="dropdown">
+                                        <span class="btnLabel" id="groupsLabel">
+                                            All Groups
+                                        </span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="groups" class="dropdown-menu" role="menu" aria-labelledby="dropdown-class"></ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 noResultsError"><p>There are no groups added to this school.<p><a href="/Assessment/School">Go to add groups</a></div>
+                        </div>
+                        <div id="report">
+                            <div class="clearer">&nbsp;</div>
+                            <div class="statsBlock"></div>
+                        </div>
+                    </div>
+                    @{
+                        if (ViewBag.Demo != null)
+                        {
+                            <div class="demoContainer row bottomDemo">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                                    <h2>Analyze Personality Traits</h2>
+                                    <p>See how your students' personalities stack up. </p>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                        <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next</a>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                        <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+
+            <script>
+                var schoolName = '';
+                var groupName = '';
+                var teacher = '@ViewBag.Email';
+                var dimensions = [{ label: 'attitude', total: 0, values: [{ key: 'Extrovert', count: 0 }, { key: 'Introvert', count: 0 }] },
+                                    { label: 'endurance', total: 0, values: [{ key: 'Mobile', count: 0 }, { key: 'Stationary', count: 0 }] },
+                                    { label: 'action', total: 0, values: [{ key: 'Process', count: 0 }, { key: 'Result', count: 0 }] },
+                                    { label: 'concentration', total: 0, values: [{ key: 'Focused', count: 0 }, { key: 'Relaxed', count: 0 }] },
+                                    { label: 'information', total: 0, values: [{ key: 'Facts', count: 0 }, { key: 'Imagination', count: 0 }] },
+                                    { label: 'processing', total: 0, values: [{ key: 'Rational', count: 0 }, { key: 'Emotional', count: 0 }] },
+                                    { label: 'presence', total: 0, values: [{ key: 'Present', count: 0 }, { key: 'Remote', count: 0 }] },
+                                    { label: 'patterns', total: 0, values: [{ key: 'Routine', count: 0 }, { key: 'Discover', count: 0 }] },
+                                    { label: 'compensation', total: 0, values: [{ key: 'Variable', count: 0 }, { key: 'Fixed', count: 0 }] },
+                ];
+
+                function document_ready() {
+                    if (noSchools) {
+                        $('.reportContent').html('<div class="noResultsError"><p>There are no schools added to your account.<p><a href="/AdminPortal/AddSchool">Go to add schools</a></div>');
+                    } else {
+                        var selectSchool = getCookie('selectedSchool');
+                        var element = $('a[data-rowkey="' + selectSchool + '"]');
+                        if (selectSchool && element.length != 0) {
+                            element.click();
+                            $('.schoolDropdown .btnLabel').text(element.text());
+                        } else {
+                            console.log('else');
+                            $('.schoolDropdown .dropdown-menu>li').eq(0).find('a').click();
+                            $('.schoolDropdown .btnLabel').text($('.schoolDropdown .dropdown-menu>li').eq(0).find('a').text());
+                        }
+                    }
+
+                    //center demo heading
+                    if ($(window).width() > 750) {
+                        console.log('col' + $('.col1').innerHeight());
+                        $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+                    }
+                    $(window).resize(function () {
+                        console.log($(window).width());
+                        if ($(window).width() > 750) {
+                            $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+                        }
+                        else {
+                            $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+                        }
+                    });
+                }
+
+                function getGroups(school) {
+                    console.log(school);
+                    $('#schoolLabel').text($(school).text());
+                    $('#groupsLabel').text("All Groups");
+                    schoolName = $(school).data('rowkey');
+                    setCookie('selectedSchool', schoolName, 365);
+                    $.ajax({
+                        url: appserverurl + '/Analytics/GetGroupsForSchool',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: {
+                            school: schoolName,
+                            teacher: teacher
+                        }
+                    }).success(function (response) {
+                        var groups = response.results;
+                        if (groups.length != 0) {
+                            $('.noResultsError').hide();
+                            $('.groupLabel, .groupDropdown').show();
+                            var html = '<li role="presentation"><a id="allGroups" role="menuitem" tabindex="-1" data-school="' + $(school).data('rowkey') + '" data-rowkey="" onclick="getData(this)">All groups</a></li>';
+                            for (var i = 0; i < groups.length; i++) {
+                                html += '<li role="presentation"><a role="menuitem" tabindex="-1" data-school="' + $(school).data('rowkey') + '" data-rowkey="' + groups[i].Group + '" onclick="getData(this)">' + groups[i].Group + '</a></li>'
+                            }
+                            $('#groups').html(html);
+                            $('#allGroups').click();
+                        } else {// no groups
+                            $('.groupLabel, .groupDropdown').hide();
+                            $('#report').html('');
+                            $('.dropdownWrapper .noResultsError').show();
+                            $('.dropdownWrapper').append(html);
+                        }
+                        $('.dropdownWrapper').show();
+                    }).error(function (error) {
+
+                    });
+                }
+
+                function getData(group) {
+                    $('#groupsLabel').text($(group).text());
+                    groupName = (typeof $(group).data('rowkey') === 'undefined' ? '' : $(group).data('rowkey'));
+                    $.ajax({
+                        url: appserverurl + '/analytics/GetDimensions',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: {
+                            school: $(group).data('school'),
+                            teacher: teacher,
+                            group: groupName
+                        }
+                    }).success(function (response) {
+                        var data = response.results;
+                        var html = '<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 statTitle text-right leftSide">Dimension</div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 statTitle rightSide">Totals</div></div><div class="row instructions">Click on any bar below to view students who picked a particular dimension.</div><div class="resultsWrapper"><div id="stripesBackground"></div>';
+                        for (var i = 0 ; i < dimensions.length; i++) {
+                            html += '<div class="dimensionWrapper row">' +
+                                        '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftSide">' +
+                                            '<div class="' + (i % 2 == 1 ? 'odd' : 'even') + '">' + dimensions[i].label + '</div>';// +
+                            //'</div>';
+                            dimensions[i].total = 0;
+                            for (var j = 0 ; j < dimensions[i].values.length; j++) {
+                                var index = data.map(function (x) { return x.name; }).indexOf(dimensions[i].values[j].key);
+                                if (index != -1) {
+                                    dimensions[i].values[j].count = data[index].count;
+                                    dimensions[i].total += data[index].count;
+                                } else {
+                                    dimensions[i].values[j].count = 0;
+                                }
+
+                                html += j % 2 == 0 ? '<span class="left quality">' + dimensions[i].values[j].key + '</span></div>' : '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftSide">' + dimensions[i].values[j].key + '</div>';
+
+
+                                //html += '<div class="col-lg-2 '+ (j % 2 == 1 ? 'col-lg-offset-4':'') +'"><span class="left quality">' + dimensions[i].values[j].key + '</span></div>';
+
+                                html += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightSide">' +
+                                   '<a href="/Analytics/StudentList/Trait/' + dimensions[i].values[j].key + '" data-check="' + dimensions[i].values[j].count + '" onclick="saveSchoolAndGroup(this);" class="' + (dimensions[i].values[j].count == 0 ? "zeroValue" : "") + '">' +
+                                   '<span class="statWrapper"><span class="statsBlock" data-count="' + dimensions[i].values[j].count + '"></span></span><span class="counter" data-from="0" data-to="' + dimensions[i].values[j].count + '" data-speed="1300">' +
+                               '<span class="count"></span></span></a></div>';
+                            }
+                            html += '</div>';
+                        }
+                        html += '</div>';
+
+                        if (data.length != 0) {
+                            $('#report').html(html);
+                        } else {
+                            $('#report').html('<div class="noResultsError"><p>Students in your groups haven\'t answered any questions yet</div>');
+                        }
+
+
+                        $('.statsBlock').each(function (index, element) {
+                            var count = $(element).data('count') * 90;
+                            var total = dimensions[Math.floor(index / 2)].total;
+                            $(element).delay(100 * index).animate({ width: count / total + '%', opacity: '0.8' }, "slow");
+                        });
+
+                        $.fn.countTo = function (options) {
+
+                            options = options || {};
+
+                            return $(this).each(function () {
+
+                                // set options for current element
+                                var settings = $.extend({}, $.fn.countTo.defaults, {
+                                    from: $(this).data('from'),
+                                    to: $(this).data('to'),
+                                    speed: $(this).data('speed'),
+                                    refreshInterval: $(this).data('refresh-interval'),
+                                    decimals: $(this).data('decimals')
+                                }, options);
+
+                                // how many times to update the value, and how much to increment the value on each update
+                                var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                            increment = (settings.to - settings.from) / loops;
+
+                                // references & variables that will change with each update
+                                var self = this,
+                                $self = $(this),
+                                loopCount = 0,
+                                value = settings.from,
+                                data = $self.data('countTo') || {};
+
+                                $self.data('countTo', data);
+
+                                // if an existing interval can be found, clear it first
+                                if (data.interval) {
+                                    clearInterval(data.interval);
+                                }
+                                data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                                // initialize the element with the starting value
+                                render(value);
+
+                                function updateTimer() {
+                                    value += increment;
+                                    loopCount++;
+
+                                    render(value);
+
+                                    if (typeof (settings.onUpdate) == 'function') {
+                                        settings.onUpdate.call(self, value);
+                                    }
+
+                                    if (loopCount >= loops) {
+                                        // remove the interval
+                                        $self.removeData('countTo');
+                                        clearInterval(data.interval);
+                                        value = settings.to;
+
+                                        if (typeof (settings.onComplete) == 'function') {
+                                            settings.onComplete.call(self, value);
+                                        }
+                                    }
+                                }
+
+                                function render(value) {
+                                    var formattedValue = settings.formatter.call(self, value, settings);
+                                    $self.children('.count').html(formattedValue);
+
+
+                                }
+
+                            });
+                        };
+
+                        $.fn.countTo.defaults = {
+                            from: 0, // the number the element should start at
+                            to: 0, // the number the element should end at
+                            speed: 1000, // how long it should take to count between the target numbers
+                            refreshInterval: 10, // how often the element should be updated
+                            decimals: 1, // the number of decimal places to show
+                            formatter: formatter, // handler for formatting the value before rendering
+                            onUpdate: null, // callback method for every time the element is updated
+                            onComplete: null // callback method for when the element finishes updating
+                        };
+
+                        /* ----------------------Counter------------------------------ */
+                        if ($('.counter').length) {
+                            $('.counter').countTo();
+                        };
+
+                        function formatter(value, settings) {
+                            return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+                        };
+                    }).error(function (response) {
+                        console.log(response);
+                    });
+                }
+                function formatter(value, settings) {
+                    return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+                };
+                function saveSchoolAndGroup(element) {
+
+                    if ($(element).data('check') == "0") {
+                        $(element).css('cursor', 'default');
+                        event.preventDefault();
+                    }
+                    setCookie('analyticsschoolname', schoolName, 1);
+                    setCookie('analyticsschoolgroup', groupName, 1);
+                }
+            </script>
+

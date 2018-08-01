@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Thesaurus</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+    <script src='/scripts/bustaverse/words.js'></script>
+    <script src='/scripts/bustaverse/common/data.js'></script>
+    <script src='/scripts/bustaverse/common/utility.js'></script>
+    <script src='/scripts/bustaverse/syllablecounter/code.js'></script>
+</head>
+<body>
+    <h1>The Walrus and The Carpenter</h1>
+    By: Lewis Carroll
+    <div id="main">
+        
+    </div>
+</body>
+</html>
+
+<style>
+    div.cell{min-width: 160px;  display: inline-block}
+    div.headline{ display: inline-block; font-size: 34pt; margin-right: 20px;}
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        var lines = [
+            "The sun was shining on the sea,",
+            "Shining with all his might:",
+            "very",
+            "The billows smooth and bright--",
+            "Abd this was odd, because it was",
+            "The middle of the night."
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            var result = countSyllables(lines[i]);
+            $('#main').append('<div><div class="headline">' + result.word + ' ' + result.mask + '</div><div class="cell">' + result.count + ' syllables</div></div>');
+        }
+
+        $('#main').append('<br>');
+
+        
+        //return;
+
+        var i = 0;
+        var results = new Array();
+
+        for (var i = 0; i < words.length; i++) {
+            results.push(countSyllables(words[i]));
+        }
+
+        results.sort(sortbycount);
+
+        for (var i = 0; i < results.length; i++) {
+            //if (endsWith(results[i].word, 'ed')) {
+            $('#main').append('<div><div class="cell">' + results[i].word + '</div><div class="cell">' + results[i].mask + '</div><div class="cell">' + results[i].count + ' syllables</div></div>');
+            //}
+        }
+    });
+    function sortbycount(a, b) {
+        if (a.count > b.count)
+            return -1;
+        if (a.count < b.count)
+            return 1;
+        return 0;
+    }
+</script>

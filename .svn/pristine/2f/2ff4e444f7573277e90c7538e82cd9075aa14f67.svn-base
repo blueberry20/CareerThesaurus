@@ -1,0 +1,405 @@
+﻿
+
+<link href="~/Content/css/Home/Home.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Career Thesaurus";
+    ViewBag.OgDescription = "Your comprehensive Career Portal.";
+}
+<!--================================= HOME PAGE ============================== -->
+<!--================================= Full Page Slider ============================== -->
+<!--div that full screen image-->
+
+@*<div id="frontpageImage"></div>*@
+<div id="homePage">
+    <section id="sectionByInterest" class="frontpageimageContent justText">
+        @*<img class="img-responsive" src="../../Content/images/womanpilot.jpg" alt="" />*@
+        @*<div class="parallax-overlay"></div>*@
+        <div class="container">
+            <div class="sectionContent">
+                <h2 class="white">Discover careers that match your life interests!</h2>
+                <a href="/Careers/SelectInterests" class="btn btn-lg goBtn clear thickBorder">Go</a>
+            </div>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionByPersonality" class="frontpageimageContent justText">
+        @*<img class="img-responsive" src="../../Content/images/womancook.jpg" alt="" />*@
+        <div class="container">
+            <h2>Take our fun 9-question test.</h2>
+            <h2>Discover careers that fit your personality naturally.</h2>
+            <a href="/Careers/ByPersonality" class="btn btn-lg goBtn clear thickBorder">Go</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionJobWays" class="parallax">
+        <div class="full-bg-image"></div>
+        <div class="parallax-overlay"></div>
+        <div class="container">
+            <h2>Even more ways to get a job.</h2>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionFulltimeJob" class="fulltime">
+        @*<img class="img-responsive" src="../../Content/images/briefcase.jpg" alt="" />*@
+        <div class="container">
+            <h2>Find a full time job</h2>
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <a href="/Jobs" class="btn btn-lg searchJobsBtn clear thickBorder">Search</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionTempJob" class="temporary">
+        @*<img class="img-responsive" src="../../Content/images/pool.jpg" alt="" />*@
+        <div class="container">
+            <h2 class="white">Find a temp job</h2>
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <a href="/Jobs" class="btn btn-lg searchJobsBtn clear thickBorder">Search</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+
+    <section id="sectionInternship" class="internship">
+        @*<img class="img-responsive" src="../../Content/images/internsfullscreen.jpg" alt="" />*@
+        <div class="container">
+            <h2 class="white">Find an internship</h2>
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <a href="/Jobs" class="btn btn-lg searchJobsBtn clear thickBorder">Search</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="didYouKnowSection" class="shortSection justText">
+        <h2>Did you know?</h2>
+        @*<div class="row triangleRow ss-style-triangles">
+                <h3>You can find this information on our website:</h3>
+            </div>*@
+        <div class="divider"></div>
+        <div class="row shortRow">
+            <div class="rowColumn col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <img class="frontPageIcon" src="../../Content/images/moneyicon.png" alt="" />
+                <p>Which state has the highest salary for your career</p>
+            </div>
+            <div class="rowColumn col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <img class="frontPageIcon" src="../../Content/images/similarIcon.png" alt="" />
+                <p>What careers are similar to yours</p>
+            </div>
+            <div class="rowColumn col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <img class="frontPageIcon" src="../../Content/images/advanceIcon.png" alt="" />
+                <p>What careers you can advance to</p>
+            </div>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionConsulting" class="contract">
+        @*<img class="img-responsive" src="../../Content/images/manwomanoutside.jpg" alt="" />*@
+        <div class="container">
+            <h2 class="white">Find a consulting gig</h2>
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <a href="/Jobs" class="btn btn-lg searchJobsBtn clear thickBorder">Search</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="testimonialSection" class="shortSection justText">
+        <h2>Testimonials</h2>
+        <div id="smallFont">CareerThesaurus helps students across the country discover their unique career options and they are loving it!</div>
+        @*<div class="row triangleRow ss-style-triangles">
+                <h3>You can find this information on our website:</h3>
+            </div>*@
+        <div class="divider"></div>
+        <div class="row shortRow testimonialRow">
+            <h3>Carolyn Thomas – Graduate Student</h3>
+            <p class="testimonial"><i class="fa fa-quote-left"></i>This is the best career resource site I have ever come <span class="nowrap">across.<i class="fa fa-quote-right"></i></span></p>
+            <i class="fa fa-angle-right"></i>
+        </div>
+        <div class="row shortRow testimonialRow">
+            <h3>Officer at the Office of Guidance of School Counseling - Department of Education</h3>
+            <p class="testimonial"><span class="nowrap"><i class="fa fa-quote-left"></i>There</span> is a plethora of useful information that will be a good resource for students and school <span class="nowrap">counselors.<i class="fa fa-quote-right"></i></span></p>
+            <i class="fa fa-angle-left"></i>
+            <i class="fa fa-angle-right"></i>
+        </div>
+        <div class="row shortRow testimonialRow">
+            <h3>Yvette Wilson – Richmond County School District</h3>
+            <p class="testimonial"><i class="fa fa-quote-left"></i>CareerThesaurus is absolutely awesome! We’ve been needing a tool like this for a long <span class="nowrap">time.<i class="fa fa-quote-right"></i></span></p>
+            <i class="fa fa-angle-left"></i>
+            <i class="fa fa-angle-right"></i>
+        </div>
+        <div class="row shortRow testimonialRow">
+            <h3>Robert Crowder – Part-Time Job Seeker</h3>
+            <p class="testimonial"><i class="fa fa-quote-left"></i>The Career Test was right on point! It confirmed the career that I was passionate about. Simply <span class="nowrap">amazing.<i class="fa fa-quote-right"></i></span></p>
+            <i class="fa fa-angle-left"></i>
+            <i class="fa fa-angle-right"></i>
+        </div>
+        <div class="row shortRow testimonialRow">
+            <h3>Erica Finley – Morgan County High School</h3>
+            <p class="testimonial"><i class="fa fa-quote-left"></i>CareerThesaurus is effective and very engaging platform. I love visual <span class="nowrap">aspects of it.<i class="fa fa-quote-right"></i></span></p>
+            <i class="fa fa-angle-left"></i>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+
+    <section id="sectionMatchJob" class="parallax justText">
+        <div class="full-bg-image"></div>
+        <div class="parallax-overlay"></div>
+        @*<img class="img-responsive" src="../../Content/images/skydiving.jpg" alt="" />*@
+        <div class="container">
+            <h2 class="white">Get matched with a job that fits your unique personality!</h2>
+            <a href="/CareerTest" class="btn btn-lg goBtn clear thickBorder">Go</a>
+        </div>
+        <i class="fa fa-angle-down bottomArrow"></i>
+    </section>
+
+    <section id="sectionGetCareer" class="justText">
+        @*<img class="img-responsive" src="../../Content/images/womansuit.jpg" alt="" />*@
+        <div class="container">
+            <h2 class="white">Don't just get a job, get a career!</h2>
+            <p>A job is something that you fall into. Career is a choice. Choose smart.</p>
+            <a href="/Careers" class="btn btn-lg goBtn clear thickBorder">Go</a>
+        </div>
+    </section>
+
+</div>
+
+
+<script>
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false;
+    function document_ready() {
+        /* ----------------------use backstretch to center image------------- */
+       // $('#frontpageImage').backstretch("../../Content/images/woman_2045.jpg");
+        var zip = getCookie('zipcode') ? getCookie('zipcode') : getCookie('ipzip') ? getCookie('ipzip') : '11215';
+        $('.zipcodeInput').val(zip);
+
+        //add class active to menu when on this page
+        $('.navbar-nav .@ViewContext.RouteData.Values["controller"].ToString().ToLower()').addClass('active');
+
+        ////front slider arrow on bottom
+        //$('.bottom').css('border-left', $(window).width() / 2 - 99 + 'px solid #fff');
+        //$('.bottom').css('border-right', $(window).width() / 2 - 99 + 'px solid #fff');
+        //$(window).resize(function () {
+        //    $('.bottom').css('border-left', $(window).width() / 2 - 99 + 'px solid #fff');
+        //    $('.bottom').css('border-right', $(window).width() / 2 - 99 + 'px solid #fff');
+        //});
+
+        $('#sectionByInterest').css('height', $(window).height());
+
+        $(window).resize(function () {
+            $('#sectionByInterest').css('height', $(window).height());
+        });
+
+
+        if ($(window).width() <= 768) {
+            $('#homePage').addClass('mobileVersion').removeClass('notMobileVersion');
+        } else {
+            $('#homePage').addClass('notMobileVersion').removeClass('mobileVersion');
+        }
+
+        $(window).resize(function () {
+            if ($(window).width() <= 768) {
+                $('#homePage').addClass('mobileVersion').removeClass('notMobileVersion');
+            } else {
+                $('#homePage').addClass('notMobileVersion').removeClass('mobileVersion');
+            }
+        });
+
+        $('.sectionContent').addClass('visible');
+
+        $('.searchJobsBtn').click(function (e) {
+            e.preventDefault();
+            var linkURL = appserverurl + '/jobs?q=' + $(this).closest('section').find('.searchJobsInput').val() + '&loc=' + $(this).closest('section').find('.zipcodeInput').val() + '&salary=&r=&jt=' + $(this).closest('section').attr('class') + '&sort=s';
+            window.open(linkURL, "_self");
+        });
+
+        $('.bottomArrow').click(function () {
+            var nextSlide = $(this).closest('section').next();
+            $('html, body').animate({ scrollTop: $(nextSlide).offset().top }, 1000);
+        });
+
+
+        if ($(window).width() > 752) {
+            $('section .container').each(function (i, elem) {
+                var top_of_object = $(elem).offset().top + $(elem).height() / 2;
+                var bottom_of_window = $(window).scrollTop() + $(window).height();
+                /* If the object is completely visible in the window, fade it it */
+                if (bottom_of_window > top_of_object) {
+                    // $("this").velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                    $(elem).addClass('viewed');
+                }
+            });
+
+            $(window).scroll(function () {
+                $('section .container').each(function (i, elem) {
+                    var top_of_object = $(elem).offset().top + $(elem).height() / 2;
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if (bottom_of_window > top_of_object) {
+                        // $(elem).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                        $(elem).removeClass('notViewed').addClass('viewed');
+                    }
+                });
+            });
+            if (isiPad == true) {
+                $('section .container').css('opacity', '1');
+            }
+        }
+        else { //less than 767
+            $('section .container').css('opacity', '1');
+        }
+
+      //  $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+        $('#jobsearchButton').click(function () {
+            var linkURL = appserverurl + '/jobs?q=' + $('#jobKeywordText').val() + '&loc=' + $('#zipcodeText').val() + '&salary=&r=&jt=&sort=s';
+            window.open(linkURL, linkURL);
+        });
+
+        $('.testimonialRow').eq(2).show();
+        $('#testimonialSection .fa-angle-right').click(function () {
+            var currentSlide = $(this).closest('.testimonialRow');
+            var nextSlide = $(this).closest('.testimonialRow').next();
+            $(currentSlide).hide();
+            $(nextSlide).fadeIn();
+        });
+
+        $('#testimonialSection .fa-angle-left').click(function () {
+            var currentSlide = $(this).closest('.testimonialRow');
+            var prevSlide = $(this).closest('.testimonialRow').prev();
+            $(currentSlide).hide();
+            $(prevSlide).fadeIn();
+        });
+
+        //$(window).scroll(function () {
+        //    $('.full-bg-image').stop().css({ backgroundPosition: 'center ' + (Math.floor($(window).scrollTop() * .5 * -1)) + 'px' });
+        //});
+        /* ----------------------CountTo------------------------------ */
+
+        $.fn.countTo = function (options) {
+
+            options = options || {};
+
+            return $(this).each(function () {
+
+                // set options for current element
+                var settings = $.extend({}, $.fn.countTo.defaults, {
+                    from: $(this).data('from'),
+                    to: $(this).data('to'),
+                    speed: $(this).data('speed'),
+                    refreshInterval: $(this).data('refresh-interval'),
+                    decimals: $(this).data('decimals')
+                }, options);
+
+                // how many times to update the value, and how much to increment the value on each update
+                var loops = Math.ceil(settings.speed / settings.refreshInterval),
+	        increment = (settings.to - settings.from) / loops;
+
+                // references & variables that will change with each update
+                var self = this,
+	        $self = $(this),
+	        loopCount = 0,
+	        value = settings.from,
+	        data = $self.data('countTo') || {};
+
+                $self.data('countTo', data);
+
+                // if an existing interval can be found, clear it first
+                if (data.interval) {
+                    clearInterval(data.interval);
+                }
+                data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                // initialize the element with the starting value
+                render(value);
+
+                function updateTimer() {
+                    value += increment;
+                    loopCount++;
+
+                    render(value);
+
+                    if (typeof (settings.onUpdate) == 'function') {
+                        settings.onUpdate.call(self, value);
+                    }
+
+                    if (loopCount >= loops) {
+                        // remove the interval
+                        $self.removeData('countTo');
+                        clearInterval(data.interval);
+                        value = settings.to;
+
+                        if (typeof (settings.onComplete) == 'function') {
+                            settings.onComplete.call(self, value);
+                        }
+                    }
+                }
+
+                function render(value) {
+                    var formattedValue = settings.formatter.call(self, value, settings);
+                    $self.children('.count').html(formattedValue);
+                }
+            });
+        };
+
+        $.fn.countTo.defaults = {
+            from: 0, // the number the element should start at
+            to: 0, // the number the element should end at
+            speed: 1000, // how long it should take to count between the target numbers
+            refreshInterval: 10, // how often the element should be updated
+            decimals: 1, // the number of decimal places to show
+            formatter: formatter, // handler for formatting the value before rendering
+            onUpdate: null, // callback method for every time the element is updated
+            onComplete: null // callback method for when the element finishes updating
+        };
+
+        /* ----------------------Counter------------------------------ */
+        if ($('.counter').length) {
+            var counter = $('.counter');
+            if (!Modernizr.touch) {
+                counter.waypoint(function (direction) {
+                    if (direction == 'down') {
+                        counter.countTo();
+                    }
+                }, { offset: '64%' });
+            } else { counter.countTo(); }
+        };
+
+        function formatter(value, settings) {
+            return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+        };
+
+
+
+        //var divpos = $("#careersSection").offset().top;
+        //var interval = setInterval(function () {
+        //    if ($(window).scrollTop() >= divpos - 650) {
+        //        var animDelay = 0;
+        //        $('.imageCell').each(function () {
+        //            $(this).delay(animDelay).show("scale", { percent: 100, origin: ["middle", "center"] }, 500)
+
+        //            animDelay += 500;
+        //        });
+        //        clearInterval(interval);
+        //    }
+        //}, 250);
+
+
+        // $('#textEditorOverlay').stop(true, true).delay(300).show("scale", { percent: 100, origin: ["middle", "center"] }, 500);
+
+
+    }
+
+
+
+
+
+
+</script>

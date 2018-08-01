@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage;
+using SkillCowResponsive.Classes;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class TakeTestController : Controller
+    {
+        //
+        // GET: /TakeTest/
+
+        public ActionResult Index()
+        {
+            Response.Cookies["locked"].Value = "1";
+            Response.Cookies["locked"].Expires = DateTime.UtcNow.AddDays(1);
+            return RedirectToAction("TakeTest", "CareerTest");          
+        }
+
+        public ActionResult EmailResults()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EmailResults(string name, string email)
+        {
+            AddresseeClient adc = new AddresseeClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email);
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+            }
+            return RedirectToAction("SchoolResults", "TakeTest");
+        }
+        public ActionResult SchoolResults()
+        {
+            return View();
+        }
+        public ActionResult TestReport()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult TestReport(string name, string email)
+        {
+            string response;
+            AddresseeClient adc = new AddresseeClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email);
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+                response = "{\"result\": \"ok\"}";
+            }
+            else
+            {
+                response = "{\"result\": \"error\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+    }
+}

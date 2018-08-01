@@ -1,0 +1,98 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientSlideShows.ClientSlideShowSlide
+
+@{
+    ViewBag.Title = "Edit Slide";
+}
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+</style>
+<script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<link href="/content/css/pictureuploader/fileuploader.css" rel="stylesheet" type="text/css">
+
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h2>Edit Slide</h2>
+
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Client Slide Show Slide</legend>
+
+            <div class="editor-label">
+                Image
+            </div>
+            <div class="editor-field">
+                <div id="slidecontainer">
+                    <img src="https://chaindate.blob.core.windows.net/slideshows/@Model.PartitionKey/@Model.RowKey" alt="Slide"/>
+                </div>
+                <div id="file-uploader-container" style="color:#333;"></div>
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Caption)
+            </div>
+            <div class="editor-field">
+                <textarea name="Caption">@Model.Caption</textarea>
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Priority)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Priority)
+            </div>
+
+            <p>
+                <input type="submit" value="Save" />
+                @Html.ActionLink("Delete this slide", "DeleteSlide", new { id = Model.RowKey, slideshowid = Model.PartitionKey })
+            </p>
+        </fieldset>
+    
+        @Html.HiddenFor(model => model.RowKey)
+        @Html.HiddenFor(model => model.PartitionKey)
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+</div>
+
+
+<script>
+    var uploader;
+
+    function document_ready() {
+
+        uploader = new qq.FileUploader({
+            multiple: false,
+            element: document.getElementById('file-uploader-container'),
+            action: '/ClientSlideShows/UpdateSlideImage?slideid=@Model.RowKey&slideshowid=@Model.PartitionKey',
+            debug: false,
+            onComplete: function (id, fileName, responseJSON) {
+                var d = new Date();
+                $('#slidecontainer').html('<img style="" src="https://chaindate.blob.core.windows.net/slideshows/@Model.PartitionKey/@Model.RowKey)?' + d.getTime + '" />');
+            }
+        });
+
+        $('textarea').jtextarea();
+    }
+
+</script>
+
+<style>
+    #slidecontainer img {max-width: 800px; max-height: 300px;}
+</style>

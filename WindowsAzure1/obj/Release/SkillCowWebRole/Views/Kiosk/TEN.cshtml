@@ -1,0 +1,637 @@
+﻿@{
+    ViewBag.Title = "TEN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/Controllers/TEN/schoolformparser.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<style>
+        h2 {color: #333;}
+</style>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+    <h1>TEN Jobs</h1>
+    <table border=0>
+        <tr>
+            <td valign=top width=33%><div id="tenjob"></div></td>
+            <td valign=top width=33%><div id="tenjobform"></div></td>
+            <td valign=top width=33% style="background-color: #fff; color: #000;">
+                <fieldset>
+                    <legend>Declarations</legend>
+                    <pre id="declarations"></pre>
+                </fieldset>
+                <fieldset>
+                    <legend>Code</legend>
+                    <pre id="codepreview"></pre>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    function document_ready() {
+
+        $.ajax({
+            url: appserverurl + "/TENJobs/FindJobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                zip: '11230',
+                title: '@(ViewBag.Keyword)',
+                pagesize: 25,
+                pagenumber: 1
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+
+                for (var i = 0; i < response.resultsets.length; i++) {
+                    var rs = response.resultsets[i];
+
+                    
+                    
+                    //$('#tenjobs').append('<h2>' + rs.term + ' (' + rs.jobs.length + ' jobs)</h2>');
+
+                    for (var j = 0; j < rs.jobs.length; j++) {
+                        var job = rs.jobs[j];
+
+                        //alert(rs.term + ': ' + rs.jobs.length + ' jobs');
+
+                        var program = job.programs[0];
+
+                        if (job.clientid == '@(ViewBag.Client)' && job.formid == '@(ViewBag.Form)') {
+                            $('#tenjob').append('<b>' + program.value + '</b><br/><br/>');
+                            $('#tenjob').append('Clientid: ' + job.clientid + ', Formid: ' + job.formid + '<br/><br/>');
+                            $('#tenjob').append(program.description2);
+
+                            downloadSingleSchoolForm(job.clientid, job.formid);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            else {
+                alert(response.errormessage);
+            }
+        }).error(function (response) {
+            alert('Unable to connect');
+        });
+    }
+
+    var selectedschools = new Array();
+    var schoolforms = new Array();
+    var totalschoolforms = 0;
+
+    function downloadSingleSchoolForm(clientid, formid) {
+
+        $.ajax({
+            url: appserverurl + "/TENForm/GetFormJson",
+            type: "GET",
+            data: {
+                clientid: clientid,
+                formid: formid
+            }
+        }).done(function (response) {
+            if (response.result == 'ok') {
+
+                renderFormFields(response);
+                createEventHandlers(response);
+                //showAllFields();
+
+            }
+            else {
+            }
+        }).fail(function (xhr, textStatus, errorThrown) {
+            alert(textStatus + ' ' + errorThrown);
+        });
+    }
+
+
+    function renderFormFields(form) {
+    
+        //create the form
+        //alert('about to create unified form');
+        createUnifiedForm(form.fields);
+
+        
+
+        //alert('about to create unified form validation');
+        //createUnifiedFormValidation(unified);
+
+        //alert('about to create unified form cookie setter');
+        //createUnifiedFormCookieSetter(unified);
+    }
+
+
+    
+</script>
+
+
+<script>
+
+    function createUnifiedForm(unified) {
+    
+        var formholder = document.getElementById('tenjobform');
+        var container = document.createElement('form');
+
+        try {
+            container.id = 'customform';
+            container.setAttribute('method', 'POST');
+            container.setAttribute('action', '/DirectSubmission');
+
+            var cbncampaignid = "13564694";
+            if (getCookie("cbncampaign") != null && getCookie("cbncampaign") != '') {
+                cbncampaignid = getCookie("cbncampaign");
+            }
+            
+            container.appendChild(createHiddenInput("sourceform", "endoftest"));
+            container.appendChild(createHiddenInput("campaign_id", cbncampaignid));
+
+            renderFieldsIntoContainer(unified, container, 'MAIN CONTAINER');
+
+            formholder.appendChild(container);
+        }
+        catch (e) {
+            //alert('Oops, an error has occured.  ' + e.message);
+        }
+
+        try {
+            $('textarea').jtextarea();
+        }
+        catch (e) {
+        }
+
+        //alert('unified form created');
+    }
+
+    
+
+    function renderFieldsIntoContainer(fields, container, containerdescription) {
+        
+        for (var i = 0; i < fields.length; i++) {
+    
+            var f = fields[i];
+
+            switch (f.type) {
+                case 'hidden':
+                    container.appendChild(createHiddenField(f));
+                    break;
+                case 'text':
+                    container.appendChild(createTextField(f));
+                    break;
+                case 'radio':
+                    container.appendChild(createRadioField(f));
+                    break;
+                case 'checkbox':
+                    container.appendChild(createCheckboxField(f));
+                    break;
+                case 'textarea':
+                    container.appendChild(createTextareaField(f));
+                    break;
+                case 'dropdown':
+                    container.appendChild(createDropdownField(f));
+                    break;
+                case 'fieldgroup':
+                    var fieldgroupContainer = document.createElement('fieldset');
+                    var legend = document.createElement('legend');
+                    legend.innerHTML = f.label;
+                    fieldgroupContainer.appendChild(legend);
+
+                    renderFieldsIntoContainer(f.fields, fieldgroupContainer, 'FIELDSGROUP(' + f.label + ')');
+                    container.appendChild(fieldgroupContainer);
+                    break;
+                case 'hiding':
+                    var fieldgroupContainer = document.createElement('fieldset');
+                    var legend = document.createElement('legend');
+                    legend.innerHTML = f.label;
+                    legend.setAttribute('style', 'color:red; display: none;');
+                    legend.setAttribute('class', f.cssclass);
+
+                    fieldgroupContainer.appendChild(legend);
+
+                    renderFieldsIntoContainer(f.fields, fieldgroupContainer, 'HIDING(' + f.label + ')');
+                    container.appendChild(fieldgroupContainer);
+                    break;
+                default: break;
+            }
+        }
+    }
+
+    function createHiddenInput(name, value) {
+        var element = document.createElement('hidden');
+        element.setAttribute('name', name);
+        element.setAttribute('value', value);
+        return element;
+    }
+
+    function createHiddenField(f) {
+        return createInput(f);
+    }
+
+    function createTextField(f) {
+        var section = createControlSection();
+        section.appendChild(createLabel(f));
+        section.appendChild(createControlContainer(createInput(f, 'onchange=' + f.name + '_eventhandler()')));
+        return section;
+    }
+    function createRadioField(f) {
+        var section = createRadioSection();
+        section.appendChild(createLabel(f));
+        section.appendChild(createControlContainer(createRadiobutton(f)));
+        return section;
+    }
+    function createCheckboxField(f) {
+        var section = createCheckboxSection();
+        section.appendChild(createLabel(f));
+        section.appendChild(createControlContainer(createCheckbox(f)));
+        return section;
+    }
+    function createTextareaField(f) {
+        var section = createTextareaSection();
+        section.appendChild(createLabel(f));
+        section.appendChild(createControlContainer(createTextarea(f)));
+        return section;
+    }
+    function createFieldgroupField(f) {
+        var section = createFieldgroupSection(f.cssclass);
+        section.appendChild(createLabel(f));
+
+        var cc = createControlContainer();
+
+        for (var i = 0; i < f.options.length; i++) {
+            if (f.options[i].type == 'radio') {
+                cc.appendChild(createRadiobutton(f.options[i]));
+                cc.appendChild(createElement('span', f.options[i].label));
+            }
+            else if (f.options[i].type == 'dropdown') {
+                cc.appendChild(createDropdown(f.options[i], 'onchange=' + f.options[i].name + '_eventhandler()'));
+            }
+        }
+
+        section.appendChild(cc);
+        return section;
+    }
+    function createDropdownField(f) {
+        var section = createControlSection();
+        section.appendChild(createLabel(f));
+        section.appendChild(createControlContainer(createDropdown(f, 'onchange=' + f.name + '_eventhandler()')));
+        return section;
+    }
+
+    function createDropdown(f, attributes) {
+
+        var element = document.createElement('select');
+        element.setAttribute('name', f.name);
+        element.setAttribute('id', f.name);
+
+        if (attributes) {
+            var tokens = attributes.split(',');
+            for (var i = 0; i < tokens.length; i++) {
+                var kv = tokens[i].split('=');
+                if (kv.length > 1) {
+                    for (var j = 0; j < kv.length; j++) {
+                        element.setAttribute(kv[0], kv[1]);
+                    }
+                }
+            }
+        }
+
+        if (f.name == 'educationlevel') {
+            for (var i = 0; i < levelsofeducation.length; i++) {
+                var o = levelsofeducation[i];
+                var option = document.createElement('option');
+                option.setAttribute('value', o.value);
+                option.innerHTML = o.label;
+                element.appendChild(option);
+            }
+        }
+        else if (f.name == 'military') {
+            for (var i = 0; i < militaryoptions.length; i++) {
+                var o = militaryoptions[i];
+                var option = document.createElement('option');
+                option.setAttribute('value', o.value);
+                option.innerHTML = o.label;
+                element.appendChild(option);
+            }
+        }
+        else if (f.name == 'state') {
+            for (var i = 0; i < states.length; i++) {
+                var o = states[i];
+                var option = document.createElement('option');
+                option.setAttribute('value', o.value);
+                //option.setAttribute('class', o.cssclass);
+                //option.setAttribute('style', o.style);
+                option.innerHTML = o.label;
+                element.appendChild(option);
+            }
+        }
+        else {
+            var optgroups = createOptionGroups(f.options);
+            var optionContainer;
+
+            for (var g1 = 0; g1 < optgroups.length; g1++) {
+                var group1 = optgroups[g1];
+                var group1optgroup;
+                optionContainer = element;
+                if (group1.name != "") {
+                    alert(f.name + ' group1 name: ' + group1.name);
+                    group1optgroup = document.createElement('optgroup');
+                    group1optgroup.setAttribute('label', group1.name);
+                    optionContainer = group1optgroup;
+                }
+
+                if (group1.items.length > 0) {
+                    
+                    for (var i = 0; i < group1.items.length; i++) {
+
+                        try {
+                            var o = group1.items[i];
+                            var option = document.createElement('option');
+                            option.setAttribute('value', o.value.replace('None Military', 'Non-Military'));
+                            option.setAttribute('class', o.cssclass);
+                            option.setAttribute('style', o.style);
+                            option.innerHTML = o.label;
+                            optionContainer.appendChild(option);
+                        }
+                        catch (e) {
+                            alert(f.name + ' group1 item error ' + e.message);
+                        }
+                    }
+                }
+
+                if (group1.groups.length > 0) {
+                    
+                    for (var g2 = 0; g2 < group1.groups.length; g2++) {
+                        var group2 = group1.groups[g2];
+                        var group2optgroup = document.createElement('optgroup');
+                        group2optgroup.setAttribute('label', group2.name);
+                        for (var i = 0; i < group2.items.length; i++) {
+                            var o = group2.items[i];
+                            var option = document.createElement('option');
+                            option.setAttribute('value', o.value.replace('None Military', 'Non-Military'));
+                            option.setAttribute('class', o.cssclass);
+                            option.setAttribute('style', o.style);
+                            option.innerHTML = o.label;
+                            group2optgroup.appendChild(option);
+                        }
+                        optionContainer.appendChild(group2optgroup);
+                    }
+
+                    if (group1optgroup != null) {
+                        element.appendChild(group1optgroup);
+                    }
+                }
+            }
+        }
+
+
+        return element;
+    }
+
+    function createOptionGroups(options) {
+        var groups = new Array();
+
+        for (var i = 0; i < options.length; i++) {
+            var o = options[i];
+            var group = getParentGroup(o, groups);
+
+            group.items.push(o);
+
+        }
+
+        return groups;
+    }
+    function getParentGroup(option, groups) {
+
+        if (option.group2 != null && option.group2 != "") {
+            var group1 = getOrCreateGroupByName(option.group1, groups);
+            return getOrCreateGroupByName(option.group2, group1.groups);
+        }
+
+        return getOrCreateGroupByName(option.group1, groups);
+    }
+    function getOrCreateGroupByName(groupname, groups) {
+
+        for (var i = 0; i < groups.length; i++) {
+            if ((groupname != null && groups[i].name == groupname) || (groupname == null && groups[i].name == "")) {
+                return groups[i];
+            }
+        }
+
+        var newGroup = { name: (groupname != null ? groupname : ""), groups: new Array(), items: new Array() };
+
+        groups.push(newGroup);
+
+        return newGroup;
+    }
+
+    //common
+    function createLogoSection(imageurl) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'logocontainer');
+        var img = document.createElement('img');
+        img.setAttribute('src', imageurl);
+        div.appendChild(img);
+        return div;
+    }
+    function createTextareaSection() {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'textareacontainer');
+        return div;
+    }
+    function createRadioSection() {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'radiocontainer');
+        return div;
+    }
+    function createCheckboxSection() {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'checkboxcontainer');
+        return div;
+    }
+    function createFieldgroupSection(cssclass) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'fieldgroupcontainer ' + cssclass);
+        return div;
+    }
+    function createControlSection() {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'controlcontainer');
+        return div;
+    }
+    function createInput(f, attributes) {
+        var element = document.createElement('input');
+        element.setAttribute('type', f.type);
+        element.setAttribute('name', f.name);
+        element.setAttribute('id', f.name);
+
+        if (f.value != "text")
+            element.setAttribute('value', f.value);
+
+        if (attributes) {
+            var tokens = attributes.split(',');
+            for (var i = 0; i < tokens.length; i++) {
+                var kv = tokens[i].split('=');
+                if (kv.length > 1) {
+                    for (var j = 0; j < kv.length; j++) {
+                        element.setAttribute(kv[0], kv[1]);
+                    }
+                }
+            }
+        }
+
+        return element;
+    }
+    function createTextarea(f) {
+        var element = document.createElement('textarea');
+        element.setAttribute('name', f.name);
+        element.setAttribute('value', f.value);
+        return element;
+    }
+    function createCheckbox(f) {
+        var element = document.createElement('input');
+        element.setAttribute('type', 'checkbox');
+        element.setAttribute('name', f.name);
+        element.setAttribute('value', f.value);
+        if (f.selected == 'true')
+            element.setAttribute('checked', '');
+        return element;
+    }
+    function createRadiobutton(f) {
+        var element = document.createElement('input');
+        element.setAttribute('type', 'radio');
+        element.setAttribute('name', f.name);
+        element.setAttribute('value', f.value);
+        if (f.selected == 'true')
+            element.setAttribute('checked', '');
+        return element;
+    }
+    function createLabel(field) {
+        var label = document.createElement('div');
+        label.setAttribute('class', 'label');
+
+        if (field.name == 'military') {
+            label.innerHTML = 'Military' + (field.required != null && $.trim(field.required).toLowerCase() == 'true' ? ' <span style="color: red;">*</span>' : '');
+        }
+        else if (field.name == 'gradyear') {
+            label.innerHTML = 'H.S. Grad. Year' + (field.required != null && $.trim(field.required).toLowerCase() == 'true' ? ' <span style="color: red;">*</span>' : '');
+        }
+        else {
+            label.innerHTML = '[' + field.name + ']' + field.label + (field.required != null && $.trim(field.required).toLowerCase() == 'true' ? ' <span style="color: red;">*</span>' : '');
+        }
+
+
+        return label;
+    }
+    function createElement(type, text, attributes) {
+        var span = document.createElement(type);
+        if (attributes) {
+            var tokens = attributes.split(',');
+            for (var i = 0; i < tokens.length; i++) {
+                var kv = tokens[i].split('=');
+                if (kv.length > 1) {
+                    for (var j = 0; j < kv.length; j++) {
+                        span.setAttribute(kv[0], kv[1]);
+                    }
+                }
+            }
+        }
+        span.innerHTML = text;
+        return span;
+    }
+    function createControlContainer(control) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'control');
+        if (control) {
+            div.appendChild(control);
+        }
+        return div;
+    }
+
+
+</script>
+
+
+
+
+<script>
+
+    function createEventHandlers(json) {
+
+        var declarations = '';
+        var code = '';
+        var eventBinders = '';
+
+
+        for (var i = 0; i < json.controlevents.length; i++) {
+            var ce = json.controlevents[i];
+
+            code += 'function ' + ce.control + '_eventhandler() {\n\n' +
+            '    var ' + ce.control + 'value = $("#' + ce.control + '").val();\n\n' + 
+            '    //alert("' + ce.control + '_eventhandler() fired");\n\n';
+
+            //Validation events first
+            for (var j = 0; j < ce.events.length; j++) {
+                if (ce.events[j].type == "validation") {
+                    switch (ce.events[j].validation) {
+                        case "zip":
+                            code += '    if(!validateZip(' + ce.control + 'value)) {\n        alert("Invalid zip");\n        $("#' + ce.control + '").focus();\n        return;\n    }\n\n';
+                            break;
+                        case "phone":
+                            code += '    if(!validatePhone(' + ce.control + 'value)) {\n        alert("Invalid phone number");\n        $("#' + ce.control + '").focus();\n        return;\n    }\n\n    $("#' + ce.control + '").val(formatPhoneNumber(' + ce.control + 'value));\n\n';
+                            break;
+                        case "email":
+                            code += '    if(!validateEmail(' + ce.control + 'value)) {\n        alert("Invalid email address");\n        $("#' + ce.control + '").focus();\n        return;\n    }\n\n';
+                            break; 
+                        default: break;
+                    }
+                }
+            }
+
+            //Hiding events second
+            for (var j = 0; j < ce.events.length; j++) {
+                if (ce.events[j].type == "hiding") {
+                    var e = ce.events[j];
+
+                    declarations += 'var $' + e.valueVariable + ' = ' + (e.oper == 'in' ? '[' + e.value + ']' : '"' + e.value + '"') + ';\n';
+
+                    if (e.oper == 'in') {
+                        code += 
+                    //'        alert("checking new value: " + ' + ce.control +'value + " if it\'s in $' + e.valueVariable + '");\n' +
+                    '    if(' + ce.control + 'value=="" || $.inArray(' + ce.control + 'value, $' + e.valueVariable + ')>=0) {\n' +
+                    //'        alert("It is! ' + e.actionIfTrue + ' .' + e.cssclass + '");\n' +
+                    '        $(".' + e.cssclass + '").' + e.actionIfTrue + '();\n' +
+                    '    }else{\n' +
+                    //'        alert("It is NOT. ' + e.actionIfTrue + ' .' + e.cssclass + '");\n' +
+                    (e.actionIfFalse != '' ? '        $(".' + e.cssclass + '").' + e.actionIfFalse + '();\n' : '') +
+                    '    }\n\n';
+                    }
+                    else {
+                        code +=
+                    '        //alert("checking new value: " + ' + ce.control +'value + " if = $' + e.valueVariable + '");\n' + 
+                    '    if(' + ce.control + 'value=="" || ' + ce.control + 'value' + e.oper + '$' + e.valueVariable + ') {\n' +
+                    //'        alert("' + e.actionIfTrue + ' .' + e.cssclass + '");\n' +
+                    '        $(".' + e.cssclass + '").' + e.actionIfTrue + '(); \n' +
+                    '    }else{\n' +
+                    //'        alert("' + e.actionIfFalse + ' .' + e.cssclass + '");\n' +
+                    (e.actionIfFalse != '' ? '        $(".' + e.cssclass + '").' + e.actionIfFalse + '();\n' : '') +
+                    '    }\n\n';
+                    }
+                }
+            }
+
+            code += '}\n\n\n';
+        }
+
+        $('#declarations').append(declarations.replace(/\n/g,'<br/>'));
+        $('#codepreview').append(code.replace(/\n/g, '<br/>'));
+
+        var headID = document.getElementsByTagName("head")[0];
+        var newScript = document.createElement('script');
+        newScript.type = 'text/javascript';
+        newScript.innerHTML = declarations + code;
+
+        headID.appendChild(newScript);
+    }
+
+
+</script>

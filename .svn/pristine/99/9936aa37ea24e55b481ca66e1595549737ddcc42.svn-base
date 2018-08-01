@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta property="og:image" content="http://www.skillcow.com/Content/Images/logo-head.png"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>SkillCow.com</title>
+        <style>
+            html,body{
+	            height: 100%;
+	            min-height: 480px;
+	            font-family: Arial, Verdana, Helvetica, Sans-Serif;
+	            margin: 0 0 0 0;
+	            padding: 0 0 0 0;
+	            color: #ffffff;
+	            
+                background: #59667c; /* for non-css3 browsers */ /*6c93af*/ /*7b8fb8*/
+                
+            }
+            h1,h2,h3,h4,h5 
+            {
+                color: #fff;
+                margin-bottom: 0px;
+                margin-left: 10px;
+            }
+            p
+            {
+                margin: 10px;
+                font-size: 10pt;
+            }
+            
+        </style>
+
+        <link href="@Url.Content("~/Content/css/common/decorations.css")" rel="stylesheet" type="text/css" />
+        
+        <script src="@Url.Content("~/Scripts/jquery.tools.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery-ui.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    
+        <script type="text/javascript">
+            var appserverurl = "@ViewBag.AppServerUrl";
+            var modernBrowser;
+            if (parseInt(navigator.appVersion) >= 5)
+                modernBrowser = true;
+            else
+                modernBrowser = false;
+        </script>
+    
+        <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery.easing.1.3.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery.mousewheel.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.gotoend.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/myswfobject.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery.Jcrop.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        <script src="@Url.Content("~/scripts/fileuploader/fileuploader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+
+        <script type="text/javascript">
+            function getBlobData(username, variable) {
+                var headID = document.getElementsByTagName("head")[0];
+                var newScript = document.createElement('script');
+                newScript.type = 'text/javascript';
+                var d = new Date();
+                newScript.src = '@ViewBag.UrlScheme://chaindate.blob.core.windows.net/' + username + '/data/' + variable + '?d=' + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+
+                headID.appendChild(newScript);
+            }
+            function htmlEscape(str) {
+                return $('<div/>').text(str).html();
+            }
+            function htmlEncode(str) {
+                return $('<div/>').text(str).html();
+            }
+
+
+            function htmlFromJson(str) {
+                return htmlEscape(str.replace(/<br\/>/g, '_br_')).replace(/_br_/g, '<br/>');
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="translucent30 shadow20" style="padding: 10px;">
+            <img style="height: 30px;" id="logo" src="@Url.Content("~/Content/Images/Logos/tclogo.png")" onclick="document.location='@Url.Content("~/Home")';" alt="ChainDate logo"/>
+            <img style="height: 20px;" id="logotitle" src="@Url.Content("~/Content/Images/Logos/logo-title.png")" onclick="document.location='@Url.Content("~/Home")';" alt="ChainDate"/>
+            
+        </div>
+        
+
+        @RenderBody()
+    
+        <script>
+            var fbready = false;
+
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '311636192211301', // App ID
+                    status: true, // check login status
+                    cookie: true, // enable cookies to allow the server to access the session
+                    xfbml: true  // parse XFBML
+                });
+
+                fbready = true;
+
+
+                // Additional initialization code here
+
+            };
+
+            // Load the SDK Asynchronously
+            (function (d) {
+                var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement('script'); js.id = id; js.async = true;
+                js.src = "//connect.facebook.net/en_US/all.js";
+                ref.parentNode.insertBefore(js, ref);
+            } (document));
+        </script>
+
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-39788184-1']);
+            _gaq.push(['_setDomainName', 'skillcow.com']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+        </script>
+    </body>
+</html>

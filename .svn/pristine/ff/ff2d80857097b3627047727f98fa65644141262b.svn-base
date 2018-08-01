@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Microsoft.WindowsAzure.StorageClient;
+using SkillCowResponsive.Classes.Helpers;
+using Newtonsoft.Json.Linq;
+
+namespace SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection
+{
+    public class TeacherToSchoolConnection : TableServiceEntity
+    {
+        public TeacherToSchoolConnection()
+        {
+            Timestamp = DateTime.UtcNow;
+        }
+        //PartitionKey = user.RowKey
+        //RowKey = school.RowKey
+    }
+}

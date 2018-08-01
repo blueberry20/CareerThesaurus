@@ -1,0 +1,433 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+<link href="~/Content/css/Pd/pd.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="pdPage">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Recruit with confidence</h1>
+            <h2>CareerThesaurus is the fastest growing and most innovative Recruitment Platform.</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <!--login box-->
+        <div class="centerBox">
+            <div class="row">
+                <form method="POST" role="form">
+                    <div class="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
+                        <h3>Learn how to start recruiting</h3>
+
+                        <h4>Your agency info</h4>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="agencyname"><span>Your Agency Name:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="agencyname" id="agencyname" value="">
+                                <p class="displayError">Please enter a valid agency name</p>
+                            </div>
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="agencyaddress"><span>Address:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="agencyaddress" id="agencyaddress" value="">
+                                <p class="displayError">Please enter a valid address</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">                            
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="agencycity"><span>City:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="agencycity" id="agencycity" value="">
+                                <p class="displayError">Please enter city name</p>
+                            </div>
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="state"><span>State:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control required" id="state" name="state">
+                                    <option value="">Select state</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                <p class="displayError">Please select a state</p>
+                            </div>
+
+                        </div>
+                        @*<div class="form-group row">
+
+                        </div>*@
+                        <div class="form-group row">                          
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="zip"><span>Zip:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" onpaste="return false;" onkeypress="return isNumber(event, this.value);" name="zip" id="zip" value="">
+                                <p class="displayError">Please enter a valid zipcode</p>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group row">
+
+                        </div>*@
+
+                        <h4>Your contact info</h4>
+
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="name"><span>Your Full Name:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="name" id="name">
+                                <p class="displayError">Please enter a valid name</p>
+                            </div>
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="title"><span>Your title:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="title" id="title">
+                                <p class="displayError">Please enter a valid title</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="email"><span>Your email:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="email" class="form-control required" name="email" id="email">
+                                <p class="displayError">Please enter a valid email</p>
+                            </div>
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="confirmemail"><span>Confirm email:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="email" class="form-control required" name="confirmemail" id="confirmemail">
+                                <p class="displayError">Your emails don't match</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12" for="phone"><span>Your Phone Number:</span></label>
+                            <div class="shortField col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control required" name="phone" id="phone">
+                                <p class="displayError">Please enter a valid phone number</p>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group row">
+
+                        </div>*@
+
+                        @*<div class="form-group row">
+                        </div>*@
+
+
+                        <div class="form-group row termsRow">
+                            <label class="shortLabel col-lg-2 col-md-2 col-sm-2 col-xs-12"></label>
+                            <div class="shortField addPadding col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="checkboxWrapper">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="checkbox" class="required">
+                                        <label>
+                                            I agree to the <a href="/About/terms" target="_blank">Terms and Conditions</a> of using this site
+                                        </label>
+                                    </div>
+                                    <p class="displayError termsError">You haven't agreed to terms and conditions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row lastFormRow">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-success loginBtn">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @*<div class="row belowFormRow">
+            <div class="chooseSignupCol col-lg-12 text-left">
+                <h3>How it works</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </p>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+
+<script>
+    function document_ready() {
+        var errorMessage = '@ViewBag.ErrorMessage';
+        if (errorMessage != '') {
+            $('html,body').animate({
+                scrollTop: $(".errorForm").offset().top - 50
+            });
+        }
+        $('.loginBtn').click(function (event) {
+            var valid = true;
+            $('.required').each(function (index, element) {
+                var name = $(element).attr('name');
+                var value = $(element).val();
+                switch (name) {
+                    case 'agencyname':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'agencyaddress':
+                        if (!validateAddress(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'agencycity':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'state':
+                        if (value == '' || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'zip':
+                        if (!validateZip(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'name':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'title':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'email':
+                        if (!validateEmail(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'confirmemail':
+                        if ($('#email').val() == value && value != null && value != '') {
+                            $(element).removeClass('hasError');
+                            $(element).closest('.shortField').find('.displayError').hide();
+                        } else {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        break;
+
+
+                    case 'phone':
+                        if (!validatePhone(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+
+                    case 'checkbox':
+                        if (!$(element).is(':checked')) {
+                            valid = false;
+                            $('.termsError').show();
+                            $('.checkboxWrapper').addClass('hasError');
+                        } else {
+                            $('.termsError').hide();
+                            $('.checkboxWrapper').removeClass('hasError');
+                        }
+                        break;
+                }
+            });
+            //if there are any errors display them
+            if (!valid) {
+                $('html,body').animate({
+                    scrollTop: $(".hasError").offset().top - 50
+                });
+                return false;
+            }
+            emailExist($('#email').val()).done(function (response) {
+                if (response.results.email.status == 'valid') {
+                    $('#email').closest('.shortField').find('.displayError').hide();
+                    $('#email').removeClass('hasError');
+                    $('form').submit();
+                } else {
+                    valid = false;
+                    $('#email').closest('.shortField').find('.displayError').show();
+                    $('#email').addClass('hasError');
+                }
+            }).fail(function (error) {
+                $('#email').closest('.shortField').find('.displayError').hide();
+                $('#email').removeClass('hasError');
+                $('form').submit();
+            });
+        });
+    }
+
+    function validatePhone(phone) {
+        if (phone) {
+            var formattedNumber = formatPhoneNumber(phone.replace(/(\s|\.|\-|\(|\))/g, ''));
+            if (formattedNumber == "") {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    function formatPhoneNumber(str) {
+        var raw_number = str.replace(/([^0-9]|\.|\-|\(\))/g, '');
+        var regex1 = /^1?([2-9]..)([2-9]..)(....)$/;
+        if (!regex1.test(raw_number)) {
+            return "";
+        } else {
+            return raw_number.replace(regex1, '$1$2$3');
+        }
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        } else {
+            return false;
+        }       
+    }
+    function emailExist(email) {
+        // remove before publish
+        //return true;
+
+        return $.ajax({
+            url: appserverurl + '/SkillTest/verifyEmail',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                email: email
+            }
+        });
+        //.success(function (response) {
+        //    if (response.results.email.status == 'valid') {
+        //        return true;
+        //    } else {
+        //        return false;
+        //    }
+        //}).error(function (error) {
+        //    return true;
+        //});
+    }
+
+
+    function validateZip(zip) {
+        var reg = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+        return reg.test(zip);
+    }
+
+
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+
+
+</script>

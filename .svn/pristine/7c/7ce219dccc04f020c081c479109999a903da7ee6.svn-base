@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Quin";
+}
+
+
+<div class="pageContainer">
+    <div id="quin">
+        <iframe name="schoolinfo" src="" width="960" height="1000" scrolling="no" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        var temp = "@Request.QueryString["formUrl"]";
+        $('[name="schoolinfo"]').attr('src', decodeURIComponent(temp));
+        console.log(temp);
+    }
+</script>

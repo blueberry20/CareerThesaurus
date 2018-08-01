@@ -1,0 +1,487 @@
+﻿	
+/* BLOG PAGE
+-------------------------------------------------- */
+.blogPage {
+    padding:50px 0 0;
+}
+
+.blogPage .container {
+    background-color: #fff;
+    padding:15px 15px 30px;
+}
+
+.blogPage h1 {
+    text-align: center;
+    margin: 10px 0 20px;
+    font-weight:700;
+}
+
+h2 {
+    margin: 10px 0 20px;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+select.form-control {
+    height:50px;
+    line-height:50px;
+    margin-bottom:15px;
+}
+
+.form-group label {
+    font-size: 20px;
+    font-family: 'open sans condensed';
+}
+
+.form-group p {
+    margin:10px 0 5px;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/*all posts. main section*/
+.blogPostsWrapper {
+   background-color: #fff;
+}
+
+/*one blog post preview*/
+.blogPostShort { 
+     padding:5px;
+     border-bottom: 1px solid rgb(200,200,200);
+}
+
+.blogPostShort a {
+    text-decoration:none;
+}
+
+.blogPostShort:last-child {
+    border-bottom:none;   
+}
+
+.blogImageHolder {
+     overflow:hidden;   
+     margin-bottom:15px;
+}
+
+.blogParagraph {
+ font-family: 'Open Sans', Sans-Serif;
+ font-size:16px;   
+}
+
+
+.blogDate, .blogCategory, .blogComments {
+    display:inline-block;
+    font-family:'Open Sans Condensed', Sans-Serif;
+    font-size:20px;
+}
+
+.blogCategory {
+    color: rgb(2, 124, 178);
+}
+
+.blogCategory:hover {
+    
+}
+
+.errorMessage {
+    color: red !important;
+    padding:10px 0;
+    display: none;
+}
+
+.sidebarWidget .blogDate, .sidebarWidget .blogComments {
+    font-size:16px;
+    display:block;
+}
+
+.pager li>a, .pager li>span {
+    border-radius: 0;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    border:1px solid rgb(23, 184, 214);
+    color:#000;
+}
+
+.pager li>a:hover, .pager li>span:hover, .pager li>a:focus, .pager li>span:focus, .pager li>a:active, .pager li>span:active {
+    background-color: rgb(23,184,214);
+}
+
+/*.blogDate:after, .blogCategory:after {
+ content: " |";   
+}*/
+    
+.socialIconsHolder p {
+    font-family: 'Open Sans Condensed', Sans-Serif;
+    font-size: 18px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 300;
+    margin:0;
+}	
+
+
+/*************************Sidebar widgets*************************/
+.blogSidebar {
+    padding:0;
+}
+
+.blogSidebar h3 {
+    padding: 0 0 5px;  
+    font-size:19px;
+}
+
+.sidebarWidget {
+    padding: 0 10px 10px 10px;    
+    font-size:16px;
+}  
+
+.sidebarWidget .row {
+    margin:5px 0;   
+}
+    
+.sidebarWidget ul {
+    list-style:none;
+    padding-left:0;
+    width:100%;
+}   
+
+.sidebarWidget a {
+    color: #000;   
+}
+
+.dropdown-menu > li > a {
+    text-align:center;
+}
+
+.no-touch .sidebarWidget a:hover {
+ text-decoration:none;
+}
+
+#archive {
+    width:100%;
+}
+
+/****tags widget****/
+#tagsWidget a, .blogTag {
+    color:#000;
+    border:1px solid rgb(23, 184, 214);
+    border-radius: 4px;
+    padding:5px;
+    margin:5px;
+    display:inline-block;
+}
+
+#tagsWidget a:hover, #tagsWidget a:focus, #tagsWidget a:active, .blogTag:hover, .blogTag:focus, .blogTag:active {
+    cursor:pointer;
+    text-decoration:none;  
+    background-color: rgb(23, 184, 214);
+    color: #000;
+}
+
+.blogTag {
+    margin: 5px 5px 5px 0;
+}
+
+/****Recent Posts widget****/
+.articleEntry {
+    padding:15px 0;   
+    display:block;
+    margin:0;
+    border-bottom:1px solid rgb(23, 184, 214);
+}
+
+.articleInfo {
+    padding-right:0; 
+    padding-top:5px;  
+}
+     
+.articleInfo h4 {
+    margin:0;
+    font-size:14px;
+}
+
+.articleImageHolder {
+     overflow:hidden;
+     padding:0;
+}
+
+
+
+/****Recent Tweets widget****/
+#recentTweets .row {
+  background-color:#f0f0f0;   
+  padding:5px;
+}
+
+.no-touch #recentTweets .row:hover {
+ background-color: #e0e0e0;
+}
+ 
+ #recentTweets a {
+  color: #39b3d7;
+ }
+ 
+ .no-touch #recentTweets a:hover {
+  color: #46b8da;  
+ }
+
+ #signupWidget .greenBorderBtn {
+     width:100%;
+     background-color:rgb(23, 184, 214);
+ }
+
+ #signupWidget .greenBorderBtn:hover, #signupWidget .greenBorderBtn:focus, #signupWidget .greenBorderBtn:active {
+     background-color: #fff;
+     border:1px solid rgb(23, 184, 214);
+ }
+
+ #signupWidget .form-group {
+     margin-bottom:10px;
+ }
+
+ .advertisementWidget {
+     margin-top:20px;
+ }
+
+ .readButtonWrapper {
+    text-align: right;
+}
+
+ span.fb_comments_count {
+  font-weight: 300;
+  padding: 0 !important;
+}
+
+ .shareRowText span {
+    padding: 0 3px;
+}
+
+ .lineSeparator {
+     font-size:16px;
+     display: inline-block;
+     vertical-align:text-bottom;
+ }
+
+ i.fa.fa-tag {
+    padding: 0 4px;
+}
+
+ .tagRow {
+     margin-top:5px;
+     text-align:left;
+ }
+
+ .shareComment {
+    line-height: 50px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: 'open sans condensed';
+    color: #999;
+    padding: 0;
+ }
+
+ #blogIndexPage .tagRow, #archivePage .tagRow {
+     margin: 0 0 15px;
+ }
+
+ .blueBackground {
+    font-size: 34px;
+    text-align: center;
+    background-color: #DAEFF5;
+    height: 300px;
+    padding-top: 120px;
+    font-family: 'open sans condensed';
+    margin:20px;
+ }
+
+ .dropdown-menu span {
+      height: 40px;
+      display: block;
+      line-height: 40px;
+      width: 100%;
+      border-bottom: 1px solid #f0f0f0;
+      text-align: center;
+      cursor: pointer;
+}
+
+ .dropdown-menu span:hover, .dropdown-menu span:focus, .dropdown-menu span:active {
+     background-color: #f0f0f0;
+ }
+
+ 
+ /*****************Responsive*******************/
+
+@media only screen and (max-width:1200px) {
+
+    .blogPage .container {
+        width:100%;
+    }
+
+    /*.blogImageHolder {
+        margin-left: -40px;
+    }*/
+}
+
+
+@media only screen and (max-width:992px)  {
+
+     .blogSidebar {
+         padding:0 0 10px;
+     }
+     
+     .sidebarWidget {
+        padding:0;   
+     }
+
+     .blogSidebar h3 {
+        margin-bottom: 5px;
+        font-size:18px;
+     }
+ 
+     .articleImageHolder 
+     {
+      height:100px;   
+     }   
+ 
+     .categoriesWidget ul li, #recentTweets .row {
+        height:50px;     
+     }
+
+     /*.blogImageHolder {
+          margin-right: -5px;
+          margin-left: -20px;
+    }*/
+
+}
+
+
+@media only screen and (max-width: 768px) {
+    
+      .sidebarWidget {
+            padding:0 0 15px;   
+            text-align:center;
+     }   
+
+      .blogPostShort {
+            margin: 0 0 15px;
+            padding: 0 0 15px;
+      }
+
+      .blogPostShort:last-child {
+            border-bottom: 1px solid rgb(200,200,200);
+       }
+
+      .blogPostsWrapper, .blogSidebar {
+          padding:0;
+          width:100%;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+          font-size:24px;
+      }
+
+      .blogSidebar h3 {
+          text-align:center;
+      }
+
+      .articleEntry {
+          padding: 10px 0;
+      }
+
+      .sidebarWidget.coloredSocialIcons, .coloredSocialIcons {
+          text-align:center;
+      }
+
+      .blueBackground {
+          font-size:29px;
+          height:200px;
+          padding-top: 90px;
+          margin:0;
+      }
+
+      /*.blogImageHolder {
+          margin-right: -15px;
+          margin-left: -15px;
+       }*/
+}
+
+@media only screen and (max-width:500px) {
+    .blogPage h1 {
+        font-size:20px;
+        margin: 0 0 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .shareRowText {
+        text-align: left;
+    }
+
+    .blogDate, .blogCategory, .blogComments {
+        font-size: 16px;
+    }
+
+    .blogParagraph {
+        font-size: 14px;
+    }
+
+    h3 {
+        font-size: 15px;
+        margin: 10px 0 5px;
+    }
+
+    .btn-info {
+        font-size: 14px;
+    }
+
+    .blueBackground {
+        font-size: 26px;
+        height: 170px;
+        padding-top: 70px;
+        margin: 0;
+    }
+
+    .blogSidebar {
+        margin-top:10px;
+    }
+
+    .blogTag {
+        margin: 3px 3px 3px 0;
+        padding:3px;
+    }
+
+    .shareComment {
+        line-height:initial;
+        font-size:16px;
+    }
+
+    .shareDiv {
+        text-align: center;
+    }
+
+    .readButtonWrapper {
+        display: none;
+    }
+
+    .blogImageHolder {
+        margin: 0 -15px 15px;
+    }
+
+}
+
+
+
+
+
+

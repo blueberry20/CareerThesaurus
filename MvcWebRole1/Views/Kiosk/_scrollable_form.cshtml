@@ -1,0 +1,196 @@
+﻿@{
+    Layout = null;
+}
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_0_declarations.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_1_downloader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_2_createcookiesetter.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_2_createeventhandlers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_2_createform.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_2_createvalidation.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_generic.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_specialized_dropdown.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_specialized_input_text.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_specialized_uncategorized.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/ScrollableForm/formcontrols_submission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    #formcontainer input[type='text'] {width: 550px; font-family: Roboto; font-weight: 100; }
+    
+    
+    #formcontainer .controlcontainer {position: relative; width: @(ViewBag.IsMobileDevice ? "425px" : "625px"); background-color: rgba(255,255,255,0); min-height: @(ViewBag.IsMobileDevice ? "39px" : "39px"); margin-bottom: 10px; }
+    #formcontainer .controlcontainer .label { position: relative; width: @(ViewBag.IsMobileDevice ? "160px" : "240px"); left: 10px; padding-top: @(ViewBag.IsMobileDevice ? "13px" : "9px"); font-size: 12pt; }
+    #formcontainer .controlcontainer .control { position: absolute; left: @(ViewBag.IsMobileDevice ? "180px" : "260px"); top: 0px; }
+    
+    #formcontainer .controlcontainer .control div.touchscreeninput { position: relative; font-size: 12pt; padding: @(ViewBag.IsMobileDevice ? "2px" : "7px"); margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    #formcontainer .controlcontainer .control div.formdropdown { position: relative; font-size: 12pt; padding: @(ViewBag.IsMobileDevice ? "2px" : "7px"); margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    
+    #formcontainer .controlcontainer .control input[type='text'] { font-size: 16pt; padding: 7px; width: 420px; color:#fff; font-weight: 400; border: thin solid rgba(255,255,255,0.1);}
+    #formcontainer .controlcontainer .control select             { font-size: 16pt; padding: 7px; width: 436px; color:#fff; font-weight: 400; border: thin solid rgba(255,255,255,0.1);}
+    #formcontainer .controlcontainer .control select option {margin: 5px;}
+
+    #formcontainer .textareacontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .textareacontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;}
+    #formcontainer .textareacontainer .control { position: relative; width: 200px;  padding: 9px;}
+    #formcontainer .textareacontainer .control textarea { font-family: Arial; font-size: 12pt; padding: 5px; width: 475px; color:#333; }
+    
+    #formcontainer .checkboxcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .checkboxcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;max-width: 475px;}
+    #formcontainer .checkboxcontainer .control { position: relative; width: 200px;  padding: 9px;}
+            
+    #formcontainer .fieldgroupcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .fieldgroupcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px; max-width: 475px;}
+    #formcontainer .fieldgroupcontainer .control { position: relative; margin-left:200px;  padding: 9px;}
+    #formcontainer .fieldgroupcontainer .control select { font-size: 12pt; padding: 0px; color:#333; display: inline-block; padding: 5px;}
+    
+
+</style>
+    
+<div id="scrollableform" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 999999; display: none;" class="backdrop">
+
+    <div id="_scrollableform_viewport" style="position: absolute; top: @(ViewBag.IsMobileDevice?"0px":"90px"); left: @(ViewBag.IsMobileDevice?"80px":"125px"); bottom: 0px; overflow-y: scroll; border: thin none yellow;">
+        <div id="_scrollableform_scrollablecontent" style="overflow-x: hidden; opacity: 1; border: thin none red; padding-left: 10px; padding-top: 10px;">
+
+            <img id="scrollableform_client_image" src="" style="position: relative; max-width: 300px; max-height: 80px; left: -9px; top: -10px;"/>
+            <br /><br />
+            <div style="margin: 0 0 5px 0; font-size: 24pt; font-family: Roboto; font-weight: 100;">
+                Get more info from<br />
+                <span id="scrollableform_client_name" style="font-size: 36pt; font-weight: bold; text-shadow: 3px 3px 2px rgba(0, 0, 32, 0.5);"></span>
+            </div>
+            <br />
+                
+            <div id="formcontainer"></div>
+    
+            <div class="formauthcontrols" style="position: relative; margin: 20px 0 100px 0; left: 10px; width: 600px; padding: 0px; font-size: @(ViewBag.IsMobileDevice ? "16px" : "11px"); font-weight: 100; color: rgba(255,255,255,0.8);">
+
+                <div id="standarddisclaimer">
+                    By checking "Yes" and pressing "Submit", I am providing express consent to be contacted by <span id="authorization_client_name" style="font-weight: bold;"></span> and/or SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com Privacy Policy governs the collection of this information.
+                    <br /><br />
+                    <div style="position: relative; margin-bottom: 160px;">
+                        <div class="formauthcontrols authorizationcheckbox" authorized="yes" style="position: relative; width: 40px; height: 40px; margin: 30px 0 0 0; border: 2px solid #fff;">
+                            <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+                            <span style="position: absolute; left: 55px; top: 0px; font-size: 20pt; color: #fff;">Yes</span>
+                        </div>
+                        <div class="button btnsubmitform" style="position: absolute; left: 170px; top: 0px; width: @(ViewBag.IsMobileDevice ? "180px" : "360px"); padding: @(ViewBag.IsMobileDevice ? "15px" : "30px"); font-size: 20pt; font-weight: 100; display: none;">Submit</div>
+                    </div>
+                </div>
+
+                <div id="disclaimer5779" clientid="5779" class="customdisclaimer" style="display: none;">
+                    By checking the “Yes” box below, I authorize ITT Technical Institute to contact me using the phone number and email provided above, by auto dialer or via text, about its programs of study.   I am not required to check “Yes” to apply or enroll, but if I do not, I may miss valuable information.
+                    <br /><br />
+
+                    <div style="position: relative; margin-bottom: 160px;">
+                        <div style="position: relative; margin: 20px 0 0 0;">
+                            <div class="formauthcontrols authorizationcheckbox" authorized="yes" style="position: absolute; left: 0px; top: 0px; width: 40px; height: 40px; border: 2px solid #fff; ">
+                                <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+                                <span style="position: absolute; left: 50px; top: 0px; font-size: 20pt; color: #fff;">Yes</span>
+                            </div>
+
+                            <div class="formauthcontrols authorizationcheckbox" authorized="no" style="position: absolute; left: 150px; top: 0px; width: 40px; height: 40px; border: 2px solid #fff;">
+                                <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+                                <span style="position: absolute; left: 50px; top: 0px; font-size: 20pt; color: #fff;">No</span>
+                            </div>
+                        </div>
+                        <div class="button btnsubmitform" style="position: absolute; left: 300px; top: 0px; width: @(ViewBag.IsMobileDevice ? "180px" : "360px"); padding: @(ViewBag.IsMobileDevice ? "15px" : "30px"); font-size: 20pt; font-weight: 100; display: none;">Submit</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scrollableform_backbutton" class="backbutton" ></div>
+    
+</div>
+    
+<script>
+
+    var _scrollable_form_loaded = false;
+    var _scrollable_form_authorization_pressed = false;
+    var _scrollable_form_authorized = false;
+
+    function showScrollableForm(_clientid, _formid, _image, _name, _clienttype, _logoclientid, speed) {
+
+        $('.customdisclaimer').hide();
+        $('#standarddisclaimer').show();
+
+        //Customize disclaimer by client
+        if ($('#disclaimer' + _clientid) != null && $('#disclaimer' + _clientid).attr('clientid')==_clientid) {
+            $('#standarddisclaimer').hide();
+            $('#disclaimer' + _clientid).show();
+        }
+
+        $('#scrollableform_client_image').attr('onerror', '$(this).attr(\'src\', \'' + _image + '\');');
+        $('#scrollableform_client_image').attr('src', 'https://chaindate.blob.core.windows.net/logooverrides/' + _clienttype + '/' + _logoclientid);
+
+        $('#scrollableform_client_name').html(_name);
+
+        $('#authorization_client_name').html(_name);
+        
+
+        _scrollable_form_authorization_pressed = false;
+        _scrollable_form_authorized = false;
+        $('.authorizationcheckbox img').hide();
+
+        years = new Array();
+
+        var d = new Date();
+        var year = d.getFullYear() + 5;
+        for (var i = 0; i < 100; i++) {
+            years.push({ value: (year - i), label: (year - i) });
+        }
+
+        showOverlay('scrollableform');
+
+        setCookie("record_type", 'schoollead', 7);
+        setCookie("record_data", '', 7);
+        setCookie("edu_intent", "YES", 7);
+
+        setCookie("campus_key", "", 7);
+        setCookie("program_key", "", 7);
+
+        downloadSingleSchoolForm(_clientid, _formid);
+
+        if (!_scrollable_form_loaded) {
+            $('#scrollableform_backbutton').press(function () {
+                hideOverlay('scrollableform');
+            });
+
+            $('.authorizationcheckbox').press(function () {
+                playSound(sfxclick);
+
+                $('.authorizationcheckbox img').hide();
+
+                _scrollable_form_authorization_pressed = true;
+
+                var checkimg = $(this).children().first();
+                if (checkimg.css('display') == 'none') {
+                    checkimg.show();
+                    if ($(this).attr('authorized') == 'yes') {
+                        _scrollable_form_authorized = true;
+                    }
+                    else {
+                        _scrollable_form_authorized = false;
+                    }
+                }
+                else {
+                    checkimg.hide();
+                    if ($(this).attr('authorized') == 'yes') {
+                        _scrollable_form_authorized = false;
+                    }
+                }
+
+                
+
+            });
+            _scrollable_form_loaded = true;
+        }
+
+        
+    }
+    
+</script>
+
+
+
+ 

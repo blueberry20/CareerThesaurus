@@ -1,0 +1,3 @@
+﻿var title = 'You prefer relaxed envrionemnt';
+var careerheading = 'Relaxed jobs';
+var desc = 'While some people avoid distractions during work hours, you thrive on them. You love when colleagues stop by your office to discuss upcoming projects or ask for your input in solving a work-related problem. Instead of being annoyed by ringing telephones and clicking computer keys, you find it almost impossible to work without some sort of background noise. It is actually easier for you to meet deadlines when you have a few distractions, as you prefer breaking work sessions into small chunks of time rather than working straight through without any interruptions.';

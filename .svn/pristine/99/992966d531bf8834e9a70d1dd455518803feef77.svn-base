@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invitation to a counselor</title>
+</head>
+<body>
+    <div>Hi {{name}},</div>
+    <br>
+    <div>We are writing on behalf of {{admin}}. You were invited to join the CareerThesaurus platform.  You will be joining as counselor or as an observer, and you are less than one minute away from completing this process.</div>
+    <br />
+    <div>Just to summarize, CareerThesaurus is a free online solution that is aimed to empower school counseling process with innovative Career Readiness and Exploration tools.</div>
+    <br />
+    <div>Upon your registration, you will be able to administer a Career Exploration assignment with your students; or simply become an observer with access to analytics portion of the site that offers a summary of most/least popular student interests, personal attributes and career choices.</div>
+    <br />
+    <div>To complete your account set up, please follow this link:</div>
+    <a href="{{url}}">{{url}}</a>
+    <br />
+    <br />
+    <div>If you have problems, please paste the above URL into your web browser.</div>
+    <br />
+    <div>Thanks,</div>
+    <div>CareerThesuarus Support Team</div>
+</body>
+</html>

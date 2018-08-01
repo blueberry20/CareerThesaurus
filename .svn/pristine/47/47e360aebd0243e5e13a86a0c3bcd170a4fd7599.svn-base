@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invalid</title>
+</head>
+<body>
+    <div>Hello {{name}},</div>
+    <br>
+    <div>We were not able to verify that your school information is valid.</div>
+    <div>Please be advised that CareerThesaurus's administrative sign up exists specifically for School Counselors and Administrators.</div>
+    <div>If you would like to continue with a sign on process please contact our support team at <a href="mailto:admin@careerthesaurus.com">admin@careerthesaurus.com</a></div>
+    <br>
+    <div>Sincerely,</div>
+    <div>Customer Relations Team</div>
+</body>
+</html>

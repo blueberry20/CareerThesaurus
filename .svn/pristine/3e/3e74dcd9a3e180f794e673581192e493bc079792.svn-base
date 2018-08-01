@@ -1,0 +1,583 @@
+﻿@{
+    ViewBag.Title = "ByInterest";
+    ViewBag.OgDescription = "Browse and Discover Careers.";
+}
+
+@section menuPlaceholder {
+    @*<div class="closeIcon menuIcon">Done</div>*@
+}
+
+<link href="../../Content/css/Custom.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Skilltest/testResults.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Careers/Careers.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<script src='/scripts/thesaurus/testattributes.js?v=@ViewBag.AppVersion'></script>
+<script src='/scripts/thesaurus/helperfunctions.js?v=@ViewBag.AppVersion'></script>
+<script src="/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessionsCodes.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/byInterest_functions.js?v=@ViewBag.AppVersion"></script>
+<script src='/Scripts/Jobs/gettime.js?v=@ViewBag.AppVersion'></script>
+
+
+<div class="pageContainer" id="byInterestPage">
+
+    @*<div class="jumbotron taketestJumbotron">
+        <div class="row imageStretch">
+            <img src="~/Content/images/manstaringatcomp.jpg" />
+            <h1 class="transitionElement">Is your current career the best choice for you?</h1>
+            <div class="jumbotronText transitionElement"> 
+                <p>Take our interactive 9-question test and find out!</p>
+                <a href="/Skilltest" class="circleGoBtnTest">Go</a> 
+            </div> 
+            <div class="arrowdownIcon">
+                <i class="fa fa-angle-down"></i>
+            </div>          
+        </div>
+    </div>*@
+
+    <div class="container">
+        <div id="main" class="row">
+        </div>
+        @*<div class="overlay">
+                <h3>Select keywords to narrow down the results</h3>
+                <div class="insert">
+                </div>
+            </div>*@
+    </div>
+</div>
+
+
+
+<script>
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+    var ratedCareers;
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false;
+    var importantthings = { beauty: 0, helping: 0, adventure: 0, safety: 0, people: 0, science: 0, duty: 0, admiration: 0, creativity: 0, competition: 0, animals: 0, politics: 0, technology: 0, machinery: 0, gender: "", handlabor: 0, strength: 0, drafting: 0, coordinating: 0, numbers: 0, critical: 0, salesy: 0 };
+    var userzip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '10001';
+    var gotJobs = false;
+    var matchedProfessions = [];
+
+
+    function document_ready() {
+
+        newHeight = $(window).height() - 150;
+        $('#byInterestPage .container').css('min-height', newHeight);
+
+        $(window).resize(function () {
+            newHeight = $(window).height() - 150;
+            $('#byInterestPage .container').css('min-height', newHeight);
+        });
+
+        $('.badge').tooltip();
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+        if (localStorage.interestsList) {
+            var interestsValues = [];
+            interestsValues = JSON.parse(localStorage.interestsList);
+            for (var i = 0; i < interestsValues.length; i++) {
+                importantthings[interestsValues[i]] = 1;
+            }
+            if (interestsValues.length > 0) {
+                $('.clearBtn').show();
+            }
+        }
+
+        $('.arrowdownIcon').click(function () {
+            $('html,body').animate({
+                scrollTop: $("#main").offset().top
+            });
+        });
+
+       // $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+
+        //resize only on not mobile devices
+        $(window).resize(function () {
+            if ($('html').hasClass('no-touch')) {
+                if ($(window).width() >= 752) {
+                    $('.importantthings').show();
+                   // $('#dimensionscontainer').show();
+                    console.log('desktop');
+                }
+                else { //mobile
+                    $('.importantthings').hide();
+                  //  $('#dimensionscontainer').hide();
+                    console.log('mobile layout');
+                }
+            }
+        });
+
+        if (profileType == 'student') {
+            $('.pageContainer').addClass('studentLoggedin');
+            $.ajax({
+                url: appserverurl + '/Careers/GetCareerRatings',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user: user
+                }
+            }).success(function (response) {
+                ratedCareers = response.results;
+                renderPage();
+            }).fail(function () {
+                ratedCareers = [];
+                renderPage();
+            });
+        } else {
+            ratedCareers = [];
+            renderPage();
+        }
+        //renderPage();
+        $(window).on('DOMContentLoaded load resize scroll', refreshContent);
+
+        $.loadImage = function (url) {
+
+            var loadImage = function (deferred) {
+                var image = new Image();
+
+                image.onload = loaded;
+                image.onerror = errored;
+                image.onabort = errored;
+
+                image.src = url;
+
+                function loaded() {
+                    unbindEvents();
+                    deferred.resolve(image);
+                }
+                function errored() {
+                    unbindEvents();
+                    deferred.reject(image);
+                }
+                function unbindEvents() {
+                    image.onload = null;
+                    image.onerror = null;
+                    image.onabort = null;
+                }
+            };
+
+            return $.Deferred(loadImage).promise();
+        };
+    }
+
+    function refreshContent() {
+        $('.careerWrapper').each(function (index, element) {
+            var jobsCount = $(element).find('.jobsCount');
+            if (isElementAlmostInViewport(element) && $(element).data('loaded') == '0') {
+                $(element).data('loaded', '1');
+                var code = $(element).attr('id');
+                getIndeed($(element).data('index'), $(element).data('title'), code, $(element).data('field'));
+                //var maxRank = Math.max.apply(Math, professionsFoundArray.map(function (x) { return x.rank; }));
+                //var minRank = Math.min.apply(Math, professionsFoundArray.map(function (x) { return x.rank; }));
+                //var p = Math.round(((item.rank - minRank) * 100) / (maxRank - minRank));
+                //$(this).find('.percentage').text(p);
+
+                if ($(element).find('.img-responsive').attr('src') == '') {
+                    $.loadImage('https://careerthesaurus.blob.core.windows.net/careerimages/' + code + '/image').done(function (image) {
+                        //$('#' + code).append('<img class="img-responsive" src="' + image.src + '" />');
+                        $('#' + code).find('.img-responsive').attr('src', image.src);
+                    }).fail(function () {
+                        //$('#' + code).append('<img class="img-responsive" src="/Content/images/careerPhotos/placeholder.jpg" />');
+                        $('#' + code).find('.img-responsive').attr('src', "/Content/images/careerPhotos/placeholder.jpg");
+                    });
+                }
+
+            }
+        });
+    }
+
+    function matchResults() {
+        matchedProfessions = [];
+        for (var i = 0; i < professions.length; i++) {
+            matchProfession(professions[i]);
+        }
+        return matchedProfessions.length;
+    }
+
+    function matchProfession(item) {
+        //var rank = 0;
+        //if (dimensions.attitude != '' && (!(item.attitude == '' || item.attitude == dimensions.attitude))) { return; } else if (dimensions.attitude != '' && item.attitude == dimensions.attitude) { rank++; }
+        //if (dimensions.information != '' && (!(item.information == '' || item.information == dimensions.information))) { return; } else if (dimensions.information != '' && item.information == dimensions.information) { rank++; }
+        //if (dimensions.processing != '' && (!(item.processing == '' || item.processing == dimensions.processing))) { return; } else if (dimensions.processing != '' && item.processing == dimensions.processing) { rank++; }
+        //if (dimensions.action != '' && (!(item.action == '' || item.action == dimensions.action))) { return; } else if (dimensions.action != '' && item.action == dimensions.action) { rank++; }
+        //if (dimensions.endurance != '' && (!(item.endurance == '' || item.endurance == dimensions.endurance))) { return; } else if (dimensions.endurance != '' && item.endurance == dimensions.endurance) { rank++; }
+        //if (dimensions.presence != '' && (!(item.presence == '' || item.presence == dimensions.presence))) { return; } else if (dimensions.presence != '' && item.presence == dimensions.presence) { rank++; }
+        //if (dimensions.concentration != '' && (!(item.concentration == '' || item.concentration == dimensions.concentration))) { return; } else if (dimensions.concentration != '' && item.concentration == dimensions.concentration) { rank++; }
+        //if (dimensions.patterns != '' && (!(item.patterns == '' || item.patterns == dimensions.patterns))) { return; } else if (dimensions.patterns != '' && item.patterns == dimensions.patterns) { rank++; }
+        //if (dimensions.compensation != '' && (!(item.compensation == '' || item.compensation == dimensions.compensation))) { return; } else if (dimensions.compensation != '' && item.compensation == dimensions.compensation) { rank++; }
+
+        if (importantthings.beauty != 0 && item.beauty == 0) { return; }
+        if (importantthings.helping != 0 && item.helping == 0) { return; }
+        if (importantthings.adventure != 0 && item.adventure == 0) { return; }
+        if (importantthings.safety != 0 && item.safety == 0) { return; }
+        if (importantthings.people != 0 && item.people == 0) { return; }
+        if (importantthings.science != 0 && item.science == 0) { return; }
+        //if (importantthings.easy != 0 && item.easy == 0) { return; }
+        if (importantthings.duty != 0 && item.duty == 0) { return; }
+        if (importantthings.admiration != 0 && item.admiration == 0) { return; }
+        if (importantthings.creativity != 0 && item.creativity == 0) { return; }
+        if (importantthings.competition != 0 && item.competition == 0) { return; }
+        if (importantthings.animals != 0 && item.animals == 0) { return; }
+        if (importantthings.politics != 0 && item.politics == 0) { return; }
+        if (importantthings.technology != 0 && item.technology == 0) { return; }
+        if (importantthings.machinery != 0 && item.machinery == 0) { return; }
+        //if (importantthings.gender != 0 && item.gender == 0) { return; }
+        if (importantthings.handlabor != 0 && item.handlabor == 0) { return; }
+        //if (importantthings.heavyequipment != 0 && item.heavyequipment == 0) { return; }
+        if (importantthings.strength != 0 && item.strength == 0) { return; }
+        if (importantthings.drafting != 0 && item.drafting == 0) { return; }
+        if (importantthings.coordinating != 0 && item.coordinating == 0) { return; }
+        //if (importantthings.quickthinking != 0 && item.quickthinking == 0) { return; }
+        if (importantthings.numbers != 0 && item.numbers == 0) { return; }
+        if (importantthings.critical != 0 && item.critical == 0) { return; }
+        //if (importantthings.smart != 0 && item.smart == 0) { return; }
+        if (importantthings.salesy != 0 && item.salesy == 0) { return; }
+
+        matchedProfessions.push(item);
+    }
+
+    function renderPage(callback) {
+        for (var i = 0; i < 9; i++) {
+            setDimensionValue(dimensiondefinitions[i].name, getCookie(dimensiondefinitions[i].name));
+        }
+
+        renderData('main', 'Profession Index',
+            {
+                itemshoulddisplay: function (profession) {
+                    return true;
+                },
+                onitemclick: function (title, keyword) { window.open('/thesaurus/index?p=' + title.replace(/&/g, '%26') + '&highlight=' + keyword); },
+
+                callback: applyResultDimensions,
+
+                htmlforitem: function (title, formattedtitle, salary, onclick, aka, dolcode, ratedHtml, field, index, jobs) { return '<div class="careerWrapper viewed" id="' + dolcode + '" data-index="' + index + '" data-title="' + title + '" data-field="' + field + '" data-loaded="' + (jobs ? '1' : '0') + '"><div class="contentWrapper desktop"><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div>' + ratedHtml + '<div class="hidable"><div class="interestsList">Other interests:</div><ul class="interestsBox"></ul><div class="careerSalary">Average salary: ' + Math.round(salary / 1000) + 'K per year</div><a class="viewDetailsLink" target="_blank" href="/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >View Career Details</a><div id="jobsPosted-' + dolcode + '" class="jobsPosted"></div></div><a id="viewJobsBtn-' + dolcode + '" target="_blank" class="btn btn-success viewJobsBtn" href="/Jobs?q=' + title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=">View jobs <i class="fa fa-angle-right"></i> <span id="jobsCount-' + dolcode + '" class="badge pull-right jobsCount" data-toggle="tooltip" title="Jobs available for this career in your area" data-placement="top" >' + (jobs ? jobs : 'Loading...') + '</span></a><a class="btn btn-success studentCareerLink" target="_blank" href="/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >View/Rate Career<i class="fa fa-angle-right"></i></a></div><div class="mobileWrapper"><a id="mobilelink-' + dolcode + '" target="_blank" class="notStudentMobileLink" href="/Jobs?q=' + title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r="><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div><div class="interestsList">Other interests:</div><ul class="interestsBox"></ul>' + ratedHtml + '<div class="mobileBottomRow"><div id="jobsPostedMobile-' + dolcode + '" class="jobsPostedMobile"></div><div class="viewJobsMobile">View and Apply<i class="fa fa-angle-right"></i></div></div></a><a class="studentMobileLink" target="_blank" href="/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' ><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div><div class="careerSalary">Average salary: ' + Math.round(salary / 1000) + 'K per year</div>' + ratedHtml + '<div class="mobileBottomRow"><div class="viewJobsMobile">View/Rate Career<i class="fa fa-angle-right"></i></div></div></a></div><img class="img-responsive" src="" alt=""/></div>'; }
+                //htmlforitem: function (title, formattedtitle, salary, onclick, aka, dolcode, ratedHtml, field, index, jobs) { return '<div class="careerWrapper viewed" id="' + dolcode + '" data-index="' + index + '" data-title="' + title + '" data-field="' + field + '" data-loaded="' + (jobs ? '1' : '0') + '"><div class="contentWrapper desktop"><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div>' + ratedHtml + '<div class="hidable"><div class="interestsList">Other interests:</div><ul class="interestsBox"></ul><div class="careerSalary">Average salary: ' + Math.round(salary / 1000) + 'K per year</div><a class="viewDetailsLink" target="_blank" href="' + appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >View Career Details</a><div id="jobsPosted-' + dolcode + '" class="jobsPosted"></div></div><a id="viewJobsBtn-' + dolcode + '" target="_blank" class="btn btn-success viewJobsBtn" href="/Jobs?q=' + title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=">View jobs <i class="fa fa-angle-right"></i> <span id="jobsCount-' + dolcode + '" class="badge pull-right jobsCount" data-toggle="tooltip" title="Jobs available for this career in your area" data-placement="top" >' + (jobs ? jobs : 'Loading...') + '</span></a><a class="btn btn-success studentCareerLink" target="_blank" href="' + appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >View/Rate Career<i class="fa fa-angle-right"></i></a></div><div class="mobileWrapper"><a id="mobilelink-' + dolcode + '" target="_blank" class="notStudentMobileLink" href="/Jobs?q=' + title.replace(/[^a-zA-Z]+/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r="><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div><div class="interestsList">Other interests:</div><ul class="interestsBox"></ul>' + ratedHtml + '<div class="mobileBottomRow"><div id="jobsPostedMobile-' + dolcode + '" class="jobsPostedMobile"></div><div class="viewJobsMobile">View and Apply<i class="fa fa-angle-right"></i></div></div></a><a class="studentMobileLink" target="_blank" href="' + appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' ><div class="careerName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></div><div class="careerSalary">Average salary: ' + Math.round(salary / 1000) + 'K per year</div>' + ratedHtml + '<div class="mobileBottomRow"><div class="viewJobsMobile">View/Rate Career<i class="fa fa-angle-right"></i></div></div></a></div><img class="img-responsive" src="" alt=""/></div>'; }
+            });
+        $('.badge').tooltip();
+        animateResults();
+        $('.importantthings').insertBefore($('#mainWrapper'));
+        showSelectedInterests();
+        //if (callback) {
+        //    callback();
+        //}
+    }
+
+    function applyResultDimensions() {
+        var spans = $('.dimension > div');
+        for (var i = 0; i < spans.length; i++) {
+            var value = '';
+            switch ($(spans[i]).attr('dimension')) {
+                case 'attitude': value = dimensions.attitude; break;
+                case 'information': value = dimensions.information; break;
+                case 'processing': value = dimensions.processing; break;
+                case 'action': value = dimensions.action; break;
+                case 'endurance': value = dimensions.endurance; break;
+                case 'presence': value = dimensions.presence; break;
+                case 'concentration': value = dimensions.concentration; break;
+                case 'patterns': value = dimensions.patterns; break;
+                case 'compensation': value = dimensions.compensation; break;
+                default: break;
+            }
+            if (value == $(spans[i]).data('value')) {
+            //if (value == $(spans[i]).html()) {
+                //$(spans[i]).trigger('click');//addClass('active');
+                $(spans[i]).addClass('active');
+                $(spans[i]).siblings().addClass('notActive');
+            }
+        }
+    }
+
+    //----------------------- working with cookies ---------------------------------
+    function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        for (i = 0; i < ARRcookies.length; i++) {
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x == c_name) {
+                return unescape(y);
+            }
+        }
+    }
+
+    function setCookie(c_name, value, exdays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value;
+        c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value + "; path=/"; //------------------------------------- added path=/ ---------------------------
+    }
+
+    function animateResults() {
+        if ($(window).width() > 752) {         
+            setTimeout(function () {
+                $('.careerWrapper').each(function (i, elem) {
+                    var top_of_object = $(elem).position().top + $(elem).height() / 2;
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if (bottom_of_window > top_of_object) {
+                        // $(elem).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                        $(elem).addClass('viewed');
+                    }
+                });
+            }, 300);
+
+            $(window).scroll(function () {
+                //$('.careerWrapper').each(function (i, elem) {
+                //    var top_of_object = $(elem).position().top + $(elem).height() / 2;
+                //    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                //    /* If the object is completely visible in the window, fade it it */
+                //    if (bottom_of_window > top_of_object) {
+                //        // $(elem).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                //        $(elem).addClass('viewed');
+                //    }
+                //})
+            });
+            if (isiPad == true) {
+                setTimeout(function () {
+                    $('.careerWrapper').each(function (i, elem) {
+                        $(elem).addClass('viewed');
+                    });
+                }, 300);
+            }
+        }
+        else { //less than 767
+            setTimeout(function () {
+                $('.careerWrapper').each(function (i, elem) {
+                    $(elem).css({opacity:1, top:0, '-webkit-transition-property' :'none', 'transition' : 'none' }).show();
+                });
+            }, 300);
+        }
+    }
+
+    function isElementInViewport(el) {
+
+        //special bonus for those using jQuery
+        if (typeof jQuery === "function" && el instanceof jQuery) {
+            el = el[0];
+        }
+        if (typeof el === 'undefined') {
+            return true;
+        }
+        var rect = el.getBoundingClientRect();
+
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+    function isElementAlmostInViewport(el) {
+
+        //special bonus for those using jQuery
+        if (typeof jQuery === "function" && el instanceof jQuery) {
+            el = el[0];
+        }
+        if (typeof el === 'undefined') {
+            return true;
+        }
+        var rect = el.getBoundingClientRect();
+
+        return (
+            rect.top >= (rect.bottom - rect.top) * (-5) &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + (rect.bottom - rect.top) * 5 &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+
+    function getJobs(professionsForIndeed) {
+        for (var i = 0; i < professionsForIndeed.length; i++) {
+           // getIndeed(i, professionsForIndeed[i].title.replace(/[^a-zA-Z]+/g, '+'));
+           //// $('#' + professionsForIndeed[i].code).css('background', "url('https://careerthesaurus.blob.core.windows.net/careerimages/" + professionsForIndeed[i].code + "/image')");
+           // $('#' + professionsForIndeed[i].code).append('<img class="img-responsive" src="https://careerthesaurus.blob.core.windows.net/careerimages/' + professionsForIndeed[i].code + '/image' + '" onerror="this.onerror=null;this.src=\'/Content/images/careerPhotos/placeholder.jpg\';"/>');
+            var interests='';
+            for (k = 0; k < (professionsForIndeed[i].otherInterests.length < 3 ? professionsForIndeed[i].otherInterests.length : 3 ); k++) {
+                interests += '<li>'+ professionsForIndeed[i].otherInterests[k] +'</li>';
+            }
+            $('#' + professionsForIndeed[i].code).find('.interestsBox').append(interests);
+        }
+        gotJobs = true;
+    }
+
+    //function getIndeed(id, q, code, field, extendedRange) {
+    //    $.ajax({
+    //        url: appserverurl + "/Jobs/getindeedjobs",
+    //        type: "POST",
+    //        dataType: "json",
+    //        data: {
+    //            p: q,
+    //            l: userzip,
+    //            limit: "25",
+    //            r: extendedRange ? extendedRange : '25',
+    //            s: 'date'           
+    //        }
+    //    }).success(function (response) {
+    //        if (response.results) {
+    //            var today = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 1; });
+    //            var week = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 7; });
+    //            var month = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 30; });
+    //            var threeMonths = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 90; });
+    //            var output = '';
+    //            var jobsNumber = '';
+    //            if (today.length > 0) {
+    //                output = today.length >= 25 ? '<span class="jobsNumber">25+</span><span class="red"> new</span> jobs posted today' : '<span class="jobsNumber">' + today.length + '</span><span class="red"> new</span> jobs posted today';
+    //                jobsNumber = today.length >= 25 ? '25+' : today.length;
+    //            } else if (week.length > 0) {
+    //                output = week.length >= 25 ? '<span class="jobsNumber">25+</span><span class="red"> new</span> jobs posted in past week' : '<span class="jobsNumber">' + week.length + '</span><span class="red"> new</span> jobs posted in past week';
+    //                jobsNumber = week.length >= 25 ? '25+' : week.length;
+    //            } else if (month.length > 0) {
+    //                output = month.length >= 25 ? '<span class="jobsNumber">25+ </span><span class="red"> new</span> jobs posted in last 30 days<span class="jobsNumber">' : '<span class="jobsNumber">' + month.length + '</span><span class="red"> new</span> jobs posted in last 30 days';
+    //                jobsNumber = month.length >= 25 ? '25+' : month.length;
+    //            } else if (threeMonths.length > 0) {
+    //                output = threeMonths.length >= 25 ? '<span class="jobsNumber">25+ </span><span class="red"> new</span> jobs posted in last 90 days<span class="jobsNumber">' : '<span class="jobsNumber">' + threeMonths.length + '</span><span class="red"> new</span> jobs posted in last 90 days';
+    //                jobsNumber = threeMonths.length >= 25 ? '25+' : threeMonths.length;
+    //            } else if (!extendedRange) {
+    //                getIndeed(id, q, 50);
+    //            } else if (extendedRange && extendedRange < 500) {
+    //                getIndeed(id, q, extendSearch(extendedRange));
+    //            }
+    //            output += (output != '' && extendedRange) ? ' in ' + extendedRange + ' miles radius' : '';
+    //            //$('.jobsPosted').eq(id).html(output);
+    //            //var jobBadge = $('.jobsCount');
+    //            //$(jobBadge[id]).html(jobsNumber);
+    //            //$('.jobsPostedMobile').eq(id).html(jobsNumber != 0 ? (jobsNumber == 1 ? "1 new job" : jobsNumber + ' new jobs') : '');
+    //            if ($('#jobsPosted-' + code).length > 0) {
+    //                $('#jobsPosted-' + code).html(output);
+    //                $('#jobsCount-' + code).html(jobsNumber);
+    //                $('#jobsPostedMobile-' + code).html(jobsNumber != 0 ? (jobsNumber == 1 ? "1 new job" : jobsNumber + ' new jobs') : ' ');
+    //                if (extendedRange) {
+    //                    //var link = $('.mobileWrapper').eq(id).find('a');
+    //                    //$(link).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+    //                    //var desktoplink = $('.careerWrapper').eq(id).find('a');
+    //                    //$(desktoplink).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+    //                    if (jobsNumber == 0) {
+    //                        $('#mobilelink-' + code).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+    //                        //$(link).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[professionsFoundArray[id].field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+    //                        //$(desktoplink).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[professionsFoundArray[id].field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+    //                        //$('.viewJobsMobile').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                        //$('.viewJobsBtn').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                        $('#viewJobsMobile-' + code).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                        //$('.viewJobsMobile').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                        //$('.viewJobsBtn').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                        $('#viewJobsBtn-' + code).html('View similar jobs <i class="fa fa-angle-right"></i>');
+    //                    } else {
+    //                        $('#mobilelink-' + code).attr('href', $('#mobilelink-' + code).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+    //                        //$(link).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+    //                        //$(desktoplink).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+    //                    }
+    //                }
+    //            }
+    //            professions[id].jobs = jobsNumber;
+    //            //$('.viewJobsBtn').each(function () {
+    //            //    $(this).find('.badge').text($(this).closest('.profession').find('.jobsNumber').text());
+    //            //});
+    //        }
+    //    }).error(function (error) {
+    //        console.log(error);
+    //    });
+    //}
+
+    function getIndeed(id, q, code, field, extendedRange) {
+        $.ajax({
+            url: "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: q.replace(/[^a-zA-Z]+/g, '+'),
+                l: userzip,
+                limit: "25",
+                r: extendedRange ? extendedRange : '25',
+                s: 'date'
+            }
+        }).success(function (response) {
+            if (response.results) {
+                var today = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 1; });
+                var week = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 7; });
+                var month = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 30; });
+                var threeMonths = response.results.results.filter(function (x) { return getTimeFrame(x.date) < 90; });
+                var output = '';
+                var jobsNumber = '';
+                if (today.length > 0) {
+                    output = today.length >= 25 ? '<span class="jobsNumber">25+</span><span class="red"> new</span> jobs posted today' : '<span class="jobsNumber">' + today.length + '</span><span class="red"> new</span> jobs posted today';
+                    jobsNumber = today.length >= 25 ? '25+' : today.length;
+                } else if (week.length > 0) {
+                    output = week.length >= 25 ? '<span class="jobsNumber">25+</span><span class="red"> new</span> jobs posted in past week' : '<span class="jobsNumber">' + week.length + '</span><span class="red"> new</span> jobs posted in past week';
+                    jobsNumber = week.length >= 25 ? '25+' : week.length;
+                } else if (month.length > 0) {
+                    output = month.length >= 25 ? '<span class="jobsNumber">25+ </span><span class="red"> new</span> jobs posted in last 30 days<span class="jobsNumber">' : '<span class="jobsNumber">' + month.length + '</span><span class="red"> new</span> jobs posted in last 30 days';
+                    jobsNumber = month.length >= 25 ? '25+' : month.length;
+                } else if (threeMonths.length > 0) {
+                    output = threeMonths.length >= 25 ? '<span class="jobsNumber">25+ </span><span class="red"> new</span> jobs posted in last 90 days<span class="jobsNumber">' : '<span class="jobsNumber">' + threeMonths.length + '</span><span class="red"> new</span> jobs posted in last 90 days';
+                    jobsNumber = threeMonths.length >= 25 ? '25+' : threeMonths.length;
+                } else if (!extendedRange) {
+                    getIndeed(id, q, code, field, 50);
+                    return;
+                } else if (extendedRange && extendedRange < 500) {
+                    getIndeed(id, q, code, field, extendSearch(extendedRange));
+                    return;
+                }
+                output += (output != '' && extendedRange) ? ' in ' + extendedRange + ' miles radius' : ' ';
+                //$('.jobsPosted').eq(id).html(output);
+                //var jobBadge = $('.jobsCount');
+                //$(jobBadge[id]).html(jobsNumber);
+                //$('.jobsPostedMobile').eq(id).html(jobsNumber != 0 ? (jobsNumber == 1 ? "1 new job" : jobsNumber + ' new jobs') : '');
+                if ($('#jobsPosted-' + code).length > 0) {
+                    $('#jobsPosted-' + code).html(output);
+                    $('#jobsCount-' + code).html(jobsNumber);
+                    $('#jobsPostedMobile-' + code).html(jobsNumber != 0 ? (jobsNumber == 1 ? "1 new job" : jobsNumber + ' new jobs') : ' ');
+                    if (extendedRange) {
+                        //var link = $('.mobileWrapper').eq(id).find('a');
+                        //var desktoplink = $('.careerWrapper').eq(id).find('a');
+                        if (jobsNumber == 0) {
+                            $('#mobilelink-' + code).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+                            //$(link).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[professionsFoundArray[id].field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+                            //$(desktoplink).attr('href', '/Jobs?q=' + encodeURIComponent(ctIndeed[professionsFoundArray[id].field]).replace(/%20/g, '+') + '&loc=' + userzip + '&salary=&st=&jt=&r=' + extendedRange);
+                            $('#viewJobsMobile-' + code).html('View similar jobs <i class="fa fa-angle-right"></i>');
+                            //$('.viewJobsMobile').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+                            //$('.viewJobsBtn').eq(id).html('View similar jobs <i class="fa fa-angle-right"></i>');
+                            $('#viewJobsBtn-' + code).html('View similar jobs <i class="fa fa-angle-right"></i>');
+                        } else {
+                            $('#mobilelink-' + code).attr('href', $('#mobilelink-' + code).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+                            //$(link).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+                            //$(desktoplink).attr('href', $(link).attr('href').replace(/\&r\=\d*/, '&r=' + extendedRange));
+                        }
+                    }
+                }
+                professions[id].jobs = jobsNumber;
+                //$('.viewJobsBtn').each(function () {
+                //    $(this).find('.badge').text($(this).closest('.profession').find('.jobsNumber').text());
+                //});
+            }
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    
+    function getTimeFrame(date) {
+        var now = new Date().getTime();
+        return (now - getTimestampFromIndeedTime(date)) / 86400000;
+    }
+
+    function extendSearch(extendedRange) {
+        switch (extendedRange) {
+            case 50:
+                return 100;
+            case 100:
+                return 250;
+            case 250:
+                return 500;
+            default:
+                return null;
+        }
+    }  
+
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>
+    lang: en_US
+</script>

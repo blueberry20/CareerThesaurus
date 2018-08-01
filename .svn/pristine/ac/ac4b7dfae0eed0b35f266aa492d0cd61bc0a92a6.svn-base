@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Add School";
+}
+
+<!--===========================Administrator. Add school========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="addSchoolPage">
+
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Add Your School</h2>
+                            <p>Find your school by zip code, and click to add to your account. </p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>                
+                </div>
+            }
+        }
+
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active activeTab"><a href="/AdminPortal">Administrator Portal</a></li>
+                    <li><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="/AdminPortal">Home</a></li>
+                    <li class="active">Add School</li>
+                </ol>
+        </div>*@
+
+
+        <div class="row zipRow">                 
+            <label>Find your school by zip code:</label>       
+            <input type="text" class="form-control" id="zipForSchool" onpaste="return false;" onkeypress="return isNumber(event, this.value);">
+            <button type="submit" class="btn btn-success goBtn ">Go!</button>
+        </div>
+        <div class="schools">
+            <div class="searchSchoolsDiv"><p>To view a list of schools, please enter a zip code above.</p></div>
+        </div>
+
+
+        <div class="createSchoolDiv row">
+                @*<a id="mailIcon" href="mailto:admin@careerthesaurus.com">
+                    <i class="fa fa-envelope-o"></i>
+                </a>*@
+                <div class="tableCell">
+                    @*<span>If you do not see your school listing, email us!</span>
+                    <p>admin@careerthesaurus.com</p>*@
+                    <p>If you don’t see your school listed above, please submit your information <a href="/AdminPortal/SubmitSchool">HERE</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade oneButtonModal" id="schoolAddedModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>The school has been linked to your account.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default schoolAddedBtn oneButton" data-dismiss="modal">Ok</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade twoButtonsModal" id="schoolAddedModalConfirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="confirmBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default twoButtons" id="CancelAdd" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default twoButtons" id="confirmAdd" data-dismiss="modal" onclick="confirmConnection(this);">Yes</button>
+                        
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+
+
+
+<script>
+    var schools;
+    var zipcode = '@ViewBag.ZipCode';
+    function document_ready() {
+        
+
+        if (validateZip(zipcode)) {
+            $('#zipForSchool').val(zipcode);
+            getSchools(zipcode);
+        }
+        $('.goBtn').click(function () {
+            var zip = $('#zipForSchool').val();
+            if (validateZip(zip)) {
+                getSchools(zip);
+            } else {
+                $('.schools').html('<div class="noResultsError">You have entered an incorrect zip code</div>');
+            }
+        });
+     
+        $('.pageContainer .container').css('min-height', $(window).height() - 50);
+        $('.searchSchoolsDiv').css('height', $(window).height() - 350);
+        $(window).resize(function () {
+            $('.pageContainer .container').css('min-height', $(window).height() - 50);
+            $('.searchSchoolsDiv').css('height', $(window).height() - 350);
+        });
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        })
+    }
+    function getSchools(zip) {
+        $.post('/adminportal/GetSchoolsByZip', { zipcode: zip }, function (response) {
+            schools = response.results;
+            $('.schools').html('');
+            if (schools.length == 0) {
+                $('.schools').html('<div class="noResultsError">There were no schools found in this zip code</div>');
+            }
+            schools.sort(sortSchools);
+            for (var i = 0; i < schools.length; i++) {
+                $('.schools').append('<div class="schoolDiv row" data-rowkey="' + schools[i].RowKey + '" data-schoolname="' + schools[i].SchoolName + '" onclick="selectSchoolBtn(this);">' +
+                                        '<div class="col-lg-12">' +
+                                            '<h2 class="schoolName">' + schools[i].SchoolName + '</h2>' +
+                                            '<p class="schoolAddress">' + schools[i].Address + ', ' + schools[i].City + ', ' + schools[i].State + ' ' + schools[i].ZipCode + '</p>' +
+                                        '</div>' +
+                                    '</div>');
+            }
+        });
+    }
+    function selectSchoolBtn(element) {
+        var rowkey = $(element).data('rowkey');
+        var schoolName = $(element).data('schoolname');
+        $('#confirmBody').html('<p>Would you like to add this school to your account? </p><p>' + schoolName + '</p>');
+        $('#confirmAdd').data('rowkey', rowkey);
+        $('#schoolAddedModalConfirm').modal();
+    }
+
+    function confirmConnection(element) {
+        var rowkey = $(element).data('rowkey');
+        $.post('/adminportal/AddSchoolPost', { rowkey: rowkey }, function (response) {
+            if (response.result == 'done') {
+                $('#schoolAddedModal p').html('<p>The school has been linked to your account.</p>');
+            } else if (response.result == 'exist') {
+                $('#schoolAddedModal p').html('<div>We can\'t associate you to this school at this time, for the following reason: there is another administrator associated to the school.' +
+                    'We have been alerted and we are working on getting you approved. You will be duly notified via email upon completion of our process. ' +
+                    'If you have any further question feel free to email us at <a href="mailto:admin@careerthesaurus.com">admin@careerthesaurus.com</a></div>');
+            } else if (response.result == 'error') {
+                $('#schoolAddedModal p').html('<p>Server error!</p>');
+            }
+            $('#schoolAddedModal').modal();
+            $('.schoolAddedBtn').click(function () {
+                window.location.href = '/AdminPortal';
+            });
+        });
+    }
+
+    function validateZip(zip) {
+        var reg = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+        return reg.test(zip);
+    }
+
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 13) {
+            $('.goBtn').click();
+        }
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+    function sortSchools(a, b) {
+        if (a.SchoolName.toLowerCase() < b.SchoolName.toLowerCase())
+            return -1;
+        if (a.SchoolName.toLowerCase() > b.SchoolName.toLowerCase())
+            return 1;
+        return 0;
+    }
+</script>

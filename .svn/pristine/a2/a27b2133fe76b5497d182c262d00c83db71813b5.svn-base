@@ -1,0 +1,113 @@
+﻿@using System.Xml
+@using SkillCow.Classes.Helpers
+@using SkillCow.Classes.Cloud.TableStorage
+@model XmlDocument
+@{
+    ViewBag.Title = "All";
+}
+@{
+    JobPostingClient jpc = new JobPostingClient();
+    Dictionary<string, JobPosting> dictjobpostings = new Dictionary<string, JobPosting>();
+    
+    foreach(JobPosting jp in jpc.GetAllBySource("TEN").Execute())
+    {
+        dictjobpostings.Add(jp.ReferenceId, jp);
+    }
+        
+    
+    XmlNodeList items = Model.GetElementsByTagName("listing");
+
+    int cnt = 0;
+}
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h1 style="color: Red;">@items.Count</h1>
+
+    @try
+    {
+        
+        <table>
+            <tr>
+                <th>...</th>
+                <th>Clientid</th>
+                <th>Job title</th>
+                <th>clientname</th>
+                <th>city</th>
+                <th>state</th>
+                <th>country</th>
+                
+
+                <th>formid</th>
+                <th>campuskey</th>
+                <th>campusvalue</th>
+
+                <th>zips</th>
+                <th>keywords</th>
+                <th>referencenumber</th>
+
+                <th>jobtype</th>
+                
+            </tr>
+
+            @foreach (XmlNode node in items)
+            {
+                string referencenumber = node.E("reference_number");
+
+                bool postingexists = dictjobpostings.ContainsKey(referencenumber);
+                
+                
+                
+                
+                    XmlNode programvaluesnode = node.SelectSingleNode("program_values");
+                    XmlNode programnode = null;
+                    if (programvaluesnode != null)
+                    {
+                        XmlNodeList programnodes = programvaluesnode.SelectNodes("item");
+                        if (programnodes.Count > 0)
+                        {
+                            programnode = programnodes[0];
+                        }
+                    }
+        
+                    <tr>
+                        <td>
+                            @Html.Raw(!postingexists ? "<a href=\"/tenjobs/createlisting/" + referencenumber + "\">Create</a>" : "") 
+                            @Html.Raw(postingexists ? "<a href=\"/tenjobs/editlisting/" + dictjobpostings[referencenumber].RowKey + "\" style=\"color:#888;\">Edit</a>" : "")
+                        </td>
+                        <td>@node.E("client_id")</td>
+                        <td>@programnode.E("value")</td>
+                        <td>@node.E("client_name")</td>
+                        <td>@node.E("city")</td>
+                        <td>@node.E("state")</td>
+                        <td>@node.E("country")</td>
+                        
+
+                        <td>@node.E("form_id")</td>
+                        <td>@node.E("campus_key")</td>
+                        <td>@node.E("campus_value")</td>
+
+                        <td></td>
+                        <td></td>
+                        <td>@node.E("reference_number")</td>
+            
+                        <td>@programnode.E("job_type")</td>
+                        
+
+                        
+                    </tr>
+                
+                
+            }
+
+        </table>
+        
+    }
+    catch(Exception e)
+    {
+        <h1 style="color: Red;">@e.Message</h1>
+    }
+</div>
+<style>
+td {padding: 10px;}
+td a {font-size: 18pt;}
+</style>

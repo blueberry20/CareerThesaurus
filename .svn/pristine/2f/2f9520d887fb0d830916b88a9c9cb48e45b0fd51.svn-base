@@ -1,0 +1,2681 @@
+﻿/*===== body and main div =====*/
+.modal-footer {
+    text-align:center;
+}
+
+body {
+    margin: 0 0;
+    padding: 0 0;
+    font-family: 'open sans', sans-serif;
+    position:static !important;
+}
+
+input {
+    border-radius:0 !important;
+    outline: rgba(23, 184, 214, 1);
+}
+
+.noradius {
+    border-radius: 0 !important;
+}
+
+.btn {
+    text-transform:uppercase;
+}
+
+.addmargin {
+    margin: 20px 0;
+}
+
+.imageDiv {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index:0;
+}
+
+.word {
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.8);
+    margin: 5px 5px 0 0;
+    padding: 5px;
+    display:inline-block;
+    color:#fff;
+    font-family:'open sans';
+}
+
+.highlitedText {
+    color: #FF7D5C;
+    font-weight: 600;
+}
+
+.form-control {
+    font-size:16px;
+    height:40px;
+    border: 1px solid rgb(23,184,214);
+}
+
+.modal.fade .modal-dialog {
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      transform: translate(0, 0);
+      -webkit-transition: -webkit-transform 0.3s ease-out;
+      -moz-transition: -moz-transform 0.3s ease-out;
+      -o-transition: -o-transform 0.3s ease-out;
+      transition: transform 0.3s ease-out;
+}
+
+/*Career Test Questionnaire Modal. Desktop*/
+
+#skillTestModal .modal-footer {
+    margin-top:0;
+    padding:15px 20px;
+}
+
+#skillTestModal .modal-body {
+    padding:10px 20px;
+}
+
+#resultsBtn {
+    display: none;
+}
+
+/*===== END body and main div =====*/
+
+/*Temp Modal*/
+
+#tempModal .modal-header {
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: none;
+}
+
+#tempModal .modal-body {
+    text-align:center;
+}
+
+
+#tempModal .modal-content {
+    margin-top:35%;
+}
+
+.blueBorderBtn {
+    outline: 0;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    width: 200px;
+    height: 80px;
+    /*margin: 10px;*/
+    line-height: 80px;
+    background-color: #3F3E3E;
+    /*color: #000;*/
+    cursor:pointer;
+    display:inline-block;
+    width:49%;
+}
+
+.blueBorderBtn:hover, .blueBorderBtn:active, .blueBorderBtn:focus, .selectedGender {
+    background-color: rgba(23, 184, 214, 1);
+    text-decoration: none;
+    color: #000;
+}
+
+.blueBorderBtn label {
+    display: inline-block;
+    font-weight: 400;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-size:16px;
+}
+
+#tempModal .radio input[type=radio] {
+    display:none;
+}
+
+.tempNewTest {
+    background-color: #38D5A3;
+    border:0;
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+    border-radius:20px;
+    }
+
+.tempNewTest:hover,.tempNewTest:focus,.tempNewTest:active {
+    background-color: #2CAD84;
+}
+
+#tempModal .closeModal {
+    margin-top:10px;
+    color: #428bca;
+    text-decoration: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+
+#tempModal .closeModal:hover, #tempModal .closeModal:focus,  #tempModal .closeModal:active {
+    color: #2a6496;
+    text-decoration: underline;
+}
+
+#tempModal .extraMargin {
+    margin-top:20px;
+}
+
+
+/*===== modal settings =====*/
+#skillTestModal {
+    overflow-y: auto !important;
+}
+
+#skillTestModal .modal-dialog {
+    width:768px;
+    margin-bottom:0;
+}
+
+#skilltestModalLabel {
+    text-transform:uppercase;
+    font-size:24px;
+}
+
+/*=====Desktop Modal=====*/
+
+ .modal-footer {
+    border-top: 1px solid #656363;
+}
+
+ .modal-header {
+    border-bottom: 1px solid #656363;
+}
+
+#tempModal .modal-title {
+    text-transform:none;
+    font-size:22px;
+}
+
+.modal-content, .modalContent {
+    border-radius:0;
+    background-color: #332F3F;
+    background-color: #000;
+    color: #fff;
+    /*border: 10px solid rgb(0,0,0);
+    border: 10px solid rgba(255,255,255,0.7);*/
+}
+
+
+.modal-content p, .control-label, .modalContent p {
+    /*text-transform:uppercase;*/
+    font-family:'open sans condensed', sans-serif;
+}
+
+.panel-group .panel {
+    border:none;
+}
+
+.panel-default > .panel-heading {
+    background-color: rgba(23, 184, 214, 1);
+    border:none;
+    cursor:pointer;
+    text-transform:uppercase;
+}
+
+.panel-title>a {
+    color: inherit;
+    width: 100%;
+    display: block;
+}
+
+.modal-content p, .modalContent p {
+    font-family: 'open sans', sans-serif;
+}
+
+.panel-collapse {
+    /*min-height:380px;*/
+}
+
+#collapseOne .row, #collapseThree .row {
+    margin:20px 0 0;
+}
+
+#collapseOne p, #collapseThree p {
+    color:#000;
+    font-size: 16px;
+    margin: 0;
+    padding: 5px;
+}
+
+.errorMsg {
+    text-align:center !important;
+    color:red !important;
+}
+
+.preTestBtn:hover, .preTestBtn:active, .preTestBtn:focus {
+    background-color:rgb(23, 184, 214);
+}
+
+.nextBtn {
+    margin-right:15px;
+    background-color:  #5cb85c;
+    width:100px;
+}
+
+.nextBtn:hover, .nextBtn:active, .nextBtn:focus {
+    color:#fff;
+}
+
+#collapseOne .nextBtn {
+    margin: 0 auto;
+}
+
+
+#slides{
+    height:370px;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+}
+
+#slide1 {
+    height:100%;
+    width:100%;
+    display:inline-block;
+    position:absolute;
+    top:0;
+    left:0;
+    background-color:#fff;
+    z-index:100;
+}
+
+#slide2{
+    height:100%;
+    width:100%;
+    background-color:#fff;
+    display:inline-block;
+    text-align:center;
+    position:absolute;
+    top:0;
+    left:100%;
+    z-index:200;
+}
+
+#slide1 .skipBtn, #slide2 .skipBtn {
+    position:absolute;
+    bottom:10px;
+    right:0;
+}
+
+.skipBtn {
+    margin-right: 15px;
+    background-color: #D9DADB;
+}
+
+.skipBtn:hover, .skipBtn:active, .skipBtn:focus {
+    background-color: #C3C5C7;
+    color:#fff;
+}
+
+.preTestBtn {
+    margin: 10px;
+    display: inline-block !important;
+    width: 150px !important;
+    font-size:22px !important;
+    font-weight:400;
+    color:#000;
+    border: 2px solid rgb(23,184,214);
+    background-color:#fff;
+}
+
+#slide1 p, #slide2 p {
+    color:#000;
+    font-size:32px;
+    font-family:'open sans condensed';
+    margin-bottom:30px;
+}
+
+#slide3 p {
+    color:#000;
+    font-size:22px;
+    font-family:'open sans condensed';
+}
+
+#slide3 .slideContent {
+    padding:0 40px;
+    color:#000;
+}
+
+#slide3 input {
+    height:34px;
+}
+
+.other {
+    font-size:20px; 
+    text-transform:none;
+}
+
+#collapseThree .startNewTest {
+    display:none;
+}
+
+.mobile {
+    display:none;
+}
+
+#searchJob {
+    height: 40px;
+    font-size: 16px;
+    width: 100%;
+    outline:0;
+}
+
+/*#searchJob:focus {
+    border-color: rgba(23, 184, 214, 1);
+    width:100%;
+    transition: width 1s ease-out;
+    webkit-transition: width 1s ease-out;
+}*/
+
+.jobs {
+    overflow: auto;
+    height: 260px;
+    margin: 10px 0;
+    -webkit-overflow-scrolling:touch;
+}
+
+.aka {
+    font-size: 11px;
+    font-style: italic;
+}
+
+#slide3 .jobtitle {
+    font-weight:600;
+    font-size: 16px;
+    cursor:pointer;
+    padding:5px;
+    margin:0;
+}
+
+#slide3 .jobtitle:hover, #slide3 .jobtitle:active, #slide3 .jobtitle:focus {
+    background-color: #f0f0f0;
+}
+
+.groupContent {
+    color:#000;
+}
+
+.job {
+    overflow-x:hidden;
+    white-space:normal;
+    text-align: left;
+    cursor:pointer;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgb(228, 248, 252);
+}
+
+
+.job:hover {
+    background-color: rgb(222, 242, 247);
+}
+
+
+.highlight {
+    background-color: rgb(143, 214, 228);
+}
+
+.highlight:hover {
+     background-color: rgb(143, 214, 228);
+}
+
+
+
+#columns {
+    column-width: 280px;
+    -moz-column-width: 280px; /* Firefox */
+    -webkit-column-width: 280px; /* Safari and Chrome */
+    column-gap: 2em;
+    -moz-column-gap: 2em;
+    -webkit-column-gap: 2em;
+    column-rule: 1px dotted #eee;
+    -moz-column-rule: 1px dotted #eee;
+    -webkit-column-rule: 1px dotted gray;
+    text-align:left;
+    white-space: normal;
+}
+
+#skillTestModal {
+    outline:0;
+}
+
+#skillTestModal .fa-angle-left, #skillTestModal .fa-angle-right  {
+    font-size: 32px;
+    font-family: fontello;
+    color: #000;
+    cursor:pointer;
+    position:absolute;
+    top:50%;
+    margin-top: -16px;
+    display:none;
+}
+
+#skillTestModal .icon-left-open-big {
+    left:0;
+}
+
+#skillTestModal .fa-angle-right {
+    right:0;
+}
+
+#slide3{
+    height:100%;
+    width:100%;
+    background-color:#fff;
+    display:inline-block;
+    position:absolute;
+    top:0;
+    left:200%;
+    z-index:300;
+    text-align:center;
+}
+
+#slide3 .slideContent {
+    top:0%;
+    margin-top:0;
+    width:100%;
+    height:100%;
+}
+
+.slideContent {
+    position:absolute;
+    top:50%;
+    margin-top: -80px;
+    text-align:center;
+}
+
+.lastRow {
+    margin-top:10px;
+}
+
+
+.errorMsg {
+    color:red;
+}
+
+.startNewTest {
+    width:170px;
+    height:60px;
+    font-size:20px;
+    background-color: #38D5A3;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+/*.closeModal {
+    float: left;
+    font-size: 12px;
+    width: 70px;
+    height: 40px;
+    margin-top:20px;
+}*/
+
+/*===== END modal settings =====*/
+
+/*===== images settings and z-indexes =====*/
+.img {
+    position: absolute;
+}
+
+.characters .img {
+    opacity: 0;
+}
+
+#rightsideMobile img {
+    position:static;
+}
+
+#background {
+    transition: filter 0.5s ease-in-out;
+    -webkit-transition: -webkit-filter 0.5s ease-in-out;
+    -moz-transition: -moz-filter 0.5s ease-in-out;
+    -o-transition: -o-filter 0.5s ease-in-out;
+    z-index: 10;
+}
+
+.gray {
+    filter: grayscale(100%);
+    filter: gray;
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(1);
+    -ms-filter: grayscale(1);
+    -o-filter: grayscale(1);
+}
+
+.leftPerson {
+    z-index: 11;
+}
+
+.rightPerson {
+    z-index: 12;
+}
+
+.left_1 {
+    z-index: 13;
+}
+
+.right_1 {
+    z-index: 14;
+}
+
+.center_1 {
+    z-index: 15;
+}
+
+#blank {
+    z-index: 16;
+}
+
+area, area:active, area:focus {
+    outline: none;
+    border: none;
+}
+/*===== END image settigns =====*/
+
+/*===== text settigns =====*/
+
+div {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.headersText {
+    text-align:center;
+    /*position:absolute;
+    width:100%;*/
+}
+
+.mobileDevice .headersText {
+    position: absolute;
+    width:100%;
+}
+
+#questionText, h1 {
+    z-index: 17; 
+    font-family: 'open sans';
+    font-weight: 300;
+    margin-top: 0;
+    /*padding: 30px 90px 30px;*/
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+    /*font-size: 48px;*/
+    font-size: 30px;
+    cursor: default;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.7);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: initial;
+    margin-right:120px;
+    margin-left:120px;
+    top:20px;
+    color: #fff;
+    text-transform:none;
+}
+
+.glyphicon-remove {
+    color: #000;
+    position: absolute;
+    top: -11px;
+    right: -11px;
+    font-size: 13px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    cursor:pointer;
+}
+
+
+h1.mobileText {
+    text-align: left;
+    top: 0;
+    left: 0;
+    padding: 10px 10px 0 10px;
+    text-transform: uppercase;
+    white-space:normal;
+    margin: 0 0 0 0;
+    word-wrap: normal;
+    width:100%;
+    background-color: transparent;
+}
+
+#hintText {
+    z-index: 18;
+    top: 50%;
+    width: 30%;
+    position: relative;
+    border: 3px solid #fff;
+}
+
+#hintModal .modal-dialog {
+    height:100%;
+    margin: 0 auto;
+}
+
+#hintModal .modal-content {
+    top:35%;
+    text-align:center;
+}
+
+#hintModal .modal-content p {
+    font-size: 22px;
+    font-weight: 300;
+    margin: 10px 0;
+}
+
+#hintModal .modal-footer {
+    text-align:center;
+}
+
+#hintModal .okBtn {
+    background-color: #38D5A3;
+    border: none;
+    color: #fff;
+    width: 100px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+#hintModal .okBtn:hover, #hintModal .okBtn:active, #hintModal .okBtn:focus {
+    background-color: #2CAD84;
+}
+
+#hintModal .modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0;
+}
+
+.text {
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.5);
+    top: 0;
+    color:#fff;
+}
+/*===== END text settigns =====*/
+
+/*===== hover and selected tooltip =====*/
+.hover-tooltip {
+    position: absolute;
+    background-color: #fff;
+    z-index: 24;
+    cursor: default;
+    padding: 10px;
+    border-radius: 14px;
+    -moz-box-shadow: 3px 3px 4px 4px #414040;
+    -webkit-box-shadow: 3px 3px 4px 4px #414040;
+    box-shadow: 3px 3px 4px 4px #414040;
+}
+
+.hover-tooltip.top .arrow::after {
+    border-top-color: #fff;
+}
+
+.selected-tooltip {
+    position: absolute;
+    background-color: #6CD3C4;
+    z-index: 17;
+    cursor: default;
+    padding: 10px;
+    border-radius: 14px;
+    -moz-box-shadow: 3px 3px 4px 4px #414040;
+    -webkit-box-shadow: 3px 3px 4px 4px #414040;
+    box-shadow: 3px 3px 4px 4px #414040;
+}
+
+.selected-tooltip.top .arrow::after {
+    border-top-color: #6CD3C4;
+}
+
+.popover-content {
+padding: 12px 14px;
+color: #000;
+font-family: 'open sans';
+font-size: 16px;
+}
+/*===== END hover and selected tooltip =====*/
+
+
+/*===== desktop navigation controls =====*/
+#navigationWrapper {
+    position: absolute;
+    width: 100%;
+    bottom: -60px;
+    text-align: center;
+    z-index: 19;
+    display: none;
+}
+
+.slideOutWrapper {
+    position:relative;
+    height: 30px;
+    text-align: center;
+    overflow: hidden;
+    border: none;
+    outline: none;
+}
+
+.slideOut, .slideOut:focus, .slideOut:active {
+    position: relative;
+    background-color: rgb(238,238,238);
+    background-color: rgba(238,238,238, 0.7);
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    margin: auto;
+    margin-bottom: -40px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    z-index: 25;
+    float: none;
+}
+
+.slideOut:after {
+    z-index: 26;
+}
+
+/*.container, .container:focus, .container:active {
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    padding-top: 10px;
+    height: 60px;
+    background-color: rgb(238,238,238);
+    background-color: rgba(238,238,238, 0.7);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    z-index:26;
+    border: none;
+    outline: none;
+}*/
+
+.btn-toolbar {
+    float: none !important;
+}
+
+.continueWrapper {
+    position: fixed;
+    bottom: 200px;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+/*===== END desktop navigation controls =====*/
+
+/*===== continue button =====*/
+#continue {
+    width: 260px;
+    display: inline-block;
+    height: 60px;
+    line-height: 58px;
+    vertical-align: middle;
+    position: fixed;
+    left:50%;
+    margin-left:-130px;
+    bottom: 65px;
+    padding: 0;
+    background-color: #38D5A3;
+    border-radius: 0;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 20px;
+    cursor:pointer;
+    display:none;
+}
+
+ #continue:hover, #continue:active, #continue:focus {
+    background-color: rgb(46, 177, 135) !important;
+}
+
+ /*#continue .fa-angle-right {
+    font-size: 32px;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    margin-left: 20px;
+ }*/
+
+ #continue .fa-angle-right {
+     font-size:26px;
+     padding:16px 15px;
+ }
+
+/*===== END continue button =====*/
+
+/*===== mobile navigation =====*/
+.mobileWrapper {
+    display: none;
+}
+
+.dropdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 27;
+    height: 70px;
+}
+
+.open {
+    background-color:rgb(0,0,0);
+    background-color:rgba(0,0,0, 0.9);
+}
+
+.mobileToggle {
+    position:fixed;
+    top:10px;
+    right:10px;
+    position: fixed;
+    height: 0;
+    width: 0;
+    padding: 0;
+    border: none;
+}
+
+.mobileNavigation {
+    cursor: pointer;
+}
+
+.mobileBottons {
+    position: fixed;
+    z-index: 1;
+    bottom: 10px;
+    text-align: center;
+    padding: 0 1px;
+}
+
+/*
+.mobileText {
+    text-align: center;
+    top: 60%;
+    left: 0;
+    background-color: rgba(0,0,0, 0.5);
+    color: #fff;
+    font-size: 46px;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    padding: 10px;
+} */
+
+
+
+.mobileProgress {
+    position: fixed;
+    width: 100%;
+    bottom:0;
+    z-index: 1;
+    margin:0;
+    height:20px;
+    border: 1px solid #646161;
+    border-radius:15px;
+}
+
+#mobileRight, #mobileLeft {
+    background-color: rgba(23, 184, 214, 1);
+    background-color: rgb(218, 242, 248);
+    color: #000;
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+    font-size:12px;
+    /*border:1px solid #000;
+    border: 1px solid #fff;*/
+    border-radius:0;
+}
+
+#mobileRight:hover, #mobileLeft:hover, #bothBtn:hover, #mobileRight:active, #mobileLeft:active, #bothBtn:active, #mobileRight:focus, #mobileLeft:focus, #bothBtn:focus {
+    color: #000 !important;
+    background-color: rgb(23, 184, 214) !important;
+}
+
+#progressWrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.7);
+    height: 200px;
+    z-index: 20;
+}
+
+.progress-bar {
+    background-color: #44AEB8;
+    background-color:#000;
+}
+
+ #percentageProgress {
+    position: fixed;
+    height:90px;
+    width:90px;
+    left: 15px;
+    top:120px;
+    z-index: 100;
+    color: #fff;
+    font-size: 24px;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 50%;
+    line-height:90px;
+    text-align:center;
+    border:2px solid #fff;
+}
+
+/**********buttons*********/
+#navigationWrapper .btn-default:hover, #navigationWrapper .btn-default:active, #navigationWrapper .btn-default:focus {
+	background-color: transparent;
+    font-size:34px;
+    color:#fff;
+}
+
+.desktopNav {
+    height:90px;
+    width:90px;
+    border-radius:50% !important;
+    display:inline-block;
+    color:#fff;
+    position:relative;
+    font-weight:600;
+    font-size:24px;
+    border:2px solid #fff;
+    background-color:transparent;
+    margin-bottom:30px;
+    cursor:pointer;
+    min-width:initial;
+    line-height: 90px;
+    padding: 0;
+}
+
+.btn:focus, .btn.active, .btn:active {
+    border-color: none;
+    outline: 0 !important;
+}
+
+.btn-primary {
+    font-size:34px;
+    border-color: #4eafb2;
+    background-color: #4eafb2;
+    color: #000;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    border-color: #4eafb2;
+    font-size:34px;
+    border-color: #4eafb2;
+    background-color: #4eafb2;
+}
+
+.btn-success {
+    background-color:#fff;
+    color:#000;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
+    background-color:#f0f0f0 !important;
+    border-color:#fff !important;
+    color:#000 !important;
+    font-size:34px;
+}
+
+.activeBtn {
+    color: #000 !important;
+    background-color: rgb(23, 184, 214) !important;
+}
+
+.mobileMenu .btn-success {
+    border:2px solid #fff;
+    background-color:#fff;
+    color:#000;
+}
+
+.mobileMenu .btn-success:hover, .mobileMenu .btn-success:focus, .mobileMenu .btn-success:active, .mobileMenu .btn-success.active {
+    font-size:17px;
+    color:#fff;
+    background-color:#fff;
+    border:2px solid #4eafb2 !important;
+}
+
+.mobileNavigation {
+    font-size: 13px !important;
+}
+
+
+/****end of buttons***/
+
+
+/*fix conflict of icon with fontello*/
+.icon-bar:before {
+content: none;
+}
+
+.open .mobileMenu {
+    display:block;
+}
+
+#testMenuIcon, .closeIcon, #testCloseIcon {
+    background-color:rgba(23, 184, 214, 1);
+    background-color: transparent;
+    font-size: 24px;
+    padding:4px;
+    margin: 10px;
+    float:right;
+    width:42px;
+    height:42px;
+    display:inline-block;
+    z-index:2000 !important;
+    text-align:center;
+    border:1px solid #000;
+   -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+#testMenuIcon .fa, #testCloseIcon .fa, .closeIcon .fa {
+    padding-top:9px;
+}
+
+#testCloseIcon {
+    color: #fff;
+    border:1px solid #fff;
+    right:6px;
+    top:5px;
+    position:relative;
+    padding: 4px;
+}
+
+.closeIcon {
+    margin:0;
+}
+
+.closeIcon:hover, .closeIcon:active, .closeIcon:focus {
+    color: #fff;
+}
+
+#testMenuIcon:hover, #testMenuIcon:active, #testMenuIcon:focus, #testCloseIcon:hover, #testCloseIcon:active, #testCloseIcon:focus {
+    color:#fff;
+}
+
+.mobileMenu {
+    width: 100%;
+    background-color: #000;
+    height: 100%;
+    z-index: 100;
+    display:none;
+    overflow:auto;
+    list-style:none;
+}
+
+.leftSideMenu, .rightSideMenu {
+    padding:0;
+}
+
+.leftSideMenu {
+    padding-top:4px;
+}
+
+.rightSideMenu {
+    padding-top:1px;
+}
+
+.mobileMenu .row {
+    margin:0;
+}
+
+.mobileMenu .leftSideMenu {
+
+}
+
+.mobileMenu h2 {
+    font-size: 16px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    text-align: center;
+}
+
+
+.mobileMenu li a {
+    color:#fff;
+    background-color: #302F34;
+    border:2px solid #302f34;
+    margin: 1px;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-size: 4vw;
+    font-size:4rem;
+    font-size:30px;
+    display:block;
+    padding: 0 10px;
+    text-decoration:none !important;
+}
+
+.mobileMenu li a:hover, .mobileMenu li a:active, .mobileMenu li a:focus {
+    background-color: #333;
+    text-decoration:none !important;
+    color: #62D0DF;
+} 
+
+.mobileMenu .btn-primary {
+    font-size:17px;
+    border-color: #4eafb2;
+    background-color: #4eafb2;
+    color: #000;
+}
+
+.mobileMenu .btn-primary:hover, .mobileMenu .btn-primary:active, .mobileMenu .btn-primary:focus {
+    font-size:17px;
+    background-color: #4eafb2;
+}
+
+.leftSideMenu li a {
+    line-height:40px;
+}
+
+
+.mobileMenu .iconWrapper {
+    width:initial;
+}
+
+#rightsideMobile {
+    text-align: center;
+    padding: 0;
+}
+
+#rightsideMobile li {
+    list-style:none;
+}
+
+#rightsideMobile .img {
+    height:50px !important;
+    width:50px !important;
+    left: 50% !important;
+    margin-left: -25px;
+    top:10px !important;
+}
+
+#rightsideMobile .p1, #rightsideMobile .p2 {
+    width:100%;
+    font-size:14px;
+    line-height:15px;
+}
+
+#rightsideMobile .p1 {
+    bottom:25px;
+}
+
+#rightsideMobile .p2 {
+    bottom:10px;
+}
+
+#rightsideMobile li a {
+    background-color:transparent;
+    border:none;
+}
+
+
+.menuNavBtn {
+    position: relative;
+    height: 50px;
+    background-color: #302F34;
+    display: block;
+    margin: 5px 5px 10px;
+    line-height:50px;
+    border:2px solid #302f34;
+}
+
+.menuNavBtn:hover, .menuNavBtn:active, .menuNavBtn:focus {
+    background-color:#000;
+    border-color: #fff;
+}
+
+.menuNavBtn .buttonIcon {
+    height:30px !important;
+    width:30px !important;
+    position: absolute;
+    top: 50% !important;
+    margin-top: -15px;
+    left: 0 !important;
+}
+
+.menuNavBtn a {
+    display: block;
+    line-height: 50px;
+    color: #fff;
+    margin-left: 30px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    font-size: 13px;
+    text-decoration:none;
+}
+
+.divider {
+    max-height:1px;
+    min-height:0 !important;
+}
+
+
+/*===== END mobile navigation =====*/
+
+
+/***************nav menu********************/
+*, *::before {
+    box-sizing: border-box;
+}
+
+
+.bt-menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #333;
+    border-color: #252628;
+    background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0);
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: border-width 0.3s, background-color 0.3s, height 0s 0.3s;
+	transition: border-width 0.3s, background-color 0.3s, height 0s 0.3s;
+}
+
+.bt-menu.bt-menu-open {
+	height: 100%;
+    width:100%;
+	/*border-width: 0 90px 30px 90px;*/
+    background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.8);
+	-webkit-transition: border-width 0.3s, background-color 0.3s;
+	transition: border-width 0.3s, background-color 0.3s;
+}
+
+/*.bt-overlay {
+	position: absolute;
+	width: 100%;
+}
+
+.bt-menu-open .bt-overlay {
+	height: 100%;
+}*/
+
+/*menu sandwich icon*/
+.bt-menu-trigger {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	z-index: 100;
+	display: block;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+    background-color: #252628;
+    border: 5px solid #252628;
+    border-radius: 10px;
+}
+
+/*create center line*/
+.bt-menu-trigger span {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 4px;
+	margin-top: -2px;
+	background-color: #fff;
+	font-size: 0px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-transition: background-color 0.3s;
+	transition: background-color 0.3s;
+}
+
+/*center line disappears when menu is open*/
+.bt-menu-open .bt-menu-trigger span, .open .bt-menu-trigger span {
+	background-color: transparent;
+}
+
+/*common styles for upper and lower line*/
+.bt-menu-trigger span:before,
+.bt-menu-trigger span:after {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	content: '';
+	-webkit-transition: -webkit-transform 0.3s;
+	transition: transform 0.3s;
+}
+
+/*position upper line higher from center*/
+.bt-menu-trigger span:before {
+	-webkit-transform: translateY(-250%);
+	transform: translateY(-250%);
+}
+/*position lower line below center line*/
+.bt-menu-trigger span:after {
+	-webkit-transform: translateY(250%);
+	transform: translateY(250%);
+}
+
+/*when menu is open rotate upper line 45 deg*/
+.bt-menu-open .bt-menu-trigger span:before, .open .bt-menu-trigger span:before {
+	-webkit-transform: translateY(0) rotate(45deg);
+	transform: translateY(0) rotate(45deg);
+}
+
+/*when menu is open rotate lower line -45deg*/
+.bt-menu-open .bt-menu-trigger span:after, .open .bt-menu-trigger span:after {
+	-webkit-transform: translateY(0) rotate(-45deg);
+	transform: translateY(0) rotate(-45deg);
+}
+
+
+#leftside {
+	position: fixed;
+	top: 20%;
+	left: 50%;
+    width:500px;
+    margin-left:-250px;
+    visibility: hidden;
+    opacity:0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+    -moz-transition: -webkit-transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+    -o-transition: -webkit-transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+	transition: transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+}
+
+.bt-menu.bt-menu-open #leftside {
+    visibility:visible;
+    opacity:1;
+    /*-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);*/
+}
+
+#leftside p {
+    color: #fff;
+    font-family: 'open sans';
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom:30px;
+}
+
+
+#rightside {
+    position:fixed;
+    right: 0px;
+    top: 85px;
+}
+
+.bt-menu ul {
+	margin: 0;
+	padding: 0;
+	width: 90px;
+	list-style: none;
+	text-align: center;
+	white-space: nowrap;
+	height: 0;
+	-webkit-transition: height 0s 0.3s;
+	transition: height 0s 0.3s;
+    	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.bt-menu ul li,
+.bt-menu ul li a {
+	text-align: center;
+    display:block;
+}
+
+
+.bt-menu ul li {
+	padding: 0;
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+	transition: transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+    margin:10px;
+}
+
+
+.bt-menu.bt-menu-open ul li {
+    visibility:visible;
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+.bt-menu.bt-menu-open ul li:first-child,
+.bt-menu.bt-menu-open ul li:last-child {
+	-webkit-transition-delay: 0.15s;
+	transition-delay: 0.15s;
+}
+
+.bt-menu.bt-menu-open ul li:nth-child(2),
+.bt-menu.bt-menu-open ul li:nth-last-child(2) {
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+}
+
+.bt-menu.bt-menu-open ul li:nth-child(3),
+.bt-menu.bt-menu-open ul li:nth-last-child(3) {
+	-webkit-transition-delay: 0.05s;
+	transition-delay: 0.05s;
+}
+
+
+.bt-menu ul li button {
+	display: block;
+	outline: none;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	-webkit-transition: color 0.2s;
+	transition: color 0.2s;
+}
+
+.bt-menu ul li button:before {
+	display: none;
+	font-size: 32px;
+}
+
+.facebookStandard {
+    padding: 10px 0 0;
+    text-align:center;
+}
+
+.iconWrapper {
+    background-color: transparent;
+    height:100px;
+    width:70px;
+    color:#fff;
+    position:relative;
+    vertical-align:top;
+    border:none;
+    margin:20px 0 10px 0;
+    font-weight:600;
+    cursor: pointer;
+    line-height:initial;
+}
+
+ .iconWrapper:hover, .iconWrapper:focus, .iconWrapper:active {
+    color:#62D0DF;
+    background-color:transparent;
+}
+
+.p1 {
+    position:absolute;
+    bottom:18px;
+    left:0;
+    margin:0;
+    text-align:center;
+    width:70px;
+}
+
+.p2 {
+    position:absolute;
+    bottom:0;
+    left:0;
+    margin:0;
+    text-align:center;
+    width:70px;
+}
+
+.icon {
+    width:70px !important;
+    height:70px !important;
+    top:0 !important;
+    left:0 !important;
+    position:absolute;
+}
+
+.tempModalV2 .blueBorderBtn {
+    height:60px;
+    line-height:60px;
+    margin-top:0;
+}
+
+.tempModalV2 h5 {
+    margin-bottom: 0;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: 300;
+    margin:20px auto 0;
+    width:80%;
+}
+
+#gradYearSelect2 {
+    border-radius:0;
+    background-color: #3F3E3E;
+    color:#fff;
+    border:none;
+}
+
+#topBanner {
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left: -364px;
+}
+
+#topBanner468 {
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left: -234px;
+    z-index:10;
+}
+
+#leftBanner, #leftBanner120 {
+    position: absolute;
+    left: 20px;
+    width: 160px;
+    height: 600px;
+    z-index: 100;
+    bottom:20px;
+}
+
+#rightBanner, #rightBanner120 {
+    position:absolute;
+    right:20px;
+    width:160px;
+    height: 600px;
+    z-index:100;
+    bottom:20px;
+}
+
+#leftBanner120 {
+    margin-top:-300px;
+    width:120px;
+}
+
+#rightBanner120 {
+    margin-top: -300px;
+    width:120px;
+}
+
+#bottomBanner {
+    position:absolute;
+    bottom:40px;
+    width:90%;
+    height:60px;
+    z-index:100;
+    margin: 0 auto;
+    left:5%;
+    display: none;
+}
+
+#vc, .vc {
+    width:728px;
+    height:90px;
+    position:absolute;
+    top:0;
+    left:50%;
+    margin-left:-364px;
+}
+
+
+#testV2 .mobileTestModal {
+    top:51px;
+    position: static;
+}
+
+.mobileTestModalV2 {
+    background: url('/Content/images/cream_pixels.png') repeat;
+    background: #000;
+}
+
+.mobileTestModalV2 .blueBorderBtn {
+    height:50px;
+    line-height:50px;
+    background-color: background-color: rgb(218, 242, 248);
+    margin: 0 0 20px !important;
+}
+
+.mobileTestModalV2 h4 {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin:0;
+    color: #fff;
+}
+
+
+.mobileTestModalV2 h5 {
+    text-align:center;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'open sans condensed';
+    color:#fff;
+}
+
+.mobileAdsense50 {
+    height:50px;
+}
+
+.mobileTestModalV2 .mobileHeader {
+    padding:10px 0;
+}
+
+.mobileTestModalV2 .modalTitle {
+    background-color: rgb(23, 184, 214) !important;
+}
+
+.mobileTestModalV2 .steps {
+    position:static !important;
+    padding: 0 10px !important;
+}
+
+.mobileTestModal .questionContent .row {
+    margin: 20px 0 0 !important;
+}
+
+.mobileTestModalV2 #gradYearSelect2 {
+    background-color:#fff;
+    border:1px solid rgb(23,184,214);
+    color:#000;
+}
+
+#titleSelect, #educationLevelSelect, #gradYearSelect, #professionSelect {
+    padding:6px;
+    border-radius:0;
+}
+
+#professionsOverlay {
+    display:none;
+    padding:10px;
+}
+
+.resultBtnMobile {
+    width: 200px;
+    height: 50px;
+    line-height: 48px;
+    vertical-align: middle;
+    bottom: 70px;
+    padding: 0;
+    background-color: #38D5A3;
+    border-radius: 0;
+    border: 2px solid #61BE80;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    position: fixed;
+    left: 50%;
+    margin-left: -100px;
+}
+
+.resultBtnMobile:hover, .resultBtnMobile:focus, .resultBtnMobile:active {
+    color: #000;
+    border-color: #000;
+}
+
+.questionNumber {
+    position: fixed;
+    left: 15px;
+    top: 15px;
+    height: 90px;
+    width: 90px;
+    background-color: #6CD3C4;
+    color: #fff;
+    z-index: 100;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 90px;
+    font-size: 50px;
+    border:2px solid #fff;
+}
+
+@media only screen and (max-width: 1200px) {
+    #percentageProgress {
+        position: fixed;
+        height: 70px;
+        width: 70px;
+        left: 5px;
+        top: 80px;
+        line-height: 70px;
+        font-size:22px;
+    }
+
+    .questionNumber {
+        position: fixed;
+        left: 5px;
+        top: 5px;
+        height: 70px;
+        width: 70px;
+        line-height:70px;
+        font-size: 40px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+
+    .mobileText {
+        font-size:5vw;
+        font-size: 38px;
+        display:block;       
+    }
+
+	.bt-menu ul li a {
+		font-size: 90%;
+	}
+
+    .continueWrapper {
+        bottom:110px;
+    }
+
+    .modal-dialog {
+        width:500px;
+    }
+
+    #continue {
+        bottom: 110px;
+    }
+
+    
+    #questionText, h1 {
+        font-size:26px;
+    }
+
+}
+
+
+
+@media screen and (max-width: 850px) {
+    .mobileText {
+        font-size:28px;
+    }
+
+    .mobileMenu li a {
+        font-size: 24px;
+    }
+
+    
+    .modal-dialog {
+        margin-top:0;
+    }
+
+    #leftBanner120 {
+        left:0;
+    }
+
+    #rightBanner120 {
+        right:10px;
+    }
+
+    #leftside {
+        top:15%;
+    }
+
+    #questionText, h1 {
+        font-size:26px;
+    }
+
+    #continue .fa-angle-right {
+        font-size:24px;
+    }
+
+}
+
+/*desktop version for a smaller screen size*/
+@media screen and (max-width: 767px) {
+   #testV2 .headersText {
+        position:fixed;
+    }
+
+    #background {
+        opacity:0.7;
+    }
+
+    #tempModal .closeModal {
+     margin-top: 0;
+    }
+
+    #tempModal .modal-title {
+        font-size: 18px;
+    }
+
+    #skillTestModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index:80;
+    }
+
+    #hintModal {
+        display:none;
+    }
+
+    .modal-backdrop {
+        display:none !important;
+    }
+
+    #skilltestModalLabel {
+        font-size:20px;
+    }
+
+    .modal-header, .modalHeader {
+        padding:10px;
+        border:none;
+    }
+
+    .modal-body, .modalBody {
+        padding:10px;
+    }
+
+   #skillTestModal .modal-dialog, #skillTestModal .modalDialog {
+        width:100%;
+        margin:0;
+        margin-top:10%;
+    }
+
+   .modal-dialog {
+       width:90%;
+       margin:0 auto;
+   }
+
+   #skillTestModal .modal-content, #skillTestModal .modalContent {
+       height:100%;
+       width:100%;
+       overflow:auto;
+       border:none;
+   }
+
+   #skillTestModal .panel-body, #skillTestModal .panelBody {
+       position:relative;
+   }
+
+   #collapseOne .row, #collapseThree .row {
+        margin: 10px 0;
+    }
+
+   #skillTestModal .form-control {
+       height:35px;
+   }
+
+   #collapseThree .startNewTest {
+        display:inline-block;
+        margin-top:20px;
+}
+
+
+    #skillTestModal .nextBtn {
+        margin-top:10px;
+        clear:both;
+        position:static;
+        left:50%;
+        margin:0 auto;
+        height:42px;
+        width:110px;
+    }
+
+   
+    #skillTestModal .nextBtn:hover, .mobileTestModal .nextBtn:active, .mobileTestModal .nextBtn:focus {
+        background-color: rgba(23, 184, 214, 1);
+    }
+
+    .tempNewTest {
+        background-color: transparent;
+        border: 0;
+        width: 250px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+        border-radius: 0;
+        border: 2px solid #fff;
+        color: #fff;
+        font-weight: 600;
+        font-family: 'open sans condensed';
+        font-size: 18px;
+    }
+
+    .tempNewTest:hover, .tempNewTest:focus, .tempNewTest:active {
+        background-color: #fff;
+        color:#000;
+    }
+
+    .largeMobileAdsense {
+        position:absolute;
+        bottom:0;
+    }
+
+    .errorMsg {
+        padding-top:10px 15px !important;
+        text-align:center !important;
+        font-size:12px !important;
+        font-family:'open sans' !important;
+        display:block;
+    }
+
+   .lastRow {
+       text-align:center;
+       position:relative;
+       margin:0;
+   }
+
+   #collapseOne p, #collapseThree p {
+       font-family:'open sans condensed';
+       font-size:22px;
+       text-align:center;
+   }
+
+
+   #slides {
+       /*height:inherit;*/
+   }
+
+   .slideContent {
+       margin-top: -67px;
+       padding:0 30px;
+   }
+
+   .preTestBtn {
+       width:110px !important;
+   }
+
+   #slide1 p, #slide2 p {
+       font-size:22px;
+   }
+
+  #skillTestModal .modal-footer, #skillTestModal .modalFooter {
+       padding: 15px 20px;
+       margin:0;
+       display:none;
+   }
+
+   .closeModal, .startNewTest {
+       height:50px;
+       margin:0;
+   }
+
+
+  #skillTestModal .fa-angle-left, #skillTestModal .fa-angle-right {
+       font-size:30px;
+       margin-top:-15px;
+       display:none !important;
+   }
+
+   #slide3 .slideContent {
+       padding: 0 10px;
+   }
+
+
+   #slide3 p {
+       text-align:left;
+       margin:20px 0 10px;      
+   }
+
+    #pickProfessionBtn {
+        color: #000;
+        border: 2px solid rgb(23,184,214);
+        background-color: #fff;
+        width: 100%;
+    }
+
+    #pickProfessionBtn:active, #pickProfessionBtn:focus {
+        background-color: rgb(23,184,214);
+    }
+
+   .other {
+       font-size:22px;
+   }
+
+   #slide3 .nextBtn {
+       margin:0;
+       margin-left:5px;
+       width:110px;
+   }
+
+   #slide3 .skipBtn {
+       margin:0;
+       margin-right:5px;
+       height:42px;
+   }
+
+   .skipBtn {
+       height:42px;
+   }
+
+   .skipBtn:hover, .skipBtn:active, .skipBtn:focus {
+       background-color: #666;
+   }
+
+   .jobs {
+       height:200px;
+   }
+
+   #professionsOverlay__ {
+       width:100%;
+       height:100%;
+       position:fixed;
+       top:0;
+       left:0;
+       background-color:#000;
+       display:none;
+       z-index:100;
+       /*color:#fff;*/
+       padding:10px;
+   }
+
+   #professionsOverlay .closeIcon {
+       right:0;
+       top:0;
+   }
+
+    #professionsOverlay .jobs {
+        height:85%;
+        /*overflow:auto !important;*/
+        width:100%;
+        font-size:16px;
+        background-color:#fff;
+    }
+
+     #professionsOverlay .job {
+         padding:10px;
+         border-bottom: 1px solid rgb(23,184,214);
+     }
+
+     #searchJob {
+         width: 80%;
+     }
+
+     
+    /*Mobile test modal*/
+    #skillTestModal .modalTitle {
+        background-color: #000;
+        height: 50px;
+        color: #fff;
+        line-height: 50px;
+        margin:0;
+    }
+
+    #skillTestModal .steps {
+        position: absolute;
+        top: 50px;
+        left: 0px;
+        right: 0px;
+        padding:10px;
+    }
+
+    #skillTestModal p {
+        color: #000;
+        font-size: 17px;
+        font-family: 'open sans';
+        text-transform: uppercase;
+        white-space: initial;
+    }
+
+    #skillTestModal #slide1 p, .mobileTestModal #slide2 p {
+        font-size: 22px;
+        font-family: 'open sans';
+        text-transform: uppercase;
+        white-space: initial;
+    }
+
+    #skillTestModal #slide3 p {
+        color: #000;
+        font-size: 17px;
+        font-family: 'open sans';
+        text-transform: uppercase;
+        white-space: initial;
+    }
+
+    #skillTestModal #slide3 #selectedCareer {
+        font-family: 'open sans';
+        color: #666;
+        margin: 5px;
+        font-size: 14px;
+        text-transform: none;
+    }
+
+    #skillTestModal #pickProfessionBtn {
+        position:relative;
+        font-family: 'open sans condensed';
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 8px;
+        white-space: initial;
+    }
+
+    #skillTestModal #pickProfessionBtn i.fa-angle-right {
+        display: block !important;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: -12px;
+    }
+
+    #skillTestModal #pickProfessionBtn i.fa-angle-right:before {
+        font-weight:600;
+    }
+
+    #skillTestModal .stepsHeader {
+        text-align: center;
+        font-size: 18px;
+        padding: 5px;
+        background-color: rgba(23, 184, 214, 1);
+        margin-bottom:20px;
+    }
+
+    #skillTestModal .questionContent {
+        width: 100%;
+    }
+
+    #skillTestModal .questionContent .row {
+        margin: 10px 0px 0px 0px;
+    }
+
+    #skillTestModal .questionContent .col-lg-12 {
+        padding: 0px 5px 0px 5px;
+    }
+
+
+    #skillTestModal .startNewTest {
+        margin-top: 10px;
+    }
+
+    #skillTestModal .jobs {
+        overflow-x: hidden;
+    }
+
+    #skillTestModal .menuWrap {
+        background-color: white;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    #skillTestModal #searchJob {
+        margin-top: 5px;
+        margin-left: 5px;
+    }
+
+    #skillTestModal .closeIcon {
+        top: 5px;
+    }
+
+} /*end of desktop version. smaller size*/
+
+
+/*Mobile version for all mobile devices, without specifying screen width*/
+    .mobileTestModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index:80;
+    }
+    
+    .mobileTestModal .panel-group .panel+.panel {
+        margin-top: 0 !important;
+    }
+
+    .mobileTestModal .panel-group .panel-heading+.panel-collapse .panel-body {
+        border-top: 0 !important;
+    }
+
+    .mobileTestModal #skilltestModalLabel {
+        font-size:20px;
+    }
+
+   .mobileTestModal .modal-header, .modalHeader {
+        padding:10px;
+        border:none;
+    }
+
+   .mobileTestModal .modal-body, .mobileTestModal .modalBody {
+        padding:0 10px;
+    }
+
+  .mobileTestModal .modal-dialog, .mobileTestModal .modalDialog {
+        position:fixed;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        margin:0;
+    }
+
+   .mobileTestModal .modal-content, .mobileTestModal .modalContent {
+       height:100%;
+       width:100%;
+       overflow:auto;
+       border:none;
+   }
+
+
+  .mobileTestModal .panel-body, .mobileTestModal .panelBody {
+       padding:0;
+       height: 210px;
+       position:relative;
+   }
+
+  .mobileTestModal  #collapseOne .row, .mobileTestModal #collapseThree .row {
+        margin: 10px 0;
+    }
+
+   .mobileTestModal .form-control {
+       height:35px;
+   }
+
+   .mobileTestModal .panelContent {
+        position:absolute;
+        top:10%;
+        width: 100%;
+    }
+
+  .mobileTestModal #collapseThree .panelContent {
+       top:50%;
+       margin-top: -133px;
+   }
+
+  .mobileTestModal #collapseThree .startNewTest {
+        display:inline-block;
+        margin-top:20px;
+}
+
+   .mobile {
+       display:block;
+   }
+
+   .desktop {
+       display:none;
+   }
+
+    .mobileTestModal  .nextBtn {
+        margin-top:10px;
+        clear:both;
+        position:static;
+        left:50%;
+        margin:0 auto;
+        height:42px;
+        width:110px;
+    }
+   
+    .mobileTestModal .nextBtn:hover, .mobileTestModal .nextBtn:active, .mobileTestModal .nextBtn:focus {
+        background-color: rgba(23, 184, 214, 1);
+    }
+
+    .mobileTestModal .errorMsg {
+        padding-top:10px 15px !important;
+        text-align:center !important;
+        font-size:12px !important;
+        font-family:'open sans' !important;
+        display:block;
+    }
+
+   .mobileTestModal .lastRow {
+       text-align:center;
+       position:relative;
+       padding-top:30px;
+   }
+
+   .mobileTestModal #collapseOne p, .mobileTestModal #collapseThree p {
+       font-family:'open sans condensed';
+       font-size:22px;
+       text-align:center;
+   }
+
+    .mobileTestModal .slideContent {
+        margin-top: -67px;
+        padding:0 30px;
+    }
+
+   .mobileTestModal .preTestBtn {
+       width:110px !important;
+   }
+
+  .mobileTestModal #slide1 p, .mobileTestModal #slide2 p {
+       font-size:22px;
+   }
+
+  .mobileTestModal .modal-footer, .mobileTestModal .modalFooter {
+       padding: 15px 20px;
+       margin:0;
+       display:none;
+   }
+
+   .mobileTestModal .closeModal, .mobileTestModal .startNewTest {
+       height:50px;
+       margin:0;
+   }
+
+  .mobileTestModal .fa-angle-left, .mobileTestModal .fa-angle-right {
+       font-size:30px;
+       margin-top:-15px;
+       display:none !important;
+   }
+
+  .mobileTestModal #slide3 .slideContent {
+       padding: 0 10px;
+   }
+
+
+  .mobileTestModal #slide3 p {
+       text-align:left;
+       margin:20px 0 10px;      
+   }
+
+  .mobileTestModal #pickProfessionBtn {
+        color: #000;
+        border: 2px solid rgb(23,184,214);
+        background-color: #fff;
+        width: 100%;
+    }
+
+  .mobileTestModal  #pickProfessionBtn:active, #pickProfessionBtn:focus {
+        background-color: rgb(23,184,214);
+    }
+
+   .mobileTestModal .other {
+       font-size:22px;
+   }
+
+  .mobileTestModal #slide3 .nextBtn {
+       margin:0;
+       margin-left:5px;
+       width:110px;
+   }
+
+  .mobileTestModal #slide3 .skipBtn {
+       margin:0;
+       margin-right:5px;
+       height:42px;
+   }
+
+   .mobileTestModal .skipBtn {
+       height:42px;
+   }
+
+  .mobileTestModal .skipBtn:hover, .skipBtn:active, .skipBtn:focus {
+       background-color: #666;
+   }
+
+  .mobileTestModal #professionsOverlay__ {
+       width:100%;
+       height:100%;
+       position:fixed;
+       top:0;
+       left:0;
+       background-color:#000;
+       display:none;
+       z-index:100;
+       /*color:#fff;*/
+       padding:10px;
+   }
+
+  .mobileTestModal #professionsOverlay .closeIcon {
+       right:0;
+       top:0;
+   }
+
+  .mobileTestModal  #professionsOverlay .jobs {
+        height:85%;
+        width:100%;
+        font-size:16px;
+        background-color:#fff;
+    }
+
+   .mobileTestModal  #professionsOverlay .job {
+         padding:10px;
+         border-bottom: 1px solid rgb(23,184,214);
+     }
+
+    .mobileTestModal #searchJob {
+         width: 80%;
+     }
+
+.mobileTestModalV2 .blueBorderBtn {
+    background-color: rgb(218, 242, 248);
+}
+
+.mobileTestModalV2 .blueBorderBtn:hover, .mobileTestModalV2 .blueBorderBtn:focus, .mobileTestModalV2 .blueBorderBtn:active, .mobileTestModalV2 .selectedGender {
+    background-color: rgb(23,184,214);
+}
+
+     
+/*Mobile test modal*/
+.mobileTestModal .modalTitle {
+    background-color: #000;
+    height: 50px;
+    color: #fff;
+    line-height: 50px;
+    margin:0;
+}
+
+.mobileTestModal .steps {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    padding:10px;
+}
+
+.mobileTestModal p {
+    color: #000;
+    font-size: 17px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    white-space: initial;
+}
+
+.mobileTestModal #slide1 p, .mobileTestModal #slide2 p {
+    font-size: 22px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    white-space: initial;
+}
+
+.mobileTestModal #slide3 p {
+    color: #000;
+    font-size: 17px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    white-space: initial;
+}
+
+.mobileTestModal #slide3 #selectedCareer {
+    font-family: 'open sans';
+    color: #666;
+    margin: 5px;
+    font-size: 14px;
+    text-transform: none;
+}
+
+.mobileTestModal #pickProfessionBtn {
+    position:relative;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 8px;
+    white-space: initial;
+}
+
+.mobileTestModal #pickProfessionBtn i.fa-angle-right {
+    display: block !important;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: -12px;
+}
+
+.mobileTestModal #pickProfessionBtn i.fa-angle-right:before {
+    font-weight:600;
+}
+
+.mobileTestModal .stepsHeader {
+    text-align: center;
+    font-size: 18px;
+    padding: 5px;
+    background-color: rgba(23, 184, 214, 1);
+    margin-bottom:20px;
+}
+
+.mobileTestModal .questionContent {
+    width: 100%;
+    margin-top:20px;
+}
+
+.mobileTestModal .questionContent .row {
+    margin: 10px 0 0;
+}
+
+.mobileTestModal .questionContent .col-lg-12 {
+    padding: 0 5px;
+}
+
+.mobileTestModal .startNewTest {
+    margin-top: 10px;
+}
+
+.mobileTestModal .jobs {
+    overflow-x: hidden;
+}
+.mobileTestModal .menuWrap {
+    background-color: white;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.mobileTestModal #searchJob {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.mobileTestModal .closeIcon {
+    top: 5px;
+}
+
+.mobileTestModal .resultBtnMobile {
+    width: 200px;
+    height: 50px;
+    line-height: 48px;
+    vertical-align: middle;
+    bottom: 70px;
+    padding: 0;
+    background-color: #38D5A3;
+    border-radius: 0;
+    border: 2px solid #61BE80;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    position: fixed;
+    left: 50%;
+    margin-left: -100px;
+}
+
+.mobileTestModal .resultBtnMobile:hover, .resultBtnMobile:focus, .resultBtnMobile:active {
+    color: #000;
+    border-color: #000;
+}
+
+
+
+@media screen and (max-width: 700px) {
+    .mobileText {
+        font-size:24px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .mobileText {
+        font-size:22px;
+    }
+ 
+    .mobileMenu li a {
+        font-size: 17px;
+    }
+
+    #continue .fa-angle-right {
+        font-size: 22px;
+        padding:14px 15px;
+    }
+
+}
+
+@media screen and (max-device-width:360px) {
+
+    /*question text*/
+    .mobileText {
+        font-size:5vw;
+        font-size: 20px;
+    }
+
+	.bt-menu ul li a {
+		font-size: 90%;
+	}
+
+    .continueWrapper {
+        bottom:110px;
+    }
+
+    /*#continue {
+        position: relative;
+        margin:0 auto;
+        right: 0;
+        bottom:0;
+        display:none;
+        background-color: #44AEB8;
+        background-color: #fff;
+        background-color: rgb(66, 212, 170);
+        font-weight:400;
+        font-family:'open sans condensed';
+        width:98%;
+        color:#000;
+        border:1px solid #000;
+    }*/
+
+    .bt-menu-trigger {
+        height:50px;
+        width:50px;
+        position:absolute;
+        top:0;
+        right:0;
+    }
+
+    /*.btn-primary {
+        color: rgb(66, 212, 170) !important; /*current question - green
+    }
+
+
+    .btn-success, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
+        background-color:#fff !important;
+        color:#000 !important;
+    }
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+        background-color: #302F34 !important; /*grey
+        color:#fff !important;
+    }*/
+}
+

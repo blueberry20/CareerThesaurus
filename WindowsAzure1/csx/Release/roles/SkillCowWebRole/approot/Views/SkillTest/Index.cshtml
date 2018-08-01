@@ -1,0 +1,817 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.Tests.SkillAssessment
+@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.CBNProfessions
+@using System.Text;
+@{
+    ViewBag.Title = "Skill Assessment Test";
+    ViewBag.SuppressRegistrationOverlay = true;
+
+    ViewBag.MetaDescription = "SkillCow's Career Assessment Test is short and very accurate.  After you take this 9 question test, you will find out which professions fit you naturally based on your personality traits.";
+    ViewBag.MetaKeywords = "Most Accurate, Best, Free, Career Assessment, Skill Assessment, Skill Test";
+}
+    <style>
+        .resultcategory {position: relative; border: 1px solid #ddd; background-color: rgba(255,255,255,1); padding: 5px 5px 3px 5px; margin: 0 0 1px 0;}
+        .categorytoggle {position: absolute; right: 3px; bottom: 6px; color:#888888; cursor: pointer;}
+        .categorytoggle:hover {color: #ff0000;}
+        
+        .importantthings {padding: 10px 0 0 20px;  }
+        .importantthings div {display: inline-block; border: thin solid #eee; margin: 0 5px 5px 0; border-radius: 10px; cursor: pointer}
+        .importantthings div div { border: 2px solid #fff; padding: 5px 10px 5px 10px; border-radius: 10px 10px; margin: 0; background-color: #eee; color: #333; font-weight: normal; }
+        .importantthings div div:hover { border: 2px solid #00aaff; background-color: #00aaff; color: #fff;  }
+        .importantthings div div:active { border: 2px solid #0088dd; background-color: #0088dd; color: #fff;  }
+        
+        .importantthings div div.flashed { border: 2px solid #0088dd; background-color: #0088dd; color: #ffffff; font-weight: normal; }
+        .importantthings div div.selected { border: 2px solid #00aaff; background-color: #00aaff; color: #ffffff; font-weight: normal; }
+        .importantthings div div.selected:active { border: 2px solid #0088dd; background-color: #0088dd; color: #fff;  }
+        
+        .top10careers {padding: 10px 0 0 20px;  }
+        .top10careers div.column { display:inline-block; width: 300px; margin: 0 10px 1px 0;}
+        .top10careers div.column div { border: 2px solid #fff; padding: 5px 10px 5px 10px; border-radius: 10px 10px; margin: 0; background-color: #eee; color: #333; font-weight: normal; cursor: pointer}
+        .top10careers div.column div:hover { border: 2px solid #00aaff; background-color: #00aaff; color: #fff;  }
+        .top10careers div.column div:active { border: 2px solid #0088dd; background-color: #0088dd; color: #fff;  }
+        
+        .top10careers div.column div.selected { border: 2px solid #fff; background-color: #00aaff; color: #ffffff; font-weight: normal; }
+        .top10careers div.column div.selected:active { border: 2px solid #0088dd; background-color: #0088dd; color: #fff;  }
+        
+        h2 {font-family: Roboto; color: #333; font-weight: bold; font-size: 10pt; margin: 0 0 5px 0;}
+        
+        .professionrank  
+        {
+            border-radius: 3px 3px; color: #fff; font-weight: bold; text-align: center; margin-right: 5px; padding: 3px 1px 0 0; width: 24px; height: 19px; vertical-align: center;
+            
+            background: #555555; 
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#000000', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#888888), to(#000000)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #888888,  #000000); /* for firefox 3.6+ */   
+        }
+        .professionrank:hover
+        {
+            background: #666666; 
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#111111', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#888888), to(#111111)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #888888,  #111111); /* for firefox 3.6+ */   
+        }
+    </style>
+    <style>
+        #customformcontainer .logocontainer {position: relative; width: 589px; background-color: rgba(255,255,255,0.5); padding-bottom: 20px;}
+    
+        #customformcontainer .controlcontainer {position: relative; width: 589px; background-color: rgba(255,255,255,0.5); height: 35px; margin-bottom: 1px; }
+        #customformcontainer .controlcontainer .label { position: absolute; width: 250px; left: 30px; top: 9px; font-size: 10pt; }
+        #customformcontainer .controlcontainer .control { position: absolute; width: 300px; left: 280px; top: 0px; }
+        #customformcontainer .controlcontainer .control input[type='text'] { font-size: 12pt; padding: 5px; width: 275px; color:#333; }
+        #customformcontainer .controlcontainer .control select { font-size: 12pt; width: 287px; padding: 5px; color:#333; }
+    
+        #customformcontainer .textareacontainer {position: relative; width: 589px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+        #customformcontainer .textareacontainer .label { position: relative; width: 250px; left: 30px; font-size: 10pt; padding-top: 9px;}
+        #customformcontainer .textareacontainer .control { position: relative; width: 200px;  padding: 9px;}
+        #customformcontainer .textareacontainer .control textarea { font-family: Arial; font-size: 12pt; padding: 5px; width: 555px; color:#333; }
+    
+        #customformcontainer .checkboxcontainer {position: relative; width: 589px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+        #customformcontainer .checkboxcontainer .label { position: relative; left: 30px; font-size: 10pt; padding-top: 9px;max-width: 475px;}
+        #customformcontainer .checkboxcontainer .control { position: relative; width: 200px;  padding: 9px;}
+            
+        #customformcontainer .fieldgroupcontainer {position: relative; width: 589px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+        #customformcontainer .fieldgroupcontainer .label { position: relative; left: 30px; font-size: 10pt; padding-top: 9px; max-width: 475px;}
+        #customformcontainer .fieldgroupcontainer .control { position: relative; margin-left:269px;  padding: 9px;}
+        #customformcontainer .fieldgroupcontainer .control select { font-size: 12pt; padding: 0px; color:#333; display: inline-block; padding: 5px;}
+    
+    </style>
+
+    <!--VM Listings scripts-->
+    <script type="text/javascript" src="http://www.bwserver.net/scripts/vmGeoLocation.v1.php"></script>
+    <script type="text/javascript" src="http://www.bwserver.net/12300/12368/scripts/bw-load-edu-fr-7587.js"></script>
+                    
+
+    <script>
+        var thanksflag = @(ViewBag.ThanksFlag.ToString().ToLower());
+    </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Covered+By+Your+Grace' rel='stylesheet' type='text/css'>   
+    <div class="container" style="background-color: rgba(255,255,255,0.8); border-top: thin solid #fff; min-height: 1200px;">
+        
+        <div id="questionindex" class="questionindex">
+            
+        </div>
+        
+        <div style="display: inline-block; vertical-align: top; height: 100%; ">
+            <!--LEFT PANE-->
+            <div id="test" class="test">
+                <div id="startoverbutton" style="position: absolute; top: 10px; right: 10px; z-index: 99999;">
+                    <a href="javascript:resettest()">Start over</a>
+                </div>
+            </div>
+
+            <div id="progresspanel" class="progresspanel">
+                <div id="progressbararea" class="progressbararea">
+                    <div id="progressbar" class="progressbar"></div>
+                    <div id="progressmessage" class="progressmessage">Begin by answering the question above</div>
+                </div>
+            </div>
+            
+            <div id="refinementcanvas" style="position: relative; padding: 0px 20px 40px 0px; background-color: rgba(255,255,255,0.8); width: 569px; height: 200px; display: none ;"></div>
+            
+            <div class="intestfacebookbar">
+                <div class="fb-like" data-href="@Request.Url.ToString()" data-send="true" data-width="450" data-show-faces="false" data-font="verdana" data-action="recommend"></div>
+            </div>
+            <div id="annotations" class="annotations" style="display: none;">
+                @if ((ViewBag.ExtendedRecordSubmitted != null && ViewBag.ExtendedRecordSubmitted == true) || (ViewBag.RecordSubmitted != null && ViewBag.RecordSubmitted == true))
+                {
+                <div style="width: 300px; height: 250px; float: left; margin: 10px;">
+                    <script type="text/javascript"><!--
+                        google_ad_client = "ca-pub-3486420009474810";
+                        /* SkillCow 300x250 */
+                        google_ad_slot = "5368950880";
+                        google_ad_width = 300;
+                        google_ad_height = 250;
+                        //-->
+                        </script>
+                        <script type="text/javascript"
+                        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                        </script>
+                </div>
+                }
+                <h1 style="font-size: 14pt; margin-left: 20px;">Your Assessment</h1>
+                @Html.Partial("_test_attributes")
+                <br />
+            </div>
+
+            <div id="summarycontent" style="display:none;"></div>
+                      
+            <!-- IN TEST VM LISTINGS - ORGANIC TRAFFIC ONLY -->
+
+            @if (false && ViewBag.CBNCampaign == "13564694" && ViewBag.RecordSubmitted!=true)
+            {
+                <h1 style="margin: 40px 0 0px 23px;">Schools near you Enrolling Now!</h1>
+                <div id="intestvmlistings" style="position: relative; left: -10px; width:590px; " >
+                    <br />
+                    <div class="vm-container-three">
+                        <div class="vm-container-five">
+                            <!-- **************** Brokers Web **************** -->
+                            <script>
+                                function showInTestVMSchoolsForCareer(prodid) {
+                                    //Show VM listings
+                                    vm_loadListings({
+                                        prodId: prodid, //
+                                        aid: 12368, //
+                                        cid: 7871,
+                                        adSource: ''
+                                    });
+                                }
+                                showInTestVMSchoolsForCareer(604);
+                            </script>
+                            <!-- **************** End Brokers Web **************** -->
+                        </div>
+                        
+                    </div>
+                    <div id="vmothercareers">
+                    </div>
+                </div>
+            }
+            
+        </div>
+            
+        <!--RIGHT PANE-->
+        <div id="testresults" class="testresults">
+            <style> 
+                #widgetattributes {position: absolute;}
+                .resultdim {position: absolute; color: Red; font-family: 'Covered By Your Grace', cursive; font-size: 16pt;}
+            </style>
+
+            <div style="position: relative; width: 307px; height: 307px; background-color: #fff;">
+                <img id="resultsarrow" src="/content/images/results-down-arrow.png" style="position: absolute; left: 50px; bottom: 0px;"/>
+                <div style="position: absolute; background-color: #fff; width: 100%; height: 100%"></div>
+                <img style="position: absolute; bottom: 0px; right: 20px; height: 200px;" src="/content/images/3dpersonpuzzle.jpg" />
+                
+                <canvas id="puzzlewidgetcanvas" style="position: absolute;" height="307"; width="307"></canvas>
+                <div id="widgetattributes"></div>
+            </div>
+
+            <div class="pane">
+                <div id="resultsarrowspacer" style="width: 100px; height: 0px;"></div>
+                <div id="professioncontent">
+                </div>
+            </div>
+
+            <div class="pane">
+                Don't have the right skills?  We're here to help!  Call us toll free for assistance.
+            
+                <div style="text-align: center;">
+                <h1 style="color: #3399cc; font-size: 26pt; margin: 10px 0 0 0;"><span class="vanitynumber">@(ViewBag.TollFreeNumberVanity)</span></h1>
+                or 1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span>
+                </div>
+            
+            </div>
+            
+        </div>
+
+            
+        
+        
+    </div>
+
+    <div id="allfields" style="position: absolute; top: 0; left: 0px; background: #fff;">
+       
+    </div>
+
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/helper_functions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/flow.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/processinput.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/testcomplete.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/careerchoices.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/schoolformparser.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/formsubmission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/resettest.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/groupschools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/schools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/showsummary.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/statemapping.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/puzzlewidget.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/puzzlewidgetie8.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/SkillTest/importantthings.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script>
+
+    
+    function $allwithattributes_ready(data, container) {
+        professions = data.items;
+        showallprofessions();
+
+        if (!summaryshown) {
+            showsummary();
+        }
+    }
+
+    function $skillcowtestshort_ready(data, container) {
+        tempquestions = data.items;
+        loadtestquestions();
+    }
+
+
+    function $ultrashorttest_ready(data, container) {
+        tempquestions = data.items;
+        loadultrashorttestquestions();
+    }
+
+    
+    ontestpage = true;
+    
+    
+</script>
+
+
+<!--INSERTS-->
+<div id="custominserts">
+    <div id="congrats" class="congratsholder">
+        <div class="question">
+            <h1 class="questiontitle">Congratulations!</h1>
+            <p class="text">
+                You have completed the test.
+            </p>
+        </div>
+    </div>
+
+    <div id="tellusaboutyourself" class="insertholder">
+        <div class="question">
+            <h1 class="questiontitle">Please take a moment...</h1>
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                to tell us about yourself<br />
+                <form id="frmtellus" action="/skilltest" method="post">
+                    <table class="formtable">
+                        <tr>
+                            <td>FIRST NAME <span style="color: red;">*</span></td>
+                            <td>ZIP CODE <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="frmtellusfirstname" name="firstname" type="text" value=""/></td>
+                            <td><input id="frmtelluszip" name="zip" type="text" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>PHONE NUMBER <span style="color: red;">*</span></td>
+                            <td>EMAIL <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="frmtellusphone" name="phone" type="text" value=""/></td>
+                            <td><input id="frmtellusemail" name="email" type="text" value=""/></td>
+                        </tr>
+                    </table>
+                    <div style="position: relative; text-align: right; padding-right: 25px; margin: 5px 0 0 0;">
+                        <div style="position: absolute; left: 25px; top: 70px; width: 540px; font-size: 8pt; color: #555; text-align: left;">
+                            By entering my information and clicking "Submit", I am providing express consent to be contacted by SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com <a href="javascript:window.open('/theprivacypolicy')" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+                        </div>
+                        <input type="button" class="submitinfo" value="Submit and continue" onclick="submitfrmtellus();"/>
+                    </div>
+                    <input type="hidden" name="sourceform" value="midtest"/>
+                    <input type="hidden" name="testresults" value=""/>
+                    <input type="hidden" name="campus_key" value="0"/> 
+                    <input type="hidden" name="program_key" value="0"/> 
+                    <input type="hidden" name="address1" value="GET THIS"/> 
+                    <input type="hidden" name="client" value="20"/> 
+                    <input type="hidden" name="id" value="1727"/> 
+                    <input type="hidden" name="campaign_id" value="@(ViewBag.CBNCampaignId)"/>
+                </form>
+            </p>
+        </div>
+    </div>
+
+
+    <div id="registertoviewresults" class="insertholder">
+        <div class="question">
+            <h1 class="questiontitle">Almost done!</h1>
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                Please tell us about yourself so we can better assist you<br>
+                <form id="frmregistertoview" action="/skilltest" method="post">
+                    <table class="formtable">
+                        <tr>
+                            <td>First name <span style="color: red;">*</span></td><td>Zip code <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="registertoviewfirstname" name="firstname" type="text" value=""/></td>
+                            <td><input id="registertoviewzip" name="zip" type="text" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>Your phone <span style="color: red;">*</span> <span style="color: #555;">(cell preferred)</span></td>
+                            <td>Email <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="registertoviewphone" name="phone" type="text" value=""/></td>
+                            <td><input id="registertoviewemail" name="email" type="text" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>High School grad year <span style="color: red;">*</span> </td>
+                            <td>Your intention <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="registertoviewgradyear" name="gradyear" style="width: 258px;"><option value="" selected ></option>' + gradyearoptions + '</select>
+                            </td>
+                            <td>
+                                <select id="registertoviewintent" name="edu_intent" style="width: 258px;"><option value="" selected ></option>
+                                    <option value="NO" >I am already skilled, find me a job</option>
+                                    <option value="YES" >I want to improve my skills</option>
+                                    <option value="YES" >All of the above</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="position: relative; text-align: right; padding-right: 25px; margin: 20px 0 0 0;">
+                        <div style="position: absolute; left: 25px; top: 70px; width: 540px; font-size: 8pt; color: #555; text-align: left;">
+                            By entering my information and clicking "View Results", I am providing express consent to be contacted by SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com <a href="javascript:window.open('/theprivacypolicy')" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+                        </div>
+                        <input type="button" class="submitinfo" value="View Results" onclick="submitfrmregistertoview();"/>
+                    </div>
+                    <input type="hidden" name="sourceform" value="endoftest"/>
+                    <input type="hidden" name="testresults" value=""/>
+                    <input type="hidden" name="campus_key" value="0"/> 
+                    <input type="hidden" name="program_key" value="0"/> 
+                    <input type="hidden" name="address1" value="GET THIS"/> 
+                    <input type="hidden" name="client" value="20"/> 
+                    <input type="hidden" name="id" value="1727"/> 
+                    <input type="hidden" name="campaign_id" value="@(ViewBag.CBNCampaignId)"/> 
+                </form>
+            </p>
+        </div>
+    </div>
+
+    <div id="importantthingscanvas" class="insertholder">
+        <div class="question" style="height: 300px;">
+            <h2>Select up to 3 most important things to you</h2>
+            <h3>You can further refine your results by clicking Tags on and off</h3>
+            <div id="importantthings" class="importantthings">
+                
+            </div>
+            <p class="answers" style="text-align: right; width: 549px">
+                <input class="answerbutton" type="button" onclick="nextQuestion()" value="Next"/>
+            </p>
+        </div>
+    </div>
+
+    <div id="top10careerscanvas" class="insertholder">
+        <div class="question" style="height: 300px;">
+            <h2 style="font-size: 14pt;">Which of these professions appeal the most to you?</h2>
+            
+            <div id="top10careers" class="top10careers">
+                
+            </div>
+
+            
+            <h2 style="position: absolute; left: 215px; bottom: 30px; font-size: 14pt;">(select all that apply)</h2>
+
+            <p class="answers" style="text-align: right; width: 609px">
+                <input class="answerbutton" type="button" onclick="nextQuestion()" value="Next"/>
+            </p>
+
+
+        </div>
+    </div>
+
+
+    <div id="zipcodeupfront" class="insertholder">
+        <div class="question" style="height: 300px;">
+            <h2>Please enter your ZIP code</h2>
+                        
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                <table class="formtable">
+                    <tr>
+                        <td><input id="zipcodeupfrontvalue" type="text" style="width: 100px;" /></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </p>
+
+
+            <p class="answers" style="text-align: right; width: 549px">
+                <input class="answerbutton" type="button" onclick="zipcodeupfront()" value="Next"/>
+                <script>
+                    function zipcodeupfront() {
+                        var val =$('#zipcodeupfrontvalue').val();
+                        if (!validateZip(val)) {
+                            alert('Please enter your zip code');
+                            $('#zipcodeupfrontvalue').focus();
+                            return;
+                        }
+                        setCookie('zip', val, 365);
+
+                        $('#zipcodeupfront').hide();
+                        nextQuestion();
+                    }
+                    $('#zipcodeupfrontvalue').bind('keypress', function (e) {
+                        if (e.keyCode == 13) {
+                            zipcodeupfront();
+                        }
+                    });
+                </script>
+            </p>
+        </div>
+    </div>
+
+    <div id="filterquestionsform" class="insertholder">
+        <div class="question" style="height: 380px; width: 647px;">
+            <h1 class="questiontitle">What is your education level so far?</h1>
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                <table class="formtable">
+                    <tr>
+                        <td>Education Level <span style="color: red;">*</span></td>
+                        <td>
+                            H.S. graduation year <span style="color: red;">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="filterquestionsformhighestlevel" name="education_level" style="width: 288px; height: 30px;">
+                                <option value="" selected></option>
+                                <option value="INHS">Still in High School</option>
+                                <option value="GED">GED</option>
+                                <option value="HS">High School Diploma</option>
+                                <option value="CRT">Certificate</option>
+                                <option value="SC">Some College</option>
+                                <option value="AS">Associates Degree</option>
+                                <option value="BS">Bachelor's Degree</option>
+                                <option value="MS">Master's Degree</option>
+                                <option value="DOC">Doctoral Degree</option>
+                                <option value="None">None</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="filterquestionsformgradyear" name="gradyear" style="width: 288px; height: 30px;">
+                                <option value="" selected></option>
+                                @for (int i = DateTime.Now.Year + 4; i > DateTime.Now.Year - 50; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <p class="answers" style="text-align: right; width: 607px; bottom: 100px; ">
+                <input class="answerbutton" type="button" onclick="savefilterquestionsform()" value="Next" style=""/>
+                <script>
+                    function savefilterquestionsform() {
+                        val = $('#filterquestionsformhighestlevel').val();
+                        if (val == '') {
+                            alert('Please select your Highest Level of Education');
+                            $('#filterquestionsformhighestlevel').focus();
+                            return;
+                        }
+                        setCookie('education_level', val, 365);
+
+                        val = $('#filterquestionsformgradyear').val();
+                        if (val == '') {
+                            alert('Please select your High School Graduation Year');
+                            $('#filterquestionsformgradyear').focus();
+                            return;
+                        }
+                        setCookie('gradyear', val, 365);
+
+                        $('#filterquestionsform').hide();
+
+                        nextQuestion();
+                    }
+                </script>
+            </p>
+        </div>
+    </div>
+
+
+    <div id="basicrecordform" class="insertholder">
+        <div class="question" style="height: 380px;">
+            <h1 class="questiontitle">Please take a moment to register</h1>
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                <table class="formtable" border=0>
+                    <tr>
+                        <td>Title</td>
+                        <td>Your FIRST name <span style="color: red;">*</span></td>
+                        <td colspan=2>Your LAST name <span style="color: red;">*</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="recordformsalutation" name="salutation" style="width: 60px; font-size: 10pt; height: 30px;">
+                                <option value="MR">Mr.</option>
+                                <option value="MS">Ms.</option>
+                                <option value="MRS">Mrs.</option>
+                            </select>
+                        </td>
+                        <td><input id="recordformfirstname" name="firstname" type="text" value="" style="width: 208px"/></td>
+                        <td colspan=2><input id="recordformlastname" name="lastname" type="text" value="" style="width: 280px"/></td>
+                    </tr>
+                    <tr><td colspan=4 style="height: 5px;">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="2">Your phone number <span style="color: red;">*</span> <span style="color: #555;">(cell preferred)</span></td>
+                        <td colspan=2>Your email <span style="color: red;">*</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input id="recordformphone" name="phone" type="text" value="" style="width: 280px"/></td>
+                        <td colspan=2><input id="recordformemail" name="email" type="text" value="" style="width: 280px" onchange="showconfirmdobyear()" onkeypress="showconfirmdobyear()"/></td>
+                    </tr>
+                    <tr><td colspan=4 style="height: 5px;" id="downloadstatus"></td></tr>
+                    <tr><td colspan=4 style="height: 5px;">&nbsp;</td></tr>
+
+                    
+                    
+                </table>
+
+                
+            </p>
+            <p class="answers" style="text-align: right; bottom: 100px; right: 20px; ">
+                <span id="confirmdobyear" style="font-size: 12px; margin: 1px; opacity: 0;">
+                    Confirm birth year: 
+                    <select id="recordformbirthyear" name="birthyear" style="width: 80px; font-size: 10pt; padding: 5px; margin-right: 20px; height: 30px;">
+                        @for (int i = 14; i <= 65; i++)
+                        {
+                        <option value="@(DateTime.Now.Year-i)">@(DateTime.Now.Year-i)</option>
+                        }
+                    </select>
+                </span>
+                <input class="answerbutton" type="button" onclick="saverecordform()" value="Next" style=""/>
+                <script>
+                    function showconfirmdobyear() {
+                        var val = $('#recordformemail').val();
+                        if (!validateEmail(val)) {
+                            return;
+                        }
+                        $('#confirmdobyear').css('opacity',1);
+                    }
+                    function saverecordform() {
+                        var val = '';
+
+                        val = $('#recordformsalutation').val();
+                        setCookie('salutation', val, 365);
+
+                        val = $('#recordformfirstname').val();
+                        if ($.trim(val) == '') {
+                            alert('Please enter your first name');
+                            $('#recordformfirstname').focus();
+                            return;
+                        }
+                        setCookie('firstname', val, 365);
+
+                        val = $('#recordformlastname').val();
+                        if ($.trim(val) == '') {
+                            alert('Please enter your last name');
+                            $('#recordformlastname').focus();
+                            return;
+                        }
+                        setCookie('lastname', val, 365);
+                        
+                        var enteredNumber = $.trim($('#recordformphone').val());
+                        var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+
+                        if (formattedNumber == "") {
+                            alert('Please enter a valid phone number');
+                            $('#recordformphone').focus();
+                            return;
+                        }
+                        else {
+                            $('#recordformphone').val(formattedNumber);
+                        }
+                        setCookie('phone', formattedNumber, 365);
+
+                        val = $('#recordformemail').val();
+                        if (!validateEmail(val)) {
+                            alert('Please enter a valid email');
+                            $('#recordformemail').focus();
+                            return;
+                        }
+                        setCookie('email', val, 365);
+
+                        val = $('#recordformbirthyear').val();
+                        setCookie('dobyear', val, 365);
+
+                        $('#basicrecordform').hide();
+
+                        //Stop downloading schools in the background
+                        if (!stopdownloadingschoolresults) {
+                            finalizeDownloadedSchoolResutls();
+                        }
+
+                        try {
+                            $.ajax({
+                                url: appserverurl + "/skilltest",
+                                type: "POST",
+                                data: {
+                                    sourceform: "record",
+                                    zip: getCookie('zip'),
+                                    firstname: $('#recordformfirstname').val(),
+                                    lastname: $('#recordformlastname').val(),
+                                    phone: $('#recordformphone').val(),
+                                    email: $('#recordformemail').val(),
+                                    educationlevel: getCookie('education_level'),
+                                    gradyear: getCookie('gradyear')
+                                }
+                            });
+                        }
+                        catch (e) {
+                            alert(e.message);
+                        }
+
+                        if (getCookie("utm_source") != null && getCookie("utm_source").toLowerCase() == "advertise.com") {
+                            firePixel('http://www.advconversion.com/ads-conversiontrack/conversion/track.do?type=img&advertiserId=60431');
+                        }
+
+                        if (getCookie("utm_source") != null && getCookie("utm_source").toLowerCase() == "admedia") {
+                            fireAdMediaPixel();
+                        }
+
+                        setCookie('recordformnextpressed','1');
+
+                        nextQuestion();
+                    }
+                    
+                    
+                </script>
+            </p>
+
+            <div style="position: absolute; left: 30px; bottom: 20px; width: 555px; font-size: 8pt; color: #555; text-align: left;">
+                By entering my information and clicking "Next", I am providing express consent to be contacted by SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com <a href="javascript:window.open('/theprivacypolicy')" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="customformcontainer" class="custominsertholder">
+        <div class="question" style="min-height: 300px;">
+        <!--
+            <h4>Career Training</h4>
+            -->            
+            <style>
+                div.informlogo { position: relative; width: 130px; text-align: center; display: inline-block;}
+                div.informlogo img {}
+                div.campustype { position: relative; top: 0px; right: 0px;  color: #00aa00; font-family: Arial; font-size: 8pt; padding-left: 0px; text-align: center;} 
+                        
+                table.schoolcapsulestable {width: 550px; margin-left: 20px;}
+                table.schoolcapsulestable td.careertitle { font-family: Arial; color: #00aaff; font-weight: bold; font-size: 14pt; padding: 10px 10px 0px 10px; text-align: left;}
+                table.schoolcapsulestable td.checkboxholder {text-align: left; font-family: Arial; color: #333; font-size: 9pt; padding: 5px 10px 5px 10px; }
+                table.schoolcapsulestable td.checkboxholder input { margin-right: 10px;}
+                table.schoolcapsulestable img.schoollogo {opacity: 0.8; }
+                table.schoolcapsulestable img.schoollogo:hover {opacity: 1}
+                        
+                table.availableschoolstable {max-width: 560px;}
+                table.availableschoolstable td.careertitle { font-family: Arial; background: #000000; color: #fff; font-weight: bold; font-size: 10pt; padding: 5px 10px 5px 10px; }
+                table.availableschoolstable img.schoollogo {opacity: 0.8; }
+                table.availableschoolstable img.schoollogo:hover {opacity: 1}
+            </style>
+
+            <h4>Training is available for your top choice careers</h4>
+            <br />
+
+            <div style="text-align: center;">
+                <table id="schoolcapsulestable" class="schoolcapsulestable">
+                </table>
+            </div>
+
+            <br />
+            
+            <h4>Additional info needed to be contacted by above schools:</h4>
+
+            <p class="text" style="font-size: 12pt; padding: 0 0 15px 5px; font-family: Verdana; ">
+                <div id="customformfields"></div>
+            </p>
+            <p class="answersrelative" style="text-align: right; width: 609px">
+                <input class="answerbutton" type="button" onclick="submitCustomForm()" value="Submit"/><br /><br /><br />
+                <a href="" onclick="skipSchool()" style="text-decoration: underline; margin: 10px;">I am not interested in continuing education at this time</a>
+                <br />
+            </p>
+            <p class="text" style="font-size: 9pt; padding: 0 0 15px 5px; font-family: Arial; ">
+            By entering my information and clicking "Submit", I am providing express consent to be contacted by SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com <a href="javascript:window.open('/theprivacypolicy')" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+            </p>
+        </div>
+    </div>
+    
+
+    <div id="thankyoucanvas" class="custominsertholder">
+        <div class="question" style="min-height: 60px;">
+            <h4>Thanks for taking the SkillCow test!</h4>
+            <p style="padding: 0 20px 10px 20px; ">
+                A representative will be in touch with you shortly to discuss the next steps.
+            </p>
+        </div>
+    </div>
+
+    <div id="vmschoolscontainer" class="custominsertholder" style="background-color: #fff; width: 647px;" >
+        <div class="question" style="min-height: 300px;">
+            <div id="vmcareerlinks" style="margin: 0 0 0 20px;"></div><br />
+            <h2>Pursue a career as <span id="vmcareername">Career choice</span></h2>
+            <br />
+            @if (false && ViewBag.RecordSubmitted != null && ViewBag.RecordSubmitted == true)
+            {
+            <div class="vm-container-three">
+                <div class="vm-container-five">
+                    <!-- **************** Brokers Web **************** -->
+                    <script>
+                        function showVMSchoolsForCareer(prodid, careername) {
+                            $('#vmcareername').html(careername);
+                            //Show VM listings
+                            vm_loadListings({
+                                prodId: prodid, //type insurance
+                                aid: 12368, //affiliate 12368
+                                cid: getCookie('vmcampaign'), //campaign 7587
+                                adSource: ''
+                            });
+                        }
+                    </script>
+                    <!-- **************** End Brokers Web **************** -->
+
+                </div>
+                <div class="vm-clear"></div>
+            </div>
+            }
+            <div id="vmothercareers">
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.UtmSource == "admedia")
+{
+<script type='text/javascript' src='http://pixel.admedia.com/clickheat/js/clickheat.js'></script>
+<script type='text/javascript'>
+    clickHeatSite = '2470773';
+    clickHeatGroup = encodeURIComponent(window.location.host + window.location.pathname);
+    clickHeatServer = 'http://pixel.admedia.com/clickheat/click.php';
+    initClickHeat();
+</script>
+}
+
+<script>
+    function fireAdMediaPixel() {
+
+        var syndConversionType = '101';
+        var syndAccountID = '2470773';
+        var syndDomain = document.location.protocol + '//r.bid4keywords.com';
+        var syndFunnelValue = '100';
+        var syndDollarValue = '1';
+        var syndConversionTag = '';
+
+        var lsTrackVer = "5";
+        var lsTrackID = null;
+        var lsRnd = new Date().getTime();
+        var lsURL = syndDomain + "/images/tracking.gif?";
+
+        lsURL += "lsTrackVer=" + lsTrackVer + "&lsRnd=" + lsRnd;
+
+        if (typeof syndAccountID != "undefined" && syndAccountID != '') {
+            lsURL += "&lsaid=" + syndAccountID;
+        }
+        if (typeof syndConversionType != "undefined" && syndConversionType != '') {
+            lsURL += "&lsActionType=" + syndConversionType;
+        }
+        if (typeof syndFunnelValue != "undefined" && syndFunnelValue != '') {
+            lsURL += "&lsPageType=" + syndFunnelValue;
+        }
+        if (typeof syndDollarValue != "undefined" && syndDollarValue != '') {
+            lsURL += "&syndDollarValue=" + syndDollarValue;
+        }
+        if (typeof syndConversionTag != "undefined" && syndConversionTag != '') {
+            lsURL += "&syndConversionTag=" + syndConversionTag;
+        }
+
+        var lsImageObject = new Image();
+        lsImageObject.src = lsURL;
+
+    }
+</script>

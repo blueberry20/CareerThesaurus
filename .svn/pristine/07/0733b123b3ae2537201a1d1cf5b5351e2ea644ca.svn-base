@@ -1,0 +1,824 @@
+﻿using SkillCowResponsive.Classes.Cloud.BlobStorage;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Helpers;
+using System.Text.RegularExpressions;
+using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AdminController : Controller
+    {
+        //
+        // GET: /Admin/
+
+        public ActionResult Index(string resetschools)
+        {
+            if (resetschools != null)
+            {
+                Response.Cookies["cbnvm"].Expires = DateTime.Now.AddDays(-1d);
+            }
+            return View();
+        }
+        public ActionResult __SchoolAdmin()
+        {
+            return View();
+        }
+        public ActionResult __SchoolStudents()
+        {
+            return View();
+        }
+        public ActionResult __Subscribed()
+        {
+            return View();
+        }
+        public string PublishProfessions()
+        {
+            //string filename = @"c:\csv\ct_professions.csv";
+            string filename = @"c:\csv\aka2.csv"; //values[0] - dolcode, values[1] - title, values[2] - aka
+            int cnt = 0;
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+            
+            using(StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        //DO SOMETHING
+                        if(cnt++>0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            string[] info = new string[5];
+                            Regex regex = new Regex(@"[^a-zA-Z0-9]+");
+                            values[1] = values[1].Trim();
+                            string careername = regex.Replace(values[1], "-");
+                            Regex reg = new Regex(@",\s?");
+                            string aka = reg.Replace(values[2], ", ");
+                            string description = "";//values[3];
+                            string duties = "information coming soon";
+                            string salary = "information coming soon";
+                            string wheretofind = "information coming soon";
+                            string demand = "information coming soon";
+                            bool publish = false;
+                            string file = @"c:\professionsConverted_\" + values[0] + ".txt";
+                            if (values[0] == "19-2011")
+                            {
+                                //publish = true;
+                            }
+                            //publish = true;
+                            if (System.IO.File.Exists(file))
+                            {
+                                publish = true;
+                                using (StreamReader streamR = new StreamReader(file))
+                                {
+                                    string fileline;
+                                    int index = 0;                                    
+                                    do
+                                    {
+                                        fileline = streamR.ReadLine();
+                                        if (fileline != null && !fileline.Contains("-----") && fileline.Trim() != "")
+                                        {
+                                            fileline = fileline.Trim();
+                                            if (fileline == "Description")
+                                            {
+                                                index = 0;
+                                            }
+                                            else if (fileline == "Duties")
+                                            {
+                                                index = 1;
+                                            }
+                                            else if (fileline == "Salary")
+                                            {
+                                                index = 2;
+                                            }
+                                            else if (fileline == "Where to Find")
+                                            {
+                                                index = 3;
+                                            }
+                                            else if (fileline == "Demand")
+                                            {
+                                                index = 4;
+                                            }
+                                            else
+                                            {                                            
+                                                info[index] = info[index] + "|" + fileline.Replace(@"\s+", " ");
+                                            }
+                                        }
+                                    } while (fileline != null);
+                                }
+                            }
+                            description = info[0] == null ? description : info[0];
+                            duties = info[1] == null ? duties : info[1];
+                            salary = info[2] == null ? salary : info[2];
+                            wheretofind = info[3] == null ? wheretofind : info[3];
+                            demand = info[4] == null ? demand : info[4];
+                            if (publish)
+                            {
+                                //blobManager.SaveJsonResource("dolcode", "careers", "dolcodes", careername, "{value:\"" + values[0] + "\"}");
+                                //blobManager.SaveJsonResource("career_title", "careers", "bydolcode/" + values[0], "title", "{value:\"" + values[1] + "\"}");
+                                //blobManager.SaveJsonResource("career_aka", "careers", "bydolcode/" + values[0], "aka", "{value:\"" + aka + "\"}");
+                                //blobManager.SaveJsonResource("career_description", "careers", "bydolcode/" + values[0], "description", "{value:\"" + description + "\"}");
+                                //blobManager.SaveJsonResource("career_short_description", "careers", "bydolcode/" + values[0], "short_description", "{value:\"" + description + "\"}");
+                                //blobManager.SaveJsonResource("career_duties", "careers", "bydolcode/" + values[0], "duties", "{value:\"" + duties + "\"}");
+                                //blobManager.SaveJsonResource("career_salary", "careers", "bydolcode/" + values[0], "salary", "{value:\"" + salary + "\"}");
+                                //blobManager.SaveJsonResource("career_wheretofind", "careers", "bydolcode/" + values[0], "wheretofind", "{value:\"" + wheretofind + "\"}");
+                                //blobManager.SaveJsonResource("career_demand", "careers", "bydolcode/" + values[0], "demand", "{value:\"" + demand + "\"}");
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+
+            //using(StreamWriter sw = new StreamWriter(@"c:\csv\temp.csv"))
+            //{
+            //    sw.WriteLine();
+            //}            
+
+            return "";
+        }
+
+        public class Category
+        {
+            public string occ { get; set; }
+            public string dolcode { get; set; }
+            public string major { get; set; }
+            public string minor { get; set; }
+            public string category { get; set; }
+            public string career { get; set; }
+        }
+        public class Programs
+        {
+            public string dolcode { get; set; }
+            public string primary { get; set; }
+            public string secondary { get; set; }
+            public string vm { get; set; }
+        }
+        public string PublishCategory()
+        {
+            string filename = @"c:\csv\ct_profession.csv";
+            //string filename = @"c:\csv\ct_profession2.csv";
+
+            int cnt = 0;
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+            List<Category> categoryList = new List<Category>();
+            List<Programs> programs = new List<Programs>();
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        //DO SOMETHING
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[1] == "" || values[0].Length < 2)
+                            {
+                                continue;
+                            }
+                            categoryList.Add(new Category { occ = values[0].Substring(0, 2), dolcode = values[0], major = values[3], minor = values[4], category = values[6], career = values[1] });
+                            //programs.Add(new Programs { dolcode = values[0], primary = values[10], secondary = values[11], vm = values[16] });
+                        }
+                    }
+                } while (line != null);
+            }
+            List<string> results = new List<string>();
+            List<string> occs = categoryList.Select(x => x.occ).Distinct().ToList();
+            List<string> majors = categoryList.Select(x => x.major).Distinct().ToList();
+            foreach (string major in majors)
+            {
+                List<string> minors = categoryList.Where(x => x.major == major).Select(x => x.minor).Distinct().ToList();
+                List<string> minorsArray = new List<string>();
+                foreach (string minor in minors)
+                {
+                    //result += "{minor:\"" + minor + "\",categories:[";
+                    List<string> categories = categoryList.Where(x => x.major == major && x.minor == minor).Select(x => x.category).Distinct().ToList();
+                    List<string> careersArray = new List<string>();
+                    foreach (string category in categories)
+                    {
+                        List<string> careers = categoryList.Where(x => x.major == major && x.minor == minor && x.category == category).Select(x => x.career).Distinct().ToList();
+                        List<string> codesCareers = new List<string>();
+                        foreach (string career in careers)
+                        {
+                            string dolcode = categoryList.Where(x => x.career == career).Select(x => x.dolcode).First();
+                            codesCareers.Add(new StringBuilder("{dolcode:\"" + dolcode + "\",career:\"" + career + "\"}").ToString());
+                        }
+                        string careersStr = new StringBuilder("{category:\"" + category + "\",careers:[" + string.Join<string>(",", codesCareers) + "]}").ToString();
+                        careersArray.Add(careersStr);
+                    }
+                    string minorStr = new StringBuilder("{minor:\"" + minor + "\",categories:[" + string.Join<string>(",", careersArray) + "]}").ToString();
+                    minorsArray.Add(minorStr);
+                }
+                string majorStr = new StringBuilder("{major:\"" + major + "\",minors:[" + string.Join<string>(",", minorsArray) + "]}").ToString();
+                results.Add(majorStr);
+            }
+
+            for (var i = 0; i < results.Count; i++ ) {
+                //blobManager.SaveJsonResource("career_tree", "careers", "bymajor/" + occs[i], "tree", results[i]);
+                //Console.Write(results[i]);
+                //Console.Write(occs[i]);
+            }
+            //for (var i = 0; i < programs.Count; i++)
+            //{
+            //    blobManager.SaveJsonResource("career_program", "careers", "bydolcode/" + programs[i].dolcode, "program", "{primary:\"" + programs[i].primary + "\",secondary:\"" + programs[i].secondary + "\",vm:\"" + programs[i].vm + "\"}");
+            //}
+                return "";
+        }
+
+        public class bystate
+        {
+            public string dolcode { get; set; }
+            public string state { get; set; }
+            public string a_mean { get; set; }
+            public string a_pct10 { get; set; }
+            public string a_pct90 { get; set; }
+        }
+
+        public string PublishSalaryStats()
+        {
+            List<string> dolCodes = new List<string>();
+            string filename = @"c:\csv\dolcodes.csv";
+            int cnt = 0;
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            dolCodes.Add(values[0]);
+                        }
+                    }
+                } while (line != null);
+            }
+
+            List<bystate> bystatelist = new List<bystate>();
+
+            List<List<bystate>> data = new List<List<bystate>>();
+            filename = @"c:\csv\statesalary.csv";
+
+            List<string> placeholderValues = new List<string>();
+            cnt = 0;
+            string currentDolCode = "";
+            
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[1] == "PR" || values[1] == "VI" || values[1] == "GU" || values[1] == "HI")
+                            {
+                                continue;
+                            }
+                            if (currentDolCode == values[3])
+                            {
+                                bystatelist.Add(new bystate { dolcode = currentDolCode, state = values[1], a_mean = values[11], a_pct10 = values[18], a_pct90 = values[22] });
+                            }
+                            else
+                            {
+                                if (!dolCodes.Contains(values[3]))
+                                {
+                                    continue;
+                                }
+                                if (currentDolCode != "")
+                                {
+                                    data.Add(bystatelist);
+                                }
+                                currentDolCode = values[3];
+                                bystatelist = new List<bystate>();
+                                bystatelist.Add(new bystate { dolcode = currentDolCode, state = values[1], a_mean = values[11], a_pct10 = values[18], a_pct90 = values[22] });
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            List<bystate> nationalList = new List<bystate>();
+            filename = @"c:\csv\nationalsalary.csv";
+            cnt = 0;
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            nationalList.Add(new bystate { dolcode = values[0], state = null, a_mean = values[6], a_pct10 = null, a_pct90 = null });
+                        }
+                    }
+                } while (line != null);
+            }
+            foreach (var value in data)
+            {
+                List<string> results = new List<string>();
+                string dolcode = "";
+                foreach (bystate state in value)
+                {
+                    dolcode = state.dolcode;
+                    results.Add(new StringBuilder("{state:\"" + state.state + "\",a_mean:\"" + state.a_mean + "\",a_pct10:\"" + state.a_pct10 + "\",a_pct90:\"" + state.a_pct90 + "\"}").ToString());
+                }
+                string national_a_mean = nationalList.Where(x => x.dolcode == dolcode).Select(x => x.a_mean).First();
+                string str = new StringBuilder("[{state:\"national\",a_mean:\"" + national_a_mean + "\",a_pct10:" + "\"\"" + ",a_pct90:" + "\"\"" + "}," + string.Join<string>(",", results) + "]").ToString();
+                //blobManager.SaveJsonResource("career_salaries", "careers", "bydolcode/" + dolcode, "salaries", str);
+            }
+
+            return "";
+        }
+
+        public class byindustry
+        {
+            public string dolcode { get; set; }
+            public string naics { get; set; }
+            public string industry { get; set; }
+            public string employed { get; set; }
+            public string a_mean { get; set; }
+        }
+
+        public class forecast
+        {
+            public string naics { get; set; }
+            public string change { get; set; }
+        }
+
+        public string PublishIndustry()
+        {
+            List<byindustry> byindustrylist = new List<byindustry>();
+
+            List<List<byindustry>> data = new List<List<byindustry>>();
+
+            string filename = @"c:\csv\industries.csv";
+
+            int cnt = 0;
+            string currentDolCode = "";
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[6].Contains("*") || values[11].Contains("*") || values[11].Contains("#"))
+                            {
+                                continue;
+                            }                          
+                            if (currentDolCode == values[3])
+                            {
+                                byindustrylist.Add(new byindustry { dolcode = currentDolCode, naics = values[0], industry = values[2], employed = values[6], a_mean = values[11] });
+                            }
+                            else
+                            {
+                                if (currentDolCode != "")
+                                {
+                                    data.Add(byindustrylist);
+                                }
+                                currentDolCode = values[3];
+                                byindustrylist = new List<byindustry>();
+                                byindustrylist.Add(new byindustry { dolcode = currentDolCode, naics = values[0], industry = values[2], employed = values[6], a_mean = values[11] });
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            foreach (var value in data)
+            {
+                List<string> results = new List<string>();
+                int a_mean = 0;
+                int total = 0;
+                string dolcode = value.First().dolcode;
+                cnt = 0;
+                List<forecast> forecastList = new List<forecast>();
+                string file = @"c:\csvdol\occ_" + dolcode + ".csv";
+                try
+                {
+                    using (StreamReader sr = new StreamReader(file))
+                    {
+                        string line;
+                        do
+                        {
+                            line = sr.ReadLine();
+                            if (line != null)
+                            {
+                                if (cnt++ > 5)
+                                {
+                                    List<string> values = ParseCSV(line);
+                                    //values[1] and values[10]
+                                    forecastList.Add(new forecast { naics = values[1], change = values[10] });
+                                }
+                            }
+                        } while (line != null);
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+
+                }
+
+                foreach (byindustry industry in value)
+                {
+                    dolcode = industry.dolcode;
+                    a_mean += Convert.ToInt32(industry.a_mean);
+                    total += Convert.ToInt32(industry.employed);
+                    string change;
+                    try
+                    {
+                        change = forecastList.Where(x => x.naics == industry.naics).Select(x => x.change).First();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        change = "N/A";
+                    }
+                    results.Add(new StringBuilder("{industry:\"" + industry.industry + "\",a_mean:" + industry.a_mean + ",employed:" + industry.employed + ",change:\"" + change + "\"}").ToString());
+                }                
+                int industry_a_mean = (int)a_mean / value.Count;
+                string str = new StringBuilder("[{industry:\"national\",a_mean:" + industry_a_mean + ",employed:" + total + ",change:\"" + "\"}," + string.Join<string>(",", results) + "]").ToString();
+                //blobManager.SaveJsonResource("career_industries", "careers", "bydolcode/" + dolcode, "industries", str);
+            }
+            return "";
+        } 
+
+        public string PublishForecast()
+        {
+            string filename = @"c:\csv\forecast.csv";
+
+            int cnt = 0;
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            string str = new StringBuilder("{current:" + values[3] + ",employed:" + values[4] + ",forecast:" + values[8] + ",replacements:" + values[9] + "}").ToString();
+                            //blobManager.SaveJsonResource("career_forecast", "careers", "bydolcode/" + values[1], "forecast", str);
+                        }
+                    }
+                } while (line != null);
+            }
+            return "";
+        }
+
+        public class professions 
+        {
+            public string dolcode { get; set; }
+            public List<string> progressionsList = new List<string>();
+            public List<string> similarsList = new List<string>();
+        }
+
+        public string PublishSimilars()
+        {
+            string filename = @"c:\csv\similars.csv";
+            int cnt = 0;
+            string currentDolCode = "";
+
+            List<professions> data = new List<professions>();            
+            professions currentProfession = new professions();
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            string str = new StringBuilder("{dolcode:\"" + values[3] + "\",title:\"" + values[4] + "\",a_mean:" + values[5] + "}").ToString();
+
+                            if (currentDolCode != values[1])
+                            {                                
+                                if (currentDolCode != "")
+                                {
+                                    data.Add(currentProfession);
+                                }                                
+                                currentDolCode = values[1];
+                                currentProfession = new professions();
+                                currentProfession.dolcode = currentDolCode;
+
+                            }
+                            if (values[0] == "progressions")
+                            {
+                                currentProfession.progressionsList.Add(str);
+                            }
+                            else
+                            {
+                                currentProfession.similarsList.Add(str);
+                            }
+                            if (values[1] == "53-7121" && values[3] == "43-5011")
+                            {
+                                data.Add(currentProfession);
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            foreach (professions profession in data)
+            {
+                string progressions = new StringBuilder("[" + string.Join<string>(",",profession.progressionsList) + "]").ToString();
+                string similars = new StringBuilder("[" + string.Join<string>(",", profession.similarsList) + "]").ToString();
+                //blobManager.SaveJsonResource("career_progressions", "careers", "bydolcode/" + profession.dolcode, "progressions", progressions);
+                //blobManager.SaveJsonResource("career_similars", "careers", "bydolcode/" + profession.dolcode, "similars", similars);
+            }
+            return "";
+        }
+
+        public string PublishOccTitles()
+        {
+            string filename = @"c:\csv\occtitles.csv";
+
+            int cnt = 0;
+
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            string str = new StringBuilder("{value:\"" + values[2] + "\"}").ToString();
+                            //blobManager.SaveJsonResource("career_occtitle", "careers", "bydolcode/" + values[0], "occtitle", str);
+                        }
+                    }
+                } while (line != null);
+            }
+            return "";
+        }
+
+
+        public string Publish()
+        {
+            BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+            //blobManager.SaveJsonResource("career_progressions", "careers", "bydolcode/11-1011", "progressions", "[]");
+            //blobManager.SaveJsonResource("career_similars", "careers", "bydolcode/11-1011", "similars", "[]");
+            return "";
+        }
+
+        public string akatitles()
+        {
+            string filename = @"c:\csv\akatitles.csv";
+            int cnt = 0;
+            List<string> cblist = new List<string>();
+
+            List<string> akalist = new List<string>();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[0] != "")
+                            {
+                                cblist.Add(values[0].Trim().ToLower());
+                            }
+                            if (values.Count > 3)
+                            {
+                                if (values[3] != "")
+                                {
+                                    List<string> aka = new List<string>(values[3].Split(',').Select(x => x.Trim().ToLower()).ToList());
+                                    akalist.AddRange(aka);
+                                }
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            using (StreamWriter sw = new StreamWriter(@"c:\csv\temp.txt"))
+            {
+                foreach (string cbtitle in cblist)
+                {
+                    if (!akalist.Contains(cbtitle))
+                    {
+                        sw.WriteLine(cbtitle);
+                        Console.Write(cbtitle);
+                    }
+                }
+                
+            }
+            return "";
+        }
+        public string ctProfessions()
+        {
+            string filename = @"c:\csv\CT_AtributesInterests.csv";
+            int cnt = 0;
+            List<string> ctProfessions = new List<string>();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            ctProfessions.Add(new StringBuilder("{code:\"" + values[0] + "\",title:\"" + values[1] + "\",major:" + values[2] + ",minor:" + values[3] + ",minedulevel:" + values[4] + ",training:" + values[5] + ",salary:" + values[6] + ",popularity:" + values[7] + ",attitude:\"" + values[8] + "\",information:\"" + values[9] + "\",processing:\"" + values[10] + "\",action:\"" + values[11] + "\",endurance:\"" + values[12] + "\",presence:\"" + values[13] + "\",concentration:\"" + values[14] + "\",patterns:\"" + values[15] + "\",compensation:\"" + values[16] + "\",beauty:" + values[17] + ",helping:" + values[18] + ",adventure:" + values[19] + ",safety:" + values[20] + ",people:" + values[21] + ",science:" + values[22] + ",duty:" + values[23] + ",admiration:" + values[24] + ",creativity:" + values[25] + ",competition:" + values[26] + ",animals:" + values[27] + ",politics:" + values[28] + ",technology:" + values[29] + ",machinery:" + values[30] + ",gender:\"" + values[31] + "\",salesy:" + values[32] + ",critical:" + values[33] + ",numbers:" + values[34] + ",coordinating:" + values[35] + ",handlabor:" + values[36] + ",strength:" + values[37] + ",drafting:" + values[38] + "}").ToString());
+                        }
+                    }
+                } while (line != null);
+            }
+            string result = new StringBuilder("var professions = [" + string.Join(",\n", ctProfessions) + "];").ToString();
+
+            using (StreamWriter sw = new StreamWriter(@"c:\csv\temp.txt"))
+            {
+                sw.WriteLine(result);
+            }
+            return "";
+        }
+
+        public string ctProfessionsRelated()
+        {
+            //string filename = @"c:\csv\ct_professions.csv"; 
+            string filename = @"c:\csv\aka2.csv"; 
+
+            int cnt = 0;
+            List<string> ctProfessions = new List<string>();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            Regex regex = new Regex(@"[^a-zA-Z0-9]+");                            
+                            string str = regex.Replace(values[1], "-");
+                            List<string> keywords = new List<string>(str.Split('-').ToList());
+                            regex = new Regex(@",\s?");
+                            str = regex.Replace(values[2], "\",\"");
+                            ctProfessions.Add(new StringBuilder("{code:\"" + values[0] + "\",title:\"" + values[1] + "\",keywords:[\"" + string.Join("\",\"", keywords) + "\"],alttitles:[\"" + str + "\"]}").ToString());
+                        }
+                    }
+                } while (line != null);
+            }
+            string result = new StringBuilder("var professionsinfo = [" + string.Join(",\n", ctProfessions) + "];").ToString();
+
+            using (StreamWriter sw = new StreamWriter(@"c:\csv\keywords.txt"))
+            {
+                sw.WriteLine(result);
+            }
+            return "";
+        }
+
+        public static List<string> ParseCSV(string line)
+        {
+
+            int q = 0;
+
+            StringBuilder sb = new StringBuilder();
+            List<string> values = new List<string>();
+
+            foreach (char c in line)
+            {
+                if (c == '\"')
+                {
+                    q++;
+                }
+                if (c == ',' && q % 2 == 0)
+                {
+                    values.Add(sb.ToString().Replace("\"", ""));
+                    sb = new StringBuilder();
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            values.Add(sb.ToString().Replace("\"", ""));
+
+            return values;
+        }
+
+        public string PublishSchools()
+        {
+            List<SchoolAccount> schoolList = new List<SchoolAccount>();
+            SchoolAccountClient sac = new SchoolAccountClient();
+            string filename = @"c:\csv\schools2.csv";
+            int cnt = 0;
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[0] != "" && values[0] != null)
+                            {
+                                string RowKey = Regex.Replace(values[16], @"[^0-9]", "");
+                                SchoolAccount account = sac.GetByPartitionAndRowKey("school", RowKey);
+                                if (account == null)
+                                {
+                                    //sac.AddNewItem(new SchoolAccount { SchoolName = values[7], Address = values[8], City = values[9], State = values[10], ZipCode = values[0], PhoneNumber = values[16], RowKey = RowKey });
+                                }
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            return "";
+        }
+        public string TestSchool()
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            //sac.AddNewItem(new SchoolAccount { SchoolName = "Career Thesaurus School", Address = "1 Test Drive", City = "Statest Island", State = "NY", ZipCode = "11111", PhoneNumber = "9175555555", RowKey = "9175555555" });
+            return "";
+        }
+        public string PublishSchoolsManually()
+        {
+            List<SchoolAccount> schoolList = new List<SchoolAccount>();
+            SchoolAccountClient sac = new SchoolAccountClient();
+            string filename = @"c:\csv\hsupdate.csv";
+            int cnt = 0;
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string line;
+                do
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        if (cnt++ > 0)
+                        {
+                            List<string> values = ParseCSV(line);
+                            if (values[0] != "" && values[0] != null)
+                            {
+                                string RowKey = Regex.Replace(values[5], @"[^0-9]", "");
+                                SchoolAccount account = sac.GetByPartitionAndRowKey("school", RowKey);
+                                if (account == null)
+                                {
+                                    //sac.AddNewItem(new SchoolAccount { SchoolName = values[0], Address = values[1], City = values[2], State = values[3], ZipCode = values[4], PhoneNumber = values[5], RowKey = RowKey });
+                                }
+                            }
+                        }
+                    }
+                } while (line != null);
+            }
+            return "";
+        }
+    }
+}

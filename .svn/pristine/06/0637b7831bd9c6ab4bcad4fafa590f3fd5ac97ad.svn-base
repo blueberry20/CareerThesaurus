@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Thankyou";
+}
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+<link href="~/Content/css/Pd/pd.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="pdThankyouPage">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Thank you!</h1>
+            <h2>Great to see you joining our Recruitment Program.</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row belowFormRow">
+            <div class="chooseSignupCol col-lg-12">
+                <p>We will be following up with you to complete the registration process and adding you to our <a href="http://www.CareerThesaurus.com/Career/Law-Enforcement-Officer" target="_blank">Law Enforcement Career Page</a>.</p>
+                <p>Take our <a href="/SkillTest" target="_blank">Free Career Test</a> to see our Career Assessment in action.</p>
+                <h3>Benefits of utilizing CareerThesaurus.com</h3>
+                <ul class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+                    <li>Cost effective way to recruit</li>
+                    <li>Expanded exposure to young audience</li>
+                    <li>Continuous access to qualified candidates</li>
+                    <li>New career assessment technology</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        var divHeight = $('.jumbotron .container').height() / 2;
+        $('.jumbotron .container').css('margin-top', divHeight * -1);
+
+    }
+</script>

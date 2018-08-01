@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Email List";
+}
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <select data-name="DimensionAttitude">
+                                <option value="">N/A</option>
+                                <option value="Extravert">Extravert</option>
+                                <option value="Introvert">Introvert</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionEndurance">
+                                <option value="">N/A</option>
+                                <option value="Stationary">Stationary</option>
+                                <option value="Mobile">Mobile</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionAction">
+                                <option value="">N/A</option>
+                                <option value="Process">Process</option>
+                                <option value="Result">Result</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionConcentration">
+                                <option value="">N/A</option>
+                                <option value="Focused">Focused</option>
+                                <option value="Relaxed">Relaxed</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionInformation">
+                                <option value="">N/A</option>
+                                <option value="Facts">Facts</option>
+                                <option value="Imagination">Imagination</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionProcessing">
+                                <option value="">N/A</option>
+                                <option value="Rational">Rational</option>
+                                <option value="Emotional">Emotional</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionPresence">
+                                <option value="">N/A</option>
+                                <option value="Present">Present</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionPatterns">
+                                <option value="">N/A</option>
+                                <option value="Routine">Routine</option>
+                                <option value="Discover">Discover</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select data-name="DimensionCompensation">
+                                <option value="">N/A</option>
+                                <option value="Variable">Variable</option>
+                                <option value="Fixed">Fixed</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button id="search" class="btn btn-default" onclick="getEmails();">Search</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+    }
+    function getEmails() {
+        var data = constructDataObject();
+        var output = [];
+        $.ajax({
+            url: '/admin/getEmailList2',
+            type: 'post',
+            data: data
+        }).success(function (response) {
+            for (var i = 0; i < response.data.length; i++) {
+                output.push(response.data[i].Key + ',' + response.data[i].Value);
+            }
+            //exportData(output.join('\r\n'));
+            console.log(response);
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    function constructDataObject() {
+        var data = {};
+        $('select').each(function (index, element) {
+            data[$(element).data('name')] = $(element).val() != '' ? $(element).val() : null;
+        });
+        return data;
+    }
+    function exportData(str) {
+        //var data = [];
+        //$('tr').each(function (index, element) {
+        //    var row = [];
+        //    $(element).children().each(function () {
+        //        var text = $(this).text();
+        //        if (text.indexOf(',') != -1) {
+        //            row.push('"' + text + '"');
+        //        } else {
+        //            row.push(text);
+        //        }
+        //    });
+        //    data.push(row.join(','));
+        //});
+        //var output = data.join('\r\n');
+        var uri = 'data:text/csv;charset=utf-8,' + encodeURI(str);
+        var downloadLink = document.createElement("a");
+        downloadLink.href = uri;
+        downloadLink.download = "data.csv";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

@@ -1,0 +1,468 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.ABTests
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>By Source - @ViewBag.GoalName</h1>
+    <table cellpadding="2" cellspacing="0" border="0" style="padding: 5px; width: 100%; text-align: left; ">
+
+    @{int i=0;}
+    
+    @{long campaign_views=0;}
+    @{long campaign_cviews = 0;}
+    @{long campaign_conv = 0;}
+    @{long campaign_wc = 0;}
+
+    @{long noncampaign_views=0;}
+    @{long noncampaign_cviews = 0;}
+    @{long noncampaign_conv = 0;}
+    @{long noncampaign_wc = 0;}
+
+    @{bool iscampaign = false;}
+        
+    @foreach (var item in ViewBag.ResultsBySource)
+    {
+        iscampaign = false;
+        if (item.Value.UtmSource != "Direct")
+        {
+            iscampaign = true;
+        }
+
+        if (iscampaign)
+        {
+            campaign_views += item.Value.UniqueVisitors;
+            campaign_cviews += item.Value.TotalViews;
+            campaign_conv += item.Value.ConversionCount;
+            campaign_wc += item.Value.ConversionWeightSum;
+               
+        }
+        else
+        {
+            noncampaign_views += item.Value.UniqueVisitors;
+            noncampaign_cviews += item.Value.TotalViews;
+            noncampaign_conv += item.Value.ConversionCount;
+            noncampaign_wc += item.Value.ConversionWeightSum;
+        }
+        
+        <tr style="@(@item.Value.ConversionCount > 0 ? "background-color: rgba(0,255,0," + String.Format("{0:0.00}", item.Value.ConversionsToUniquesRatio) + ");" : "")">
+            <td>
+                @item.Value.Module
+            </td>
+            <td>
+                @item.Value.View
+            </td>
+            <td>
+                @item.Value.UtmSource
+            </td>
+            <td>
+                @item.Value.CbnCampaign
+            </td>
+            <td>
+                @item.Value.UtmCampaign
+            </td>
+            <td>
+                @item.Value.UtmContent
+            </td>
+            <td>
+                @item.Value.UtmTerm
+            </td>
+            <td align="right">
+                @item.Value.UniqueVisitors
+            </td>
+            <td align="right">
+                @item.Value.TotalViews
+            </td>
+            <td align="right">
+                @item.Value.ConversionCount
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00%}", item.Value.ConversionsToUniquesRatio))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.AverageConversionWeight))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.ConversionWeightSum))
+            </td>
+        </tr>
+    }
+
+        <thead style="margin-bottom: 10px;">
+            <tr>
+                <th>
+                    Module
+                </th>
+                <th>
+                    View
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    CbnCampaign
+                </th>
+                <th>
+                    Campaign
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    Term
+                </th>
+                <th align="right">
+                    Views
+                </th>
+                <th align="right">
+                    C Views
+                </th>
+                <th align="right">
+                    Conv
+                </th>
+                <th align="right">
+                    Conv/Views
+                </th>
+                <th align="right">
+                    Avg(WC)
+                </th>
+                <th align="right">
+                    Sum(WC)
+                </th>
+            </tr>
+            <tr><td colspan=12>&nbsp;</td></tr>
+            <tr>
+                <th align="left" colspan=7>
+                    Paid Traffic
+                </th>
+                <th align="right">
+                    @(campaign_views)
+                </th>
+                <th align="right">
+                    @(campaign_cviews)
+                </th>
+                <th align="right">
+                    @(campaign_conv)
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00%}", (double)(campaign_conv) / (campaign_views)))
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00}", campaign_conv > 0 ? (double)campaign_wc / campaign_conv : 0 ))
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00}", campaign_wc))
+                </th>
+            </tr>
+            <tr>
+                <th align="left" colspan=7>
+                    Organic Traffic
+                </th>
+                <th align="right">
+                    @(noncampaign_views)
+                </th>
+                <th align="right">
+                    @(noncampaign_cviews)
+                </th>
+                <th align="right">
+                    @(noncampaign_conv)
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00%}", (double)(noncampaign_conv) / (noncampaign_views)))
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00}", noncampaign_conv > 0 ? (double)noncampaign_wc / noncampaign_conv : 0 ))
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00}", noncampaign_wc))
+                </th>
+            </tr>
+
+            <tr>
+                <th align="left" colspan=7>
+                    All Traffic
+                </th>
+                <th align="right">
+                    @(campaign_views+noncampaign_views)
+                </th>
+                <th align="right">
+                    @(campaign_cviews + noncampaign_cviews)
+                </th>
+                <th align="right">
+                    @(campaign_conv + noncampaign_conv)
+                </th>
+                <th align="right">
+                    @(String.Format("{0:0.00%}", (double)(campaign_conv + noncampaign_conv) / (campaign_views + noncampaign_views)))
+                </th>
+                <th>
+                    
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+            
+            <tr><td colspan=12>&nbsp;</td></tr>
+        </thead>
+
+    </table>
+</div>
+
+
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>By Ad - @ViewBag.GoalName</h1>
+    <table cellpadding="2" cellspacing="0" border="0" style="padding: 5px; width: 100%; text-align: left; ">
+
+    @{i=0;}
+    
+    @{campaign_views=0;}
+    @{campaign_cviews = 0;}
+    @{campaign_conv = 0;}
+
+    @{noncampaign_views=0;}
+    @{noncampaign_cviews = 0;}
+    @{noncampaign_conv = 0;}
+
+    @{iscampaign = false;}
+        
+    @foreach (var item in ViewBag.ResultsByAd)
+    {
+        iscampaign = false;
+        if (item.Value.UtmSource != "Direct")
+        {
+            iscampaign = true;
+        }
+
+        if (iscampaign)
+        {
+            campaign_views += item.Value.UniqueVisitors;
+            campaign_cviews += item.Value.TotalViews;
+            campaign_conv += item.Value.ConversionCount;
+        }
+        else
+        {
+            noncampaign_views += item.Value.UniqueVisitors;
+            noncampaign_cviews += item.Value.TotalViews;
+            noncampaign_conv += item.Value.ConversionCount;
+        }
+        
+        <tr style="@(@item.Value.ConversionCount > 0 ? "background-color: rgba(0,255,0," + String.Format("{0:0.00}", item.Value.ConversionsToUniquesRatio) + ");" : "")">
+            <td>
+                @item.Value.Module
+            </td>
+            <td>
+                (all)
+            </td>
+            <td>
+                @item.Value.UtmSource
+            </td>
+            <td>
+                @item.Value.CbnCampaign
+            </td>
+            <td>
+                (all)
+            </td>
+            <td>
+                @item.Value.UtmContent
+            </td>
+            <td>
+                (all)
+            </td>
+            <td align="right">
+                @item.Value.UniqueVisitors
+            </td>
+            <td align="right">
+                @item.Value.TotalViews
+            </td>
+            <td align="right">
+                @item.Value.ConversionCount
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00%}", item.Value.ConversionsToUniquesRatio))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.AverageConversionWeight))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.ConversionWeightSum))
+            </td>
+        </tr>
+    }
+
+        <thead style="margin-bottom: 10px;">
+            <tr>
+                <th>
+                    Module
+                </th>
+                <th>
+                    View
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    CbnCampaign
+                </th>
+                <th>
+                    Campaign
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    Term
+                </th>
+                <th align="right">
+                    Views
+                </th>
+                <th align="right">
+                    C Views
+                </th>
+                <th align="right">
+                    Conv
+                </th>
+                <th align="right">
+                    Conv/Views
+                </th>
+                <th align="right">
+                    Avg(WC)
+                </th>
+                <th align="right">
+                    Sum(WC)
+                </th>
+            </tr>
+        </thead>
+
+    </table>
+</div>
+
+
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>By Term - @ViewBag.GoalName</h1>
+    <table cellpadding="2" cellspacing="0" border="0" style="padding: 5px; width: 100%; text-align: left; ">
+
+    @{i = 0;}
+    
+    @{campaign_views = 0;}
+    @{campaign_cviews = 0;}
+    @{campaign_conv = 0;}
+
+    @{noncampaign_views = 0;}
+    @{noncampaign_cviews = 0;}
+    @{noncampaign_conv = 0;}
+
+    @{iscampaign = false;}
+        
+    @foreach (var item in ViewBag.ResultsByTerm)
+    {
+        iscampaign = false;
+        if (item.Value.UtmSource != "Direct")
+        {
+            iscampaign = true;
+        }
+
+        if (iscampaign)
+        {
+            campaign_views += item.Value.UniqueVisitors;
+            campaign_cviews += item.Value.TotalViews;
+            campaign_conv += item.Value.ConversionCount;
+        }
+        else
+        {
+            noncampaign_views += item.Value.UniqueVisitors;
+            noncampaign_cviews += item.Value.TotalViews;
+            noncampaign_conv += item.Value.ConversionCount;
+        }
+        
+        <tr style="@(@item.Value.ConversionCount > 0 ? "background-color: rgba(0,255,0," + String.Format("{0:0.00}", item.Value.ConversionsToUniquesRatio) + ");" : "")">
+            <td>
+                @item.Value.Module
+            </td>
+            <td>
+                (all)
+            </td>
+            <td>
+                @item.Value.UtmSource
+            </td>
+            <td>
+                @item.Value.CbnCampaign
+            </td>
+            <td>
+                (all)
+            </td>
+            <td>
+                (all)
+            </td>
+            <td>
+                @item.Value.UtmTerm
+            </td>
+            <td align="right">
+                @item.Value.UniqueVisitors
+            </td>
+            <td align="right">
+                @item.Value.TotalViews
+            </td>
+            <td align="right">
+                @item.Value.ConversionCount
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00%}", item.Value.ConversionsToUniquesRatio))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.AverageConversionWeight))
+            </td>
+            <td align="right">
+                @(String.Format("{0:0.00}", item.Value.ConversionWeightSum))
+            </td>
+        </tr>
+    }
+
+        <thead style="margin-bottom: 10px;">
+            <tr>
+                <th>
+                    Module
+                </th>
+                <th>
+                    View
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    CbnCampaign
+                </th>
+                <th>
+                    Campaign
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    Term
+                </th>
+                <th align="right">
+                    Views
+                </th>
+                <th align="right">
+                    C Views
+                </th>
+                <th align="right">
+                    Conv
+                </th>
+                <th align="right">
+                    Conv/Views
+                </th>
+                <th align="right">
+                    Avg(WC)
+                </th>
+                <th align="right">
+                    Sum(WC)
+                </th>
+            </tr>
+            
+        </thead>
+
+    </table>
+</div>

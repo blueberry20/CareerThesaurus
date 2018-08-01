@@ -1,0 +1,57 @@
+﻿
+.imagePreview {
+    max-height: 200px;
+    max-width: 200px;
+    display: none;
+}
+
+.code {
+    display: none;
+    height: 20px !important;
+    line-height: 20px !important;
+}
+
+#previewDiv {
+    display: none;
+}
+
+.greenBorderBtn {
+    background-color:#fff;
+    border: 1px solid rgb(23, 184, 214);
+}
+
+.greenBorderBtn:hover, .greenBorderBtn:focus, .greenBorderBtn:active {
+    background-color: rgb(23, 184, 214);
+}
+
+.headerImage, .headerCode, .imagePreview {
+    margin: 10px 0;
+}
+
+.upload {
+    width: 150px;
+    height: 50px;
+    background: #fff;
+    border:1px solid #27aec0;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 15px;
+    text-transform:uppercase;
+    cursor:pointer;
+    position:relative;
+}
+
+.upload:hover, .upload:focus, .upload:active {
+    background-color: #27aec0;
+}
+
+.upload input {
+    display: block !important;
+    width: 150px !important;
+    height: 50px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    position:absolute;
+    top:0;
+    left:0;
+}

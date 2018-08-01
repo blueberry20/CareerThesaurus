@@ -1,0 +1,76 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage
+@using System.Text;
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+@using (Html.BeginForm())
+{
+    <input type="text" id="states" name="states" value="@ViewBag.States"/>
+    <textarea id="zips" name="zips">
+        @ViewBag.Zips
+    </textarea>
+    <input type="submit" value="Save" style="float: right;"/>
+}
+</div>
+
+
+@if(ViewBag.Zips!=null)
+{
+    string[] statetokens = ViewBag.States.Replace(" ","").Split(',');
+    
+    ZipCodeClient zipclient = new ZipCodeClient();
+    List<ZipCode> excludedzips = new List<ZipCode>();
+    foreach(string statetoken in statetokens)
+    {
+        excludedzips.AddRange(zipclient.GetAllByState(statetoken));
+    }
+            
+    string[] ziptokens = ViewBag.Zips.Replace("\r", "").Replace("\n", "").Replace(" ", "").Split(',');
+    
+    int included = 0;
+    int excluded = 0;
+    
+    StringBuilder sbincluded = new StringBuilder();
+    StringBuilder sbexcluded = new StringBuilder();
+
+    Dictionary<string, string> uniquezipcodes = new Dictionary<string, string>();
+    
+    foreach (string token in ziptokens)
+    {
+        ZipCode zip = excludedzips.Find(x=>x.RowKey == token);
+
+        if (zip != null)
+        {
+            sbexcluded.Append(token + ",");
+            excluded++;
+        }
+        else
+        {
+            if (!uniquezipcodes.ContainsKey(token))
+            {    
+                uniquezipcodes.Add(token, token);
+            }
+            
+            included++;
+            
+        }
+    }
+
+    foreach (KeyValuePair<string, string> kv in uniquezipcodes)
+    {
+        sbincluded.Append(kv.Key+ ",");
+    }
+    
+    <div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+        
+        <div>
+            <h1>Included @included</h1>
+            <textarea>@sbincluded.ToString()</textarea>
+            
+        </div>
+        
+        <div>
+            <h1>Excluded @excluded</h1>
+            <textarea>@sbexcluded.ToString()</textarea>
+        </div>
+
+    </div>
+}

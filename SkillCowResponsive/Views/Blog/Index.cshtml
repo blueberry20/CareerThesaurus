@@ -1,0 +1,312 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogTag;
+@using System.Text.RegularExpressions;
+
+<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+<link href="/Content/css/Blog/blog.css" rel="Stylesheet" />
+
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    BlogTagClient btc = new BlogTagClient();
+    ViewBag.Title = "Blog";
+    ViewBag.OgTitle = "CareerThesaurus Blog";
+    ViewBag.OgDescription = "Read our collection of Career Planning articles.";
+}
+
+<!--================================= Blog Page ============================== -->
+<div id="blogIndexPage" class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <!--================================= Main section ============================== -->
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 blogPostsWrapper">
+                @{
+                    List<BlogPost> postsList = ViewBag.Articles;
+                    if (postsList.Count != 0)
+                    {
+                        foreach (BlogPost post in postsList)
+                        {
+                            string url = post.Date.ToString("yyyy/MM/dd/") + Regex.Replace(post.Title.ToLower(), @"[^a-zA-z0-9]+", "-");
+                            //string article = Regex.Match(post.Article1, @"<p\b[^<]*(?:(?!<\/p>)<[^<]*)*<\/p>").ToString();
+                            //article = Regex.Replace(article, @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>", "");
+                            <div class="blogPostShort">
+                                <a href="/Blog/Post/@url">
+                                    <h2>@post.Title</h2>
+                                    <div class="blogImageHolder row" data-path="@url">
+                                        <img class="img-responsive" src='https://careerthesaurus.blob.core.windows.net/blog/@(url.Replace("/", "") + "/" + post.HeaderImageCode.Substring(2, 4))' alt="" />
+                                    </div>
+
+                                    <div class="shareRowText">
+                                        <p class="blogDate">@post.Date.ToString("MMMMMMMMM dd, yyyy")</p><span class="lineSeparator">|</span>
+                                        <p class="blogComments"><fb:comments-count href='http://CareerThesaurus.com/Blog/Post/@url'></fb:comments-count> comments</p>
+                                        @*<p class="blogComments"><fb:comments-count href='http://localhost:81/Blog/Post/@url'></fb:comments-count> comments</p>*@
+                                    </div>
+                                </a>
+                                @*<div class="row tagRow">
+                                    @{
+                                        if (post.Tags == null)
+                                        {
+                                            post.Tags = "";
+                                        }
+                                        List<string> tagNames = new List<string>(post.Tags.Split(','));
+                                        foreach (string tagName in tagNames)
+                                        {
+                                            BlogTag blogTag = btc.GetByPartitionAndRowKey("blogTag", tagName);
+                                            if (blogTag != null)
+                                            {
+                                                <a class="blogTag" href="/Blog/Tag/@blogTag.RowKey"><i class="fa fa-tag"></i>@blogTag.Tag</a>
+                                            }
+                                        }
+                                    }
+                                </div>*@
+                                @*<p class="blogParagraph">@article</p>*@
+                                <div class="readButtonWrapper">
+                                    <a type="submit" class="btn btn-info" href='/Blog/Post/@url'>Read More</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                @*<div class="blogPostShort">
+                        <div class="blogImageHolder row">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/arms_2045.jpg")' alt="" />
+                        </div>
+                        <h2>Choosing a Major or Career Path</h2>
+                        <div class="shareRowText">
+                            <p class="blogDate">January 12, 2014</p>
+                            <p class="blogCategory">Career</p>
+                            <p class="blogComments">15 Comments</p>
+                        </div>
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                        <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                    </div>
+
+                    <div class="blogPostShort">
+                        <div class="blogImageHolder row">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/faces_md.jpg")' alt="" />
+                        </div>
+                        <h2>Choosing a Major or Career Path</h2>
+                        <div class="shareRowText">
+                            <p class="blogDate">January 12, 2014</p>
+                            <p class="blogCategory">Career</p>
+                            <p class="blogComments">15 Comments</p>
+                        </div>
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                        <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                    </div>
+
+                    <div class="blogPostShort">
+                        <div class="blogImageHolder row">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man_2045.jpg")' alt="" />
+                        </div>
+                        <h2>Choosing a Major or Career Path</h2>
+                        <div class="shareRowText">
+                            <p class="blogDate">January 12, 2014 </p>
+                            <p class="blogCategory">Career</p>
+                            <p class="blogComments">15 Comments</p>
+                        </div>
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                        <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                    </div>*@
+                @{
+                    @*int totalPages = ViewBag.Pages;
+                        int currentPage = ViewBag.CurrentPage;
+                        if (currentPage == 1 && totalPages != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous disabled"><a href="/Blog">&larr; Older Articles</a></li>
+                                <li class="next"><a href="/Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }
+                        else if (currentPage == totalPages && currentPage != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous"><a href="/Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                <li class="next disabled"><a href="/Blog">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }
+                        else// if (currentPage != 1 && totalPages != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous"><a href="/Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                <li class="next"><a href="/Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }*@
+                    @*<div>for debuging</div>
+                        <div>Current page @ViewBag.CurrentPage</div>
+                        <div>Total pages @ViewBag.Pages</div>*@
+                }
+            </div>
+            <!--================================= Right sidebar ============================== -->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 blogSidebar">
+                @*<div class="sidebarWidget" id="signupWidget">
+                        <h3>Sign up to receive our new blog posts!</h3>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter your email" />
+                        </div>
+                        <button type="submit" class="btn greenBorderBtn">Sign up</button>
+                    </div>*@
+                <div class="shareDiv row coloredSocialIcons text-left sidebarWidget">
+                    <h3>Share this page</h3>
+                    <ul class="social-icons">
+                        <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=Career Advice Blog&url=http://CareerThesaurus.com/blog" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/Blog&redirect_uri=https://facebook.com&name=Read our collection of Career Planning articles&action=%5B%7B"name"%3a"Career%20advice%20blog"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        @*<li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://localhost:81/Blog&redirect_uri=https://facebook.com&name=Career Advice Blog. Discover Career and Job Related Articles.&action=%5B%7B"name"%3a"Career%20advice%20blog"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>*@
+                        <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/Blog" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+                <!--Categories-->
+                @*<div class="sidebarWidget categoriesWidget">
+                        <h3>Categories</h3>
+                        <ul>
+                            @{
+                                List<BlogCategory> categories = new List<BlogCategory>(bcc.GetAllByPartition("blogCategory"));
+                                if (categories.Count != 0)
+                                {
+                                    foreach (BlogCategory category in categories)
+                                    {
+                                        if (category.PublicPosts != -1) // change to 0 ===================================================================== to publish
+                                        {
+                                            <li>
+                                                <a href="Blog/Category/@category.Category">@category.Category<i class="fa fa-angle-right pull-right"></i></a>
+                                            </li>
+                                        }
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>*@
+                @*<div class="sidebarWidget">
+                        <h3>Archive</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="archive" data-toggle="dropdown">
+                                Select Month and Year
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                @{
+                                    DateTime startDate = new DateTime(2014, 09, 01);
+                                    while (startDate <= DateTime.Today)
+                                    {
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/Blog/Archive/@startDate.Year/@startDate.ToString("MM")">@startDate.ToString("MMMMMMMMM") @startDate.Year</a></li>
+                                        startDate = startDate.AddMonths(1);
+                                    }
+                                }
+                            </ul>
+
+                        </div>
+                    </div>*@
+                <!--Tags-->
+                <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        @{
+                            List<BlogTag> tags = new List<BlogTag>(btc.GetAllByPartition("blogTag"));
+                            if (tags.Count != 0)
+                            {
+                                foreach (BlogTag tag in tags)
+                                {
+                                    if (tag.PublicPosts != 0)
+                                    {
+                                        <a class="blogTag" href="/Blog/Tag/@tag.RowKey"><i class="fa fa-tag"></i>@tag.Tag</a>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!--Recent Posts-->
+                @*<div class="sidebarWidget">
+                        <h3>Recent Posts</h3>
+                        <a href="#" class="articleEntry row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                                <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                                <h4>Where to start?</h4>
+                                <p class="blogDate">December 25, 2013</p>
+                                <p class="blogComments">38 Comments</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="articleEntry row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                                <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                                <h4>What to do?</h4>
+                                <p class="blogDate">December 25, 2013</p>
+                                <p class="blogComments">38 Comments</p>
+                            </div>
+                        </a>
+                    </div>*@
+
+                <!--Most Popular Posts-->
+                @*<div class="sidebarWidget">
+                        <h3>Most Popular Posts</h3>
+                        <a href="#" class="articleEntry row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                                <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                                <h4>Where to study?</h4>
+                                <p class="blogDate">December 25, 2013</p>
+                                <p class="blogComments">38 Comments</p>
+                            </div>
+                        </a>
+                        <a href="#" class="articleEntry row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                                <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                                <h4>How to grow?</h4>
+                                <p class="blogDate">December 25, 2013</p>
+                                <p class="blogComments">38 Comments</p>
+                            </div>
+                        </a>
+                        <a href="#" class="articleEntry row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                                <img class="img-responsive" src='@Url.Content("~/Content/images/man_sm.jpg")' alt="" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                                <h4>What careers are popular?</h4>
+                                <p class="blogDate">December 25, 2013</p>
+                                <p class="blogComments">38 Comments</p>
+                            </div>
+                        </a>
+                    </div>*@
+
+                <div class="sidebarWidget advertisementWidget">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_1"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        //$('.blogImageHolder').each(function (index, element) {
+        //    var regex = new RegExp(/\{\{[a-z0-9]{4}\}\}/g);
+        //    var code = $(element).text();
+        //    if (regex.test(code)) {
+        //        var path = $(element).data('path');
+        //        $(element).html('<img src="https://careerthesaurus.blob.core.windows.net/blog/' + path + '/' + code.substring(2, 6) + '">');
+        //    } else {
+        //        $(element).hide();
+        //    }
+        //});
+    }
+</script>

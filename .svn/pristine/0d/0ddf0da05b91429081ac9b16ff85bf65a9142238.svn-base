@@ -1,0 +1,424 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorInvite;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AccessCode;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentAccount;
+@{
+    AdminAccountClient aac = new AdminAccountClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    CounselorAccountClient cac = new CounselorAccountClient();
+    CounselorInviteClient cic = new CounselorInviteClient();
+    UserAccountClient uac = new UserAccountClient();
+    AccessCodeClient acc = new AccessCodeClient();
+    StudentAccountClient stac = new StudentAccountClient();
+    ViewBag.Title = "Home";
+}
+
+<!--=============================ADMIN HOME PAGE=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="adminPage">
+    <div class="container positionRelative">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Administrator Portal</h2>
+                            <p>Manage counselors and your role for the school. </p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active activeTab"><a href="/AdminPortal">Administrator Portal</a></li>
+                    <li><a href="/AdminPortal/Groups">Groups</a></li>
+                    <li><a href="/AdminPortal/Students">Students</a></li>
+                    <li><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+            <ol class="breadcrumb">
+                <li class="active">Home</li>
+            </ol>
+        </div>*@
+
+        <div class="row">
+            <h1>My School</h1>
+
+            @{
+                string admin = ViewBag.Email;
+                AdminAccount adminAccount = aac.GetByPartitionAndRowKey("admin", admin);
+                UserAccount userAccount = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(admin), admin);
+                List<AccessCode> adminGroups = new List<AccessCode>(acc.GetCurrentByCounselor(admin));
+                List<StudentAccount> adminStudents = new List<StudentAccount>(stac.GetCurrentByCounselor(admin));
+                if (!adminAccount.SchoolSelected)
+                {
+                    <div class="noSchoolsAdded row">
+                        <div class="noSchoolsInsider">
+                            <p>You haven't associated yourself with any school yet</p>
+                            <a href="/AdminPortal/AddSchool" class="btn btn-success addSchoolBtn">Add School</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    SchoolAccount school = sac.GetByPartitionAndRowKey("school", adminAccount.School);
+                    <div class="schoolDiv row">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                            <h3 class="name">@school.SchoolName</h3>
+                            <p class="schoolAddress">@(school.Address + ", " + school.City + ", " + school.State + " " + school.ZipCode)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a class="btn btn-default grayButton" href="/AdminPortal/LessonPlan">View a lesson plan</a>
+                    </div>
+                    if (!adminAccount.ConnectionToSchoolConfirmed)
+                    {
+                        <div class="noSchoolsAdded notReady topMargin">
+                            <p>The subject school is pending verification. You will be notified via email upon completion of our confirmation process. In most cases it will only take minutes, however in some instances it may take up to 24 hours.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <!--====================Counselors======================-->
+                        <h2>Counselors:</h2>
+                        List<CounselorAccount> counselors = new List<CounselorAccount>(cac.GetAllBySchool(school.RowKey));
+                        @*if (counselors.Count == 0)
+                        {
+                            <div class="shortBlueDiv">
+                                <p>No Counselors have been added or confirmed yet. Please add counselors using the button below.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (CounselorAccount counselor in counselors)
+                            {
+                                UserAccount user = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                List<AccessCode> groups = new List<AccessCode>(acc.GetCurrentByCounselor(counselor.RowKey));
+                                List<StudentAccount> students = new List<StudentAccount>(stac.GetCurrentByCounselor(counselor.RowKey));
+                                <div class="counselor row">
+                                    <h3 class="name">@user.FirstName @user.LastName</h3>
+                                    <div class="row">
+                                        <div class="groups pull-left">Groups: @groups.Count</div>
+                                        <div class="studentsCount pull-left">Students: @students.Count</div>
+                                        <div class="status pull-left">@(counselor.Active ? "Status: Active" : "Status: Deactivated")</div>
+                                        <div class="changeDisplay"><button data-toggle="tooltip" data-placement="top" title="@(counselor.Active ? "Deactivating counselors will make them lose access to their account and analytics" : "Activating counselors will give them access to their account and analytics ")" class="btn btn-default activateBtn @(counselor.Active ? "activeCounselor" : "")" data-counselor="@counselor.RowKey" onclick="changeCounselorStatus(this);">@(counselor.Active ? "Deactivate" : "Activate")</button></div>
+                                    </div>
+                                </div>
+                            }
+                        }*@
+                        <div class="counselor row">
+                            <h3 class="name">@userAccount.FirstName @userAccount.LastName</h3>
+                            <div class="row">
+                                <div class="groups pull-left">Groups: @adminGroups.Count</div>
+                                <div class="studentsCount pull-left">Students: @adminStudents.Count</div>
+                                <div class="status pull-left">Status: Self</div>
+                            </div>
+                        </div>
+                        if (counselors.Count != 0)
+                        {
+                            foreach (CounselorAccount counselor in counselors)
+                            {
+                                UserAccount user = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                List<AccessCode> groups = new List<AccessCode>(acc.GetCurrentByCounselor(counselor.RowKey));
+                                List<StudentAccount> students = new List<StudentAccount>(stac.GetCurrentByCounselor(counselor.RowKey));
+                                <div class="counselor row">
+                                    <h3 class="name">@user.FirstName @user.LastName</h3>
+                                    <div class="row">
+                                        <div class="groups pull-left">Groups: @groups.Count</div>
+                                        <div class="studentsCount pull-left">Students: @students.Count</div>
+                                        <div class="status pull-left">@(counselor.Active ? "Status: Active" : "Status: Deactivated")</div>
+                                        <div class="changeDisplay"><button data-toggle="tooltip" data-placement="top" title="@(counselor.Active ? "Deactivating counselors will make them lose access to their account and analytics" : "Activating counselors will give them access to their account and analytics ")" class="btn btn-default activateBtn @(counselor.Active ? "activeCounselor" : "")" data-counselor="@counselor.RowKey" onclick="changeCounselorStatus(this);">@(counselor.Active ? "Deactivate" : "Activate")</button></div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        List<CounselorInvite> invites = new List<CounselorInvite>(cic.GetAllBySchool(school.RowKey));
+                        if (invites.Count > 0)
+                        {
+                            <!--==================Pending Invites===================-->
+                            <h2>Pending Invites:</h2>
+                            foreach (CounselorInvite invite in invites)
+                            {
+                                <div class="pending row" data-invite="@invite.RowKey">
+                                    <h3 class="name">@invite.FirstName @invite.LastName</h3>
+                                    <div class="grayInfo">@invite.Email</div>
+                                    <div class="changeDisplay">
+                                        <button class="btn btn-default" onclick="resendEmail(this);">Resend Email</button>
+                                        <button class="btn btn-default marginRight" onclick="deleteInvite(this);">Delete</button>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="newInvite">
+                            <div class="changeAlignment">
+                                <button class="inviteCounselorsBtn expandButton" onclick="showInviteForm(this);" data-toggle="collapse" data-target="#inviteFormWrapper" aria-expanded="true" aria-controls="inviteFormWrapper">Invite counselors<i class="fa fa-angle-down"></i></button>
+                                <button class="changeRoleBtn expandButton" onclick="showRoleForm(this);" data-toggle="collapse" data-target="#changeRoleFormWrapper" aria-expanded="true" aria-controls="changeRoleFormWrapper">Change your role for school<i class="fa fa-angle-down"></i></button>
+                            </div>
+                            <div id="inviteFormWrapper" class="collapse">
+                                <form method="post" role="form" id="inviteForm">
+                                    <div class="counselorInvite">
+                                        <h4>Send invitation to a counselor</h4>
+                                        <div class="form-group">
+                                            <label for="firstname[0]">First name</label>
+                                            <input type="text" class="form-control firstnames" id="firstname[0]" name="firstname[0]" placeholder="Counselor's first name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastname[0]">Last name</label>
+                                            <input type="text" class="form-control lastnames" id="lastname[0]" name="lastname[0]" placeholder="Counselor's last name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email[0]">Email address</label>
+                                            <input type="email" class="form-control emails" id="email[0]" name="email[0]" placeholder="Counselor's email">
+                                        </div>
+                                        <div class="changeAlignment">
+                                            <button class="btn remove disabled hidden" onclick="removeThisInvite(this);">Remove this counselor</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row addMargin changeAlignment">
+                                    <button class="btn btn-default addCounselorBtn" onclick="addOneMore();">Add one more counselor</button>
+                                </div>
+                                <div class="row text-center">
+                                    <button class="btn btn-info addCounselorBtn submitBtn" onclick="submitInvites();">Send invites</button>
+                                </div>
+                            </div>
+
+                            <div id="changeRoleFormWrapper" class="collapse">
+                                <form method="post" role="form" id="roleForm" action="changeRole">
+                                    <div class="roleForm">
+                                        <h4>Change your role for this school</h4>
+                                        <p>You are currently registered as the administrator of this school. There can only be one administrator assigned to a school.<p>
+                                        <p>If you would like to transfer your administrator’s rights to the appropriate person, please send him/her an invite to register as a counselor first, and then select the counselor’s name from the dropdown list below. Once that is done, you will be automatically transferred to the counselor’s role.</p>
+                                        <div class="form-group">
+                                            <label for="firstname[0]">Select a counselor to whom you would like to transfer the administrator’s role to.</label>
+                                            <div class="dropdown">
+                                                <select id="counselorsList" class="dropdown-toggle" name="counselor" onchange="makeAdministrator(this);">
+                                                    @{
+                                                        if (counselors.Count == 0)
+                                                        {
+                                                            <option value="none" selected>No counselors have been added yet</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="" disabled selected>Select counselor</option>
+                                                            foreach (CounselorAccount counselor in counselors)
+                                                            {
+                                                                UserAccount user = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                                                List<AccessCode> groups = new List<AccessCode>(acc.GetCurrentByCounselor(counselor.RowKey));
+                                                                List<StudentAccount> students = new List<StudentAccount>(stac.GetCurrentByCounselor(counselor.RowKey));
+                                                                if (counselor.Active)
+                                                                {
+                                                                    <option value="@user.RowKey">@user.FirstName @user.LastName</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row text-center">
+                                    <button class="btn btn-info addCounselorBtn submitBtn" onclick="confirmAdministrator();">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        $('.activateBtn').tooltip();
+
+        $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        $(window).resize(function () {
+            $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        });
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        });
+    }
+
+    var expandInvite = false;
+    function showInviteForm(button) {
+        if (expandInvite == false) {
+            if ($('#changeRoleFormWrapper').is(':visible')) {
+                // $('#changeRoleFormWrapper').hide();
+                $('.changeRoleBtn').click();
+            }
+            $(button).css('background-color', '#2CAD84');
+            $('#changeRoleFormWrapper').collapse({ toggle: false });
+            $(button).html('Hide invitation form <i class="fa fa-angle-up"></i>');
+            expandInvite = true;
+        }
+        else {
+            $(button).html('Invite counselors <i class="fa fa-angle-down"></i>');
+            $(button).css('background-color', '#38D5A3');
+            expandInvite = false;
+        }
+    }
+
+    var expandRole = false;
+    function showRoleForm(button) {
+        if (expandRole == false) {
+            if ($('#inviteFormWrapper').is(':visible')) {
+                //$('#inviteFormWrapper').hide();
+                $('.inviteCounselorsBtn').click();
+            }
+            $(button).css('background-color', '#DAEFF5');
+            $(button).html('Hide change role form <i class="fa fa-angle-up"></i>');
+            expandRole = true;
+        }
+        else {
+            $(button).html('Change your school role <i class="fa fa-angle-down"></i>');
+            $(button).css('background-color', '#fff');
+            expandRole = false;
+        }
+    }
+
+
+    function changeCounselorStatus(element) {
+        var value = $(element).data('counselor');
+        $.post('/AdminPortal/CounselorStatus', { user: value }, function (response) {
+            if (response.result == 'done') {
+                $(element).toggleClass('activeCounselor').text($(element).hasClass('activeCounselor') ? 'Deactivate' : 'Activate');
+            } else {
+                $(element).text('Error');
+            }
+        });
+    }
+    function resendEmail(element) {
+        var value = $(element).text('Resending...').closest('.pending').data('invite');
+        $.post('/AdminPortal/ResendEmail', { invite: value }, function (response) {
+            if (response.result == 'done') {
+                $(element).text('Resended');
+            } else {
+                $(element).text('Error');
+            }
+        });
+    }
+    function deleteInvite(element) {
+        var value = $(element).text('Deleting...').closest('.pending').data('invite');
+        $.post('/AdminPortal/DeleteInvite', { invite: value }, function (response) {
+            if (response.result == 'done') {
+                $(element).closest('.pending').remove();
+            } else {
+                $(element).text('Error');
+            }
+        });
+    }
+    function removeThisInvite(element) {
+        if ($('.counselorInvite').length != 1) {
+            $(element).closest('.counselorInvite').remove();
+            updateImageIndexes();
+            if ($('.counselorInvite').length == 1) {
+                $('.remove').addClass('disabled').addClass('hidden')
+            }
+        }
+    }
+    function addOneMore() {
+        $('#inviteForm').append('<div class="counselorInvite"><h4>Add counselor</h4>' +
+                                        '<div class="form-group">' +
+                                            '<label for="firstname[]">First name</label>' +
+                                            '<input type="text" class="form-control firstnames" id="firstname[]" name="firstname[]" placeholder="Counselor first name">' +
+                                        '</div>' +
+                                        '<div class="form-group">' +
+                                            '<label for="lastname[]">Last name</label>' +
+                                            '<input type="text" class="form-control lastnames" id="lastname[]" name="lastname[]" placeholder="Counselor last name">' +
+                                        '</div>' +
+                                        '<div class="form-group">' +
+                                            '<label for="email[]">Email address</label>' +
+                                            '<input type="email" class="form-control emails" id="email[]" name="email[]" placeholder="Counselor email">' +
+                                        '</div>' +
+                                        '<div class="changeAlignment"><button class="btn remove" onclick="removeThisInvite(this);">Remove this counselor</button></div>' +
+                                    '</div>');
+        $('.remove').removeClass('disabled').removeClass('hidden');
+        updateImageIndexes();
+    }
+    function submitInvites() {
+        var valid = true;
+        $('.counselorInvite').each(function (index, element) {
+            var firstname = $(element).find('.firstnames').val();
+            var lastname = $(element).find('.lastnames').val();
+            var email = $(element).find('.emails').val();
+            if (firstname == '' || firstname == null || lastname == '' || lastname == null || !validateEmail(email)) {
+                valid = false;
+            }
+        });
+        if (valid) {
+            $('#inviteForm').submit();
+        }
+    }
+    function updateImageIndexes() {
+        $('.firstnames').each(function (index, element) {
+            $(element).attr('id', 'firstName[' + index + ']').attr('name', 'firstName[' + index + ']').siblings('label').attr('for', 'firstName[' + index + ']');
+        });
+        $('.lastnames').each(function (index, element) {
+            $(element).attr('id', 'lastname[' + index + ']').attr('name', 'lastname[' + index + ']').siblings('label').attr('for', 'lastname[' + index + ']');
+        });
+        $('.emails').each(function (index, element) {
+            $(element).attr('id', 'email[' + index + ']').attr('name', 'email[' + index + ']').siblings('label').attr('for', 'email[' + index + ']');
+        });
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        } else {
+            return false;
+        }
+    }
+
+    function confirmAdministrator() {
+        var newAdmin = $('#counselorsList').val();
+        if (newAdmin != null && newAdmin != '') {
+            $('#roleForm').submit();
+        }
+        else {
+            //error admin empty
+        }
+    }
+</script>

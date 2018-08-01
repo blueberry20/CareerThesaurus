@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Change Password";
+}
+
+<div class="pageContainer">
+    <div class="container">
+        <div class="row">
+            <h1>Change Password</h1>
+            @{
+                if (ViewBag.PasswordUpdated != null)
+                {
+                    <div>Password have been updated</div>
+                }
+                else
+                {
+                    <form class="form-horizontal" role="form" method="POST">
+                        <div class="form-group">
+                            <label for="oldPassword" class="col-sm-2 control-label">Old Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Old Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword" class="col-sm-2 control-label">New Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="newPassword" name="oldPassword" placeholder="New Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword" class="col-sm-2 control-label">Confirm New Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="changeBtn" class="btn btn-success changeBtn">Change password</button>
+                        </div>
+                    </form>
+                }
+}
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $('#changeBtn').click(function () {
+            var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/);
+            var oldPassword = $('#oldPassword').val();
+            var newPassword = $('#newPassword').val();
+            var confirmNewPassword = $('#confirmNewPassword').val();
+            if (oldPassword != newPassword && newPassword == confirmNewPassword && regex.test(newPassword)) {
+                $('form').submit();
+            }
+        });
+    }
+</script>

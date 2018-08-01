@@ -1,0 +1,625 @@
+﻿@{
+    ViewBag.Title = "Select Interests";
+    ViewBag.OgDescription = "Browse and Discover Careers.";
+}
+
+<link href="../../Content/css/Custom.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Careers/Careers.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Careers/selectinterests.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/SkilltestV2/skilltest.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/SkilltestV2/interest.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer" id="byInterestPage">
+    <div class="container">
+        <div id="main" class="row">
+            <div id="topBanner468">
+            </div>
+
+            <div class="headersText">
+                <h1 id="questionText">Pick <span class="highlitedText">all interests</span> that are important to you</h1>
+                <div id="testMenuIcon" class="mobile">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+
+            <div class="questionNumber">10</div>
+            <div id="percentageProgress"><p>64%</p></div>
+
+            @*<div id="testMenuIcon" class="mobile">
+                <i class="fa fa-bars"></i>
+            </div>*@
+
+            <!--  Nav Menu Desktop -->
+            <div id="navigationWrapper">
+                <nav id="bt-menu" class="bt-menu">
+                    <div id="triggerWrapper" class="bt-menu-trigger">
+                        <a href="#" class=""><span>Menu</span></a>
+                    </div>
+                    <div class="btn-group" id="leftside">
+                        <div class="row">
+                            <p>Select which question you want to switch to</p>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/1" id="question_1" class="btn btn-default desktopNav" title="extrovert or introvert">1</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/2" id="question_2" class="btn btn-default desktopNav" title="mobile or stationary">2</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/3" id="question_3" class="btn btn-default desktopNav" title="process or result">3</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/4" id="question_4" class="btn btn-default desktopNav" title="focused or relaxed">4</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/5" id="question_5" class="btn btn-default desktopNav" title="facts or imagination">5</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/6" id="question_6" class="btn btn-default desktopNav" title="rational or emotion">6</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/7" id="question_7" class="btn btn-default desktopNav" title="present or remote">7</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/8" id="question_8" class="btn btn-default desktopNav" title="routine or discovery">8</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/CareerTest/TakeTest/9" id="question_9" class="btn btn-default desktopNav" title="variable or fixed">9</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Interests" type="button" id="question_10" class="btn btn-default desktopNav" title="">10</a>
+                            </div>
+                            @*<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Color" type="button" id="question_11" class="btn btn-default desktopNav" title="">11</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Shape" type="button" id="question_12" class="btn btn-default desktopNav" title="">12</a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/Sport" type="button" id="question_13" class="btn btn-default desktopNav" title="">13</a>
+                            </div>*@
+                            @*<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <a href="/TakeTest/School" type="button" id="question_14" class="btn btn-default desktopNav" title="">14</a>
+                            </div>*@
+                        </div>
+                    </div>
+                    <ul id="rightside">
+                        <li><a href="/CareerTest/TakeTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                        <li><a href="/TakeTest/Emailresults" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="row">
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="beauty">
+                        <img class="img-responsive" src="../../Content/images/interests/beauty.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Beauty and Visual Perfection</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="helping">
+                        <img class="img-responsive" src="../../Content/images/interests/helping.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Helping Others</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="adventure">
+                        <img class="img-responsive" src="../../Content/images/interests/adventure.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Risk & Adventure</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="safety">
+                        <img class="img-responsive" src="../../Content/images/interests/safety.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Safety of Others</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="people">
+                        <img class="img-responsive" src="../../Content/images/interests/people.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Working with People</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="science">
+                        <img class="img-responsive" src="../../Content/images/interests/science.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Scientific Methods & Precision</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="duty">
+                        <img class="img-responsive" src="../../Content/images/interests/duty.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Sense of Duty</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="admiration">
+                        <img class="img-responsive" src="../../Content/images/interests/admiration.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Being in a Spot Light</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="creativity">
+                        <img class="img-responsive" src="../../Content/images/interests/creativity.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Creativity</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="competition">
+                        <img class="img-responsive" src="../../Content/images/interests/competition.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Competitiveness</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="animals">
+                        <img class="img-responsive" src="../../Content/images/interests/animals.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Nature & Animals</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="politics">
+                        <img class="img-responsive" src="../../Content/images/interests/politics.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Politics & Strategy</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="technology">
+                        <img class="img-responsive" src="../../Content/images/interests/technology.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Technology & Gadgets</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="machinery">
+                        <img class="img-responsive" src="../../Content/images/interests/machinery.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Machinery</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="handlabor">
+                        <img class="img-responsive" src="../../Content/images/interests/handlabor.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Hand Labor</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="strength">
+                        <img class="img-responsive" src="../../Content/images/interests/strength.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Using Body Strength</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="drafting">
+                        <img class="img-responsive" src="../../Content/images/interests/drafting.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Drafting & Sketching</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="coordinating">
+                        <img class="img-responsive" src="../../Content/images/interests/coordinating.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Coordinating Groups</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="numbers">
+                        <img class="img-responsive" src="../../Content/images/interests/numbers.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Working with numbers</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="critical">
+                        <img class="img-responsive" src="../../Content/images/interests/critical.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Giving critical advice</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="salesy">
+                        <img class="img-responsive" src="~/Content/images/interests/salesy.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Salesiness</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center positionRelative">
+                <a href="javascript:void(0);" onclick="nextQuestion();" id="continue" class="btn">Almost done<i class="fa fa-angle-right"></i></a>
+            </div>
+
+            @*<div id="selectionSummary" class="row">
+                Please select up to 3 interests to proceed
+            </div>*@
+
+            @*<div class="modal fade twoButtonsModal" id="threeInterestsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" id="confirmBody">
+                            <p>You selected 3 interestes.</p>
+                            <p class="modalSmaller">Select what you would like to do next.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default twoButtons" id="changeInterests" data-dismiss="modal">Change Interests</button>
+                            <a href="/Careers/ByInterest" class="btn btn-default twoButtons" id="goToResults">Show Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="modal fade oneButtonModal" id="instructionsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p>You can't select more than 3 interests.</p>
+                            <p class="modalSmaller">Unselect one of the interests before selecting another one.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default schoolAddedBtn oneButton" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </div>
+    </div>
+    <!--Mobile Menu-->
+    <div class="mobileMenu">
+        <div class="row">
+            <div class="leftSideMenu col-sm-6 col-xs-6">
+                <ul class="nav">
+                    <li><a href="/CareerTest/TakeTest/1" class="mobileNavigation" id="mobile_question_1">Question 1</a></li>
+                    <li><a href="/CareerTest/TakeTest/2" class="mobileNavigation" id="mobile_question_2">Question 2</a></li>
+                    <li><a href="/CareerTest/TakeTest/3" class="mobileNavigation" id="mobile_question_3">Question 3</a></li>
+                    <li><a href="/CareerTest/TakeTest/4" class="mobileNavigation" id="mobile_question_4">Question 4</a></li>
+                    <li><a href="/CareerTest/TakeTest/5" class="mobileNavigation" id="mobile_question_5">Question 5</a></li>
+                    <li><a href="/CareerTest/TakeTest/6" class="mobileNavigation" id="mobile_question_6">Question 6</a></li>
+                    <li><a href="/CareerTest/TakeTest/7" class="mobileNavigation" id="mobile_question_7">Question 7</a></li>
+                    <li><a href="/CareerTest/TakeTest/8" class="mobileNavigation" id="mobile_question_8">Question 8</a></li>
+                    <li><a href="/CareerTest/TakeTest/9" class="mobileNavigation" id="mobile_question_9">Question 9</a></li>
+                    <li><a href="/TakeTest/Interests" type="button" id="mobile_question_10" class="mobileNavigation" title="">Interests</a></li>
+                    <li><a href="/TakeTest/Question" type="button" id="" class="mobileNavigation" title="">Education</a></li>
+                    @*<li><a href="/TakeTest/Color" type="button" id="mobile_question_11" class="mobileNavigation" title="">Question 11</a></li>
+                    <li><a href="/TakeTest/Shape" type="button" id="mobile_question_12" class="mobileNavigation" title="">Question 12</a></li>
+                    <li><a href="/TakeTest/Sport" type="button" id="mobile_question_13" class="mobileNavigation" title="">Question 13</a></li>*@
+                    @*<li><a href="/TakeTest/School" type="button" id="mobile_question_14" class="mobileNavigation" title="">Question 14</a></li>*@
+                </ul>
+            </div>
+            <div class="rightSideMenu col-sm-6 col-xs-6">
+                <div class="row">
+                    <div id="testCloseIcon">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
+                <ul id="rightsideMobile">
+                    <li><a href="/TakeTest/Emailresults" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                    <li><a href="/CareerTest/TakeTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                    @{
+                        string homeLink = ViewBag.ProfileType == "student" ? "/StudentPortal" : "/Home";
+                    }
+                    @*
+                        <li><a href="@homeLink" id="homeButton" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><p class="p1">Home</p></a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/SkillTestV2/navigation.js?v=@ViewBag.AppVersion"></script>
+<script>
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false,
+        dimensions = ["attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation"];
+    var interestCount = 0;
+    var nua = navigator.userAgent;
+    var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1);
+    function document_ready() {
+        setCookie('currentQuestion', '10', 365);
+        setNavigation();
+        //if ($(window).width() > 768) {
+        //    $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="5701034089"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        //} else {
+        //    $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="7456968880"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        //}
+
+        //add ads only on iphone
+        if (isDeviceMobile && !isiPad && !isAndroid) {
+            $('#topBanner468').append('<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"><\/script><ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-3486420009474810" data-ad-slot="7456968880"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        }
+
+        if (isDeviceMobile) {
+            $('.headersText').append('<h1 class="mobileText"></h1>');
+            //break question text into spans
+            var words = $('#questionText').text().replace(/\<[^>]+\>/g, '').split(' ');
+            for (var i = 0; i < words.length; i++) {
+                $('.mobileText').append('<span class="word">' + words[i] + '</span>');
+            }
+            $('#questionText').hide();
+        }
+
+        if (isiPad) {
+            if (Math.abs(window.orientation) === 90) {
+                winWidth = screen.height;
+                winHeight = screen.width - 97;
+                //landscape
+            } else {
+                //portrait
+                winWidth = document.documentElement.clientWidth;
+                winHeight = document.documentElement.clientHeight;
+            }  
+        } else {
+            winWidth = document.documentElement.clientWidth;
+            winHeight = document.documentElement.clientHeight;
+        }
+
+        //if (ismobile) {
+        //    $('.questionNumber, #percentageProgress').hide();
+        //    $('#testMenuIcon').show();
+        //}
+
+        //if (isiPad) {
+        //    $('.questionNumber, #percentageProgress').show();
+        //    $('#testMenuIcon').hide();
+        //}
+
+
+        //for (var i = 1; i < 10; i++) {
+        //    if (getCookie(dimensions[i - 1]) != null) {
+        //        $('#question_' + i + ', #mobile_question_' + i).addClass('btn-success');
+        //    } else {
+        //       // nextQuestion = nextQuestion == null && currentQuestion != i ? i : nextQuestion;
+        //    }
+        //}
+        //for (var i = 10; i < 15; i++) {
+        //    if (getCookie('question' + i) != null) {
+        //        $('#question_' + i, '#mobile_question_' + i).addClass('btn-success');
+        //    }
+        //}
+        //$('#question_10, #mobile_question_10').removeClass('btn-default btn-success').addClass('btn-primary');
+
+        $('.textOverlay p').each(function () {
+            $(this).css('margin-top', ($(this).height() / 2 * -1));
+        });
+
+        $(window).resize(function () {
+            $('.textOverlay p').each(function () {
+                $(this).css('margin-top', ($(this).height() / 2 * -1));
+            });
+        });
+
+        
+        if (localStorage.interestsList) {
+            var interestValues = JSON.parse(localStorage.interestsList);
+            interestCount = interestValues.length;
+            for (var i = 0; i < interestCount; i++) {
+                $('[data-interest="' + interestValues[i] + '"]').addClass('selected');
+            }
+        }
+        updateSummary();
+
+        //open/close nav menu overlay in mobile
+        $('#testMenuIcon').click(function () {
+            $('.mobileMenu').height($(window).height()).show();
+            $('.mobileWrapper').hide();
+            $('.headersText').hide();
+            $('.container').hide();
+            // $('html, body').css('height', '100%');
+        });
+
+        $('#testCloseIcon').click(function () {
+            $('.mobileMenu').hide();
+            $('.mobileWrapper').show();
+            $('.headersText').show();
+            $('.container').show();
+        });
+
+        $('.startOver').click(function (event) {
+            for (var i = 0; i < 9; i++) {
+                setCookie(dimensions[i], '', -1);
+            }
+            answers = 0;
+            answered = 0;
+            setCookie('question1', '', -1);
+            setCookie('gender', '', -1);
+            setCookie('firstname', '', -1);
+            setCookie('lastname', '', -1);
+            setCookie('email', '', -1);
+            setCookie('clr', '', -1);
+            setCookie('question10', '', -1);
+            setCookie('question11', '', -1);
+            setCookie('question12', '', -1);
+            setCookie('question13', '', -1);
+            setCookie('question14', '', -1);
+            setCookie('shape', '', -1);
+            setCookie('sport', '', -1);
+            setCookie('school', '', -1);
+            setCookie('color', '', -1);
+            setCookie('currentQuestion', '', -1);
+            setCookie('educationSelected', '', -1);
+            localStorage.removeItem('interestsList');
+            localStorage.removeItem('resultsEmailed');
+        });
+
+        //limit to 3
+        //$('.imgOverlay').click(function (element) {
+        //    var name = $(this).data('name');
+        //    if (interestCount < 3) {
+        //        $(this).toggleClass('selected');
+        //        var value = $(this).hasClass('selected') ? "1" : "0";
+        //        $(this).data('value', value);
+        //       // saveInterest(name, value);
+        //        if ($(this).hasClass('selected')) {
+        //            interestCount++;
+        //        }
+        //        else { //unselected
+        //            interestCount--;
+        //        }
+        //    }
+        //    else { //interestcount >3
+        //        if ($(this).hasClass('selected')) {
+        //            var value = $(this).hasClass('selected') ? "0" : "1";
+        //            $(this).removeClass('selected');
+        //            $(this).data('value', value);
+        //            interestCount--;
+        //           // saveInterest(name, value);
+        //        }
+        //        else {
+        //            $('#instructionsModal').modal();
+        //            return;
+        //        }
+        //    }
+        //    updateSummary();
+        //    checkifthree();
+        //});
+
+        //checkifthree();
+
+        //function checkifthree() {
+        //    if (interestCount == 3) {
+        //        setCookie('question10', '1', 365);
+        //        $('#continue').show();
+        //    }
+        //}
+
+        $('.imgOverlay').click(function (element) {
+            var name = $(this).data('name');
+            $(this).toggleClass('selected');
+            var value = $(this).hasClass('selected') ? "1" : "0";
+            $(this).data('value', value);
+            updateSummary();
+        });
+
+
+
+        function updateSummary() {
+            if ($('.selected').length > 0) {
+                setCookie('question10', '1', 365);
+                $('#continue').show();
+            }
+            var selections = [];
+            var interestValues = [];
+            $('.selected').each(function () {
+                selections.push($(this).find('.textOverlay p').text());
+                interestValues.push($(this).data('interest'));
+            });
+
+            $('#selectionSummary').text((selections.length == 0 ? 'Please select up to 3 interests to proceed' : 'Interests you\'ve selected: ' + selections.join(', ') + '.'));
+
+            if (selections.length != 0) {
+                $('.tryMatchingBtn').css('display', 'block');
+            }
+            else {
+                $('.tryMatchingBtn').css('display', 'none');
+            }
+
+            localStorage.interestsList = JSON.stringify(interestValues);
+            localStorage.interestsSelected = "true";
+        }
+
+        //open test menu on menu navbar icon click
+        var clicked = false;
+        $('.bt-menu-trigger').click(function () {
+            if (clicked == false) {
+                // odd clicks
+                $('.bt-menu').addClass('bt-menu-open');
+
+                if (isDeviceMobile && !isiPad) {//mobile - hide
+                    $('#continue').css({ 'display': 'none', 'position': 'absolute', 'right': '-300px', 'width': '200px', 'background-color': '#38D5A3;' });
+                }
+                else { //animate continue button only on desktop - hide
+                    //var right = $('#continue').offset().right;
+                    //$("#continue").css({ right: right }).animate({ "right": "-300px" }, "fast");
+                }
+
+                var overlay = $('.bt-menu').append('<div class="bt-overlay"></div>');
+                $('.bt-overlay').click(function () {
+                    resetMenu();
+                })
+                clicked = true;
+            } else {
+                // even clicks
+                resetMenu();
+                $('.bt-overlay').remove();
+
+                clicked = false;
+            }
+        });
+
+        function resetMenu() {
+            $('.bt-menu').removeClass('bt-menu-open');
+            $('.bt-menu').addClass('bt-menu-close');
+
+            //if (!($('#continue').hasClass('disabled'))) {
+            //    //show continue button
+            //    if (isDeviceMobile && !isiPad) {
+            //        $('#continue').css({ 'display': 'inline-block', 'position': 'relative', 'right': '0', 'width': '100%', 'background-color': 'rgb(66, 212, 170)' });
+            //    }
+            //    else {//mobile - show
+            //        var right = $('#continue').offset().right;
+            //        $("#continue").css({ right: right }).animate({ "right": (winWidth / 2) - 130 + 'px' }, "fast");
+            //    }
+            //}
+        }
+
+    }
+</script>

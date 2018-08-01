@@ -1,0 +1,166 @@
+﻿@{
+    Layout = null;
+}
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_0_declarations.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_1_downloader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_2_createcookiesetter.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_2_createeventhandlers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_2_createform.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_2_createvalidation.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_generic.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_specialized_dropdown.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_specialized_input_text.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_specialized_uncategorized.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/SchoolForm/formcontrols_submission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    #formcontainer input[type='text'] {width: 550px; font-family: Roboto; font-weight: 100; }
+    
+    #formcontainer .logocontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); padding-bottom: 20px;}
+    
+    #formcontainer .controlcontainer {position: relative; width: @(ViewBag.IsMobileDevice ? "425px" : "625px"); background-color: rgba(255,255,255,0); min-height: @(ViewBag.IsMobileDevice ? "29px" : "39px"); margin-bottom: 1px; }
+    #formcontainer .controlcontainer .label { position: relative; width: @(ViewBag.IsMobileDevice ? "160px" : "240px"); left: 10px; padding-top: @(ViewBag.IsMobileDevice ? "4px" : "9px"); font-size: 12pt; }
+    #formcontainer .controlcontainer .control { position: absolute; left: @(ViewBag.IsMobileDevice ? "180px" : "260px"); top: 0px; }
+    #formcontainer .controlcontainer .control input[type='text'] { font-size: 12pt; padding: 7px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1);}
+    #formcontainer .controlcontainer .control div.touchscreeninput { position: relative; font-size: 12pt; padding: @(ViewBag.IsMobileDevice ? "2px" : "7px"); margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    #formcontainer .controlcontainer .control div.formdropdown { position: relative; font-size: 12pt; padding: @(ViewBag.IsMobileDevice ? "2px" : "7px"); margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    #formcontainer .controlcontainer .control select { font-size: 12pt; width: 350px; padding: 5px; color:#333; }
+    
+    #formcontainer .textareacontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .textareacontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;}
+    #formcontainer .textareacontainer .control { position: relative; width: 200px;  padding: 9px;}
+    #formcontainer .textareacontainer .control textarea { font-family: Arial; font-size: 12pt; padding: 5px; width: 475px; color:#333; }
+    
+    #formcontainer .checkboxcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .checkboxcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;max-width: 475px;}
+    #formcontainer .checkboxcontainer .control { position: relative; width: 200px;  padding: 9px;}
+            
+    #formcontainer .fieldgroupcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .fieldgroupcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px; max-width: 475px;}
+    #formcontainer .fieldgroupcontainer .control { position: relative; margin-left:200px;  padding: 9px;}
+    #formcontainer .fieldgroupcontainer .control select { font-size: 12pt; padding: 0px; color:#333; display: inline-block; padding: 5px;}
+    
+
+</style>
+    
+
+<div id="schoolform" style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 0px; padding: 25px; background-color: rgba(0,0,0,0.9); display: @(ViewBag.IsMobileDevice ? "none" : ""); z-index: 999999;" class="formoverlay">
+    <div id="requestinfobar" style="position: absolute; left: -514px; top: 480px; background-color: rgba(0,0,0,1); padding-right: 20px; width: 1000px; height: 36px;  -webkit-transform: rotate(-90deg); text-align: right; font-size: 20pt;">
+        Request  More  Info
+    </div>
+    <div id="formcontainer"></div>
+    
+    <div class="formauthcontrols" style="position: absolute; left: 15px; top: @(ViewBag.IsMobileDevice ? "475px" : "650px"); width: @(ViewBag.IsMobileDevice ? "530px" : "600px"); padding: 20px; font-size: @(ViewBag.IsMobileDevice ? "10px" : "12px"); font-family: Arial; ">
+        <div id="standarddisclaimer">
+            By entering my information and pressing "Submit", I am providing express consent to be contacted by <span id="authorization_school_name" style="font-weight: bold;"></span> and/or SkillCow.com via email and/or phone, including my wireless phone number, regarding educational opportunities, career services and job openings using automated technology. I also understand that SkillCow.com Privacy Policy governs the collection of this information.
+            <div class="formauthcontrols authorizationcheckbox" authorized="yes" style="position: relative; width: 40px; height: 40px; margin: 30px 0 0 0; border: 2px solid #fff;">
+                <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+            </div>
+        </div>
+
+        <div id="disclaimer5779" clientid="5779" class="customdisclaimer" style="display: none;">
+            By checking the “Yes” box below, I authorize ITT Technical Institute to contact me using the phone number and email provided above, by auto dialer or via text, about its programs of study.   I am not required to check “Yes” to apply or enroll, but if I do not, I may miss valuable information.
+            
+            <div style="position: relative; margin: 20px 0 0 0;">
+                <div class="formauthcontrols authorizationcheckbox" authorized="yes" style="position: absolute; left: 0px; top: 0px; width: 40px; height: 40px; border: 2px solid #fff; ">
+                    <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+                    <span style="position: absolute; left: 50px; top: 0px; font-size: 20pt;">Yes</span>
+                </div>
+
+                <div class="formauthcontrols authorizationcheckbox" authorized="no" style="position: absolute; left: 150px; top: 0px; width: 40px; height: 40px; border: 2px solid #fff;">
+                    <img style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+                    <span style="position: absolute; left: 50px; top: 0px; font-size: 20pt;">No</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="btnsubmitform" class="button" style="position: absolute; right: 25px; bottom: 25px; width: 325px; padding: 20px; font-size: 20pt; font-weight: 100; display: none;">Submit</div>
+</div>
+
+    
+<script>
+
+    var _school_form_loaded = false;
+
+    var _school_form_authorization_pressed = false;
+    var _school_form_authorized = false;
+
+    function showSchoolForm(_school_clientid, _school_formid, speed, custom) {
+
+        $('.customdisclaimer').hide();
+        $('#standarddisclaimer').show();
+
+        //Customize disclaimer by client
+        if ($('#disclaimer' + _school_clientid) != null && $('#disclaimer' + _school_clientid).attr('clientid')==_school_clientid) {
+            $('#standarddisclaimer').hide();
+            $('#disclaimer' + _school_clientid).show();
+        }
+
+        _school_form_authorization_pressed = false;
+        _school_form_authorized = false;
+        $('.authorizationcheckbox img').hide();
+
+        years = new Array();
+
+        var d = new Date();
+        var year = d.getFullYear() + 5;
+        for (var i = 0; i < 100; i++) {
+            years.push({ value: (year - i), label: (year - i) });
+        }
+
+        var animatespeed = (speed != null ? speed : 1000);
+        $('#schoolform').animate({ 'width': '@(ViewBag.IsMobileDevice ? "545px" : "625px")' }, animatespeed);
+
+        setCookie("record_type", 'schoollead', 7);
+        setCookie("record_data", '', 7);
+        setCookie("edu_intent", "YES", 7);
+
+        setCookie("campus_key", "", 7);
+        setCookie("program_key", "", 7);
+
+        downloadSingleSchoolForm(_school_clientid, _school_formid, custom);
+
+        if (!_school_form_loaded) {
+            $('.authorizationcheckbox').press(function () {
+                playSound(sfxclick);
+
+                $('.authorizationcheckbox img').hide();
+
+                _school_form_authorization_pressed = true;
+
+                var checkimg = $(this).children().first();
+                if (checkimg.css('display') == 'none') {
+                    checkimg.show();
+                    if ($(this).attr('authorized') == 'yes') {
+                        _school_form_authorized = true;
+                    }
+                    else {
+                        _school_form_authorized = false;
+                    }
+                }
+                else {
+                    checkimg.hide();
+                    if ($(this).attr('authorized') == 'yes') {
+                        _school_form_authorized = false;
+                    }
+                }
+
+            });
+
+            $('#btnsubmitform').press(function () {
+                submitCustomForm();
+            });
+
+            _school_form_loaded = true;
+        }
+
+    }
+    
+</script>
+
+
+
+ 

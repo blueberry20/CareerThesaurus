@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.BlobStorage;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class ReportController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Report/
+
+        public ActionResult StudentReport(string id)
+        {
+            if (id != null && id != "")
+            {
+                StudentProfileClient spc = new StudentProfileClient();
+                StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(id), id);
+                if (student != null && AuthTokens[3] == "administrator" && student.Teacher == AuthTokens[1])
+                {
+                    UserAccountClient uac = new UserAccountClient();
+                    UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(id), id);
+                    ViewBag.StudentName = account.FirstName + " " + account.LastName;
+                    ViewBag.StudentToShow = id;
+                }
+            }
+            else if (AuthTokens[3] == "administrator")
+            {
+                return RedirectToAction("Assessment", "Index");
+            }
+            return View();
+        }
+    }
+}

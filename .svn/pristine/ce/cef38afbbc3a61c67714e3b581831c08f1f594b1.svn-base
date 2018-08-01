@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Date Trainer</title>
+    <script src="@Url.Content("~/Scripts/jquery/jquery.tools.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery/jquery-ui.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link href="@Url.Content("~/Content/css/datetrainer/style.css")" rel="stylesheet" type="text/css" />
+    
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/_mpovdata_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/logging_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/declarations_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/helperfunctions_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/buttons_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/init_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/wireup_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/onPlay_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/datetrainer_ie/sequence_ie.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        curindex = @(ViewBag.InitialQIndex);
+        currentlanguage = "_@(ViewBag.Language)";
+        videoquality = "@(ViewBag.VideoResolution)";
+    </script>
+
+</head>
+<body>
+    <script>var isIE = false;</script>
+    <!--[if IE]><script>isIE = true;</script><![endif]-->
+    <div style="position: relative; text-align: center; width: 100%; height: 100%;">
+        <div style="position: relative; width: 100%; height: 100%; text-align: center;">
+            <h1 style="color: #fff;">The Date Trainer</h1>
+            <div id="frames" style="position:relative; margin: 0 auto; width: 800px; height: 600px;">
+                <!--FRAMES LOAD HERE-->
+                <div id="videoholder" class="videoholder"><div id="video"></div></div>
+            </div>
+            <div id="answerscanvas" style="position: relative; width: 100%; text-align: center; display: none; opacity: 1; z-index: 9999999">
+                <div id="answers" style="width: 100%; margin: 0 auto; text-align: center;">
+                    <div class="buttonholder">
+                        <div id="button1" class="answerbutton"><div class="highlight"></div><span></span></div>
+                    </div>
+                    <div class="buttonholder">
+                        <div id="button2" class="answerbutton"><div class="highlight"></div><span></span></div>
+                    </div>
+                    <div class="buttonholder">
+                        <div id="button3" class="answerbutton"><div class="highlight"></div><span></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="leftcurtain_"></div>
+    <div class="rightcurtain_"></div>
+    <div id="overlay" class="overlay" ></div>
+        
+    <div id="theend" class="overlay boxcenter" style="display: none;">
+        <h1>You sir fucked up!  Who says that??</h1>
+    </div>
+
+    <div id="controls" class="controls boxcenter">
+        <!--<input type="button" value="Start" onclick="nextAction()"/>-->
+    </div>
+    
+    <div id="log" style="position: absolute; top: 40px; left: 0px; width: 100%; color: White; text-align: left; font-family: Arial; font-size: 8pt; display: ;">
+    
+    </div>
+    
+    
+    
+</body>
+</html>

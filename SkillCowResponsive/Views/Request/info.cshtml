@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Request Info";
+}
+
+<link href="~/Content/css/Request/form.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<script src="~/Scripts/Thesaurus/degreetaxonomy.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Request/info.js?v=@ViewBag.AppVersion"></script>
+<div id="formPage" class="pageContainer">
+    <div class="container">
+        
+        @*<div class="row text-center instructions">
+            Please fill out the fields below
+        </div>*@
+        <div>
+            <div id="formWrapper" class="col-lg-8">
+                <div id="schoolName">
+                    <div class="logo"></div>
+                    <div class="description"></div>
+                    @*<h1>Apply Now</h1>*@
+                </div>
+                <div class="schoolDescription">
+                    <p>This school is currently accepting applications from qualified students. Please fill out the form below to inquire about your eligibility.</p>
+                </div>
+                <form role="form">
+                    <h2 id="contact-info-header">Your contact info</h2>
+                    <div id="contactInfo">
+                        <div class="sidenote">All fields are required</div>
+                    </div>
+                    <div class="form">
+
+                    </div>
+                    <div class="row nomargin">
+                        <div class="disclaimer row">
+                         </div>
+                    </div>
+                    <div id="other-schools-wrapper" class="row">
+                        @*<h2>Other schools</h2>*@
+                        <p>The following schools would like a chance to compete for you as a student. Every school has different terms and programs that may fit your interests better. Please select the ones you would like to consider as well.</p>
+                        <div id="other-schools"></div>
+                    </div>
+                    <div class="row">
+                        <div id="buttonWrapper" class="col-lg-12">
+                            <button type="submit" id="submitFormBtn" class="btn btn-default"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-4 rightBar">
+            <div id="adsencetest" class="sidebarDiv">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- CareerThesaurus -->
+                <h6 class="advertisement">Advertisement</h6>
+                <ins class="adsbygoogle adslot_1"
+                     style="display:block"
+                     data-ad-client="ca-pub-3486420009474810"
+                     data-ad-slot="6576327288"
+                     data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        @*@<div id="other-schools-wrapper">
+            <div class="col-lg-offset-1 col-lg-3">
+                <h2>Other schools</h2>
+                <p>These schools are competing to have you as a student as well! Select the schools you like, and your information will be submitted to them also.</p>
+                <div id="other-schools">
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<script>
+    var programKeys = [];
+    var campusKeys = [];
+    var programGroups = [];
+    var searchZipcode;
+    var searchState;
+    var searchCity;
+    var searchValue = 65;
+    var searchFilter = 'degree';
+    var titleName = 'business';
+    var school = getCookie('schoolorjobform') == 'job' ? false : true;
+    var form_id;
+    var filters;
+    var programForForm;
+    var moreThenOneSchool = false;
+    var moreSchools = [];
+    function document_ready() {
+        searchZipcode = getCookie('formzip') ? getCookie('formzip') : getCookie('zip') ? getCookie('zip') : getCookie('ipzip');
+        $('[name="zip"]').val(searchZipcode);//.attr('oninput', 'zipcodeInput(this.value)').trigger('oninput');
+        $('.description').text(getCookie('formname'));
+        $('.schoolDescription p').text(getCookie('formname') + ' is currently accepting applications from qualified students. Please fill out the form below to inquire about your eligibility.');
+        getCityAndState(searchZipcode, getForm);
+
+        $('form').submit(function (event) {
+            event.preventDefault();            
+            submitForm();
+        });
+    }   
+</script>

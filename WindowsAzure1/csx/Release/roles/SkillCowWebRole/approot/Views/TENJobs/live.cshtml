@@ -1,0 +1,244 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage
+@using System.Xml
+@using SkillCow.Classes.Helpers
+
+@{
+    JobPostingClient jpc = new JobPostingClient();
+
+    
+    
+}
+    <div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+        <h1>Live Listings</h1> 
+
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Status</th>
+                <th>
+                    Reference ID
+                </th>
+                <th>
+                    Mask
+                </th>
+                <th>
+                    Job Title
+                </th>
+                <th>
+                    Company Name
+                </th>
+                <th>
+                    Formatted Location
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    Position Location Id
+                </th>
+                <th>
+                    Position Location Name
+                </th>
+                <th>
+                    URL
+                </th>
+                <th>
+                    Attitude
+                </th>
+                <th>
+                    Information
+                </th>
+                <th>
+                    Processing
+                </th>
+                <th>
+                    Action
+                </th>
+                <th>
+                    Endurance
+                </th>
+                <th>
+                    Presence
+                </th>
+                <th>
+                    Concentration
+                </th>
+                <th>
+                    Patterns
+                </th>
+                <th>
+                    Compensation
+                </th>
+                <th>
+                    Beauty
+                </th>
+                <th>
+                    Helping
+                </th>
+                <th>
+                    Adventure
+                </th>
+                <th>
+                    Safety
+                </th>
+                <th>
+                    Technology
+                </th>
+                <th>
+                    People
+                </th>
+                <th>
+                    Science
+                </th>
+                <th>
+                    Easy
+                </th>
+                <th>
+                    Duty
+                </th>
+                <th>
+                    Growth
+                </th>
+                <th>
+                    Creativity
+                </th>
+                <th>
+                    Admiration
+                </th>
+                <th>
+                    Competition
+                </th>
+                <th>
+                    Animals
+                </th>
+                <th>
+                    Politics
+                </th>
+            
+            
+            </tr>
+    
+        @{
+            int cntscp = 0;
+        }
+
+
+        @foreach (JobPosting item in jpc.GetAllBySource("TEN").Execute().Where(x=>x.IsLive==true))
+        {
+            
+            
+            
+            <tr>
+            
+                <td>@(++cntscp)</td>
+                <td>@(item.IsLive ? "Live" : "Not Live" )</td>
+                <td>
+                    <nobr>@item.ReferenceId</nobr>
+                </td>
+                <td>
+                    <nobr>@item.AttributeMask @item.ImportantThingsMask</nobr>
+                </td>
+                <td>
+                    <nobr>@Html.DisplayFor(modelItem => item.JobTitle)</nobr>
+                </td>
+                <td>
+                    <nobr>@Html.DisplayFor(modelItem => item.CompanyName)</nobr>
+                </td>
+                <td>
+                    <nobr>@Html.DisplayFor(modelItem => item.FormattedLocation)</nobr>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+            
+                <td>
+                    <nobr>@Html.DisplayFor(modelItem => item.PositionLocationId)</nobr>
+                </td>
+                <td>
+                    <nobr>@Html.DisplayFor(modelItem => item.PositionLocationName)</nobr>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.URL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionAttitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionInformation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionProcessing)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionAction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionEndurance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionPresence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionConcentration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionPatterns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DimensionCompensation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsBeauty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsHelping)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsAdventure)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsSafety)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsTechnology)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsPeople)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsScience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsEasy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsDuty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsGrowth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsCreativity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsAdmiration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsCompetition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsAnimals)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImportantThingsPolitics)
+                </td>
+            
+            </tr>
+            
+        }
+    
+        </table>
+    </div>
+
+

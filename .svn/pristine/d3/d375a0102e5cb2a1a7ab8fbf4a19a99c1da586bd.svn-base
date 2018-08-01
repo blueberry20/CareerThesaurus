@@ -1,0 +1,408 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+using SkillCowResponsive.Classes.Cloud.BlobStorage;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AnalyticsController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Analytics/
+        public string[] dimensions = { "attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation" };
+        public string[] interests = { "beauty", "helping", "adventure", "safety", "people", "science", "duty", "admiration", "creativity", "competition", "animals", "politics", "technology", "machinery", "handlabor", "strength", "drafting", "coordinating", "numbers", "critical", "salesy" };
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Traits()
+        {
+            return View();
+        }
+
+        public ActionResult Interests()
+        {
+            return View();
+        }
+        public ActionResult Careers()
+        {
+            return View();
+        }
+        public ActionResult StudentReports()
+        {
+            return View();
+        }
+
+        public ActionResult StudentList(string key, string value)
+        {
+            if (key == null || value == null)
+            {
+                return RedirectToAction("Index");
+            }
+            key = key.ToLower();
+            string school = "";            
+            string group = "";
+            if (Request.Cookies["analyticsschoolname"] != null)
+            {
+                school = Request.Cookies["analyticsschoolname"].Value;
+                //Request.Cookies["analyticsschoolname"].Value = "";
+                //Response.Cookies["analyticsschoolname"].Value = "";
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            if (Request.Cookies["analyticsschoolgroup"] != null)
+            {
+                group = Request.Cookies["analyticsschoolgroup"].Value;
+                //Request.Cookies["analyticsschoolgroup"].Value = "";
+                //Response.Cookies["analyticsschoolgroup"].Value = "";
+            }
+            UserAccountClient uac = new UserAccountClient();
+            List<UserAccount> StudentsList = new List<UserAccount>();
+            if (key == "trait")
+            {
+                AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+                value = value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
+                List<AssessmentDimensionsRating> dimensionList;
+                if (group == "")
+                {
+                    dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndValue(school, value));
+                }
+                else
+                {
+                    dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndGroupAndValue(school, group, value));
+                }
+                if (dimensionList.Count != 0)
+                {
+                    foreach (AssessmentDimensionsRating rating in dimensionList)
+                    {
+                        string student = rating.Student.ToLower();
+                        StudentsList.Add(uac.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(student), student));
+                    }
+                    ViewBag.PageUrl = "Traits";
+                    ViewBag.PageCaption = "Traits";
+                    ViewBag.Param = value;
+                    ViewBag.Students = StudentsList;
+                }
+            }
+            else if (key == "interest")
+            {
+                AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+                value = value.ToLower();
+                List<AssessmentInterestRating> interestList;
+                if (group == "")
+                {
+                    interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndRating(school, value, "1"));
+                }
+                else
+                {
+                    interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndGroupAndRating(school, value, group, "1"));
+                }
+                if (interestList.Count != 0)
+                {
+                    foreach (AssessmentInterestRating rating in interestList)
+                    {
+                        string student = rating.Student.ToLower();
+                        StudentsList.Add(uac.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(student), student));
+                    }
+                    ViewBag.PageUrl = "Interests";
+                    ViewBag.PageCaption = "Interests";
+                    ViewBag.Param = value;
+                    ViewBag.Students = StudentsList;
+                }
+            }
+            else if (key == "popularcareer" || key == "unpopularcareer")
+            {
+                string rating = key == "popularcareer" ? "1" : "0";
+                string dolcode = "";
+                BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+                string str = blobManager.GetJsonResource("careers", "dolcodes", value + ".js");
+                if (str != "")
+                {
+                    Regex regex = new Regex(@"\d{2}-\d{4}");
+                    dolcode = regex.Match(str).ToString();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+                AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+                List<AssessmentCareerRating> careerList;
+                if (group == "")
+                {
+                    careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndRating(school, dolcode, rating));
+                }
+                else
+                {
+                    careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndGroupAndRating(school, dolcode, group, rating));
+                }
+                if (careerList.Count != 0)
+                {
+                    foreach (AssessmentCareerRating career in careerList)
+                    {
+                        string student = career.Student.ToLower();
+                        StudentsList.Add(uac.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(student), student));
+                    }
+                    ViewBag.PageUrl = "Careers";
+                    ViewBag.PageCaption = "Careers";
+                    ViewBag.Param = value;
+                    ViewBag.Like = rating == "1" ? "liked" : "didn\'t like";
+                    ViewBag.Students = StudentsList;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        [HttpPost]
+        public HttpResponse GetGroupsForSchool(string school, string teacher)
+        {
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            List<AssessmentGroup> groupsList = new List<AssessmentGroup>(agc.GetAllBySchoolAndTeacher(school, teacher));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            groupsList.Sort(delegate(AssessmentGroup a, AssessmentGroup b)
+            {
+                return a.Group.CompareTo(b.Group);
+            });
+            string response = groupsList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(groupsList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        class Dimension
+        {
+            public string name { get; set; }
+            public int count { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetDimensions(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();        
+            AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+            List<AssessmentDimensionsRating> dimensionList;
+            string response;
+            if (group != "" && group != null)
+            {
+                dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            if (dimensionList.Count != 0)
+            {
+                List<Dimension> resultList = new List<Dimension>();
+                foreach (string dimension in dimensions)
+                {
+                    var values = dimensionList.Where(x => x.Dimension == dimension).GroupBy(x => x.Value).ToList();
+                    foreach (var value in values)
+                    {
+                        resultList.Add(new Dimension { name = value.Key, count = value.Count() });
+                    }
+                }
+                response = "{\"result\": \"ok\", \"results\": " + jss.Serialize(resultList) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\": []}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        class Student
+        {
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string Email { get; set; }
+            //public int dimensions { get; set; }
+            //public int interests { get; set; }
+            //public int careers { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetStudents(string school, string teacher, string group)
+        {
+            string response;
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            StudentProfileClient spc = new StudentProfileClient();
+            UserAccountClient uac = new UserAccountClient();
+
+            List<StudentProfile> studentList;
+            if (group != "" && group != null)
+            {
+                studentList = new List<StudentProfile>(spc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                studentList = new List<StudentProfile>(spc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            if (studentList.Count != 0)
+            {
+                List<Student> resultList = new List<Student>();
+                foreach (StudentProfile student in studentList)
+                {
+                    UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(student.RowKey), student.RowKey);
+                    resultList.Add(new Student { firstName = account.FirstName, lastName = account.LastName, Email = student.RowKey });
+
+                    //AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+                    //List<AssessmentDimensionsRating> dimensions = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndStudent(school, student.RowKey));
+                    //AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+                    //List<AssessmentInterestRating> interests = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndStudent(school, student.RowKey));
+                    //AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+                    //List<AssessmentCareerRating> careers = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(school, student.RowKey));
+                    //resultList.Add(new Student { firstName = account.FirstName, lastName = account.LastName, Email = student.RowKey, dimensions = dimensions.Count, interests = interests.Count, careers = careers.Count });
+                }
+                response = "{\"result\": \"ok\", \"results\": " + jss.Serialize(resultList) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\": []}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+        class Interest
+        {
+            public string name { get; set; }
+            public int like { get; set; }
+            public int dislike { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetInterests(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            List<AssessmentInterestRating> interestList;
+            string response;
+            if (group != "" && group != null)
+            {
+                interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            List<Interest> resultList = new List<Interest>();
+            if (interestList.Count != 0)
+            {
+                foreach (string interest in interests)
+                {
+                    var values = interestList.Where(x => x.Interest == interest).GroupBy(x => x.Rating).ToList();
+                    int like = 0;
+                    int dislike = 0;
+                    foreach (var value in values)
+                    {
+                        if (value.Key == "1")
+                        {
+                            like = value.Count();
+                        }
+                        else
+                        {
+                            dislike = value.Count();
+                        }
+                    }
+                    resultList.Add(new Interest { name = interest, like = like, dislike = dislike });
+                }
+                response = "{\"result\": \"ok\", \"results\":" + jss.Serialize(resultList) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\":[]}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+        class Career
+        {
+            public string dolcode { get; set; }
+            public int count { get; set; }
+        }
+
+        [HttpPost]
+        public HttpResponse GetCareers(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            List<AssessmentCareerRating> careerList;
+            string response;
+            if (group != "" && group != null)
+            {
+                careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            if (careerList.Count != 0)
+            {
+                var popular = careerList.Where(x => x.Rating == "1").GroupBy(x => x.DolCode).OrderByDescending(g => g.Count()).ToList();
+                List<Career> popularResult = new List<Career>();
+                foreach (var value in popular)
+                {
+                    popularResult.Add(new Career { dolcode = value.Key, count = value.Count() });
+
+                }
+                var unpopular = careerList.Where(x => x.Rating == "0").GroupBy(x => x.DolCode).OrderByDescending(g => g.Count()).ToList();
+                List<Career> unpopularResult = new List<Career>();
+                foreach (var value in unpopular)
+                {
+                    unpopularResult.Add(new Career { dolcode = value.Key, count = value.Count() });
+                }
+                response = "{\"result\": \"ok\", \"popular\":" + jss.Serialize(popularResult) + ", \"unpopular\":" + jss.Serialize(unpopularResult) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"popular\":[], \"unpopular\":[]}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        public ActionResult Report(string id)
+        {
+            if (id != null && id != "")
+            {
+                StudentProfileClient spc = new StudentProfileClient();
+                StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(id), id);
+                if (student != null && AuthTokens[3] == "administrator" && student.Teacher == AuthTokens[1])
+                {
+                    UserAccountClient uac = new UserAccountClient();
+                    UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(id), id);
+                    // ViewBag.StudentName = account.FirstName + " " + account.LastName;
+                    ViewBag.StudentFirstName = account.FirstName;
+                    ViewBag.StudentLastName = account.LastName;
+                    ViewBag.StudentToShow = id;
+                }
+            }
+            else if (AuthTokens[3] == "administrator")
+            {
+                return RedirectToAction("Assessment", "Index");
+            }
+            return View();
+        }
+    }
+}

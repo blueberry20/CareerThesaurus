@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "EmailCampaign";
+}
+<style>
+    .btnwrapper {
+        margin: 10px 0;
+        text-align: right;
+        float: right;
+    }
+    .nobootstrapbtn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+</style>
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Attitude</th>
+                        <th>Endurance</th>
+                        <th>Action</th>
+                        <th>Concentration</th>
+                        <th>Information</th>
+                        <th>Processing</th>
+                        <th>Presence</th>
+                        <th>Patterns</th>
+                        <th>Compensation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select class="personality" data-name="DimensionAttitude">
+                                <option value="">N/A</option>
+                                <option value="Extravert">Extravert</option>
+                                <option value="Introvert">Introvert</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionEndurance">
+                                <option value="">N/A</option>
+                                <option value="Stationary">Stationary</option>
+                                <option value="Mobile">Mobile</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionAction">
+                                <option value="">N/A</option>
+                                <option value="Process">Process</option>
+                                <option value="Result">Result</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionConcentration">
+                                <option value="">N/A</option>
+                                <option value="Focused">Focused</option>
+                                <option value="Relaxed">Relaxed</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionInformation">
+                                <option value="">N/A</option>
+                                <option value="Facts">Facts</option>
+                                <option value="Imagination">Imagination</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionProcessing">
+                                <option value="">N/A</option>
+                                <option value="Rational">Rational</option>
+                                <option value="Emotional">Emotional</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionPresence">
+                                <option value="">N/A</option>
+                                <option value="Present">Present</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionPatterns">
+                                <option value="">N/A</option>
+                                <option value="Routine">Routine</option>
+                                <option value="Discover">Discover</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="personality" data-name="DimensionCompensation">
+                                <option value="">N/A</option>
+                                <option value="Variable">Variable</option>
+                                <option value="Fixed">Fixed</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="gradyears" class="col-sm-2 control-label">Grad Year From:</label>
+                    <div class="col-sm-10">
+                        <select id="gradyears" class="form-control" data-name="gradfrom" multiple></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="from" class="col-sm-2 control-label">From Email:</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="from" placeholder="From Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="display" class="col-sm-2 control-label">From Display:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="display" placeholder="From Display">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subject" class="col-sm-2 control-label">Subject:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <textarea id="body" name="area"></textarea>
+            </div>
+            <div class="btnwrapper">
+                <button class="nobootstrapbtn btn-default" onclick="sendTest();">Send Test Email</button> 
+                <button class="nobootstrapbtn btn-default" onclick="sendEmail();">Send Email Campaign</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>
+    function document_ready() {
+        for (i = new Date().getFullYear() + 10 ; i > 1980; i--) {
+            $('#gradyears').append($('<option />').val(i).html(i));
+        }
+        tinymce.init({
+            selector: "textarea",
+            theme: "modern",
+            height: 600,
+            plugins: [
+                 "advlist autolink link lists preview hr anchor spellchecker",
+                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                 "save table contextmenu directionality emoticons template paste textcolor"
+            ],
+        });
+    }
+    function sendEmail() {
+        if (confirm("Confirm to send emails")) {
+            var data = constructDataObject();
+            var output = [];
+            $.ajax({
+                url: '/admin/SendEmail',
+                type: 'post',
+                data: data
+            }).success(function (response) {
+                alert("Done");
+                console.log(response); 
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+    function sendTest() {
+        var data = {};
+        data.FromEmail = $('#from').val();
+        data.FromDiplay = $('#display').val();
+        data.Subject = $('#subject').val();
+        data.Body = tinyMCE.activeEditor.getContent({ format: 'raw' });
+        $.ajax({
+            url: '/admin/SendTest',
+            type: 'post',
+            data: data
+        }).success(function (response) {
+            alert("Done");
+            console.log(response);
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    function constructDataObject() {
+        var data = {};
+        $('.personality').each(function (index, element) {
+            data[$(element).data('name')] = $(element).val() != '' ? $(element).val() : null;
+        });
+        data.GradYears = $('#gradyears').val() ? $('#gradyears').val().join(',') : null;
+        data.FromEmail = $('#from').val();
+        data.FromDiplay = $('#display').val();
+        data.Subject = $('#subject').val();
+        data.Body = tinyMCE.activeEditor.getContent({ format: 'raw' });
+        return data;
+    }  
+</script>

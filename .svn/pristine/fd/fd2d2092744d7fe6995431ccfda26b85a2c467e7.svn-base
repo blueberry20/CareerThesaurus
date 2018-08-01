@@ -1,0 +1,87 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+@using System.Text.RegularExpressions;
+
+@{
+    BlogPostClient bpc = new BlogPostClient();
+    ViewBag.Title = "Category";
+}
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 blogPostsWrapper">
+                @{
+                    if (ViewBag.Articles == null)
+                    {
+                        <div>No articles in this category</div>
+                    }
+                    else
+                    {
+                        <div>@ViewBag.Category</div>
+                        List<BlogPost> postsList = ViewBag.Articles;
+                        foreach (BlogPost post in postsList)
+                        {
+                            string url = post.Date.ToString("yyyy/MM/dd/") + Regex.Replace(post.Title.ToLower(), @"[^a-zA-z0-9]+", "-");
+                            string article = Regex.Match(post.Article1, @"<p\b[^<]*(?:(?!<\/p>)<[^<]*)*<\/p>").ToString();
+                            article = Regex.Replace(article, @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>", "");
+                            <div class="blogPostShort">
+                                <div class="blogImageHolder row" data-path="@url">
+                                    @post.HeaderImageCode
+                                </div>
+                                <h2>@post.Title</h2>
+                                <div class="shareRowText">
+                                    <p class="blogDate">@post.Date.ToString("MMMMMMMMM dd, yyyy")</p>
+                                    <p class="blogCategory">@post.Category</p>
+                                    <p class="blogComments"><fb:comments-count href='/Blog/Post/@url'></fb:comments-count> comments</p>
+                                </div>
+                                <p class="blogParagraph">@article</p>
+                                <a type="submit" class="btn btn-lg btn-info" href='/Blog/Post/@url'>Read More</a>
+                            </div>
+                        }
+                        int totalPages = ViewBag.Pages;
+                        int currentPage = ViewBag.CurrentPage;
+                        if (currentPage == 1 && totalPages != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous disabled"><a href="Blog">&larr; Older Articles</a></li>
+                                <li class="next"><a href="Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }
+                        else if (currentPage == totalPages && currentPage != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous"><a href="Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                <li class="next disabled"><a href="Blog">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }
+                        else// if (currentPage != 1 && totalPages != 1)
+                        {
+                            <ul class="pager">
+                                <li class="previous"><a href="Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                <li class="next"><a href="Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                            </ul>
+                        }
+                        <div>for debuging</div>
+                        <div>Current page @ViewBag.CurrentPage</div>
+                        <div>Total pages @ViewBag.Pages</div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $('.blogImageHolder').each(function (index, element) {
+            var regex = new RegExp(/\{\{[a-z0-9]{4}\}\}/g);
+            var code = $(element).text();
+            if (regex.test(code)) {
+                var path = $(element).data('path');
+                $(element).html('<img src="https://careerthesaurus.blob.core.windows.net/blog/' + path + '/' + code.substring(2, 6) + '">');
+            } else {
+                $(element).hide();
+            }
+        });
+    }
+</script>

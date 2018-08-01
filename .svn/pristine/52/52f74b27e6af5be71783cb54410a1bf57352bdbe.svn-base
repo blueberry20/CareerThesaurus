@@ -1,0 +1,244 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AccessCode;
+@{
+    AccessCodeClient acc = new AccessCodeClient();
+    ViewBag.Title = "Index";
+}
+
+<!--=============================COUNSELOR PORTAL=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Counselor/counselor.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="adminPage">
+    <div class="container positionRelative">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active activeTab"><a href="/CounselorPortal">Counselor Portal</a></li>
+                    <li><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+            <ol class="breadcrumb">
+                <li class="active">Home</li>
+            </ol>
+        </div>*@
+        <h1>Counselor Portal</h1>
+        <div id="main" class="row">
+            <div id="dropdownHeader" class="row dropdownWrapper">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Grad. Yr:</label>
+                    <div class="dropdown">
+                        <select id="yearsSelect" class="dropdown-toggle" onchange="yearChange(this);"></select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Grade:</label>
+                    <div class="dropdown">
+                        <select id="gradesSelect" class="dropdown-toggle" onchange="gradeChange(this);"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="groups">
+
+            </div>
+            @if (ViewBag.Error != null)
+            {
+                <div>There was error saving your information on server</div>
+            }
+            <div class="newGroupsWrapper">
+                <div class="changeAlignment">
+                    <button id="createGroupsBtn" class="expandButton" onclick="showSection(this);" data-toggle="collapse" data-target="#groupFormWrapper" aria-expanded="true" aria-controls="groupFormWrapper">Create new groups<i class="fa fa-angle-down"></i></button>
+                </div>
+                <div id="groupFormWrapper" class="collapse ">
+                    <form method="post" role="form" id="groupsForm">
+                        <div class="newGroup">
+                            <h4>Create new group</h4>
+                            <div class="form-group">
+                                <label for="year[0]">Year</label>
+                                <input type="text" class="form-control years" id="year[0]" name="year[0]" placeholder="year" value="@AccessCodeClient.CurrentGradYear()" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="grade[0]">Grade</label>
+                                <select class="form-control grades" id="grade[0]" name="grade[0]">
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="groupname[0]">Group name</label>
+                                <input type="text" class="form-control groupnames" id="groupname[0]" name="groupname[0]" placeholder="Group Name">
+                            </div>
+                            <div class="changeAlignment">
+                                <button class="btn remove disabled hidden" onclick="removeThisGroup(this);">Remove this group</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row addMargin changeAlignment">
+                        <button class="btn btn-default addCounselorBtn" onclick="addOneMore();">Add one more</button>
+                    </div>
+                    <div class="row text-center">
+                        <button class="btn btn-info submitBtn" onclick="submitGroups();">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var years = JSON.parse('@Html.Raw(ViewBag.Years)');
+    var grades = JSON.parse('@Html.Raw(ViewBag.Grades)');
+    var groups = JSON.parse('@Html.Raw(ViewBag.Groups)');
+    var currentYear = '@ViewBag.CurrentYear';
+    var selectedYear = 'all';
+    var groupHtml;
+    var expandSection = false;
+    function document_ready() {
+        groupHtml = $('#groupsForm').html();
+        if (groups.length != 0) {
+            renderHtml();
+        } else {
+            renderBlank();
+        }
+
+        $('.noGroupsAdded').height($(window).height() - 400);
+        $(window).resize(function () {
+            $('.noGroupsAdded').height($(window).height() - 400);
+        });
+    }
+    function renderHtml() {
+        years.sort();
+        grades.sort();
+        var html = '<option value="all" selected>All</option>';
+        for (var i = 0; i < years.length; i++) {
+            html += '<option value="' + years[i] + '">' + years[i] + ' year</option>';
+        }
+        $('#yearsSelect').html(html);
+
+        renderGrades(grades);
+        if (years.indexOf(currentYear) != -1) {
+            $('#yearsSelect').val(currentYear).trigger('onchange');
+        } else {
+            $('#yearsSelect').val('all').trigger('onchange');
+        }
+    }
+    function renderBlank() {
+        var html = '<div class="noGroupsAdded row">' +
+                        '<div class="tableCell">' +
+                            '<p>You don\'t have any assessment groups assigned to you.<p><p>You can wait until administrator assigns groups to you.</p><p>Or create groups yourself by completing the form below.</p>' +
+                        '</div>' +
+                    '</div>';
+        $('#dropdownHeader').remove();
+        $('#groups').html(html);
+    }
+    function renderGrades(gradesSelection) {
+        gradesSelection.sort();
+        html = '<option value="all">All</option>';
+        for (var i = 0; i < gradesSelection.length; i++) {
+            html += '<option value="' + gradesSelection[i] + '">' + gradesSelection[i] + ' grade</option>';
+        }
+        $('#gradesSelect').html(html);
+    }
+    function renderGroups(groupsArray) {
+        var html = '';
+        for (var i = 0; i < groupsArray.length; i++) {
+            html += '<div class="classDiv row group" >' +
+                            '<h3 class="name">' + groupsArray[i].GroupName + '</h3>' +
+                            '<p class="grayInfo">Year: ' + groupsArray[i].Year + '</p>' +
+                            '<p class="grayInfo">Grade: ' + groupsArray[i].Grade + '</p>' +
+                            '<p class="grayInfo">Student access code: ' + groupsArray[i].Code + '</p>' +
+                            '<p class="grayInfo grayBlock">Link to send to students: <a href="http://CareerThesaurus.com/Assessment/AccessCode/' + groupsArray[i].RowKey + '">http://CareerThesaurus.com/Assessment/AccessCode/' + groupsArray[i].RowKey + '</a></p>' +
+                        '</div>';
+        }
+        $('#groups').html(html);
+    }
+    function yearChange(element) {
+        selectedYear = $(element).val();
+        var gradeSelections;
+        if (selectedYear == 'all') {
+            gradeSelections = grades;
+        } else {
+            gradeSelections = groups.filter(function (x) { return x.Year == selectedYear }).map(function (x) { return x.Grade; }).filter(function (x) { return x; });
+        }
+        renderGrades(gradeSelections);
+        $('#gradesSelect').val('all').trigger('onchange');
+    }
+    function gradeChange(element) {
+        var value = $(element).val();
+        var groupsArray;
+        if (selectedYear == 'all' && value == 'all') {
+            groupsArray = groups;
+        } else if (selectedYear == 'all' && value != 'all') {
+            groupsArray = groups.filter(function (x) { return x.Grade == value; });
+        } else if (selectedYear != 'all' && value == 'all') {
+            groupsArray = groups.filter(function (x) { return x.Year == selectedYear; });
+        } else {
+            groupsArray = groups.filter(function (x) { return x.Grade == value && x.Year == selectedYear; });
+        }
+        renderGroups(groupsArray);
+    }
+   
+    function showSection(button) {
+        expandSection = !expandSection;
+        if (expandSection) {
+            $(button).html('Hide create new group <i class="fa fa-angle-up"></i>');
+        } else {
+            $(button).html('Create new groups <i class="fa fa-angle-down"></i>');
+        }
+    }
+    function addOneMore() {
+        $('#groupsForm').append(groupHtml);
+        $('.remove').removeClass('disabled').removeClass('hidden');
+        updateImageIndexes();
+    }
+    function removeThisGroup(element) {
+        if ($('.newGroup').length != 1) {
+            $(element).closest('.newGroup').remove();
+            updateImageIndexes();
+            if ($('.newGroup').length == 1) {
+                $('.remove').addClass('disabled').addClass('hidden');
+            }
+        }
+    }
+    function submitGroups() {
+        var valid = true;
+        $('.newGroup').each(function (index, element) {
+            var year = $(element).find('.years').val();
+            var grade = $(element).find('.grades').val();
+            var groupname = $(element).find('.groupnames').val();
+            if (year != currentYear || grade == '' || grade == null || groupname == '' || groupname == null) {
+                valid = false;
+            }
+        });
+        if (valid) {
+            $('#groupsForm').submit();
+        }
+    }
+    function updateImageIndexes() {
+        $('.years').each(function (index, element) {
+            $(element).attr('id', 'year[' + index + ']').attr('name', 'year[' + index + ']').siblings('label').attr('for', 'year[' + index + ']');
+        });
+        $('.grades').each(function (index, element) {
+            $(element).attr('id', 'grade[' + index + ']').attr('name', 'grade[' + index + ']').siblings('label').attr('for', 'grade[' + index + ']');
+        });
+        $('.groupnames').each(function (index, element) {
+            $(element).attr('id', 'groupname[' + index + ']').attr('name', 'groupname[' + index + ']').siblings('label').attr('for', 'groupname[' + index + ']');
+        });
+    }
+</script>

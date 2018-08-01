@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Browse Careers";
+}
+
+
+<style>
+    h1 {color: #000; }
+    
+    #branches {}
+    
+    div.branchholder { position: relative; display: inline-block; margin: 5px; overflow: hidden; cursor: pointer; width: 270px; height: 288px; background-color: #000;}
+    div.branchholder .imageholder { position: absolute; top: 0px; left: 0px; overflow: hidden; cursor: pointer; width: 270px; height: 270px; }
+    div.branchholder .imageholder img { position: absolute; top: 0px; left: 0px;}
+    div.branchholder .footer { position: absolute; background-color: #000; color: #fff; bottom: 0; left: 0; width: 100%; min-height: 18px; font-family: Verdana; font-size: 10pt; text-align: center; padding: 5px; }
+    div.branchholder .details { position: absolute; top: 100px; left: 0; width: 100%; opacity: 0;text-align: center;}
+    div.branchholder .details h1 { color: #fff; }
+    
+    .items {}
+    div.careerholder { position: relative; display: inline-block; margin: 5px; overflow: hidden; width: 270px; height: 288px; background-color: #fff; color: #333; }
+    div.careerholder .header { position: absolute; top: 5px; left:5px;  color: #333; font-weight: bold; font-size: 10pt; font-family: Verdana;}
+    div.careerholder .details { position: absolute; overflow: hidden; top: 25px; left:5px; width: 250px; height: 210px; color: #333; text-align: left;}
+    div.careerholder .footer { position: absolute; bottom: 0px; left:0px; width: 220px; height: 20px; color: #333; font-weight: lighter; font-size: 12pt; font-family: Arial; background-color: #f5f5f5; text-align: right; padding: 10px 40px 10px 10px; cursor: pointer; }
+    div.careerholder .footer:hover {background-color: #000; color: #fff;}
+    div.careerholder .footer img { position: absolute; right: 10px; top: 10px; }
+    
+</style>
+
+<div class="pagecontent" style="margin: 0 auto; background-color: rgba(255,255,255,0.3); text-align: center; padding: 20px; ">
+    
+    <!--BROWSE CAREERS BY BRANCH-->
+    <div id="items">
+    
+    </div>
+</div>
+
+
+
+<script>
+    function $@(ViewBag.BranchId.Replace("-", ""))_ready(data) {
+        $('#items').append('<div class="branchholder"><div class="details"><h1>'+data.branch+'</h1></div><div class="imageholder"><img class="branchimage" src="/content/images/careerassessment/covers/bybranch/@(ViewBag.BranchId.Replace("-","")).jpg"/></div><div class="footer">Careers in '+data.branch+'</div></div>');
+        for (var i = 0; i < data.items.length; i++) {
+            $('#items').append('<div class="careerholder"><div class="header">' + data.items[i].displayname + '</div><div class="details" id="desc'+data.items[i].rowkey+'"></div><div class="footer" urlparam="'+data.items[i].urlparam +'">Learn more <img src="/content/images/disclosure.png"/></div></div>');
+            getDescriptionsFromBlob(data.items[i].rowkey);
+        }
+
+        $('.imageholder').mouseover(function () { branch_mouseover(this); });
+        $('.imageholder').mouseout(function () { branch_mouseout(this); });
+        //$('.imageholder').click(function () { branch_click(this); });
+
+        $('.footer').click(function () { career_click(this); });
+    }
+
+    function branch_mouseover(e) {
+        $('.activated').stop();
+        $('.activated').animate({ 'width': '270', 'left': '0', 'top': '0', 'opacity': 1 }, 300);
+        $('.activated').removeClass('activated');
+
+        var img = $(e).children('img');
+
+        img.animate({ 'width': '300', 'left': '-15', 'top': '-15', 'opacity': 0.1 }, 500);
+        img.addClass('activated');
+
+        $(e).siblings('.details').css('opacity', 1);
+    }
+
+    function branch_mouseout(e) {
+        var img = $(e).children('img');
+        img.animate({ 'width': '270', 'left': '0', 'top': '0', 'opacity': 1 }, 300);
+    }
+
+    function career_click(e) {
+
+        var urlparam = $(e).attr('urlparam');
+        document.location = '/career/' + urlparam;
+    }
+
+    function getCareersFromBlob() {
+        var headID = document.getElementsByTagName("head")[0];
+        var newScript = document.createElement('script');
+        newScript.type = 'text/javascript';
+        newScript.src = 'https://chaindate.blob.core.windows.net/skillcow/careerbranches/@(ViewBag.BranchId).js';
+        headID.appendChild(newScript);
+    }
+
+    function $details_ready(data, container) {
+        var text = $.trim(data.description).replace(/<br\/>/g,'');
+        $('#desc'+container).html(text);
+    }
+
+    function getDescriptionsFromBlob(id) {
+        var headID = document.getElementsByTagName("head")[0];
+        var newScript = document.createElement('script');
+        newScript.type = 'text/javascript';
+        newScript.src = 'https://chaindate.blob.core.windows.net/' + id + '/data/details.js';
+        headID.appendChild(newScript);
+    }
+
+</script>
+
+<script src="@Url.Content("~/Scripts/Controllers/Careers/In/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>

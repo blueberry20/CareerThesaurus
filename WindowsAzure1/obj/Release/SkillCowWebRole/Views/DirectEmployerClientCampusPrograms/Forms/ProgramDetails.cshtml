@@ -1,0 +1,192 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers
+@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClientCampusProgram
+
+<fieldset>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.JobTitle)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.JobTitle)
+        @Html.ValidationMessageFor(model => model.JobTitle)
+    </div>
+
+    <div class="editor-label">
+        Program Id
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ProgramId)
+        @Html.ValidationMessageFor(model => model.ProgramId)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Source)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Source)
+        @Html.ValidationMessageFor(model => model.Source)
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ReferenceId)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ReferenceId)
+        @Html.ValidationMessageFor(model => model.ReferenceId)
+    </div>
+                    
+    <div class="editor-label">
+        Quick Text Description
+    </div>
+    <div class="editor-field">
+        <textarea id="descriptioneditor" style="height:100px;" onkeydown="updatehiddenvariable('Description', 'descriptioneditor'); showpreview();" onchange="updatehiddenvariable('Description', 'descriptioneditor'); showpreview();" ></textarea>
+        @Html.HiddenFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+                    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.PayType)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.PayType,
+                            new SelectList(new List<object>
+                            { //0 - No experience, 1 - some experience, 2 - experience required, 3 - veteran (executive level)
+                                new { Value = "w2", Text = "W2" },
+                                new { Value = "1099", Text = "1099" },
+                                new { Value = "commissions", Text = "Commissions" }
+                            }, "Value", "Text"), new { onchange = "paytypechanged()"})
+        @Html.ValidationMessageFor(model => model.PayType)
+    </div>
+    
+    <div class="editor-label noncommissionpay" style="display:;">
+        @Html.LabelFor(model => model.PayAmount)
+    </div>
+    <div class="editor-field noncommissionpay" style="display:;">
+        @Html.TextBoxFor(model => model.PayAmount, new { value = "0", style = "width: 196px" }) @Html.DropDownListFor(model => model.PayPer,
+                                                                        new SelectList(new List<object>
+                                                                        {   //0 - No experience, 
+                                                                            //1 - some experience, 
+                                                                            //2 - experience required, 
+                                                                            //3 - veteran (executive level)
+                                                                            new { Value = "hour", Text = "per Hour" },
+                                                                            new { Value = "day", Text = "per Day" },
+                                                                            new { Value = "week", Text = "per Week" },
+                                                                            new { Value = "month", Text = "per Month" },
+                                                                            new { Value = "year", Text = "per Year" },
+                                                                            new { Value = "project", Text = "per Project" },
+                                                                            new { Value = "total", Text = "Total" }
+                                                                                    
+                                                                        }, "Value", "Text"), new { style = "width: 200px" })
+        @Html.ValidationMessageFor(model => model.PayAmount)
+        @Html.ValidationMessageFor(model => model.PayPer)
+    </div>
+            
+    <div class="editor-label commissionpay" style="display:none;">
+        @Html.LabelFor(model => model.CommissionStructure)
+    </div>
+    <div class="editor-field commissionpay" style="display:none;">
+        @Html.EditorFor(model => model.CommissionStructure)
+        @Html.ValidationMessageFor(model => model.CommissionStructure)
+    </div>
+    
+    <div class="editor-label">
+        Is this job gender specific?
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.Gender,
+                            new SelectList(new List<object>
+                            { //0 - No experience, 1 - some experience, 2 - experience required, 3 - veteran (executive level)
+                                new { Value = "", Text = "" },
+                                new { Value = "F", Text = "Yes, women only" },
+                                new { Value = "M", Text = "Yes, men only" }
+                            }, "Value", "Text"))
+        @Html.ValidationMessageFor(model => model.Gender)
+    </div>
+
+</fieldset>
+        
+<fieldset>
+    <legend>Payout</legend>
+        
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Payout)
+    </div>
+    <div class="editor-field" class="smallnumberinput">
+        <input type="text" name="Payout" value="0" style="width: 100px; text-align: center" />
+        @Html.ValidationMessageFor(model => model.Payout)
+    </div>
+</fieldset>
+
+        
+<fieldset>
+    <legend>Taxonomy</legend>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Industry)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Industry)
+        @Html.ValidationMessageFor(model => model.Industry)
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Category)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Category)
+        @Html.ValidationMessageFor(model => model.Category)
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.SubCategory)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.SubCategory)
+        @Html.ValidationMessageFor(model => model.SubCategory)
+    </div>
+</fieldset>
+        
+<fieldset>
+    <legend>Experience</legend>
+    <div class="editor-label">
+        Required Experience
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.ExperienceLevel,
+                            new SelectList(new List<object>
+                            { //0 - No experience, 1 - some experience, 2 - experience required, 3 - veteran (executive level)
+                                new { Value = 0, Text = "No experience" },
+                                new { Value = 1, Text = "Some experience" },
+                                new { Value = 2, Text = "Experience required" }, 
+                                new { Value = 3, Text = "Veteran (Senior to Executive level)" } 
+                            }, "Value", "Text"))
+        @Html.ValidationMessageFor(model => model.ExperienceLevel)
+    </div>
+</fieldset>
+
+@Html.Hidden("ClientRowKey", ((DirectEmployerClient)ViewBag.Client).RowKey)     
+@Html.Hidden("ClientId", ((DirectEmployerClient)ViewBag.Client).ClientId)     
+        
+@Html.Hidden("CampusRowKey", ((DirectEmployerClientCampus)ViewBag.Campus).RowKey)     
+@Html.Hidden("CampusId", ((DirectEmployerClientCampus)ViewBag.Campus).CampusId)     
+
+@Html.HiddenFor(model => model.PostedDateTime)
+
+<script>
+    function showpreview() {
+        $('#previewpane').html($('#Html').val());
+    }
+
+    function updatehiddenvariable(fieldname, editorname) {
+        $('#' + fieldname).val($('#' + editorname).val());
+    }
+
+    function paytypechanged() {
+        if ($('#PayType').val() == 'commissions') {
+            $('.commissionpay').show();
+            $('.noncommissionpay').hide();
+        }
+        else {
+            $('.commissionpay').hide();
+            $('.noncommissionpay').show();
+        }
+    }
+</script>

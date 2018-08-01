@@ -1,0 +1,89 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClientCampusProgram
+
+
+
+<style>
+    .attributes { background-color: #fff; padding: 20px; border-radius: 10px 10px; width: 410px; }
+    .attributes tr td { font-family: Arial; font-size: 14pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; }
+    .attributes tr td.selected {color: rgba(128,0,0,1);}
+    
+    .importantthings { background-color: #fff; padding: 20px; border-radius: 10px 10px; width: 410px;}
+    .importantthings tr td {font-family: Arial; font-size: 14pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; }
+    .importantthings tr td.selected {color: rgba(0,0,128,1);}
+</style>
+
+
+<fieldset>
+                        
+    <div class="editor-label">Personality Traits</div>
+    <div class="editor-field">
+        <table class="attributes">
+            <tr><td dimension="Attitude" class="@(Model.DimensionAttitude=="Extravert"?"selected":"")">Extravert</td><td dimension="Attitude" class="@(Model.DimensionAttitude=="Introvert"?"selected":"")">Introvert</td><td dimension="Attitude" class="@(Model.DimensionAttitude=="Either"?"selected":"")">Either</td></tr>
+            <tr><td dimension="Information" class="@(Model.DimensionInformation == "Facts" ? "selected" : "")">Facts</td><td dimension="Information" class="@(Model.DimensionInformation == "Imagination" ? "selected" : "")">Imagination</td><td dimension="Information" class="@(Model.DimensionInformation=="Either"?"selected":"")">Either</td></tr>
+            <tr><td dimension="Processing" class="@(Model.DimensionProcessing=="Rational"?"selected":"")">Rational</td><td dimension="Processing" class="@(Model.DimensionProcessing == "Emotional" ? "selected" : "")">Emotional</td><td dimension="Processing" class="@(Model.DimensionProcessing == "Either" ? "selected" : "")">Either</td></tr>
+
+            <tr><td dimension="Action" class="@(Model.DimensionAction == "Process" ? "selected" : "")">Process</td><td dimension="Action" class="@(Model.DimensionAction == "Result" ? "selected" : "")">Result</td><td dimension="Action" class="@(Model.DimensionAction=="Either"?"selected":"")">Either</td></tr>
+            <tr><td dimension="Endurance" class="@(Model.DimensionEndurance=="Stationary"?"selected":"")">Stationary</td><td dimension="Endurance" class="@(Model.DimensionEndurance == "Mobile" ? "selected" : "")">Mobile</td><td dimension="Endurance" class="@(Model.DimensionEndurance == "Either" ? "selected" : "")">Either</td></tr>
+            <tr><td dimension="Presence" class="@(Model.DimensionPresence == "Present" ? "selected" : "")">Present</td><td dimension="Presence" class="@(Model.DimensionPresence == "Remote" ? "selected" : "")">Remote</td><td dimension="Presence" class="@(Model.DimensionPresence=="Either"?"selected":"")">Either</td></tr>
+
+            <tr><td dimension="Concentration" class="@(Model.DimensionConcentration=="Relaxed"?"selected":"")">Relaxed</td><td dimension="Concentration" class="@(Model.DimensionConcentration == "Focused" ? "selected" : "")">Focused</td><td dimension="Concentration" class="@(Model.DimensionConcentration == "Either" ? "selected" : "")">Either</td></tr>
+            <tr><td dimension="Patterns" class="@(Model.DimensionPatterns == "Discover" ? "selected" : "")">Discover</td><td dimension="Patterns" class="@(Model.DimensionPatterns == "Routine" ? "selected" : "")">Routine</td><td dimension="Patterns" class="@(Model.DimensionPatterns=="Either"?"selected":"")">Either</td></tr>
+            <tr><td dimension="Compensation" class="@(Model.DimensionCompensation == "Fixed" ? "selected" : "")">Fixed</td><td dimension="Compensation" class="@(Model.DimensionCompensation == "Variable" ? "selected" : "")">Variable</td><td dimension="Compensation" class="@(Model.DimensionCompensation=="Extravert"?"selected":"")">Either</td></tr>
+        </table>
+    </div>
+</fieldset>
+        
+<fieldset>
+                        
+    <div class="editor-label">Important Things</div>
+    <div class="editor-field">
+        <table class="importantthings">
+            <tr><td class="@(Model.ImportantThingsBeauty == "Beauty" ? "selected" : "")">Beauty</td><td class="@(Model.ImportantThingsPeople == "People" ? "selected" : "")">People</td><td class="@(Model.ImportantThingsCreativity == "Creativity" ? "selected" : "")">Creativity</td></tr>
+            <tr><td class="@(Model.ImportantThingsHelping == "Helping" ? "selected" : "")">Helping</td><td class="@(Model.ImportantThingsScience == "Science" ? "selected" : "")">Science</td><td class="@(Model.ImportantThingsAdmiration == "Admiration" ? "selected" : "")">Admiration</td></tr>
+            <tr><td class="@(Model.ImportantThingsAdventure == "Adventure" ? "selected" : "")">Adventure</td><td class="@(Model.ImportantThingsEasy == "Easy" ? "selected" : "")">Easy</td><td class="@(Model.ImportantThingsCompetition == "Competition" ? "selected" : "")">Competition</td></tr>
+            <tr><td class="@(Model.ImportantThingsSafety == "Safety" ? "selected" : "")">Safety</td><td class="@(Model.ImportantThingsDuty == "Duty" ? "selected" : "")">Duty</td><td class="@(Model.ImportantThingsAnimals == "Animals" ? "selected" : "")">Animals</td></tr>
+            <tr><td class="@(Model.ImportantThingsTechnology == "Technology" ? "selected" : "")">Technology</td><td class="@(Model.ImportantThingsGrowth == "Growth" ? "selected" : "")">Growth</td><td class="@(Model.ImportantThingsPolitics == "Politics" ? "selected" : "")">Politics</td></tr>
+        </table>
+    </div>
+</fieldset>
+
+
+@Html.HiddenFor(model => model.DimensionAttitude)
+@Html.HiddenFor(model => model.DimensionInformation)
+@Html.HiddenFor(model => model.DimensionProcessing)
+
+@Html.HiddenFor(model => model.DimensionAction)
+@Html.HiddenFor(model => model.DimensionEndurance)
+@Html.HiddenFor(model => model.DimensionPresence)
+
+@Html.HiddenFor(model => model.DimensionConcentration)
+@Html.HiddenFor(model => model.DimensionPatterns)
+@Html.HiddenFor(model => model.DimensionCompensation)
+
+
+@Html.HiddenFor(model => model.ImportantThingsBeauty)
+@Html.HiddenFor(model => model.ImportantThingsHelping)
+@Html.HiddenFor(model => model.ImportantThingsAdventure)
+@Html.HiddenFor(model => model.ImportantThingsSafety)
+@Html.HiddenFor(model => model.ImportantThingsTechnology)
+
+@Html.HiddenFor(model => model.ImportantThingsPeople)
+@Html.HiddenFor(model => model.ImportantThingsScience)
+@Html.HiddenFor(model => model.ImportantThingsEasy)
+@Html.HiddenFor(model => model.ImportantThingsDuty)
+@Html.HiddenFor(model => model.ImportantThingsGrowth)
+
+@Html.HiddenFor(model => model.ImportantThingsCreativity)
+@Html.HiddenFor(model => model.ImportantThingsAdmiration)
+@Html.HiddenFor(model => model.ImportantThingsCompetition)
+@Html.HiddenFor(model => model.ImportantThingsAnimals)
+@Html.HiddenFor(model => model.ImportantThingsPolitics)
+
+<script>
+    function setDimensionVariable(dimension, value) {
+        $('#Dimension' + dimension).val(value);
+    }
+    function setImportantThingVariable(name, value) {
+        $('#ImportantThings' + name).val(value);
+    }
+</script>

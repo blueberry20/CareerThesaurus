@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "SkillCow";
+}
+
+
+<script type="text/javascript" src="/scripts/jquery.rotate.2.2.js"></script>
+<style>
+    
+    .titleholder {margin: 20px 20px 20px 40px;}
+    .titleholder h1  { font-size: 24pt; color: #ff5500; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 0px;} 
+    
+    p.intro { font-size: 12pt; color: #888; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 20px 20px 20px 40px; max-width: 450px;}
+    p.testimonialleft { font-size: 12pt; color: #555; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 40px 20px 20px 40px; padding: 0 200px 0 00px;}
+    p.testimonialright { font-size: 12pt; color: #555; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 40px 20px 20px 40px; padding: 0 20px 0 100px;}
+    
+    #branches {}
+    div.branchholder { position: relative; display: inline-block; margin: 5px; overflow: hidden; cursor: pointer; width: 270px; height: 288px; background-color: #000;}
+    div.branchholder .imageholder { position: absolute; top: 0px; left: 0px; overflow: hidden; cursor: pointer; width: 270px; height: 270px; }
+    div.branchholder .imageholder img { position: absolute; top: 0px; left: 0px;}
+    div.branchholder .footer { position: absolute; background-color: #000; color: #fff; bottom: 0; left: 0; width: 100%; min-height: 18px; font-family: Verdana; font-size: 10pt;}
+    div.branchholder .details { position: absolute; top: 100px; left: 0; width: 100%; opacity: 0;}
+    div.branchholder .details h1 { color: #fff; }
+    
+    .puzzle {position: absolute; height: 435px; width: 435px; top: 20px; right: 20px; }
+    .puzzlepiece {position: absolute; cursor: pointer;} 
+    .puzzlepiece div {position: absolute; top: 78px;  color: #fff; font-family: 'Fjalla One', sans-serif; font-size: 14pt; text-align: center; width: 100%;}
+    .shifted div {position: absolute; top: 62px;  color: #fff; font-family: 'Fjalla One', sans-serif; font-size: 14pt; text-align: center; width: 100%;}
+    #puzzlepiece1 { top: 16px; left:0px; }
+    #puzzlepiece2 { top: 0px; left:145px; }
+    #puzzlepiece3 { top: 16px; left:259px; }
+    
+    #puzzlepiece4 { top: 129px; left:16px; }
+    #puzzlepiece5 { top: 144px; left:129px; }
+    #puzzlepiece6 { top: 129px; left:274px; }
+    
+    #puzzlepiece7 { top: 273px; left:0px; }
+    #puzzlepiece8 { top: 257px; left:145px; }
+    #puzzlepiece9 { top: 273px; left:259px; }
+    
+    #startbutton { cursor: pointer; background-image:url('/content/images/start-button.png'); width: 200px; height: 200px; margin: 60px 0 0 160px;}
+    #startbutton:active {background-image:url('/content/images/start-button-pressed.png');}
+    
+    .openquote {font-size: 48pt; font-family: Times New Roman;}
+</style>
+
+<div class="pagecontent rounded10" style="margin: 0 auto; background-color: rgba(255,255,255,0.3); text-align: center; padding: 0px;">
+    
+    <div class="container rounded10blbr shadow20" style="background-color: rgba(255,255,255,1); padding: 0px 0px 0px 0px; height: 475px;">
+        
+        <img src="/content/images/home/ihateweekends.jpg" />
+
+        <div class="titleholder">
+            <h1>Take your FREE career assessment test</h1>
+        </div>
+
+        
+        
+        <p class="intro">Your brain is already wired to perform certain tasks better than others</p>
+        <p class="intro">How you <b>Interact</b> with people, your <b>Tolerance</b> to distraction, your <b>Risk</b> threashold are only some of the factors that make up your unique Professional Personality</p>
+
+        
+        
+
+
+        <div class="puzzle" style="display: none;">
+            <!--Third row first-->        
+            <div id="puzzlepiece8" class="puzzlepiece"><img src="/content/images/puzzle-piece-open-left-right.png"/><div>Patterns</div></div>
+            <div id="puzzlepiece7" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Focus</div></div>
+            <div id="puzzlepiece9" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Compensation</div></div>
+
+            <!--Second row-->
+            <div id="puzzlepiece5" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Mobility</div></div>
+            <div id="puzzlepiece4" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right-orange.png"/><div>Drive</div></div>
+            <div id="puzzlepiece6" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right.png"/><div>Presence</div></div>
+
+            <!--First row -->
+            <div id="puzzlepiece2" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right.png"/><div>Sources</div></div>
+            <div id="puzzlepiece1" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Attitude</div></div>
+            <div id="puzzlepiece3" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Reaction</div></div>
+
+        </div>
+
+        <div style="position: absolute; top: 0px; right: 20px; width: 500px; height: 500px; background-color: #fff; display: none;">
+                
+            <!--<img style="position: absolute; bottom: 0px; right: 20px;"  src="/content/images/3dpersonpuzzle.jpg" />-->
+                
+            <canvas id="puzzlewidgetcanvas" style="position: absolute;" height="307"; width="307"></canvas>
+            <div id="widgetattributes"></div>
+        </div>
+    </div>
+    <br />
+    <div class="container rounded10 shadow20" style="background-color: rgba(255,255,255,1); padding: 10px 0px 30px 0px; ">
+        <div class="titleholder">
+            <h1>what people are saying</h1>
+        </div>
+        
+        
+        <p class="testimonialleft">
+            Just spent 5 minutes on skillcow and I love the site. I wish I had something like this when I was 18.  It has so much info.
+            <i>- Joe, West Babylon</i>
+        </p>
+        
+        <p class="testimonialright">
+            I wasnt too happy in accounting and felt it was time to change up careers. I dont usually go for personality tests but I tried out skillcow and surprisingly it tested for more attributes than expected. The results described me really well and I was happy to see Accounting wasnt on the suggested jobs list. It showed me recommended jobs, their outlook, salaries and even companies that were hiring. Great resource, I recommend it to everybody. Wish I wouldve found this thing when I was 20. 
+            <i>- Dan, Staten Island</i>
+        </p>
+        
+        <p class="testimonialleft">
+            I just took the test, and I'm very impressed by the results of it.  My profession suggestions were spot on. I'm currently unemployed, and looking for guidance navigating in this ocean of vast employment opportunities.  I can say honestly in my humble opinion that this site has potential to help masses. 
+            <i>- Natalie, New York City</i>
+        </p>
+        
+        
+        
+
+    </div>
+    
+
+    
+</div>
+
+
+<script src="@Url.Content("~/Scripts/Controllers/Home/cow.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Home/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<img id="sillycow" style="position: absolute; left:-420px; bottom: 0px; cursor: pointer;" src="/content/images/curiouscow.png" alt="sillycow" onload="waitandpeekcow()" onclick="triggercow()" title="what's this" />
+
+
+

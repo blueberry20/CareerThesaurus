@@ -1,0 +1,97 @@
+﻿
+div.picturestrip
+{
+    position: relative;
+    width:242px;
+    height:281px;
+    float:left;
+}
+#captureph
+{
+    position:absolute;
+    top:1px;
+    left:1px;
+}
+div.picturestrip div.pictureholder .toolbar
+{
+    position: absolute;
+    top:242px;
+    left:0px;
+    background-color:#eeeeee;
+    width:242px; 
+    height:33px;
+    padding:5px 0 5px 0;
+}
+
+div.picturestrip div.pictureholder img
+{
+    position: absolute;
+    top:0px;
+    left:0px;
+    border: thin solid #000000; 
+    width:240px; 
+    height:240px;
+}
+
+fieldset
+{
+    position: absolute;
+    left:290px;
+    top:10px;
+    width:320px;
+    height: 440px;
+}
+
+
+.buttondatinglounge
+{
+    position: relative;
+    width:120px;
+    right:10px;
+    top:17px;
+    
+}
+
+div.box
+{
+    position:relative;
+    font-size:10pt;
+}
+    
+.profilebgneutral
+{
+    background: #eef5ff; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eef5ff', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eef5ff)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #eef5ff); /* for firefox 3.6+ */
+}
+
+.profilebgred
+{
+    background: #ffeeee; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ffeeee', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffeeee)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #ffeeee); /* for firefox 3.6+ */
+}
+
+.profilebggreen
+{
+    background: #ccffcc; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ccffcc', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ccffcc)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #ccffcc); /* for firefox 3.6+ */
+}
+
+html,body{
+	color: #333;
+}
+
+h1,h2,h3,h4,h5 {
+    font-weight: normal;
+    font-family: Verdana, Sans-Serif, Helvetica, Sans-Serif;
+    color: #333;
+}
+h1 
+{ 
+    font-size:18px;
+}

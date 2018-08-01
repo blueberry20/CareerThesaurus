@@ -1,0 +1,344 @@
+﻿@{
+    ViewBag.Title = "Select Interests";
+    ViewBag.OgDescription = "Browse and Discover Careers.";
+}
+
+<link href="../../Content/css/Custom.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Careers/Careers.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Careers/selectinterests.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer" id="byInterestPage">
+    <div class="container">
+        <div id="main" class="row">
+            <h2 class="heading">Select top 3 interests that apply to you</h2>
+
+            <div class="row">
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="beauty">
+                        <img class="img-responsive" src="../../Content/images/interests/beauty.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Beauty and Visual Perfection</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="helping">
+                        <img class="img-responsive" src="../../Content/images/interests/helping.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Helping Others</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="adventure">
+                        <img class="img-responsive" src="../../Content/images/interests/adventure.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Risk & Adventure</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="safety">
+                        <img class="img-responsive" src="../../Content/images/interests/safety.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Safety of Others</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="people">
+                        <img class="img-responsive" src="../../Content/images/interests/people.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Working with People</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="science">
+                        <img class="img-responsive" src="../../Content/images/interests/science.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Scientific Methods & Precision</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="duty">
+                        <img class="img-responsive" src="../../Content/images/interests/duty.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Sense of Duty</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="admiration">
+                        <img class="img-responsive" src="../../Content/images/interests/admiration.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Being in a Spot Light</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="creativity">
+                        <img class="img-responsive" src="../../Content/images/interests/creativity.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Creativity</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="competition">
+                        <img class="img-responsive" src="../../Content/images/interests/competition.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Competitiveness</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="animals">
+                        <img class="img-responsive" src="../../Content/images/interests/animals.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Nature & Animals</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="politics">
+                        <img class="img-responsive" src="../../Content/images/interests/politics.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Politics & Strategy</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="technology">
+                        <img class="img-responsive" src="../../Content/images/interests/technology.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Technology & Gadgets</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="machinery">
+                        <img class="img-responsive" src="../../Content/images/interests/machinery.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Machinery</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="handlabor">
+                        <img class="img-responsive" src="../../Content/images/interests/handlabor.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Hand Labour</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="strength">
+                        <img class="img-responsive" src="../../Content/images/interests/strength.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Using Body Strength</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="drafting">
+                        <img class="img-responsive" src="../../Content/images/interests/drafting.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Drafting & Sketching</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="coordinating">
+                        <img class="img-responsive" src="../../Content/images/interests/coordinating.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Coordinating Groups</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="numbers">
+                        <img class="img-responsive" src="../../Content/images/interests/numbers.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Working with numbers</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="critical">
+                        <img class="img-responsive" src="../../Content/images/interests/critical.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Giving critical advice</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="interestWrapper col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <div class="imgOverlay" data-interest="salesy">
+                        <img class="img-responsive" src="~/Content/images/interests/salesy.jpg" alt="" />
+                        <div class="textOverlay">
+                            <p>Salesiness</p>
+                            <img class="checkmark" src="/Content/images/checkmark.png" alt="checkmark" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <a href="/Careers/ByInterest" id="viewResultsBtn" class="btn btn-success">View My Career Results<i class="fa fa-angle-right"></i></a>
+            </div>
+
+            <div id="selectionSummary" class="row">
+                Please select up to 3 interests to proceed
+            </div>
+
+            <div class="modal fade twoButtonsModal" id="threeInterestsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" id="confirmBody">
+                            <p>You selected 3 interestes.</p>
+                            <p class="modalSmaller">Select what you would like to do next.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default twoButtons" id="changeInterests" data-dismiss="modal">Change Interests</button>
+                            <a href="/Careers/ByInterest" class="btn btn-default twoButtons" id="goToResults">Show Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade oneButtonModal" id="instructionsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p>You can't select more than 3 interests.</p>
+                            <p class="modalSmaller">Unselect one of the interests before selecting another one.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default schoolAddedBtn oneButton" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        //$('.imgOverlay').click(function () {
+        //    $(this).toggleClass('selected');
+        //    updateSummary();
+        //});
+
+
+        $('.textOverlay p').each(function () {
+            $(this).css('margin-top', ($(this).height() / 2 * -1));
+        });
+
+        $(window).resize(function () {
+            $('.textOverlay p').each(function () {
+                $(this).css('margin-top', ($(this).height() / 2 * -1));
+            });
+        });
+
+        var interestCount = 0;
+        if (localStorage.interestsList) {
+            var interestValues = JSON.parse(localStorage.interestsList);
+            interestCount = interestValues.length;
+            for (var i = 0; i < interestCount; i++) {
+                $('[data-interest="' + interestValues[i] + '"]').addClass('selected');
+            }
+        }
+        updateSummary();
+
+        $('.imgOverlay').click(function (element) {
+            var name = $(this).data('name');
+            if (interestCount < 3) {
+                $(this).toggleClass('selected');
+                var value = $(this).hasClass('selected') ? "1" : "0";
+                $(this).data('value', value);
+               // saveInterest(name, value);
+                if ($(this).hasClass('selected')) {
+                    interestCount++;
+                }
+                else { //unselected
+                    interestCount--;
+                }
+            }
+            //else if (interestCount == 3) {
+            //    $('#threeInterestsModal').modal();
+            //}
+            else { //interestcount >3
+                if ($(this).hasClass('selected')) {
+                    var value = $(this).hasClass('selected') ? "0" : "1";
+                    $(this).removeClass('selected');
+                    $(this).data('value', value);
+                    interestCount--;
+                   // saveInterest(name, value);
+                }
+                else {
+                    $('#instructionsModal').modal();
+                    return;
+                }
+            }
+            updateSummary();
+            checkifthree();
+        });
+
+        checkifthree();
+        function checkifthree() {
+            if (interestCount == 3) {
+                $('#threeInterestsModal').modal();
+            }
+        }
+
+        function updateSummary() {
+            var selections = [];
+            var interestValues = [];
+            $('.selected').each(function () {
+                selections.push($(this).find('.textOverlay p').text());
+                interestValues.push($(this).data('interest'));
+            });
+
+            $('#selectionSummary').text((selections.length == 0 ? 'Please select up to 3 interests to proceed' : 'Interests you\'ve selected: ' + selections.join(', ') + '.'));
+
+            if (selections.length != 0) {
+                $('.tryMatchingBtn').css('display', 'block');
+            }
+            else {
+                $('.tryMatchingBtn').css('display', 'none');
+            }
+
+            localStorage.interestsList = JSON.stringify(interestValues);
+            localStorage.interestsSelected = "true";
+        }
+
+
+    }
+</script>

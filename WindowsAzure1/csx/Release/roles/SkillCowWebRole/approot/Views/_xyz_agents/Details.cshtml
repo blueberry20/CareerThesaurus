@@ -1,0 +1,159 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.Agent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+        fieldset {border: none; font-size: 16pt;}
+        fieldset .display-label {position: relative; display: inline-block; width: 150px; font-weight: 100; }
+        fieldset .display-field {position: relative; display: inline-block; font-weight: 400; color: #000;}
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+<h1>@(Model.Firstname)</h1>
+
+<fieldset>
+    
+    <div class="display-label">Firstname</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Firstname)
+    </div>
+    
+    <br />
+
+    <div class="display-label">Lastname</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Lastname)
+    </div>
+
+    <br /><br />
+
+    <div class="display-label">LoginName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LoginName)
+    </div>
+    
+    <br />
+
+    <div class="display-label">LoginCode</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LoginCode)
+    </div>
+
+    <br />
+    
+    <div class="display-label">LoginColor</div>
+    <div class="display-field" style="background-color: @Model.LoginColor; padding: 5px; color: #fff;">
+        @Html.DisplayFor(model => model.LoginColor)
+    </div>
+    
+
+    <br /><br />
+
+    <div class="display-label">Address</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <br />
+
+    <div class="display-label">City</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>
+
+    <br />
+
+    <div class="display-label">State</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+
+    <br />
+
+    <div class="display-label">Zip</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Zip)
+    </div>
+
+    <br /><br />
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <br />
+
+    <div class="display-label">MobilePhone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MobilePhone)
+    </div>
+
+    <br />
+
+    <div class="display-label">HomePhone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HomePhone)
+    </div>
+
+    <br /><br />
+
+    <div class="display-label">EmploymentStatus</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmploymentStatus)
+    </div>
+
+    <br />
+
+    <div class="display-label">CurrentStatus</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CurrentStatus)
+    </div>
+
+    <br />
+
+    <div class="display-label">CurrentLocation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CurrentLocation)
+    </div>
+
+    <br /><br />
+
+    <div class="display-label">Supervisor</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Supervisor)
+    </div>
+
+    <br /><br />
+
+    <div class="display-label">Notes</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Notes)
+    </div>
+
+
+    <br /><br />
+
+    <div class="display-label">PayPerHour</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PayPerHour)
+    </div>
+
+    <br />
+
+    <div class="display-label">PayPerLead</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PayPerLead)
+    </div>
+
+</fieldset>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+</div>

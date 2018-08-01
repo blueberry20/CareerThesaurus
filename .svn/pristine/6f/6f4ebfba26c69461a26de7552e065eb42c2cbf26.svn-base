@@ -1,0 +1,135 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "Student Reports";
+}
+
+<!--===========================Aanalytics.Student Reports List========================================-->
+<link href="~/Content/css/Assessment/assessment.css" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <a href="/Assessment/Administrator">Administrator Home</i></a>
+                <span>|</span>
+                <a href="/Analytics">Analytics Home<i class="fa fa-angle-right"></i></a>
+                <span>Student Reports</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1>students reports </h1>
+                <p class="subheading">Click to view student's report card</p>
+            </div>
+        </div>
+
+        <div class="reportContent">
+            <div class="row dropdownWrapper">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <label class="control-label">School:</label>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                    <div class="dropdown schoolDropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-school" data-toggle="dropdown">
+                            <span class="btnLabel" id="schoolLabel">
+                                @{
+                                    string teacher = ViewBag.Email;
+                                    List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllByPartition(teacher));
+                                    if (connections.Count == 0)
+                                    {
+                                        <script>
+                                            var noSchools = true;
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connections[0].RowKey);
+                                        @school.SchoolName;
+                                    <script>
+                                        var noSchools = false;
+                                    </script>
+                                    }
+                                }
+                            </span>
+
+                            <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                            @{
+
+                                if (connections.Count == 0)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1">No schools added</a></li>
+                                }
+                                else
+                                {
+                                    foreach (SchoolToTeacherConnection connection in connections)
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connection.RowKey);
+                                        <li id="btn1" role="presentation"><a role="menuitem" tabindex="-1" data-rowkey="@school.RowKey" onclick="getGroups(this);">@school.SchoolName</a></li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="groupLabel col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <label class="control-label">Groups:</label>
+                </div>
+                <div class="groupDropdown col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-class" data-toggle="dropdown">
+                            <span class="btnLabel" id="groupsLabel">
+                                Select Group
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="groups" class="dropdown-menu" role="menu" aria-labelledby="dropdown-class"></ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 noResultsError"><p>There are no groups added to this school.<p><a href="/Assessment/School">Go to add groups</a></div>
+            </div>
+            <div id="report">
+                <!--html javascript-->
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="row studentNames">
+            <ol class="studentList">
+                @{
+                    if (ViewBag.Students != null)
+                    {
+                        List<UserAccount> studentList = ViewBag.Students;
+                        foreach (UserAccount student in studentList)
+                        {
+                            <li class="studentName"><a href="/Report/StudentReport/@student.RowKey">@student.FirstName @student.LastName</a><i class="fa fa-angle-right arrowRight"></i></li>
+                        }
+                    }
+                }
+                @*<li class="studentName"><a href="/Analytics/StudentReport">John Brown</a><i class="icon-right-open-big arrowRight"></i></li>
+                    <li class="studentName"><a>Svetlana Zelenkina</a><i class="icon-right-open-big arrowRight"></i></li>
+                    <li class="studentName"><a>Martin Gray</a><i class="icon-right-open-big arrowRight"></i></li>
+                    <li class="studentName"><a>Christina Ivanova</a><i class="icon-right-open-big arrowRight"></i></li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

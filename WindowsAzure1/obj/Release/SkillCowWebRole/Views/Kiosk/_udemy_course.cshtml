@@ -1,0 +1,201 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_udemy_course_scrollablecontent div {display: inline-block;}
+</style>
+
+    
+
+<div id="_udemy_course" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    
+    <div style="position: absolute; top: 80px; left: 125px;">
+        <img id="udemy_course_image" src="" style="position: absolute; top: 0px; left: 0px; width: 240px; height:135px;"/>
+        <h1 id="udemy_course_name" style="position: absolute; top: 0px; margin: 0px; left: 300px; font-size: 24pt; width: 1100px; display: inline-block; "></h1>
+        <p id="udemy_course_shortdesc" class="" style="position: absolute; top: 50px; margin: 0px; left: 300px; font-size: 12pt; width: 900px;"></p>
+        <h1 id="udemy_course_users" style="position: absolute; top: 115px; margin: 0px; left: 300px; font-size: 12pt; width: 900px; display: inline-block; "></h1>
+    </div>
+    
+    
+    <div id="_udemy_course_viewport" style="position: absolute; width: 100%; bottom: 0px; height: 660px; overflow-x: scroll; display: none;">
+        <div id="_udemy_course_scrollablecontent" style="overflow-y: hidden; height: 660px; margin-left: 100px; opacity: 0;">
+            
+
+        </div>
+    </div>
+
+    <div id="_udemy_course_backbutton" class="backbutton"></div>
+    
+    <div id="btnsendcourse" class="button" style="position: absolute; right: 0px; bottom: 0px; padding: 30px; font-size: 20pt; width: 360px; ">I want this course!</div>
+
+</div>
+
+
+<script>
+
+    var course_name = '';
+    var course_image = '';
+    var course_url = '';
+    var course_id = '';
+
+    var _udemy_course_loaded = false;
+
+    function showUdemyCourse(e) {
+    
+        showOverlay('_udemy_course');
+
+        course_url = $(e).attr("url");
+        course_id = course_url.replace('http://ude.my/', '');
+        course_name = $(e).attr("name");
+        course_image = $(e).attr("image");
+
+        $('#udemy_course_image').attr('src', course_image);
+        $('#udemy_course_name').html(course_name);
+
+        $('#udemy_course_shortdesc').html('');
+        $('#udemy_course_users').html('');
+
+        $('#_udemy_course_scrollablecontent').html('<div id="udemy_course_full_description_container" class="result_panel" style="margin-left: 125px; height: 660px; width: 800px">' +
+                '    <div id="verifiable_certificate_label" class="smalltitle" style="display: none;">A Verifiable Certificate of Completion is presented to all students who take this course.</div>' +
+                '    <br />' +
+                '    <div id="udemy_course_full_description" style="height: 500px;"></div>' +
+                '</div>' +
+                '<div id="udemy_course_contents_container" class="result_panel" style="height: 660px; width: 400px;">' +
+                '    <div class="smalltitle">Contents and Goals</div>' +
+                '    <br />' +
+                '    <div id="udemy_course_contents"></div>' +
+                '</div>'
+                );
+
+        $('#udemy_course_full_description').html('<img src="/content/preloaders/25.gif"/>');
+        
+        downloadCourseDetails($(e).attr("url"));
+                
+        var scrollablewidth = 12000; //125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280
+
+        $('#_udemy_course_scrollablecontent').css('width', scrollablewidth);
+        $("#_udemy_course_viewport").niceScroll("#_udemy_course_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+        $("#_udemy_course_viewport").getNiceScroll().resize();
+        $("#_udemy_course_viewport").show();
+
+        $('#_udemy_course_viewport').scrollLeft(0);
+        $('#_udemy_course_scrollablecontent').css('margin-left', '100px');
+
+        setTimeout(function () {
+            $('#_udemy_course_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+        }, 500);
+
+        if (!_udemy_course_loaded) {
+            $('#_udemy_course_backbutton').press(function () {
+                hideOverlay('_udemy_course');
+            });
+
+            $('#btnsendcourse').press(function () {
+                showRecordForm('udemycourse', course_id, "{'id':'" + course_id + "','name':'" + course_name + "','image':'" + course_image + "','url':'" + course_url + "'}", true);
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_udemy_course');
+                }
+            });
+
+            _udemy_course_loaded = true;
+        }
+
+
+    }
+
+
+    function downloadCourseDetails(url) {
+        $.ajax({
+            url: appserverurl + "/Udemy/GetCourseDetails",
+            type: "GET",
+            data: {
+                url: url
+            }
+        }).done(function (response) {
+            if (response.result == 'ok') {
+
+                var users = response.users;
+                if (users > 100) {
+                    if (users > 0) {
+                        users++;
+                    }
+                    $('#udemy_course_users').html('Over <b>' + users + '</b> users are already taking this course');
+                }
+                else {
+                    if (users > 100) {
+                        $('#udemy_course_users').html('<b>' + users + '</b> users are already taking this course');
+                    }
+                }
+
+                $('#udemy_course_shortdesc').html(response.shortdescription);
+
+                if (response.fulldescription != null && response.fulldescription != "") {
+                    $('#udemy_course_full_description').html($('<div></div>').html(response.fulldescription).text());
+                    $('#udemy_course_full_description_container').show();
+                }
+                else {
+                    $('#udemy_course_full_description').html('');
+                    $('#udemy_course_full_description_container').hide();
+                }
+
+                if (response.certificate == "1") {
+                    $('#verifiable_certificate_label').show();
+                }
+                else {
+                    $('#verifiable_certificate_label').hide();
+                }
+
+                if (response.contents.length > 0) {
+                    $('#udemy_course_contents_container').show();
+                    var html = '<ul>';
+                    for (var i = 0; i < response.contents.length; i++) {
+                        html += '<li>' + response.contents[i].text + '</li>';
+                    }
+                    html += '</ul>';
+
+                    $('#udemy_course_contents').html(html);
+
+                }
+                else {
+                    $('#udemy_course_contents_container').hide();
+                }
+
+                if (response.reviews.length > 0) {
+                    for (var i = 0; i < response.reviews.length; i++) {
+                        var header = '';
+                        if (i == 0) {
+                            header = '<span>Course reviews</span>&nbsp;<span style="opacity: 0.8;"><img src="/content/images/kiosk/icons/arrow_1.png"/></span><span style="opacity: 0.5;"><img src="/content/images/kiosk/icons/arrow_1.png"/></span><span style="opacity: 0.2;"><img src="/content/images/kiosk/icons/arrow_1.png"/></span>';
+                        }
+
+                        $('#_udemy_course_scrollablecontent').append('<div class="result_panel" style="position: relative; height: 660px; width: 300px; margin-top: 20px;">' +
+                            (header!='' ? '<div style="position: absolute; left: 0px; top: -20px;" class="smalltitle">' + header + '</div>' : '') +
+                            '<div style="font-size: 10pt;">' +
+                            response.reviews[i].text.replace(/&amp;#039;/gi, '\'') +
+                            '</div>' +
+                            '</div>');
+                    }
+                }
+
+
+
+
+
+
+            }
+            else {
+
+            }
+        }).fail(function () {
+
+        });
+    }
+    
+
+    
+</script>

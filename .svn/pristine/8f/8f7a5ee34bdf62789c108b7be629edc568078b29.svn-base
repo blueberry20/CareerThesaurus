@@ -1,0 +1,26 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage;
+@{
+    AddresseeClient ac = new AddresseeClient();
+    ViewBag.Title = "Subscribed";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            @{
+                List<Addressee> addresses = new List<Addressee>(ac.GetAll());
+                foreach (Addressee addresse in addresses)
+                {
+                    <p>Name: @addresse.Name Email: @addresse.Email</p>
+                    <hr />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

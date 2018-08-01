@@ -1,0 +1,94 @@
+﻿@{
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+    ViewBag.Title = "Course";
+}
+
+<div>
+    <div style="background-color: #000; padding: 5px; border-top-left-radius: 5px 5px;border-top-right-radius: 5px 5px;">
+        <h3 style="color: #fff; margin: 10px;" id="course_title">Invalid Course</h3>
+    </div>
+    <img id="course_image" src="" alt="Course Image" style="width:100%; opacity: 0.3" />
+</div>
+
+<div id="courseactionbutton" class="actionbutton" onclick="viewCourse()" style="display: none; border-top-left-radius: 0px 0px;border-top-right-radius: 0px 0px; text-align: center;">
+    <div style="margin: 0 auto;">
+    <span>View Course</span>
+    <span><img style="position: relative; display: block; top: 5px; opacity: 0.5;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+    </div>
+</div>
+
+<div id="udemy_course_users" style="margin: 10px; color: #555; font-size: 10pt;">
+</div>
+
+<p id="udemy_course_full_description" style="font-size: 10pt; padding: 0 5px 5px 0; margin: 10px; color: #555;">
+</p>
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/udemy/courses.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script>
+
+    //Find course and show details
+    $(document).ready(function () {
+
+        for (var i = 0; i < udemycourses.length; i++) {
+            if (udemycourses[i].url === '@(ViewBag.CourseUrl)') {
+                $('#course_title').html(udemycourses[i].name);
+                $('#course_image').attr('src',udemycourses[i].image);
+                $('#courseactionbutton').show();
+
+                downloadCourseDetails(udemycourses[i].url);
+
+                break;
+            }
+        }
+
+    });
+
+    function viewCourse() {
+        document.location = '@(ViewBag.CourseUrl)';
+    }
+
+
+    function downloadCourseDetails(url) {
+        $.ajax({
+            url: appserverurl + "/Udemy/GetCourseDetails",
+            type: "GET",
+            data: {
+                url: url
+            }
+        }).done(function (response) {
+            if (response.result == 'ok') {
+
+                var users = response.users;
+                if (users > 100) {
+                    if (users > 0) {
+                        users++;
+                    }
+                    $('#udemy_course_users').html('* Over <b>' + users + '</b> users are already taking this course!');
+                }
+                else {
+                    if (users > 100) {
+                        $('#udemy_course_users').html('* <b>' + users + '</b> users are already taking this course!');
+                    }
+                }
+
+
+                if (response.fulldescription != null && response.fulldescription != "") {
+                    $('#udemy_course_full_description').html(response.fulldescription);
+                }
+                else {
+                    $('#udemy_course_full_description').html('');
+                }
+
+
+            }
+            else {
+
+            }
+        }).fail(function () {
+
+        });
+    }
+    
+
+</script>

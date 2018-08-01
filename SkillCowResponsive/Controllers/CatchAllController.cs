@@ -1,0 +1,49 @@
+﻿using SkillCowResponsive.Classes.Cloud.BlobStorage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class CatchAllController : AuthenticatedControllerController
+    {
+        public ActionResult ChoosePage(string catchAllRoute)
+        {
+            string[] routeValues = catchAllRoute.Split('/');
+            
+            // career name - look at blob storage for that name, if found display career page
+            if (routeValues[0] != null)
+            {
+                //Regex reg = new Regex(@"[^a-zA-Z0-9]+");
+                string Profession = routeValues[0].ToLower();
+                //Profession = reg.Replace(Profession, "-");
+                BlobJsonResourceManager blobManager = new BlobJsonResourceManager();
+                string str = blobManager.GetJsonResource("careers", "dolcodes", Profession + ".js");
+                if (!string.IsNullOrEmpty(str))
+                {
+                    Regex regex = new Regex(@"\d{2}-\d{4}");
+                    string dolcode = regex.Match(str).ToString();
+                    ViewBag.Dolcode = dolcode;
+                    ViewBag.profession = Profession;
+                    string descriptionBlog = blobManager.GetJsonResource("careers", "bydolcode/" + dolcode, "description.js");
+                    regex = new Regex(@"\{([^}]+)\}");
+                    string description = regex.Match(descriptionBlog).ToString().Substring(8);
+                    description = description.Substring(0, description.Length - 2).Replace("|", " ");
+                    ViewBag.OgDescription = description;
+                    string ogTitle = Profession.Replace("-", " ");
+                    ViewBag.OgTitle = ogTitle.Substring(0, 1).ToUpper() + ogTitle.Substring(1).ToLower();
+                    ViewBag.Title = ogTitle.Substring(0, 1).ToUpper() + ogTitle.Substring(1).ToLower();
+                    return View("Career");
+                }
+
+            }
+
+
+            // if nothing else found show 404 error
+            return View("Error");
+        }
+    }
+}

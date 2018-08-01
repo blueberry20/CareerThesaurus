@@ -1,0 +1,2431 @@
+﻿<link href="/Content/css/Jobs/jobsIndex.css" rel="Stylesheet" />
+
+<script type="text/javascript" src="https://gdc.indeed.com/ads/apiresults.js"></script>
+<script src="~/Scripts/TagAggregation/responsive_tags.js?v=@ViewBag.AppVersion" type="text/javascript"></script>
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Jobs/gettime.js?v=@ViewBag.AppVersion"></script>
+@{
+    ViewBag.Title = "Jobs";
+    ViewBag.OgDescription = "Find jobs on the internet using Keyword Sniffing.";
+}
+<!--================================= Jobs Page ============================== -->
+@section menuPlaceholder {
+    @*<div class="filterIcon"><i class="icon-filter"></i></div>
+        <div class="filterIcon menuIcon"><i class="icon-target-3"></i></div>*@
+    <div id="cancelExpansionIcon" class="mobile closeIcon menuIcon hidable" style="display:none">Done</div>
+}
+<script>
+    var scriptErrors = [];
+</script>
+<div class="pageContainer" id="jobsPage">
+    <div class="container">
+        <div class="row" id="columnsWrapper">
+            <!--================================= Left Sidebar ============================== -->
+            <div class="col-lg-2 col-md-2 col-sm-3 hidable" id="jobsLeftBar">
+                <div class="backToResults desktop">
+                    <a class="backtoResultsBtn" href="/CareerTest/Results"><i class="fa fa-angle-left pull-left arrowLeft"></i> Back To Test Results</a>
+                </div>
+
+                <div class="collapseDiv">
+                    <div class="open headingWrapper" data-toggle="collapse" data-target="#locationSelectWrapper">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Location:</h2>
+                        <span class="setSelection locationDisplay"></span>
+                    </div>
+
+                    <div id="locationSelectWrapper" class="collapse in">
+                        <div class="whiteWrapper">
+                            <p class="smallPrint">Enter new Location</p>
+                            <div id="zipcodeGroupHolder">
+                                <div class="input-group" id="zipcodeInputGroup">
+                                    <input id="locationInput" type="text" class="form-control" placeholder="Where">
+                                    <span class="input-group-btn">
+                                        <button id="zipcodeButton" class="btn btn-info shortBtn" type="button">Set</button>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+
+                            <p class="smallPrint">Or select from suggested locations</p>
+                        </div>
+                        <div id="locationSelect" class="locationselect">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="locationRadios" value="" checked>
+                                    Any
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="locationRadios" value="NYC">
+                                    New York City
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="locationRadios" value="Brooklyn">
+                                    Brooklyn
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="locationRadios" value="Hoboken">
+                                    Hoboken
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="locationRadios" value="Jersey City">
+                                    Jersey City
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Distance Radio Buttons-->
+                <div class="collapseDiv">
+                    <div class="open headingWrapper" data-toggle="collapse" data-target="#distanceSelect">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Distance:</h2>
+                        <span class="setSelection distanceDisplay"></span>
+                    </div>
+
+                    <div id="distanceSelect" class="collapse in">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="" @(ViewBag.jobsearchradius == "" ? "checked" : "")>
+                                Any
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="5" @(ViewBag.jobsearchradius == "5" ? "checked" : "")>
+                                5 miles
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="10" @(ViewBag.jobsearchradius == "10" ? "checked" : "")>
+                                10 miles
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="15" @(ViewBag.jobsearchradius == "15" ? "checked" : "")>
+                                15 miles
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="25" @(ViewBag.jobsearchradius == "25" ? "checked" : "")>
+                                25 miles
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="50" @(ViewBag.jobsearchradius == "50" ? "checked" : "")>
+                                50 miles
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="distanceRadios" value="100" @(ViewBag.jobsearchradius == "100" ? "checked" : "")>
+                                100 miles
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Salary Select-->
+                <div class="collapseDiv">
+                    <div class="open headingWrapper" data-toggle="collapse" data-target="#salarySelect">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Salary:</h2>
+                        <span class="setSelection salaryDisplay"></span>
+                    </div>
+                    <div id="salarySelect" class="collapse in">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="" @(ViewBag.jobsearchsalary == "" ? "checked" : "")>
+                                Any
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="40000" @(ViewBag.jobsearchsalary == "40000" ? "checked" : "")>
+                                $40,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="60000" @(ViewBag.jobsearchsalary == "60000" ? "checked" : "")>
+                                $60,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="80000" @(ViewBag.jobsearchsalary == "80000" ? "checked" : "")>
+                                $80,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="100000" @(ViewBag.jobsearchsalary == "100000" ? "checked" : "")>
+                                $100,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="120000" @(ViewBag.jobsearchsalary == "120000" ? "checked" : "")>
+                                $120,000+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--Job Type Select-->
+                <div class="collapseDiv">
+                    <div class="open headingWrapper" data-toggle="collapse" data-target="#jobTypeSelect">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Job Type:</h2>
+                        <span class="setSelection jobtypeDisplay"></span>
+                    </div>
+                    <div id="jobTypeSelect" class="collapse in">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="" @(ViewBag.jobsearchjobtype == "" || ViewBag.jobsearchjobtype == "all" ? "checked" : "")>
+                                All
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="fulltime" @(ViewBag.jobsearchjobtype == "full-time" ? "checked" : "")>
+                                Full-time
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="parttime" @(ViewBag.jobsearchjobtype == "part-time" ? "checked" : "")>
+                                Part-time
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="contract" @(ViewBag.jobsearchjobtype == "contract" ? "checked" : "")>
+                                Contract
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="internship" @(ViewBag.jobsearchjobtype == "internship" ? "checked" : "")>
+                                Internship
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="jobtypeRadios" value="temporary" @(ViewBag.jobsearchjobtype == "temporary" ? "checked" : "")>
+                                Temporary
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapseDiv appendAdsense">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    @* =============================================================================================== *@
+                    @*<ins class="adsbygoogle adslot_1"
+                             style="display:block"
+                             data-ad-client="ca-pub-3486420009474810"
+                             data-ad-slot="6576327288"
+                             data-ad-format="auto"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>*@
+                </div>
+            </div>
+
+
+            <!--================================= Middle Section. Job Listings. ============================== -->
+            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12" id="jobListingsSection">
+
+                <!--Mobile Query-->
+                <div id="mobileQuery" class="row">
+                    <p id="searchCriteria"><span>Your Query: </span>Any job</p>
+                    <div class="row text-center mobile">
+                        @*<i class="fa fa-angle-down btn-info"></i>*@
+                        <p class="smallPrint">(Tap here to modify search)</p>
+                    </div>
+                </div>
+
+                <div id="desktopQuery" class="row">
+                    <p id="searchCriteriaDesktop"><span>Your query:</span></p>
+                </div>
+
+                <!--div that expands in mobile-->
+                <div id="mobileSearchSettings">
+                    <h2 class="overlayHeading mobile hidable">Add a keyword:</h2>
+                    @*<div id="cancelExpansionIcon" class="menuIcon mobile hidable"><i class="icon-cancel hidable"></i></div>*@
+                    @*<div id="cancelExpansionIcon" class="mobile closeIcon menuIcon hidable">Done</div>*@
+
+                    <!--Enter Keywords Div-->
+                    <div id="jobKeywordsDiv" class="hidable">
+                        <div class="row bgBlack">
+                            <!--keyword-->
+                            <div id="searchterms"></div>
+                            <div id="inputGroupHolder">
+                                <div class="input-group clearable" id="addKeywordInputGroup">
+                                    <input id="newsearchterm" type="text" class="form-control data_field" name="data_field" placeholder="+ keyword">
+                                    <span class="icon_clear"><i class="icon-cancel"></i></span>
+                                    <span class="input-group-btn">
+                                        <button id="btnaddkeyword" class="btn btn-info shortBtn" type="button">Add</button>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="insertKeywords"></div>
+                    <div id="insertDivs"></div>
+                    <div class="row text-center mobileRow mobile hidable"><button id="closeSettingsBtn" class="btn btn-success">Done</button></div>
+                </div>
+                <div class="backToResults mobile">
+                    <a class="backtoResultsBtn" href="/CareerTest/Results"><i class="fa fa-angle-left pull-left arrowLeft"></i> Back To Test Results</a>
+                </div>
+                @*<div class="row" id="queryText">
+                        <div class="col-sm-12 col-xs-12">
+                            <div id="searchCriteria"></div>
+                        </div>
+                        @*<div class="col-sm-12 col-xs-12 text-center">
+                            <div id="searchCriteria2">
+                                <button id="changeCriteria" class="btn btn-default">Change Criteria</button>
+                            </div>
+                        </div>
+                    </div>*@
+                <!--Share and Comment Row-->
+                @*<div class="shareDiv row desktop">
+                        <div class="col-lg-12 nopadding urlText">
+                            <p id="linkToCopy">http://careerthesaurus.com/jobs?q=web*developer@skillcow~loc=new-york*ny/</p>
+                            <div class="copyLinkBtn" data-clipboard-target="linkToCopy">Copy</div>
+                        </div>
+                        <div class="col-lg-12 nopadding">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 nopadding">
+                                <ul class="social-icons">
+                                    <li class="share twitter"><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="share facebook"><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="share linkedin"><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                    <li class="share gplus"><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                                    <!--<li class="mail"><a href="#"><i class="icon-mail"></i></a></li>-->
+                                    <li class="link"><a><i class="fa fa-link"></i></a></li>
+                                </ul><!--/ .social-icons-->
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 nopadding">
+                                <h6>Share the results of the page, send email or copy link url</h6>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <!--*******************Explore Related Professions Button************************
+                <div class="row">
+                    <div id="exploreProfessionsBtn">Explore related professions</div>
+                    <div id="allRelatedProfMobile">
+                        <div class="shadedHeader2" style="text-align: center"><h2>Explore related professions</h2></div>
+                        <ul class="relatedProfessionsUl"></ul>
+                        <div class="row text-center extraPadding">
+                            <button id="closeProfessionsOverlay" class="btn btn-lg btn-info">I'm done here</button>
+                        </div>
+                   </div>
+                </div>-->
+                <!--*******************Job Listing Template************************-->
+
+                <div id="jobListingTemplate1" class="jobListing">
+                    @*<i class="fa fa-angle-right pull-right"></i>*@
+                    <div class="jobOverlay">
+                        <div class="buttonsWrapper">
+                            <button class="btn moreLikeThisBtn" onclick="showMoreLikeThis(this)">More like this</button>
+                            <a class="indeedresult btn btn-success" onmousedown="" href="" target="_blank">View/Apply</a>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-right:30px">
+                        <div class="col-lg-12">
+                            <a style="text-decoration:none;" onmousedown=" " href=" " target=" _blank"><h3 class="positionName">Police Officer</h3></a>
+                        </div>
+                        <h4 class="companyName">Philadelphia Police Department</h4>
+                        <h5 class="locationName">Philadelphia, PA</h5>
+                    </div>
+                    <div class="jobDescription">
+                    </div>
+                    <div class="row moreMargin" style="padding-right:30px">
+                        @*<a class="reportBtn" href=""><i class="fa fa-flag-o"></i></a>*@
+                        <!--Date-->
+                        <div class="dateInfoV1 age" timestamp="" data-toggle="tooltip" title="Time since posted">
+                            <p>Time listed</p>
+                            <div class="dateHolder">
+                                <div class="dateTable">
+                                    <div class="tableRow">
+                                        <div class="hrDigit">01</div>
+                                        <div class="minDigit">05</div>
+                                        <div class="secDigit">12</div>
+                                    </div>
+                                    <div class="tableRow">
+                                        <div class="hr">hr</div>
+                                        <div class="min">mm</div>
+                                        <div class="sec">ss</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="jobPlacementRow mobile">
+                    <p>Free Job Placement Consultation</p>
+                    <p>844-334-4943</p>
+                </div>
+                <div id="joblistingssectionjobs"></div>
+                <div class="placeholderDiv adsenceWrapper">
+                    <div class="row">
+                        <div class="content-slider-bg">
+                            <h6 class="advertisement">Advertisement</h6>
+                            <div>
+                                <ins class="adsbygoogle adslot_3" style="display:block" data-ad-client="ca-pub-3486420009474810" data-ad-slot="6576327288" data-ad-format="auto"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="joblistingssectionjobs2">
+                </div>
+            </div>
+
+
+
+            <!--================================= Right Sidebar. Tag Cloud ============================== -->
+            <div class="col-lg-3 col-md-3 col-sm-3" id="jobsRightBar">
+                <div class="jobPlacementRow desktop">
+                    <p>Free Job Placement Consultation</p>
+                    <p>844-334-4943</p>
+                </div>
+                @*<div id="relatedProfessionsDiv" class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="shadedHeader2 open" style="text-align: center">
+                                <h2>Explore related professions</h2>
+                            </div>
+                            <div id="relatedProfessionsList">
+                                <ul class="relatedProfessionsUl" id="visibleList"></ul>
+                                <div id="viewMoreRelatedProf">View More <i class="icon-down-thin"></i></div>
+                                <ul class="relatedProfessionsUl" id="hiddenList"></ul>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                <div class="keywordsDiv row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
+                        <div id="insertTopTags">
+                            <div id="keywordsTagDiv" class="hidable">
+                                <div class="headerWrapper">
+                                    <h2>Top Keywords</h2>
+                                </div>
+                                <div class="tagContentKeywords" style="text-align: center">
+                                </div>
+                            </div>
+                        </div>
+                        <button id="loadMoreBtn" class="btn btn-info">Show More</button>
+
+                        <div id="companiesTagDiv">
+                            <div class="headerWrapper" style="text-align: center">
+                                <h2>Top Companies</h2>
+                            </div>
+                            <div class="tagContentCompanies" style="text-align: center">
+                            </div>
+                        </div>
+                        @* ======================================================================================================== *@
+                        <div class="adsenseRight">
+                            @*<ins class="adsbygoogle adslot_2"
+                                     style="display:block"
+                                     data-ad-client="ca-pub-3486420009474810"
+                                     data-ad-slot="6576327288"
+                                     data-ad-format="auto"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>*@
+                        </div>
+                    </div>
+                </div><!--end of keywordsDiv-->
+
+                <div id="jobAlertSignUp" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:none">
+                    <h2>Create Job Alerts</h2>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="jobAlertInput" placeholder="Enter email">
+                        </div>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </form>
+                    <p>You can cancel it anytime</p>
+                </div>
+            </div><!--right sidebar-->
+        </div><!--row. left sidebar-->
+        <!--================================= Mobile Version ============================== -->
+        @*<div id="mobileTags">
+                <div class="scrollableDiv">
+                    <h1>Tap a keyword to refine your search</h1>
+                    <div id="topKeywordsMobile">
+                        <div class="shadedHeader">
+                            <h2>Top Keywords</h2>
+                        </div>
+                        <div class="tagContentKeywords">
+
+                        </div>
+                    </div>
+                    <div id="topCompaniesMobile">
+                        <div class="shadedHeader">
+                            <h2>Top Companies</h2>
+                        </div>
+                        <div class="tagContentCompanies">
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+    </div><!--container-->
+    <!--============Overlay with search criteria================== -->
+    <div id="mobileFilter">
+        <div class="scrollableDiv">
+            <h1>Set Search Criteria</h1>
+        </div><!--scrollableDiv-->
+    </div><!--mobile filter-->
+    <!--============More Like This Modal================== -->
+    <div class="modal fade" id="moreLikeThisModal" tabindex="-1" role="dialog" aria-labelledby="skilltestModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="closeIconClear menuIcon" data-dismiss="modal">
+                        <i class="fa fa-times"></i>
+                    </div>
+                    <h2 class="modal-title text-center">New Query</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="searchtermsmodal"></div>
+                    @*<div class="row text-center" style="padding-top:10px">*@
+                    @*<button type="button" class="startNewSearch btn btn-success">Go</button>*@
+                    @*</div>*@
+                    <div id="addKeywordModal" class="refineSearchWrapper">
+                        <div class="row">
+                            <h3>You can add your own keyword:</h3>
+                        </div>
+                        <div class="addKeywordModal row">
+                            <div id="inputGroupHolder">
+                                <div class="input-group clearable" id="addKeywordInputGroup">
+                                    <input id="newsearchtermmodal" type="text" class="form-control data_field" name="data_field" placeholder="+ keyword">
+                                    <span class="icon_clear"><i class="icon-cancel"></i></span>
+                                    <span class="input-group-btn">
+                                        <button id="btnaddkeywordmodal" class="btn btn-default shortBtn" type="button">Add</button>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="refineSearchWrapper">
+                        <div class="row">
+                            <h3>Or click suggested keywords:</h3>
+                        </div>
+                        <div class="keywordsModal row">
+                        </div>
+                    </div>
+                    <div id="moreFromCompany" class="refineSearchWrapper">
+                        <div class="row">
+                            <h3>Show only jobs from this company:</h3>
+                        </div>
+                        <div class="companyModal row">
+                        </div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="closeModal btn btn-default desktop" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="startNewSearch btn btn-success">Go</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div><!--pageContainer-->
+
+
+
+<script>
+    var descriptions = [];
+    var adsenceWrapper;
+    loadMoreJobs = true;
+    var profileType = '@ViewBag.ProfileType';
+    function document_ready() {
+        zip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '10001';
+        //add class active to menu when on this page
+        $('.navbar-nav .@ViewContext.RouteData.Values["controller"].ToString().ToLower()').addClass('active');
+
+        if (document.documentElement.clientWidth > 767) {
+            $('.appendAdsense').append('<h6 class="advertisement">Advertisement</h6><ins class="adsbygoogle adslot_2" style="display:block" data-ad-client="ca-pub-3486420009474810" data-ad-slot="6576327288" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+            $('.adsenseRight').append('<h6 class="advertisement">Advertisement</h6><ins class="adsbygoogle adslot_2" style="display:block" data-ad-client="ca-pub-3486420009474810" data-ad-slot="6576327288" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>');
+        }
+        if (getCookie('clr') == '1') {
+            relatedCareersPossition = 3;
+            $('.backtoResultsBtn').show();
+        } else {
+            relatedCareersPossition = 2;
+            $('.backtoResultsBtn').hide();
+        }
+
+        //activate bootstrap dropdown
+        $('.dropdown-toggle').dropdown();
+
+        //if (getCookie(lockedMode)) {
+        //    setCookie('locked', null, -1);
+        //   // $('#jobsPage').css('background-image', 'url(/Content/images/hex/graybackground2.jpg)');
+        //}
+
+
+        //highlite checked items in select box
+        $(':input:checked').closest('.radio').addClass('checked');
+        $('.radio').change(function () {
+            $('.radio').removeClass('checked');
+            $(':input:checked').closest('.radio').addClass('checked');
+        })
+
+        //$('.cloudKeywords').click(function () {
+        //    $('#keywordsTagDiv').css('height', '200px');
+        //    $('#loadMoreBtn').text('').text('Show more');
+        //})
+
+        //setup for clipboard plugin ------------------------------------------
+        //ZeroClipboard.config({ moviePath: "/Scripts/Jobs/ZeroClipboard.swf" });
+        //var client = new ZeroClipboard($('.copyLinkBtn'));
+
+        //add cancel icon to add keyword input field
+        //$(document).on('propertychange keyup input paste', 'input.data_field', function () {
+        //    var io = $(this).val().length ? 1 : 0;
+        //    $(this).next('.icon_clear').stop().fadeTo(300, io);
+        //}).on('click', '.icon_clear', function () {
+        //    $(this).delay(300).fadeTo(300, 0).prev('input').val('');
+        //});
+
+        if (profileType == "student") {
+            $('.backToResults').hide();
+        }
+
+        //mobile. Expand and show search criteria
+        $('#mobileQuery').click(function () {
+            loadMoreJobs = false;
+            $('#mobileSearchSettings').show();
+            //$('#mobileSearchSettings').css({ padding: '10px', border: '1px solid #666', 'min-height': '525px', margin: '0px', height: 'auto' });
+            $('#mobileSearchSettings').css({ padding: '5px', 'min-height': $(window).height(), margin: '0px', height: 'auto' });
+            $('.hidable').show();
+            $('#jobsPage .container').css('padding', '0');
+            $('#mobileQuery').hide();
+            $('#joblistingssectionjobs').hide();
+            $('#joblistingssectionjobs2').hide();
+        });
+
+        $('#closeSettingsBtn').click(function () {
+            var url = '/jobs?q=' + searchterm.trim().replace(/\s/g, '+') + '&loc=' + zip.replace(/\s/g, '+') + '&r=' + radius.replace(/\s/g, '+') + '&salary=' + salary.replace(/\s/g, '+') + '&jt=' + jobtype.replace(/\s/g, '+');
+            window.location = url;
+            $('#mobileSearchSettings').hide();
+            $('.hidable').hide();
+            $('#jobsPage .container').css('padding', '0 5px');
+            $('#mobileQuery').show();
+            $('#mobileSearchSettings').css({ padding: '0px', border: 'none', margin: '0px', 'min-height': '0', height: '0' });
+            window.scrollTo(0, 0);
+            readCookies($(window).width());
+            $('#joblistingssectionjobs').show();
+            $('#joblistingssectionjobs2').show();
+            // toggleAdvSearch();
+        });
+
+        $('#cancelExpansionIcon').click(function () {
+            var url = '/jobs?q=' + searchterm.trim().replace(/\s/g, '+') + '&loc=' + zip.replace(/\s/g, '+') + '&r=' + radius.replace(/\s/g, '+') + '&salary=' + salary.replace(/\s/g, '+') + '&jt=' + jobtype.replace(/\s/g, '+');
+            window.location = url;
+            $('#mobileSearchSettings').hide();
+            $('#jobsPage .container').css('padding', '0 5px');
+            $('.hidable').hide();
+            $('#mobileQuery').show();
+            $('#mobileSearchSettings').css({ padding: '0px', border: 'none', margin: '0px', 'min-height': '0', height: '0' });
+            window.scrollTo(0, 0);
+            readCookies($(window).width());
+            $('#joblistingssectionjobs').show();
+            $('#joblistingssectionjobs2').show();
+            // toggleAdvSearch();
+        });
+
+        //On resize change layout. on mobile version move sidebar to menu nav
+        $(window).resize(function () {
+            if (!isDeviceMobile) {
+                changeLayout();
+            }
+            readCookies($(window).width());
+            //displayTags();
+        });
+        window.onorientationchange = function (event) {
+            if (isDeviceMobile) {
+                changeLayout();
+            }
+        }
+        changeLayout();
+
+        /*Mobile. show advanced search overlay on click of icon*/
+        $('.filterIcon').click(function () {
+            toggleAdvSearch();
+        });
+
+        //$('#setLocation').click(function () {
+        //    toggleMobileFilter(true);
+        //});
+
+
+        $('#changeCriteria').click(function () {
+            toggleMobileFilter(true);
+        });
+
+        //set salary requirement
+        $('#salarySelect input').click(function () {
+            setsalary($(this).attr('value'));
+        });
+
+        $('#distanceSelect input').click(function () {
+            setradius($(this).attr('value'));
+        });
+
+        $('#jobTypeSelect input').click(function () {
+            setjobtype($(this).attr('value'));
+        });
+
+        $('#empRecruiterSelect input').click(function () {
+            setsourcetype($(this).attr('value'));
+        });
+
+        //on link icon click, show url text
+        $('.fa-link').click(function () {
+            var clicks = $(this).data('clicks');
+            if (!clicks) {
+                $('.urlText').css('border', '1px solid #bebcbc').stop().animate({ height: '70px', padding: '5px' }, { queue: false, duration: 600, easing: 'linear' });
+                //var range = document.createRange();
+                //range.selectNode(document.getElementById('linkToCopy'));
+                //window.getSelection().removeAllRanges();
+                //window.getSelection().addRange(range);
+            } else {
+                $('.urlText').css('border', 'none').stop().animate({ height: '0px', padding: '0' }, { queue: false, duration: 600, easing: 'linear' });
+            }
+            $(this).data("clicks", !clicks);
+        });
+
+
+        //show copy link btn on hover of url text div
+        $('.urlText').mouseover(function () {
+            $('.copyLinkBtn').show();
+        });
+
+
+        //load jobs on scroll
+        $(window).scroll(function () {
+            var windowsHeight = $(document).height() - $(window).height();
+            var currentScroll = $(window).scrollTop();
+            //if scroll more than 80%
+            if (((currentScroll * 100) / windowsHeight) >= (ismobile ? 70 : 90) && loadMoreJobs) {
+                newsearch = false;
+                improving = false;
+                searchJobs();
+            }
+        });
+
+        showJobResults('@ViewBag.Query');
+        readCookies($(window).width());
+
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+
+        if (scriptErrors.length != 0) {
+            for (var i = 0; i < scriptErrors.length; i++) {
+                scriptError(scriptErrors[i]);
+            }
+        }
+    } //document_ready
+
+</script>
+<script>
+
+
+    //assign links to share buttons-------------------
+    function shareResultsLinks(searchURL) {
+        var linkURL = 'http://careerthesaurus.com/jobs?q=' + searchURL;
+        $('#linkToCopy').text(linkURL);
+        var range = document.createRange();
+        range.selectNode(document.getElementById('linkToCopy'));
+        window.getSelection().removeAllRanges();
+        if (document.documentElement.clientWidth >= 768) {
+            window.getSelection().addRange(range);
+        }
+        var shareMessage = 'test';
+        $('.share.twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + linkURL + '&url=' + 'http://Skillcow.com/' + '&via=CareerThesaurus.com');
+        $('.share.facebook a').attr('href', 'https://www.facebook.com/dialog/feed?app_id=153111284881428&link=' + linkURL + '&redirect_uri=https://facebook.com/&name=' + shareMessage + '&actions=%5B%7B"name"%3A"Find%20your%20job%20at%20Care­e­r­T­h­e­s­a­urus.com"%2C"link"%3A"http://skillcow.com%2F"%7D%5D');
+        $('.share.linkedin a').attr('href', 'https://www.linkedin.com/shareArticle?summary=message+here&title=title&mini=true&url=' + linkURL + '&source=CareerThesaurus.com');
+        $('.share.gplus a').attr('href', 'https://plus.google.com/share?url=' + linkURL.replace(/\,/g, '').replace(/\s/g, '_'));
+    }
+
+    //move search criteria from sidebar to menu nav in mobile version
+    function changeLayout() {
+        //mobile
+        if (document.documentElement.clientWidth < 768 - 17) {
+            $('#mobileQuery').show();
+            $('#mobileSearchSettings').hide();
+            $('.hidable').hide();
+            $('#jobsLeftBar').appendTo($('#insertDivs'));
+            $('#keywordsTagDiv').appendTo('#insertKeywords');
+            $('#keywordsTagDiv h2').text('Suggested Keywords');
+            //$('#jobsLeftBar .collapse').removeClass('in');
+            //$('.headingWrapper').removeClass('open').addClass('closed');
+            //$('.headingWrapper').find('.caretHolder span').removeClass("caret").addClass("right-caret");
+        }
+            //desktop
+        else {
+            $('#mobileSearchSettings').show();
+            $('#mobileSearchSettings').css({ padding: '0px', border: 'none', margin: '0px', 'min-height': '0', height: 'auto' });
+            $('.hidable').hide();
+            $('#jobKeywordsDiv').show();
+            $('#jobsLeftBar').show().insertBefore('#jobListingsSection');
+            $('#keywordsTagDiv').show().appendTo('#insertTopTags');
+            $('#keywordsTagDiv h2').text('Top Keywords');
+            $('#mobileQuery').hide();
+            //$('#jobsLeftBar .collapse').addClass('in');
+            $('#mobileFilter').hide();
+            // $('.navbar-toggle').hide();
+            $('#btnaddkeyword').text('').text('Add');
+        }
+    }
+
+    ///*build string that displays search criteria*/
+    //function readCookies(width) {
+    //    //mobile
+    //    if (width <= 768 - 15) {
+    //        //read cookies
+    //        var location = getCookie('jobsearchlocation');
+    //        if (location == null) {
+    //            location = getCookie('zip');
+    //        }
+
+    //        temp = getCookie('jobsearchradius');
+    //        radius = temp != null && temp != "" ? temp : "25";
+
+    //        temp = getCookie('jobsearchjobtype');
+    //        jobtype = temp != null && temp != "" ? temp : "any job type";
+
+    //        temp = getCookie('jobsearchsalary');
+    //        salary = temp != null && temp != "" ? "pays at least " + parseFloat(temp) / 1000 + "k" : "any salary";
+
+    //        $('#searchCriteria').html('');
+    //        $('#searchCriteria').append('<p>Showing results for ' + location + ', ' + jobtype + ', ' + salary + ', within ' + radius + ' miles </p>');
+
+    //    }
+    //    //desktop - dont show string
+    //    else {
+    //        $('#searchCriteria').html('');
+
+    //    }
+    //}
+
+
+    /*Show value selected in collapsed header*/
+    function readCookies(width) {
+
+        // read cookies
+        var location = getCookie('jobsearchlocation');
+        if (location == null) {
+            location = getCookie('zip') ? getCookie('zip') : getCookie('ipzip');
+        }
+        temp = getCookie('jobsearchradius');
+        radius = temp != null && temp != "" ? temp : "";
+
+        temp = getCookie('jobsearchjobtype');
+        jobtype = temp != null && temp != "" ? temp : "";
+
+        temp = getCookie('jobsearchsalary');
+        salary = temp != null && temp != "" ? temp : "";
+
+        //var queryText = $('#searchterms').text().toLowerCase();
+        //setCookie('queryText', queryText, 365);
+        //var queryKeywords = getCookie('queryText');
+        //if (queryKeywords != '' && queryKeywords != null) {
+        //    queryKeywords = queryKeywords + ' in ';
+        //}
+        //else {
+        //    queryKeywords = 'any job in ';
+        //}
+
+        //mobile
+        if (width <= 768 - 15) {
+            //show selections in expandable divs
+            $('.locationDisplay').html(location != '' ? location : 'None Set');
+            //$('.distanceDisplay').html($('#distanceSelect .checked').find('label').text());
+            $('.distanceDisplay').html(radius != '' ? radius + ' miles' : 'Any');
+            $('.salaryDisplay').html(salary != '' ? 'at least ' + parseFloat(salary) / 1000 + 'k ' : 'Any');
+            $('.jobtypeDisplay').html(jobtype != '' ? jobtype : 'Any');
+
+            //build string
+            $('#searchCriteria').html('');
+            //$('#searchCriteria').append('<span>Your query: </span>' + (searchterm != '' ? searchterm.toLowerCase() : 'any job') + (searchlocation != '' ? ' around ' + searchlocation : '') + (jobtype != '' ? ', ' + jobtype + ' position' : ', any job type') + (salary != '' ? ', with at least ' + parseFloat(salary) / 1000 + 'k ' : ', with any ') + 'salary' + (radius != '' ? ', within ' + radius + ' miles' : ', within any distance'));
+
+            $('#searchCriteria').append('Job results for: ' + (searchterm != '' ? searchterm.toLowerCase() : 'all jobs') + (location != '' ? ' near ' + location : '') + (jobtype != '' ? ', ' + jobtype + ' position' : '') + (salary != '' ? ', at least ' + parseFloat(salary) / 1000 + 'k ' + 'salary' : '') + (radius != '' ? ', within ' + radius + ' miles' : '') + '.');
+
+        }
+            //desktop
+        else {
+            //$('.setSelection').html('');
+
+            //$('#searchCriteria').append('<span>Your query: </span>' + (searchterm != '' ? searchterm.toLowerCase() : 'any job') + (searchlocation != '' ? ' around ' + searchlocation : '') + (jobtype != '' ? ', ' + jobtype + ' position' : ', any job type') + (salary != '' ? ', with at least ' + parseFloat(salary) / 1000 + 'k ' : ', with any ') + 'salary' + (radius != '' ? ', within ' + radius + ' miles' : ', within any distance'));
+
+            $('#searchCriteriaDesktop').html('');
+            $('#searchCriteriaDesktop').append('<span>Results for: </span>' + (searchterm != '' ? searchterm.toLowerCase() : 'all jobs') + (location != '' ? ' near ' + location : '') + (jobtype != '' ? ', ' + jobtype + ' position' : '') + (salary != '' ? ', at least ' + parseFloat(salary) / 1000 + 'k ' + 'salary' : '') + (radius != '' ? ', within ' + radius + ' miles' : ''));
+        }
+    }
+
+
+    //if search criteria overlay is open, get cookies for criteria and display them on overlay close
+    //function toggleAdvSearch() {
+
+    //    if ($('#mobileFilter').is(':visible')) {
+    //        toggleMobileFilter(false);
+
+    //        var location = getCookie('jobsearchlocation');
+    //        if (location == null) {
+    //            location = getCookie('zip');
+    //        }
+
+    //        temp = getCookie('jobsearchradius');
+    //        radius = temp != null && temp != "" ? temp : "25";
+
+    //        temp = getCookie('jobsearchjobtype');
+    //        jobtype = temp != null && temp != "" ? temp : "any job type";
+
+    //        temp = getCookie('jobsearchsalary');
+    //        salary = temp != null && temp != "" ? "pays at least " + parseFloat(temp) / 1000 + "k" : "any salary";
+
+    //        $('#searchCriteria').html('');
+    //        $('#searchCriteria').append('<p>Showing results for ' + location + ', ' + jobtype + ', ' + salary + ', within ' + radius + ' miles </p>');
+
+
+    //        //reload results just once on done button click
+    //        newSearch(true);
+
+    //    } else {//if overlay is closed
+    //        if ($(window).width() <= 768 - 15) {
+    //            toggleMobileFilter(true);
+    //        }
+    //    };
+    //}
+
+
+
+    //show or close search criteria overlay
+    function toggleMobileFilter(show) {
+        if (show) { //open overlay
+            $('#mobileFilter').show();
+            // $('.navbar-toggle').css('display', 'none');
+            $('.tagsIcon').css('display', 'none');
+            $('.filterIcon').text('Done');
+            $('#jobListingsSection').css('display', 'none');
+            $('footer').css('display', 'none');
+
+            //recalculate height of scrollable div each time collapse is open/closed
+            //$('.open').click(function () {
+            //    var newOverlayHeight = $('.scrollableDiv').height() + 50 + 'px';
+            //    setTimeout(function () { $('.scrollableDiv').css('height', newOverlayHeight ) }, 500);
+            //})
+        }
+        else { //false - close overlay
+            if ($(window).width() <= 768 - 15) {
+                $('#mobileFilter').hide();
+                //  $('.navbar-toggle').css('display', 'block');
+                $('.tagsIcon').css('display', 'block');
+                $('.filterIcon').html('<i class="icon-target-3"></i>');
+                $('#jobListingsSection').css('display', 'block');
+                $('footer').css('display', 'block');
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
+        }
+    }
+
+</script>
+
+
+<script>
+    var justloaded = true;
+
+    var zip;
+    var sortorder = '@ViewBag.Sort' == '' || '@ViewBag.Sort' == null ? 'date' : '';
+    var radius = "25";
+    var sourcetype = "";
+    var jobtype = "";
+    var salary = "";
+
+    var additionalresults = 0;
+    var newsearch = false, improving = false;
+    var RESULT_SEQUENCE = 0;
+
+    var processingresults = false;
+    var startingresultnumber = 0;
+    var relatedCareersPossition = 10;
+    var endofresults = false;
+    var searchterm = '';
+    var searching = false;
+    var titlekeywordsarray = new Array();
+    var termsarray = new Array();
+    var companiesarray = new Array();
+    var searchlocation = '';
+    var termsarraymodal = new Array();
+    var companyTag = '';
+    var titlekeywordsarraymodal = new Array();
+    var topkeywords, topcompanies, toplocations;
+    var nojobsfound = false;
+    var careerName;
+
+    //------------ arrays for found job titles and descriptions -------
+    var loadedJobsTitles = [];
+    var loadedJobsDescriptions = [];
+    //------------------------
+    var emptySearch = false;
+
+    var _job_search_results_loaded = false;
+
+    var initialresults = true;
+
+    function showJobResults(keywords) {
+
+        var location = getCookie('jobsearchlocation');
+
+        if (location == null) {
+            location = getCookie('zip');
+            if (location == null) {
+                location = getCookie('ipzip');
+            }
+        }
+
+        var temp = getCookie('jobsearchsortorder');
+        sortorder = temp != null ? temp : "date";
+
+        temp = getCookie('jobsearchradius');
+        //radius = temp != null ? temp : "25";
+        radius = temp != null && temp != "" ? temp : "25";
+
+        temp = getCookie('jobsearchsourcetype');
+        sourcetype = temp != null ? temp : "";
+
+        temp = getCookie('jobsearchjobtype');
+        jobtype = temp != null ? temp : "";
+        //jobtype = temp != null && temp != "" ? temp : '';
+
+        temp = getCookie('jobsearchsalary');
+        salary = temp != null ? temp : "";
+        //salary = temp != null && temp != "" ?  : "";
+
+        $('#jobsbyindeed').hide();
+
+        searchlocation = location;
+
+        companiesarray = new Array();
+        termsarray = new Array();
+
+        searchterm = $.trim(keywords);
+
+        var keywordcompanytokens = searchterm.split('@@');
+
+        titlekeywordsarray = keywordcompanytokens[0].split(' ');
+        if (keywordcompanytokens.length > 1) {
+            companiesarray.push(keywordcompanytokens[1].replace(/&#39;/g, '\''));
+        }
+
+        zip = location;
+        $('#locationInput').val(searchlocation);
+
+        searching = false;
+        startingresultnumber = 0;
+        RESULT_SEQUENCE = 0;
+        endofresults = false;
+        avonlistingadded = false;
+
+        if (!_job_search_results_loaded) {
+
+            $('#zipcodeButton').click(function () {
+                setlocation($('#locationInput').val());
+            });
+            $('#btnaddkeyword').click(addsearchterm);
+            $('#btnaddcompany').click(addcustomcompany);
+
+            $('#locationInput').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    setlocation($('#locationInput').val());
+                }
+            });
+            $('#newsearchterm').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    addsearchterm();
+                }
+            });
+            $('#newsearchtermmodal').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    addsearchtermmodal();
+                }
+            });
+            $('#newcompany').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    addcustomcompany();
+                }
+            });
+
+            if (getCookie('istouchscreen') != '1') {
+                $('#newsearchterm').focus();
+            }
+
+            // setupBlinkingTimers
+
+            setInterval(function () {
+                var ageboxes = $('.age');
+                for (var i = 0; i < ageboxes.length; i++) {
+                    $(ageboxes[i]).html(getElapsedTime($(ageboxes[i]).attr('timestamp')));
+                };
+                //Blinking dots
+                setTimeout(function () {
+                    $('.blinking').css('background-color', 'black');
+                }, 500);
+            }, 1000);
+
+            _job_search_results_loaded = true;
+        }
+
+        newsearch = true;
+        improving = false;
+
+        searchJobs();
+    }
+
+
+    function searchJobs(reload) {
+
+        if (searching)
+            return;
+
+        if (endofresults)
+            return;
+
+        $('#indeedlabel').remove();
+
+        searching = true;
+
+        $('#status').html('Fetching...');
+
+
+        //Only if new search
+        if ((startingresultnumber) === 0 || nojobsfound == true) {
+
+            $('#joblistingssectionjobs').html('');
+            $('#joblistingssectionjobs2').html('');
+            RESULT_SEQUENCE = 0;
+            newsearch = true;
+
+            topkeywords = new Array();
+            topcompanies = new Array();
+            toplocations = new Array();
+
+            var sb = '';
+
+            //show keywords
+            for (var i = 0; i < titlekeywordsarray.length; i++) {
+                if ($.trim(titlekeywordsarray[i]) !== '') {
+                    if (sb != '') {
+                        sb += '<span class="plus"> + </span>';
+                    }
+                    sb += '<div class="searchterm tag" data-toggle="tooltip" data-placement="top" title="Click To Remove" type="keyword" term="' + titlekeywordsarray[i] + '">' + titlekeywordsarray[i] + '<span class="glyphicon glyphicon-remove"></span></div>';
+                    //sb += '<div class=\"searchterm\" type="keyword" term="' + titlekeywordsarray[i] + '">' + titlekeywordsarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                }
+            }
+
+            //show search terms
+            for (var i = 0; i < termsarray.length; i++) {
+                if ($.trim(termsarray[i]) !== '') {
+                    if (sb != '') {
+                        sb += '<span class="plus"> + </span>';
+                    }
+                    sb += '<div class="searchterm tag" data-toggle="tooltip" data-placement="top" title="Click To Remove" type="keyword" term="' + termsarray[i] + '">' + termsarray[i] + '<span class="glyphicon glyphicon-remove"></span></div>';
+                }
+            }
+
+            //show companies
+            for (var i = 0; i < companiesarray.length; i++) {
+                if ($.trim(companiesarray[i]) !== '') {
+                    sb += '<span class="at">@@</span> <div class="searchterm tag" data-toggle="tooltip" data-placement="top" title="Click To Remove" type="company" term="' + companiesarray[i] + '">' + companiesarray[i] + '<span class="glyphicon glyphicon-remove"></span></div>';
+                    //sb += ' @@ <div class=\"searchterm\" type="company" term="' + companiesarray[i] + '">' + companiesarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                }
+            }
+
+
+            var searchURL = '';
+            for (var i = 0; i < titlekeywordsarray.length; i++) {
+                if ($.trim(titlekeywordsarray[i]) != '') {
+                    searchURL += '*' + titlekeywordsarray[i];
+                }
+            }
+            for (var i = 0; i < termsarray.length; i++) {
+                if ($.trim(termsarray[i]) != '') {
+                    searchURL += '*' + termsarray[i];
+                }
+            }
+            searchURL = searchURL.indexOf('*') == 0 ? searchURL.slice(1) : searchURL;
+            searchURL += companiesarray.length != 0 ? '@@' + companiesarray.join('*') : '';
+            searchURL += zip != '' ? '~loc=' + zip.replace(' ', '*') : '';
+            searchURL += radius != '' ? '~r=' + radius : '';
+            searchURL += salary != '' ? '~salary=' + salary : '';
+            searchURL += jobtype != '' ? '~jt=' + jobtype : '';
+            //shareResultsLinks(searchURL);
+            // window.location = appserverurl +'/jobs?q=' + searchURL;
+
+            $('#searchterms').html(sb);
+
+            $('.searchterm[type=\'keyword\']').click(function () {
+                removesearchterm(this);
+            });
+            $('.searchterm[type=\'company\']').click(function () {
+                removecompany(this);
+            });
+        }
+        else {
+
+        }
+
+
+        //add loader to jobs section
+        $('#joblistingssectionjobs' + ($('.jobListing').length < 15 ? '' : '2')).append('<div class="loadingDiv jobListing"><img id="loading-image" src="@Url.Content("/Content/images/loader.gif")" alt="Loading..." /><p>Loading results...</p></div>');
+
+        if ($(window).width() < 768) {
+            var screenHeight = document.documentElement.clientHeight - $('#mobileQuery').height() - 50 + 'px';
+            $('.loadingDiv').css('height', screenHeight);
+        }
+
+        //loader to keywords
+        $('.tagContentKeywords, .tagContentCompanies').css('background-color', 'transparent').html('').append('<div class="loadingDiv"><img id="loading-image" src="@Url.Content("/Content/images/loader.gif")" alt="Loading..." /></div>');
+
+        searchIndeedJobs(getSearchTermParameter(), reload);
+    }
+
+    function getSearchTermParameter() {
+        //var searchterparameter = 'title:(';
+        var searchterparameter = '';
+        searchterm = '';
+        for (var i = 0; i < titlekeywordsarray.length; i++) {
+            if ($.trim(titlekeywordsarray[i]) !== '') {
+                if (searchterparameter === 'title:(') {
+                    searchterparameter += encodeURIComponent(titlekeywordsarray[i]);
+                    searchterm += $.trim(titlekeywordsarray[i]);
+                }
+                else {
+                    searchterparameter += " " + encodeURIComponent(titlekeywordsarray[i]);
+                    searchterm += " " + $.trim(titlekeywordsarray[i]);
+                }
+            }
+        }
+
+        //if (searchterparameter === 'title:(') {
+        //    searchterparameter = '';
+        //}
+        //else {
+        //    searchterparameter += ') ';
+        //}
+
+        //add company to the query
+        for (var i = 0; i < companiesarray.length; i++) {
+            if ($.trim(companiesarray[i]) !== '') {
+                //debugalert('Company: ' + companiesarray[i] + ' Encoded: ' + encodeURIComponent(companiesarray[i]));
+                searchterparameter += " company:(" + encodeURIComponent(companiesarray[i]) + ') ';
+                //searchterm += ' ' + $.trim(companiesarray[i]);
+                break;
+            }
+        }
+
+        //add keywords
+        for (var i = 0; i < termsarray.length; i++) {
+            if ($.trim(termsarray[i]) !== '') {
+                searchterparameter += " " + encodeURIComponent(termsarray[i]);
+                searchterm += " " + $.trim(termsarray[i]);
+            }
+        }
+
+        searchterparameter = searchterparameter.replace(/\'/gi, '%27');
+        return $.trim(searchterparameter);
+    }
+
+    function indeedResultsLoaded() {
+
+        $('.loadingDiv').remove();
+        $('.tagContentKeywords, .tagContentCompanies').css('padding', '5px');
+
+        if ($(window).width() > 768) {
+            $('#keywordsTagDiv').css('height', '230px');
+        }
+
+        $('.inlinetag').click(function () {
+            $("html, body").stop().animate({ scrollTop: 0 }, "fast");
+            addtag(this);
+        });
+
+        $('.inlinetagcompany').click(function () {
+            $("html, body").stop().animate({ scrollTop: 0 }, "fast");
+            addcompany(this);
+        });
+
+        //Blinking dots
+        setTimeout(function () {
+            $('.blinking').css('background-color', 'black');
+        }, 500);
+
+        if (endofresults) {
+            $('#status').html((startingresultnumber + additionalresults) + ' jobs showing.  No more found.');
+        }
+        else {
+            $('#status').html((startingresultnumber + additionalresults) + ' jobs showing.  Scroll to load more.');
+        }
+
+        searching = false;
+
+
+        topkeywords = normalizeRank(topkeywords);
+        topcompanies = normalizeRank(topcompanies);
+
+        var effect = improving ? 'fadein' : 'slidein';
+
+        //if there are keywords to show
+        if (topkeywords != null && topkeywords.length > 0) {
+            $('#keywordsTagDiv').show();
+            //mobile version
+            if ($(window).width() < 768) {
+                var todisplayKeywords = [];
+                //modalKeywords = [].concat(topkeywords);
+                for (var i = 0; i < topkeywords.length; i++) {
+                    if (topkeywords[i].rank > 0.3) {
+                        todisplayKeywords.push(topkeywords[i]);
+                    }
+                }
+                displaytags('tagContentKeywords', todisplayKeywords, addtag, (topkeywords.length > 250 ? 2 : 0), 245, 238, 196);
+            }
+                //desktop version
+            else {
+                displaytags('tagContentKeywords', topkeywords, addtag, (topkeywords.length > 250 ? 2 : 0), 245, 238, 196);
+
+                //displaytags('tagContentKeywords', topkeywords, addtag, (topkeywords.length > 250 ? 2 : 0), 242, 245, 169);
+                //  displaytags('topKeywordsMobile', topkeywords, addtag, (topkeywords.length > 250 ? 2 : 0), 242, 245, 169);
+
+                //show button if div height is more than 170px
+                if ($('.tagContentKeywords').height() > 350) {
+                    //set height to 200 and show button
+                    // alert($('.tagContentKeywords').height());
+                    var resultArray = topkeywords.sort(sortbyrank);
+                    displaytags('tagContentKeywords', resultArray, addtag, (topkeywords.length > 250 ? 2 : 0), 245, 238, 196);
+                    $('#loadMoreBtn').show().text('Show more');
+                    var lastWordPosition = $('.cloudKeywords').eq(40).position().top;
+                    $('#keywordsTagDiv').height(lastWordPosition);
+                }
+                else if ($('.tagContentKeywords').height() < 170) {
+                    // alert($('.tagContentKeywords').height());
+                    //set height to 200
+                    $('#keywordsTagDiv').height(230);
+                    $('#loadMoreBtn').hide();
+                }
+                else {//between 170 and 350
+                    //hide button and set height to the height of this div
+                    // alert($('.tagContentKeywords').height());
+                    $('#keywordsTagDiv').height($('.tagContentKeywords').height() + 60);
+                    $('#loadMoreBtn').hide();
+                }
+            }
+        }
+        else { //if there are no keywords to show
+            emptySearch = true;
+            searchIndeedJobs('', reload);
+            //$('#keywordsTagDiv').hide();
+            // $('#topCompaniesMobile').hide();
+
+            nojobsfound = true;
+            searchJobs(true);
+
+        }
+
+
+        //show more keywords on button click
+        var clicked = false;
+        $('#loadMoreBtn').click(function () {
+            if (!clicked) {
+                var keywordsHeight = $('.tagContentKeywords').height() + 60 + 'px';
+                $('#keywordsTagDiv').stop().animate({ height: keywordsHeight }, 500);
+                $('#loadMoreBtn').text('').text('Show less');
+                clicked = true;
+            }
+            else {
+                $('#keywordsTagDiv').stop().animate({ height: '230px' }, 500);
+                $('#loadMoreBtn').text('').text('Show more');
+                clicked = false;
+                window.scrollTo(0, 0);
+            }
+        })
+
+        if (topcompanies != null && topcompanies.length > 0) {
+            $('#companiesTagDiv').show();
+            //  $('#topCompaniesMobile').show();
+            var same = topcompanies.map(function (e) { return e.rank == topcompanies[0].rank });
+            if (same.indexOf(false) == -1) {
+                for (var tc = 0; tc < topcompanies.length; tc++) {
+                    topcompanies[tc].rank = 0;
+                }
+            }
+
+            //displaytags('tagContentCompanies', topcompanies, addcompany, (topcompanies.length > 25 ? 1 : 0), 109, 208, 223);
+            displaytags('tagContentCompanies', topcompanies, addcompany, (topcompanies.length > 25 ? 1 : 0), 168, 228, 227);
+            // displaytags('topKeywordsMobile', topkeywords, addtag, (topkeywords.length > 250 ? 2 : 0), 242, 245, 169);
+        }
+        else {
+            $('#companiesTagDiv').hide();
+            // $('#topCompaniesMobile').hide();
+        }
+
+
+
+        displayLocations();
+
+        initialresults = false;
+
+    }
+
+    function displayLocations() {
+        $('.locationselect').html('');
+        toplocations.sort(sortbycount);
+        for (var i = 0; i < toplocations.length; i++) {
+            //$('.locationselect').append('<div class="radio"><label><input type="radio" name="locationRadios" value="' + toplocations[i].keyword + '">' + toplocations[i].keyword + ' <sup style="color: #ff0000">' + toplocations[i].count + '+</sup></label></div>');
+            $('.locationselect').append('<div><a href="javascript:setlocation(\'' + toplocations[i].keyword.replace(/,/g, '') + '\');">' + toplocations[i].keyword + '</a></div>');
+        }
+
+    }
+    function setlocation(value) {
+        setCookie('jobsearchlocation', value, 365);
+        $('#locationInput').attr('value', value);
+        zip = value;
+
+        toggleMobileFilter(false);
+        readCookies($(window).width());
+        $('.locationDisplay').animate({ color: 'rgb(200, 3, 62)' }, 1000).animate({ color: '#fff' }, 1000);
+        newSearch();
+    }
+    function setsalary(value) {
+        setCookie('jobsearchsalary', value, 365);
+        salary = value;
+        readCookies($(window).width());
+        $('.salaryDisplay').animate({ color: 'rgb(200, 3, 62)' }, 1000).animate({ color: '#fff' }, 1000);
+        newSearch();
+    }
+    function setradius(value) {
+        setCookie('jobsearchradius', value, 365);
+        radius = value;
+        readCookies($(window).width());
+        $('.distanceDisplay').animate({ color: 'rgb(200, 3, 62)' }, 1000).animate({ color: '#fff' }, 1000);
+        newSearch();
+    }
+    function setjobtype(value) {
+        setCookie('jobsearchjobtype', value, 365);
+        jobtype = value;
+        readCookies($(window).width());
+        $('.jobtypeDisplay').animate({ color: 'rgb(200, 3, 62)' }, 1000).animate({ color: '#fff' }, 1000);
+        newSearch();
+    }
+    function setsourcetype(value) {
+        setCookie('jobsearchsourcetype', value, 365);
+        sourcetype = value;
+        newSearch();
+    }
+    function newSearch(force) {
+
+        if (!force && $('#mobileFilter').is(':visible')) {
+            return;
+        }
+
+        newsearch = true;
+        improving = true;
+        endofresults = false;
+        additionalresults = 0;
+        startingresultnumber = 0;
+        searchJobs(true);
+    }
+
+    function searchIndeedJobs(searchterparameter, reload) {
+
+        var chnl = '13564694';
+        if (zip == null || zip == "" || zip == 'undefined') {
+            zip = "New York";
+        }
+        if (reload && $(window).width() > 767) {
+            var url = '/jobs?q=' + searchterm.trim().replace(/\s/g, '+') + (companiesarray.length != 0 ? '@@' + companiesarray.join('+').replace(/\s/g, '+') : '') + '&loc=' + zip.replace(/\s/g, '+') + '&r=' + radius.replace(/\s/g, '+') + '&salary=' + salary.replace(/\s/g, '+') + '&jt=' + jobtype.replace(/\s/g, '+');
+            window.location = url;
+            return;
+        }
+
+        $.ajax({
+            url: "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: searchterparameter,
+                l: zip,
+                c: chnl,
+                limit: "25",
+                start: startingresultnumber,
+                s: sortorder,
+                //s: '',
+                r: radius,
+                st: sourcetype,
+                jt: jobtype,
+                salary: salary
+            }
+        }).success(function (response) {
+            var cnt = 0;
+            processingresults = true;
+
+            var professionkeywords = new Array();
+            var professionname = searchterm;
+            professionkeywords = professionname.split(' ');
+
+            var resultslength = 0;
+            try {
+                if (response.results.results != null) {
+
+                    resultslength = response.results.results.length;
+
+                    //-------------- if new search reset arrays with titles and descriptions otherwise just add more ---
+                    loadedJobsTitles = [];
+                    loadedJobsDescriptions = [];
+
+                    //-------------------------------
+                    for (var i = 0; i < resultslength; i++) {
+
+
+                        cnt++;
+                        var x = response.results.results[i];
+
+                        topkeywords = rankWords(x.snippet, professionkeywords, topkeywords, 'keyword');
+                        topkeywords = rankWords(x.jobtitle, professionkeywords, topkeywords, 'intitle');
+                        topcompanies = rankPhrase(x.company, null, topcompanies);
+
+                        //--------------------------------------
+                        loadedJobsTitles.push(x.jobtitle);
+                        loadedJobsDescriptions.push(x.snippet);
+                        //------------------------------------
+                        if (!emptySearch) {
+                            var locationstring = '';
+                            if (x.city != '') {
+                                locationstring = x.city + ', ' + x.state;
+                            }
+                            else {
+                                locationstring = x.state;
+                            }
+                            toplocations = rankPhrase(locationstring, null, toplocations);
+                            if (startingresultnumber + 1 <= 15) {
+                                addIndeedJobResult(x, 'joblistingssectionjobs');
+                            } else {
+                                addIndeedJobResult(x, 'joblistingssectionjobs2');
+                            }
+
+                            //add Related Careers slider
+                            //if ((startingresultnumber + 1) % 10 == 0) {
+                            if (startingresultnumber + 1 == relatedCareersPossition) {
+                                addPlaceholder('<div class="placeholderDiv">' +
+                                    '<div class="row">' +
+                                        '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' +
+                                            //'<div class="shadedHeader2" style="text-align: center">' +
+                                            //    '<h2>Explore related professions</h2>' +
+                                            //'</div>' +
+                                            '<div class="content-slider-bg">' +
+                                                '<h6>Related Careers</h6>' +
+                                                '<div id="content-slider-1" class="royalSlider contentSlider rsDefault">' +
+                                                '</div>' +
+                                            '</div>' +
+                                           //' <ul class="relatedProfessionsUl">' +
+                                           // '</ul>' +
+                                        '</div>' +
+                                    '</div></div>');
+                            }
+                            //if ((startingresultnumber + 1 == 15 && resultslength > 15) || (startingresultnumber + 1 < 15 && startingresultnumber + 1 == resultslength)) {
+                            //    addPlaceholder('<div class="placeholderDiv adsenceWrapper">' +
+                            //        '<div class="row">' +
+                            //            '<div class="content-slider-bg">' +
+                            //                '<h6 class="advertisement">Advertisement</h6>' +
+                            //                '<div><ins class="adsbygoogle adslot_3"' +
+                            //                    'style="display:block"' +
+                            //                    'data-ad-client="ca-pub-3486420009474810"' +
+                            //                    'data-ad-slot="6576327288"' +
+                            //                    'data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script></div>' +
+                            //            '</div>' +
+                            //        '</div></div>');
+                            //}
+
+                            startingresultnumber++;
+                            RESULT_SEQUENCE++;
+                        }
+                    }
+
+                    if (!emptySearch) {
+                        var slider = $(".royalSlider").data('royalSlider');
+                        if (slider) {
+                            slider.destroy();
+                        }
+                        $('.royalSlider').royalSlider({
+                            autoHeight: false,
+                            arrowsNav: false,
+                            fadeinLoadedSlide: false,
+                            controlNavigationSpacing: 0,
+                            controlNavigation: 'none',
+                            imageScaleMode: 'none',
+                            imageAlignCenter: false,
+                            loop: false,
+                            loopRewind: true,
+                            numImagesToPreload: 10,
+                            keyboardNavEnabled: true,
+                            usePreloader: false
+                        });
+                        //---------------------- how many relative professions to show --------
+                        setTimeout(function () {
+                            rankedRelatedProfessions();
+                        }, 0);
+                        //----------------------
+                        //sortarray();
+                        //sortwords();
+
+                        if (cnt > 0) {
+                            $('#joblistingssectionjobs2').append('<div id="indeedlabel" style="padding: 10px;" class="pull-right">' +
+                            '<span id="indeed_at">' +
+                            'some <a href="http://www.indeed.com/">jobs</a> by <a href="http://www.indeed.com/" title="Job Search">' +
+                            '        <img src="http://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;" alt="Indeed job search">' +
+                            '    </a>' +
+                            '</span>' +
+                            '</div>');
+                            // $('#keywordsTagDiv').show();
+                        } else {
+                            $('#joblistingssectionjobs').append('<div id="noResultsError">There are no results matching your search. <br/>Please check your search settings.</div>');
+                            //  $('#keywordsTagDiv').hide();
+                        }
+
+                    }
+                    emptySearch = false;
+                }
+
+                if (cnt < 25) {
+                    endofresults = true;
+                }
+
+                indeedResultsLoaded();
+            }
+            catch (e) {
+                console.log(e);
+                debugalert(e.message + '; response.results.results=' + response.results.results.length + '; length:' + resultslength);
+            }
+
+            processingresults = false;
+
+        }).error(function (response) {
+            console.log(response);
+            //debugalert("Error 2: " + response.errormessage);
+        });
+
+    }
+
+
+    // testing functions need to be deleted
+    function sortarray() {
+        var str;
+        for (var i = 0; i < professions.length; i++) {
+            str = '{ "code": "' + professions[i].code + '", "title": "' + professions[i].title + '", "keywords": [';
+            var temp = professions[i].title.split(' ');
+            for (var j = 0; j < temp.length; j++) {
+                temp[j] = '"' + temp[j] + '"';
+            }
+            str += temp.join(', ') + ']},';
+        }
+    }
+
+    function sortwords() {
+        var newarray = [];
+        for (var i = 0; i < professionsinfo.length; i++) {
+            for (var j = 0; j < professionsinfo[i].keywords.length; j++) {
+                newarray.push(professionsinfo[i].keywords[j]);
+            }
+        }
+        newarray.sort();
+        var str;
+        var number;
+        for (var i = 0; i < newarray.length; i++) {
+            if (newarray[i] == str) {
+                number++;
+            } else {
+                str = newarray[i];
+                number = 1;
+            }
+        }
+    } // end testing
+
+    //---- filter professions, sort and save in selectedProfessions ----
+    //function relatedProfessions(total) {
+    //    var selectedprofessions = [];
+    //    for (var index = 0; index < professions.length; index++) {
+    //        var count = 0;
+    //        var titleKeywords = [];
+    //        var profession = professions[index];
+    //        profession.title = profession.title.replace(/\([^\)]+\)/g, '');
+    //        var titleWords = profession["title"].replace(/(<b>|<\/b>|<br\/>|&amp;|\*|\.|\,|\:|\;|\-|\(|\)|\+|\=|\?|\!|\/|~|\"|\'|\$|[0-9]|\[|\])/g, ' ').replace(/\s\s/g, ' ').replace(/\s\s/g, ' ').split(' ');
+    //        for (var word = 0; word < titleWords.length; word++) {
+    //            for (var job = 0; job < loadedJobsTitles.length; job++) {
+    //                if (titleWords[word].match(/([^A-Za-z]|\band\b|\bor\b|\bof\b|\bin\b|\bpart\b|\btech\b|\bengineer\b|\bmanager\b|\bassistant\b|\banalyst\b|\bspecialist\b|\bnew\b|\blevel\b|\bpt\b)/gi) == null && titleWords[word].length > 1) {
+    //                    var filter = new RegExp('\\b' + titleWords[word] + '\\b', 'i');
+    //                    if (loadedJobsTitles[job].match(filter) != null) {
+    //                        count = count + 3;
+    //                        //titleKeywords.push(titleWords[word]);
+    //                    }
+    //                    filter = new RegExp('\\b' + titleWords[word] + '\\b', 'gi');
+    //                    if (loadedJobsDescriptions[job].match(filter) != null) {
+    //                        count = count + 1;
+    //                        //titleKeywords.push(titleWords[word] + '!');
+    //                    }
+    //                } else if (titleWords[word].match(/(\bengineer\b|\bmanager\b|\bassistant\b|\banalyst\b|\bspecialist\b)/gi) != null && titleKeywords[word] > 1) {
+    //                    var filter = new RegExp('\\b' + titleWords[word] + '\\b', 'i');
+    //                    if (loadedJobsTitles[job].match(filter) != null) {
+    //                        count = count + 1;
+    //                        //titleKeywords.push(titleWords[word] + '=');
+    //                    }
+    //                }
+    //            }
+    //            for (var term = 0; term < termsarray.length; term++) {
+    //                if (titleWords[word].match(/([^A-Za-z]|\band\b|\bor\b|\bof\b|\bin\b|\bpart\b|\btech\b|\bpt\b)/gi) == null && titleWords[word].length > 1) {
+    //                    var filter = new RegExp('\\b' + titleWords[word] + '\\b', 'i');
+    //                    if (termsarray[term].match(filter) != null) {
+    //                        count = count + 2;
+    //                        //titleKeywords.push(titleWords[word]+'*');
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        selectedprofessions.push({ job: profession, count: count, keywords: titleKeywords});
+    //    }
+    //    selectedprofessions.sort(function (a, b) {
+    //        if (a.count < b.count)
+    //            return 1;
+    //        if (a.count > b.count)
+    //            return -1;
+    //        return 0;
+    //    });
+    //    $('.relatedProfessionsUl').children().remove();
+    //    for (var t = 0; t < total; t++) {
+    //        var keys = selectedprofessions[t].keywords.join();
+    //        $('.relatedProfessionsUl').append('<li><a href="/Career">' + selectedprofessions[t].job.title + '' + keys + '<i class="fa fa-angle-right pull-right"></i></a>');
+    //    }
+    //} // END -------------------------
+
+    function rankedRelatedProfessions() {
+        var relatedProfessions = [];
+        var isCommon = new RegExp('\\bengineer\\b\|\\bmanager\\b\|\\bassistant\\b\|\\banalyst\\b\|\\bspecialist\\b|\\bfront\\b|\\barchitect\\b|\\btechnician\\b|\\bteacher\\b|\\boperator\\b', 'i');
+        for (var index = 0; index < professionsinfo.length; index++) {
+            var count = 0;
+            var tempkeywords = [];
+            var profession = professionsinfo[index];
+            var titleKeywords = profession.keywords;
+            for (var word = 0; word < titleKeywords.length; word++) {
+                var filter = new RegExp('\\b' + titleKeywords[word] + '\\b', 'i');
+                for (var job = 0; job < loadedJobsTitles.length; job++) {
+                    if (filter.test(loadedJobsTitles[job])) {
+                        if (isCommon.test(loadedJobsTitles[job])) {
+                            count = count + 1;
+                        } else {
+                            count = count + 3;
+                        }
+                    }
+                    if (loadedJobsDescriptions[job].match(filter) != null) {
+                        count = count + 1;
+                    }
+                }
+                for (var term = 0 ; term < termsarray.length; term++) {
+                    if (filter.test(termsarray[term])) {
+                        count = count + 2;
+                    }
+                }
+            }
+            if (count > 0) {
+                relatedProfessions.push({ job: profession, count: count, keywords: tempkeywords });
+            }
+        }
+        relatedProfessions = sortRelatedProfessions(relatedProfessions);
+        displayRelatedProfessions(relatedProfessions);
+    }
+
+    function sortRelatedProfessions(relatedProfessions) {
+        relatedProfessions.sort(function (a, b) {
+            if (a.count < b.count)
+                return 1;
+            if (a.count > b.count)
+                return -1;
+            return 0;
+        });
+        return relatedProfessions;
+    }
+
+    function $career_short_description_ready(description, container, resourceid, directoryPath) {
+        var descriptionText = description.value;
+        var lastSpaceIndex = descriptionText.substr(0, 240).lastIndexOf(' ');
+        lastSpaceIndex = 240 - lastSpaceIndex;
+        shortText = descriptionText.length < 240 ? descriptionText : descriptionText.substr(0, 240 - lastSpaceIndex) + ' ...';
+
+        $('#' + directoryPath.slice(10)).text(shortText);
+
+    }
+
+    //related careers in a slider
+    function displayRelatedProfessions(relatedProfessions) {
+        $('.relatedProfessionsUl').children().remove();
+        var tEnd = relatedProfessions.length > 10 ? 10 : relatedProfessions.length;
+        var ii = 1,
+            jj = 3;
+        if (tEnd >= 9) {
+            ii = 3;
+        } else if (tEnd >= 6 && tEnd < 9) {
+            ii = 2;
+        } else {
+            jj = tEnd;
+        }
+        var slider = $(".royalSlider").data('royalSlider');
+        if (slider) {
+            for (var s = slider.numSlides - 1 ; s >= 0; s--) {
+                slider.removeSlide(s);
+            }
+
+            for (var t = 0; t < tEnd; t++) {
+                var careerName = relatedProfessions[t].job.title;
+                var dolcode = relatedProfessions[t].job.code;
+                slider.appendSlide('<div><div class="row"><p class="relatedCareerName">' + careerName.trim() + '</p></div><p class="relatedDescription" id="' + dolcode + '"></p><a class="gotoRelatedBtn" href="/' + careerName.trim().replace('\'s', '').replace(/[^a-zA-Z0-9]+/g, '-') + '">Learn More</a><img class="logoicon" src="/Content/images/logoicon.png" alt="logo"/></div>');
+                //slider.appendSlide('<div><div class="row"><p class="relatedCareerName">' + careerName.trim() + '</p></div><p class="relatedDescription" id="' + dolcode + '"></p><a class="gotoRelatedBtn" href="/Career/' + careerName.trim().replace(/[^a-zA-Z0-9]+/g, '-') + '">Learn More</a><img class="logoicon" src="/Content/images/logoicon.png" alt="logo"/></div>');
+                getBlobData("careers", "bydolcode/" + dolcode, "short_description.js");
+            }
+        }
+        if ($(window).width() < 992) { //mobile
+
+
+            //$('.relatedProfessionsUl').each(function (index) {
+            //    index = index % ii;
+            //    for (var i = 0; i < jj; i++) {
+            //        $(this).append('<li><i class="fa fa-angle-right pull-right"></i><a href="/Career">' + relatedProfessions[(index * 3) + i].job.title + '</a></li>');
+            //    }
+            //});
+
+            ////button click "explore related professions", open overlay with 10 jobs
+            //$('#exploreProfessionsBtn').click(function () {
+            //    $('#allRelatedProfMobile').show();
+            //    $('body').css('overflow', 'hidden');
+            //    $('.filterIcon').css('display', 'none');
+            //    for (var t = 0; t < tEnd; t++) {
+            //        $('#allRelatedProfMobile ul').append('<li><i class="fa fa-angle-right pull-right"></i><a href="/Career">' + relatedProfessions[t].job.title + '</a></li>');
+            //    }
+            //})
+
+            //$('#closeProfessionsOverlay').click(function () {
+            //    $('#allRelatedProfMobile').hide();
+            //    $('body').css('overflow', 'scroll');
+            //    $('.filterIcon').css('display', 'block');
+            //})
+
+
+            //var professions = $('.placeholderDiv').first().clone();
+            //$('.rsSlide:nth-child(1)').html(professions);
+
+
+        } else { //desktop
+            $('.relatedProfessionsUl').html('');
+            $('#hiddenList').html('');
+
+            //if more than 3 related professions
+            if (tEnd > 3) {
+                for (var t = 0; t < 3; t++) {
+                    $('#visibleList').append('<li><i class="fa fa-angle-right pull-right"></i><a href="/Career">' + relatedProfessions[t].job.title + '</a></li>');
+                }
+
+                for (var t = 3; t < tEnd; t++) {
+                    $('#viewMoreRelatedProf').show();
+                    $('#hiddenList').append('<li><i class="fa fa-angle-right pull-right"></i><a href="/Career">' + relatedProfessions[t].job.title + '</a></li>');
+                }
+            }
+            else { //less than 3 results
+                for (var t = 0; t < tEnd; t++) {
+                    $('#viewMoreRelatedProf').hide();
+                    $('#visibleList').append('<li><i class="fa fa-angle-right pull-right"></i><a href="/Career">' + relatedProfessions[t].job.title + '</a></li>');
+                }
+            }
+
+            //On View more button click, show more related professions
+            $('#viewMoreRelatedProf').click(function () {
+                var clicks = $(this).data('clicks');
+                if (!clicks) {
+                    $('#hiddenList').show();
+                    $('#viewMoreRelatedProf').html('View Less <i class="icon-up-thin"></i>').insertAfter("#hiddenList");
+                } else {
+                    $('#hiddenList').hide();
+                    $('#viewMoreRelatedProf').html('View More <i class="icon-down-thin"></i>').insertAfter('#visibleList');
+                }
+                $(this).data("clicks", !clicks);
+            })
+
+        }
+    }
+
+
+
+    // END new
+
+
+    function addIndeedJobResult(x, to) {
+
+        var timestamp = getTimestampFromIndeedTime(x.date);
+
+        //add this job to the page
+        var template = $('#jobListingTemplate1').clone().show();
+        template.find('.indeedresult').attr('onmousedown', 'saveJobKeys(this); ' + x.onmousedown).attr('href', x.url).data('jobkey', x.jobkey).data('jobtitle', x.jobtitle);
+        template.find('.positionName').parent().attr('onmousedown', 'saveJobKeys(this); ' + x.onmousedown).attr('href', x.url).data('jobkey', x.jobkey).data('jobtitle', x.jobtitle);
+        var title = x.jobtitle;
+
+        if ($(window).width() < 768) {
+            template.attr('onclick', 'window.open("' + x.url + '", "_blank");').attr('onmousedown', 'saveJobKeys(this); ' + x.onmousedown).data('jobkey', x.jobkey).data('jobtitle', x.jobtitle);
+        }
+
+
+        //var uniquetokens = rankWords(x.jobtitle.toLowerCase());
+        //for (var i = 0; i < uniquetokens.length; i++)
+        //{
+        //    if (":span:class:inlinetag:keywordtype:keyword:value:".indexOf(":" + uniquetokens[i].keyword + ":") < 0) {
+        //        var regexp = new RegExp('\\b' + uniquetokens[i].keyword + '\\b', "gi");
+        //        title = title.replace(regexp, '<span class="inlinetag" keywordtype="keyword" value="' + $.trim(uniquetokens[i].keyword) + '">' + $.trim(uniquetokens[i].keyword) + '</span>');
+        //    }
+        //}
+
+        var visited = getCookie(x.jobkey);
+        if (visited) {
+            //add visited sign =====================================================================================================================
+            template.find('.positionName').css('color', 'rgb(180, 59, 59)');
+        }
+
+        template.find('.positionName').html(title);
+        template.find('.companyName').html(x.company);
+        //template.find('.companyName').html('<span class="inlinetagcompany" keywordtype="company" value="' + x.company + '">' + x.company + '</span>');
+        template.find('.locationName').html(x.formattedLocation);
+        template.find('.jobDescription').html(x.snippet);
+        template.find('.age').attr('timestamp', timestamp);
+        template.find('.age').html(getElapsedTime(timestamp));
+        //template.appendTo('#joblistingssectionjobs');
+        template.appendTo('#' + to);
+
+        //show overlay on hover on desktop and on click on mobile
+        //if ($(window).width() > 768) {
+        //    $('.jobListing').hover(function () {
+        //        $('.jobOverlay').css('right', '-800px');
+        //        $(this).find('.jobOverlay').show().css({ 'right': '  0' });
+        //    }, function () {
+        //        $(this).find('.jobOverlay').css({ 'right': '-800px' });
+        //    });
+        //}
+        //else { //mobile
+        //    //$('.jobListing').on('click', function () {
+        //    //    $('.jobOverlay').css('right', '0').hide();
+        //    //    $(this).find('.jobOverlay').show();
+        //    //});
+        //    //template.find('.positionName').parent().replaceWith('<div><h3 class="positionName">' + title + '</h3></div>')
+        //}
+    }
+
+    function saveJobKeys(element) {
+        //var jobKey = $(element).data('jobkey');
+        //setCookie(jobKey, 'visited', 1);
+        if (ga) ga('send', 'event', 'Indeed', 'Jobs', $(element).data('jobtitle'));
+    }
+
+    function showMoreLikeThis(button) { //=======================================================================================================================================
+        termsarraymodal = [];
+        companyTag = '';
+        var title = $(button).closest('.jobListing').find('h3').text();
+        title = title.replace(/[^A-Za-z]/g, ' ').replace(/(\bthe\b|\ba\b|\bof\b|\bas\b|\bto\b|\band\b|\bare\b|\bis\b|\bhave\b|\bgot\b|\bget\b|\byou\b|\bour\b|\byour\b|\bbe\b|\bby\b|\bcan\b|\bmay\b|\bwill\b|\bin\b|\bwhile\b|\bwhen\b|\bwhy\b|\bwith\b|\bor\b|\balso\b|\binto\b|\ban\b|\bthen\b|\bthan\b|\bany\b|\bjob\b|\bfor\b|\ball\b|\bthis\b|\bsuch\b|\bwho\b|\bmust\b|\bboth\b|\bwant\b|\bthat\b|\bnew\b|\byork\b|\bexperience\b|\blooking\b|\bwork\b|\bjoin\b|\bseeking\b|\byears\b|\btheir\b|\bnot\b|\bcall\b|\brequired\b|\employer\b|\bour\b|\bits\b|\bllp\b|\bwhich\b|\baren't\b|\binc\b|\btop\b|\bgpa\b|\bfrom\b|\babout\b|\bplease\b|\bsees\b|\bhas\b|\bposition\b|\bseeks\b|\bbecome\b|\bper\b|\bfull\b|\bout\b|\bwe\b|\bthrough\b|\bhow\b|\bbased\b|\bskills\b|\bprovide\b|\bdescription\b|\bon\b|\brole\b|\bother\b|\bability\b|\bensure\b|\bstrong\b|\bproviding\b|\bsupporting\b|\bassigned\b|\bworking\b|\bincluding\b|\bcommitted\b|\bapply\b|\bnow\b|\benjoy\b|\bup\b|\bno\b|\bavailable\b|\bat\b|\bwww\b|\bcom\b|\bvisit\b|\bmore\b|\blearn\b|\bresponsible\b|\bll\b|\bquot\b|\bgt\b|\blt\b|\bll\b|\btitle\b|\btime\b|\bdo\b|\bdoes\b|\bme\b|\bI\b|\bII\b|\bIII\b|\bresponsibilities\b)/gi, '');
+        var company = [];
+        var companyTitle = $(button).closest('.jobListing').find('.companyName').text();
+        company.push({ count: 1, keyword: companyTitle, keywordtype: 1, rank: 1, unicodestring: toUnicode(companyTitle) });
+        var titleArray = title.split(' ');
+        for (var i = 0; i < titleArray.length; i++) {
+            if ($.trim(titleArray[i]) != '') {
+                termsarraymodal.push($.trim(titleArray[i]));
+            }
+        }
+        var modalKeywords = [];
+        //modalKeywords = [].concat(topkeywords);
+
+        for (var i = 0; i < topkeywords.length; i++) {
+            if (topkeywords[i].rank > 0.3) {
+                modalKeywords.push(topkeywords[i]);
+            }
+        }
+        //modalKeywords = modalKeywords.sort(sortbyrank);
+        displaytags('companyModal', company, addcompanymodal, 0, 168, 228, 227);
+        displaytags('keywordsModal', modalKeywords, addtagmodal, (topkeywords.length > 250 ? 2 : 0), 245, 238, 196);
+        //open show more like this modal
+        $('#moreLikeThisModal').modal('show');
+
+        //add ismobile check here
+        if ($(window).width() < 768) {
+            $('#jobListingsSection').css('display', 'none');
+            $('footer').css('display', 'none');
+            var newModalHeight = document.documentElement.clientHeight + 'px';
+            $('#moreLikeThisModal .modal-content').css('min-height', newModalHeight);
+        }
+
+        modalterms();
+        $('#btnaddkeywordmodal').click(addsearchtermmodal);
+        //$('.startNewSearch').click(function () {
+        //    var linkURL = appserverurl + '/jobs?q=' + termsarraymodal.join('+') + (companyTag != '' ? '@@' + companyTag : '');
+        //    $('#moreLikeThisModal').modal('hide');
+        //    $('#jobListingsSection').css('display', 'block');
+        //    $('footer').css('display', 'block');
+        //    window.open(linkURL, linkURL);
+        //});
+
+        $('.closeIconClear').mousedown(function () {
+            $('#jobListingsSection').css('display', 'block');
+            $('footer').css('display', 'block');
+        })
+    }
+    function startNewSearch() {
+        var linkURL = '/jobs?q=' + termsarraymodal.join('+') + (companyTag != '' ? '@@' + companyTag : '');
+        $('#moreLikeThisModal').modal('hide');
+        $('#jobListingsSection').css('display', 'block');
+        $('footer').css('display', 'block');
+        window.open(linkURL, linkURL);
+    }
+    function addsearchtermmodal() {
+
+        var newterm = $.trim($('#newsearchtermmodal').val().replace(/(\&|\?)/g, ''));
+
+        if (termsarraymodal.indexOf(newterm) != -1)
+            return;
+        termsarraymodal.push(newterm);
+
+        //desktop
+        if ($(window).width() > 768) {
+            $('#newsearchtermmodal').val('');
+            $('#newsearchtermmodal').focus();
+        }
+            //mobile
+        else {
+            //  $('#newsearchterm').html($('#newsearchterm').html() + '<i class="icon-cancel"></i>');
+        }
+        $('#newsearchtermmodal').val('');
+        modalterms();
+
+    }
+    function addtagmodal(e) {
+
+        var newterm = $.trim($(e).attr('value'));
+
+        if (termsarraymodal.indexOf(newterm) != -1)
+            return;
+        termsarraymodal.push(newterm);
+
+        $('#newsearchtermmodal').val('');
+        modalterms();
+
+        //if this is a mobile version, close overlay each time a keyword is selected
+        if ($('#mobileTags').is(':visible')) {
+            //close overlay
+            $('#mobileTags').hide();
+            // $('.navbar-toggle').css('display', 'block');
+            $('.filterIcon').css('display', 'block');
+            $('#jobListingsSection').css('display', 'block');
+            $('footer').css('display', 'block');
+        }
+    }
+    function modalterms() {
+        var sb = '';
+        for (var i = 0; i < termsarraymodal.length; i++) {
+            if ($.trim(termsarraymodal[i]) !== '') {
+                if (sb != '') {
+                    sb += '<span class="plus"> + </span>';
+                }
+                sb += '<div class="searchtermsmodaltag tag" data-toggle="tooltip" data-placement="top" title="Click To Remove" type="keyword" id="' + termsarraymodal[i] + '" onclick="removeTagModal(this.id)">' + termsarraymodal[i] + '<span class="glyphicon glyphicon-remove"></span></div>';
+            }
+        }
+        if (companyTag != '') {
+            sb += '<span class="at">@@</span> <div class="searchterm tag" data-toggle="tooltip" data-placement="top" title="Click To Remove" type="company" onclick="removeCompanyModal()">' + companyTag + '<span class="glyphicon glyphicon-remove"></span></div>';
+        }
+        $('.searchtermsmodal').html('<h3>New Search:</h3><span class="plus colon">:</span>' + sb + '<button type="button" class="startNewSearch btn btn-success" onclick="startNewSearch();">Go<i class="fa fa-angle-right"></i></button>');
+    }
+    function removeTagModal(termtag) {
+        termsarraymodal.splice(termsarraymodal.indexOf(termtag), 1);
+        modalterms();
+    }
+    function removeCompanyModal(companyid) {
+        companyTag = '';
+        modalterms();
+    }
+    function addcompanymodal(e) {
+        companyTag = $.trim($(e).attr('value'));
+        modalterms();
+    }
+
+
+    function addPlaceholder(html) {
+        $('#joblistingssectionjobs').append(html);
+    }
+
+    //on Expand button click, show full version of job listing
+    //function expandDiv(object) {
+    //    var clicks = $(object).data('clicks');
+    //    var expansion = $(object).closest('.jobListing').find('.expandableRow');
+    //    if (!clicks) {  //expand  on odd click
+    //        expansion.stop().animate({ height: '100%' }, { queue: false, duration: 600, easing: 'linear' });
+    //        $(object).html('Less<br/><i class="fa fa-angle-up"></i>');
+
+    //    } else { //shrink on even click
+    //        expansion.stop().animate({ height: '0' }, { queue: false, duration: 600, easing: 'linear' });
+    //        $(object).html('More<br/><i class="fa fa-angle-down"></i>');
+    //    }
+    //    $(object).data("clicks", !clicks);
+    //}
+
+
+
+
+    function addsearchterm() {
+
+        var newterm = $.trim($('#newsearchterm').val().replace(/(\&|\?)/g, ''));
+        var terms = newterm.split(' ');
+        var reloadJobs = false;
+        for (var i = 0; i < terms.length; i++)
+            if (!searchtermexists(terms[i])) {
+                termsarray.push(terms[i]);
+                reloadJobs = true;
+            }
+        if (!reloadJobs)
+            return;
+
+        //if (searchtermexists(newterm))
+        //    return;
+        //if (ismobile) {
+        //    termsarray = [];
+        //}
+        //termsarray.push(newterm);
+
+
+        endofresults = false;
+        startingresultnumber = 0;
+        $('#newsearchterm').val('');
+        //desktop
+        if ($(window).width() > 768) {
+            $('#newsearchterm').focus();
+        }
+            //mobile
+        else {
+            //  $('#newsearchterm').html($('#newsearchterm').html() + '<i class="icon-cancel"></i>');
+        }
+
+
+        newsearch = true;
+        improving = true;
+        additionalresults = 0;
+
+        searchJobs(true);
+    }
+
+    //mobile search. add keywords to input text
+    function addmobilesearchterm() {
+
+        var newterm = $.trim($('#newsearchterm').val().replace(/(\&|\?)/g, ''));
+
+        if (searchtermexists(newterm))
+            return;
+
+        termsarray.push(newterm);
+
+        endofresults = false;
+        startingresultnumber = 0;
+
+
+        $('#newsearchterm').focus();
+
+        newsearch = true;
+        improving = true;
+        additionalresults = 0;
+
+        searchJobs(true);
+    }
+
+
+
+    function addcustomcompany() {
+
+        var newterm = $.trim($('#newcompany').val().replace(/(\&|\?)/g, ''));
+
+        companiesarray = new Array();
+
+        companiesarray.push(newterm);
+
+        endofresults = false;
+        startingresultnumber = 0;
+
+        if (ismobile) {
+            $('#newcompany').val('');
+        }
+        else {
+            $('#newcompany').html('');
+        }
+
+
+        newsearch = true;
+        improving = true;
+        additionalresults = 0;
+
+        searchJobs(true);
+    }
+
+    //add keywords to search query
+    function addtag(e) {
+
+        var newterm = $.trim($(e).attr('value'));
+        var kwtype = $.trim($(e).attr('keywordtype'));
+
+        if (searchtermexists(newterm))
+            return;
+
+        if (!ismobile) {
+            $(e).css('background-color', 'rgba(255,230,0,1)');
+            $(e).css('border-color', '#000');
+            $(e).css('color', '#000');
+        }
+
+        if (!emptySearch) {
+            if (kwtype == 'keyword') {
+                termsarray.push(newterm);
+            } else {
+                titlekeywordsarray.push(newterm);
+            }
+        } else {
+            if (kwtype == 'keyword') {
+                titlekeywordsarray = [];
+                termsarray = [];
+                companiesarray = [];
+                termsarray.push(newterm);
+            } else {
+                titlekeywordsarray = [];
+                termsarray = [];
+                companiesarray = [];
+                titlekeywordsarray.push(newterm);
+            }
+            emptySearch = false;
+        }
+
+
+        endofresults = false;
+        startingresultnumber = 0;
+
+        $('#newsearchterm').val('');
+
+        setTimeout(function () {
+            newsearch = true;
+            improving = true;
+            additionalresults = 0;
+            searchJobs(true);
+        }, 100);
+
+        //if this is a mobile version, close overlay each time a keyword is selected
+        if ($('#mobileTags').is(':visible')) {
+            //close overlay
+            $('#mobileTags').hide();
+            // $('.navbar-toggle').css('display', 'block');
+            $('.filterIcon').css('display', 'block');
+        }
+    }
+
+    //add company keyword to search query
+    function addcompany(e) {
+
+        var newterm = $.trim($(e).attr('value'));
+
+        if (!ismobile) {
+            $(e).css('background-color', 'rgba(19,150,165, 1.0)');
+            $(e).css('border-color', '#000');
+            $(e).css('color', '#000');
+        }
+
+        if (emptySearch) {
+            titlekeywordsarray = [];
+            termsarray = [];
+            emptySearch = false;
+        }
+
+        companiesarray = new Array();
+        companiesarray.push(newterm);
+
+        endofresults = false;
+        startingresultnumber = 0;
+
+        $('#newcompany').val('');
+
+        setTimeout(function () {
+            newsearch = true;
+            improving = true;
+            additionalresults = 0;
+            searchJobs(true);
+        }, 100);
+
+        //if this is a mobile version, close overlay each time a keyword is selected
+        if ($('#mobileTags').is(':visible')) {
+            //close overlay
+            $('#mobileTags').hide();
+            // $('.navbar-toggle').css('display', 'block');
+            $('.filterIcon').css('display', 'block');
+        }
+    }
+
+    function searchtermexists(term) {
+        for (var i = 0; i < termsarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(termsarray[i]).toLowerCase()) {
+                return true;
+            }
+        }
+        for (var i = 0; i < titlekeywordsarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(titlekeywordsarray[i]).toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function companyexists(term) {
+        for (var i = 0; i < companiesarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(companiesarray[i]).toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function removesearchterm(e) {
+
+        var term = $.trim($(e).attr('term'));
+
+        if (!searchtermexists(term))
+            return;
+
+        for (var i = 0; i < termsarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(termsarray[i]).toLowerCase()) {
+                termsarray[i] = "";
+            }
+        }
+        for (var i = 0; i < titlekeywordsarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(titlekeywordsarray[i]).toLowerCase()) {
+                titlekeywordsarray[i] = "";
+            }
+        }
+        emptySearch = false;
+        endofresults = false;
+        startingresultnumber = 0;
+
+        newsearch = true;
+        improving = true;
+
+        if (getSearchTermParameter() == '') {
+            avonlistingadded = false;
+        }
+
+        searchJobs(true);
+    }
+    function removecompany(e) {
+
+        var term = $.trim($(e).attr('term'));
+        if (!companyexists(term))
+            return;
+
+        for (var i = 0; i < companiesarray.length; i++) {
+            if ($.trim(term.toLowerCase()) == $.trim(companiesarray[i]).toLowerCase()) {
+                companiesarray.splice(i, 1);
+            }
+        }
+        emptySearch = false;
+        endofresults = false;
+        startingresultnumber = 0;
+
+        if (getSearchTermParameter() == '') {
+            avonlistingadded = false;
+        }
+
+        newsearch = true;
+        improving = true;
+        searchJobs(true);
+    }
+
+
+</script>
+
+
+<script>
+
+    function padWithZero(n) {
+        var str = new String(n);
+
+        if (str.length > 1)
+            return n;
+        else
+            return '0' + n;
+    }
+
+
+    //select long and short view of the job listing
+    //var viewChosen = false;
+    //function checkView() {
+    //    if (!viewChosen) {
+    //        $('.fullViewBtn').click(function () {
+    //            setCookie('selectedView', 'fullView', 365);
+    //            checkView();
+    //        })
+
+    //        $('.shortViewBtn').click(function () {
+    //            setCookie('selectedView', 'shortView', 365);
+    //            checkView();
+    //        })
+
+    //        viewChosen = true;
+    //    }
+
+    //    var showView = getCookie('selectedView');
+
+    //    //if cookie is set to fullview
+    //    if (showView == "fullView") {
+    //        $('.fullViewParagraph').show();
+    //        $('.shortViewParagraph').hide();
+    //    }
+    //    else { //if cookie is set to short view
+    //        $('.fullViewParagraph').hide();
+    //        $('.shortViewParagraph').show();
+    //    }
+
+    //}//checkview()
+
+
+
+    //Tags mobile page. On click of keyword, add to search query
+    //$(".mobileKeyword").click(function () {
+    //    //adds class selected to the element that was clicked
+    //    $(this).addClass("selected");
+    //    //create a duplicate of the element that was clicked
+    //    var cloneKeyword = $(this).clone();
+    //    cloneKeyword.addClass('tag');
+    //    cloneKeyword.click(function () {
+    //        $(this).remove();
+    //        $(".scrollableDiv").height($(window).height() - $(".searchQueryDiv").height() - 100);
+    //    });
+    //    //place the duplicate inside the top div after last tag and add close glyphicon
+    //    cloneKeyword.insertAfter('#mobileTags .searchQueryDiv a:last-child').removeClass('selected').removeClass('mobileKeyword').append('<span class="glyphicon glyphicon-remove"></span>');
+    //    $(".scrollableDiv").height($(window).height() - $(".searchQueryDiv").height() - 100);
+    //});
+    ////delete keyword on click in the query section
+    //$('.tag').click(function () {
+    //    $(this).remove();
+    //});
+</script>

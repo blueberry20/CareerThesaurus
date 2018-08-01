@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Reset Password";
+}
+
+<div class="pageContainer">
+    <div class="container">
+        <div class="row">
+            <h1>Reset Password</h1>
+            @{
+                if (ViewBag.Response != null)
+                {
+                    <div>@ViewBag.Response</div>
+                }
+                else
+                {
+                    <form class="form-horizontal" role="form" method="POST">
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class=" form-control required" name="email" id="email" value="" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="resetBtn" class="btn btn-success resetBtn">Reset password</button>
+                        </div>
+                    </form>
+                }
+}
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        function document_ready() {
+            $('#resetBtn').click(function () {
+                var email = $('#email').val();
+                if (validateEmail(email)) {
+                    $('form').submit();
+                }
+            });
+        }
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (reg.test(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+</script>

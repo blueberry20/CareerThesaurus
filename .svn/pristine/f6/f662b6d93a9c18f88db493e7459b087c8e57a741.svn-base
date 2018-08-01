@@ -1,0 +1,355 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<link href="/Content/css/Jobs/jobsIndex.css" rel="Stylesheet" />
+<link href="/Content/css/Career/Index.css" rel="Stylesheet" />
+<link href="/Content/css/Classification/classification.css" rel="Stylesheet" />
+<script src="@Url.Content("~/Scripts/Jobs/gettime.js")"></script>
+
+
+<!--================================= Classification Page ============================== -->
+
+<div class="pageContainer" id="categorizationPage">
+    <div class="container">
+        <div class="row">
+
+            <!--***************Main Div**************************-->
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mainDiv">
+                @*<h1>Classification</h1>*@
+                @*<img id="classificationImg" class="img-responsive" src="~/Content/images/womanmanpointing.jpg" />*@
+                <div class="classificationCrumbs"></div>
+                <div class="currentClassHeader">Major</div>
+                <div class="currentClassName">
+                    <img src="~/Content/images/hexagontransparent.png" />
+                    <span class="tableCell"></span>
+                </div>                
+            </div>
+
+            <!--***************Sidebar**************************-->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sidebar">
+                <!--*******************Jobs********************-->
+                <div class="sidebarDiv" id="sidebarJobHolder">
+                    <h3>Jobs <span class="title"></span></h3>
+                    <p class="inYourArea">In your area</p>
+                    <div id="jobs"></div>
+                    <div class="row jobSidebar" id="sidebarJob">
+                        <div class="jobListing">
+                            <div class="row" style="padding-right:30px">
+                                <div class="col-lg-12">
+                                    <a style="text-decoration:none;" onmousedown=" " href=" " target=" _blank"><h3 class="positionName">Police Officer</h3></a>
+                                </div>
+                                <h4 class="companyName">Philadelphia Police Department</h4>
+                                <h5 class="locationName">Philadelphia, PA</h5>
+                            </div>
+                            <div class="row moreMargin" style="padding-right:30px">
+                                <div class="dateInfoV1 age" timestamp="" title="Time Since Posted">
+                                    <p>Time listed</p>
+                                    <div class="dateHolder">
+                                        <div class="dateTable">
+                                            <div class="tableRow">
+                                                <div class="hrDigit">01</div>
+                                                <div class="minDigit">05</div>
+                                                <div class="secDigit">12</div>
+                                            </div>
+                                            <div class="tableRow">
+                                                <div class="hr">hr</div>
+                                                <div class="min">mm</div>
+                                                <div class="sec">ss</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--job-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var major = "@ViewBag.major";
+    var minor = "@ViewBag.minor";
+    var category = "@ViewBag.category";
+    var userstate = getCookie('state') ? getCookie('state') : getCookie('ipstate') != '*' ? getCookie('ipstate') : 'NY';
+    var userzip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '10001';
+    var prof = "@ViewBag.profession";
+    var minorFound = false;
+    var categoryFound = false;
+
+    
+    function $career_tree_ready(tree, container, resourceid, directoryPath) {
+        //tree = {major: "", minors: [{minor: "", categories: [{category: "", careers : ["",""]},{category: "", careers : ["",""]}]},{minor: "", categories: [{category: "", careers : ["",""]},{category: "", careers : ["",""]}]}]}
+        $('.currentClassName span').text(tree.major);
+        var spanHeight = $('.currentClassName span').height();
+        $('.currentClassName span').css('margin-top', spanHeight / 2 * -1);
+
+        $('.mainDiv').append('<div class="subClass">Minors</div>');
+        $('.mainDiv').append('<ul class="classificationList"></ul>')
+
+        //display major
+        if (minor == "" && category == "") {
+            displayMajor(tree);
+            return;
+        }
+
+        //display minor if minor not empty
+        var minors = tree.minors;
+        if (minor != "" && category == "") {   
+            displayMinor(tree, minors);       
+            
+            if (minorFound) 
+                return;
+            
+            //if minor was entered wrong, display major
+            $('.mainDiv').prepend('<div class="nothingFound">Something went wrong and the minor you entered was not found. Please choose a minor within this major.</div>');
+            displayMajor(tree);
+            return;
+        }
+
+        //display category with careers
+        //var categories = tree.minors[0].categories;
+        if (minor != "" && category != "") {
+            for (var d = 0; d < minors.length; d++) { //check which minor
+                if (minor == minors[d].minor.replace(/[^a-zA-Z0-9]+/g, '-')) { //when minor found, go through categories to find this one
+                    for (var i = 0; i < minors[d].categories.length; i++) {
+                        var categories = tree.minors[d].categories;
+                        if (category == categories[i].category.replace(/[^a-zA-Z0-9]+/g, '-')) { //if category found
+
+                            $('.classificationCrumbs').append('<span>Major: </span><a href="/Classification/' + tree.major.replace(/[^a-zA-Z]+/g, '-') + '">' + tree.major + '<i class="icon-right-open-big"></i></a><span>Minor: </span><a href="/Classification/' + tree.major.replace(/[^a-zA-Z]+/g, '-') +'/'+ minor +'">' + minor.replace(/[^a-zA-Z]+/g, '-') + '<i class="icon-right-open-big"></i></a>');
+                            $('.currentClassHeader').text('Category');
+
+                            $('.currentClassName span').text(categories[i].category);
+                            //var spanHeight = $('.currentClassName span').height();
+                            //$('.currentClassName span').css('margin-top', spanHeight / 2 * -1);
+                            $('.subClass').text('Careers');
+                            for (var j = 0; j < categories[i].careers.length; j++) {
+                                var career = categories[i].careers[j].career
+                                $('.mainDiv ul').append('<li><a href="/Career/' + categories[i].careers[j].career.replace(/[^a-zA-Z]+/g, '-') + '"><img src="/Content/images/hexagontransparent2.png" /><span class="tableCell">' + categories[i].careers[j].career + '</span><i class="icon-right-open-big pull-right"></i></a><li>');
+
+                             
+                            }
+                            categoryFound = true;
+                        }
+                    }
+                    minorFound = true;
+                }
+            }
+
+            if (minorFound && categoryFound) {
+                return;
+            }
+
+            else if (minorFound && !categoryFound) {
+                //if category was entered wrong, display minor
+                $('.mainDiv').prepend('<div class="nothingFound">Something went wrong and the category you entered was not found. Please choose a category within this minor.</div>');
+                displayMinor(tree, minors);              
+                return;
+            }
+
+            else if (!minorFound && !categoryFound) {
+                $('.mainDiv').prepend('<div class="nothingFound">Something went wrong and the minor you entered was not found. Please choose a minor within this major.</div>');
+                displayMajor(tree);               
+                return;
+            }
+
+        }
+    }
+
+
+    
+
+    function displayMajor(tree) {
+        for (var i = 0; i < tree.minors.length; i++) {
+            $('.mainDiv ul').append('<li><a href="/Classification/' + tree.major.replace(/[^a-zA-Z]+/g, '-') + '/' + tree.minors[i].minor.replace(/[^a-zA-Z]+/g, '-') + '"><img src="/Content/images/hexagontransparent2.png" /><span class="tableCell">' + tree.minors[i].minor + '</span><i class="icon-right-open-big pull-right"></i></a></li>');
+       
+        }
+    }
+
+
+    function displayMinor(tree, minors) {
+        for (var i = 0; i < minors.length; i++) {
+            if (minor == minors[i].minor.replace(/[^a-zA-Z0-9]+/g, '-')) { //if minor found in the file
+
+                $('.classificationCrumbs').append('<span>Major: </span><a href="/Classification/' + tree.major.replace(/[^a-zA-Z]+/g, '-') + '">' + tree.major + '<i class="icon-right-open-big"></i></a>');
+                $('.currentClassHeader').text('Minor');
+
+                $('.currentClassName span').text(minors[i].minor);
+                //var spanHeight = $('.currentClassName span').height();
+                //$('.currentClassName span').css('margin-top', spanHeight / 2 * -1);
+                $('.subClass').text('Categories');
+                for (var j = 0; j < minors[i].categories.length; j++) {
+                    $('.mainDiv ul').append('<li><a href="/Classification/' + tree.major.replace(/[^a-zA-Z]+/g, '-') + '/' + minors[i].minor.replace(/[^a-zA-Z0-9]+/g, '-') + '/' + minors[i].categories[j].category.replace(/[^a-zA-Z]+/g, '-') + '"><img src="/Content/images/hexagontransparent2.png" /><span class="tableCell">' + minors[i].categories[j].category + '</span><i class="icon-right-open-big pull-right"></i></a><li>');
+              
+                }
+                minorFound = true;
+            }
+        }
+    }
+
+    function document_ready() {
+        getBlobData("careers", "bymajor/" + major, "tree.js");
+
+        if ($(window).width() > 768) {
+            //stretch container to full screen only on desktop
+            newHeight = $(window).height() - 50;
+            $('#categorizationPage .container').css('min-height', newHeight);
+            $('#categorizationPage .mainDiv').css('min-height', newHeight);
+        }
+
+        $(window).resize(function () {
+            if ($(window).width() < 768) {
+                $('.mainDiv').css('min-height', 'initial');   
+            }
+            else {
+                newHeight = $(window).height() - 50;
+                $('#categorizationPage .container').css('min-height', newHeight);
+                $('#categorizationPage .mainDiv').css('min-height', newHeight);
+            }
+        })
+
+     
+
+        //get user location
+        //if (!userzip) {
+        //    ipInfo(ipinfocallback);
+        //} else {
+        //    ipinfocallback();
+        //}
+        $('#locationInp').val(userzip);
+        getCityAndState(userzip, callback);
+    }
+
+    function callback() {
+        //getBlobData("careers", "dolcodes", prof + ".js");
+        getAjaxData();
+    }
+
+    //function ipinfocallback() {
+    //    userzip = getCookie('ipzip') == '*' ? '11235' : getCookie('ipzip');
+    //    userstate = getCookie('ipstate') == '*' ? 'NY' : getCookie('ipstate');
+    //}
+
+    function getCityAndState(zip, callback) {
+        $.ajax({
+            url: "http://ZiptasticAPI.com/" + zip,
+            cache: false,
+            dataType: "json",
+            type: "GET",
+            success: function (result) {
+                setCookie('city', result.city.toLowerCase(), 7);
+                setCookie('state', result.state, 7);
+                setCookie('zip', zip, 7);
+                userstate = result.state;
+            }, error: function (error) {
+                console.log(error);
+                userstate = '*';
+            }
+        });
+        if (callback)
+            callback();
+    }
+
+
+
+    function getAjaxData() {
+        //indeed jobs
+        getJobs();
+        //cbn jobs
+        //getJobFormId(userzip, prof.replace(/-/g, ' '));
+        //vantage schools
+        //getVantageMedia();
+        //cbn schools
+        //getSchoolFormId(userzip, '65');
+    }
+
+    function openJobsPage() {
+        var linkURL = appserverurl + '/jobs?q=' + prof.replace(/-/g, ' ') + '&loc=' + (userzip == '*' ? '11235' : userzip);
+        window.open(linkURL, linkURL);
+    }
+
+    /***********************AJAX*************************/
+
+    var counter = 0;
+    var loading = false;
+    var noMoreResults = false;
+
+    function getJobs() {
+
+        $('#jobs').html('');
+        if (noMoreResults) {
+            return;
+        }
+        if (loading) {
+            return;
+        }
+        loading = true;
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: prof.replace(/-/g, ' '),
+                l: userzip,
+                c: '13564694',
+                limit: 10,
+                start: counter
+            }
+        }).success(function (response) {
+            if (response.results.results.length > 0) {
+                var jobResults = response.results.results;
+                for (var i = 0; i < (jobResults.length > 3 ? 3 : jobResults.length) ; i++) {
+                    //if (response.results.results[i].sponsored == true && response.results.results[i].expired == false) {
+                    counter++;
+                    var job = jobResults[i];
+                    //add this job to the page
+                    var template = $('#sidebarJob').clone().show();
+                    //template.find('.jobListing').attr('onclick', 'jobclick(this)');
+                    var timestamp = getTimestampFromIndeedTime(job.date);
+                    template.find('.positionName').html(job.jobtitle).closest('a').attr('href', job.url).data('jobkey', job.jobkey).attr('onmousedown', job.onmousedown);
+                    template.find('.companyName').html(job.company);
+                    template.find('.locationName').html(job.formattedLocation);
+                    template.find('.jobDescription').html(job.snippet);
+                    template.find('.age').attr('timestamp', timestamp);
+                    template.find('.age').html(getElapsedTime(timestamp));
+                    template.appendTo('#jobs');
+
+                    template.attr('onclick', 'window.open("' + job.url + '", "_blank");').attr('onmousedown', job.onmousedown);
+                    //}
+                }
+
+                $('#jobs').append('<button class="btn btn-info" id="showMore" onclick="openJobsPage()">View more jobs</button>');
+
+                setInterval(function () {
+                    var ageboxes = $('.age');
+                    for (var i = 0; i < ageboxes.length; i++) {
+                        $(ageboxes[i]).html(getElapsedTime($(ageboxes[i]).attr('timestamp')));
+                    };
+                    //Blinking dots
+                    setTimeout(function () {
+                        $('.blinking').css('background-color', 'black');
+                    }, 500);
+                }, 1000);
+
+            } else {
+                $('.inYourArea').html('<div id="noResultsError">We don\'t have any positions available in your area for this profession.</div>');
+                $('#showMore').hide();
+            }
+            if (response.results.results.length < 3) {
+                noMoreResults = true;
+            }
+            loading = false;
+        }).error(function (error) {
+            $('.inYourArea').text('We don\'t have any positions available in your area for this profession.');
+            $('#showMore').hide();
+            console.log(error);
+        });
+    }
+
+
+
+</script>

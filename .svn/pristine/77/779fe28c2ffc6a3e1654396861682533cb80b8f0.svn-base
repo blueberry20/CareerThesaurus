@@ -1,0 +1,320 @@
+﻿var selectedJob = '';
+var genderValid = false;
+var error = [];
+
+function genderImagePreload(gender) {
+    if (!(isDeviceMobile)) {
+        for (var i = 0; i < 6; i++) {
+            images[i] = new Image();
+        }
+        images[0].src = '../Content/images/skilltest/Page_1/' + gender + '_bg.jpg';
+        images[1].src = '../Content/images/skilltest/Page_1/' + gender + '_left.png';
+        images[2].src = '../Content/images/skilltest/Page_1/' + gender + '_right.png';
+        images[3].src = '../Content/images/skilltest/Page_1/' + gender + '_left_1.png';
+        images[4].src = '../Content/images/skilltest/Page_1/' + gender + '_right_1.png';
+        if (gender == 'male') {
+            images[5].src = '../Content/images/skilltest/Page_1/' + gender + '_center_1.png';
+        }
+    }
+}
+function tempnewtest() {
+    if (isDeviceMobile && !isiPad) {
+        setCookie('firstname', 'temp', 365);
+        setCookie('lastname', 'temp', 365);
+        setCookie('email', 'temp', 365);
+        setCookie('gender', 'male', 365);
+        $('#moveToQuestion').val('1');
+        $('#navigationForm').submit();
+        return;
+    } 
+    if ($('[name="gender"]:checked').val() != null) {
+        setCookie('firstname', 'temp', 365);
+        setCookie('lastname', 'temp', 365);
+        setCookie('email', 'temp', 365);
+        var tempgender = $('[name="gender"]:checked').val();
+        setCookie('gender', tempgender, 365);
+        genderImagePreload(tempgender);
+        $('#moveToQuestion').val('1');
+        $('#navigationForm').submit();
+    }      
+}
+
+function startNewTest() {
+    if ($('#zipCode').val() != '') {
+        if (!checkZipCode($('#zipCode').val())) {
+            $('#zipCode').val('');
+            $('#zipCode').attr('placeholder', 'Input valid zip code');
+            return;
+        }
+    }
+    $('#moveToQuestion').val('1');
+    $('#navigationForm').submit();
+}
+
+function getTitle() {
+    if ($('#titleSelect option:selected').val() == 'none') {
+        //title error
+        error.push("title");
+    }
+    else { //for ms and mrs set cookie to female
+        if ($('#titleSelect option:selected').val() == 'ms' || $('#titleSelect option:selected').val() == 'mrs') {
+            setCookie('gender', 'female', 365);
+            genderImagePreload('female')
+        } else { // for mr set to male
+            setCookie('gender', 'male', 365);
+            genderImagePreload('male')
+        }
+        genderValid = true;
+    }
+}
+   
+function checkFields() {
+    var firstNameValid = false;
+    var lastNameValid = false;
+    var emailValid = false;
+    error = [];
+
+
+    getTitle();
+    
+
+    if ($('#firstName').val() == '') {
+        //name error
+        error.push("first name");
+
+    } else {
+        setCookie('firstname', $('#firstName').val(), 365);
+        firstNameValid = true;
+        $('#usernameAlert').hide();
+    }
+
+    if ($('#lastName').val() == '') {
+        //name error
+        error.push("last name");
+
+    } else {
+        setCookie('lastname', $('#lastName').val(), 365);
+        lastNameValid = true;
+        $('#usernameAlert').hide();
+    }
+    var email = $('#email').val();
+    if (validateEmail(email)) {       
+        setCookie('email', email, 365);
+        emailValid = true;
+        $('#emailAlert').hide();
+    } else {
+        error.push("email");
+    }
+    //if no errors, proceed to step 2
+    if (genderValid && firstNameValid && lastNameValid && emailValid) {
+        $('.errorMsg').html('');
+        emailExist(email).done(function (response) {
+            if (response.results.email.status == 'valid') {
+                continueToNextStep();
+                //setCookie('email', email, 365);
+                //emailValid = true;
+                //$('#emailAlert').hide();
+            } else {
+                // error email is not valid
+                $('#collapseTitle2').attr('data-toggle', '');
+                $('.errorMsg').html('Please input valid email');
+                $('#emailAlert').show();
+            }
+        }).fail(function (error) {
+            console.log(error);
+            continueToNextStep();
+            //setCookie('email', email, 365);
+            //emailValid = true;
+        });
+        
+
+        
+        //if ((document.documentElement.clientWidth < 768)) {
+        //    $('#headingOne').hide();
+        //    $('#headingTwo').show();
+        //}
+    }
+    else {
+        //display errors
+        $('.errorMsg').html('');
+        $('#collapseTitle2').attr('data-toggle', '');
+        var errorS = error[0];
+        for (var i = 1; i < error.length; i++) {
+            //check if this is the last error
+            if (i == error.length - 1) {
+                errorS = errorS + ' and ' + error[i];
+            }
+            else { //all errors before last
+                errorS = errorS + ', ' + error[i];
+            }
+        }
+        $('.errorMsg').html('You forgot to enter ' + errorS + '.');
+
+    }
+}
+
+function continueToNextStep() {
+    if (isDeviceMobile && !isiPad) {
+        $('.step1').hide();
+        $('.step2').show();
+        setTimeout(function () {
+            window.scrollTo(0, 1);
+        }, 100);
+
+    } else {
+        $('#collapseTitle2').attr('data-toggle', 'collapse');
+        $('#collapseTwo').show();
+        $('#collapseOne').hide();
+    }
+}
+
+
+function emailExist(email) {
+    return $.ajax({
+        url: appserverurl + '/SkillTest/verifyEmail',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            email: email
+        }
+    });
+}
+
+function validateEmail(email) {
+    var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return reg.test(email);
+}
+
+function movetoslidethree() {
+    if (isDeviceMobile && !isiPad) {
+        $('.step2').hide();
+        $('.step3').show();
+        setTimeout(function () {
+            window.scrollTo(0, 1);
+        }, 100);
+    } else {
+        $('#collapseTitle3').attr('data-toggle', 'collapse');
+        $('#collapseThree').show();
+        $('#collapseTwo').hide();
+    }
+    $('.startNewTest').removeClass('disabled');
+    geolocation();
+    //if ((document.documentElement.clientWidth < 768)) {
+    //    $('#headingTwo').hide();
+    //    $('#headingThree').show();
+    //}
+}
+
+function pickThisJob(job) {
+    $('.highlight').removeClass('highlight');
+    $('#otherJob').val('');
+    $(job).addClass('highlight');
+    selectedJob = $(job).text();
+    $('#pickProfessionBtn ').text(selectedJob);
+    $('#instructions').text('You selected');
+    $('#slides').css('height', 370);
+    //additional actions to save job they pick
+}
+function searchJob(text) {
+    text = text.slice(-1) == ' ' ? text.slice(0, -1) : text;
+    showJobsSelection(text);
+    selectedJob = '';
+}
+function otherJob(text) {
+    $('.highlight').removeClass('highlight');
+    if ((!isDeviceMobile || isiPad) && text.length > 0 && text.length < 2) {
+        $('#searchJob').val('');
+        showJobsSelection('');
+    }
+    selectedJob = text;
+}
+
+function showJobsSelection(text) {
+    //console.time('search');
+    var professionsToDisplay = [];
+    if (text != '') {
+        //text = '(' + text.replace(/\s/g, '|') + ')';
+        var reg = new RegExp(text, 'i');
+        $('.jobs').html('');
+        for (var i = 0; i < professionsinfo.length; i++) {
+            //if (reg.test(professionsinfo[i].keywords) || reg.test(professionsinfo[i].alttitles)) {
+            if (reg.test(professionsinfo[i].title)) {
+                professionsToDisplay.push({ profession: professionsinfo[i], aka: '' });
+            } else {
+                if (reg.test(professionsinfo[i].alttitles)) {
+                    for (var j = 0; j < professionsinfo[i].alttitles.length; j++) {
+                        if (reg.test(professionsinfo[i].alttitles[j])) {//.toLowerCase().indexOf(text.toLowerCase()) != -1) {
+                            professionsToDisplay.push({ profession: professionsinfo[i], aka: professionsinfo[i].alttitles[j] });
+                            break; //stop possibility to add multiple alt titles
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        for (var i = 0; i < professionsinfo.length; i++) {
+            professionsToDisplay.push({ profession: professionsinfo[i], aka: '' });
+        }        
+    }
+    professionsToDisplay.sort(sortProfessions);
+    for (var i = 0; i < professionsToDisplay.length; i++) {
+        $('.jobs').append('<div class="job">' + professionsToDisplay[i].profession.title + (professionsToDisplay[i].aka == '' ? '' : '<br><span class="aka">  aka ' + professionsToDisplay[i].aka + '</span>') + '</div>');
+       // $('.job').css({ padding: '8px 10px', 'border-bottom': '1px solid rgb(228, 248, 252)' });
+    }
+    //console.timeEnd('search');
+}
+
+function sortProfessions(a, b) {
+    if (a.profession.title.toLowerCase() < b.profession.title.toLowerCase())
+        return -1;
+    if (a.profession.title.toLowerCase() > b.profession.title.toLowerCase())
+        return 1;
+    return 0;
+}
+
+function geolocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {            
+            $.ajax({
+                url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&sensor=false',
+            }).success(function (response) {                
+                var zip = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('postal_code')].long_name;
+                if (checkZipCode(zip)) {
+                    $('#zipCode').val(zip);
+                    setCookie('zipcode', zip, 365);
+                } else {
+                    console.log('wrong zipcode');
+                }
+            }).error(function (response) {
+                console.log(response);
+            });
+
+        }, function (error) {
+            console.log(error);
+        }, {
+            enableHighAccuracy: true,
+            maximumAge: 6000,
+            timeout: 1000
+        });
+    } else {
+        console.log('no geolocation');
+    }
+}
+
+function isNumber(evt, val) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+        return false;
+    }
+    return true;
+}
+
+function checkZipCode(zipCode) {
+    var reg = new RegExp(zipCode);
+    if (reg.test(zipCodes) && zipCode.length == 5) {
+        return true;
+    } else {
+        return false;
+    }
+}

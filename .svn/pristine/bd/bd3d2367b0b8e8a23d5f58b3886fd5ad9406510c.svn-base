@@ -1,0 +1,489 @@
+﻿#adminPage .container {
+    padding-bottom: 30px;
+}
+
+#adminPage h1 {
+    margin-bottom: 15px;
+    display: block; 
+}
+
+.pageContainer h2 {
+    text-align: left;
+    text-transform: none;
+    color: #000;
+    margin: 40px 0 15px;
+    font-size: 31px;
+    font-weight: 600;
+}
+
+h4 {
+    text-transform: none;
+    font-family: 'open sans condensed';
+    padding: 20px 0 0;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.counselor {
+    background-color: #DAEFF5;
+    margin: 0 0 20px;
+    padding: 20px;
+}
+
+.topRow {
+    padding: 30px 0 10px;
+}
+
+
+h3.name {
+    font-weight: 600;
+    font-size: 22px;
+    text-transform: capitalize;
+    margin: 0;
+    text-align: left;
+    padding-bottom:15px;
+}
+
+.groups, .studentsCount, .status, .grayInfo {
+    color: #827878;
+    margin: 0 10px 10px 0;
+    display:inline;
+}
+
+.grayBlock {
+    clear: both;
+    margin: 0 10px 10px 0;
+    display: block;
+    float: none;
+}
+
+.btn.activateBtn {
+    border:none;
+    background-color: transparent;
+    box-shadow:none;
+    float:right;
+    color: rgb(41, 144, 201);
+}
+
+.pending {
+    background-color:#DAEFF5;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.pending .btn {
+    border:none;
+    float:right;
+}
+
+.marginRight {
+    margin-right:10px;
+}
+
+.newInvite {
+    margin-top: 50px;
+}
+
+.inviteCounselorsBtn, .changeRoleBtn, .expandButton {
+    min-width: 230px;
+    width:initial;
+    /*transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;*/
+    background-color: transparent;
+    text-transform: uppercase;
+    padding: 10px 40px 10px 10px;
+    position: relative;
+    color: #000;
+    border: 1px solid #000;
+    margin-right:10px;
+}
+
+.no-touch .expandButton:hover, .expandButton:focus, .expandButton:active {
+    background-color: #DAEFF5;
+}
+
+.inviteCounselorsBtn, #createGroupsBtn  {
+    background-color:  #38D5A3;
+}
+
+.no-touch .inviteCounselorsBtn:hover, .inviteCounselorsBtn:focus, .inviteCounselorsBtn:active, .no-touch #createGroupsBtn:hover, #createGroupsBtn:focus, #createGroupsBtn:active {
+    background-color: #2CAD84;
+}
+
+
+button i.fa {
+    position: absolute;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -10px;
+    right: 10px;
+}
+
+.schoolDiv {
+    padding:0;
+    background-color: transparent;
+}
+
+
+#inviteFormWrapper, #changeRoleFormWrapper, #groupFormWrapper {
+    background-color: #DAEFF5;
+    padding: 0 20px;
+    margin: 10px 0;
+}
+
+.addMargin {
+    margin:15px 0;
+}
+
+#inviteFormWrapper .btn, #groupFormWrapper .btn {
+    width: initial;
+    padding: 0 10px;
+    border:none;
+    min-width:220px;
+}
+
+.btn.disabled {
+    color: #666;
+}
+
+form label {
+    font-size:16px;
+    display:block;
+}
+
+.remove {
+    margin-top:15px;
+    background-color: #f0f0f0;
+}
+
+.remove:hover, .remove:focus, .remove:active, .addCounselorBtn:hover, .addCounselorBtn:focus, .addCounselorBtn:active {
+    background-color: #E2E0E0;
+}
+
+
+.changeDisplay {
+    display:inline;
+}
+
+#counselorsList {
+    width:100%;
+    background-color: #fff;
+    font-size:16px;
+    font-weight:400;
+}
+
+.dropdown-toggle select {
+    cursor: pointer;
+}
+
+.dropdown-toggle option {
+    height: 50px;
+    line-height: 50px;
+}
+
+.no-touch .dropdown-toggle:hover, .dropdown-toggle:focus, .dropdown-toggle:active, .open .dropdown-toggle.btn-default {
+    color: #000;
+    background-color: #fff !important; 
+    border: 1px solid #27AEC0 !important;
+}
+
+form p {
+    font-size: 16px;
+    /* width: 80%; */
+    margin: 25px auto;
+}
+
+.submitBtn {
+    margin:20px 0;
+}
+
+.noSchoolsInsider {
+    display: table-cell;
+    height: 100%;
+    height: inherit;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.notReady {
+    height: 700px;
+    background-color: #DAEFF5;
+    font-size: 30px;
+    display: table;
+    width: 100%;
+    padding: 20px;
+}
+
+.notReady p {
+    display: table-cell;
+    height: 100%;
+    height: inherit;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.topMargin {
+    margin-top:20px;
+}
+
+.shortBlueDiv {
+    background-color: #DAEFF5;
+    height: 200px;
+    padding: 20px;
+    display:table;
+    width:100%;
+}
+
+.shortBlueDiv p {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 26px;
+    font-family: 'open sans condensed';
+    text-align: center;
+}
+
+.shortBlueDiv a, .notReady a {
+    font-family: 'open sans condensed';
+    font-weight: 600;
+}
+
+/*Students*/
+.studentRecord {
+    background-color: #DAEFF5;
+    margin: 10px;
+    position: relative;
+    padding: 15px 20px;
+}
+
+.activateStudentBtn {
+    position:absolute;
+    top:50%;
+    margin-top:-25px;    
+    right:20px;
+    border:none;
+    box-shadow:none;
+}
+
+#studentsListPage .subheading {
+    margin-bottom:20px;
+}
+
+#studentsListPage .grayInfo, #studentsListPage .grayBlock {
+    margin:  0 10px 3px 0;
+}
+
+#studentsListPage .studentNames {
+    padding:0;
+}
+
+.studentInfoWrapper {
+    padding-right: 160px;
+}
+
+.searchBoxWrapper {
+    padding: 0 10px 15px;
+}
+
+
+@media only screen and (max-width:998px) {
+    .pageContainer h2 {
+        margin: 25px 0 10px;
+        font-size: 26px;
+    }
+
+    .btn {
+        font-size:12px;
+    }
+
+    h3.name {
+        font-size:18px;
+    }
+
+    #inviteFormWrapper, #changeRoleFormWrapper, #groupFormWrapper {
+        margin: 10px 0;
+    }
+
+    #counselorsList {
+        font-size:14px;
+    }
+
+    .roleForm label {
+        line-height: initial;
+        margin-bottom:10px;
+    }
+
+    .shortBlueDiv p {
+        font-size:20px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .topRow {
+        padding: 10px 0 10px;
+    }
+
+    #adminPage .addLineHeight {
+        margin-bottom: 10px; 
+    }
+
+    .schoolDiv {
+        margin: 0;
+    }
+
+    h3.name {
+        font-size: 18px;
+    }
+
+    .pageContainer h2 {
+        margin: 25px 0 10px;
+        font-size: 24px;
+    }
+
+    .counselor {
+        padding: 15px;
+        margin: 0 0 10px;
+    }
+
+    .pending {
+        padding:15px;
+    }
+
+    h4 {
+        font-size:20px;
+    }
+
+    form label {
+        font-size: 14px;
+    }
+
+    .changeAlignment {
+        text-align:center;
+    }
+
+    .changeDisplay {
+        display: block;
+        clear:both;
+    }
+
+    .changeDisplay .btn {
+        float:left;
+        margin: 5px 10px 0 0;
+    }
+
+    .btn.activateBtn {
+        margin: 0;
+        height: initial;
+        line-height: initial;
+        width: initial;
+        min-width: initial;
+    }
+
+    form p {
+        font-size: 14px;
+        margin: 15px auto;
+    }
+
+    .inviteCounselorsBtn, .changeRoleBtn, .expandButton {
+        min-width: 190px;
+        font-size:12px;
+    }
+
+    .newInvite, .newGroupsWrapper {
+        margin-top:40px;
+    }
+
+    .activateStudentBtn {
+        position:static;
+        margin-top:5px;
+        height:40px;
+        line-height:40px;
+    }
+
+    .studentInfoWrapper {
+        padding-right: 0;
+    }
+
+    .studentNames {
+        width: 100% !important;
+        padding: 5px 0 !important;
+    }
+
+    #studentsListPage .subheading {
+        width: 80%;
+        font-size: 13px;
+        margin: 0 auto 20px;
+    }
+}
+
+
+@media only screen and (max-width:500px) {
+    #adminPage .addLineHeight {
+        margin-bottom: 0;
+    }
+
+    .topRow {
+        padding: 0;
+    }
+
+    h3.name {
+        font-size: 15px;
+        padding-bottom:10px;
+    }
+
+    .pageContainer h2 {
+        margin: 20px 0 10px;
+        font-size: 21px;
+    }
+
+    .groups, .studentsCount, .status, .grayInfo {
+        color: #827878;
+        margin: 5px 5px 5px 0;
+        font-size: 12px;
+    }
+
+    .btn {
+        width: 100px;
+        min-width: 100px;
+        font-size: 11px;
+    }
+
+    .inviteCounselorsBtn, .changeRoleBtn, .expandButton {
+        width: 215px;
+        min-width: initial;
+        margin-bottom:10px;
+    }
+
+    .changeRoleBtn, #changeRoleFormWrapper {
+        display:none;
+    }
+
+    #inviteFormWrapper, #groupFormWrapper {
+        padding:0 15px;
+    }
+
+     .changeAlignment .btn, .pending .btn {
+        height: 40px;
+        line-height: 40px;
+    }
+
+     #counselorsList {
+        font-size: 12px;
+        height: 40px;
+        line-height: 40px;
+     }
+
+     .shortBlueDiv p {
+         font-size:16px;
+     }
+
+     .shortBlueDiv {
+         height:150px;
+     }
+
+     #studentsListPage .subheading {
+         width:100%;
+         font-size:12px;
+     }
+
+}

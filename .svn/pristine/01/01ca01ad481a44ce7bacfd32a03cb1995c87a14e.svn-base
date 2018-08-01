@@ -1,0 +1,153 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_school_scrollablecontent div {display: inline-block;}
+</style>
+
+    
+
+<div id="_school" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    <div style="position: absolute; top: 140px; left: 125px;">
+
+        <div style="position: absolute; top: 0px; left: 0px; padding: 10px 0 10px 0; width: 800px; height: 700px; text-align: left; background-color: white; border: thin solid #000;">
+            <img id="school_image" src="" style="margin: 20px 0 0 40px; max-width: 180px;"/>
+
+            <div style="position: absolute; top: 25px; left: 200px; color: #000;">
+                <h1 id="school_name" style="margin: 0 0 10px 0; font-size: 22pt;"></h1>
+                <h1 id="school_address" style="margin: 0 0 10px 0; font-size: 14pt;"></h1>
+                <p id="school_shortdesc" class="" style="margin: 0px 20px 0 0 ; font-size: 10pt;">
+                    The American Musical and Dramatic Academy offers performance-based conservatory training. AMDA's two training programs, THE INTEGRATED PROGRAM and THE STUDIO PROGRAM comprise four semesters, and students who complete the program earn a Professional Performance Certificate of training.
+                </p>
+                
+                <h1 style="margin: 20px 0 10px -170px; font-size: 14pt;">Available programs</h1>
+                <ul id="school_programs" class="" style="margin: 0px 0 0 -170px; font-size: 10pt; list-style-type: none;">
+
+
+                </ul>
+            </div>
+            
+            <div class="whitereflection" style="position: absolute; top: 610px; left: 0px; width: 800px; height: 150px;"></div>
+        </div>
+    </div>
+    
+    @Html.Partial("_school_form")
+
+    <div id="_school_backbutton" class="backbutton" ></div>
+</div>
+
+<script>
+
+    var _school_clientid = '';
+    var _school_formid = '';
+    var _school_loaded = false;
+
+    var programsfordropdown = new Array();
+
+    function showSchool(e) {
+            
+        showOverlay('_school');
+
+        _school_clientid = $(e).attr('clientid');
+        _school_formid = $(e).attr('formid');
+
+        $('#school_image').attr('src', $(e).attr('image'));
+        $('#school_name').html($(e).attr('frontendname'));
+        
+        
+        $('#school_shortdesc').html($(e).attr('formdesc'));
+
+        var programjson = decodeURIComponent($(e).attr('programjson'));
+        
+        var jsono = null;
+        try {
+            jsono = $.parseJSON(programjson);
+        }
+        catch (e) {
+        }
+
+        var location = $(e).attr('location');
+        var isonline = false;
+        for (var i = 0; i < jsono.items.length; i++) {
+            if ($.trim(jsono.items[i].campustype).toLowerCase() == 'online') {
+                isonline = true;
+                break;
+            }
+        }
+
+        if ($.trim(location) == ',' || $.trim(location) == '0,0' || $.trim(location) == '0, 0') {
+            location = '';
+        }
+
+        if (isonline) {
+            if (location == '') {
+                location = '<span style="color: #ff5500">Online</span>';
+            }
+            else {
+                location += ' <span style="color: #ff5500">Online programs available!</span>';
+            }
+        }
+        $('#school_address').html(location);
+
+        loadPrograms(jsono);
+
+        showSchoolForm(_school_clientid, _school_formid);
+
+        var scrollablewidth = 18000; //125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280
+
+        $('#_school_scrollablecontent').css('width', scrollablewidth);
+        $("#_school_viewport").niceScroll("#_school_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+        $("#_school_viewport").getNiceScroll().resize();
+        $("#_school_viewport").show();
+
+        setTimeout(function () {
+            $('#_school_scrollablecontent').animate({ 'margin-left': '115px', 'opacity': 1 }, 1500);
+        }, 500);
+
+        if (!_school_loaded) {
+            $('#_school_backbutton').press(function () {
+                hideOverlay('_school');
+            });
+
+            $('#btnsubmitform').press(function () {
+                submitCustomForm();
+            });
+            
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_school');
+                }
+            });
+            _school_loaded = true;
+        }
+    }
+
+    function loadPrograms(programs) {
+
+        $('#school_programs').html('');
+
+        programsfordropdown = new Array();
+
+        try {
+            for (var i = 0; i < programs.items.length; i++) {
+                addSchoolProgram(i, programs.items[i]);
+                programsfordropdown.push({ "value": programs.items[i].campuskey + "!" + programs.items[i].id, "label": programs.items[i].name });
+            }
+        }
+        catch (e) {
+        }        
+    }
+
+
+
+    function addSchoolProgram(sequence, program) {
+
+        $('#school_programs').append('<li><span style="font-weight: normal;">' + program.typename + '</span> - ' + program.name + ' - ' + program.campustype + '</li>');
+
+        
+    }
+    
+</script>

@@ -1,0 +1,223 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.LeadCaps
+@using SkillCow.Classes.Cloud.TableStorage.DirectClients.LeadCounters
+@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers
+
+@model IEnumerable<SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClient>
+
+@{
+    //Layout = null;
+    ViewBag.SuppressTabs = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    LeadCapClient leadcapclient = new LeadCapClient();
+    LeadCounterClient leadcounterclient = new LeadCounterClient();
+
+    List<LeadCap> capsbyclient = new List<LeadCap>(leadcapclient.GetAll());
+    List<LeadCounter> countersbyclient = new List<LeadCounter>(leadcounterclient.GetAll());
+}
+<style>
+    * {font-family: Arial;}
+    .capstable {text-align: center; width:200px;}
+    .capstable th {font-size: 7pt; width: 20%}
+    .capstable td {background-color: White;font-size: 9pt;}
+</style>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+    <div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.8); text-align: left; padding: 20px;">
+    
+        <h1>Employer Clients</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table style="width: 100%;">
+            <tr>
+            
+                <th style="text-align:left;">
+                    Status
+                </th>
+                <th style="text-align:left;" width=1%>
+                    Category
+                </th>
+                <th style="text-align:left;" width=1%>
+                    Logo
+                </th>
+                <th style="text-align:left;">
+                    Name
+                </th>
+                <th style="text-align:left;">
+                    ClientId
+                </th>
+                <th style="text-align:left;">
+                    FormId
+                </th>
+                <th style="text-align:left;">
+                    Client Fullfillment
+                </th>
+                <th style="text-align:left;">
+                    Program Fullfillment
+                </th>
+            </tr>
+    
+        @foreach (var item in Model) {
+            LeadCap cap = capsbyclient.Find(x => x.RowKey == item.RowKey);
+            LeadCounter counter = countersbyclient.Find(x => x.RowKey == item.RowKey);
+
+            DirectEmployerClientCampusClient campusclient = new DirectEmployerClientCampusClient();
+            List<DirectEmployerClientCampus> campuses = new List<DirectEmployerClientCampus>(campusclient.GetAllByClientId(item.RowKey));
+
+            DirectEmployerClientCampusProgramClient campusprogramclient = new DirectEmployerClientCampusProgramClient();
+            List<DirectEmployerClientCampusProgram> campusprograms = new List<DirectEmployerClientCampusProgram>(campusprogramclient.GetAllByClientId(item.RowKey));
+                        
+        
+            <tr style="background-color: rgba(@(item.Status == "Paused" ? 255 : 0),@(item.Status == "Live" ? 255 : 0),0,0.3); ">
+            
+                <td>    
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>    
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    <img src="https://chaindate.blob.core.windows.net/resources/schoollogos/@item.RowKey" alt="Logo" style="max-height: 20px; max-width: 140px;"/>
+                </td>
+                <td>
+                    <a href="/directEmployerclients/edit/@(item.RowKey)" target="_blank">@(item.Name!=null && item.Name !="" ? item.Name : "(no name)")</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormId)
+                </td>
+
+                <td width=1%>
+                    <a onclick="toggleTables(this)" clientrowkey="@(item.RowKey)">Expand</a>
+                    @if (cap != null && counter != null)
+                    {
+                    <table id="tbl1@(item.RowKey)" cellspacing=1 class="capstable" style="display: none;">
+                        <tr>
+                            <th>T</th>
+                            <th>A</th>
+                            <th>M</th>
+                            <th>W</th>
+                            <th>D</th>
+                        </tr>
+                        <tr>
+                            <td>@(cap != null ? cap.Total.ToString() : "")</td>
+                            <td>@(cap != null ? cap.Annually.ToString() : "")</td>
+                            <td>@(cap != null ? cap.Monthly.ToString() : "")</td>
+                            <td>@(cap != null ? cap.Weekly.ToString() : "")</td>
+                            <td>@(cap != null ? cap.Daily.ToString() : "")</td>
+                        </tr>
+                        <tr>
+                        
+                            <td>@(counter != null ? counter.Total.ToString() : "")</td>
+                            <td>@(counter != null ? counter.Annually.ToString() : "")</td>
+                            <td>@(counter != null ? counter.Monthly.ToString() : "")</td>
+                            <td>@(counter != null ? counter.Weekly.ToString() : "")</td>
+                            <td>@(counter != null ? counter.Daily.ToString() : "")</td>
+                        </tr>
+                        <tr>
+                            <td style="color: @(cap.Total - counter.Total > 0 ? "blue" : "red")">@(cap.Total > 0 ? cap.Total - counter.Total : 0)</td>
+                            <td style="color: @(cap.Annually - counter.Annually > 0 ? "blue" : "red")">@(cap.Annually > 0 ? cap.Annually - counter.Annually : 0)</td>
+                            <td style="color: @(cap.Monthly - counter.Monthly > 0 ? "blue" : "red")">@(cap.Monthly > 0 ? cap.Monthly - counter.Monthly : 0)</td>
+                            <td style="color: @(cap.Weekly - counter.Weekly > 0 ? "blue" : "red")">@(cap.Weekly > 0 ? cap.Weekly - counter.Weekly : 0)</td>
+                            <td style="color: @(cap.Daily - counter.Daily > 0 ? "blue" : "red")">@(cap.Daily > 0 ? cap.Daily - counter.Daily : 0)</td>
+                        </tr>
+                    </table>
+                    }
+                </td>
+
+                <td width=1%>
+                    <table id="tbl2@(item.RowKey)" style="text-align: center; width: 500px; display: none;" border=1>
+                    @foreach (DirectEmployerClientCampus campus in campuses)
+                    {
+                        <tr style="background-color: rgba(@(campus.Status == "Paused" ? 255 : 128),@(campus.Status == "Live" ? 255 : 128),128,1);">
+                            <td style="width: 200px;">
+                                <a href="/DirectEmployerClientCampuses/edit/@(campus.RowKey)" target="_blank">@(campus.Name != null && campus.Name != "" ? campus.Name : "(no name)")</a>
+                            </td>
+                            <td style="width: 200px;">
+                                <table style="text-align: center; width:300px">
+                                @foreach (DirectEmployerClientCampusProgram program in campusprograms.Where(x => x.CampusRowKey == campus.RowKey))
+                                {
+                                    LeadCap pleadcap = leadcapclient.GetByRowKey(program.RowKey);
+                                    LeadCounter pleadcounter = leadcounterclient.GetByRowKey(program.RowKey);
+                                    <tr style="background-color: rgba(@(program.Status == "Paused" ? 255 : 128),@(program.Status == "Live" ? 255 : 128),128,1);">
+                                        <td style="width: 100px">
+                                            <a href="/DirectEmployerClientCampusPrograms/edit/@(program.RowKey)" target="_blank">@(program.Name != null && program.Name != "" ? program.Name : "(no name)")</a>
+                                        </td>
+                                        <td>
+                                            @if (pleadcap != null && pleadcounter != null)
+                                            {
+                                            <table cellspacing=1 class="capstable">
+                                                <tr>
+                                                    <th>T</th>
+                                                    <th>A</th>
+                                                    <th>M</th>
+                                                    <th>W</th>
+                                                    <th>D</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>@pleadcap.Total.ToString()</td>
+                                                    <td>@pleadcap.Annually.ToString()</td>
+                                                    <td>@pleadcap.Monthly.ToString()</td>
+                                                    <td>@pleadcap.Weekly.ToString()</td>
+                                                    <td>@pleadcap.Daily.ToString()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@pleadcounter.Total.ToString()</td>
+                                                    <td>@pleadcounter.Annually.ToString()</td>
+                                                    <td>@pleadcounter.Monthly.ToString()</td>
+                                                    <td>@pleadcounter.Weekly.ToString()</td>
+                                                    <td>@pleadcounter.Daily.ToString()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: @(pleadcap.Total - pleadcounter.Total > 0 ? "blue" : "red")">@(pleadcap.Total>0 ? pleadcap.Total - pleadcounter.Total : 0)</td>
+                                                    <td style="color: @(pleadcap.Annually - pleadcounter.Annually > 0 ? "blue" : "red")">@(pleadcap.Annually > 0 ? pleadcap.Annually - pleadcounter.Annually : 0)</td>
+                                                    <td style="color: @(pleadcap.Monthly - pleadcounter.Monthly > 0 ? "blue" : "red")">@(pleadcap.Monthly > 0 ? pleadcap.Monthly - pleadcounter.Monthly : 0)</td>
+                                                    <td style="color: @(pleadcap.Weekly - pleadcounter.Weekly > 0 ? "blue" : "red")">@(pleadcap.Weekly > 0 ? pleadcap.Weekly - pleadcounter.Weekly : 0)</td>
+                                                    <td style="color: @(pleadcap.Daily - pleadcounter.Daily > 0 ? "blue" : "red")">@(pleadcap.Daily > 0 ? pleadcap.Daily - pleadcounter.Daily : 0)</td>
+                                                </tr>
+
+                                            </table>
+                                            }
+                                        </td>
+                                    </tr>        
+                                }
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                    </table>
+                </td>
+            
+            </tr>
+        }
+    
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    function toggleTables(a) {
+        var rowkey = $(a).attr('clientrowkey');
+        if ($('#tbl1' + rowkey).css('display') == "none") {
+            //show
+            $('#tbl1' + rowkey).show();
+            $('#tbl2' + rowkey).show();
+            $(a).html('Collapse');
+        }
+        else {
+            //hide
+            $('#tbl1' + rowkey).hide();
+            $('#tbl2' + rowkey).hide();
+            $(a).html('Expand');
+        }
+    }
+</script>

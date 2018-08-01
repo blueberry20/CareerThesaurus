@@ -1,0 +1,672 @@
+﻿
+/* CAREERS IN PAGE
+-------------------------------------------------- */
+
+#careersInPage {
+    padding-top:70px;
+}
+
+@media only screen
+and (max-width: 1250px) {
+    #careersInPage .container {
+    padding-right:50px;   
+    }
+}
+
+@media only screen 
+and (max-width : 814px) {
+    #careersInPage {
+    padding-right:0px;   
+    }
+       
+    #careersInPage .container {
+    padding-right:30px;   
+    }
+
+    .navbar-brand {
+        display:none;
+    }
+}
+
+
+/***************Alphabetical Index*******************/
+
+#alphabetIndex {
+margin:0;   
+width:50px;
+position: fixed;
+right: -50px;
+top: 51px;
+z-index: 11000;
+height:90%;
+background-color:rgb(255,255,255);
+background-color:rgba(255,255,255,0.8);
+-webkit-transition-duration: 0.3s;
+-moz-transition-duration: 0.3s;
+-o-transition-duration: 0.3s;
+transition-duration: 0.3s;
+border:1px solid #666;
+border-radius:6px;
+}
+
+/*alphabetical sidebar overrides*/
+#alphabetIndex .list-group {
+margin:0;  
+height:100%; 
+background-color:transparent;
+padding-top:3px;
+}
+
+#alphabetIndex .list-group-item:first-child, .list-group-item:last-child {
+border-radius:4px;   
+}
+
+/*cell that holds a letter*/
+#alphabetIndex .list-group-item {
+height: 3.84%;   
+margin:0;
+padding:0;
+text-align:center;
+color:#000;
+font-size:14px;
+border: none;
+background-color:transparent;
+}
+
+#alphabetIndex a.list-group-item {
+color: #000;   
+background-color:transparent;
+}
+
+a.list-group-item.active, 
+.no-touch a.list-group-item.active:hover, 
+a.list-group-item.active:focus {
+background-color: #a4a4a4;
+border-color: #a4a4a4;   
+}
+
+#alphabetIndex .list-group-item p {
+background-color:transparent;
+margin:0;
+}
+
+.no-touch #alphabetIndex .list-group-item p:hover {
+font-size: 22px;
+color: #000;   
+}
+
+
+/*make alphabet index smaller on mobile*/
+@media only screen 
+and (max-width : 992px) {
+    #alphabetIndex {
+    width: 30px; 
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 8px; 
+    position:fixed;        
+    right:0; 
+    }
+    
+    #abc {
+    display:none;   
+    }
+    
+   .no-touch #alphabetIndex .list-group-item p:hover {
+    font-size: 18px; /*make font smaller for mobile*/  
+    }
+    
+    #careersInPage .container {
+    padding-left:0px;   
+    }
+    
+    #careersInPage {
+    padding-bottom:0;   
+    margin-right:0;
+    }
+    
+    #careersInPage h1 {
+    padding-left:20px;   
+    }  
+}
+
+#abc {
+position:fixed;
+right:0px;
+top:45%;
+padding: 5px;
+font-size:20px;
+letter-spacing:5px;
+background-color:#000;
+color:#fff;
+z-index: 9999;
+border: 1px solid gray;
+border-radius:8px 8px 0 0;
+-webkit-transition-duration: 0.3s;
+-moz-transition-duration: 0.3s;
+-o-transition-duration: 0.3s;
+transition-duration: 0.3s;
+text-align:center;
+/* Safari */
+-webkit-transform-origin: 100% 100%;
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+ -moz-transform-origin: 100% 100%;
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform-origin: 100% 100%;
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform-origin: 100% 100%;
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
+#abc ul li{
+list-style: none;
+padding:5px 15px;
+margin:0 auto;
+}
+
+#abc ul {
+padding:0;   
+}
+
+.no-touch #indexHolder:hover #abc {
+right:50px;   
+}
+
+.no-touch #indexHolder:hover #alphabetIndex {
+right:0;   
+}
+
+
+
+/***************Left Side*******************/
+
+
+#careerLeftBar h2 {
+    display:inline-block;
+    font-weight: 600;
+    padding: 0px;
+    font-size: 16px;
+    margin: 10px 0;
+    text-transform: none;
+}
+
+
+@media only screen
+and (max-width:1200px) {
+    #careerLeftBar h2, .collapseValue  {
+     font-size:13px !important;   
+    }   
+
+}
+
+#careersInPage .sidebarDiv {
+    padding:0;
+}
+
+
+
+.collapseValue {
+ margin: 10px 10px 0 0;   
+ font-weight:600;
+}
+
+
+#tagsHeader {
+ padding-left:18px !important; /*align left side with radio headers*/   
+}
+
+/***************right side**************/
+
+
+@media only screen
+and (max-width:992px) {
+    #careerRightBar {
+     padding:0;
+    }
+
+    .banner1, .banner2 {
+        height: 200px;
+        margin: 20px 0;
+    }
+}
+
+@media only screen
+and (max-width:768px) {
+    #careerLeftBar {
+     display:none;
+    }   
+}
+
+
+
+
+/***************Middle. Letter Section*******************/
+#careerListingsSection {
+background-color: transparent;
+padding: 0;   
+}
+
+#careerListingsSection h1 {
+ margin:0;   
+ padding-top:20px;
+ text-align:center;
+}
+
+/*mobile. remove extra padding on top*/
+@media only screen
+and (max-width:768px){
+   #careerListingsSection h1 {
+    padding-top:0;   
+    text-align:center;
+    font-size:26px;
+   }   
+    
+}
+
+.letterSection {
+background-color: #fff;    
+}
+
+/*letter*/
+.letterSection h2 {
+padding:5px; 
+padding-left:20px;
+background-color: #A4A4A4;  
+}
+
+/*remove boostrap side padding*/
+.listing .row div {
+padding:0;
+}
+
+
+/*override default boostrap margin for row*/
+#careerListingsSection .row {
+margin:0;
+}
+
+/*career listings common styles*/
+.listing {
+padding:20px;
+cursor:pointer;
+}
+
+.listing h3 {
+padding-bottom:0;   
+margin: 0 0 20px;
+}
+
+.listing .col-lg-2,.listing .col-md-2,.listing .col-sm-2,.listing .col-xs-2 {
+text-align:right;
+/* Firefox */
+display:-moz-box;
+-moz-box-pack:center;
+-moz-box-align:center;
+/* Safari, Opera, and Chrome */
+display:-webkit-box;
+-webkit-box-pack:center;
+-webkit-box-align:center;
+/* W3C */
+display:box;
+box-pack:center;
+box-align:center; 
+}
+
+.listing p {
+margin:0;   
+}
+
+
+/*******************Version 1. Letter A***********************
+
+
+
+#letterA h3 {
+background-color: #000;
+color: #fff;
+}
+
+#letterA p {
+font-family: 'Open Sans', sans-serif;
+font-size:16px;
+}
+
+#letterA .listing {
+border: 1px solid gray;      
+}
+
+
+
+@media only screen 
+and (max-width : 768px) {
+#letterA .btn-lg {
+padding: 6px 12px;
+}   
+}
+
+/*******************Version 2. Letter B***********************
+#letterB h3 {
+color: #000;
+}
+
+#letterB hr {
+border:dashed #A4A4A4; 
+border-width:3px 0 0 0; 
+height:0;
+line-height:0px;
+font-size:0;
+margin:0;
+padding:0;   
+}
+
+
+#letterB .glyphicon {
+color: #a4a4a4;   
+}
+    
+#letterB p {
+font-size: 18px;   
+text-align:justify;
+}
+
+/*******************Version 3. Letter C***********************
+#letterC h2 {
+background-color: #D8D8D8;
+font-weight: 600;
+   
+}
+
+#letterC h3 {
+font-family: 'Open Sans', Sans-Serif;   
+font-size:26px;
+color: #000;
+}
+
+#letterC p {
+font-family: 'Open Sans-Serif Condensed', Sans-Serif;  
+font-size:16px; 
+}
+
+#letterC hr {
+height: 12px;
+border: 0;
+box-shadow: inset 0 12px 12px -12px rgba(0,0,0,0.5);
+margin:0;
+}
+
+#letterC i {
+font-family: 'Entypo';  
+font-size:30px; 
+}
+
+#letterC a {
+color: #000;   
+}
+
+#letterC .col-lg-2,#letterB .col-md-2,#letterB .col-sm-2,#letterB .col-xs-2 {
+text-align:right;   
+}
+
+/*******************Version 4. Letter D***********************
+
+#letterD h2 {
+background-color: #F2F2F2;
+color: #000;
+font-weight: 600;   
+padding-left:20px;
+}
+
+#letterD h3{
+display:inline-block;
+color: #000;
+padding: 0 5px;
+}
+
+#letterD p {
+font-family: 'Gentium Basic', serif;
+font-size:20px;
+text-align:justify;
+}
+
+#letterD i {
+font-family: 'Font Awesome';  
+font-size:40px; 
+color: #1c2029
+}
+
+#letterD hr {
+margin:0;   
+} */
+
+/*******************Career Listing. Shadow border***********************/
+.shadowBorderSection h2 {
+background-color: #D8D8D8;
+font-weight: 600;
+margin-bottom:0;
+}
+
+.shadowBorderSection h3 {
+font-family: 'Open Sans', Sans-Serif;   
+font-size:26px;
+color: #000;
+}
+
+.shadowBorderSection p {
+font-family: 'Open Sans-Serif Condensed', Sans-Serif;  
+font-size:16px; 
+}
+
+
+.shadowBorderSection i {
+font-family: 'Entypo';  
+font-size:26px; 
+}
+
+.shadowBorderSection a {
+color: #000;   
+}
+
+.shadowBorderSection .col-lg-2,#letterB .col-md-2,#letterB .col-sm-2,#letterB .col-xs-2 {
+text-align:right;   
+}
+
+.shadowBorderSection hr {
+margin: 0;
+}
+
+.shadowBorderSection {
+background-color: transparent;   
+}
+
+.shadowBorderSection .listing {
+background-color: #fff;   
+}
+
+
+.shadowBorderSection hr {
+display:none;   
+}
+    
+.shadowBorderSection .listing {
+border: 1px solid #c0c0c0;
+border-radius:6px;   
+margin:10px 5px;
+}
+    
+.no-touch .shadowBorderSection .listing:hover {
+-moz-box-shadow: 0 0 5px #888;
+-webkit-box-shadow: 0 0 5px#888;
+box-shadow: 0 0 5px #888;
+}
+    
+/********************************MOBILE. TAGS OVERLAY******************/
+
+/*overlay of tags on click of icon*/
+#mobileCareerTags {
+display:none;
+background-color:rgb(0,0,0);
+position:fixed;
+left:0;
+top:0;
+height:100%;
+width:100%;   
+z-index:11000;
+padding:0px;
+text-align:center;
+margin-top:50px;
+}
+
+#mobileCareerTags h1 {
+color:#fff;
+text-align:center;
+font-size:20px;   
+margin:20px 0;
+}
+
+#mobileCareerTags h2 {
+color: #fff; 
+padding:5px;
+margin:20px;
+text-transform:uppercase;
+}
+
+
+.scrollableDiv { 
+overflow:auto;
+}
+
+#mobileCareerTags .scrollableDiv {
+height: 80%; 
+padding-bottom:100px;
+}
+
+    
+.glyphicon-remove {
+color: #ff7d5c;
+position:absolute;
+top:-5px;
+right:10px;  
+font-size:10px;
+}
+    
+
+#mobileCareerTags .tag:after {
+content:" +";
+background-color: rgb(0,0,0);
+background-color: rgba(0,0,0,0.9);
+text-decoration:none;
+color:#fff;
+}
+
+#mobileCareerTags hr {
+margin: 10px;   
+}
+
+.mobileKeyword {
+border:1px solid #fff;
+border-radius:40px;
+font-size:16px;
+color:#fff;   
+padding:10px;
+margin: 5px;
+display:inline-block;
+cursor: pointer;
+}
+
+.no-touch #mobileCareerTags a:hover {
+text-decoration:none;
+color: #fff;   
+}
+
+.selected {
+background-color:#39b3d7;
+border-color: #269abc;
+}
+
+/******************MOBILE FILTER OVERLAY********************/
+
+#mobileCareerFilter {
+display:none;
+background-color:rgb(0,0,0);
+position:fixed;
+left:0;
+top:0px;
+width:100%;   
+height:100%;
+z-index:11000;
+padding-bottom:0px;
+margin-top:50px;
+}
+
+#mobileCareerFilter .scrollableDiv {
+height:80%;   
+}
+
+#mobileCareerFilter h1 {
+color:#fff;
+text-align:center;
+font-size:20px;   
+margin:20px 0;
+}
+
+#mobileCareerFilter h2 {
+color: #fff;
+text-transform:uppercase;   
+display:inline-block;
+font-size:16px;
+}
+
+.collapseDivMobile {
+border:1px solid #fff;
+border-radius:10px;   
+margin-top:10px;
+padding:20px;
+width:100%;   
+color:#fff;
+}
+
+#zipcodeh2 {
+ margin-left:18px !important;   
+}
+
+.collapseDivMobile .caret {
+ border-top:4px solid #fff;   
+}
+
+.collapseDivMobile .right-caret {
+    border-left: 4px solid #fff;
+}
+
+
+.collapseValueMobile {
+display:inline-block;
+margin: 10px 0;
+font-size:18px;
+}
+
+.collapseDivMobile .radio, .collapseDivMobile .checkbox {
+border-bottom: 1px solid rgb(25,25,25);
+height:40px;   
+font-size:16px;
+padding:10px 20px;
+}
+
+.collapseDivMobile .radio:last-child, .collapseDivMobile .checkbox:last-child {
+border:none;   
+}
+
+#zipInputMobile {
+display:inline-block;   
+width:50%;
+float:right;
+}

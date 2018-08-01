@@ -1,0 +1,136 @@
+﻿.aboutContainer {
+    background-color: #fff;
+    padding:50px 0 0;
+}
+
+.aboutContainer .container {
+    background-color: #fff;
+    padding: 30px 60px 60px;
+    font-size: 20px;
+}
+
+.lowerAlpha {
+    list-style-type: lower-alpha;
+}
+
+.lowerRoman {
+    list-style-type:lower-roman;
+}
+
+.aboutContainer h2 {
+    margin: 5px 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 34px;
+}
+
+.aboutContainer h3 {
+    text-align:center;
+}
+
+.aboutContainer h4 {
+    font-weight:600;
+    font-size:26px;
+    display: inline;
+    margin-left: 15px;
+}
+
+.addressDiv {
+    padding: 0 10px 20px;
+}
+
+.aboutContainer p {
+    margin:0 0 20px;
+}
+
+.addressDiv p {
+    margin-bottom: 10px;
+}
+
+.nomargin {
+    margin:0;
+}
+
+.italic {
+    font-style:italic;
+}
+
+
+
+.aboutContainer li {
+    padding-bottom:15px;
+}
+
+.aboutContainer ul {
+    padding-top:15px;
+}
+
+ol.mainNumberList {
+    list-style-type: none;
+    list-style-type: decimal !ie; /*IE 7- hack*/
+    counter-reset: ol-counter;
+}
+
+ol.mainNumberList > li:before {
+    content: counter(ol-counter);
+    counter-increment: ol-counter;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #000;
+    color: #fff;
+    line-height: 40px;
+    font-size: 34px;
+    text-align: center;
+    margin-left:-20px;
+}
+
+@media only screen and (max-width:768px) {
+    .aboutContainer {
+        font-size:12px;
+    }
+
+    .aboutContainer .container {
+        padding: 15px;
+        font-size:18px;
+    }
+
+   .aboutContainer h2 {
+        font-size:24px;
+    }
+
+    .aboutContainer h3 {
+        font-size: 16px;
+        margin: 10px;
+    }
+
+   .aboutContainer h4 {
+        font-size:22px;
+    }
+
+     ol {
+        padding-left:20px !important;
+    }
+
+}
+
+@media only screen and (max-width:650px) {
+
+    .lowerAlpha {
+        padding-top:15px;
+    }
+
+    .aboutContainer h4 {
+        margin-left:4px;
+        font-size:20px;
+    }
+
+    ol.mainNumberList > li:before  {
+        height:30px;
+        width:30px;
+        line-height:30px;
+        font-size:24px;
+    }
+}
+
+

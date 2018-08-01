@@ -1,0 +1,495 @@
+﻿@{
+    ViewBag.Title = "Report Card";
+}
+
+<!--========================Report Page========================================-->
+<link href="~/Content/css/Skilltest/EmailResults.css" rel="stylesheet" />
+<link href="~/Content/css/Skilltest/locked.css" rel="stylesheet" />
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/reportcard.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/testattributes.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessionsCodes.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/careermajorsmapping.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/bachelormajors.js?v=@ViewBag.AppVersion"></script>
+
+<div class="pageContainer whiteBgPage blueBackground lockedMode" id="studentReportPage">
+    <div class="container">
+        <div class="reportWrapper col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            @*<div class="row socialIconsHolder">
+                    <div class="fb-like" data-href="@Request.Url.AbsoluteUri" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                    <script type="IN/Share" data-counter="right">
+                    </script>
+                    <div class="inline-div"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a></div>
+                </div>*@
+
+            <div class="reportWrap row">
+                <div id="insertButtons"></div>
+                <form id="emailForm" method="post">
+                    <h1>Email me my test results</h1>
+                    <div class="form-group row">
+                        <label class="shortLabel col-lg-3 col-md-4" for="name">Your Name</label>
+                        <div class="shortField col-lg-9 col-md-8">
+                            <input type="text" class=" form-control required" name="name" id="name" value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="shortLabel col-lg-3 col-md-4" for="email">Your E-mail</label>
+                        <div class="shortField col-lg-9 col-md-8">
+                            <input type="email" class=" form-control required" name="email" id="email" value="">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" id="joinNewsletterBtn" class="btn btn-default">Ok</button>
+                    </div>
+                    <p class="errorMsg"></p>
+                </form>
+
+                @*<div class="reportCard">Report Card</div>*@
+                <div class="reportLink pull-right printLink noPrint" onclick="window.print()">
+                    <img src="../../Content/images/print3.png" alt="" />
+                    Print this page
+                </div>
+                <h1>Your report card</h1>
+                <div class="shareDiv row coloredSocialIcons text-left">
+                    <ul class="social-icons">
+                        <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=What career fits your personality? Find out at:&url=http://CareerThesaurus.com/careertest" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/CareerTest&redirect_uri=https://facebook.com&name=What career fits your personality? &action=%5B%7B"name"%3a"What%20career%20fits%20your%20personality"%3F%20Find%20out%20at:"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/CareerTest" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+
+                <!--========================Traits Table========================================-->
+                <div class="reportDiv">
+                    <h2><span>Your Personality Traits</span><i class="fa fa-angle-down arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></h2>
+                    <div class="personalityReport reportSection" id="personalityReport">
+                        <div class="row">
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell cellInversed col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+
+                            <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="noResultsError">
+                        You need to take the career test before viewing results
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a class="reportLink" href="/SkillTest">Go to Career Test</a>
+                    </div>
+                </div>
+
+                <!--========================About you========================================-->
+                <div class="reportDiv">
+                    <h2><span>About you</span><i class="fa fa-angle-down arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></h2>
+                    <div class="aboutYouReport reportSection" id="aboutYouReport">
+                    </div>
+                    <div class="noResultsError">
+                        You need to take the career test before viewing results
+                    </div>
+                    <div class="text-right row extraMargin"><a href="/CareerTest" class="reportLink">Go to Career Test</a></div>
+                </div>
+
+
+                <!--========================Careers matching your personality ========================================-->
+                <div class="reportDiv">
+                    <h2><span>Your matching careers</span><i class="fa fa-angle-down arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></h2>
+                    <div class="careersReport reportSection" id="careersReport">
+                    </div>
+                    <div class="noResultsError">
+                        You need to take the career test before viewing results
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="rightColumn col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <div class="rightSide">
+                <a class="sideNav" href="/TakeTest/SchoolResults">My School results<i class="fa fa-angle-right"></i></a>
+                <a class="sideNav" href="/Careers/ByPersonality">My Career Results<i class="fa fa-angle-right"></i></a>
+                <a class="sideNav activeTab" href="/TakeTest/TestReport">My Report Card</a>               
+            </div>
+            <div id="insertHere"></div>
+            <div class="ad">
+                <h6 class="advertisement">Advertisement</h6>
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- CareerThesaurus -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3486420009474810"
+                     data-ad-slot="6576327288"
+                     data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false;
+    var matchedCareers = [];
+    var cellIndex = 0;
+    var emptyCells = 0;
+    function document_ready() {
+        var showDivs = false;
+        var showDivs2 = false;
+
+        $('#regularMenu, footer').hide();
+        $('#lockedModeMenu').show();
+        $('#testResultsPage').css('background-image', 'url(/Content/images/hex/graybackground2.jpg)');
+
+        moveNav();
+        $(window).resize(function () {
+            moveNav();
+        });
+
+        function moveNav() {
+            if ($(window).width() <= 768-17) {
+                if ($('#insertButtons:empty')) {
+                    $('.rightSide').insertBefore('#insertButtons');
+                }
+            }
+            else {
+                if ($('#insertHere:empty')) {
+                    $('.rightSide').insertBefore('#insertHere');
+                }
+            }
+        }
+
+        for (var property in dimensions) {
+            if (dimensions.hasOwnProperty(property)) {
+                dimensions[property] = getCookie(property) || '';
+                if (getCookie(property) == '' || getCookie(property) == null) {
+                    emptyCells++;
+                }
+            }
+        }
+
+        //test not taken
+        if (emptyCells == 9) {
+            $('.reportSection').hide();
+            $('.noResultsError').show();
+
+        } else {
+            $('.reportSection').show();
+            $('.noResultsError').hide();
+            for (var i = 0; i < dimensiondefinitions.length; i++) {
+                var def = dimensiondefinitions[i].values.filter(function (x) { return x.value == dimensions[dimensiondefinitions[i].name]; });
+                console.log(def);
+                if (def && def.length != 0) {
+                    $('.cell').eq(i).html(def[0].caption);
+                }
+            }
+
+            $('h2').click(function () {
+                var sectionName = $(this).next('.reportSection').attr('id');
+                //show
+                if (!($(this).next('.reportSection').is(':visible'))) {
+                    $(this).next('.reportSection').velocity('fadeIn', { duration: 300 });
+                    $(this).find('.arrowDown').hide();
+                    $(this).find('.arrowUp').show();
+                    setCookie('expandSection' + sectionName, 'yes', 365);
+                    setTimeout(function () {
+                        animateResults();
+                    }, 300);
+                }
+                else { //hide
+                    $(this).next('.reportSection').velocity('fadeOut', { duration: 300 });
+                    $(this).find('.arrowDown').show();
+                    $(this).find('.arrowUp').hide();
+                    setCookie('expandSection' + sectionName, 'no', 365);
+                    setTimeout(function () {
+                        animateResults();
+                    }, 300);
+                }
+            });
+        }
+
+        if (getCookie('resultsEmailed') == 'yes') {
+            $('#emailForm').hide();
+        }
+
+        $('#joinNewsletterBtn').click(function () {
+            if (validateName($('#name').val()) && validateEmail($('#email').val())) {
+                setCookie('resultsEmailed', 'yes', 365);
+               // $('form').submit();
+                $.post('TestReport', function (response) {
+                    if (response.result == 'ok') {
+                    } else {
+                        $('.errorMessage').html('Your email or password is incorrect').show();
+                    }
+                }).fail(function (error) {
+                    console.log(error);
+                });
+            }
+            else {
+                if (!validateName($('#name').val()) && validateEmail($('#email').val())) {
+                    // alert('name not valid');
+                    $('.errorMsg').text('Please enter a valid name');
+                } else if (!validateEmail($('#email').val()) && validateName($('#name').val())) {
+                    // alert('email not valid');
+                    $('.errorMsg').text('Please enter a valid email');
+                }
+                else {
+                    $('.errorMsg').text('Please enter a valid name and email');
+                }
+            }
+        });
+
+        if ($('.cell').eq(0).find('.firstLine').text() == "Extrovert") {
+            $('#aboutYouReport').append('<div class="traitsDescription notViewed"><h3>You are an extrovert</h3><p>You thrive on collaboration and love to exchange ideas with your colleagues. A noisy office area or crowded conference room is the best place for you to get creative and find solutions to challenges. Your colleagues love the fact that you are able to approach just about anyone, so you may find yourself representing your team at meetings or off-site events where social skills are just as important as business skills. You\'ll have no problem succeeding at these events, as networking with others is a breeze for an extravert like you. Working with others gives you the energy you need to produce top results.</p><div class="text-right"><a href="/personality/extrovert" class="blueStripesBtn">Show Extrovert Careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div></div>');
+        } else if ($('.cell').eq(0).find('.firstLine').text() == "Introvert") {
+            $('#aboutYouReport').append('<div class="traitsDescription notViewed"><h3>You are an introvert</h3><p>You excel at working independently and need little guidance when completing projects. Managers love that you are able to take a set of project guidelines and hit the ground running with little input from other team members. Like other introverts, you prefer working in a private space to spending time in a conference room or other group environment. Working alone gives you the energy to power through tough assignments and get things done quickly, making you a valuable asset to any employer. E-mail is your preferred method of communication, as it lets you think about what you are going to say before you send a message.</p><div class="text-right"><a href="/personality/introvert" class="blueStripesBtn">Show Introvert Careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div></div>');
+        }
+
+
+        if ($('.cell').eq(1).find('.firstLine').text() == "Stationary") {
+            $('#aboutYouReport').append(' <h3>You prefer to remain stationary</h3><p>Having an opportunity to move around during the workday isn\'t something that is important to you. Instead, you love to spend time sitting at your desk and powering through everything from routine tasks to unexpected challenges. As someone who prefers a stationary career, a desk job will actually cause you less stress than a job that has you moving constantly. Spending a lot of time at your desk also gives you the time you need to think about your work and make good decisions. Managers appreciate that you are usually available for impromptu meetings or telephone calls.</p><div class="text-right"><a href="/personality/Stationary" class="blueStripesBtn">Show stationary careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(1).find('.firstLine').text() == "Mobile") {
+            $('#aboutYouReport').append('<h3>You prefer to be on the move</h3><p>You prefer to be on the go most of the time, whether you are attending a meeting across town or escorting clients on a tour of your city. Jobs that require a lot of desk time do not appeal to your sense of adventure. You excel in jobs that require a great deal of flexibility, as you are more than willing to drop what you are doing and start a new task in a new location. You may also enjoy jobs that require athletic prowess or physical stamina, as they make use of your natural tendency to move around while making decisions.</p><div class="text-right"><a href="/personality/Mobile" class="blueStripesBtn">Show mobile careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+
+        if ($('.cell').eq(2).find('.firstLine').text() == "Process") {
+            $('#aboutYouReport').append('<h3>You are process oriented</h3><p>How you perform your job tasks is more important to you than the tasks themselves. This is a good thing, as focusing on these processes helps you learn and grow as a person. You place a high level of importance on learning new things and understanding exactly why things work as they do. This emphasis on learning helps you develop new skills that will increase your worth as an employee and help you qualify for special projects or promotions. You do best when performing clearly-defined tasks and participating in work activities that have a clear agenda.</p><div class="text-right"><a href="/personality/process" class="blueStripesBtn">Show process oriented careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(2).find('.firstLine').text() == "Result") {
+            $('#aboutYouReport').append('<h3>You are result oriented</h3><p>Results-oriented people like yourself thrive in challenging environments where the end result is more important than the process used to achieve a task. When you are assigned a new project, you picture the end result in your mind and work to achieve that result as quickly as possible. Managers rely on you to make quick decisions that will help the entire team get the best result possible, and colleagues value your ability to get things done. Your results-oriented approach motivates other people to act quickly, so you may excel as a team leader, supervisor, or manager.</p><div class="text-right"><a href="/personality/result" class="blueStripesBtn">Show result oriented careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+
+        if ($('.cell').eq(3).find('.firstLine').text() == "Focus") {
+            $('#aboutYouReport').append('<h3>You prefer to stay focused</h3><p>You excel in careers that require a great deal of concentration, especially when you are able to work in a quiet environment that does not have a lot of distractions. Colleagues and supervisors rely on you to buckle down and focus on the details, as your personality makes it easy for you to get through marathon work sessions that would get the best of other employees. Your ideal work environment is one that has very little foot traffic, as you do not like to be disturbed by visitors or people who have to walk past your work area to get to other parts of the office.</p><div class="text-right"><a href="/personality/focused" class="blueStripesBtn">Show focused careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(3).find('.firstLine').text() == "Relaxed") {
+            $('#aboutYouReport').append('<h3>You prefer relaxed environment</h3><p>While some people avoid distractions during work hours, you thrive on them. You love when colleagues stop by your office to discuss upcoming projects or ask for your input in solving a work-related problem. Instead of being annoyed by ringing telephones and clicking computer keys, you find it almost impossible to work without some sort of background noise. It is actually easier for you to meet deadlines when you have a few distractions, as you prefer breaking work sessions into small chunks of time rather than working straight through without any interruptions.</p><div class="text-right"><a href="/personality/relaxed" class="blueStripesBtn">Show relaxed careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+        if ($('.cell').eq(4).find('.firstLine').text() == "Fact") {
+            $('#aboutYouReport').append('<h3>You are a fact seeker</h3><p>When it\'s time for you to make a decision, you\'re the type to "believe it when you see it." Rather than relying on your imagination, you rely on concrete facts and statistics. Supervisors love your rational approach to problem-solving, which helps you identify the potential pitfalls of business deals before your colleagues do. Rather than make on-the-spot decisions, you prefer to gather as much information as possible. This approach to your work makes you a reliable team member who others count on when it\'s time to make tough decisions. You thrive in careers that require excellent analytical skills and strong problem-solving abilities.</p><div class="text-right"><a href="/personality/facts" class="blueStripesBtn">Show factual careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(4).find('.firstLine').text() == "Imagination") {
+            $('#aboutYouReport').append('<h3>You are an imaginator</h3><p>Your approach to problem-solving allows you to thrive in careers that require creativity and imagination. Rather than filling your mind with statistics and facts, you prefer to rely on your own imagination to come up with solutions and innovative ideas for new products or services. While some people prefer a step-by-step approach to problem-solving, you prefer to make imaginative leaps from one point to another. Your colleagues benefit from this approach, as it helps you come to conclusions that step-by-step thinkers would not come up with on their own. Managers especially appreciate your ability to come up with unique ways to solve problems.</p><div class="text-right"><a href="/personality/imagination" class="blueStripesBtn">Show imaginative careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+            $('.cell').eq(4).find('.firstLine').addClass('inversed');
+            $('.cell').eq(4).find('.secondLine').addClass('inversed');
+        }
+
+        if ($('.cell').eq(5).find('.firstLine').text() == "Rational") {
+            $('#aboutYouReport').append('<h3>You are rational</h3><p>As a rational thinker, you prefer to rely on concrete information rather than emotions or instinct. Colleagues value your logical approach to problem-solving, especially when critical decisions need to be made. Managers rely on your use of logic to solve complex problems, so you are a valued team member in any environment. Although you prefer to use logic when making decisions, you still have the ability to "go with your gut" when necessary. The ability to use logic even under the toughest of circumstances will help you succeed in careers involving technology and scientific processes.</p><div class="text-right"><a href="/personality/rational" class="blueStripesBtn">Show imaginative careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(5).find('.firstLine').text() == "Emotional") {
+            $('#aboutYouReport').append('<h3><h3>You are emotional</h3><p>While some people prefer to deal with concrete information when making decisions, you rely on your instincts to guide you. Emotions and feelings play an important role in your decision-making process, so you are used to dealing with some level of uncertainty on the job. Your ability to roll with the punches helps you succeed in the toughest work environments, and colleagues rely on your gut feelings to guide them in making their own decisions. You have a high level of emotional intelligence, so you excel in careers that require the ability to read other people and use the information you gather to make decisions.</p><div class="text-right"><a href="/personality/emotional" class="blueStripesBtn">Show imaginative careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+
+        if ($('.cell').eq(6).find('.firstLine').text() == "Remotely") {
+            $('#aboutYouReport').append('<h3>You can work remotely</h3><p>When it comes to interacting with colleagues, supervisors, and clients, you prefer e-mail and telephone conversations to actual face time. You thrive when you are able to work off-site, especially if you are able to make your own schedule. Freelance jobs and non-traditional jobs appeal to you because they give you the freedom to set your own hours and work when you are at your peak performance. Clients and managers don\'t mind giving you a lot of flexibility, as you achieve the best results when you are allowed to set your own pace and decide when and where you will work.</p><div class="text-right"><a href="/personality/remote" class="blueStripesBtn">Show remote careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+            $('.cell').eq(6).find('.firstLine').addClass('inversed');
+            $('.cell').eq(6).find('.secondLine').addClass('inversed');
+        } else if ($('.cell').eq(6).find('.firstLine').text() == "Presence") {
+            $('#aboutYouReport').append('<h3>Your presence is required</h3><p>You thrive in careers that require frequent contact with your clients and colleagues. Although you have the ability to work independently, you do not value independence above face time with those who need you most. Your supervisors love the fact that they never have to wonder where you are, and colleagues appreciate that you make yourself available to assist them with projects and listen to their ideas. You are perfectly content to spend most of your time in the office, so a traditional 9-to-5 job would appeal to you more than a job that required telecommuting.</p><div class="text-right"><a href="/personality/present" class="blueStripesBtn">Show in-person careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+
+        if ($('.cell').eq(7).find('.firstLine').text() == "Discovery") {
+            $('#aboutYouReport').append('<h3>You constantly discover</h3><p>You are somewhat of a perfectionist when it comes to your work methods. Rather than use the same process for every task, you love to explore new ways of doing things. Increasing efficiency and improving the quality of your work are always at the front of your mind. You excel in careers that give you plenty of opportunities for finding new ways to solve problems or perfect processes. What works for others may not work for you, so colleagues and supervisors think of you as an innovative person who will settle for nothing less than the best when it comes to getting things done.</p><div class="text-right"><a href="/personality/discovery" class="blueStripesBtn">Show discovery careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+            $('.cell').eq(7).find('.firstLine').addClass('inversed');
+            $('.cell').eq(7).find('.secondLine').addClass('inversed');
+        } else if ($('.cell').eq(7).find('.firstLine').text() == "Routine") {
+            $('#aboutYouReport').append('<h3>You prefer an established process</h3><p>While some people are never content with their work processes, you are happy to stick with the status quo. You are one of those people who find a way to automate every task possible, so your colleagues think of you as someone who is efficient and committed to maintaining a high level of productivity. Computers, smart phones, and other gadgets are your most trusted tools, as you use them to automate routine tasks that require very little in the way of concentration. Because you are content with routine, you do not get bored as easily as people who enjoy finding new ways to complete tasks.</p><div class="text-right"><a href="/personality/routine" class="blueStripesBtn">Show procedural careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+            $('.cell').eq(7).find('.firstLine').addClass('inversed');
+            $('.cell').eq(7).find('.secondLine').addClass('inversed');
+        }
+
+        if ($('.cell').eq(8).find('.firstLine').text() == "Variable") {
+            $('#aboutYouReport').append('<h3>You prefer variable income</h3><p>When it comes to your compensation, you are willing to take a risk if it means that you will make more money than you would if you accepted a fixed salary. You jump at the chance to take jobs that pay a base salary plus commissions, bonuses, or incentive payments. Because your performance affects how much money you make, you strive to do your best at every task. Colleagues and managers alike think of you as a go-getter who refuses to accept anything less than a first-place finish. This drive helps you earn as much income as possible while enjoying the personal satisfaction of achieving your goals.</p><div class="text-right"><a href="/personality/variable" class="blueStripesBtn">Show variable income careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        } else if ($('.cell').eq(8).find('.firstLine').text() == "Fixed") {
+            $('#aboutYouReport').append('<h3>You prefer fixed income</h3><p>Because you are naturally averse to taking financial risks, you prefer to receive a fixed salary or hourly wage. You shy away from positions that involve incentive plans or commissions, as they do not offer you the financial stability you desire. Receiving a fixed income helps you budget for expenses and determine how much money you need to save to meet your financial goals. If you have family members who rely on you for their basic needs, choosing a guaranteed salary over a base salary plus performance-based commissions helps you meet your obligations and put away money for the future.</p><div class="text-right"><a href="/personality/fixed" class="blueStripesBtn">Show fixed income careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>');
+        }
+
+        var answeredTraitsCount = $('.traitsDescription p').length;
+
+        //if (greating.toLowerCase() != 'you') {
+        //    $('.reportLink').closest('div').hide();
+        //    $('.blueStripesBtn').hide();
+        //    $('.printLink').show();
+        //}
+
+        $('body').scrollTop(0);
+        $('html').scrollTop(0);
+        window.scrollTo(0, 0);
+        $(document).scrollTop(0);
+        $(window).scrollTop(0);
+
+        animateResults();
+
+        function animateResults() {
+            if ($(window).width() > 767) {
+                $('.traitsDescription.notViewed').each(function (i, elem) {
+                    var top_of_object = $(elem).position().top;
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if (bottom_of_window > top_of_object) {
+                        // $("this").velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                        $(elem).removeClass('notViewed').addClass('viewed');
+                    }
+                })
+
+                $(window).scroll(function () {
+                    $('.traitsDescription.notViewed').each(function (i, elem) {
+                        var top_of_object = $(elem).position().top;
+                        var bottom_of_window = $(window).scrollTop() + $(window).height();
+                        /* If the object is completely visible in the window, fade it it */
+                        if (bottom_of_window > top_of_object) {
+                            // $(elem).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                            $(elem).removeClass('notViewed').addClass('viewed');
+                        }
+                    })
+                })
+                if (isiPad == true) {
+                    $('.traitsDescription.notViewed').addClass('viewed');
+                }
+            }
+            else { //less than 767
+                $('.traitsDescription.notViewed').addClass('viewed');
+            }
+        }
+
+
+        //Show Careers matching personality
+        //  if (answeredTraitsCount == 9) {
+        matchedCareers = matchResults();
+        matchedCareers.sort(sortByEdu);
+        var currentEduLevel = -1;
+        for (var i = 0; i < matchedCareers.length; i++) {
+            var item = matchedCareers[i];
+            //var iconsHtml = (item.rated != -1 ? '<i data-toggle="tooltip" data-placement="top" title="Rated career you would ' + (item.rated == 0 ? 'not' : '') + ' consider" class="tir fa fa-' + (item.rated == 0 ? 'remove' : 'check') + ' pull-right arrowRight" style="margin-right:' + (item.traits && item.interests ? '85' : (item.traits || item.interests ? '55' : '30')) + 'px;"></i>' : '') + (item.interests ? '<i data-toggle="tooltip" data-placement="top" title="Career matched by interest" class="tir fa fa-heart pull-right arrowRight" style="margin-right:' + (item.traits ? '55' : '30') + 'px;"></i>' : '') + (item.traits ? '<i data-toggle="tooltip" data-placement="top" title="Career matched by test/personality" class="tir fa fa-child pull-right arrowRight" style="margin-right:30px;"></i>' : '');
+            if (currentEduLevel != item.minedulevel) {
+                currentEduLevel = item.minedulevel;
+                var html = '<p class="edulevelheader">' + ctEduLevelMod[currentEduLevel] + '</p>';
+                $('.careersReport').append(html);
+            }
+            $('.careersReport').append('<a target="_blank" class="career" href="/' + item.title.replace('\'s', '').replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + item.title + '</span><span class="professionSalary">' + Math.round(item.salary / 1000) + 'K per year</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>');
+            //var iconsRated = (item.interests ? '<i data-toggle="tooltip" data-placement="top" title="Career matched by interest" class="tir fa fa-heart pull-right arrowRight" style="margin-right:' + (item.traits ? '55' : '30') + 'px;"></i>' : '') + (item.traits ? '<i data-toggle="tooltip" data-placement="top" title="Career matched by test/personality" class="tir fa fa-child pull-right arrowRight" style="margin-right:30px;"></i>' : '');
+            //$('.' + item.code).html(iconsRated);
+            //if ($('[data-dolcode="' + item.code + '"]').siblings('.edu' + currentEduLevel).length == 0) {
+            //    $('[data-dolcode="' + item.code + '"]').before('<p class="edulevelheader edu' + currentEduLevel + '">' + ctEduLevel[currentEduLevel] + '</p>');
+            //}
+        }
+
+        for (var i = 0; i < professions.length; i++) {
+            var item = professions[i];
+            //match selected dimensions
+            includeCareer(item);
+        }
+        $('[data-toggle="tooltip"]').tooltip();
+        //  }
+        //else {
+        //    $('.aboutYouReport').html('<div class="noResultsError">You need to take a career test before viewing results.</div>');
+        //    $('.careersReport').html('<div class="noResultsError">You need to take a career test before viewing results.</div>');
+        //}
+
+        // $('.noResultsError').closest('.reportDiv').addClass('noPrint');
+
+    } //document ready
+
+
+    function includeCareer(item) {
+        var rank = 0;
+        if (dimensions.attitude != '' && (!(item.attitude == '' || item.attitude == dimensions.attitude))) { return; } else if (dimensions.attitude != '' && item.attitude == dimensions.attitude) { rank++; }
+        if (dimensions.information != '' && (!(item.information == '' || item.information == dimensions.information))) { return; } else if (dimensions.information != '' && item.information == dimensions.information) { rank++; }
+        if (dimensions.processing != '' && (!(item.processing == '' || item.processing == dimensions.processing))) { return; } else if (dimensions.processing != '' && item.processing == dimensions.processing) { rank++; }
+        if (dimensions.action != '' && (!(item.action == '' || item.action == dimensions.action))) { return; } else if (dimensions.action != '' && item.action == dimensions.action) { rank++; }
+        if (dimensions.endurance != '' && (!(item.endurance == '' || item.endurance == dimensions.endurance))) { return; } else if (dimensions.endurance != '' && item.endurance == dimensions.endurance) { rank++; }
+        if (dimensions.presence != '' && (!(item.presence == '' || item.presence == dimensions.presence))) { return; } else if (dimensions.presence != '' && item.presence == dimensions.presence) { rank++; }
+        if (dimensions.concentration != '' && (!(item.concentration == '' || item.concentration == dimensions.concentration))) { return; } else if (dimensions.concentration != '' && item.concentration == dimensions.concentration) { rank++; }
+        if (dimensions.patterns != '' && (!(item.patterns == '' || item.patterns == dimensions.patterns))) { return; } else if (dimensions.patterns != '' && item.patterns == dimensions.patterns) { rank++; }
+        if (dimensions.compensation != '' && (!(item.compensation == '' || item.compensation == dimensions.compensation))) { return; } else if (dimensions.compensation != '' && item.compensation == dimensions.compensation) { rank++; };
+        $('.careersReport').append('<a target="_blank" class="career" href="/' + item.title.replace('\'s', '').replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + item.title + '</span><span class="professionSalary">' + Math.round(item.salary / 1000) + 'K per year</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>');
+        //$('.careersReport').append('<a target="_blank" class="career" href="' + appserverurl + '/Career/' + item.title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + item.title + '</span><span class="professionSalary">' + Math.round(item.salary / 1000) + 'K per year</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>');
+    }
+
+
+    function matchResults() {
+        var traitCareers = professions.filter(function (x) {
+            return (x.attitude == '' || dimensions.attitude == '' || x.attitude == dimensions.attitude) &&
+            (x.information == '' || dimensions.information == '' || x.information == dimensions.information) &&
+            (x.processing == '' || dimensions.processing == '' || x.processing == dimensions.processing) &&
+            (x.action == '' || dimensions.action == '' || x.action == dimensions.action) &&
+            (x.endurance == '' || dimensions.endurance == '' || x.endurance == dimensions.endurance) &&
+            (x.presence == '' || dimensions.presence == '' || x.presence == dimensions.presence) &&
+            (x.concentration == '' || dimensions.concentration == '' || x.concentration == dimensions.concentration) &&
+            (x.patterns == '' || dimensions.patterns == '' || x.patterns == dimensions.patterns) &&
+            (x.compensation == '' || dimensions.compensation == '' || x.compensation == dimensions.compensation);
+        }).map(function (x) { x.traits = true; x.interests = false; return x; }) || [];
+        //var interestsCareers = professions.filter(function (x) {
+        //    return interests.map(function (y) { return x[y] == 1; }).every(Boolean);
+        //}).map(function (x) { x.interests = true; x.traits = false; return x; }) || [];
+        var interestsCareers;
+        return traitCareers;
+        //    var allCareers = traitCareers.concat(interestsCareers);
+        //    return allCareers.filter(unique);
+    }
+    //function unique(value, index, self) {
+    //    var current = self.map(function (x) { return x.code; }).indexOf(value.code)
+    //    var ratedIndex = ratedCareers.map(function (x) { return x.DolCode; }).indexOf(value.code);
+    //    self[current].rated = ratedIndex != -1 ? (ratedCareers[ratedIndex].Value == '1' ? 1 : 0) : -1;
+    //    if (current != index) {
+    //        self[current].interests = true;
+    //        self[current].traits = true;
+    //        return false;
+    //    }
+    //    return true;
+    //}
+    function sortByEdu(a, b) { if (a.minedulevel < b.minedulevel) return -1; if (a.minedulevel > b.minedulevel) return 1; return 0; }
+
+    function saveSchoolAndGroup(element) {
+        ////if ($(element).data('check') == "0") {
+        ////    $(element).css('cursor', 'default');
+        ////    event.preventDefault();
+        ////}
+        //setCookie('analyticsschoolname', schoolName, 1);
+        //setCookie('analyticsschoolgroup', '', 1);
+    }
+
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>
+    lang: en_US
+</script>
+
+

@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage.PDEntries;
+using SkillCowResponsive.Classes;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class PDController : Controller
+    {
+        //
+        // GET: /PD/
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(FormCollection collection)
+        {
+            string email = collection["email"];
+            PDEntriesClient pdec = new PDEntriesClient();
+            pdec.AddNewItem(new PDEntries { AgencyName = collection["agencyname"], Address = collection["agencyaddress"], City = collection["agencycity"], State = collection["state"], Zip = collection["zip"], FullName = collection["name"], Title = collection["title"], Email = collection["email"], Phone = collection["phone"] });
+            EmailManager emailManager = new EmailManager();
+            string str = "<p>Agency name: " + collection["agencyname"] + "</p><p>Title: " + collection["title"] + "</p><p>Full name: " + collection["name"] + "</p><p>Address: " + collection["agencyaddress"] + "</p><p>City: " + collection["agencycity"] + "</p><p>State: " + collection["state"] + "</p><p>Zip: " + collection["zip"] + "</p><p>Email: " + collection["email"] + "</p><p>Phone: " + collection["phone"] + "</p>";
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "PD registrations", str);
+            return RedirectToAction("Thankyou", "PD");
+        }
+        public ActionResult Thankyou()
+        {
+            return View();
+        }
+        public ActionResult _xyz()
+        {
+            return View();
+        }
+        public void DeletePDTable()
+        {
+            PDEntriesClient pdc = new PDEntriesClient();
+            //pdc.DeleteTable();
+        }
+    }
+}

@@ -1,0 +1,328 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Net;
+using System.IO;
+using System.Collections.Specialized;
+using SkillCowResponsive.Classes.Helpers;
+using System.Xml;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class JobsController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Jobs/
+
+        public ActionResult Index(string q, string loc, string r, string salary, string jt, string st)
+        {
+            if (q != null)
+            {
+                q = q.Replace('*', '+');
+                if (q.IndexOf('~') != -1)
+                {
+                    string[] par = q.Split('~');
+                    q = par[0].Replace('+', ' ');
+                    for (var i = 1; i < par.Length; i++)
+                    {
+                        if (par[i].IndexOf("loc=") != -1)
+                        {
+                            var temp = par[i].Split('=');
+                            loc = temp[1].Replace('+', ' ');
+                        }
+                        if (par[i].IndexOf("r=") != -1)
+                        {
+                            var temp = par[i].Split('=');
+                            r = temp[1];
+                        }
+                        if (par[i].IndexOf("salary=") != -1)
+                        {
+                            var temp = par[i].Split('=');
+                            salary = temp[1];
+                        }
+                        if (par[i].IndexOf("jt=") != -1)
+                        {
+                            var temp = par[i].Split('=');
+                            jt = temp[1];
+                        }
+                    }
+                }
+            }
+            
+            ViewBag.Query = q;
+
+            if (loc!=null)
+            {
+                if (Request.Cookies["jobsearchlocation"] != null)
+                {
+                    Request.Cookies["jobsearchlocation"].Value = loc;
+                }
+                Response.Cookies["jobsearchlocation"].Value = loc;
+                Response.Cookies["jobsearchlocation"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+
+            if (salary != null)
+            {
+                if (Request.Cookies["jobsearchsalary"] != null)
+                {
+                    Request.Cookies["jobsearchsalary"].Value = salary;
+                }
+                Response.Cookies["jobsearchsalary"].Value = salary;
+                Response.Cookies["jobsearchsalary"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+
+            if (r != null)
+            {
+                if (Request.Cookies["jobsearchradius"] != null)
+                {
+                    Request.Cookies["jobsearchradius"].Value = r;
+                }
+                Response.Cookies["jobsearchradius"].Value = r;
+                Response.Cookies["jobsearchradius"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+            else
+            {
+                if (Request.Cookies["jobsearchradius"] != null)
+                {
+                    Request.Cookies["jobsearchradius"].Value = "";
+                }
+                Response.Cookies["jobsearchradius"].Value = "";
+                Response.Cookies["jobsearchradius"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+
+            if (jt != null)
+            {
+                if (Request.Cookies["jobsearchjobtype"] != null)
+                {
+                    Request.Cookies["jobsearchjobtype"].Value = jt;
+                }
+                Response.Cookies["jobsearchjobtype"].Value = jt;
+                Response.Cookies["jobsearchjobtype"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+            else
+            {
+                if (Request.Cookies["jobsearchjobtype"] != null)
+                {
+                    Request.Cookies["jobsearchjobtype"].Value = "";
+                }
+                Response.Cookies["jobsearchjobtype"].Value = "";
+                Response.Cookies["jobsearchjobtype"].Expires = DateTime.UtcNow.AddDays(90);
+            }
+                        
+
+            
+
+            ViewBag.jobsearchsalary = Request.Cookies["jobsearchsalary"] != null ? Request.Cookies["jobsearchsalary"].Value : "";
+            ViewBag.jobsearchradius = Request.Cookies["jobsearchradius"] != null ? Request.Cookies["jobsearchradius"].Value : "";
+            ViewBag.jobsearchjobtype = Request.Cookies["jobsearchjobtype"] != null ? Request.Cookies["jobsearchjobtype"].Value : "";
+            ViewBag.jobsearchsourcetype = Request.Cookies["jobsearchsourcetype"] != null ? Request.Cookies["jobsearchsourcetype"].Value : "";
+            
+            return View();
+        }
+
+        private void setCookie(string name, string value)
+        {
+            try
+            {
+                Request.Cookies[name].Value = value;
+                Response.Cookies[name].Value = value;
+                Response.Cookies[name].Expires = DateTime.UtcNow.AddDays(90);
+            }
+            catch
+            {
+            }
+        }
+
+        private string Post(string uri, NameValueCollection pairs)
+        {
+            byte[] response = null;
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("user-agent", "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405");
+                response = client.UploadValues(uri, pairs);
+            }
+            return System.Text.Encoding.Default.GetString(response);
+        }
+
+
+        [HttpPost]
+        public HttpResponse getindeedjobs(string p, string l, string c, string limit, string start, string s, string r, string st, string jt, string salary)
+        {
+            try
+            {
+
+                if (l == null)
+                    l = "";
+
+                if (limit == null)
+                    limit = "10";
+
+                if (start == null)
+                    start = "0";
+
+                string ipaddress = "";
+#if DEBUG
+                ipaddress = RandomHelper.Instance.Next(1, 256) + "." + RandomHelper.Instance.Next(0, 256) + "." + RandomHelper.Instance.Next(0, 256) + "." + RandomHelper.Instance.Next(1, 256);
+#else
+                ipaddress =  Request.UserHostAddress;
+#endif
+                p = p.ToLower().Replace(" ", "+").Replace("/", "+");
+                //old publisher id = 9956090887151436
+                string chnl = "CareerThesaurus";
+                string results = GetHttpResponse("http://api.indeed.com/ads/apisearch?publisher=4981613960256807&q=" + HttpUtility.HtmlEncode(p) +
+                    "&format=json" +
+                    "&l=" + HttpUtility.HtmlEncode(l) +
+                    "&sort=" + s + "&radius=" + r + "&st=employer&jt=" + jt + "&start=" + start + "&limit=" + limit + "&salary=" + salary + "&fromage=&filter=&latlong=1&co=us&chnl=" + chnl + "&userip=" + ipaddress +
+                    "&useragent=" + HttpUtility.HtmlEncode(Request.UserAgent.ToString()) + "&v=2", null);
+
+                Console.WriteLine(results);
+
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + results.Replace("\n", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+
+            return null;
+        }
+
+
+        [HttpPost]
+        public HttpResponse skillcow_getindeedjobs(string p, string l, string c, string limit, string start, string s, string r, string st, string jt, string salary)
+        {
+            try
+            {
+
+                if (l == null)
+                    l = "";
+
+                if (limit == null)
+                    limit = "10";
+
+                if (start == null)
+                    start = "0";
+
+                string ipaddress = "";
+#if DEBUG
+                ipaddress = RandomHelper.Instance.Next(1, 256) + "." + RandomHelper.Instance.Next(0, 256) + "." + RandomHelper.Instance.Next(0, 256) + "." + RandomHelper.Instance.Next(1, 256);
+#else
+                ipaddress =  Request.UserHostAddress;
+#endif
+                p = p.ToLower().Replace(" ", "+").Replace("/", "+");
+                //old publisher id = 9956090887151436
+                string chnl = "CareerThesaurus"; 
+                string results = GetHttpResponse("http://api.indeed.com/ads/apisearch?publisher=4981613960256807&q=" + HttpUtility.HtmlEncode(p) +
+                    "&format=json" +
+                    "&l=" + HttpUtility.HtmlEncode(l) +
+                    "&sort=" + s + "&radius=" + r + "&st=employer&jt=" + jt + "&start=" + start + "&limit=" + limit + "&salary=" + salary + "&fromage=&filter=&latlong=1&co=us&chnl=" + chnl + "&userip=" + ipaddress +
+                    "&useragent=" + HttpUtility.HtmlEncode(Request.UserAgent.ToString()) + "&v=2", null);
+
+                Console.WriteLine(results);
+
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + results.Replace("\n", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+
+            return null;
+        }
+
+        public ActionResult vantage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public HttpResponse getvantagemedia(string zipCode, string campaign, string modality, string eduLevel, string gradYear, string areaOfStudy, string subAreaOfStudy, string degreeLevel, string military, string maxresults)
+        {
+            zipCode = zipCode == null ? "" : zipCode;
+            modality = modality == null ? "" : modality;
+            gradYear = gradYear == null ? "" : gradYear;
+            military = military == null ? "" : military;
+            maxresults = maxresults == null ? "" : maxresults;
+            try
+            {
+                //string results = GetHttpResponse("http://marketplaces.vantagemedia.com/edusearch?publisherId=31042&areaofstudy=" + areaOfStudy + "&campaign=" + campaign + "&zipcode=" + zipCode + "&eduLevel=" + eduLevel + "&subareaofstudy=" + subAreaOfStudy + "&degreelevel=" + degreeLevel + "&maxresults=25&format=json", null);
+                string results = GetHttpResponse("http://marketplaces.vantagemedia.com/edusearch?publisherId=35123&areaofstudy=" + areaOfStudy + "&campaign=" + "23371" + "&zipcode=" + zipCode + "&maxresults=25&format=json", null);
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + results.Replace("\n", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public HttpResponse getschoolformid(string filter, string value, string zipcode)
+        {
+            zipcode = zipcode == null ? "10001" : zipcode;
+
+            // campaign id dont work!!!!!!!!
+            string campaignid = true ? "&campaign_id=13601764" : "";
+
+            try
+            {
+                string results = GetHttpResponse("http://www.explore-schools.com/a3/xmlcapsulecreate.php?id=1727&code=aa798f5765dc0736aa8957a7968dffd3&zip=" + zipcode +"&" + filter + "=" + value + campaignid + "&show_searched_location=true", null);
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(results);
+                string jsonString = JsonConvert.SerializeXmlNode(xml);
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + jsonString.Replace("\n", "").Replace("@", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public HttpResponse getjobformid(string zipcode, string titlename)
+        {
+            zipcode = zipcode == null ? "10001" : zipcode;
+            string campaignid = true ? "&campaign_id=13601765" : "";
+            try
+            {
+                string results = GetHttpResponse("http://www.employmentnetwork.net/xml/?campus_type=j&site_id=1002" + campaignid + "&zip=" + zipcode + "&job_title_name=" + titlename, null);
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(results);
+                string jsonString = JsonConvert.SerializeXmlNode(xml);
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + jsonString.Replace("\n", "").Replace("@", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+            return null;
+        }
+
+        
+    }
+}

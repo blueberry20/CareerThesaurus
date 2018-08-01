@@ -1,0 +1,278 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "SkillCow TV";
+}
+
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Orbitron:400,500,900,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    
+    <img id="shotbg" src="/content/tv/shutterstock_94581139.jpg" />
+
+    <img id="shot0" src="/content/tv/shutterstock_94581115.jpg" style="opacity: 0;"/>
+    <img id="shot1" src="/content/tv/shutterstock_94581118.jpg" style="opacity: 0;"/>
+    <img id="shot2" src="/content/tv/shutterstock_94581124.jpg" style="opacity: 0;"/>
+    <img id="shot3" src="/content/tv/shutterstock_94581127.jpg" style="opacity: 0;"/>
+    <img id="shot4" src="/content/tv/shutterstock_94581133.jpg" style="opacity: 0;"/>
+    <img id="shot5" src="/content/tv/shutterstock_94581136.jpg" style="opacity: 0;"/>
+    <img id="shot6" src="/content/tv/shutterstock_94581142.jpg" style="opacity: 0;"/>
+    <img id="shot7" src="/content/tv/shutterstock_94581145.jpg" style="opacity: 0;"/>
+    <img id="shot8" src="/content/tv/shutterstock_94581148.jpg" style="opacity: 0;"/>
+
+    <h1 id="careercanterbanner" style="font-family: Orbitron; left: 0px; top: 0px; font-size: 72pt; font-weight: 400; color: rgba(255,255,255,1); text-align: center; background-color: #0000ff; width: 100%;"><img src="/content/images/logo-head.png" style="width: 120px"/><span style="font-family: Roboto;font-size: 24pt;">SkillCow.com</span> Jobs. Training. Skill Testing.</h1>
+    <h1 id="careersbanner" style="right: 40px; top: 120px; font-size: 36pt; font-weight: 300; opacity: 1">Jobs, Careers & Education that fit Your Natural Abilities</h1>
+    
+    <div style="position:absolute; bottom: 0px; left: 0px; width: 100%; height: 120px; background-color: rgba(0,0,0,0.8);"></div>
+    <h1 id="footer" style="left: 40px; bottom: 20px; font-size: 48pt; font-weight: 400; text-shadow: 1px 1px 5px rgba(0, 0, 0, 1); color: #ffff00;">What were you born to do in Life?</h1>
+
+    <div id="traits">
+        
+        <h1 class="row0first first" style="left: 350px; font-size: 48pt; font-weight: 400;">Extravert</h1>
+        <h1 class="row0second second" style="right: 350px; font-size: 48pt; font-weight: 400;">Introvert</h1>
+        
+        <h1 class="row1first first" style="left: 150px; font-size: 48pt; font-weight: 400;">Fact Seeker</h1>
+        <h1 class="row1second second" style="right: 150px; font-size: 48pt; font-weight: 400;">Imaginative</h1>
+        
+        <h1 class="row2first first" style="left: 110px; font-size: 48pt; font-weight: 400;">Emotional</h1>
+        <h1 class="row2second second" style="right: 110px; font-size: 48pt; font-weight: 400;">Rational</h1>
+        
+        <h1 class="row3first first" style="left: 50px; font-size: 48pt; font-weight: 400;">Stationary</h1>
+        <h1 class="row3second second" style="right: 50px; font-size: 48pt; font-weight: 400;">Mobile</h1>
+        
+        <h1 class="row4first first" style="left: 20px; font-size: 48pt; font-weight: 400;">Process</h1>
+        <h1 class="row4second second" style="right: 20px; font-size: 48pt; font-weight: 400;">Results</h1>
+        
+        <h1 class="row5first first" style="left: 50px; font-size: 48pt; font-weight: 400;">Remote</h1>
+        <h1 class="row5second second" style="right: 50px; font-size: 48pt; font-weight: 400;">Present</h1>
+        
+        <h1 class="row6first first" style="left: 110px; font-size: 48pt; font-weight: 400;">Relaxed</h1>
+        <h1 class="row6second second" style="right: 110px; font-size: 48pt; font-weight: 400;">Focused</h1>
+        
+        <h1 class="row7first first" style="left: 150px; font-size: 48pt; font-weight: 400;">Discovery</h1>
+        <h1 class="row7second second" style="right: 150px; font-size: 48pt; font-weight: 400;">Routine</h1>
+    
+        <h1 class="row8first first" style="left: 250px; font-size: 48pt; font-weight: 400;">Stable Income</h1>
+        <h1 class="row8second second" style="right: 250px; font-size: 48pt; font-weight: 400;">Variable Income</h1>
+    
+    </div>
+</body>
+</html>
+<style>
+  html, body 
+  {
+      margin: 0px;
+      padding: 0px;
+      font-family: Roboto;
+      overflow: hidden;
+      
+  }
+  body img {width: 100%; position: absolute; left: 0px; top: 0px;}
+  
+  * {color:white;}
+  h1 {position: absolute; padding: 0; margin: 0;}
+  
+  #traits {position: absolute; width: 100%;}
+  
+  #traits .first {opacity: 0;} 
+  #traits .second {opacity: 0;} 
+</style>
+
+<script>
+
+    var headlines = [
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'Take a FREE Career Assessment Test.' },
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'Discover Careers that Fit Your Personality Naturally.' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'Find a Perfect Job and make it a Career!' },
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'Get matched with Schools to get the training you need.' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'Don\'t just fall into a job, get a Career!' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 3000, outtime: 1000, trailtime: 0, text: 'SkillCow.com is FREE to use.' },
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 5000, outtime: 1000, trailtime: 0, text: 'Visit us online at www.SkillCow.com today!' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 4000, outtime: 1000, trailtime: 0, text: 'We\'re hiring!  Send your resume to info@skillcow.com' }
+
+        
+    ];
+
+        $(document).ready(function () {
+
+            //position traits
+            for (var row = 0; row < 9; row++) {
+                $('.row' + row + 'first').css('top', 250 + 70 * row);
+                $('.row' + row + 'second').css('top', 250 + 70 * row);
+            }
+            //animatecareercanterbanner(0);
+            //animatecareersbanner(0);
+
+            var row = Math.floor(Math.random() * 9);
+            animatetraits(row);
+
+            animateshot(0);
+            runheadlines(0);
+        });
+
+    function run(index) {
+        var hl = headlines[index];
+        $('#caption').css('opacity', hl.op1);
+        $('#caption').css('font-size', hl.s1 + 'px');
+        $('#container').css('margin-top', (-hl.s1) + 'px');
+
+        $('#caption').html(hl.text);
+        $('#caption').animate({ 'opacity': hl.op2, 'font-size': hl.s2 + 'px', 'height': hl.s2 + 'px' }, hl.intime);
+        $('#container').animate({ 'margin-top': (-hl.s2 * 1.3) + 'px' }, hl.intime);
+
+        //Wait for intime
+        setTimeout(function () {
+            //Wait for displaytime
+            setTimeout(function () {
+                $('#caption').animate({ 'opacity': 0 }, hl.outtime);
+                //Wait for outtime
+                setTimeout(function () {
+                    setTimeout(function () {
+                        if (index < headlines.length - 1) {
+                            run(index + 1);
+                        }
+                        else {
+                            run(0);
+                        }
+                    }, hl.trailtime);
+                }, hl.outtime);
+            }, hl.displaytime);
+        }, hl.intime);
+    }
+
+    function runheadlines(index) {
+        var hl = headlines[index];
+        $('#footer').css('opacity', hl.op1);
+
+        $('#footer').html(hl.text);
+        $('#footer').animate({ 'opacity': hl.op2 }, hl.intime);
+        
+        //Wait for intime
+        setTimeout(function () {
+            //Wait for displaytime
+            setTimeout(function () {
+                $('#footer').animate({ 'opacity': 0 }, hl.outtime);
+                //Wait for outtime
+                setTimeout(function () {
+                    setTimeout(function () {
+                        if (index < headlines.length - 1) {
+                            runheadlines(index + 1);
+                        }
+                        else {
+                            runheadlines(0);
+                        }
+                    }, hl.trailtime);
+                }, hl.outtime);
+            }, hl.displaytime);
+        }, hl.intime);
+    }
+
+    var prevshot = -1;
+    function animateshot(shotnumber) {
+
+        //$('#header').html('animateshot(' + shotnumber + '); prevshot=' + prevshot);
+
+        var duration = 400;
+        var durationbeforeshowingnext = 0;
+
+        if (prevshot >= 0) {
+
+            //$('#caption').html('Hiding #shot' + prevshot);
+            $('#shot' + prevshot).animate({ "opacity": 0 }, duration);
+
+            durationbeforeshowingnext = duration;
+        }
+
+        //Show next slide
+        setTimeout(function () {
+
+            //$('#caption').html('Showing #shot' + shotnumber);
+            $('#shot' + shotnumber).animate({ "opacity": 1 }, duration);
+            prevshot = shotnumber;
+
+            if (shotnumber > 7) {
+                shotnumber = 0;
+            }
+            else {
+                shotnumber++;
+            }
+
+            setTimeout(function (nextshot) {
+                animateshot(nextshot);
+            }, duration, shotnumber);
+
+        }, durationbeforeshowingnext);
+
+
+    }
+
+    function animatecareercanterbanner(direction) {
+
+        var duration = 2000;
+        var offset1 = 40;
+        var offset2 = 200;
+
+        $('#careercanterbanner').stop();
+
+        if (direction == 0) {
+            $('#careercanterbanner').animate({ "left": offset2 }, duration)
+            setTimeout(function () {
+                animatecareercanterbanner(1);
+            }, duration);
+        }
+        else {
+            $('#careercanterbanner').animate({ "left": offset1 }, duration)
+            setTimeout(function () {
+                animatecareercanterbanner(0);
+            }, duration);
+        }
+    }
+    function animatecareersbanner(direction) {
+
+        var duration = 47000;
+        var offset1 = 40;
+        var offset2 = 810;
+
+        $('#careersbanner').stop();
+
+        if (direction == 0) {
+            $('#careersbanner').animate({ "left": offset2 }, duration)
+            setTimeout(function () {
+                animatecareersbanner(1);
+            }, duration);
+        }
+        else {
+            $('#careersbanner').animate({ "left": offset1 }, duration)
+            setTimeout(function () {
+                animatecareersbanner(0);
+            }, duration);
+        }
+    }
+
+    function animatetraits(row) {
+
+        var duration = 100;
+
+        //left or right?
+        if (Math.random() < 0.5) {
+            $('.row' + row + 'first').animate({ 'opacity': 1 }, duration);
+            $('.row' + row + 'second').animate({ 'opacity': 0 }, duration);
+        }
+        else {
+            $('.row' + row + 'first').animate({ 'opacity': 0 }, duration);
+            $('.row' + row + 'second').animate({ 'opacity': 1 }, duration);
+        }
+
+        setTimeout(function () {
+            animatetraits(Math.floor(Math.random() * 9));
+        }, duration);
+    }
+</script>

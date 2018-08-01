@@ -1,0 +1,31 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage
+@{
+    Layout = null;
+    AddresseeClient adc = new AddresseeClient();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>WhoDid</title>
+</head>
+<body>
+    <h1>Who unsubscribed</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>UTCDate</th>
+        </tr>
+    @foreach (Addressee a in adc.GetAllUnsubscribed().Execute())
+    {
+        <tr>
+            <td>@a.Name</td>
+            <td>@a.Email</td>
+            <td>@a.UnsubscribedUTCDate</td>
+        </tr>
+    }
+    </table>
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage;
+namespace SkillCowResponsive.Controllers
+{
+    public class AboutController : AuthenticatedControllerController
+    {
+        //
+        // GET: /About/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Newsletter()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Newsletter(string name, string email)
+        {
+            AddresseeClient adc = new AddresseeClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email);
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        public ActionResult contactus()
+        {
+            return View();
+        }
+
+        public ActionResult terms()
+        {
+            return View();
+        }
+
+        public ActionResult privacy()
+        {
+            return View();
+        }
+
+    }
+}

@@ -1,0 +1,3 @@
+﻿var title = 'You are rational';
+var careerheading = 'Rational jobs';
+var desc = 'As a rational thinker, you prefer to rely on concrete information rather than emotions or instinct. Colleagues value your logical approach to problem-solving, especially when critical decisions need to be made. Managers rely on your use of logic to solve complex problems, so you are a valued team member in any environment. Although you prefer to use logic when making decisions, you still have the ability to "go with your gut" when necessary. The ability to use logic even under the toughest of circumstances will help you succeed in careers involving technology and scientific processes.';

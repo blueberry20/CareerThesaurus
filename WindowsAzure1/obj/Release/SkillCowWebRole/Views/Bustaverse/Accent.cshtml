@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Thesaurus</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+    <script src='/scripts/bustaverse/words.js'></script>
+    <script src='/scripts/bustaverse/accentuator/code.js'></script>
+</head>
+<body>
+    <div id="main">
+        
+    </div>
+</body>
+</html>
+
+<style>
+    div.cell{min-width: 160px;  display: inline-block}
+    div.headline{ display: inline-block; font-size: 34pt; margin-right: 20px;}
+</style>
+
+<script>
+    $(document).ready(function () {
+    
+        var i = 0;
+        var results = new Array();
+
+        for (var i = 0; i < words.length; i++) {
+            results.push(findAccentedSyllable(words[i]));
+        }
+
+        //results.sort(sortbycount);
+
+        for (var i = 0; i < results.length; i++) {
+            //if (endsWith(results[i].word, 'ed')) {
+            $('#main').append('<div><div class="cell">' + results[i].word + '</div><div class="cell">' + results[i].mask + '</div><div class="cell">' + results[i].count + ' syllables</div></div>');
+            //}
+        }
+    });
+    function sortbycount(a, b) {
+        if (a.count > b.count)
+            return -1;
+        if (a.count < b.count)
+            return 1;
+        return 0;
+    }
+</script>

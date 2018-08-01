@@ -1,0 +1,281 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    int totalGroups = 0;
+    ViewBag.Title = "Administrator Portal";
+    string schoolRowKey = ViewBag.School;
+}
+
+<!--================================ Administrator Portal================================================== -->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="adminPage">
+
+    <div class="container positionRelative">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                        <h2>Administrator Portal</h2>
+                        <p>Select your school, view or add groups or switch to analytics. </p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                            <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next</a>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                            <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active"><a href="/AdminPortal">Administrator Portal</a></li>
+                    <li><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <ol class="breadcrumb">
+                <li class="active">Home</li>
+            </ol>
+        </div>
+
+        <div class="row">
+            <div class="row topRow">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 addLineHeight">
+                    <h1>My Schools</h1>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                    <a href="/AdminPortal/AddSchool" class="btn btn-default addSchoolBtn">Add School</a>
+                </div>
+            </div>
+            @{
+                string teacher = ViewBag.Email;
+                List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllActive(teacher));
+                if (connections.Count == 0)
+                {
+                    <div class="noSchoolsAdded row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mobileCenter addLineHeight">
+                            <p>You haven't associated yourself with any schools yet</p>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mobileCenter">
+                            <a href="/AdminPortal/AddSchool" class="btn btn-success addSchoolBtn">Add School</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (SchoolToTeacherConnection connection in connections)
+                    {
+                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connection.RowKey);
+                        List<AssessmentGroup> groups = new List<AssessmentGroup>(agc.GetAllBySchoolAndTeacher(school.RowKey, teacher));
+                        totalGroups += groups.Count;
+
+                        <div class="schoolDiv row" data-rowkey="@school.RowKey">
+                            @*<div class="checkbox col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <label>
+                                    <input type="checkbox">
+                                </label>
+                            </div>*@
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <h2 class="schoolName">@school.SchoolName</h2>
+                                <p class="schoolAddress">@(school.Address + ", " + school.City + ", " + school.State + " " + school.ZipCode)</p>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                                <a class="btn btn-success addGroupLink">View/Add Group</a>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            <form action="/AdminPortal/School" method="post">
+                <input type="hidden" name="school" id="schoolValue" value="" />
+            </form>
+            @*<div class="schoolDiv row">
+                    <div class="col-lg-9">
+                        <h2 class="schoolName">SI Tech</h2>
+                        <p class="schoolAddress">485 Clawson St, Staten Island, NY 10306</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-info">View</button>
+                    </div>
+                </div>
+
+                <div class="schoolDiv row">
+                    <div class="col-lg-9">
+                        <h2 class="schoolName">SI Tech</h2>
+                        <p class="schoolAddress">485 Clawson St, Staten Island, NY 10306</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-info">View</button>
+                    </div>
+                </div>*@
+            @{
+                if (totalGroups > 0)
+                {
+                    <div class="analyzeResultsDiv row">
+                        <div class="iconWrapper pull-left">
+                            <img class="graphicon " src="~/Content/images/analyticsiconbig.png" />
+                        </div>
+                        <div class="tableCell">
+                            <span>View Analytics</span>
+                            <p>View and Analyze Student Assessment Results.</p>
+                        </div>
+                        <div class="tableCell">
+                            <div class="row">
+                                <a href="/Analytics" type="button" class="btn btn-info desktopBtn viewReportsBtn">Go</a>
+                            </div>
+                        </div>
+                        <a href="/Analytics" type="button" class="btn btn-info mobileBtn viewReportsBtn">Go</a>
+                    </div>
+                }
+            }
+        </div>
+
+        @*<div class="row text-left">
+            <button class="btn btn-default removeSchoolBtn">Delete schools from my account</button>
+        </div>
+
+        <div class="modal fade twoButtonsModal" id="deleteSchoolModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove this school from your account?</p>
+                        <p class="smallerFont">You will have no access to groups associated with this school.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default twoButtons" id="CancelRemoval" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default twoButtons" id="confirmRemoval" data-dismiss="modal" data-rowkey="@schoolRowKey" onclick="confirmSchoolRemoval(this);">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade oneButtonModal" id="schoolDeletedlModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>The school has been removed from your account.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="schoolDeletedBtn" class="btn btn-default oneButton" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade oneButtonModal" id="deleteInstructionslModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Please select a school that you would like to delete from your account.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="schoolDeletedBtn" class="btn btn-default oneButton" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        newHeight = $(window).height() - 50;
+        $('.pageContainer .container').css('min-height', newHeight);
+
+        $(window).resize(function () {
+            newHeight = $(window).height() - 50;
+            $('.pageContainer .container').css('min-height', newHeight);
+        })
+
+        //if schools were added, show add school button
+        if ($('.noSchoolsAdded').length == 0) {
+            $('.topRow .addSchoolBtn').css('display', 'inline-block');
+        }
+        else {
+            $('.topRow .addSchoolBtn').css('display', 'none');
+        }
+
+        $('.addGroupLink').click(function () {
+            $('#schoolValue').val($(this).closest('.schoolDiv').data('rowkey'));
+            $('form').submit();
+        });
+
+        $('.removeSchoolBtn').click(function () {
+            $('#deleteSchoolModal').modal();
+        });
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        })
+
+        //$('.addGroupLink').click(function () {
+        //    $('#schoolValue').val($(this).closest('.schoolDiv').data('rowkey'));
+        //    $('form').submit();
+        //});
+
+        //$('.removeSchoolBtn').click(function () {
+        //    $('.checkbox').velocity('fadeIn', { duration: 300 });
+        //    $('#deleteInstructionslModal').modal();
+        //});
+
+        //var check = false;
+        //$('.checkbox').click(function () {
+        //    if (!check) {
+        //        $('#deleteSchoolModal').modal();
+        //        check = true;
+        //    }
+        //    else {
+        //        check = false;
+        //    }
+        //})
+
+        function confirmSchoolRemoval(element) {
+            var rowkey = $(element).data('rowkey');
+            $.post('DeleteSchool', { rowkey: rowkey }, function (response) {
+                if (response.result == 'done') {
+                    $('#schoolDeletedlModal p').html("The school has been removed from your account.");
+                } else if (response.result == 'not found') {
+                    $('#schoolDeletedlModal p').html("The school you are trying to delete has not been found.");
+                } else if (response.result == 'fail') {
+                    $('#schoolDeletedlModal p').html("Server error!");
+                }
+
+                $('#schoolDeletedlModal').modal();
+                $('#schoolDeletedBtn').click(function () {
+                    window.location.href = '/AdminPortal';
+                });
+            });
+        }
+    }
+</script>

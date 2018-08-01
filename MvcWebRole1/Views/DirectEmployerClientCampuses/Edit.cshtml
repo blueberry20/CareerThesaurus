@@ -1,0 +1,186 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers
+@model DirectEmployerClientCampus
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .editor-field {position: relative; float: left; clear: right;}
+        p {clear: both; margin-top: 100px;}
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+
+    <!--Breadcrumbs-->    
+    <div>
+        @Html.ActionLink("Client Index", "Index", "directEmployerclients") > 
+        @Html.ActionLink(((DirectEmployerClient)ViewBag.Client).Name, "Edit", "directschoolclients", new { id = ((DirectEmployerClient)ViewBag.Client).RowKey }, null) 
+    </div>
+
+    <br />
+
+@using (Html.BeginForm()) {
+    
+    <table width=100% cellspacing=0>
+        <tr style="background-color: rgba(@(Model.Status == "Paused" ? 255 : 0),@(Model.Status == "Live" ? 255 : 0),0,0.3); border-radius: 10px 10px;">
+            <td style="font-size: 24pt; padding: 5px;">Edit Campus for <span style="color: rgba(0,0,255,1)">@(((DirectEmployerClient)ViewBag.Client).Name)</span></td>
+            <td style="padding: 5px;"><input type="submit" value="Save" style="float: right;"/></td>
+        </tr>
+    </table>
+    
+    <br />
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Status</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Status,
+                                new SelectList(new List<object>
+                                {
+                                    new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" },
+                                        new { Value = "Demo", Text = "Demo" },
+                                        new { Value = "EmailOnly", Text = "Email Only" }
+                                }, "Value", "Text"))
+            @Html.ValidationMessageFor(model => model.Status)
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        
+        <div class="editor-label">
+            Campus Id
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CampusId)
+            @Html.ValidationMessageFor(model => model.CampusId)
+        </div>
+
+        <div class="editor-label">
+            Short Name
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Address)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.City)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.City)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.State)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.State)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Zip)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Zip)
+            @Html.ValidationMessageFor(model => model.Zip)
+        </div>
+           
+        @Html.HiddenFor(model => model.ClientRowKey)
+        @Html.HiddenFor(model => model.ClientId)
+        
+    </fieldset>
+    
+    
+                
+    <fieldset>
+        <legend>Programs</legend>
+        @{
+    DirectEmployerClientCampusProgramClient campusprogramclient = new DirectEmployerClientCampusProgramClient();
+    List<DirectEmployerClientCampusProgram> campusprograms = new List<DirectEmployerClientCampusProgram>(campusprogramclient.GetAllByClientId(Model.ClientRowKey).Where(x => x.CampusRowKey == Model.RowKey));
+         }
+            
+        <div style="background-color: rgba(255,255,255,0.5); padding: 10px; border-radius: 10px 10px;">
+        @Html.ActionLink("Create New", "Create", "DirectEmployerClientCampusPrograms", new { campusid = Model.RowKey }, null)
+        <table width=1000 cellspacing=0 cellpadding=2>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th colspan=5 align=center>Limits</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th width="5%">Type</th>
+                <th width="5%">ID</th>
+                <th>Name</th>
+                <th>Mapping</th>
+                <th width="5%">Payout</th>
+                <th align=center width="5%">T</th>
+                <th align=center width="5%">A</th>
+                <th align=center width="5%">M</th>
+                <th align=center width="5%">W</th>
+                <th align=center width="5%">D</th>
+                <th width="5%">Current</th>
+                <th></th>
+            </tr>
+            @foreach (DirectEmployerClientCampusProgram program in campusprograms)
+            {
+            <tr style="background-color: rgba(@(program.Status == "Paused" ? 255 : 0),@(program.Status == "Live" ? 255 : 0),0,0.3)">
+                <td>@program.ProgramType</td>
+                <td><nobr>@program.ProgramId</nobr></td>
+                <td>@program.JobTitle</td>
+                <td>@program.ProgramCategories</td>
+                <td align=center>$@program.Payout</td>
+
+                <td align=center>@(program.TotalCap > 0 ? program.TotalCap.ToString() : "")</td>
+                <td align=center>@(program.AnnualCap > 0 ? program.AnnualCap.ToString() : "")</td>
+                <td align=center>@(program.MonthlyCap > 0 ? program.MonthlyCap.ToString() : "")</td>
+                <td align=center>@(program.WeeklyCap > 0 ? program.WeeklyCap.ToString() : "")</td>
+                <td align=center>@(program.DailyCap > 0 ? program.DailyCap.ToString() : "")</td>
+
+                <td>@program.CapStatus</td>
+                <td></td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "DirectEmployerClientCampusPrograms", new { id = program.RowKey }, null) | 
+                    <a href="javascript:deleteProgram('@program.Name', '@program.RowKey');" onclick="">Delete</a>
+                </td>
+            </tr>    
+            }
+        </table>
+        </div>
+    </fieldset>
+    
+    @Html.HiddenFor(model => model.RowKey)
+}
+
+</div>
+
+<script>
+    function deleteProgram(name, id) {
+        if (confirm('Are you sure you want to delete ' + name + ' program with id ' + id + '?')) {
+            document.location = '/DirectEmployerClientCampusPrograms/Delete/' + id;
+        }
+    }
+</script>

@@ -1,0 +1,515 @@
+﻿@{
+    ViewBag.Title = "Student";
+}
+
+<!--========================Student Signup Page========================================-->
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="studentSignupPage">
+    <div class="jumbotron">
+        <h1>Student's Assessment Registration</h1>
+    </div>
+    <div class="container">
+
+        <!--login box-->
+        <div class="centerBox">
+            <div class="row">             
+                <form method="POST" role="form">
+                    <div class="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
+                        @{
+                            if (ViewBag.ErrorMessage != null)
+                            {
+                                <div class="errorForm row extraPadding">There is an account already associated with this email. Please <a href="/Assessment">log in</a> instead.</div>
+                            }
+                            if (ViewBag.InvalidLink != null)
+                            {
+                                <div class="errorForm row extraPadding">Link can not be validated, please verify link or input information manually</div>
+                            }
+                        }
+                        <div class="row text-right extraPadding">
+                            All fields are required
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="studenttitle">Gender:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <select id="studenttitle" name="gender" class="form-control required">
+                                    <option selected disabled value="">Select</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                                <p class="displayError">Please select your gender</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="firstname">First Name:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="firstname" id="firstname" value="">
+                                <p class="displayError">Please enter a valid name</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="lastname">Last Name:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="lastname" id="lastname" value="">
+                                <p class="displayError">Please enter a valid last name</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="gradYearSelect">Your High School Grad Year:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <select class="form-control required" id="gradYearSelect" name="gradyear">
+                                    <option disabled value="">Select Year</option>
+                                </select>
+                                <p class="displayError">Please select your graduation year</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="email">Email:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="email" class="form-control required" name="email" id="email" value="">
+                                <p class="displayError">Please enter a valid email</p>
+                            </div>
+
+                        </div>
+                        <div class="row addMargin">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-left">
+                                <label class="shortLabel nomargin" for="password">Create password:</label>
+                                <span class="smallPrint"><button class="pwRequirements" data-toggle="tooltip" data-placement="top" title="Password must have 6 symbols including at least one digit, one lowercase letter, one uppercase letter and may contain underscore" onclick="return false;">(View password requirements)</button></span>
+                            </div>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="password" class="form-control required" name="password" id="password">
+                                <p class="displayError passwordError">Please enter a valid password</p>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="confirmpassword">Confirm password:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="password" class="form-control required" name="confirmpassword" id="confirmpassword">
+                                <p class="displayError passwordConfirmError">Please enter a valid password</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="zipcode">School Zip Code:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                @*<input type="text" class="form-control required" onpaste="return false;" onkeypress="return isNumber(event, this.value);" name="zipcode" id="zipcode" value="">*@
+
+                                <div class="input-group">
+                                    <input id="zipcode" type="text" class="form-control required" onpaste="return false;" onkeypress="return isNumber(event, this.value);" name="zipcode" value="@ViewBag.SignUpSchoolZip">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info shortBtn formZipBtn" type="button">Find Schools</button>
+                                    </span>
+                                </div>
+                                <p class="displayError">Please enter a valid zip code</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolSelect">Pick your School:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <select class="form-control required" id="schoolSelect" name="school">
+                                    @{
+                                        if (ViewBag.SignUpSchool != null)
+                                        {
+                                            <option value="@ViewBag.SignUpSchool">@ViewBag.SignUpSchoolName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Enter zip code above to view schools in your area</option>
+                                        }
+                                    }
+                                </select>
+                                <p class="displayError schoolError">Please select your school</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="pincode">Pin Code:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="input-group">
+                                    <input id="pincode" type="password" class="form-control required" name="pincode" value="@ViewBag.SignUpCode">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info shortBtn formPinBtn" type="button">Verify</button>
+                                    </span>
+                                </div>
+                                <p class="displayError pincodeError">Please enter a valid Pin Code</p>
+                                <p class="displaySuccess">Your pin code has been verified</p>
+                            </div>
+                        </div>
+                        <input type="hidden" class="required" id="teacher" name="teacher" value="@ViewBag.SignUpTeacher" />
+                        <input type="hidden" class="required" id="group" name="group" value="@ViewBag.SignUpGroup" />
+                        <div class="form-group row termsRow">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12"></label>
+                            <div class="shortField addPadding col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="checkboxWrapper">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="checkbox" class="required">
+                                        <label>
+                                            I agree to the <a href="/About/terms" target="_blank">Terms and Conditions</a> of using this site
+                                        </label>
+                                    </div>
+                                    <p class="displayError termsError">You haven't agreed to terms and conditions</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row lastFormRow">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-success loginBtn">Go!</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+               
+            </div>
+            <div class="row">
+                <p class="alreadyRegistered">Already registered? <a href="/Account/LogIn">Log in here</a></p>
+            </div>
+        </div>
+       
+        @*<div class="row">
+            <div class="chooseSignupCol col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 text-center">
+                <h3>Are you an Administrator?</h3>
+                <p>Easily assess your students.  Discover their Natural Career Predispositions.  Track their Interests.</p>
+                <a href="/Signup/Administrator" class="btn btn-info assessmentBtn">Sign Up Here</a>
+            </div>
+        </div>*@
+    </div>
+</div>
+<script>
+    function document_ready() {
+        var year = new Date().getFullYear() + 5;
+        var pincodeVerified;
+        var schoolVerified;
+        var zipcodeVerified;
+        var passwordNotValid = false;
+        for (var i = 0; i < 100; i++) {
+            $('#gradYearSelect').append('<option value="' + (year - i) + '">' + (year - i) + '</option>');
+        }
+
+        if ($('#teacher').val() != null && $('#teacher').val() != '' && $('#pincode').val() != null && $('#pincode').val() != '' && $('#group').val() != null && $('#group').val() != '' && $('#zipcode').val() != null && $('#zipcode').val() != '' && $('#schoolSelect').val() != null && $('#schoolSelect').val() != '') {
+            pincodeVerified = $('#pincode').val();
+            schoolVerified = $('#schoolSelect').val();
+            zipcodeVerified = $('#zipcode').val();
+            $('#schoolSelect').closest('.form-group').hide();
+            $('#pincode').closest('.form-group').hide();
+            $('#zipcode').closest('.form-group').hide();
+        }
+
+        $('.loginBtn').click(function (event) {
+            var valid = true;
+            var pwErrorAdded = false;
+            $('.required').each(function (index, element) {
+                var name = $(element).attr('name');
+                var value = $(element).val();
+                switch (name) {
+                    case 'gender':
+                        if (value == '' || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'firstname':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'lastname':
+                        if (value.length < 2 || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'gradyear':
+                        if (value == '' || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'email':
+                        if (!validateEmail(value)) {
+                            valid = false;               
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {                         
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'password':
+                        var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/);
+                        if (!regex.test(value)) {
+                            //not valid
+                            valid = false;
+                            $('#password').closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                            passwordNotValid = true;
+                        } else {
+                            //valid
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $('#password').removeClass('hasError');
+                            passwordNotValid = false;
+                        }
+                        break;
+                    case 'confirmpassword':
+                        if ($('#password').val() == value && value != null && value != '') {
+                            //passwords match
+                            if (passwordNotValid == true) { //if pw wasnt valid
+                                $('#confirmpassword, #password').addClass('hasError');
+                                $('#password').closest('.shortField').find('.displayError').show();
+                                $('.passwordConfirmError').html('Please enter a valid password').show();
+                            }
+                            else {//pw was valid and passwords match
+                                $('.passwordConfirmError').hide();
+                                $('#confirmpassword, #password').removeClass('hasError');
+                                $('.passwordConfirmError').hide();
+                                $('#password').closest('.shortField').find('.displayError').hide();
+                            }
+                        } else { //password dont match
+                            valid = false;
+                            $('.passwordConfirmError').html('Your passwords don\'t match.').show();
+                            $('#confirmpassword, #password').addClass('hasError');
+                        }
+                        break;
+                    case 'zipcode':
+                        if (!validateZip(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'school':
+                        if (value == '' || value == null) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'pincode':
+                        if (value == '' || value == null) {
+                            valid = false;
+                            $('.pincodeError').show();
+                        }
+                        else if ((value != '' || value != null) && ($('#schoolSelect').val() == '' || $('#schoolSelect').val() == null)) {
+                            valid = false;
+                            $('.pincodeError').html('Select school before entering pin code').show();
+                        }
+                        else if (value == pincodeVerified && $('#schoolSelect').val() == schoolVerified && $('#zipcode').val() == zipcodeVerified) {
+                            $('.pincodeError').hide();
+                        } else {
+                            valid = false;
+                            $('.pincodeError').show();
+                        }
+                    case 'teacher':
+                    case 'group':
+                        if ($('#teacher').val() == '' || $('#teacher').val() == null || $('#group').val() == '' || $('#group').val() == null) {
+                            valid = false;
+                            $('.pincodeError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $('.pincodeError').hide();                            
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'checkbox':
+                        if (!$(element).is(':checked')) {
+                            valid = false;
+                            $('.termsError').show();
+                            $('.checkboxWrapper').addClass('hasError');                          
+                        }
+                        else {
+                            $('.termsError').hide();
+                            $('.checkboxWrapper').removeClass('hasError');
+                        }
+                        break;
+                }
+            });
+
+            //if there are any errors display them
+
+            if (!valid) {            
+                $('html,body').animate({
+                    scrollTop: $(".hasError").offset().top
+                });
+                return false;
+            }
+            emailExist($('#email').val()).done(function (response) {
+                if (response.results.email.status == 'valid') {
+                    $('#email').closest('.shortField').find('.displayError').hide();
+                    $('#email').removeClass('hasError');
+                    $('form').submit();
+                } else {
+                    valid = false;
+                    $('#email').closest('.shortField').find('.displayError').show();
+                    $('#email').addClass('hasError');
+                }
+            }).fail(function (error) {
+                $('#email').closest('.shortField').find('.displayError').hide();
+                $('#email').removeClass('hasError');
+                $('form').submit();
+            });
+        });
+
+        $('.formZipBtn').click(function () {
+            var zipcode = $('#zipcode').val();
+            if (zipcode.length == 5 && validateZip(zipcode)) {
+                $(this).closest('.shortField').find('.displayError').hide();
+                $(this).closest('.shortField').find('input').removeClass('hasError');
+                $.post('GetSchoolsByZip', { zipcode: zipcode }, function (response) {
+                    var schools = response.results;
+                    schools.sort(sortSchools);
+                    var html = '';
+                    for (var i = 0; i < schools.length; i++) {
+                        html += '<option value="' + schools[i].RowKey + '">' + schools[i].SchoolName + '</option>';
+                    }
+                    html = html == '' ? '<option value="" disable>There are no registered schools in this zip code</option>' : '<option value="" disable>Select school</option>' + html;
+                    $('#schoolSelect').html(html);
+                }).fail(function (error) {
+                    console.log(error);
+                });
+            } else {
+                $(this).closest('.shortField').find('.displayError').show();
+                $(this).closest('.shortField').find('input').addClass('hasError');
+                $('#schoolSelect').html('<option value="" disable>Enter valid zip code above to view schools in your area</option>');
+            }
+        });
+
+        $('.formPinBtn').click(function () {
+            var pincode = $('#pincode').val();
+            var school = $('#schoolSelect').val();
+            if (pincode.length == 5 && validatePinCode(pincode) && school != null && school !='') {
+                $.post('GetTeacherAndGroup', { pincode: pincode, school: school }, function (response) {
+                    var teacher = response.teacher;
+                    var group = response.group;
+                    $('#teacher').val(teacher);
+                    $('#group').val(group);
+                    pincodeVerified = pincode;
+                    schoolVerified = school;
+                    zipcodeVerified = $('#zipcode').val();
+                    $('.displaySuccess').show();
+                    $('.pincodeError').hide();
+                }).fail(function (error) {
+                    console.log(error);
+                });
+            } 
+            else if (school == null || school == '') {
+                $('.displaySuccess').hide();
+                $('.pincodeError').html('Please select school before entering pin code').show();
+                resetValues();
+            }
+            else {
+                $('.displaySuccess').hide();
+                $('.pincodeError').html('Please enter a valid pin code').show();
+                resetValues();
+            }           
+        });
+
+
+        $('#schoolSelect').change(function () {
+            resetValues();
+            $('#pincode').val('');
+        });
+
+
+        $('#zipcode').keyup(function () {
+            if ($(this).val() != zipcodeVerified) {
+                resetValues();
+                $('#pincode').val('');
+                $('#schoolSelect').html('<option value="" disable>Enter valid zip code above to view schools in your area</option>');
+            }            
+        })
+
+        $('.pwRequirements').tooltip();
+
+    }
+    function resetValues() {
+        pincodeVerified = null;
+        schoolVerified = null;
+        $('#teacher').val('');
+        $('#group').val('');
+        $('.displaySuccess').hide();
+    }
+
+    function sortSchools(a, b) {
+        if (a.SchoolName.toLowerCase() < b.SchoolName.toLowerCase())
+            return -1;
+        if (a.SchoolName.toLowerCase() > b.SchoolName.toLowerCase())
+            return 1;
+        return 0;
+    }
+
+    function validatePinCode(pincode) {
+        for (var i = 1; i < pincode.length; i++) {
+            if (Math.abs(pincode.charCodeAt(i) - pincode.charCodeAt(i - 1)) == 1) {
+                return false;
+            }
+        }
+        var reg = new RegExp(/^(?:([A-Za-z0-9])(?!.*\1))*$/);
+        var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{5,}$/);
+        if (reg.test(pincode) && regex.test(pincode)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function validateZip(zip) {
+        var reg = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+        return reg.test(zip);
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);                    
+        } else {
+            return false;
+        }
+    }
+    function emailExist(email) {
+        // remove before publish
+        return $.ajax({
+            url: appserverurl + '/SkillTest/verifyEmail',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                email: email
+            }
+        });
+    }
+
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+</script>

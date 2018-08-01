@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Your test results</title>
+</head>
+<body>
+    <div>Hey {{name}},</div>
+    <br>
+    <div>You are on the right track of discovering careers that are right for you.</div>
+    <div>You can view a list of the careers that match your interests any time by following this link:<a href="{{url}}">{{url}}</a></div>   
+    <div>Also, if you haven't tried yet, you can also take our personality test which will match careers to your personality. Just follow this link: <a href="http://CareerThesaurus.com/CareerTest">www.CareerThesaurus.com/CareerTest</a></div>
+    <div>Thank you for choosing CareerThesarus!</div>
+    <br>
+    <div>CareerThesaurus Team</div>
+    <br>
+    <a href="http://CareerThesaurus.com/">www.CareerThesaurus.com</a>
+</body>
+</html>

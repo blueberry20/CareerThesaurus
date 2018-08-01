@@ -1,0 +1,539 @@
+﻿.pageContainer .container {
+    background-color: transparent;
+}
+
+#home {
+     background: url('/Content/images/hex/hex_bg17.jpg') 50% 0 repeat;
+     background-size:cover;
+     position:relative;
+     min-height:700px;
+     display:none;
+     opacity:0;
+     -webkit-transition: opacity ease-in;
+     -moz-transition: opacity ease-in;
+     -o-transition: opacity ease-in;
+     transition: opacity ease-in;
+}
+
+#home .container1 {
+    position:absolute;
+    top:15px;
+    width:100%;
+}
+
+#about {
+    position: relative;
+    height:1000px;
+    /*background: url('/Content/images/hex/hex_bg17.jpg') 50% 0 repeat fixed;*/
+}
+
+#about .containerWrapper {
+    position:absolute;
+    width:100%;
+    top:0;
+    min-height:500px;
+}
+
+#careersIndex .mainContainer {
+    background-color: #fff;
+    padding:0;
+}
+
+#main {
+    padding:0;
+    width:100%;
+}
+
+#careersIndex .importantthings,#careersIndex #dimensionscontainer {
+    display:none;
+}
+
+#mainWrapper {
+    width:70%;
+    padding:0;
+}
+
+#mainWrapper h2 {
+    text-align:left;
+    margin:0;
+}
+
+#thirdColumn {
+    width:30%;
+    padding:15px;
+}
+
+#careersIndex #searchbox {
+    margin-bottom: 15px;
+}
+
+.jumbotron {
+    margin-bottom:0;
+}
+
+.imageStretch {
+    background-image: url('topviewstudents_cropped.jpg');
+    background-size:cover;
+    height:700px;
+    position:relative;
+}
+
+.takeTestJumbotron {
+    position: relative;
+}
+
+ .taketestJumbotron h1 {
+    bottom:60px;
+}
+
+ .testBanner {
+     margin:20px;
+ }
+ .tryMatchingDiv {
+     display: none;
+ }
+
+ .bannerText p {
+    font-size: 20px;
+    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(0,0,0,0.6);
+    text-transform: uppercase;
+    font-weight: 300;
+    margin: 5px;
+    color: #fff;
+    padding: 5px;
+}
+
+ .text1 {
+    position:absolute;
+    top: 0;
+    background-color: #000;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 24px;
+    padding: 5px;
+    text-transform: uppercase;
+    font-family: 'open sans condensed';
+ }
+
+ .text2 {
+    position:absolute;
+    bottom: 0;
+    background-color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    font-size: 19px;
+    padding: 5px;
+    text-transform: uppercase;
+    margin:0;
+ }
+
+
+.testBanner .btn-success {
+    margin-top: 5px;
+    width: 100%;
+    display: block;
+}
+
+.choiceJumbotron {
+    background-color: #C6E1E4;
+}
+
+.studentLoggedIn .choiceJumbotron {
+    display:none;
+}
+
+.studentBtn {
+    display:none;
+}
+
+.notStudentBtn {
+    display: block;
+}
+
+.parallax-bg-3 .full-bg-image {
+    background-image: url('/Content/images/hex/hex_bg14.jpg');
+}
+
+.parallax { 
+    z-index: 0;
+    background-color: transparent;
+    position:relative;
+}
+		
+/* BG Overlay Grid  */
+		
+.parallax-overlay {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    /*background-color:rgba(189, 247, 253, 0.6);*/
+}
+
+    
+/* BG Image */
+		
+.full-bg-image {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*background-position: 50% 50%;*/
+    background-repeat: repeat;		
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.ie .full-bg-image {
+    background-attachment:scroll;
+}
+
+.choiceJumbotron .col-lg-6 {
+    position:relative;
+}
+
+.choiceJumbotron h1 {
+    font-size: 50px;
+    text-align: center;
+    margin: 20px;
+    font-weight: 600;
+    font-family:'open sans condensed';
+    position:relative;
+    color:#000;
+}
+
+
+.optionDiv {
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5%;
+    position:relative;
+}
+
+
+.optionDiv h2 {
+    position: absolute;
+    top: 54%;
+    color: #000;
+    padding: 5px;
+    font-size: 57px;
+    font-family:'open sans condensed';
+    background-color:#fff;
+    left:5px;
+    right:5px;
+}
+
+.positionAbsolute {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.circleGoBtn {
+    width: 250px;
+    height: 70px;
+    border-radius: 40px;
+    text-align: center;
+    line-height: 70px;
+    bottom: 0;
+    font-weight: 400;
+    font-family: 'open sans condensed';
+    font-size: 24px;
+    cursor:pointer;
+    text-decoration:none;
+    left:26%;
+    min-width: initial;
+}
+
+.circleGoBtn:hover, .circleGoBtn:focus, .circleGoBtn:active {
+    text-decoration:none;
+    color:#fff;
+}
+
+
+.optionDiv h3 {
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'open sans condensed';
+    text-transform: uppercase;
+    position: absolute;
+    top: 20px;
+    background-color: #33CADE;
+    padding: 0;
+}
+
+.centerOption {
+    padding: 0;
+    width: 100%;
+}
+
+
+.sortedInfo {
+    margin: 15px 0;
+}
+
+.careerName {
+    font-size: 42px;
+}
+
+.careerSalary {
+    font-size:16px;
+}
+
+.viewDetailsLink {
+    font-size:18px;
+    display:none;
+}
+
+.jobsPosted {
+    font-size:13px;
+}
+
+.viewJobsBtn {
+    width: 250px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 20px;
+    display:none;
+}
+
+.studentCareerLink {
+    display: block;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    background-color: #01F5FF;
+    color: #000;
+    width: 178px;
+    position: absolute;
+    display: block;
+    padding: 0 40px 0 7px;
+}
+
+a.notStudentMobileLink {
+    display:none;
+}
+
+a.studentMobileLink {
+    display:block;
+}
+
+
+@media only screen and (max-width:1200px) {
+
+    #home {
+        min-height: 600px;
+    }
+
+    #careersIndex .container {
+        width:100%;
+    }
+
+    .optionDiv h2 {
+        font-size: 49px;
+    }
+
+    .viewJobsBtn {
+        width:200px;
+    }
+}
+
+@media only screen and (max-width:992px) {
+
+   .taketestJumbotron h1 {
+        bottom: auto;
+    }
+
+   .careerName {
+       font-size:34px;
+   }
+
+   .careerSalary {
+        font-size: 14px;
+    }
+
+   .viewJobsBtn {
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+    }
+
+   .studentCareerLink {
+        right: 0;
+        bottom: 0;
+        height: 40px;
+        line-height: 40px;
+        min-width: initial;
+        font-size: 12px;
+        width:154px;
+        padding-right:22px;
+   }
+}
+
+@media only screen and (max-width:900px) {
+    .choiceJumbotron h1 {
+        font-size:42px;
+    }
+
+    .optionDiv {
+        padding:0;
+    }
+
+    .optionDiv h2 {
+        font-size:36px;
+    }
+
+    .circleGoBtn {
+        width:200px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+
+    #mainWrapper {
+        width:100%;
+        padding:0;
+    }
+
+    .choiceJumbotron h1 {
+        font-size:26px;
+    }
+
+    .optionDiv h2 {
+        top:50%;
+    }
+
+    .mobileh2 {
+        display:none !important;
+    }
+
+    .desktoph2 {
+        display:block !important
+    }
+
+    #setImpThingsBtn {
+        display:none;
+    }
+
+   .optionDiv {
+       margin-bottom:20px;
+       width:100%;
+   }
+  
+
+   .desktopSearchbox {
+       display:block;
+   }
+
+   .blueButtonsWrapper {
+       display:none;
+   }
+
+   .searchboxWrapper {
+        padding: 0;
+    }
+
+   #searchbox {
+       margin-bottom:0;
+   }
+
+   .careerSalary {
+        font-size: 14px;
+        color: #fff;
+        padding: 5px 5px;
+        text-transform: uppercase;
+    }
+
+}
+
+@media only screen and (max-width:670px) {
+    /*.col-xs-6 {
+        width:100%;
+    }*/
+
+    .choiceJumbotron {
+        padding:20px 0;
+    }
+
+    .choiceumbotron h1 {
+        font-size: 26px;
+        margin: 0;
+        padding-bottom:20px;
+    }
+
+    .choiceJumbotron .col-lg-6 {
+        padding: 0 7px;
+    }
+
+    .optionDiv h2 {
+        font-size:28px;
+    }
+
+    .circleGoBtn {
+        font-size:20px;
+        width: 150px;
+        height: 60px;
+        line-height: 60px;
+    }
+
+   #mainWrapper .desktoph2 {
+        padding:5px 0 !important;
+        font-size:28px;
+    }
+
+   .extraPadding {
+       padding-top:0;
+   }
+
+   .careerName {
+        font-size: 30px;
+    }
+
+   #home {
+       min-height:500px;
+   }
+
+}
+
+@media only screen and (max-width:500px) {
+    .optionDiv h2 {
+        font-size: 18px;
+        margin-top:0;
+        font-weight:600;
+        top:56%;
+    }
+
+    #home {
+        min-height:390px;
+    }
+
+    .circleGoBtn {
+        height:50px;
+        line-height:50px;
+        font-size:16px;
+        width:130px;
+    }
+
+    .positionAbsolute {
+        bottom: -25px;
+    }
+
+    .choiceJumbotron {
+        height:300px;
+    }
+
+    .careerName {
+        font-size: 22px;
+    }
+
+    .careerSalary {
+        font-size:11px;
+    }
+}

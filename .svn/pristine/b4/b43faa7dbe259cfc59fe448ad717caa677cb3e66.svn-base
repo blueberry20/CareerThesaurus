@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<!--================================= Careers for personality============================== -->
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/reportcard.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/personality/personality.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/testattributes.js?v=@ViewBag.AppVersion"></script>
+<script src="@Url.Content("~/Scripts/Personality/" + ViewBag.Trait + ".js?v=" + ViewBag.AppVersion)"></script>
+
+<div class="pageContainer whiteBgPage" id="careersForPersonality">
+    <div class="container">
+        <div class="col-lg-9 col-md-9">
+            <h1></h1>
+            <!--Share and Comment Row-->
+            <div class="row socialIconsHolder">
+                <!--Share and Comment Row-->
+                <div class="col-lg-12 shareDiv coloredSocialIcons text-left">
+                    <ul class="social-icons">
+                        <li class="share twitter"><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li class="share facebook"><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li class="share linkedin"><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                        <li class="share gplus"><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                        @*<li class="mail"><a href="#"><i class="icon-mail"></i></a></li>*@
+                    </ul><!--/ .social-icons-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="reportDiv ">
+                    <div class="aboutYouReport">
+                        <div class="traitsDescription">
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="displayInterests">
+                        <h4>Optionally you can narrow down career list by applying your interests</h4>
+                        <p class="instr">Select top 3 interests</p>
+                        <div class="interests">
+                        </div>
+                        <p class="starMessage">Interests marked with a star indicate interests you previously chosen</p>
+                    </div>
+                </div>
+            </div>
+            <div class="displayCareers row">
+                <h2>Matching Careers</h2>
+                <div class="row">               
+                    <input id="searchbox" class="desktopSearchbox" type="text" onkeyup="applyFilter(this.value);" placeholder="Search career e.g. Nurse, Economist">
+                    <div class="desktopBtn dropdown sortBtn pull-right">
+                        <button class="dropdown-toggle" data-toggle="dropdown">Sort by<span class="caret"></span></button>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu groupby">
+                            <li class="activeLi"><a href="javascript:renderHtml('salary');">Salary</a></li>
+                            <li><a href="javascript:renderHtml('popularity');">Popularity</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="careersList">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3"></div>
+    </div>
+</div>
+
+<script>
+    var dimension = '@ViewBag.Dimension';
+    var trait = '@ViewBag.Trait';
+    var matchingCareers = [];
+    var interests = [];
+    var interestsStar = [];
+    var filtervalue = '';
+
+    function document_ready() {
+        interestsStar = localStorage.interests ? JSON.parse(localStorage.interests) : [];
+        $('h1').text(careerheading);
+        $('.traitsDescription').html('<h3> If ' + title + '</h3><p class="generalP">' + desc + '</p>');
+
+        importantThingsList();
+        matchCareersToTrait();
+        shareLinks();
+
+        $('.groupby li').click(function () {
+            $('.activeLi').removeClass('activeLi');
+            $(this).addClass('activeLi');
+        });
+    }
+
+    function importantThingsList() {
+        for (var i = 0; i < importantthingdefinitions.length; i++) {
+            var regex = new RegExp(importantthingdefinitions[i].name);
+            $('.interests').append('<a style="position:relative"><span class="impThingsSpan ' + (regex.test(interestsStar) ? 'previouslyChosen' : '') + '" data-hover="' + importantthingdefinitions[i].caption + '" dimension="' + importantthingdefinitions[i].name + '" onclick="importantClicked(this)" value="1">' + importantthingdefinitions[i].caption + '</span></a>');
+        }
+        if ($('.previouslyChosen').length > 0) {
+            $('.starMessage').show();
+        }
+
+    }
+
+    function importantClicked(element) {       
+        var interest = $(element).attr('dimension');
+        var index = interests.indexOf(interest);
+        if (index == -1) {
+            if (interests.length == 3) {
+                return;
+            }
+            interests.push(interest);
+        } else {
+            interests.splice(index, 1);
+        }
+        $(element).toggleClass('active');
+
+        matchCareersToTrait();
+    }
+
+    function matchCareersToTrait() {
+        matchingCareers = [];
+        for (var i = 0; i < professions.length; i++) {
+            var item = professions[i];
+            var interestMatch = true;
+            if (interests.length != 0) {
+                for (var k = 0; k < interests.length; k++) {
+                    if (item[interests[k]] != 1) {
+                        interestMatch = false;
+                    }
+                }
+            }
+            if (item[dimension] == trait && interestMatch) {
+                item.aka = professionsinfo[i].alttitles;
+                matchingCareers.push(item);
+            }
+        }
+        renderHtml();
+    }
+
+    function renderHtml(sortby) {
+        var html = '';
+        if (matchingCareers.length != 0) {
+            if (sortby == 'popularity') {
+                matchingCareers.sort(sortbypopularity);
+            } else {
+                matchingCareers.sort(sortbysalary);
+            }
+            for (var i = 0; i < matchingCareers.length; i++) {
+                var item = matchingCareers[i];
+                var akaTitle = '';
+                if (filtervalue != '') {
+                    var reg = new RegExp(filtervalue, 'i');
+                    if (reg.test(item.title)) {
+                        html += '<a class="career" href="/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title.replace(reg, '<span style="background-color:rgb(239, 51, 51);">' + filtervalue + '</span>') + '</span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                        //html += '<a class="career" href="' + appserverurl + '/Career/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title.replace(reg, '<span style="background-color:rgb(239, 51, 51);">' + filtervalue + '</span>') + '</span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                    } else {
+                        if (reg.test(item.aka)) {
+                            for (var aka = 0; aka < item.aka.length; aka++) {
+                                if (reg.test(item.aka[aka])) {
+                                    akaTitle = item.aka[aka];
+                                    break;
+                                }
+                            }
+                            html += '<a class="career" href="/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title + '<span class="professionAKA"> (aka ' + akaTitle.replace(reg, '<span style="background-color:rgb(239, 51, 51);">' + filtervalue + '</span>') + ')</span></span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                            //html += '<a class="career" href="' + appserverurl + '/Career/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title + '<span class="professionAKA"> (aka ' + akaTitle.replace(reg, '<span style="background-color:rgb(239, 51, 51);">' + filtervalue + '</span>') + ')</span></span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                        }
+                    }
+                } else {
+                    html += '<a class="career" href="/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title + '</span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                    //html += '<a class="career" href="' + appserverurl + '/Career/' + matchingCareers[i].title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + matchingCareers[i].title + '</span><span class="professionSalary">' + Math.round(matchingCareers[i].salary / 1000) + 'K per year' + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>';
+                }
+                
+            }
+        } else {
+            html += '<p class="noResultsError">There are no results matching this combination. Please uncheck some of the interests. </p>';
+        }
+        $('.careersList').html(html);
+    }
+
+    function sortbysalary(a, b) { if (a.salary > b.salary) return -1; if (a.salary < b.salary) return 1; return 0; }
+    function sortbypopularity(a, b) { if (a.popularity > b.popularity) return -1; if (a.popularity < b.popularity) return 1; return 0; }
+
+    function applyFilter(value) {        
+        filtervalue = value;
+        matchCareersToTrait(value);
+    }
+
+    function shareLinks() {
+        var linkURL = document.URL;
+        var shareMessage = 'Matching careers for my personality';
+        $('.share.twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + linkURL + '&url=' + 'http://CareerThesaurus.com/' + '&via=CareerThesaurus.com');
+        $('.share.facebook a').attr('href', 'https://www.facebook.com/dialog/feed?app_id=153111284881428&link=' + linkURL + '&redirect_uri=https://facebook.com/&name=' + shareMessage + '&actions=%5B%7B"name"%3A"Find%20your%20career%20at%20Care­e­r­T­h­e­s­a­urus.com"%2C"link"%3A"http://CareerThesaurus.com%2F"%7D%5D');
+        $('.share.linkedin a').attr('href', 'https://www.linkedin.com/shareArticle?summary=message+here&title=title&mini=true&url=' + linkURL + '&source=CareerThesaurus.com');
+        $('.share.gplus a').attr('href', 'https://plus.google.com/share?url=' + linkURL.replace(/\,/g, '').replace(/\s/g, '_'));
+    }
+
+</script>

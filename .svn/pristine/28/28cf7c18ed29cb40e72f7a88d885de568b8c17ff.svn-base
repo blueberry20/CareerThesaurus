@@ -1,0 +1,1263 @@
+﻿/*p, h1, h2, h3, h4, h5, h6, a, span {
+    font-family: sans-serif;
+    text-transform: none;
+}*/
+
+
+/* PROFESSION PAGE
+-------------------------------------------------- */
+#professionPage {
+    padding-top: 50px;
+    background-color: #EBF2F2;
+    background-color: #F7FBFB;
+}
+
+    #professionPage .container .row {
+        margin: 0;
+    }
+
+    #professionPage h1 {
+        margin-top: 0;
+        font-weight: 600;
+    }
+
+    #professionPage h3 {
+        font-weight: 600;
+        margin:5px 0;
+    }
+
+    #professionPage h4, #professionPage h4 span {
+        font-size: 20px;
+        margin: 20px 0;
+        font-weight: 600;
+    }
+
+
+.highestEmployment, .highestSalary {
+    margin-top: 40px;
+}
+
+table {
+    margin: 20px 0;
+    /*background-color: #F8FDFE;*/
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 4px 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #B1C4CA;
+    /*font-family: 'open sans condensed';*/
+    font-size: 14px;
+}
+
+.table > thead > tr > th {
+    border-bottom: none;
+}
+.table > tbody > tr:first-child > td {
+    border-top: none;
+}
+
+
+#cbnSchools {
+    padding-top: 0;
+}
+
+#vantageMedia {
+    padding-bottom:0;
+    margin-bottom: 0;
+}
+
+
+.mapicon {
+    height: 50px;
+    margin-right: 10px;
+}
+
+/*#hawaii {
+     background: url(/Content/images/states/states/statessprite.png);
+     width:50px;
+     height:50px;
+}*/
+
+
+.shareDiv {
+    padding: 0;
+    margin: 0;
+}
+
+/********************Left Side*********************/
+.professionLeftSide {
+    padding: 0 5px 0 0;
+}
+
+.professionInfo {
+}
+
+.careerSection {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+
+
+.rateitDiv {
+    background-color: #EBF4F5;
+    background-color: #DAEFF5;
+    text-align: center;
+}
+
+#professionPage .rateitDiv h3 {
+    font-weight: 400;
+    margin: 5px 0 20px;
+    font-size: 36px;
+    text-transform: none;
+    font-family:'open sans condensed';
+}
+
+ .rateitDiv button {
+    width: 200px;
+    height: 100px;
+    margin: 20px;
+    background-color: #fff;
+    font-size: 26px;
+    font-family: 'open sans condensed';
+}
+
+.rateitDiv button:hover, .rateitDiv button:focus, .rateitDiv button:active {
+    background-color:#D9E0E1;
+    color:#000;
+}
+
+#dislikeCareerBtn.chosenBtn {
+    background-color: rgb(212, 98, 109);
+}
+
+#dislikeCareerBtn.chosenBtn:hover, #dislikeCareerBtn.chosenBtn:focus, #dislikeCareerBtn.chosenBtn:active {
+    background-color: rgb(195, 89, 99);
+    color:#000;
+}
+
+#likeCareerBtn.chosenBtn {
+    background-color: #38D5A3;
+}
+
+#likeCareerBtn.chosenBtn:hover, #likeCareerBtn.chosenBtn:focus, #likeCareerBtn.chosenBtn:active {
+    background-color:#2FBC8F;
+    color:#000;
+}
+
+
+
+
+.navigateCareersRow .btn:hover, .navigateCareersRow .btn:focus, .navigateCareersRow .btn:active {
+    color: #064E97;
+    text-decoration:underline;
+}
+
+
+.professionLeftSide a {
+    color: #0080FF;
+    color: #066BD0;
+    /*font-family: 'open sans condensed';*/
+    /*font-size: 22px;*/
+}
+
+.professionLeftSide p {
+    font-size:15px;
+}
+
+.aka {
+    text-transform: none;
+    font-size: 14px;
+    font-style: italic;
+    color: #666;
+    display: none;
+}
+
+#show-aka {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    position: relative;
+    text-transform: uppercase;
+    display: block;
+    text-align: left;
+}
+
+#aka-titles-wrapper {
+    margin-bottom: 10px;
+}
+
+#aka-titles-wrapper i {
+    position: initial !important;
+    font-size: 15px !important;
+    margin-top: -14px;
+    margin-left: 5px;
+    display: none;
+}
+
+.occupationIndustryCol, .occupationIndustryPerc {
+    background-color: #f0f0f0;
+    height: 30px;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.occupationalLandscape .row {
+    margin: 0;
+}
+
+
+.socialIconsHolder {
+line-height: initial; 
+margin-top: 20px !important;
+}
+
+
+/*****************see also*********************/
+
+#majorDiv, #minorDiv, #categoryDiv {
+    padding: 8px 8px 0 8px;
+}
+
+#minorDiv {
+    padding-left: 50px;
+}
+
+#categoryDiv {
+    padding-left: 100px;
+}
+
+.collapseDiv h4 {
+    display: inline;
+}
+
+.collapseHeader {
+    background-color: #f0f0f0;
+    padding: 5px;
+}
+
+/*.ctBreadcrumbs ol>li+li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "\00a0>>\00a0";
+}*/
+
+.ctBreadcrumbs li {
+    /*background-color: rgb(245, 249, 250);*/
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid #fff;
+}
+
+.ctBreadcrumbs .categoryCareerList {
+    background-color: #fff !important;
+    padding: 0;
+    margin: 0;
+}
+
+.ctBreadcrumbs .categoryCareerList a {
+    font-size: 16px;
+}
+
+.categoryCareerList li {
+    border: none;
+}
+
+.ctBreadcrumbs a, .ctBreadcrumbs p {
+    font-family: 'open sans';
+    font-size: 18px;
+    margin: 0;
+    display: block;
+    position: relative;
+    padding-right: 28px;
+}
+
+.ctBreadcrumbs p {
+    font-weight: 600;
+}
+
+h3.positionName {
+    text-align: left !important;
+}
+
+#professionPage i.icon-right-open-big, #professionPage i.icon-down-open-big {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -14px;
+    margin-left: 5px;
+}
+
+/*.ctBreadcrumbs ol>li:nth-child(2) {
+    padding-left:20px;
+}
+
+.ctBreadcrumbs ol>li:nth-child(3) {
+    padding-left:40px;
+}
+
+.ctBreadcrumbs ol>li:nth-child(4) {
+    padding-left:60px;
+}
+
+.ctBreadcrumbs ol>li:nth-child(4):before {
+    content:'';
+    display:none;
+}*/
+
+.list-group {
+    margin: 0;
+}
+
+.list-group li {
+    margin: 0;
+    background-color: #fff;
+    border-radius: 0 !important;
+}
+
+
+.liveHelp h3 {
+    margin: 10px 0;
+}
+
+.operatorWrapper {
+    padding: 0;
+}
+
+.operatorWrapper img {
+    height: 120px;
+    margin-right: 15px;
+}
+
+/********************Right Side*********************/
+.professionRightSide {
+    padding: 0;
+}
+
+.professionRightSide h3 {
+    margin: 0 0 5px;
+}
+
+.sidebarDiv {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+
+.professionRightSide ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.change-zipcode-wrapper {
+    margin-bottom: 10px;
+    text-align: right;
+}
+#change-zipcode {
+    font-size: 12px;
+}
+#locationDiv {
+    display: none;
+    padding:20px 0;
+}
+
+#jobs #noResultsError {
+    font-size:21px;
+}
+
+
+/*classification*/
+#classification h3 {
+    display: inline-block;
+}
+
+.dol {
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.classificationListing a {
+    display: block;
+    height: 100%;
+    color: #000;
+}
+
+.no-touch .classificationListing a:hover {
+    text-decoration: none;
+}
+
+.currentClassification {
+    font-weight: 600;
+}
+
+#classification .col-lg-11, #classification .col-lg-1 {
+    padding: 0;
+}
+
+.classificationListing {
+    padding: 8px;
+    margin: 5px 0 0 !important;
+    background-color: #f0f0f0;
+}
+
+.no-touch .classificationListing:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.icon-down-small:before {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+}
+
+#noResultsError {
+    text-align: center;
+    font-size: 20px;
+    padding: 15px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 26px;
+    background-color: #DAEFF5;
+    font-family: 'open sans condensed';
+    text-transform: uppercase;
+    margin-top:15px;
+}
+
+#locationBtn:hover, #locationBtn:active, #locationBtn:focus {
+    background-color: #27AEC0;
+}
+
+.stateTable th {
+    text-align: right;
+}
+
+.stateTable td {
+    vertical-align: middle !important;
+    text-align: right;
+}
+
+.stateTable .titleCell {
+    text-align: left;
+}
+
+
+#sidebarJobHolderShowMore {
+    display: none;
+}
+
+#showMore {
+    width: 100%;
+    outline: 0;
+    background-color: #fff;
+    color: #000;
+    border-width: 2px;
+    border: 2px solid #27AEC0;
+    line-height:50px;
+    padding:0;
+}
+
+#showMore:hover, #showMore:focus, #showMore:active {
+    background-color: rgba(23, 184, 214, 1);
+}
+
+.sidebarDiv h3 {
+    text-align:center;
+}
+
+.inYourArea {
+    text-align:center;
+    margin-bottom: 0;
+}
+
+#vantageList, #cbnSchoolsList, #cbnJobsList {
+    text-align:center;
+    padding-top:10px;
+}
+
+#vantageList .cells, #cbnSchoolsList .cells, #cbnJobs .cells  {
+    margin-bottom:15px;
+    height:80px;
+    line-height:80px;
+    text-align:center;
+}
+
+.cells .img-responsive {
+    margin:0 auto;
+    max-height:60px;
+    max-width:initial;
+}
+
+/*.progressionTable>tbody>tr:first-child>td {
+    border-top:none;
+}*/
+
+.progressionTable > thead > tr > th {
+    text-align: right;
+    padding-right: 5%;
+}
+
+.progressionTable > tbody > tr > td:last-child {
+    text-align: right;
+    padding-right: 10%;
+}
+.schoolLink {
+    cursor: pointer;
+    display: initial;
+}
+.jobLink {
+    cursor: pointer;
+    display: initial;
+}
+
+.careerIcons {
+    height:50px;
+}
+
+/*****************************career thesaurus desktop version***********************/
+
+#careerThesaurus {
+    background-color: #f0f0f0;
+    height: 450px;
+    padding: 8px;
+    position: relative;
+}
+
+
+#circleSmallLeft1, #circleSmallLeft2, #circleSmallLeft3 {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid #F5AB6A;
+    background-color: #FFE4C4;
+    position: absolute;
+    padding: 20px 0;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+#circleSmallLeft1 a, #circleSmallLeft2 a, #circleSmallLeft3 a {
+    color: #000;
+    font-size: 14px;
+    width: 150px;
+    display: block;
+    text-shadow: 2px 2px #fff;
+    position: absolute;
+    right: 0;
+    top: 35%;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#circleSmallLeft1 {
+    top: 19%;
+    left: 13%;
+}
+
+.no-touch #circleSmallLeft1:hover {
+    top: 10%;
+    left: 5%;
+}
+
+#circleSmallLeft2 {
+    z-index: 2;
+    top: 27%;
+    left: 7%;
+}
+
+.no-touch #circleSmallLeft2:hover {
+    left: -5%;
+}
+
+#circleSmallLeft3 {
+    top: 35%;
+    left: 13%;
+}
+
+.no-touch #circleSmallLeft3:hover {
+    top: 43%;
+    left: 5%;
+}
+
+
+#circleBig {
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    border: 10px solid #5bc0de;
+    position: absolute;
+    top: 22%;
+    left: 16%;
+    font-weight: 600;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 0;
+    z-index: 2;
+    background-color: #5bc0de;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+    #circleBig p {
+        display: inline;
+    }
+
+#title1 {
+    position: absolute;
+    top: 2%;
+    right: 0;
+    font-weight: 600;
+    font-size: 20px;
+    width: 150px;
+}
+
+
+#arrowRight1 {
+    display: none;
+}
+
+#arrowRight2 {
+    font-size: 50px;
+    position: absolute;
+    right: 37%;
+    top: 27%;
+    color: #c9c9c9;
+}
+
+#circleSmallRight1, #circleSmallRight2, #circleSmallRight3 {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 5px solid #e0e0e0;
+    position: absolute;
+    right: 20%;
+    color: #0080FF;
+    font-weight: 600;
+    padding: 20px 0;
+    background-color: #fff;
+    font-size: 13px;
+}
+
+#circleSmallRight1 a, #circleSmallRight2 a, #circleSmallRight3 a {
+    z-index: 100;
+    width: 150px;
+    display: block;
+    color: #0080FF;
+}
+
+#circleSmallRight1 {
+    top: 15%;
+}
+
+#circleSmallRight2 {
+    top: 27%;
+    z-index: 2;
+}
+
+#circleSmallRight3 {
+    top: 40%;
+}
+
+.icon-down-bold {
+    font-size: 50px;
+    position: absolute;
+    left: 22%;
+    top: 42%;
+    color: #c9c9c9;
+}
+
+#title2 {
+    position: absolute;
+    top: 54%;
+    left: 20%;
+    font-weight: 600;
+    color: #000;
+}
+
+#title3 {
+    position: absolute;
+    top: 58%;
+    left: 20%;
+    font-style: italic;
+    font-weight: 600;
+}
+
+#circleSmallBottom1, #circleSmallBottom2, #circleSmallBottom3 {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 5px solid #e0e0e0;
+    position: absolute;
+    left: 25%;
+    font-weight: 600;
+    padding: 10px 0;
+    background-color: #fff;
+    font-size: 13px;
+}
+
+#circleSmallBottom1 a, #circleSmallBottom2 a, #circleSmallBottom3 a {
+    z-index: 100;
+    width: 200px;
+    display: block;
+    color: #0080FF;
+}
+
+#circleSmallBottom1 {
+    top: 62%;
+}
+
+#circleSmallBottom2 {
+    top: 70%;
+    z-index: 2;
+}
+
+#circleSmallBottom3 {
+    top: 78%;
+}
+
+#thesaurusBtn {
+    position: absolute;
+    right: 8px;
+    bottom: 3%;
+}
+
+/****************Responsive Version of Thesaurus only*********************/
+
+
+/*@media only screen and (max-width:1200px) {*/
+
+    /*#circleBig {
+        top: 11%;
+        left: 40.5%;
+        height: 180px;
+        width: 180px;
+        padding: 0;
+    }
+
+    #circleBig p {
+        position: relative;
+        top: 45%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        vertical-align: middle;
+    }
+
+    .no-touch #circleSmallLeft1, #circleSmallLeft1:hover {
+        left: 20%;
+        top: 15%;
+    }
+
+    .no-touch #circleSmallLeft2, #circleSmallLeft2:hover {
+        left: 20%;
+        top: 27%;
+    }
+
+    .no-touch #circleSmallLeft3, #circleSmallLeft3:hover {
+        left: 20%;
+        top: 40%;
+    }
+
+    #circleSmallLeft1 a, #circleSmallLeft2 a, #circleSmallLeft3 a, #circleSmallRight1 a, #circleSmallRight2 a, #circleSmallRight3 a, #circleSmallBottom1 a, #circleSmallBottom2 a, #circleSmallBottom3 a {
+        display: block;
+    }
+
+    #circleSmallLeft1 a, #circleSmallLeft2 a, #circleSmallLeft3 a {
+        color: #0080FF;
+        display: block !important;
+    }*/
+
+    /*#arrowRight1 {
+        display: block;
+        font-size: 50px;
+        position: absolute;
+        left: 30%;
+        top: 27%;
+        color: #c9c9c9;
+    }
+
+    #arrowRight2 {
+        right: 30%;
+    }
+
+    .icon-down-bold {
+        left: 46%;
+        top: 50%;
+    }
+
+    #circleSmallBottom1 {
+        left: 47.5%;
+        top: 65%;
+        font-size: 14px;
+    }
+
+    #circleSmallBottom2 {
+        left: 47.5%;
+        top: 73%;
+        font-size: 14px;
+    }
+
+    #circleSmallBottom3 {
+        left: 47.5%;
+        top: 81%;
+        font-size: 14px;
+    }
+
+    #title1 {
+        right: 12%;
+    }
+
+    #title2 {
+        left: 45%;
+        top: 56%;
+    }
+
+    #title3 {
+        left: 45%;
+        top: 60%;
+    }
+
+
+    #circleSmallRight1, #circleSmallRight2, #circleSmallRight3 {
+        font-size: 14px;
+        right: 20%;
+    }
+
+
+    #thesaurusBtn {
+        right: 16%;
+        bottom: 7%;
+    }
+}
+
+@media only screen and (max-width:998px) {
+
+    #circleBig {
+        height: 150px;
+        width: 150px;
+        top: 16%;
+    }
+
+        #circleBig p {
+            top: 30%;
+        }
+}
+
+@media only screen and (max-width:768px) {
+
+    #circleBig {
+        height: 110px;
+        width: 110px;
+        top: 22%;
+    }
+
+        #circleBig p {
+            top: 20%;
+        }
+
+    .icon-down-bold {
+        left: 43.5%;
+        top: 50%;
+    }
+
+    #circleSmallBottom1 {
+        left: 45.5%;
+        top: 65%;
+        font-size: 14px;
+    }
+
+    #circleSmallBottom2 {
+        left: 45.5%;
+        top: 73%;
+        font-size: 14px;
+    }
+
+    #circleSmallBottom3 {
+        left: 45.5%;
+        top: 81%;
+        font-size: 14px;
+    }
+
+
+    #title2 {
+        left: 42%;
+        top: 56%;
+    }
+
+    #title3 {
+        left: 42%;
+        top: 60%;
+    }
+
+    #thesaurusBtn {
+        right: 6%;
+    }
+}
+
+@media only screen and (max-width:620px) {
+    .icon-down-bold {
+        top: 46%;
+        left: 44.5%;
+    }
+
+    #circleBig {
+        left: 39.5%;
+    }
+
+    #arrowRight1, #arrowRight2, .icon-down-bold {
+        font-size: 40px;
+    }
+
+    #arrowRight2 {
+        right: 33%;
+    }
+
+
+    #thesaurusBtn {
+        right: 3%;
+        bottom: 3%;
+    }
+}
+
+@media only screen and (max-width:590px) {
+    #arrowRight1, #arrowRight2 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width:520px) {
+    #circleBig {
+        left: 38.5%;
+    }
+}
+
+@media only screen and (max-width:500px) {
+    #circleSmallLeft1 a, #circleSmallLeft2 a, #circleSmallLeft3 a, #circleSmallRight1 a, #circleSmallRight2 a, #circleSmallRight3 a {
+        width: 100px;
+    }
+
+    #circleSmallLeft1, #circleSmallLeft2, #circleSmallLeft3 {
+        left: 10%;
+    }
+
+    #circleSmallRight1, #circleSmallRight2, #circleSmallRight3 {
+        right: 10%;
+    }
+
+    #circleBig {
+        z-index: 4;
+    }
+
+    #title1 {
+        right: 0;
+    }
+}*/
+
+/*****jobs****/
+
+#sidebarJob {
+    display: none;
+}
+
+.jobSidebar .jobListing {
+    margin: 0 0 5px 0;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#sidebarJobHolder .jobSidebar .jobListing h3 {
+    font-size: 16px;
+    font-family: 'Open Sans', Sans-Serif;
+    color: #000;
+    padding-bottom: 0;
+    margin: 0;
+    display: inline-block;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+.jobSidebar .jobListing i {
+    color: #0080FF;
+}
+
+#sidebarJobHolder .jobSidebar .jobListing h4 {
+    font-size: 14px;
+    margin: 5px 0;
+    font-weight: 400;
+}
+
+.jobSidebar .jobListing .jobDescription {
+    font-size: 12px;
+}
+
+
+
+
+/****map*****/
+
+#mapDiv .col-lg-12 {
+    padding: 0;
+    text-align: center;
+}
+
+#mapDiv h4 {
+    background-color: #f0f0f0;
+    padding: 5px;
+    text-align: center;
+}
+
+#mapBtn {
+    margin: 12px;
+}
+
+
+/*****tags******/
+
+#professionTags {
+    background-color: #f0f0f0;
+    padding: 8px;
+}
+
+
+.mobileParagraph {
+    display: none;
+}
+
+.desktopParagraph {
+
+}
+
+
+/**************************mobile****************************/
+
+
+@media only screen and (max-width:1200px) {
+
+    #professionPage .container, #professionPage .navbar-wrapper .container {
+        width: 90%;
+    }
+
+    .rateitDiv button {
+        width: 240px;
+        height: 80px;
+        font-size: 22px;
+        margin:10px;
+    }
+
+    .professionLeftSide a {
+        font-size:16px;
+    }
+}
+
+@media only screen and (max-width:992px) {
+    .sidebarDiv {
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    .professionRightSide {
+        padding: 0;
+        margin-top: 10px;
+    }
+
+
+
+}
+
+@media only screen and (max-width:768px) {
+
+    #professionPage .container, .navbar-wrapper .container {
+        width: 100%;
+    }
+
+    #professionPage {
+        background-color: #EBF2F2;
+    }
+
+    .sidebarDiv {
+        padding: 10px;
+    }
+
+    #professionPage h1 {
+        font-size: 18px;
+        word-wrap: break-word;
+    }
+
+    #professionPage h2 {
+        margin-top: 10px;
+    }
+
+    #professionPage h2.aka {
+        font-size: 12px;
+    }
+
+    #professionPage h3 {
+        font-size: 16px;
+    }
+
+    #professionPage h4, #professionPage h4 span {
+        font-size: 14px;
+    }
+
+    .dol {
+        margin-top: 0;
+        line-height: 26px;
+        font-size: 12px;
+    }
+
+    .professionLeftSide p {
+        font-size:14px;
+    }
+
+
+    .professionLeftSide {
+        padding: 0;
+    }
+
+    .careerSection {
+        padding: 10px 10px;
+    }
+
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        font-size: 13px;
+        padding: 3px 6px;
+    }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th {
+        font-size: 12px;
+        font-family: 'open sans';
+    }
+
+    .progressionTable > tbody > tr > td:last-child {
+        padding-right: 15px;
+    }
+
+    .headerLi {
+        display: none;
+    }
+
+    .professionLeftSide a {
+        font-size: 13px;
+        width: initial;
+        min-width: initial;
+    }
+
+    #show-aka {
+        font-size: 12px;
+    }
+
+    .socialIconsHolder {
+        margin-top: 10px !important;
+    }
+
+    .ctBreadcrumbs .categoryCareerList a {
+        font-size: 14px;
+    }
+
+    .ctBreadcrumbs a, .ctBreadcrumbs p {
+        font-size: 14px;
+    }
+
+    .ctBreadcrumbs li {
+        padding: 10px 0;
+    }
+
+    #professionPage .icon-right-open-big, i.icon-down-open-big {
+        font-size: 14px;
+        margin-top: -7px;
+    }
+
+    table {
+        margin: 20px 0;
+    }
+
+    .highestEmployment, .highestSalary {
+        margin-top: 30px;
+    }
+
+
+    .liveHelp p {
+        font-size: 12px;
+    }
+
+    .liveHelp .col-xs-7 {
+        padding-right: 0;
+    }
+
+    .operatorWrapper img {
+        height:100px;
+    }
+
+    #professionPage .rateitDiv h3 {
+        font-size: 20px;
+    }
+
+     .rateitDiv button {
+        width: 200px;
+        height: 70px;
+        font-size: 19px;
+        margin: 10px;
+     }
+
+}
+
+@media only screen and (max-width:600px) {
+    .mobileParagraph {
+        display: block;
+    }
+
+
+    .liveHelp p {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width:500px) {
+
+    .rateitDiv button {
+        width: 120px;
+        min-width: 120px;
+        height: 60px;
+        margin: 10px;
+        background-color: #fff;
+        font-size: 15px;
+        font-family: 'open sans condensed';
+        font-weight: 600;
+    }
+
+    #professionPage .rateitDiv h3 {
+        font-size: 15px;
+    }
+
+    .aka {
+        font-size:12px;
+    }
+
+    table {
+        margin: 10px 0 20px;
+    }
+
+    .rateitDiv a {
+        font-size:10px;
+    }
+
+    #professionPage h4, #professionPage h4 span {
+        margin: 20px 0 10px;
+    }
+
+    #professionPage h3 {
+        font-size: 15px;
+    }
+}

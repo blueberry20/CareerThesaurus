@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SkillCow.Classes.Cloud.TableStorage.ClientLogoOverrides.ClientLogoOverride>
+
+@{
+    ViewBag.Title = "Logo Overrides";
+    ViewBag.SuppressTabs = true;
+}
+
+<style>
+h1,h2,h3,h4,h5 {color: #333;}
+</style>
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+<h2>Client Logo Overrides</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <td>Logo</td>
+        <th>
+            Name
+        </th>
+        <th>
+            Client Type
+        </th>
+        <th>
+            Client Id
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <img src="https://chaindate.blob.core.windows.net/logooverrides/@(item.ClientType)/@(item.ClientId)" style="max-height: 80px;" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RowKey  }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.RowKey })
+        </td>
+    </tr>
+}
+
+</table>
+</div>

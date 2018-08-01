@@ -1,0 +1,117 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class CareersController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Careers/
+
+
+        public ActionResult Index(string id)
+        {
+            if (id == null)
+            {
+                return View();
+            }
+            else
+            {
+                return View(id);
+            }
+        }
+        public ActionResult ByInterest()
+        {
+
+            return View();
+        }
+        public ActionResult ByPersonality()
+        {
+            return View();
+        }
+
+        public ActionResult In(string id)
+        {
+            return View();
+        }
+
+        public ActionResult Index_pics()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public void SaveInterest(string user, string interest, string rating)
+        {
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            AssessmentInterestRating interestRating = airc.GetByPartitionAndRowKey(student.School, user + interest);
+            if (interestRating == null)
+            {
+                airc.AddNewItem(new AssessmentInterestRating { PartitionKey = student.School, RowKey = user + interest, Rating = rating, GradYear = student.GradYear, Student = user, Teacher = student.Teacher, Group = student.Group });
+            }
+            else
+            {
+                interestRating.Rating = rating;
+                airc.Update(interestRating);
+            }
+        }
+        [HttpPost]
+        public void SaveCareerRating(string user, string career, string rating)
+        {
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            AssessmentCareerRating careerRating = acrc.GetByPartitionAndRowKey(student.School, user + career);
+            if (careerRating == null)
+            {
+                acrc.AddNewItem(new AssessmentCareerRating { PartitionKey = student.School, RowKey = user + career, DolCode = career, Rating = rating, GradYear = student.GradYear, Student = user, Teacher = student.Teacher, Group = student.Group });
+            }
+            else
+            {
+                careerRating.Rating = rating;
+                acrc.Update(careerRating);
+            }
+        }
+        class CareerRating
+        {
+            public string dolcode { get; set; }
+            public string rating { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetCareerRatings(string user)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            List<AssessmentCareerRating> careerRatings =  new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(student.School, user));
+            List<CareerRating> results = new List<CareerRating>();
+            string response;
+            if (careerRatings.Count != 0)
+            {
+                foreach (AssessmentCareerRating careerRating in careerRatings)
+                {
+                    results.Add(new CareerRating { dolcode = careerRating.DolCode, rating = careerRating.Rating });
+                }
+                response = "{\"result\": \"ok\", \"results\":" + jss.Serialize(results) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\":[]}";
+            }            
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+    }
+}

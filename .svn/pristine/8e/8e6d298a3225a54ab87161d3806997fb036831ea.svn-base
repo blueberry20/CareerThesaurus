@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "privacy";
+}
+
+<link href="~/Content/css/About/termsprivacy.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer aboutContainer">
+    <div class="container">
+        <h2>Privacy Policy</h2>
+        <p class="italic">Revised and updated on May 20, 2014</p>
+        <p>Should you have any questions or concerns regarding CareerThesaurus’s information handling practices or its Privacy Policy, you may contact us at the address below:</p>
+        <div class="addressDiv">
+            <p>65 15th St</p>
+            <p>Suite 2F</p>
+            <p>Brooklyn, NY 11215</p>
+            <p class="nomargin">info@CareerThesaurus.com</p>
+        </div>
+        <p>
+            CareerThesaurus.com (“CareerThesaurus”) respects your privacy as a user.  This Privacy Policy has been created to provide you with the insight into how CareerThesaurus may use the information which you the User provide.  In this Privacy Policy you will learn about the types of information we collect, how we may use it and who else this information might be shared with.  By using CareerThesaurus’s web site or any of the services provided by CareerThesaurus you agree to be bound by the separate then-current Terms and Conditions found on CareerThesaurus’s web site, as well agree with CareerThesaurus’s practices on  handling the information stated herein.  <strong>IF YOU DO NOT AGREE WITH ANY TERMS OR CONDITIONS FOUND IN THE TERMS AND CONDITIONS AGREEMENT OR IF YOU DO NOT AGREE WITH CAREERTHESAURUS’S PRIVACY POLICY, YOU AGREE TO CEASE THE USE OF THE WEB SITE AND SERVICES OF CAREERTHESAURUS.</strong> We therefore urge you to read both documents carefully before commencing the use of the web site and or services of CareerThesaurus.
+        </p>
+        <ol class="mainNumberList">
+            <li>
+                <h4>TYPES OF INFORMATION WE COLLECT</h4>
+                <ol class="lowerAlpha">
+                    <li>Personally Identifiable information.  CareerThesaurus may collect and store personal information about you upon using our services.  Personally Identifiable information can be classified as information such as your name, email, mailing address, phone number which can be used to identify you as a person and contact you. We may, at times, collect additional information.</li>
+                    <li>Non-identifying information.  CareerThesaurus may also collect non-identifying information about you, such as your gender, age, as well as education and career related preferences.  This information can be used by CareerThesaurus to optimize and enhance your user experience and generated results.</li>
+                    <li>Synthetic data.  Synthetic data is created for data anonymization purposes and protects the confidentiality and privacy of the user. It is used to test and optimize the algorithms on our website in order to optimize and enhance your user experience.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>SOURCES OF INFORMATION</h4>
+                <ol class="lowerAlpha">
+                    <li>Other websites.  CareerThesaurus may collect information about you provided by other websites such as Facebook when you sign up using your Facebook account.</li>
+                    <li>Your Browser.  When you visit our web site, we may collect information from your browser such as your IP address, language, regional settings, browser type.  CareerThesaurus utilizes Google Analytics to collect most of such information for tracking and usage statistics in order to optimize our service, user targeting and user experience.</li>
+                    <li>You.  You the User may provide us with both Personally Identifiable and Non-personally identifiable information during the use of our service.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>COOKIES</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus cookies.  CareerThesaurus may at times place cookies on your computer, which help us track your usage of our web site, store test results and search preferences, in order to enhance and optimize your user experience.  Your browser probably accepts cookies automatically but you may disable this behavior, however CareerThesaurus does not guarantee that our web site will work correctly with cookies or JavaScript disabled.</li>
+                    <li>Third Party cookies.  CareerThesaurus may at times place third party advertisements or affiliate banners or widgets on our website, which may or may not place their own cookies on your computer, which helps them deliver targeted advertisements and track their effectiveness.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>USE OF COLLECTED INFORMATION ABOUT YOU</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus will use your information to conduct our business, communicate with you, deliver personalized service, perform analytics and run statistics, obtain feedback on our service, address issues with our site, business, or service, and enforce terms and conditions as well as provide information, if required by law to law enforcement agencies in order to ensure safety for all users.</li>
+                    <li>CareerThesaurus may share personally identifiable and non-identifiable information with our partners (The CollegeBound Network Inc., FindTheRightJob, and ChainDate Inc.). We do not sell information; our business model is split between a small number of businesses which are experts in their respective field.</li>
+                    <li>You may receive offers and promotions from CareerThesaurus’s business partners.</li>
+                    <li>If you are a resident of California, you can opt-out of the disclosure of personally identifiable information to third parties. In order to Opt-Out or to unsubscribe from receiving any email communication from CareerThesaurus, visit CareerThesaurus.com/unsubscribe</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>LINKS</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus may place links or advertisements from third party web sites or business partners.  CareerThesaurus may share your non-identifiable information with such partners and affiliates to help them achieve better targeting of advertising.  These third parties operate and are governed by their own respective terms and conditions, rules and regulations as required by their respective jurisdiction and enforce their own Privacy Policies and do not comply with those rules and regulations or privacy policy of CareerThesaurus.  Should you choose to conduct business with said third parties, you should read and accept those parties’ own policies.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>YOUR CONTROL OVER YOUR INFORMATION</h4>
+                <ol class="lowerAlpha">
+                    <li>Throughout your use of CareerThesaurus you will have access to your published content and/or career assessment results, and will be free to change and modify content made available for modification by CareerThesaurus. The content deemed mutable by CareerThesaurus will be such that would not disrupt CareerThesaurus’s integrity or violate the terms and conditions governing your use.  CareerThesaurus reserves the right to prevent certain content from being changed after you have published it on our website.</li>
+                    <li>You may delete your published content at any time.  This will prevent your published information from being found or viewed by others on CareerThesaurus’s website.  However, some information may remain on our servers even after you disable or delete your account.  This is required to maintain database integrity, usage statistics, as well as providing auditing capabilities if required by the law enforcement agencies.</li>
+                    <li>When you transact business with third parties or business partners which you may link to through CareerThesaurus, your information which may be collected by those third parties directly may remain on their respective servers and databases even after you discontinue use of CareerThesaurus services.</li>
+                    <li>We may retain information stored through cookies for 365 days or more, even after you discontinue use of our website, for purposes of usage statistic and enhancement of user experience in the future.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>YOUR CONTROL OVER THE USE OF YOUR INFORMATION</h4>
+                <ol class="lowerAlpha">
+                    <li>There is a certain required minimum of information that we collect before you are allowed to publish content on our website. This information is necessary for the use of our services, including but not limited to job and education posting. CareerThesaurus does not allow you to opt-out of such information.</li>
+                    <li>You have the right to opt-out of offers, promotions, or contact from CareerThesaurus, third-parties or business partners post contact, by replying with an opt-out request.</li>
+                </ol>
+            </li>
+
+
+            <li>
+                <h4>INFORMATION SECURITY</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus’s information protection practices.  CareerThesaurus is committed to providing the safest online experience and safekeeping of our users’ data.  It is in our best interest to do so.  However, while it is our priority to protect all data and information that we collect and maintain in our database, we cannot give 100% guarantee that your information will always be safe from hacker’s, intruder’s or losses due to breakdowns, theft and failures due to the vulnerabilities of various hardware and software technologies, viruses, worms, Trojan horses, network failures etc.  You should always be aware of this while transacting business on the internet and should always be on guard for identity theft.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>PROTECTION OF MINORS</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus’s terms of use require all users to be at least eighteen (18) years of age and we do not knowingly collect information from minors or anyone below that age.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>NO THIRD PARTY BENEFITS</h4>
+                <ol class="lowerAlpha">
+                    <li>This Privacy Policy does not grant any third party any benefits or rights of use of your information directly.</li>
+                </ol>
+            </li>
+
+            <li>
+                <h4>CHANGES AND REVISIONS</h4>
+                <ol class="lowerAlpha">
+                    <li>CareerThesaurus reserves the right to revise and modify this Privacy Policy at its own discretion at any time.  The newly revised Privacy Policy will be placed on our web site with the updated revision date.  We encourage you to check the Privacy Revision date often and stay up to date on any changes.</li>
+                </ol>
+            </li>
+        </ol>
+        </div>
+</div>
+<script>
+    function document_ready() {
+
+    }
+</script>

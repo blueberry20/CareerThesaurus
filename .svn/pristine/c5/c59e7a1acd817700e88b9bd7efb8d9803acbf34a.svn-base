@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.ServiceRuntime;
+
+namespace SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection
+{
+    public class TeacherToSchoolConnectionClient : TableServiceClientBase<TeacherToSchoolConnection>
+    {
+        public TeacherToSchoolConnectionClient()
+            : base("TeacherToSchoolConnection")
+        {
+        }
+        public CloudTableQuery<TeacherToSchoolConnection> GetAllActive(string partitionKey)
+        {
+            return (from e in TableContext().CreateQuery<TeacherToSchoolConnection>(tableName)
+                    where e.PartitionKey == partitionKey && e.Active == true
+                    select e).AsTableServiceQuery<TeacherToSchoolConnection>();
+        }
+        public CloudTableQuery<TeacherToSchoolConnection> GetAllByRowKey(string rowkey)
+        {
+            return (from e in TableContext().CreateQuery<TeacherToSchoolConnection>(tableName)
+                    where e.RowKey == rowkey
+                    select e).AsTableServiceQuery<TeacherToSchoolConnection>();
+        }
+    }
+}

@@ -1,0 +1,164 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    #_indeedjob_scrollablecontent div {display: inline-block;}
+</style>
+<style>
+    #indeedjob_formattedRelativeTime span.timer {color: rgba(255,255,255,1); font-size: 24pt; background-color: rgba(0,0,0,0); border: thin none #000; text-shadow: 3px 3px 2px rgba(0, 0, 32, 0.5);}
+    
+</style>
+<div id="_indeedjob" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+
+    <div id="_indeedjob_description_viewport" style="position: absolute; top: @(ViewBag.IsMobileDevice?"90px":"90px"); left: @(ViewBag.IsMobileDevice?"90px":"125px"); width: 0; bottom: @(ViewBag.IsMobileDevice?"90px":"0px"); overflow-y: scroll;">
+        <div id="_indeedjob_description_scrollablecontent" style="overflow-x: hidden; opacity: 1;">
+
+            <div style="color: #fff; padding-top: 0px; padding-bottom: 90px;">
+
+                <h1 id="indeedjob_jobtitle" style="margin: 0 0 10px 0; font-size: @(ViewBag.IsMobileDevice ? "36pt" : "36pt"); font-weight: normal;"></h1>
+                <h1 id="indeedjob_company" style="margin: 0 0 0px 0; font-size: @(ViewBag.IsMobileDevice ? "16pt" : "16pt"); font-weight: normal;"></h1>
+                <h1 id="indeedjob_formattedLocationFull" style="margin: 0 0 20px 0; font-size: 12pt; "></h1>
+    
+                <h1 id="indeedjob_formattedRelativeTime" style="margin: 0; font-size: 22pt;" class="age" timestamp=""></h1>            
+
+                <br />
+                <p id="_indeedjob_description" class="" style="margin: 0px 40px 0 0 ; font-size: @(ViewBag.IsMobileDevice ? "16px" : "18px");">
+                    
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    <div id="_indeedjob_backbutton" class="backbutton" ></div>
+
+    @if (ViewBag.IsMobileDevice)
+    {
+        <div style="position: absolute; background-color: rgba(0,0,0,0.5); top: 0px; right: 0px; width: 80px; height: 100%;">
+            <div id="_indeedjob_showformbutton" class="forwardbutton" style="bottom: 12px; right: 12px;" ></div>
+        </div> 
+    }
+</div>
+
+<script>
+    
+    var _indeedjob_loaded = false;
+    var _indeedjob_jobkey;
+    var _indeedjob_snippet = '';
+
+    function showIndeedJob(e) {
+    
+        try
+        {
+            _indeedjob_snippet='';
+
+            var ismobile = @(ViewBag.IsMobileDevice?"true":"false");
+        
+            showOverlay('_indeedjob');
+
+            _indeedjob_jobkey = $(e).attr('jobkey');
+
+            var jobtitle = $(e).attr('jobtitle');
+            _indeedjob_snippet = $(e).attr('snippet');
+                        
+            $('#indeedjob_jobtitle').html(jobtitle);
+            $('#indeedjob_company').html($(e).attr('company'));
+            $('#indeedjob_formattedLocationFull').html($(e).attr('formattedLocationFull'));
+            $('#_indeedjob_description').html('');
+
+            $('#indeedjob_formattedRelativeTime').attr('timestamp', $(e).attr('timestamp'));
+            $('#indeedjob_formattedRelativeTime').html(getElapsedTime($(e).attr('timestamp')));
+   
+            loadIndeedJobDescription();
+            
+
+            if(!ismobile)
+            {
+                showRecordForm('indeedjob', _indeedjob_jobkey, "{'jobkey':'" + _indeedjob_jobkey + "', 'jobtitle':'" + jobtitle + "'}", false);
+            }
+
+
+            if (!_indeedjob_loaded) {
+                $('#_indeedjob_backbutton').press(function () {
+                    hideOverlay('_indeedjob');
+                });
+               
+                if(ismobile)
+                {
+                    $('#_indeedjob_showformbutton').press(function () {
+                        showRecordForm('indeedjob', _indeedjob_jobkey, "{'jobkey':'" + _indeedjob_jobkey + "', 'jobtitle':'" + jobtitle + "'}", false, 300);
+                    });
+                }
+                     
+                $(document).keydown(function (e) {
+                    if (e.keyCode == 27) {
+                        hideOverlay('_indeedjob');
+                    }
+                });
+                _indeedjob_loaded = true;
+            }
+
+            
+        }
+        catch(ex)
+        {
+                        
+        }
+    }
+
+    function loadIndeedJobDescription() {
+        
+        $('#_indeedjob_description').html('');
+        
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobdescriptions",
+            type: "POST",
+            dataType: "json",
+            data: {
+                jobkeys: _indeedjob_jobkey
+            }
+        }).success(function (response) {
+            if(response.results.results.length>0)
+            {
+                for (var i = 0; i < response.results.results.length; i++) {
+                    if (response.results.results[i].snippet != null) {
+                
+                        $('#_indeedjob_description').html(response.results.results[i].snippet.replace(/\r\n/g, '</br>').replace(/\n/g, '</br>'));
+                        
+                    }
+                    break;
+                }
+            }
+            else{
+                $('#_indeedjob_description').html(_indeedjob_snippet);
+            }
+
+            resizeIndeedJobControls();
+            $("#_indeedjob_description_viewport").scrollTop(0);
+            
+        }).error(function () { });
+    }
+
+    function resizeIndeedJobControls(){
+        if(ismobile)
+        {
+            $('#_indeedjob_description_viewport').css('width', document.documentElement.clientWidth - 90 - 80);
+        }
+        else{
+            $('#_indeedjob_description_viewport').css('width', document.documentElement.clientWidth - 125 - 626);
+        }
+        
+        $("#_indeedjob_description_viewport").niceScroll("#_indeedjob_description_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorwidth: "20px", cursorborderradius: "10px", cursorborder: "1px none #fff" });
+        $("#_indeedjob_description_viewport").getNiceScroll().resize();
+    }
+
+</script>
+
+<script>
+    function window_resize() {
+        resizeControls();
+    }
+</script>

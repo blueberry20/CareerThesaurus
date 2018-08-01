@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Keyboard Tests";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+<h2>Keyboard Tests</h2>
+
+<br /><br />
+
+<div style="margin-left: 125px; position: relative;">
+    <div style="position: absolute; top: 10px; left: 0px;">Your Email:</div>
+    <div id="email" keyboardtype="email" prompt="Your email:" style="margin-left: 125px; width:300px; height: 20px; padding: 10px; font-size: 12pt; color: #fff; border: thin solid rgba(255,255,255,0.5); display: inline-block;"></div>
+</div>
+
+<div style="margin-left: 125px; position: relative;">
+    <div style="position: absolute; top: 10px; left: 0px;">Address:</div>
+    <div id="address" keyboardtype="standard" prompt="Your address:" style="margin-left: 125px; width:300px; height: 20px; padding: 10px; font-size: 12pt; color: #fff; border: thin solid rgba(255,255,255,0.5); display: inline-block;"></div>
+</div>
+
+<div style="margin-left: 125px; position: relative;">
+    <div style="position: absolute; top: 10px; left: 0px;">Your phone:</div>
+    <div id="phone" keyboardtype="phone" prompt="Your phone (cell preferred):" style="margin-left: 125px; width:300px; height: 20px; padding: 10px; font-size: 12pt; color: #fff; border: thin solid rgba(255,255,255,0.5); display: inline-block;"></div>
+</div>
+
+<div style="margin-left: 125px; position: relative;">
+    <div style="position: absolute; top: 10px; left: 0px;">GPA:</div>
+    <div id="gpa" keyboardtype="numeric" prompt="Your GPA:" style="margin-left: 125px; width:300px; height: 20px; padding: 10px; font-size: 12pt; color: #fff; border: thin solid rgba(255,255,255,0.5); display: inline-block;"></div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $('div[keyboardtype="email"]').press(function () { showKeyboardForEmail(this); });
+        $('div[keyboardtype="standard"]').press(function () { showKeyboardForStandard(this); });
+        $('div[keyboardtype="phone"]').press(function () { showKeyboardForPhone(this); });
+        $('div[keyboardtype="numeric"]').press(function () { showKeyboardForNumeric(this); });
+
+    }
+</script>
+
+

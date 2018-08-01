@@ -1,0 +1,734 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ResponsiveLayout.cshtml";
+    ViewBag.SuppressFooter = true;
+    
+}
+    <script type="text/javascript" src="https://gdc.indeed.com/ads/apiresults.js"></script>
+    <script src="@Url.Content("~/Scripts/TagAggregation/kiosk_tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+
+    <section id="shortcodes" class="page">
+	
+		<div id="content">
+
+			<section class="section border">
+
+				<div class="container">
+
+					<div class="row">
+						<div class="col-xs-12">
+							<hgroup class="section-title align-center">
+								<h1>Jobs</h1>
+							</hgroup>		
+						</div>
+					</div><!--/ .row-->
+
+					<div class="row">
+
+						<div class="col-md-6 col-xs-12">
+
+							<h2 class="content-title">Searching: <span id="searchterms"></span></h2>
+
+							<div class="acc-box">
+
+								<span class="acc-trigger" data-mode=""><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut lacus at velit consequat sodales. 
+										Ut posuere neque in molestie gravida. Integer eu feugiat neque, elementum posuere purus. Nam vitae sed nec consequat felis. 
+										Proin sit amet sollicitudin neque, a rhoncus nisl. 
+									</p>
+								</div><!--/ .acc-container-->
+
+								<span class="acc-trigger" data-mode=""><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut lacus at velit consequat sodales. 
+										Ut posuere neque in molestie gravida. Integer eu feugiat neque, elementum posuere purus. Nam vitae sed nec consequat felis. 
+										Proin sit amet sollicitudin neque, a rhoncus nisl. 
+									</p>
+								</div><!--/ .acc-container-->
+
+								<span class="acc-trigger" data-mode=""><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut lacus at velit consequat sodales. 
+										Ut posuere neque in molestie gravida. Integer eu feugiat neque, elementum posuere purus. Nam vitae sed nec consequat felis. 
+										Proin sit amet sollicitudin neque, a rhoncus nisl. 
+									</p>
+								</div><!--/ .acc-container-->
+
+							</div><!--/ .acc-box-->		
+
+						</div>
+
+						<div class="col-md-6 col-xs-12">
+
+							<h2 class="content-title">Refine search</h2>
+
+                            <div class="addsearchterm">add a keyword: 
+                                <input type="text" id="newsearchterm" />
+                                <a id="btnaddkeyword" href="#" class="button default">add</a> 
+                            </div> 
+
+							<div class="acc-box">
+								<span class="acc-trigger" data-mode="toggle"><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									 
+								</div><!--/ .acc-container-->
+
+								<span class="acc-trigger" data-mode="toggle"><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									<div class="addsearchterm">+ company: 
+                                        <input type="text" id="newcompany"/>
+                                        <div id="btnaddcompany" class="button">add</div>
+                                    </div> 
+								</div><!--/ .acc-container-->
+
+								<span class="acc-trigger" data-mode="toggle"><a href="#">Lorem ipsum dolor sit amet</a></span>
+								<div class="acc-container">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut lacus at velit consequat sodales. 
+										Ut posuere neque in molestie gravida. Integer eu feugiat neque, elementum posuere purus. Nam vitae sed nec consequat felis. 
+										Proin sit amet sollicitudin neque, a rhoncus nisl. 
+									</p>
+								</div><!--/ .acc-container-->
+
+							</div><!--/ .acc-box-->		
+
+						</div>
+
+					</div><!--/ .row-->
+
+					<div class="row">
+
+						<div class="col-xs-12">
+							<div class="divider"></div>
+						</div>
+
+					</div><!--/ .row-->
+
+					<div class="row">
+
+						<div class="col-md-6 col-xs-12">
+                            
+                            <!--Search results go here-->
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+        
+
+	<section id="folio" class="page">
+        
+		<section class="section padding-bottom-off">
+            
+            <h1 id="status">Job search results</h1>
+			<ul id="portfolio-items" class="portfolio-items" style="width: 100%">
+                
+				<li class="job-posting">
+					<div itemscope itemtype="http://schema.org/JobPosting">
+                        <meta itemprop="specialCommitments" content="" />
+                        <h2 itemprop="title">Software Engineer</h2>
+                        <span>
+                            <span itemprop="jobLocation" itemscope itemtype="http://schema.org/Place">
+                                <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                                    <span itemprop="addressLocality">Kirkland</span> 
+                                    <span itemprop="addressRegion">WA</span>
+                                    </span>
+                                </span>
+                        </span>
+                        <p itemprop="description">
+                            <span itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">ABC Company Inc.</span>
+                            seeks a full-time mid-level software engineer to develop in-house tools.</span>
+                            If interested in this position, please email us your resume, along with salary requirements and a cover letter to Jobs@abc.123.
+                        </p>
+                        <p>Date Posted: <span itemprop="datePosted">2011-10-31</span></p>
+                    </div>
+				</li>	
+                <li class="job-posting">
+					<div itemscope itemtype="http://schema.org/JobPosting">
+                        <meta itemprop="specialCommitments" content="" />
+                        <h2 itemprop="title">Software Engineer</h2>
+                        <span>
+                            <span itemprop="jobLocation" itemscope itemtype="http://schema.org/Place">
+                                <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                                    <span itemprop="addressLocality">Kirkland</span> 
+                                    <span itemprop="addressRegion">WA</span>
+                                    </span>
+                                </span>
+                        </span>
+                        <br />
+                        <p itemprop="description">
+                        <span itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">ABC Company Inc.</span>
+                        seeks a full-time mid-level software engineer to develop in-house tools.</span>
+                        If interested in this position, please email us your resume, along with salary requirements and a cover letter to Jobs@abc.123.
+                        </p>
+                        <p>Date Posted: <span itemprop="datePosted">2011-10-31</span></p>
+                    </div>
+				</li>	
+                		
+
+			</ul><!--/ .portfolio-items-->
+			
+            
+
+		</section><!--/ .section-->
+		
+        
+
+	</section><!--/ .page-->
+	
+    <section id="jobsbyindeed">
+        Some <span id="indeed_at"><a href="https://www.indeed.com/" target="_blank" style="text-decoration: none;">jobs</a> by <a href="https://www.indeed.com/" title="Job Search" target="_blank"><img src="https://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle; height: 12px; opacity: 0.8;" alt="Indeed job search"></a></span>
+    </section>
+
+	<script>
+	    function document_ready() {
+	        
+	        //matchFeaturedJobs();
+	        showJobResults('11230', 'sales')
+	    }
+
+	    $(function () {
+	        $(window).scroll(function () {
+	            if ($(document).height() - 100 < $(window).scrollTop() + $(window).height()) {
+	                //LOAD MORE
+	                newsearch = false;
+	                improving = false;
+
+	                alert('Loading more');
+	                searchJobs();
+	            }
+	        });
+	    });
+    </script>
+
+    
+
+    <script>
+        var justloaded = true;
+
+        var zip = '';
+
+        var additionalresults = 0;
+        var newsearch = false, improving = false;
+        var RESULT_SEQUENCE = 0;
+
+        var processingresults = false;
+        var startingresultnumber = 0;
+        var endofresults = false;
+        var searchterm = '';
+        var searching = false;
+        var titlekeywordsarray = new Array();
+        var termsarray = new Array();
+        var companiesarray = new Array();
+        var searchlocation = '';
+
+        var topkeywords, topcompanies;
+
+        var _job_search_results_resultwidth = 270;
+        var _job_search_results_resultheight = 270;
+        var _job_search_results_resultspacing = 20;
+        var _job_search_results_itemstopmargin = 0; // Math.max(0, (document.documentElement.clientHeight - 90) / 2 - (320 / 2) - 40);
+
+        var initialresults = true;
+
+        function showJobResults(location, keywords) {
+
+            $('#jobsbyindeed').hide();
+                        
+            searchlocation = location;
+            searchterm = $.trim(keywords);
+            titlekeywordsarray = searchterm.split(' ');
+            companiesarray = new Array();
+            termsarray = new Array();
+
+            zip = 'new york';
+            if (searchlocation != null && searchlocation != '') {
+                zip = getCookie('zip');
+            }
+
+            searching = false;
+            startingresultnumber = 0;
+            RESULT_SEQUENCE = 0;
+            endofresults = false;
+            avonlistingadded = false;
+
+            $('#btnaddkeyword').press(addsearchterm);
+            $('#btnaddcompany').press(addcustomcompany);
+            
+            $('#newsearchterm').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    addsearchterm();
+                }
+            });
+            $('#newcompany').bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    addcustomcompany();
+                }
+            });
+                        
+            $('#newsearchterm').focus();
+            
+
+            newsearch = true;
+            improving = false;
+
+            searchJobs();
+        }
+
+
+        function searchJobs() {
+
+            if (searching)
+                return;
+
+            if (endofresults)
+                return;
+
+
+            searching = true;
+
+            $('#status').html('Fetching...');
+
+            //Only if new search        
+            if ((startingresultnumber) === 0) {
+
+
+                RESULT_SEQUENCE = 0;
+                newsearch = true;
+
+                topkeywords = new Array();
+                topcompanies = new Array();
+                
+                var sb = '';
+
+                //show keywords
+                for (var i = 0; i < titlekeywordsarray.length; i++) {
+                    if ($.trim(titlekeywordsarray[i]) !== '') {
+                        if (sb == '') {
+                            sb += '<div class=\"searchterm\" type="keyword" term="' + titlekeywordsarray[i] + '">' + titlekeywordsarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                        }
+                        else {
+                            sb += '+ <div class=\"searchterm\" type="keyword" term="' + titlekeywordsarray[i] + '">' + titlekeywordsarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                        }
+                    }
+                }
+
+                //show serach terms
+                for (var i = 0; i < termsarray.length; i++) {
+                    if ($.trim(termsarray[i]) !== '') {
+                        if (sb == '') {
+                            sb += '<div class=\"searchterm\" type="keyword" term="' + termsarray[i] + '">' + termsarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                        }
+                        else {
+                            sb += '+ <div class=\"searchterm\" type="keyword" term="' + termsarray[i] + '">' + termsarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                        }
+                    }
+                }
+                //show comapnies
+                for (var i = 0; i < companiesarray.length; i++) {
+                    if ($.trim(companiesarray[i]) !== '') {
+                        sb += ' @@ <div class=\"searchterm\" type="company" term="' + companiesarray[i] + '">' + companiesarray[i] + '<div style="position: absolute; top: -10px; right: 0px; font-size: 8pt; color: white; background: #000; padding: 0px 5px 2px 5px;"><nobr>x</nobr></div></div>';
+                    }
+                }
+
+                $('#searchterms').html(sb);
+                $('.searchterm[type=\'keyword\']').press(function () {
+                    removesearchterm(this);
+                });
+                $('.searchterm[type=\'company\']').press(function () {
+                    removecompany(this);
+                });
+            }
+
+
+            searchIndeedJobs(getSearchTermParameter());
+        }
+        function getSearchTermParameter() {
+            var searchterparameter = 'title:(';
+            searchterm = '';
+            for (var i = 0; i < titlekeywordsarray.length; i++) {
+                if ($.trim(titlekeywordsarray[i]) !== '') {
+                    if (searchterparameter === 'title:(') {
+                        searchterparameter += encodeURIComponent(titlekeywordsarray[i]);
+                        searchterm += $.trim(titlekeywordsarray[i]);
+                    }
+                    else {
+                        searchterparameter += " " + encodeURIComponent(titlekeywordsarray[i]);
+                        searchterm += " " + $.trim(titlekeywordsarray[i]);
+                    }
+                }
+            }
+
+            if (searchterparameter === 'title:(') {
+                searchterparameter = '';
+            }
+            else {
+                searchterparameter += ') ';
+            }
+
+            //add company to the query
+            for (var i = 0; i < companiesarray.length; i++) {
+                if ($.trim(companiesarray[i]) !== '') {
+                    debugalert('Company: ' + companiesarray[i] + ' Encoded: ' + encodeURIComponent(companiesarray[i]));
+                    searchterparameter += "company:(" + encodeURIComponent(companiesarray[i]) + ') ';
+                    searchterm += ' ' + $.trim(companiesarray[i]);
+                    break;
+                }
+            }
+
+            //add keywords
+            for (var i = 0; i < termsarray.length; i++) {
+                if ($.trim(termsarray[i]) !== '') {
+                    searchterparameter += " " + encodeURIComponent(termsarray[i]);
+                    searchterm += " " + $.trim(termsarray[i]);
+                }
+            }
+
+            searchterparameter = searchterparameter.replace(/\'/gi, '%27');
+            return $.trim(searchterparameter);
+        }
+
+        function indeedResultsLoaded() {
+    
+            if (endofresults) {
+                $('#status').html((startingresultnumber + additionalresults) + ' jobs showing.  No more found.');
+            }
+            else {
+                $('#status').html((startingresultnumber + additionalresults) + ' jobs showing.  Scroll to load more.');
+            }
+
+            searching = false;
+
+            topkeywords = normalizeRank(topkeywords);
+            topcompanies = normalizeRank(topcompanies);
+
+            var effect = improving ? 'fadein' : 'slidein';
+
+            displaytags('keywordtags', 'keywordtags_viewport', topkeywords, 1, effect, 100, 1500, addtag);
+
+            if (topcompanies != null && topcompanies.length > 0) {
+                $('#topcompaniescanvas').show();
+                $('#topkeywordscanvas').css('margin-top', '0');
+                displaykiosktags('topcompanies', 'topcompanies_viewport', topcompanies, 0, effect, 500, 2000, addcompany);
+            }
+            else {
+                $('#topcompaniescanvas').hide();
+                $('#topkeywordscanvas').css('margin-top', (ismobile ? 40 : 60) + 'px');
+            }
+
+            if (initialresults) {
+                showHowToSlide();
+            }
+            initialresults = false;
+        }
+
+        function searchIndeedJobs(searchterparameter) {
+
+            var chnl = '13564694';
+
+
+            $.ajax({
+                url: appserverurl + "/Jobs/getindeedjobs",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    p: searchterparameter,
+                    l: zip,
+                    c: chnl,
+                    limit: "25",
+                    start: startingresultnumber
+                }
+            }).success(function (response) {
+
+                var cnt = 0;
+                processingresults = true;
+                
+                $('#keywordtags').html('');
+                $('#topcompanies').html('');
+
+                var professionkeywords = new Array();
+                var professionname = searchterm;
+                professionkeywords = professionname.split(' ');
+
+                var resultslength = 0;
+                try {
+                    if (response.results.results != null) {
+                        resultslength = response.results.results.length;
+                        for (var i = 0; i < resultslength; i++) {
+                            cnt++;
+                            var x = response.results.results[i];
+
+                            topkeywords = rankWords(x.snippet, professionkeywords, topkeywords, 'keyword');
+                            topkeywords = rankWords(x.jobtitle, professionkeywords, topkeywords, 'intitle');
+                            topcompanies = rankPhrase(x.company, companiesarray, topcompanies);
+
+
+
+                            for (var j = 0; j < searchterm.length; j++) {
+                                var pattern = searchterm[j];
+                                var regex = new RegExp('\\b' + pattern + '\\b', "gi");
+                                description = description.replace(regex, '<span class="highlight">' + searchterm[j] + '</span>');
+                            }
+
+                            $('#jobresults').append('<a class="indeedresult" onmousedown="' + x.onmousedown + '" href="' + x.url + '" target="_blank">' +
+                                '<div class="jobresult">' +
+                                '<div class="title">' + x.jobtitle + '</div>' +
+                                '<div class="company">' + x.company + ', ' + x.formattedLocation + '</div>' +
+                                '<div class="snippet">' + description + '</div>' +
+                                '<img class="disclosure" src="/content/images/elements/disclosure/27px.png" border=0/>' +
+                                '</div></a>');
+
+                            //addIndeedJobResult(RESULT_SEQUENCE + additionalresults, x, submittedlist);
+
+                            startingresultnumber++;
+                            RESULT_SEQUENCE++;
+                        }
+
+                        if (cnt > 0) {
+                            $('#jobsbyindeed').show();
+                        }
+                    }
+
+                    if (cnt < 25) {
+                        endofresults = true;
+                    }
+
+                    indeedResultsLoaded();
+                }
+                catch (e) {
+                    debugalert(e.message + '; response.results.results=' + response.results.results.length + '; length:' + resultslength);
+                }
+
+                processingresults = false;
+
+            }).error(function (response) {
+                debugalert("Error 2: " + response.errormessage);
+            });
+
+        }
+
+        function addsearchterm() {
+
+            var newterm = $.trim($('#newsearchterm').val().replace(/(\&|\?)/g, ''));
+
+            if (searchtermexists(newterm))
+                return;
+
+            termsarray.push(newterm);
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            if (ismobile) {
+                $('#newsearchterm').val('');
+            }
+            else {
+                $('#newsearchterm').html('');
+            }
+
+
+            newsearch = true;
+            improving = true;
+            additionalresults = 0;
+
+            searchJobs();
+        }
+        function addcustomcompany() {
+
+            var newterm = $.trim($('#newcompany').val().replace(/(\&|\?)/g, ''));
+
+            companiesarray = new Array();
+
+            companiesarray.push(newterm);
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            if (ismobile) {
+                $('#newcompany').val('');
+            }
+            else {
+                $('#newcompany').html('');
+            }
+
+
+            newsearch = true;
+            improving = true;
+            additionalresults = 0;
+
+            searchJobs();
+        }
+
+        function addtag(e) {
+
+            var newterm = $.trim($(e).attr('value'));
+            var kwtype = $.trim($(e).attr('keywordtype'));
+
+            if (searchtermexists(newterm))
+                return;
+
+            if (!ismobile) {
+                $(e).css('background-color', 'rgba(255,230,0,1)');
+                $(e).css('border-color', '#000');
+                $(e).css('color', '#000');
+            }
+
+            if (kwtype == 'keyword') {
+                termsarray.push(newterm);
+            } else {
+                titlekeywordsarray.push(newterm);
+            }
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            $('#newsearchterm').val('');
+
+            setTimeout(function () {
+                newsearch = true;
+                improving = true;
+                additionalresults = 0;
+                searchJobs();
+            }, 100);
+        }
+
+        function addcompany(e) {
+
+            var newterm = $.trim($(e).attr('value'));
+
+            if (!ismobile) {
+                $(e).css('background-color', 'rgba(255,230,0,1)');
+                $(e).css('border-color', '#000');
+                $(e).css('color', '#000');
+            }
+
+            companiesarray = new Array();
+            companiesarray.push(newterm);
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            $('#newcompany').val('');
+
+            setTimeout(function () {
+                newsearch = true;
+                improving = true;
+                additionalresults = 0;
+                searchJobs();
+            }, 100);
+        }
+
+        function searchtermexists(term) {
+            for (var i = 0; i < termsarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(termsarray[i]).toLowerCase()) {
+                    return true;
+                }
+            }
+            for (var i = 0; i < titlekeywordsarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(titlekeywordsarray[i]).toLowerCase()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        function companyexists(term) {
+            for (var i = 0; i < companiesarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(companiesarray[i]).toLowerCase()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        function removesearchterm(e) {
+
+            var term = $.trim($(e).attr('term'));
+
+            if (!searchtermexists(term))
+                return;
+
+            for (var i = 0; i < termsarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(termsarray[i]).toLowerCase()) {
+                    termsarray[i] = "";
+                }
+            }
+            for (var i = 0; i < titlekeywordsarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(titlekeywordsarray[i]).toLowerCase()) {
+                    titlekeywordsarray[i] = "";
+                }
+            }
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            newsearch = true;
+            improving = true;
+
+            if (getSearchTermParameter() == '') {
+                avonlistingadded = false;
+            }
+
+            searchJobs();
+        }
+        function removecompany(e) {
+
+            var term = $.trim($(e).attr('term'));
+            if (!companyexists(term))
+                return;
+
+            for (var i = 0; i < companiesarray.length; i++) {
+                if ($.trim(term.toLowerCase()) == $.trim(companiesarray[i]).toLowerCase()) {
+                    companiesarray[i] = "";
+                }
+            }
+
+            endofresults = false;
+            startingresultnumber = 0;
+
+            if (getSearchTermParameter() == '') {
+                avonlistingadded = false;
+            }
+
+            newsearch = true;
+            improving = true;
+            searchJobs();
+        }
+
+
+    </script>
+
+
+
+<style>
+    
+    ul.portfolio-items {padding: 20px;} 
+    ul.portfolio-items li.job-posting { font-size: 12pt; margin: 0; padding-bottom: 20px; width:100%; }
+    ul.portfolio-items li.job-posting div {border: thin solid #eee; width: 100%; padding: 20px; color: #000; background-color: #fafafa;}
+    
+    @@media screen and (max-width: 480px)
+    {
+        ul.portfolio-items {padding: 0px;} 
+        ul.portfolio-items li.job-posting { font-size: 12pt; margin: 0; padding-bottom: 0px; width:100%; }
+        ul.portfolio-items li.job-posting div {border-left: none; border-right: none; border-bottom: none; }
+    }
+    
+    @@media screen and (min-width: 1024px)
+    {
+        ul.portfolio-items {padding-right: 0px;} 
+        ul.portfolio-items li.job-posting { width:50%; display: inline-block; padding-right: 20px; border: thin none red;}
+        
+    }
+</style>
+
+<style>
+    span.highlight {background-color: #ffff00;}
+    div.searchterm {display: inline-block; background-color: #ddffdd; margin: 0 5px 5px 0px; padding: 3px; border: thin dashed #ddd; border-radius: 5px 5px; cursor: pointer;}
+    div.searchterm:hover {border: thin solid #ddd; background-color: #ffeeee;}
+    div.addsearchterm input,a {display: inline-block; clear: none;}
+</style>

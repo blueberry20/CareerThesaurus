@@ -1,0 +1,60 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientSlideShows.ClientSlideShowSlide
+
+@{
+    ViewBag.Title = "DeleteSlide";
+}
+<style>
+h1,h2,h3,h4,h5 {color: #333;}
+</style>
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+</style>
+<script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<link href="/content/css/pictureuploader/fileuploader.css" rel="stylesheet" type="text/css">
+
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h2>Delete Slide</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <fieldset>
+        <legend>ClientSlideShowSlide</legend>
+
+        <div class="display-label">ImageURL</div>
+        <div class="display-field">
+            <div id="slidecontainer">
+                <img src="https://chaindate.blob.core.windows.net/slideshows/@Model.PartitionKey/@Model.RowKey" alt="Slide" style="max-height: 300px;"/>
+            </div>
+        </div>
+
+        <div class="display-label">Caption</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Caption)
+        </div>
+
+
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.RowKey)
+        @Html.HiddenFor(model => model.PartitionKey)
+        <p>
+            <input type="submit" value="Delete" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    }
+
+</div>

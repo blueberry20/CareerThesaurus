@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Generate Phrases";
+}
+@using SkillCow.Controllers
+
+<style>
+#titles {text-align: left;}
+#titles .jobtitle { background-color: rgba(255,255,255,0.8); border: thin dashed #ddd; margin: 1px; padding: 1px;}
+
+#phrases {text-align: left;}
+#phrases .phrase { background-color: rgba(255,255,255,0.8); border: thin dashed #ddd; margin: 1px; padding: 1px; font-weight: bold;}
+#phrases .phrase sup { margin-left: 3px; color: Blue; font-size: 8pt;}
+
+#topkeywords {text-align: left;}
+#topkeywords .keyword { background-color: rgba(255,255,255,0.8); border: thin dashed #ddd; margin: 1px; padding: 1px; font-weight: bold;}
+#topkeywords .keyword sup { margin-left: 3px; color: Blue; font-size: 8pt;}
+
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    <h1>Indeed Keyword Mapping</h1>
+    <table>
+        <tr>
+            <td valign=top>
+                <div id="titles">
+                @foreach (string title in ViewBag.Titles)
+                {
+                    <div class="jobtitle">@Html.Raw(title)</div>
+                }
+                </div>
+            </td>
+            <td valign=top>
+                <div id="phrases">
+                @foreach (KeyValuePair<string, int> kv in ViewBag.Phrases)
+                {
+                    <div class="phrase">@kv.Key</div>
+                }
+                </div>
+            </td>
+            <td valign=top>
+                <div id="topkeywords">
+                @foreach (KeyValuePair<string, int> kv in ViewBag.Keywords)
+                {
+                    <div class="keyword">@kv.Key</div>
+                }
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

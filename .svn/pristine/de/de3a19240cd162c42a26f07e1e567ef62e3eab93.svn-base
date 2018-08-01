@@ -1,0 +1,62 @@
+﻿div.composition
+{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width:100%;
+    height:100%;
+}
+    
+div.bggradientmain_pale
+{
+    
+    background: #325066; /* for non-css3 browsers */ /*6c93af*/ /*7b8fb8*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7b8fb8', endColorstr='#eeeeff', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#7b8fb8), to(#eeeeff)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #7b8fb8,  #eeeeff); /* for firefox 3.6+ */
+}
+
+
+div.bggradientmain
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width:100%;
+    height:100%;
+        
+    
+    background: #fbf6ff; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6fa8', endColorstr='#fbf6ff', enabled='true'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#5b6fa8), to(#fbf6ff)); 
+    background: -moz-linear-gradient(top,  #5b6fa8,  #fbf6ff);
+    
+    /*
+    background: #d7d7d7; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b1b1b1', endColorstr='#d7d7d7', enabled='true'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#b1b1b1), to(#d7d7d7)); 
+    background: -moz-linear-gradient(top,  #b1b1b1,  #d7d7d7);
+    */
+}
+    
+div.floatingelement {position: absolute; background-repeat:no-repeat; z-index: 0; }
+div.darkcirclesbottomright_ { bottom: -48px; right: 0px; width: 787px; height: 508px; background-image:url('/content/images/homepage/connectednetworks/darkcirclesbottomright.png'); opacity: 0.5; }
+    
+div.networkbottomdark { bottom: 0px; right: 0px; width: 775px; height: 440px; background-image:url('/content/images/homepage/connectednetworks/NetworkBottomDark.png'); opacity: 0.3; }
+div.networkbottomhalftones { bottom: 0px; right: 0px; width: 790px; height: 414px; background-image:url('/content/images/homepage/connectednetworks/NetworkBottomHalftones.png'); opacity: 1; }
+div.networkbottomleft { top: 88px; left: 0px; width: 767px; height: 447px; background-image:url('/content/images/homepage/connectednetworks/NetworkBottomLeft.gif'); opacity: 0.1; }
+div.networkrightmiddle { bottom: 440px; right: 0px; width: 296px; height: 243px; background-image:url('/content/images/homepage/connectednetworks/Networkrightmiddle.png'); opacity: 0.5;  }
+    
+div.bgdotstopleft { top: 0px; left: 0px; width: 369px; height: 327px; background-image:url('/content/images/homepage/connectednetworks/bgdotstopleft.png'); }
+div.bgdotstopright { top: 0px; right: 0px; width: 657px; height: 615px; background-image:url('/content/images/homepage/connectednetworks/bgdotstopright.png'); }
+div.bgdotsbottomleft { bottom: 0px; left: 0px; width: 471px; height: 544px; background-image:url('/content/images/homepage/connectednetworks/bgdotsbottomleft.png'); }
+div.bgdotsbottomright { bottom: 0px; right: 0px; width: 355px; height: 355px; background-image:url('/content/images/homepage/connectednetworks/bgdotsbottomright.png'); }
+    
+.graygradientfd
+{
+    background: #f5f5f5; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dddddd)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #dddddd); /* for firefox 3.6+ */
+}
+    

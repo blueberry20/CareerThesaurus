@@ -1,0 +1,447 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js?v=@ViewBag.AppVersion"></script>
+<div class="pageContainer">
+    <div id="quin"></div>
+    <div id="schools"></div>
+    <div id="qs-listings"></div>
+    <div id="qs-listings1"></div>
+    <div id="image">
+        <img class="" src="data:image/bmp;base64,@ViewBag.Bytes" />
+    </div>
+</div>
+@*<div class="pageContainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <script id="qs-listings">
+                        var q = {
+                            // Required parameters, change values but don't remove parameters
+                            webSiteName: 'careerthesaurus.com',
+                            affiliateKey: '86686344',
+                            tag: '204473485',
+                            widgetInstanceKey: '24264010',
+                            widgetInstanceName: 'listings',
+                            id: 'qs-listings', // Must match script tag id
+                            clientModel: 'CLICK',
+                            areaOfInterest: 'BUSINESS',
+                            templateName: 'main/default',
+                            baseHref: '',
+                            jswrap: 'n'
+                            // Optional parameters, can be added/removed/changed to meet your needs
+                            //headerTemplateName: 'header/default', width: '600px', customParams: encodeURIComponent('{"tag": <<YOUR_TAG>>}'),
+                            /* Add new optional parameters here */
+                        }; var qs = '';
+                        for (var p in q) qs += p + '=' + q[p] + '&'; var s = ["<script"];
+                        s.push('src="http://sl.qmp.quinstreet.com/listings?' + qs.slice(0, -1));
+                        s.push('"><' + '/script>'); document.write(s.join(' '));
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<script>
+    var result;
+    var responseText;
+    function document_ready() {
+        //quinStreetv3();
+        //quinStreetv2();
+        //crawler();
+        //crawlerny();
+
+        //quinStreet();
+        //dimensions();
+
+        //interests();
+
+        //careers();
+    }
+
+
+    function dimensions() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetDimensions',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+    function interests() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetInterests',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+    function careers() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetCareers',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log('+++++++++++++++++');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+
+    function crawler() {
+        var url = 'http://education.state.nj.us/directory/district.php';
+        $.ajax({
+            url: appserverurl + '/sandbox/crawler',
+            data: {
+                url: url
+            }
+        }).success(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+            setTimeout(function () {
+                var elements = $('.district_box');
+                console.log(elements.length);
+            }, 2000);
+        }).error(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+            setTimeout(function () {
+                var elements = $('.district_box');
+                console.log(elements.length);
+            }, 2000);
+        });
+    }
+    function crawlerny() {
+        var url = 'http://www.nysed.gov/admin/admindex.html';
+        $.ajax({
+            url: appserverurl + '/sandbox/crawlerny',
+            data: {
+                url: url
+            }
+        }).success(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+        }).error(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+        });
+    }
+
+    function quinStreet(retry) {
+        var json = {
+            widgets: [
+                {
+                    webSiteName: "careerthesaurus.com",
+                    webPageUri: "/",
+                    affiliateKey: "86686344",
+                    tag: "204473485",
+                    widgetInstanceKey: "24264010",
+                    id: 'qs-listings',
+                    zip: getCookie('zipcode'),
+                    areaOfInterest: "BUSINESS",
+                    //dtsp: true,
+                    clientModel: "CLICK",
+                    //templateName: 'main/default',
+                    baseHref: '//hqx-qmp.quinstreet.com/hqxapi/qsctredirect/',
+                    jswrap: 'n',
+                    applyFallback: true,
+                    errorCallback: errorCallback,
+                    template: encodeURIComponent('${(listingType      = \'\'), \'\'}' +
+                        '{{if isClickOnlyListing() }}' +
+                            '${(listingType      = \'ClickOnlyListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '{{if isLeadOnlyListing() }}' +
+                            '${(listingType      = \'LeadOnlyListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '{{if isMergedListing() }}' +
+                            '${(listingType      = \'HybridListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '<div class="cells col-lg-6 col-md-6 col-sm-4 col-xs-6">' +
+                            '<a target="_blank" href="${getClickLinkHref()}&listingType=${listingType}" rel="nofollow">' +
+                                '<img class="schoolImage" src="${getLogoPath(\'small\', true)}" onerror="loadError(this);"/>' +
+                            '</a>' +
+                        '</div>')
+                },
+                {
+                    webSiteName: "careerthesaurus.com",
+                    webPageUri: "/",
+                    affiliateKey: "86686344",
+                    tag: "204473485",
+                    widgetInstanceKey: "24264010",
+                    id: 'qs-listings1',
+                    zip: getCookie('zipcode'),
+                    areaOfInterest: "ART",
+                    clientModel: "CLICK",
+                    baseHref: '//hqx-qmp.quinstreet.com/hqxapi/qsctredirect/',
+                    jswrap: 'n',
+                    applyFallback: true,
+                    errorCallback: errorCallback,
+                    template: encodeURIComponent('${(listingType      = \'\'), \'\'}' +
+                        '{{if isClickOnlyListing() }}' +
+                            '${(listingType      = \'ClickOnlyListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '{{if isLeadOnlyListing() }}' +
+                            '${(listingType      = \'LeadOnlyListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '{{if isMergedListing() }}' +
+                            '${(listingType      = \'HybridListing\'), \'\'}' +
+                        '{{/if}}' +
+                        '<div class="cells col-lg-6 col-md-6 col-sm-4 col-xs-6">' +
+                            '<a target="_blank" href="${getClickLinkHref()}&listingType=${listingType}" rel="nofollow">' +
+                                '<img class="schoolImage" src="${getLogoPath(\'small\', true)}" onerror="loadError(this);"/>' +
+                            '</a>' +
+                        '</div>')
+                }
+            ],
+            clientData:
+            {
+                userAgent: navigator.userAgent,
+                browserIp: getCookie('ip') ? getCookie('ip') : ip,
+                requestUri: '@Request.Url.AbsoluteUri'
+                //requestUri: 'careerthesaurus.com'
+            },
+            publisherData: {
+                abandonmentBehavior: "none",
+                interstitialBehavior: "none"
+            }
+        }
+        //console.log(JSON.stringify(json));
+        $.ajax({
+            url: '/Sandbox/getQuinStreet',
+            type: "POST",
+            data: { json: JSON.stringify(json) }
+        }).done(function (response) {
+            console.log(response);
+            var html;
+            if (response.result == 'ok') {
+                for (var property in response.results) {
+                    if (response.results.hasOwnProperty(property)) {
+                        html = response.results[property].renderedListing;
+                        $('#' + property).append(decodeURIComponent(html));
+
+                    }
+                }
+
+
+            } else {
+                if (retry < 3) {
+                    retry++;
+                    quinStreet(retry);
+                } else {
+                    //window.location = "/TakeTest/EmailResults";
+                }
+            }
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+            console.log(ajaxOptions);
+            console.log(thrownError);
+            if (retry < 3) {
+                retry++;
+                quinStreet(retry);
+            } else {
+                //window.location = "/TakeTest/EmailResults";
+            }
+        });
+    }
+    function errorCallback() {
+        window.location = "/TakeTest/EmailResults";
+        return;
+    }
+    function loadError(el) {
+        var url = $(el).attr('src');
+        if (url.indexOf('http:') == -1) {
+            url = 'http:' + url;
+        }
+        $.ajax({
+            url: '/SandBox/getBlockedImage',
+            type: 'POST',
+            data: {
+                url: url
+            }
+        }).done(function (response) {
+            //console.log(response);
+            if (response.results) {
+                $('<img class="schoolImage" src="data:image/gif;base64,' + response.results + '" />').insertBefore(el);
+            }
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    function eduLevel() {
+        var edu = getCookie('educationSelected');
+        switch (edu) {
+            case 'ged':
+                return 'GED';
+            case 'highschool':
+            case 'certificate':
+                return 'High School Diploma';
+            case 'college':
+                return 'Some college 35-59 credits';
+            case 'associates':
+                return 'Associate\'s Degree';
+            case 'bachelors':
+                return 'Bachelor\'s Degree';
+            case 'masters':
+                return 'Master\'s Degree';
+            case 'doctoral':
+                return 'Doctoral Degree';
+            case 'stillhighschool':
+            case 'none':
+                return 'None';
+            default:
+                return 'High School Diploma';
+        }
+    }
+    function qsDecode(code) {
+        switch (code) {
+            case 1:
+                return 'BUSINESS';
+            case 2:
+                return 'ART-DESIGN';
+            case 3:
+                return 'CRIMINAL-JUSTICE-LEGAL-SAFETY';
+            case 4:
+                return 'CULINARY-ARTS';
+            case 5:
+                return 'EDUCATION-TEACHING';
+            case 6:
+                return 'GENERAL-ENGINEERING';
+            case 7:
+                return '';
+            case 8:
+                return 'HEALTH-HEALTHCARE-NURSING';
+            case 9:
+                return 'COMPUTERS-TECHNOLOGY';
+            case 10:
+                return 'CRIMINAL-JUSTICE-LEGAL-SAFETY';
+            case 11:
+                return 'HEALTH-HEALTHCARE-NURSING';
+            case 12:
+                return 'NURSING';
+            case 13:
+                return 'PSYCHOLOGY-COUNSELING-MENTAL-HEALTH';
+            case 14:
+                return 'VOCATIONAL-TRADE';
+            default:
+                return 'BUSINESS';
+        }
+    }
+    function clickNetDecode(code) {
+        switch (code) {
+            case 1:
+                return 'Business and MBA';
+            case 2:
+                return 'Arts and Humanities';
+            case 3:
+                return 'Criminal Justice / Social Sciences';
+            case 4:
+                return 'General Education';
+            case 5:
+                return 'Education and Teaching';
+            case 6:
+                return 'Science and Technology';
+            case 7:
+                return 'General Education';
+            case 8:
+                return 'Health and Medical/Nursing';
+            case 9:
+                return 'Computers and IT';
+            case 10:
+                return 'Criminal Justice / Social Sciences';
+            case 11:
+                return 'Health and Medical/Nursing';
+            case 12:
+                return 'Health and Medical/Nursing';
+            case 13:
+                return 'Health and Medical/Nursing';
+            case 14:
+                return 'Trades and Careers';
+            default:
+                return 'Business and MBA';
+        }
+    }
+</script>

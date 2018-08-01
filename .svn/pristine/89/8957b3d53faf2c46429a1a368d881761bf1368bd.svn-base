@@ -1,0 +1,32 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+@{
+    AdminProfileClient apc = new AdminProfileClient();
+    UserAccountClient uac = new UserAccountClient();
+    ViewBag.Title = "__SchoolAdmin";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            @{
+                List<AdminProfile> adminProfiles = new List<AdminProfile>(apc.GetAllByPartition("adminProfile"));
+                foreach (AdminProfile adminProfile in adminProfiles)
+                {
+                    UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(adminProfile.RowKey), adminProfile.RowKey);
+                    <p>Name: @account.FirstName @account.LastName</p>
+                    <p>Email: @account.Email, Phone Number: @adminProfile.PhoneNumber</p>
+                    <p>@account.Password</p>
+                    <hr />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>
+

@@ -1,0 +1,39 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage;
+@{
+    AddresseeClient ac = new AddresseeClient();
+    ViewBag.Title = "Newsletter";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Unsubscribed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        List<Addressee> entries = new List<Addressee>(ac.GetAll());
+                        foreach (Addressee entrie in entries)
+                        {
+                            <tr>
+                                <td>@entrie.Name</td>
+                                <td>@entrie.Email</td>
+                                <td>@(entrie.Unsubscribed ? "Yes" : "No")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+
+    }
+</script>

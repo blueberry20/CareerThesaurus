@@ -1,0 +1,1063 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8"/>
+    <meta property="og:image" content="@Url.Content("~/Content/Images/Logos/logo-head.png")"/>
+
+    @Html.Raw(ViewBag.MetaDescription != "" ? "<META NAME=\"description\" CONTENT=\"" + ViewBag.MetaDescription + "\">" : "")
+    @Html.Raw(ViewBag.MetaKeywords != "" ? "<META NAME=\"keywords\" CONTENT=\"" + ViewBag.MetaKeywords + "\">" : "")
+    
+    <link href="@Url.Content("~/Content/css/common/Site.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/common/decorations.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/common/Composition.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/lounge/thumbnailassembly.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/common/overlay-apple.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/common/jquery.mCustomScrollbar.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/jquerytools/media/css/tooltip/style.css?v=" + ViewBag.AppVersion)" rel="stylesheet" type="text/css" />
+
+    <script>
+        var isie8 = false;
+    </script>
+    <!--[if IE 8]>
+    <link href="@Url.Content("~/Content/css/ie8.css")" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <!--[if IE 8]>
+        <script>isie8 = true;</script>
+    <![endif]-->
+
+    <script src="@Url.Content("~/Scripts/jQuery/jquery.tools.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jQuery/jquery-ui.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/misc/geolocation.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/misc/modernizr-1.7.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jQuery/jquery.easing.1.3.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+        
+    <script src="@Url.Content("~/Scripts/fileuploader/fileuploader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+    
+    <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Marko+One' rel='stylesheet' type='text/css' />
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Julius+Sans+One' rel='stylesheet' type='text/css' />
+
+    
+
+    <script type="text/javascript">
+        var registrationoverlayshown = false;
+        var registrationoverlaycanclose = false;
+        var appserverurl = "@ViewBag.AppServerUrl";
+        var modernBrowser;
+        var ontestpage = false;
+
+        if (parseInt(navigator.appVersion) >= 5) {
+            modernBrowser = true;
+        }
+        else
+        {
+            modernBrowser = false;
+        }
+
+        var recordsubmitted = false;
+        var extendedrecordcomplete = false;
+        var islockedmode = @(ViewBag.IsLockedMode!=null ? ViewBag.IsLockedMode.ToString().ToLower() : false);
+
+        var ismobile = @(ViewBag.IsMobileDevice!=null ? ViewBag.IsMobileDevice.ToString().ToLower()  : "false");
+        var compilemode = '@(ViewBag.CompileMode)'; 
+        var istouchscreen = false;
+
+    </script>
+    
+    
+    <script type="text/javascript">
+        var suppressregistrationoverlay = @(ViewBag.SuppressRegistrationOverlay==true?"true":"false");
+
+        function getBlobData(container, directory, variable) {
+            
+            var headID = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            var d = new Date();
+            newScript.src = 'https://chaindate.blob.core.windows.net/' + container + '/' + directory + '/' + variable + '?d=' + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+            headID.appendChild(newScript);
+        }
+        function firePixel(imgurl)
+        {
+            var bodyID = document.getElementsByTagName("body")[0];
+            var newImage = document.createElement('img');
+            newImage.src = imgurl;
+            bodyID.appendChild(newImage);
+        }
+        
+        function generatecallbackscript() {
+            /*
+            var headID = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            newScript.src = '/scripts/sem/callback.js';
+            headID.appendChild(newScript);
+            */
+        }
+        function htmlEscape(str) {
+            return $('<div/>').text(str).html();
+        }
+        function htmlEncode(str) {
+            return $('<div/>').text(str).html();
+        }
+        function htmlDecode(str) {
+            return $('<div/>').html(str).text();
+        }
+        function htmlFromJson(str) {
+            return htmlEscape(str.replace(/<br\/>/g, '_br_')).replace(/_br_/g, '<br/>');
+        }
+        function validateEmail(email) {
+            var x = email;
+            var atpos = x.indexOf("@@");
+            var dotpos = x.lastIndexOf(".");
+            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+                return false;
+            }
+            return true;
+        }
+        function validateAddress(addressstring) {
+            var x = $.trim(addressstring).toLowerCase();
+
+            //1- there is at least one SPACE in the field
+            var hasspace = x.indexOf(" ") > 0;
+
+            //2- address does not have @@
+            var noatsign = x.indexOf("@@") < 0;
+
+            //3- address is not a state - like NY||NC||AL
+            //5- address doesnt contain "NA||na||N/A"
+            var longerthantwoletters = x.length>3;
+
+            //6- address doesnt contain "unknown"
+            var notunknown = x.indexOf("unknown") < 0;
+
+            //7- address doesnt contain exclusively numbers
+            var onlynumbers = /^\d+$/.test(x.replace(/\s/g,''));
+
+            if (hasspace && noatsign && longerthantwoletters && notunknown && !onlynumbers) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+        function validateZip(zip) {
+            var reg = /^\d+$/;
+            if (!(reg.test(zip) && zip.length == 5)) {
+                return false;
+            }
+            return true;
+        }
+        function validatePhone(phone) {
+            var enteredNumber = phone;
+            var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+            if (formattedNumber == "") {
+                return false;
+            }
+            return true;
+        }
+        function formatPhoneNumber(str) {
+            var raw_number = str.replace(/([^0-9]|\.|\-|\(\))/g,'');
+            var regex1 = /^1?([2-9]..)([2-9]..)(....)$/;
+            if(!regex1.test(raw_number)) {
+                return "";
+            } else {
+                return raw_number.replace(regex1,'$1$2$3');
+            }
+        }
+        function formatProgrammatic(string){
+            return string.replace(/[^a-z0-9]/gi,'');
+        }
+        function getCookie(c_name) {
+            
+            var i, x, y, ARRcookies = document.cookie.split(";");
+            for (i = 0; i < ARRcookies.length; i++) {
+                x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+                y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+                x = x.replace(/^\s+|\s+$/g, "");
+                if (x == c_name) {
+                    return unescape(y);
+                }
+            }
+        }
+
+        function setCookie(c_name, value, exdays) {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var c_value;
+            if (appserverurl.indexOf('127.0.0.') > 0)
+                c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+            else
+                c_value = escape(value) + ((exdays == null) ? "" : "; domain=.skillcow.com; path=/; expires=" + exdate.toUTCString());
+            document.cookie = c_name + "=" + c_value;
+        }
+
+        $(document).ready(function () {
+            try {
+                //replace global variables
+                if (getCookie('tollfreenumbervanity') != null) {
+                    $('.vanitynumber').html(getCookie('tollfreenumbervanity'));
+                }
+            }
+            catch (ex) { }
+
+            try {
+                if (getCookie('tollfreenumbernumeric') != null) {
+                    $('.numericnumber').html(getCookie('tollfreenumbernumeric'));
+                }
+            }
+            catch (ex) { }
+
+            try {
+                if (getCookie('cbncampaign') != null) {
+                    $('.cbncampaign').html(getCookie('cbncampaign'));
+                }
+            }
+            catch (ex) { }
+    
+            try {
+                if (getCookie('zip') != null) {
+                    $('#lockedzip').val(getCookie('zip'));
+                    $('#regzip').val(getCookie('zip'));
+                }
+            }
+            catch (ex) { }
+    
+            //try to get geolocation from the browser
+            //getgeolocation();
+
+            var tempc = getCookie('recordsubmitted');
+            if (tempc != null && tempc == "1") {
+                recordsubmitted = true;
+            }
+
+            tempc = getCookie('extendedrecordcomplete');
+            if (tempc != null && tempc == "1") {
+                extendedrecordcomplete = true;
+            }
+                        
+            document_ready();
+
+            if (getCookie('locked') != null && getCookie('locked') == 1 && !extendedrecordcomplete && !suppressregistrationoverlay) {
+                showLockdownOverlay(true);
+            }
+        });
+
+        $(window).keydown(function(e){
+            if(e.which == 27){
+                if(registrationoverlayshown && registrationoverlaycanclose){
+                    hideRegistrationOverlay();
+                }
+            }
+        });
+
+        function showLockdownOverlay() {
+            $('#modaloverlay').show();
+            $('#lockedtakethetest').show();
+            
+            if(!isie8)
+            {
+                $('#modaloverlay').animate({ 'opacity': 1 }, 1000);
+            }
+            else{
+                $('#modaloverlay').animate({ 'opacity': 0.7 }, 1000);
+            }
+
+            $('#lockedtakethetest').animate({ 'opacity': 1 }, 500);
+            registrationoverlaycanclose = false;
+            registrationoverlayshown = true;
+        }
+        function showSchoolRegistrationOverlay(imgurl, schoolname) {
+        
+            $('#regschoolicon').attr('src',imgurl);
+            $('.regschoolname').html(schoolname);
+            
+
+            if(!isie8)
+            {
+                $('#modaloverlay').animate({ 'opacity': 1 }, 1000);
+            }
+            else{
+                $('#modaloverlay').animate({ 'opacity': 0.7 }, 1000);
+            }
+
+
+            $('#registrationformholder').show();
+            $('#regfirstname').focus();
+            $('#modaloverlay').animate({ 'opacity': 1 }, 1000);
+            $('#registrationformholder').animate({ 'opacity': 1 }, 500);
+            registrationoverlaycanclose = true;
+            registrationoverlayshown = true;
+        }
+        function hideRegistrationOverlay() {
+            $('#registrationformholder').animate({ 'opacity': 0 }, 500);
+            $('#modaloverlay').animate({ 'opacity': 0 }, 1000);
+            setTimeout(function() {
+                $('#registrationformholder').hide();
+                $('#modaloverlay').hide();
+            }, 1000);
+            registrationoverlayshown = false;
+            registrationoverlaycanclose = false;
+        }
+
+        function wrapTextAroundImage(img) {
+            $('#regschoolname').css('left',parseInt($(img).css('width'))+40);
+            $('#regsubtitle').css('left',parseInt($(img).css('width'))+40);
+        }
+
+        function uxevent(eventname, customdata) {
+            if(getCookie(eventname+'eventlogged') != null) {
+                debugalert('Duplicate ' + eventname+' event is logged');
+            }
+
+            setCookie(eventname+'eventlogged', 1);
+
+            debugalert('Posting ' + eventname+' UX event');
+            $.ajax({
+                url: appserverurl + "/UXEvents/LogEvent",
+                type: "POST",
+                data: {
+                    medium: 'web',
+                    eventname: eventname,
+                    customdata: customdata
+                }
+            });
+        }
+
+        function debugalert(message){
+            var mode = '@ViewBag.CompileMode';
+            if(mode=='DEBUG') {
+                alert(message);
+            }
+        }
+
+        function assert(condition, messageIfConditionIsFalse){
+            if(!condition){
+                debugalert(messageIfConditionIsFalse);
+            }
+        }
+    </script>
+       
+    <style>
+
+        div.questionindex {display: inline-block; vertical-align: top; height: 100%; width: 55px;}
+        div.questionindex .tab { cursor: pointer; background-color: rgba(50,50,70,1); text-align: center; font-family: 'Roboto', Sans-Serif; font-size: 18pt; color: rgba(70,70,90,1); padding: 5px 0 5px 0;}
+        div.questionindex .tab:hover {background-color: rgba(70,70,90,1); color:#fff;}
+        div.questionindex .tab:active { background-color: #ff5500; color: #fff; }
+        div.questionindex .answered { color: #fff; background-color: #0099ff;}
+        div.questionindex .current { background-color: #ff5500; color: #fff; }
+        div.questionindex .current:hover {background-color: #ff5500; color: #fff;}
+        
+        a {color: #1155aa; text-decoration: none;}
+        a:hover {text-decoration: underline;}
+    
+        div.container { position: relative; width: 960px; margin: 0 auto; text-align: left; padding: 0px; vertical-align: top;  }
+        div.header { position: relative; width: @(ViewBag.SuppressTabs == null?"960px":"100%"); margin: 0 auto; text-align: left; padding: 0px; color: #fff;  }
+        div.header h1 { color: #000; margin: 20px 0 0 0; }
+        ul.topnav {list-style-type: none; margin: 10px 0 0px 0; }
+        ul.topnav li.logo {display: inline-block; padding: 0 20px 0 0; cursor: pointer; color: #fff; }
+        ul.topnav li.home {display: inline-block; background-color: rgba(255,255,255,0.5); padding: 20px; margin: 0; font-size: 12pt; border-radius: 10px 10px; cursor: pointer; color: #333; height: 19px;}
+        ul.topnav li.tab { display: inline-block; background-color: rgba(255,255,255,0.5); padding: 20px; margin: 0; font-size: 12pt; border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px; cursor: pointer; color: #333; height: 21px;}
+        
+        ul.topnav li:hover {background-color: rgba(255,255,255,0.8); color: #000;} 
+        ul.topnav li:active {background-color: rgba(255,255,255,0.9); color: #ff0000;} 
+        ul.topnav li.active {background-color: rgba(255,255,255,0.9); color: #000;}
+        ul.topnav li.logo:hover { background-color: rgba(255,255,255,0); color: #000;}  
+        
+        div.test { position: relative; top: 0px; left: 0px; width: 587px; min-height: 300px; border: thin solid #fff; padding-top: 0px; background-color: rgba(255,255,255,0.8); }
+        div.requestinfopane { position: relative; top: 0px; left: 0px; width: 647px; min-height: 400px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); }
+        div.eliminations { position: relative; width: 587px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); min-height: 240px; }
+        div.annotations { position: relative; width: 587px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); min-height: 240px; }
+        div.intestfacebookbar { position: relative; width: 567px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); min-height: 28px; padding: 0 0 0 20px; }
+        div.resultspanel { position: relative; width: 547px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); padding: 20px;}
+        div.resultspanel h1 {margin: 0 0 10px 0;}
+        
+        div.progresspanel{ position: relative; width: 547px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); font-size: 14pt; vertical-align: middle; padding: 10px 20px 10px 20px;}
+        div.progressbararea { 
+            position: relative; border: thin none #aaa; width: 547px; padding: 1px; 
+            background-color: #ddd;
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111', endColorstr='#777777', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#111111), to(#777777)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #111111,  #777777); /* for firefox 3.6+ */ 
+        }
+        div.progressbar  
+        {
+            background-color: rgba(0,128,255,1); height: 5px; width: 0px;
+            background-color: #00ff00;
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ff00', endColorstr='#00aa00', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#00ff00), to(#00aa00)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #00ff00,  #00aa00); /* for firefox 3.6+ */ 
+        }
+        div.progressmessage { position: absolute; top: 7px; left: 0px; width: 545px; color: #fff; font-size: 12pt; text-align: center; font-family: 'Arial', sans-serif;}
+        div.questionholder { display: none; position: absolute; top: 20px; }
+        div.congratsholder { display: none; position: absolute; top: 20px; }
+        div.congratsbox { position: relative; height: 120px;}
+        
+        div.insertholder { display: none; position: absolute; top: 20px; }
+        div.custominsertholder { display: none; position: relative; padding-top: 20px;  }
+        div.custominsertholder_test { display: ; position: relative; padding-top: 20px;  }
+        table.formtable {width:547px; margin: 0 20px 0 20px;}
+        table.formtable td {padding: 0 5px 0 5px;}
+        table.formtable td input[type='text'] {padding: 5px; font-size: 12pt; width: 247px;}
+        table.formtable td select {padding: 5px; font-size: 10pt; border: thin solid #aaa; }
+        
+        div.question { position: relative; }
+        div.question p.text { padding: 10px 0 10px 0; margin: 0 20px 0 20px; font-size: 18pt; font-family: 'Roboto', sans-serif; }
+        div.question:hover { color: #000;  }
+        div.question h1 { margin: 0px 0 0 20px; font-size: 24pt; color: #ff5500; font-weight: normal; font-family: 'Roboto', sans-serif;}
+        div.question h2 { margin: 0px 0 20px 20px; font-size: 18pt; color: #ff5500; font-weight: normal; font-family: 'Roboto', sans-serif;}
+        div.question h3 { margin: 0px 0 10px 20px; font-size: 10pt; color: #333333; font-weight: normal; font-family: 'Roboto', sans-serif;}
+        div.question h4 { margin: 0px 0 10px 20px; font-size: 14pt; color: #ff5500; font-weight: normal; font-family: 'Roboto', sans-serif;}
+        
+        div.question p.answers { margin: 10px 0px 0 20px; text-transform: capitalize; font-size: 12pt; position: absolute; bottom: 20px; }
+        div.question input.answerbutton { font-size: 14pt; width: 120px; text-transform: capitalize; margin-right: 10px;} 
+        div.question input.answerbutton:active { background-color: #0099ff; color: #fff; } 
+        
+        div.question p.answersrelative { margin: 10px 0 20px 20px; text-transform: capitalize; font-size: 12pt; }
+        
+        div.question input.selected 
+        { 
+            color: #fff;
+            background: #0099ff; /* for non-css3 browsers */
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0099ff', endColorstr='#0066cc', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#0099ff), to(#0066cc)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #0099ff,  #0066cc); /* for firefox 3.6+ */ 
+        } 
+        div.question input.answerbutton:active 
+        { 
+            background: #0066cc; /* for non-css3 browsers */
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0066cc', endColorstr='#0066cc', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#0066cc), to(#0066cc)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #0066cc,  #0066cc); /* for firefox 3.6+ */ 
+        }        
+    
+        div.testresults { position: relative; top: 0px; right: 0px;  display: inline-block;}
+        div.testresults .pane { width: 285px; border: thin solid #fff; padding: 10px; background-color: rgba(255,255,255,0.8); margin-bottom: 5px; }
+        div.testresults .pane table {font-size: 9pt; width: 100%; margin-bottom: 10px; }
+        div.testresults .pane table a {color: #1155aa; }
+        div.testresults .unpaddedpane { width: 305px; border: thin solid #fff; background-color: rgba(255,255,255,0.8); margin-bottom: 5px; }
+        
+        div.attributeselector { position: relative; top: 0px; right: 0px;  display: inline-block;}
+        div.attributeselector .pane { width: 285px; border: thin solid #fff; padding: 10px; background-color: rgba(255,255,255,0.8); margin-bottom: 1px; }
+        div.attributeselector .pane table {font-size: 9pt; width: 100%; margin-bottom: 10px; }
+        div.attributeselector .pane table a {color: #1155aa; }
+        div.attributeselector h2 { color: #333; }
+        
+        div.leftpanel { position: relative; top: 0px; right: 0px;  display: inline-block;}
+        div.leftpanel .pane { width: 285px; border: thin solid #fff; padding: 10px; background-color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+        div.leftpanel .pane table {font-size: 9pt; width: 100%; margin-bottom: 10px; }
+        div.leftpanel .pane table a {color: #1155aa; }
+    
+        div.contentpanel { position: relative; top: 0px; left: 0px; display: inline-block; width: 649px; }
+        div.contentpanel h1 { font-size: 18pt; color: #333; font-weight: normal; }
+        div.contentpanel h2 { font-size: 10pt; color: #333; margin: 0 0 0 10px;}
+        div.contentpanel p { font-size: 10pt; color: #333; margin: 5px 10px 10px 10px;}
+        div.contentpanel img { margin: 0px 20px 10px 0px; }
+        div.contentpanel td { vertical-align: top; }
+    
+        div.contentpanel .pane { border: thin solid #fff; padding: 10px; background-color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+        div.contentpanel .pane table {font-size: 9pt; width: 100%; margin-bottom: 10px; }
+        div.contentpanel .pane table a {color: #1155aa; }
+    
+        div.summary { position: fixed; top: 50px; right: 0px; width: 200px; min-height: 200px; border-top: thin solid #555; border-bottom: thin solid #555; border-left: thin solid #555; background-color: #ffffcc; padding: 20px; }
+        div.summary table {font-size: 9pt; width: 100%; margin-bottom: 10px; }
+
+        .answeredtrue {opacity: 1; color: rgba(0,0,0,1);}
+        .answeredtrue:hover {opacity: 1;}
+    
+        .answeredfalse {opacity: 1; color: rgba(0,0,0,1);}
+        .answeredfalse:hover {opacity: 1;}
+    
+    
+        #schools {position: relative; width: 100%; min-height: 50px; font-style: italic; color: #000; clear: both; }
+        div.schoolresult {margin: 0 10px 0px 10px; border-bottom: thin dotted #eee; padding: 10px 0 10px 0;}
+        
+        ul { list-style-type: none; padding: 0;}
+        div.schoolresult img { margin: 0 10px 0 10px; max-width: 140px;}
+        div.schoolresult .info {margin-left: 150px; }
+        div.schoolresult .info h1 {font-size: 12pt; margin: 0px;}
+        div.schoolresult .info .distance {display:none;}
+        div.schoolresult .info .campustype {display:none;}
+        div.schoolresult .info ul { list-style-type: circle; margin-left: 20px; padding: 0px;}
+        
+        .indexcolumn { display: inline-block; width: 140px; text-align: left; }
+        
+        #campus_indexprompt {display: none;}
+        #campus_preloader {width: 100%; text-align:center; }
+        #campus_preloader img {margin: 20px auto;}
+        
+        #online_preloader {width: 100%; text-align:center; }
+        #online_preloader img {margin: 20px auto;}
+        
+        
+        input.submitinfo  
+        {
+            
+            padding: 10px 20px 10px 20px; 
+            border: 1px solid #000; 
+            border-radius: 5px 5px;
+    
+            font-family: Roboto;
+            font-size: 14pt;
+            font-weight: normal;
+    
+            background: #336699; /* for non-css3 browsers */
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#336699', endColorstr='#003366', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#336699), to(#003366)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #336699,  #003366); /* for firefox 3.6+ */ 
+ 
+            cursor:pointer;
+            color:#fff;
+            vertical-align: middle;   
+            text-align:center;
+        }
+        input.submitinfo:hover
+        {
+            background: #336699; /* for non-css3 browsers */
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4477aa', endColorstr='#003366', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#4477aa), to(#003366)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #4477aa,  #003366); /* for firefox 3.6+ */ 
+        }
+        input.submitinfo:active
+        {
+            background: #336699; /* for non-css3 browsers */
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#002255', endColorstr='#003366', enabled='true'); /* for IE */
+            background: -webkit-gradient(linear, left top, left bottom, from(#002255), to(#003366)); /* for webkit browsers */
+            background: -moz-linear-gradient(top,  #002255,  #003366); /* for firefox 3.6+ */ 
+        }
+        
+        div.boxcenter
+        {
+            margin: 0 auto;
+            /* Firefox */
+            display:-moz-box;
+            -moz-box-pack:center;
+            -moz-box-align:center;
+
+            /* Safari, Opera, and Chrome */
+            display:-webkit-box;
+            -webkit-box-pack:center;
+            -webkit-box-align:center;
+
+            /* W3C */
+            display:box;
+            box-pack:center;
+            box-align:center;
+        }
+        
+        h1.formtitle {font-size: 14pt; color: #000; font-weight: normal; font-family: 'Roboto', sans-serif;}
+
+        input[type='text'] {outline: none;}
+        select {outline: none;}
+    </style>
+
+    @if (ViewBag.IsMobileDevice!=null && ViewBag.IsMobileDevice==true)
+    {
+    <style>
+        select 
+        {
+            /*border: 0;        /*Removes border*/
+            -webkit-appearance: none;        /*Removes default chrome and safari style*/
+            -moz-appearance: none;          /* Removes Default Firefox style*/
+            background: url('/content/images/kiosk/icons/arrow_4_down_black_dotted.png') no-repeat;         /*Adds background-image*/
+            background-position: right;
+            
+            background-color: rgba(255,255,255,1); 
+            border: thin solid #aaa; 
+            font-size: 20pt; 
+            padding: 7px; 
+            color: black; 
+            
+        }
+        select option {
+            background: rgba(240,240,240,1);
+            color: #333;
+            
+        }
+    </style>
+    }
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <script>    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));</script>
+
+    @if (ViewBag.SuppressNavigation == null || ViewBag.SuppressNavigation == false)
+    {
+    <div class="header pagecontent">
+        
+        @if (ViewBag.SuppressTabs == null)
+        {
+        <div style="margin-left: 3px">Let SkillCow navigate you through the fields of possibilities!</div>
+        }
+        <ul class="topnav">
+            <li class="logo" onclick="document.location='/'">
+                <div style="display: inline-block;"><img src="/content/images/logo.png"/></div>
+            </li>
+            @if (ViewBag.SuppressTabs == null)
+            {
+            <li class="tab skilltest highlighted" onclick="topnavclicked('/skilltest')">Skill Test</li>
+            <li class="tab traits" onclick="topnavclicked('/traits')">Professional Traits</li>
+            <li class="tab browse" onclick="topnavclicked('/careers')">Browse careers</li>
+            <li class="tab traitselector" onclick="topnavclicked('/careers/byattribute')">Careers by Trait</li>
+            }
+        </ul>
+    </div>
+    }
+    <script>
+        function topnavclicked(url) {
+
+            if (getCookie('cbncampaign') == '13564694') {
+                document.location = url;
+            }
+            else {
+                var tempc = getCookie('extendedrecordcomplete');
+
+                if (!tempc == 1 && (tempc != null || tempc != 1)) {
+                    if (ontestpage) {
+                        return;
+                    }
+                }
+                document.location = url;
+            }
+
+            
+        }
+    </script>
+    @RenderBody()
+
+    <style>
+        .footer {}
+        .footer ul {}
+        .footer ul li { display: inline-block; margin: 0 5px 0 5px;}
+        .footer ul li a {color: #000;}
+    </style>
+
+    @if (ViewBag.SuppressNavigation == null || ViewBag.SuppressNavigation == false)
+    {
+    <div class="footer rounded10 pagecontent" style="width: 950px; margin: 1px auto; background-color: rgba(255,255,255,0.5); padding: 1px 5px 1px 5px;">
+        <ul style="list-style: none;">
+            <li><a href="http://www.skillcow.com">Home</a></li>
+            <li><a href="/theprivacypolicy">Privacy</a></li>
+            <li><a href="/terms">Terms of Use</a></li>
+        </ul>
+    </div>
+    }
+    <!--CONTENT LOCKED OVERLAY-->
+    <div id="modaloverlay" class="boxcenter" style="position:fixed; top: 0px; left: 0px; background-color: rgba(0,0,0,0.7); width: 100%; height: 100%; text-align: center; opacity: 0; display: none;">
+    </div>
+    
+    <!--LOCKED OVERLAY FORM-->
+    <div id="lockedformholder" class="boxcenter" style="position:fixed; top: 0px; left: 0px; width: 100%; height: 100%; text-align: center; display: none; opacity: 0;">
+        <div id="" class="graygradientdf rounded10 shadow50" style="position: relative; width: 600px; height: 470px; background-color: #fff; text-align: left; padding: 1px 20px 20px 20px; opacity: 1; margin: 100px auto;">
+            <h1 class="formtitle" style="position:absolute; color: #fff; top: -1px; left: 19px;" >Register FREE to get full access <span style="font-size: 10pt;">to Jobs, Training and free tools</span></h1>
+            <h1 class="formtitle" style="position:absolute; color: #000; top: 0px; left: 20px; " >Register FREE to get full access <span style="font-size: 10pt;">to Jobs, Training and free tools</span></h1>
+            <style>
+                input[type='text'] {border: thin solid #aaa; border-radius: 0px 0px;}
+            </style>
+            <div style="position: absolute; top: 70px; left: 25px;">
+                <form id="frmlockedregister" action="/skilltest" method="post">
+                    <table class="formtable">
+                        <tr>
+                            <td>First name <span style="color: red;">*</span> </td>
+                            <td>Highest Level of education <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="lockedfirstname" name="firstname" type="text" value=""/></td>
+                            <td>
+                                <select id="lockedhighestlevel" name="educationlevel" style="width: 258px;">
+                                    <option value="" selected></option>
+                                    <option value="INHS">Still in High School</option>
+                                    <option value="GED">GED</option>
+                                    <option value="HS">High School Diploma</option>
+                                    <option value="CRT">Certificate</option>
+                                    <option value="SC">Some College</option>
+                                    <option value="AS">Associates Degree</option>
+                                    <option value="BS">Bachelor's Degree</option>
+                                    <option value="MS">Master's Degree</option>
+                                    <option value="DOC">Doctoral Degree</option>
+                                    <option value="None">None</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td>5 digit ZIP code <span style="color: red;">*</span></td>
+                            <td>Primary Phone <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="lockedzip" name="zip" type="text" value="" /></td>
+                            <td><input id="lockedphone" name="phone" type="text" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>eMail <span style="color: red;">*</span></td>
+                            <td>Your intentions <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="lockedemail" name="email" type="text" value=""/></td>
+                            <td>
+                                <select id="lockedintent" name="edu_intent" style="width: 258px;">
+                                    <option value="" selected >Please select...</option>
+                                    <option value="NO" >I want to find a great Job</option>
+                                    <option value="NO" >I want to figure out my career path</option>
+                                    <option value="YES" >I need help finding a school near me</option>
+                                    <option value="YES" >I want to improve my skills</option>
+                                    <option value="YES" >All of the above</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="position: relative; text-align: right; padding-right: 25px; margin: 20px 0 0 0;">
+                        <div style="position: absolute; text-align: right; right: 25px;">
+                            <input type="button" class="submitinfo" style="width: 258px; font-size: 16pt;" value="Submit and continue" onclick="submitlockedform();"/>
+                            <img src="/content/images/puzzle-piece-open-left-right.png" style="position: absolute; height: 55px; right: 0px; bottom: -20px; opacity: 1; cursor: pointer;" onclick="document.location='/skilltest'"/>
+                            <br /><br /><br /><br />or...
+                            <a href="/skilltest" style="font-weight: bold; margin-right: 55px; ">Complete the FREE Skill Assessment Test&raquo;</a>
+                            
+                        </div>
+                    </div>
+                    <input type="hidden" name="sourceform" value="locked"/> 
+                    <input type="hidden" name="testresults" value="@(ViewBag.TestResults)"/> 
+                    <input type="hidden" name="campus_key" value="0"/> 
+                    <input type="hidden" name="program_key" value="0"/> 
+                    <input type="hidden" name="address1" value="unknown"/> 
+                    <input type="hidden" name="client" value="20"/> 
+                    <input type="hidden" name="id" value="1727"/> 
+                    <input type="hidden" class="cbncampaign" name="campaign_id" value="@(ViewBag.CBNCampaign)"/> 
+                </form>
+
+            </div>
+            
+            <div style="position: absolute; left: 50px; bottom: 30px; width: 560px; font-size: 8pt; color: #555; text-align: left;">
+                By entering my information and clicking "Submit and continue", I understand that I may be contacted by a SkillCow.com representative, text and/or phone regarding job openings, career services and educational opportunities. I also understand that SkillCow.com <a href="/theprivacypolicy" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+            </div>
+        </div>
+    </div>
+
+    <div id="lockedtakethetest" class="boxcenter" style="position:fixed; top: 0px; left: 0px; width: 100%; height: 100%; text-align: center; display: none; opacity: 0;">
+        <div id="" class="graygradientdf rounded10 shadow50" style="position: relative; width: 600px; height: 470px; background-color: #fff; text-align: left; padding: 1px 20px 20px 20px; opacity: 1; margin: 100px auto;">
+            <img src="/content/images/puzzle-piece-open-left-right.png" style="position: absolute; height: 55px; left: 30px; top: 30px; opacity: 1; cursor: pointer;" onclick="document.location='/skilltest'"/>
+            <h1 class="formtitle" style="position:absolute; color: #fff; top: 19px; left: 99px;" >Please complete our short Career Assessment test <br /><span style="font-size: 10pt;">for FREE access to Jobs, Training and Career Planning tools</span></h1>
+            <h1 class="formtitle" style="position:absolute; color: #000; top: 20px; left: 100px; " >Please complete our short Career Assessment test <br /><span style="font-size: 10pt;">for FREE access to Jobs, Training and Career Planning tools</span></h1>
+            <div style="text-align:center; margin: 120px 0 0 0;">
+                <input type="button" class="submitinfo" style="position: relative; margin: 0 auto; width: 358px; font-size: 16pt;" value="Assess my Natural Abilities" onclick="document.location='/skilltest';"/>
+            </div>
+            <br /><br />
+            <div style="margin: 0 0 0 10px;">
+                After you complete the test you will find out:
+                <br /><br />
+                <ul style=" list-style-type: disc; margin: 0 0 0 30px;">
+                    <li>Which careers fit you Naturally</li>
+                    <li>Discover similar Careers that fit your personality</li>
+                </ul>
+                <br /><br />
+                Become eligible to receive FREE guidance and information about training if it is required.<br />
+                (All Training is available in your area or Online)
+
+                
+            </div>
+        </div>
+    </div>
+
+    <!--SCHOOL REGISTRATION OVERLAY FORM-->
+    <div id="registrationformholder" class="boxcenter" style="position:fixed; top: 0px; left: 0px; width: 100%; height: 100%; text-align: center; display: none; opacity: 0;">
+        <div id="" class="graygradientfd rounded10 shadow50" style="position: relative; width: 600px; height: 420px; background-color: #fff; text-align: left; padding: 1px 20px 20px 20px; opacity: 1; margin: 100px auto;">
+            
+            <img id="regschoolicon" src="" style="position: absolute; top: 20px; left: 20px; max-width: 130px;" onload="wrapTextAroundImage(this)" />
+            
+            <img src="/content/images/elements/close.png" style="position: absolute; top: 0px; right: 0px; cursor: pointer; " onclick="hideRegistrationOverlay()"/>
+            
+            <h1 id="regschoolname" class="regschoolname formtitle" style="position:absolute; color: #000; top: 0px; left: 180px; " ></h1>
+            <div id="regsubtitle" style="position:absolute; color: #000; top: 50px; left: 120px; " >Please submit your information and we will contact you shortly</div>
+            
+            <style>
+                input[type='text'] {border: thin solid #aaa; border-radius: 0px 0px;}
+            </style>
+            <div style="position: absolute; top: 110px; left: 25px;">
+                <form id="frmschoolregister" action="/skilltest" method="post">
+                    <table class="formtable">
+                        <tr>
+                            <td>First name <span style="color: red;">*</span> </td>
+                            <td>Highest Level of education <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="regfirstname" name="firstname" type="text" value=""/></td>
+                            <td>
+                                <select id="reghighestlevel" name="educationlevel" style="width: 258px;">
+                                    <option value="" selected></option>
+                                    <option value="INHS">Still in High School</option>
+                                    <option value="GED">GED</option>
+                                    <option value="HS">High School Diploma</option>
+                                    <option value="CRT">Certificate</option>
+                                    <option value="SC">Some College</option>
+                                    <option value="AS">Associates Degree</option>
+                                    <option value="BS">Bachelor's Degree</option>
+                                    <option value="MS">Master's Degree</option>
+                                    <option value="DOC">Doctoral Degree</option>
+                                    <option value="None">None</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td>5 digit ZIP code <span style="color: red;">*</span></td>
+                            <td>Primary Phone <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="regzip" name="zip" type="text" value="" /></td>
+                            <td><input id="regphone" name="phone" type="text" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>eMail <span style="color: red;">*</span></td>
+                            <td>Your intention <span style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td><input id="regemail" name="email" type="text" value=""/></td>
+                            <td>
+                                <select id="regintent" name="edu_intent" style="width: 258px;">
+                                    <option value="" selected ></option>
+                                    <option value="NO" >I want to find a great Job</option>
+                                    <option value="NO" >I want to figure out my career path</option>
+                                    <option value="YES" >I need help finding a school near me</option>
+                                    <option value="YES" >I want to improve my skills</option>
+                                    <option value="YES" >All of the above</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="position: relative; text-align: right; padding-right: 25px; margin: 20px 0 0 0;">
+                        <div style="position: absolute; text-align: right; right: 25px;">
+                            <input type="button" class="submitinfo" style="width: 258px; font-size: 16pt;" value="Submit and continue" onclick="submitfrmschoolregister();"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="sourceform" value="overlay"/> 
+                    <input type="hidden" name="testresults" value="@(ViewBag.TestResults)"/> 
+                    <input type="hidden" name="campus_key" value=""/> 
+                    <input type="hidden" name="program_key" value=""/> 
+                    <input type="hidden" name="address1" value="unknown"/> 
+                    <input type="hidden" name="client" value="20"/> 
+                    <input type="hidden" name="id" value="1727"/> 
+                    <input type="hidden" class="cbncampaign" name="campaign_id" value="@(ViewBag.CBNCampaign)"/> 
+                </form>
+
+            </div>
+            <div style="position: absolute; left: 50px; bottom: 20px; width: 555px; font-size: 8pt; color: #555; text-align: left;">
+                By entering my information and clicking "Submit and continue", I understand that I may be contacted by a SkillCow.com representative, text and/or phone regarding job openings, career services and educational opportunities. I also understand that SkillCow.com <a href="/theprivacypolicy" style="font-size: 8pt;" target="_blank">privacy policy</a> governs the collection of this information.
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.FireAdSenseConversion == true)
+    {
+        <!-- Google Code for SC Conversion Page -->
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            var google_conversion_id = 1004159001;
+            var google_conversion_language = "en";
+            var google_conversion_format = "3";
+            var google_conversion_color = "ffffff";
+            var google_conversion_label = "BSLkCK-6ggUQmYDp3gM";
+            var google_conversion_value = @(ViewBag.AdSenseConversionValue);
+            /* ]]> */
+        </script>
+
+        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+
+        <noscript>
+            <div style="display:inline;">
+                <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1004159001/?value=0&amp;label=BSLkCK-6ggUQmYDp3gM&amp;guid=ON&amp;script=0"/>
+            </div>
+        </noscript>
+    }
+    
+
+</body>
+</html>
+
+<script>
+
+    function submitlockedform() {
+
+        
+        if ($.trim($('#lockedfirstname').val()) == '') {
+            alert('Please enter your FIRST NAME');
+            $('#lockedfirstname').focus();
+            return;
+        }
+
+        if ($.trim($('#lockedhighestlevel').val()) == "") {
+            alert('Please select your level of education');
+            $('#lockedhighestlevel').focus();
+            return;
+        }
+        
+        if ($.trim($('#lockedzip').val()) == '') {
+            alert('Please enter your ZIP');
+            $('#lockedzip').focus();
+            return;
+        }
+
+        var reg = /^\d+$/;
+        var enteredzip = $.trim($('#lockedzip').val());
+        if (!(reg.test(enteredzip) && enteredzip.length == 5)) {
+            alert('Invalid ZIP code');
+            $('#lockedzip').focus();
+            return;
+        }
+
+        if ($.trim($('#lockedphone').val()) == '') {
+            alert('Please type your Primary Phone Number \n\n** cell phone is preferred');
+            $('#lockedphone').focus();
+            return;
+        }
+
+        var enteredNumber = $.trim($('#lockedphone').val());
+        var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+        if (formattedNumber == "") {
+            alert('Invalid phone number');
+            $('#lockedphone').focus();
+            return;
+        }
+        else {
+            $('#lockedphone').val(formattedNumber);
+        }
+
+        if ($.trim($('#lockedemail').val()) == '') {
+            alert('Please enter your email');
+            $('#lockedemail').focus();
+            return;
+        }
+
+        if (!validateEmail($.trim($('#lockedemail').val()))) {
+            alert('Invalid email: ' + $('#lockedemail').val());
+            $('#lockedemail').focus();
+            return;
+        }
+
+        if ($('#lockedintent').val() == "") {
+            alert('Please select your intention');
+            $('#lockedintent').focus();
+            return;
+        }
+
+        setCookie('zip', $('#lockedzip').val(), 365);
+        setCookie('firstname', $('#lockedfirstname').val(), 365);
+        setCookie('phone', $('#lockedphone').val(), 365);
+        setCookie('email', $('#lockedemail').val(), 365);
+        setCookie('educationlevel', $('#lockedhighestlevel').val(), 365);
+        
+
+        $('#frmlockedregister').submit();
+
+        generatecallbackscript();
+    }
+
+    function submitfrmschoolregister() {
+
+
+        if ($.trim($('#regfirstname').val()) == '') {
+            alert('Please enter your FIRST NAME');
+            $('#regfirstname').focus();
+            return;
+        }
+        if ($.trim($('#reghighestlevel').val()) == "") {
+            alert('Please select your level of education');
+            $('#reghighestlevel').focus();
+            return;
+        }
+
+
+        if ($.trim($('#regzip').val()) == '') {
+            alert('Please enter your ZIP');
+            $('#regzip').focus();
+            return;
+        }
+
+        var reg = /^\d+$/;
+        var enteredzip = $.trim($('#regzip').val());
+        if (!(reg.test(enteredzip) && enteredzip.length == 5)) {
+            alert('Invalid ZIP code');
+            $('#regzip').focus();
+            return;
+        }
+
+        if ($.trim($('#regphone').val()) == '') {
+            alert('Please type your Primary Phone Number \n\n** cell phone is preferred');
+            $('#regphone').focus();
+            return;
+        }
+
+        var enteredNumber = $.trim($('#regphone').val());
+        var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+        if (formattedNumber == "") {
+            alert('Invalid phone number');
+            $('#regphone').focus();
+            return;
+        }
+        else {
+            $('#regphone').val(formattedNumber);
+        }
+
+        if ($.trim($('#regemail').val()) == '') {
+            alert('Please enter your email');
+            $('#regemail').focus();
+            return;
+        }
+
+        if (!validateEmail($.trim($('#regemail').val()))) {
+            alert('Invalid email: ' + $('#regemail').val());
+            $('#regemail').focus();
+            return;
+        }
+
+        if ($('#regintent').val() == "") {
+            alert('Please select your intention');
+            $('#regintent').focus();
+            return;
+        }
+
+        setCookie('zip', $('#regzip').val(), 365);
+        setCookie('firstname', $('#regfirstname').val(), 365);
+        setCookie('phone', $('#regphone').val(), 365);
+        setCookie('email', $('#regemail').val(), 365);
+
+        $('#frmschoolregister').submit();
+
+        
+        generatecallbackscript();
+    }
+</script>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39788184-1']);
+    _gaq.push(['_setDomainName', 'skillcow.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
+
+    

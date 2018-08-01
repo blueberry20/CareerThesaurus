@@ -1,0 +1,429 @@
+﻿<div id="keyboardforphone" class="customkeyboard">
+    
+    <div class="keyboardpromptpanel">
+        <div class="phonekeyboardprompt" style="display: inline-block"></div>
+        <div class="phonekeyboardentry" style="display: inline-block; margin-left: 40px; color: #fff; font-weight: 300;"></div>
+    </div>
+
+    <div class="alphakeys" id="keyboardforphonekeys">
+        
+        <div style="border: none;">
+            <div class="key">1</div>
+            <div class="key">2</div>
+            <div class="key">3</div>
+            
+        </div>
+        
+        <div style="border: none;">
+            <div class="key">4</div>
+            <div class="key">5</div>
+            <div class="key">6</div>
+        </div>
+        
+        <div style="border: none;">
+            <div class="key">7</div>
+            <div class="key">8</div>
+            <div class="key">9</div>
+        </div>
+        
+        <div style="border: none;">
+            <div class="spacer">&nbsp;</div>
+            <div class="key">0</div>
+            <div class="spacer">&nbsp;</div>
+        </div>
+        
+    </div>
+    
+    <div class="clear phonekeyboardfunctionkey">clear</div>
+    <div class="cancel phonekeyboardfunctionkey">cancel</div>
+
+    <div class="okbutton phonekeyboardfunctionkey">OK</div>
+</div>
+
+<style>
+    .keyboardpromptpanel 
+    {
+        position: absolute;
+        font-family: Roboto;
+        font-size: 24pt;
+        font-weight: 100;
+        margin-left: 20px;
+        padding: 20px 0 0 0;
+        
+    }
+    #keyboardforphone {
+        position: fixed;
+        bottom: -520px;
+        left: 0px;
+        width: 100%;
+        height: 520px;
+        background-color: rgba(0,0,0,1);
+        text-align: center;
+    }
+    #keyboardforphone .alphakeys {
+        position: relative;
+        top: 83px;
+        
+        text-align: center;
+        display: inline-block;
+        margin: 0 auto;
+    }
+    #keyboardforphone .alphakeys .key {
+        padding: 15px 10px 12px 10px;
+        margin: 5px;
+        border: 1px solid rgba(255,255,255,0.5);
+        min-width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Roboto;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+    }
+    #keyboardforphone .alphakeys div.domain {
+        padding: 25px 15px 5px 15px;
+        margin: 5px 1px 1px 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        height: 50px;
+        display: none;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        color: #ffff00;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+        
+        max-width: 140px;
+    }
+    #keyboardforphone .alphakeys div.extention {
+        padding: 25px 15px 5px 15px;
+        margin: 5px 1px 1px 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        height: 50px;
+        display: none;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        color: #ffff00;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+        max-width: 140px;
+    }
+    #keyboardforphone .alphakeys div.spacer {
+        padding: 20px 10px 10px 10px;
+        margin: 5px;
+        border: none;
+        width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        cursor: default;
+        background-color: rgba(0,0,0,0);
+    }
+    
+    #keyboardforphone .alphakeys div.space {
+        padding: 20px 10px 10px 10px;
+        margin: 3px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 500px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        
+    }
+
+    #keyboardforphone .numerickeys {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        text-align: center;
+        display: inline-block;
+        margin-left: 100px;
+    }
+    #keyboardforphone .numerickeys div {
+        padding: 20px 10px 10px 10px;
+        margin: 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        
+    }
+    
+    .phonekeyboardfunctionkey 
+    {
+        position: absolute;
+        padding: 25px 10px 2px 10px;
+        margin: 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 160px;
+        height: 50px;
+        display: inline-block;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #keyboardforphone .clear { top: 83px; right:20px; }
+    #keyboardforphone .cancel { bottom: 0px; left: 0px; }
+    #keyboardforphone .okbutton { bottom: 0px; right: 0px; }
+        
+    .highlightedbutton 
+    {
+        background: #0099ff; /* Old browsers */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOTlmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDgzZGIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(top,  #0099ff 0%, #0083db 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099ff), color-stop(100%,#0083db)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #0099ff 0%,#0083db 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#0083db',GradientType=0 ); /* IE6-8 */    
+        border: none;
+    }
+    .highlightedbutton:active  { background: white; color: black; }  
+</style>
+
+<script>
+
+    var keyboardforphoneloaded = false;
+    var keyboardforphone_field = null;
+    var phonekeyboarddomainkeypressed = false;
+    var phonekeyboardextentionkeypressed = false;
+    var phonekeyboardoriginalstring = '';
+
+    function showKeyboardForPhone(field) {
+
+        $('.customkeyboard').hide();
+
+        $('.cancel').css('background-color', 'rgba(0,0,0,0.3)');
+        $('.cancel').css('color', '#fff');
+
+
+        
+
+        $('#keyboardforphone').show();
+        playSound(sfxbreeze);
+        $('#keyboardforphone').animate({ bottom: 0 }, 400);
+
+        keyboardforphone_field = field;
+
+        $('.phonekeyboardprompt').html($(keyboardforphone_field).attr('prompt'));
+        phonekeyboardoriginalstring = $(keyboardforphone_field).html();
+        updatephoneKeyboardEntry(phonekeyboardoriginalstring);
+
+        $(keyboardforphone_field).css('border', 'thin solid rgba(255, 255, 255, 1)');
+
+        if (!keyboardforphoneloaded) {
+
+            var fn_touchstart = function () {
+                if (!$(this).hasClass('nohighlight')) {
+                    $(this).css('background-color', '#fff'); $(this).css('color', '#000');
+                }
+                if (!$(this).hasClass('noaction')) {
+                    processphoneKeyboardKey(this);
+                }
+            };
+            var fn_touchend = function () {
+                if (!$(this).hasClass('nohighlight')) {
+                    $(this).css('background-color', 'rgba(0,0,0,0.3)'); $(this).css('color', '#fff');
+                }
+            };
+
+            if (getCookie('istouchscreen') === '1') {
+                $('#keyboardforphone .alphakeys .key').on({ 'touchstart': fn_touchstart });
+                $('#keyboardforphone .alphakeys .key').on({ 'touchend': fn_touchend });
+
+                $('.phonekeyboardfunctionkey').on({ 'touchstart': fn_touchstart });
+                $('.phonekeyboardfunctionkey').on({ 'touchend': fn_touchend });
+
+            }
+            else {
+                //For NON-TOUCH mouse click support
+                $('#keyboardforphone .alphakeys .key').on({ 'mousedown': fn_touchstart });
+                $('#keyboardforphone .alphakeys .key').on({ 'mouseup': fn_touchend });
+
+                $('.phonekeyboardfunctionkey').on({ 'mousedown': fn_touchstart });
+                $('.phonekeyboardfunctionkey').on({ 'mouseup': fn_touchend });
+
+            }
+            keyboardforphoneloaded = true;
+        }
+
+        $('#keyboardbackground').show();
+        $('#keyboardbackground').animate({ "opacity": 1 }, 1000);
+    }
+
+    function processphoneKeyboardKey(key) {
+
+        if ($(key).hasClass('phonekeyboardfunctionkey')) {
+            processphoneKeyboardFunctionKey(key);
+            return;
+        }
+
+        var currentstring = $(keyboardforphone_field).html();
+        var newstring = currentstring;
+
+        var char = $(key).html();
+
+        switch ($.trim(char)) {
+            case '&nbsp;':
+                break;
+            case 'backspace':
+                if (newstring.length > 0) {
+                    newstring = newstring.substring(0, newstring.length - 1);
+                    playSound(sfxarrow);
+                }
+                break;
+            default:
+                if (currentstring == '' && (char == '1' || char == '0') || validatePhone(currentstring)) {
+                    $(key).css('background-color', '#ff0000'); $(this).css('color', '#000');
+                    playSound(sfxerror);
+                }
+                else {
+                    playSound(sfxclick);
+                    newstring += char;
+                }
+                break;
+        }
+
+        updatephoneKeyboardEntry(newstring);
+
+        dophoneKeyboardPostKeyProcessing();
+    }
+
+    function updatephoneKeyboardEntry(newstring) {
+
+        var formatted = newstring;
+        if (validatePhone(newstring)) {
+            formatted = formatPhoneNumber(newstring);
+            $('.phonekeyboardentry').html(formatted + '<img src="/content/images/kiosk/importantthings/check.png" style="width:35px; margin-left: 20px;" />');
+        }
+        else {
+            $('.phonekeyboardentry').html(formatted);
+        }
+
+        $(keyboardforphone_field).html(formatted);
+        $(keyboardforphone_field).val(formatted);
+        
+    }
+
+    function processphoneKeyboardFunctionKey(key) {
+
+        var currentstring = $(keyboardforphone_field).html();
+        var newstring = currentstring;
+
+        var char = $(key).html();
+
+        switch ($.trim(char).toLowerCase()) {
+            case '&nbsp;':
+                break;
+            case 'clear':
+                phonekeyboarddomainkeypressed = false;
+                phonekeyboardextentionkeypressed = false;
+                newstring = '';
+                playSound(sfxvoltage);
+                break;
+            case 'cancel':
+                updatephoneKeyboardEntry(phonekeyboardoriginalstring);
+                $('.cancel').css('background-color', 'rgba(0,0,0,0.3)'); $('.cancel').css('color', '#fff');
+                dismissKeyboardForphone();
+                return;
+            case 'ok':
+                if (validatePhone(newstring)) {
+                    $('.okbutton').css('background-color', 'rgba(0,0,0,0.3)'); $('.okbutton').css('color', '#fff');
+                    dismissKeyboardForphone();
+                }
+                else {
+                    playSound(sfxerror);
+                }
+                return;
+
+        }
+
+        updatephoneKeyboardEntry(newstring);
+
+        dophoneKeyboardPostKeyProcessing();
+    }
+
+    function dophoneKeyboardPostKeyProcessing() {
+
+        var string = $(keyboardforphone_field).html();
+
+        if (string.indexOf('@@') >= 0) {
+
+            //At sign pressed 
+
+            $('.atsignkey').css('background-color', 'rgba(0,0,0,0.3)');
+            $('.atsignkey').css('color', 'rgba(255,255,0,1)');
+            $('.atsignkey').addClass('nohighlight');
+            $('.atsignkey').addClass('noaction');
+
+            if (string[string.length - 1] === '@@') {
+                $('.domain').css('display', 'inline-block');
+                $('.domain').css('background-color', 'rgba(0,0,0,0.3)');
+                $('.domain').css('color', '#ffff00');
+
+                $('.extention').css('display', 'none');
+            }
+            else {
+                $('.extention').css('display', 'inline-block');
+                $('.extention').css('background-color', 'rgba(0,0,0,0.3)');
+                $('.extention').css('color', '#ffff00');
+
+                $('.domain').css('display', 'none');
+            }
+
+        }
+        else {
+            $('.atsignkey').css('color', 'rgba(255,255,255,1)');
+            $('.atsignkey').removeClass('nohighlight');
+            $('.atsignkey').removeClass('noaction');
+
+            $('.domain').css('display', 'none');
+            $('.extention').css('display', 'none');
+        }
+
+        if (phonekeyboarddomainkeypressed) {
+            $('.domain').css('display', 'none');
+            $('.extention').css('display', 'none');
+        }
+        if (phonekeyboardextentionkeypressed) {
+            $('.domain').css('display', 'none');
+            $('.extention').css('display', 'none');
+        }
+
+        if (validatePhone(string)) {
+            $('.okbutton').addClass('highlightedbutton');
+        }
+        else {
+            $('.okbutton').removeClass('highlightedbutton');
+        }
+
+    }
+    function dismissKeyboardForphone() {
+        $(keyboardforphone_field).css('border', 'thin solid rgba(255, 255, 255, 1)');
+        keyboardforphone_field = null;
+        phonekeyboarddomainkeypressed = false;
+        phonekeyboardextentionkeypressed = false;
+        playSound(sfxwhoosh);
+        $('#keyboardforphone').animate({ bottom: '-' + $('#keyboardforphone').css('height') }, 250);
+
+        $('#keyboardbackground').css("opacity", 0);
+        $('#keyboardbackground').hide();
+    }
+</script>

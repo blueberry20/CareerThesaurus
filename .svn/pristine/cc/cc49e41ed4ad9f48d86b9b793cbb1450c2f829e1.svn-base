@@ -1,0 +1,3 @@
+﻿var title = 'You are result oriented';
+var careerheading = 'Result oriented jobs';
+var desc = 'Results-oriented people like yourself thrive in challenging environments where the end result is more important than the process used to achieve a task. When you are assigned a new project, you picture the end result in your mind and work to achieve that result as quickly as possible. Managers rely on you to make quick decisions that will help the entire team get the best result possible, and colleagues value your ability to get things done. Your results-oriented approach motivates other people to act quickly, so you may excel as a team leader, supervisor, or manager.';

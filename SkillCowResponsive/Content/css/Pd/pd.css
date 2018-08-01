@@ -1,0 +1,227 @@
+﻿
+
+ .jumbotron h1 {
+    text-align: center;
+    font-size: 62px;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
+
+#pdThankyouPage .jumbotron {
+     position:relative;
+ }
+
+#pdThankyouPage .jumbotron .container {
+     position:absolute;
+     top:50%;
+     padding:0;
+ }
+
+ .pageContainer .jumbotron h2 {
+     color: #000;
+ }
+
+ h3 {
+     margin: 0 0 25px;
+     font-weight:300;
+ }
+
+ h4 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 40px 15px 20px;
+    font-family: 'open sans condensed';
+}
+
+ .pageContainer .jumbotron .container {
+     min-height:initial;
+     width:96%;
+     margin:0 auto;
+ }
+
+ .centerBox {
+    margin-top: -110px;
+    margin-bottom:50px;
+}
+
+ .belowFormRow {
+    margin-top: 40px;
+ }
+
+ .chooseSignupCol p {
+    font-size: 26px;
+    padding: 10px 50px;
+    min-height: 100px;
+    text-align: center;
+    margin:0;
+}
+
+ .chooseSignupCol a {
+     font-weight:600;
+ }
+
+ .chooseSignupCol li {
+     font-size: 26px;
+    font-weight: 300;
+    padding-bottom: 15px;
+ }
+
+
+ .form-group label.shortLabel {
+    display: block;
+    height: 50px;
+    margin: 0;
+    line-height: 50px;
+    padding:0;
+    text-align:right;
+}
+
+ .shortLabel span {
+    line-height: initial;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+ .form-group {
+    padding-bottom: 15px;
+}
+
+ form div {
+     padding:0;
+ }
+
+ @media only screen and (max-width: 1200px) {
+     .pageContainer h2 {
+         margin:20px 0;
+     }
+ }
+
+
+@media only screen and (max-width: 1050px) {
+    .jumbotron h1 {
+        font-size: 54px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .jumbotron h1 {
+        font-size: 46px;
+    }
+
+    .pageContainer h2 {
+        font-size:30px;
+    }
+
+    h3 {
+        margin:25px 0 20px;
+    }
+
+    .chooseSignupCol p {
+        font-size: 22px;
+        padding: 20px;
+        min-height:initial;
+    }
+
+    .chooseSignupCol li {
+        font-size: 22px;
+    }
+
+    p.displayError {
+        font-size: 12px;
+        line-height:initial;
+    }
+
+}
+
+
+@media only screen and (max-width: 767px) {
+    .centerBox {
+        margin-top: -160px;
+        padding: 15px;
+    }
+
+    .jumbotron h1 {
+        font-size: 32px;
+        margin: 20px 0;
+    }
+
+    .pageContainer h2 {
+        font-size:24px;
+    }
+
+    h3 {
+        font-size:18px;
+        margin: 10px 0 10px;
+    }
+
+    h4 {
+        margin: 20px 15px 0;
+        font-size: 20px;
+    }
+
+    .chooseSignupCol p {
+        font-size: 20px;
+        padding:20px 0 0;
+    }
+
+    .chooseSignupCol li {
+        font-size: 18px;
+    }
+
+    .belowFormRow {
+     margin-top: 0; 
+    }
+
+    .form-group label.shortLabel {
+        text-align:left;
+    }
+
+    form div {
+        padding:0 15px;
+    }
+
+    .termsRow label.shortLabel  {
+        line-height:initial;
+        height:initial;
+    }
+
+    .form-group {
+        padding-bottom: 0;
+    }
+
+}
+
+@media only screen and (max-width: 500px) {
+    .jumbotron h1 {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    .pageContainer h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size:16px;
+    }
+
+    h4 {
+        margin: 10px 15px 0;
+        font-size: 16px;
+    }
+
+    .chooseSignupCol p {
+        font-size: 16px;
+    }
+
+    .chooseSignupCol li {
+        padding-bottom:5px;
+        font-size:16px;
+    }
+
+    .centerBox {
+        padding:15px 0;
+    }
+
+}

@@ -1,0 +1,63 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.PendingSchool;
+@{
+    UserAccountClient uac = new UserAccountClient();
+    AdminAccountClient aac = new AdminAccountClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    PendingSchoolClient psc = new PendingSchoolClient();
+    ViewBag.Title = "AdminRequests";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            @{
+                List<AdminAccount> admins = new List<AdminAccount>(aac.GetAllNotConfirmed());
+                if (admins.Count != 0)
+                {
+                    foreach (AdminAccount admin in admins)
+                    {
+                        UserAccount user = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(admin.RowKey), admin.RowKey);
+                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", admin.School);
+                        PendingSchool pendingSchool = psc.GetByAdmin(admin.RowKey);
+                        <div class="requestWrapper">
+                            <div>Name: @user.FirstName @user.LastName</div>
+                            <div>Email: @user.Email</div>
+                            <div>Phone number: @admin.PhoneNumber @(admin.PhoneExtension == null ? "- no extension" : "- " + admin.PhoneExtension)</div>
+                            @if (school != null)
+                            {
+                                <div>School: @school.SchoolName</div>
+                                <div>School address: @school.Address, @school.City @school.State, @school.ZipCode</div>
+                                <div>School phone: @school.PhoneNumber</div>
+                                <button class="btn" onclick="requestStatus('@user.RowKey', 'approve', this);">Approve</button>
+                                <button class="btn" onclick="requestStatus('@user.RowKey', 'decline', this);">Decline</button>
+                            }
+                            else if (pendingSchool != null)
+                            {
+                                <div>School: @pendingSchool.SchoolName</div>
+                                <div>School address: @pendingSchool.Address, @pendingSchool.City @pendingSchool.State, @pendingSchool.ZipCode</div>
+                                <div>School phone: @pendingSchool.PhoneNumber</div>
+                                <br />
+                                <div>School is in peding status, and need to be approved before admins request can be approved</div>
+                            }   
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+    function requestStatus(user, status, element) {
+        $.post('adminstatus', { user: user, status: status }, function (response) {
+            alert(response.result);
+        });
+        $(element).parent().remove();
+    }
+</script>

@@ -1,0 +1,117 @@
+﻿<div id="_attribute_description" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1 id="attributename" style="font-size: 48px;"></h1>
+    
+    <p class="attribute_description" id="_attitude_introvert_description">
+        @Html.Partial("_attitude_introvert")
+    </p>
+    <p class="attribute_description" id="_attitude_extravert_description">
+        @Html.Partial("_attitude_extravert")
+    </p>
+                
+    <p class="attribute_description" id="_information_facts_description">
+        @Html.Partial("_information_facts")
+    </p>
+    <p class="attribute_description" id="_information_imagination_description">
+        @Html.Partial("_information_imagination")
+    </p>
+    <p class="attribute_description" id="_processing_rational_description">
+        @Html.Partial("_processing_rational")
+    </p>
+    <p class="attribute_description" id="_processing_emotional_description">
+        @Html.Partial("_processing_emotional")
+    </p>
+    <p class="attribute_description" id="_action_process_description">
+        @Html.Partial("_process_or_result_process")
+                            
+    </p>
+    <p class="attribute_description" id="_action_result_description">
+        @Html.Partial("_process_or_result_result")
+                            
+    </p>
+    <p class="attribute_description" id="_endurance_stationary_description">
+        @Html.Partial("_endurance_stationary")
+                            
+    </p>
+    <p class="attribute_description" id="_endurance_mobile_description">
+        @Html.Partial("_endurance_mobile")
+                            
+    </p>
+    <p class="attribute_description" id="_presence_present_description">
+        @Html.Partial("_presence_present")
+                            
+    </p>
+    <p class="attribute_description" id="_presence_remote_description">
+        @Html.Partial("_presence_remote")
+                            
+    </p>
+    <p class="attribute_description" id="_concentration_relaxed_description">
+        @Html.Partial("_concentration_relaxed")
+                            
+    </p>
+    <p class="attribute_description" id="_concentration_focused_description">
+        @Html.Partial("_concentration_focused")
+                            
+    </p>
+    <p class="attribute_description" id="_patterns_discover_description">
+        @Html.Partial("_patterns_discover")
+                            
+    </p>
+    <p class="attribute_description" id="_patterns_routine_description">
+        @Html.Partial("_patterns_routine")
+                            
+    </p>
+    <p class="attribute_description" id="_compensation_fixed_description">
+        @Html.Partial("_compensation_fixed")
+                            
+    </p>
+    <p class="attribute_description" id="_compensation_variable_description">
+        @Html.Partial("_compensation_variable")
+    </p>
+
+    
+    
+    <div id="_attribute_description_backbutton" type="button" class="backbutton"></div>
+    
+</div>
+
+<style>
+.attribute_description {margin-left: 125px; font-size: @(ViewBag.IsMobileDevice?"12pt":"18pt"); width: @(ViewBag.IsMobileDevice?"600px":"900px");}
+</style>
+
+<script>
+    
+    var _attribute_description_loaded = false;
+
+    function showAttributeDescription(e) {
+        
+        showOverlay('_attribute_description');
+
+        $('.attribute_description').hide();
+
+        $('#attributename').html($(e).attr('attributecaption'));
+        $('#_' + $(e).attr('dimension').toLowerCase() + '_' + $(e).attr('value').toLowerCase() + '_description').show();
+
+        if (!_attribute_description_loaded) {
+            $('#_attribute_description_backbutton').press(function () {
+                $('.result_attribute').removeClass('result_attribute_active');
+                hideOverlay('_attribute_description');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    $('.result_attribute').removeClass('result_attribute_active');
+                    hideOverlay('_attribute_description');
+                }   
+            });
+
+            _attribute_description_loaded = true;
+        }
+    }
+
+</script>

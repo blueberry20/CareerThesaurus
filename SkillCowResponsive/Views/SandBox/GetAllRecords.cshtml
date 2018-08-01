@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "GetAllRecords";
+}
+
+<h2>GetAllRecords</h2>
+
+<button id="getRecords">Get records</button>
+
+<script>
+    function document_ready() {
+        $('#getRecords').click(function () {
+            $.ajax({
+                url: '/Home/SandBox/GetAllRecords',
+                type: 'POST'
+
+            }).success(function (response) {
+                console.log(response);
+                console.log('success');
+            }).error(function (error) {
+                console.log('error');
+                console.log(error);
+            });
+        });
+    }
+</script>

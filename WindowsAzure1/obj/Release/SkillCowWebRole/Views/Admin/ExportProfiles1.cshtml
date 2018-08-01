@@ -1,0 +1,132 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using SkillCow.Classes.Cloud.TableStorage
+@using SkillCow.Classes.CookieData
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+@model SkillCowRequestSubmissionClient
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function settoday() {
+        $('#partitionkey').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#partitionkey').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+    {
+    <table style="font-style: italic;">
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            <td><input type="submit" value="Go"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+        </tr>
+    </table>
+    
+    }
+</div>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+@{
+    DateTime cursordate = ViewBag.StartDate;
+    UserProfileClient upc = new UserProfileClient();
+    long cnt = 0;
+    
+    while (cursordate <= ViewBag.EndDate)
+    {
+        cnt = 0;
+        CloudTableQuery<SkillCowRequestSubmission> query = Model.GetAll(cursordate.ToString("yyyyMMdd"));
+
+        string prevemail = "";
+            
+        foreach (var submission in query.Execute().OrderBy(x => x.Email))
+        {
+            if(submission.Email!=prevemail)
+            {
+                prevemail = submission.Email;
+                
+                string emailpartition = AddresseeClient.GetPartitionKeyForEmail(submission.Email);
+                if(upc.GetByPartitionAndRowKey(emailpartition, submission.Email)==null)
+                {
+                    cnt++;
+                    
+                    UserProfile p = new UserProfile(submission.Email);
+                    p.RegistrationDate = cursordate.ToString("yyyyMMdd");
+                    p.Email = submission.Email;
+                    
+                    p.Gender = submission.Gender;
+                    p.Salutation = submission.Salutation;
+
+                    p.FirstName = submission.Name;
+                    //p.LastName = submission.something;
+
+                    p.Email = submission.Email;
+                    p.Unsubscribed = false;
+
+                    p.Zip = submission.Zip;
+                    p.Address1 = submission.Address1;
+                    p.City = submission.City;
+                    p.State = submission.State;
+
+                    p.Phone = submission.Phone;
+                    p.CampaignId = submission.CampaignId;
+
+                    p.GradYear = submission.GradYear;
+                    p.EduIntent = submission.EduIntent;
+
+                    Dictionary<string, string> tr = CookieDataTestResults.GetValues(submission.TestResults);
+                    try{
+                        p.DimensionAttitude = tr["Attitude"];
+                        p.DimensionInformation = tr["Information"];
+                        p.DimensionProcessing = tr["Processing"];
+
+                        p.DimensionAction = tr["Action"];
+                        p.DimensionEndurance = tr["Endurance"];
+                        p.DimensionPresence = tr["Presence"];
+
+                        p.DimensionConcentration = tr["Concentration"];
+                        p.DimensionPatterns = tr["Patterns"];
+                        p.DimensionCompensation = tr["Compensation"];
+                    }
+                    catch{
+                    }
+            
+                    p.SetRecommendations(submission.Recommendations);
+                    p.SetCareerChoices(submission.Data);
+
+                    upc.AddNewItem(p);
+                }
+            }
+        }
+
+
+        <h1>@(cursordate.ToString("yyyyMMdd")) - @(cnt) profiles created</h1>
+
+        cursordate = cursordate.AddDays(1);
+    }
+    
+    
+}
+    
+</div>
+    
+    

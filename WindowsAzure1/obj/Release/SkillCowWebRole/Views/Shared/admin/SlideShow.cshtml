@@ -1,0 +1,156 @@
+﻿<!-- SLIDE SHOW -->
+<div id="_slideshow_viewport" style="position: absolute; bottom: 0px; left: 0px; height: 300px; width: 904px; overflow-x: scroll; overflow-y: hidden; border: thin none red; display: none; background-color:#000;" class="shadow20">
+    <div id="_slideshow_scrollablecontent" style="overflow-y: hidden; height: 300px; margin-left: 100px; opacity: 0; border: thin none blue;">
+        <div id="slideshowimages" style="overflow: hidden;">
+                        
+        </div>
+    </div>
+</div>
+<style>
+    .slidecaptionholder h1,h2,h3,h4,h5 {color:#fff; margin: 0px;}
+    .slidecaptionholder h2 {font-size: 18pt;}
+</style>
+<script>
+    var slideshowjustloaded = false;
+    var cancelminimize = false;
+    var slideshowminimized = false;
+    var slidecount = 0;
+    var loadedslidecount = 0;
+    var minimizetimeout;
+
+    function $slideshow_ready(slideshow, container, resourceid) {
+
+        slidecount = slideshow.slides.length;
+        if (slidecount == 0) {
+            return;
+        }
+        $('#_slideshow_viewport').show();
+        $('#_slideshow_scrollablecontent').css('width', 15000);
+        $("#_slideshow_viewport").niceScroll("#_slideshow_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_slideshow_viewport").getNiceScroll().resize();
+        $('#_slideshow_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1000);
+        $("#_slideshow_viewport").scrollLeft(0);
+
+        $('#slideshowimages').html('');
+        for (var i = 0; i < slideshow.slides.length; i++) {
+            var slide = slideshow.slides[i];
+            $('#slideshowimages').append('<div style="position: relative; display: inline-block; height: 400px;" >' +
+                '<img class="slideshowslideholder" src="https://chaindate.blob.core.windows.net/slideshows/' + slideshow.id + '/' + slide.id + '"' +
+                ' onload="slideloaded(this)"' +
+                ' style="max-height: 300px; margin: 0px; padding: 0px; boarder: 0px; max-widht: 400px;"' +
+                ' onclick="slideshowslideclicked(\'' + slide.id + '\', \'' + slideshow.id + '\')" />' +
+                '<div class="slidecaptionholder" style="position: absolute; bottom: ' + (ismobile ? '0px' : '100px') + '; left: 0px; width: 100%; background-color: rgba(0,0,0,0.6); color: #fff; text-align: left; font-size: 16pt;">' +
+                (slide.caption != '' ? '<div style="margin: ' + (ismobile ? '15px 20px 15px 20px;' : '5px;') + '">' + slide.caption.replace(/\n/g, '<br>') + '</div>' : '') +
+                '</div>' +
+                '</div>');
+        }
+
+        $('.slideshowslideholder').mouseover(function () { slide_mouseover(this); });
+        $('.slideshowslideholder').mouseout(function () { slide_mouseout(this); });
+        $('.slideshowslideholder').press(function () { slide_pressed(this) });
+
+    }
+
+    function slide_mouseover(e) {
+        $('.activeslidecaption').stop();
+        $('.activeslidecaption').animate({ 'bottom': 0 }, 300);
+        $('.activeslidecaption').removeClass('activeslidecaption');
+
+        var element = $(e).siblings('.slidecaptionholder');
+
+        element.animate({ 'bottom': '100' }, 500);
+        element.addClass('activeslidecaption');
+
+        cancelminimize = true;
+    }
+
+    function slide_mouseout(e) {
+        var element = $(e).children('.slidecaptionholder');
+        element.animate({ 'bottom': 0 }, 300);
+    }
+    function slide_pressed(e) {
+        if (slideshowminimized) {
+            maximizeSlideshow();
+        }
+    }
+
+    function slideshowslideclicked(slideid, slideshowid) {
+
+    }
+
+    function createSlideShow(clienttype, clientid) {
+        try {
+            clearTimeout(minimizetimeout);
+
+            maximizeSlideshow();
+
+            $('#_slideshow_viewport').hide();
+
+            slidecount = 0;
+            slideshowjustloaded = true;
+            cancelminimize = false;
+
+            getBlobData('clientslideshows', clienttype, clientid.replace(/\s/g, '') + '.js');
+
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+
+    }
+    function maximizeSlideshow() {
+
+        $("#slideshowbutton").hide();
+        $('#_slideshow_scrollablecontent').css('height', 300);
+        $('#_slideshow_scrollablecontent').css('margin-left', '100px');
+        $('#_slideshow_scrollablecontent').css('opacity', 0);
+        $('#_slideshow_viewport').css('left', (ismobile ? 80 : 0));
+        $("#_slideshow_viewport").css('height', 300);
+        $('#_slideshow_scrollablecontent img').css('max-height', 300);
+
+        resizeslideshow();
+        slideshowminimized = false;
+    }
+    function minimizeSlideshow() {
+        if (slidecount == 0) {
+            return;
+        }
+        var slideshowwidth = ismobile ? document.documentElement.clientWidth - 80 - 79 - 240 : document.documentElement.clientWidth - 697 - 240;
+
+        $("#slideshowbutton").show();
+        $("#slideshowbutton").css('left', (ismobile ? 80 : 0));
+
+        $('#_slideshow_scrollablecontent').css('height', 80);
+        $('#_slideshow_viewport').animate({ 'height': 80, 'left': (ismobile ? 240 + 80 : 240), 'width': slideshowwidth }, 500);
+        $('#_slideshow_scrollablecontent img').css('max-height', 80);
+
+        setTimeout(function () {
+            resizeslideshow();
+            slideshowminimized = true;
+        }, 500);
+    }
+    function slideloaded(img) {
+        loadedslidecount++;
+        if (loadedslidecount >= slidecount) {
+            resizeslideshow();
+        }
+    }
+    function resizeslideshow() {
+        var slides = $('#_slideshow_scrollablecontent img');
+        var totalwidth = 0;
+        for (var i = 0; i < slides.length; i++) {
+            totalwidth += $(slides[i]).width();
+        }
+
+        $('#_slideshow_scrollablecontent').css('width', totalwidth + 2);
+        $("#_slideshow_viewport").niceScroll("#_slideshow_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_slideshow_viewport").getNiceScroll().resize();
+        $("#_slideshow_viewport").show();
+        $('#_slideshow_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1000);
+
+        $("#_slideshow_viewport").scrollLeft(0);
+
+        slideshowjustloaded = true;
+    }
+</script>
+<!-- END SLIDE SHOW -->

@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Notification of a counselor sign up to an administrator</title>
+</head>
+<body>
+    <div>Great News!</div>
+    <br>
+    <div>{{counselor}} has accepted your request.  Now you can join forces to engage your students for an exciting Career Assessment assignment.</div>
+    <br>
+    <div>Sincerely,</div>
+    <br>
+    <div>Michael</div>
+    <div>System Administrator</div>
+    <br>
+    <div>To log on to CareerThesaurus: </div>
+    <a href="http://CareerThesaurus.com/Account/Login">http://CareerThesaurus.com/Account/Login</a>
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<h2>Files</h2>
+
+<script>
+
+    var mySound = loadAudio('http://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_A3_reaction_eng.mp3'); 
+    
+    function loadAudio(uri) {
+        var audio = new Audio();
+        audio.autoplay=false;
+        
+        audio.addEventListener('canplaythrough', isAppLoaded, false); // It works!!
+        audio.src = uri;
+        return audio;
+    }
+
+    function isAppLoaded() {
+        alert('Audio loaded');
+        mySound.play();
+    }
+</script>
+

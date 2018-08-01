@@ -1,0 +1,459 @@
+﻿<div id="keyboardfornumeric" class="customkeyboard">
+    
+    <div class="keyboardpromptpanel">
+        <div class="numerickeyboardprompt" style="display: inline-block"></div>
+        <div class="numerickeyboardentry" style="display: inline-block; margin-left: 40px; color: #fff; font-weight: 300;"></div>
+    </div>
+
+    <div class="alphakeys" id="keyboardfornumerickeys">
+        
+        <div style="border: none;">
+            <div class="key">7</div>
+            <div class="key">8</div>
+            <div class="key">9</div>
+        </div>
+        
+        <div style="border: none;">
+            <div class="key">4</div>
+            <div class="key">5</div>
+            <div class="key">6</div>
+        </div>
+        
+        <div style="border: none;">
+            <div class="key">1</div>
+            <div class="key">2</div>
+            <div class="key">3</div>
+        </div>
+        
+        <div style="border: none;">
+            <div id="numerickeyboarddotkey" class="key">.</div>
+            <div class="key">0</div>
+            <div id="numerickeyboardminuskey" class="key">-</div>
+        </div>
+        
+        
+    </div>
+    
+    <div class="clear numerickeyboardfunctionkey">clear</div>
+    <div class="cancel numerickeyboardfunctionkey">cancel</div>
+
+
+    <div class="okbutton numerickeyboardfunctionkey">OK</div>
+    
+
+</div>
+
+<style>
+    .keyboardpromptpanel 
+    {
+        position: absolute;
+        font-family: Roboto;
+        font-size: 24pt;
+        font-weight: 100;
+        margin-left: 20px;
+        padding: 20px 0 0 0;
+        
+    }
+    #keyboardfornumeric {
+        position: fixed;
+        bottom: -520px;
+        left: 0px;
+        width: 100%;
+        height: 520px;
+        background-color: rgba(0,0,0,1);
+        text-align: center;
+    }
+    #keyboardfornumeric .alphakeys {
+        position: relative;
+        top: 83px;
+        
+        text-align: center;
+        display: inline-block;
+        margin: 0 auto;
+    }
+    #keyboardfornumeric .alphakeys .key{
+        padding: 15px 10px 12px 10px;
+        margin: 5px;
+        border: 1px solid rgba(255,255,255,0.5);
+        min-width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Roboto;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+    }
+    #keyboardfornumeric .alphakeys div.domain {
+        padding: 25px 15px 5px 15px;
+        margin: 5px 1px 1px 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        height: 50px;
+        display: none;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        color: #ffff00;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+        
+        max-width: 140px;
+    }
+    #keyboardfornumeric .alphakeys div.extention {
+        padding: 25px 15px 5px 15px;
+        margin: 5px 1px 1px 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        height: 50px;
+        display: none;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        color: #ffff00;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+        max-width: 140px;
+    }
+    #keyboardfornumeric .alphakeys div.spacer {
+        padding: 20px 10px 10px 10px;
+        margin: 5px;
+        border: 1px solid rgba(255,255,255,0);
+        width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        cursor: default;
+        background-color: rgba(0,0,0,0);
+        opacity: 0;
+    }
+    
+    #keyboardfornumeric .alphakeys div.space {
+        padding: 20px 10px 10px 10px;
+        margin: 3px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 500px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        
+    }
+
+    #keyboardfornumeric .numerickeys {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        text-align: center;
+        display: inline-block;
+        margin-left: 100px;
+    }
+    #keyboardfornumeric .numerickeys div {
+        padding: 20px 10px 10px 10px;
+        margin: 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 60px;
+        height: 50px;
+        display: inline-block;
+        font-family: Arial;
+        font-size: 24pt;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+        
+    }
+    
+    .numerickeyboardfunctionkey 
+    {
+        position: absolute;
+        padding: 25px 10px 2px 10px;
+        margin: 1px;
+        border: 1px solid rgba(255,255,255,0.5);
+        width: 160px;
+        height: 50px;
+        display: inline-block;
+        font-family: Roboto;
+        font-size: 16pt;
+        font-weight: 100;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #keyboardfornumeric .clear { top: 83px; right:20px; }
+    #keyboardfornumeric .cancel { bottom: 0px; left: 0px; }
+    #keyboardfornumeric .okbutton { bottom: 0px; right: 0px; }
+        
+    .highlightedbutton 
+    {
+        background: #0099ff; /* Old browsers */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOTlmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDgzZGIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(top,  #0099ff 0%, #0083db 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099ff), color-stop(100%,#0083db)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #0099ff 0%,#0083db 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#0083db',GradientType=0 ); /* IE6-8 */    
+        border: none;
+    }
+    .highlightedbutton:active  { background: white; color: black; }  
+</style>
+
+<script>
+
+    var keyboardfornumericloaded = false;
+    var keyboardfornumeric_field = null;
+    var numerickeyboarddomainkeypressed = false;
+    var numerickeyboardextentionkeypressed = false;
+    var numerickeyboardoriginalstring = '';
+
+    var numerickeyboardmaxlength = 0;
+
+    var numerickeyboardhidecharacters = false;
+    var okfunction = null;
+    var okfunctionadditionalparameter = null;
+    var numerickeyboardentry = '';
+
+    function showKeyboardForNumeric(field, allowdecimal, allownegative, maxlength, hidecharacters, onok, additionalParameter) {
+
+        okfunction = onok;
+        okfunctionadditionalparameter = additionalParameter;
+
+        if (allowdecimal != null) {
+            if (!allowdecimal) {
+                $('#numerickeyboarddotkey').addClass('spacer');
+                $('#numerickeyboarddotkey').addClass('nohighlight');
+                $('#numerickeyboarddotkey').addClass('noaction');
+            }
+            else {
+                $('#numerickeyboarddotkey').removeClass('spacer');
+                $('#numerickeyboarddotkey').removeClass('nohighlight');
+                $('#numerickeyboarddotkey').removeClass('noaction');
+            }
+        }
+        else {
+            $('#numerickeyboarddotkey').removeClass('spacer');
+            $('#numerickeyboarddotkey').removeClass('nohighlight');
+            $('#numerickeyboarddotkey').removeClass('noaction');
+        }
+
+        if (allownegative != null) {
+            if (!allownegative) {
+                $('#numerickeyboardminuskey').addClass('spacer');
+                $('#numerickeyboardminuskey').addClass('nohighlight');
+                $('#numerickeyboardminuskey').addClass('noaction');
+            }
+            else {
+                $('#numerickeyboardminuskey').removeClass('spacer');
+                $('#numerickeyboardminuskey').removeClass('nohighlight');
+                $('#numerickeyboardminuskey').removeClass('noaction');
+            }
+        }
+        else {
+            $('#numerickeyboardminuskey').removeClass('spacer');
+            $('#numerickeyboardminuskey').removeClass('nohighlight');
+            $('#numerickeyboardminuskey').removeClass('noaction');
+        }
+
+        if (maxlength != null) {
+            numerickeyboardmaxlength = maxlength;
+        }
+        else {
+            numerickeyboardmaxlength = 0;
+        }
+
+        if (hidecharacters != null) {
+            numerickeyboardhidecharacters = hidecharacters;
+        }
+        
+        $('.customkeyboard').hide();
+
+        $('.cancel').css('background-color', 'rgba(0,0,0,0.3)');
+        $('.cancel').css('color', '#fff');
+
+        $('#keyboardfornumeric').show();
+        playSound(sfxbreeze);
+        $('#keyboardfornumeric').animate({ bottom: 0 }, 400);
+
+        keyboardfornumeric_field = field;
+
+        $('.numerickeyboardprompt').html($(keyboardfornumeric_field).attr('prompt'));
+        numerickeyboardoriginalstring = $(keyboardfornumeric_field).html();
+        updatenumericKeyboardEntry(numerickeyboardoriginalstring);
+
+        $(keyboardfornumeric_field).css('border', 'thin solid rgba(255, 255, 255, 1)');
+
+        if (!keyboardfornumericloaded) {
+
+            var fn_touchstart = function () {
+                if (!$(this).hasClass('nohighlight')) {
+                    $(this).css('background-color', '#fff'); $(this).css('color', '#000');
+                }
+                if (!$(this).hasClass('noaction')) {
+                    processnumericKeyboardKey(this);
+                }
+            };
+            var fn_touchend = function () {
+                if (!$(this).hasClass('nohighlight')) {
+                    $(this).css('background-color', 'rgba(0,0,0,0.3)'); $(this).css('color', '#fff');
+                }
+            };
+
+            if (getCookie('istouchscreen') === '1') {
+                $('#keyboardfornumeric .alphakeys .key').on({ 'touchstart': fn_touchstart });
+                $('#keyboardfornumeric .alphakeys .key').on({ 'touchend': fn_touchend });
+
+                $('.numerickeyboardfunctionkey').on({ 'touchstart': fn_touchstart });
+                $('.numerickeyboardfunctionkey').on({ 'touchend': fn_touchend });
+
+            }
+            else {
+                //For NON-TOUCH mouse click support
+                $('#keyboardfornumeric .alphakeys .key').on({ 'mousedown': fn_touchstart });
+                $('#keyboardfornumeric .alphakeys .key').on({ 'mouseup': fn_touchend });
+
+                $('.numerickeyboardfunctionkey').on({ 'mousedown': fn_touchstart });
+                $('.numerickeyboardfunctionkey').on({ 'mouseup': fn_touchend });
+
+            }
+            keyboardfornumericloaded = true;
+        }
+
+        $('#keyboardbackground').show();
+        $('#keyboardbackground').animate({"opacity":1},1000);
+    }
+
+    function processnumericKeyboardKey(key) {
+
+        if ($(key).hasClass('numerickeyboardfunctionkey')) {
+            processnumericKeyboardFunctionKey(key);
+            return;
+        }
+
+        var currentstring = $(keyboardfornumeric_field).html();
+        var newstring = currentstring;
+
+        var char = $(key).html();
+
+        switch ($.trim(char)) {
+            case '&nbsp;':
+                break;
+            case 'backspace':
+                if (newstring.length > 0) {
+                    newstring = newstring.substring(0, newstring.length - 1);
+                    playSound(sfxarrow);
+                }
+                break;
+            case '-':
+                if (currentstring.length > 0 && currentstring[0] != '-') {
+                    newstring = '-' + currentstring;
+                }
+                else {
+                    newstring = currentstring.replace('-','');
+                }
+                break;
+            case '.':
+                if (currentstring.length == 0 || currentstring.indexOf('.') >= 0) {
+                    $(key).css('background-color', '#ff0000'); $(this).css('color', '#000');
+                    playSound(sfxerror);
+                }
+                else {
+                    playSound(sfxclick);
+                    newstring += char;
+                }
+                break;
+            default:
+                if (numerickeyboardmaxlength > 0 && (currentstring + char).length > numerickeyboardmaxlength) {
+                    $(key).css('background-color', '#ff0000'); $(this).css('color', '#000');
+                    playSound(sfxerror);
+                }
+                else {
+                    playSound(sfxclick);
+                    newstring += char;
+                }
+                break;
+        }
+
+        updatenumericKeyboardEntry(newstring);
+
+        donumericKeyboardPostKeyProcessing();
+    }
+
+    function updatenumericKeyboardEntry(newstring) {
+        var formatted = newstring;
+        numerickeyboardentry = formatted;
+        
+        if (!numerickeyboardhidecharacters) {
+            $('.numerickeyboardentry').html(formatted);
+        }
+
+        $(keyboardfornumeric_field).html(formatted);
+        $(keyboardfornumeric_field).val(formatted);
+    }
+
+    function processnumericKeyboardFunctionKey(key) {
+
+        var currentstring = $(keyboardfornumeric_field).html();
+        var newstring = currentstring;
+
+        var char = $(key).html();
+
+        switch ($.trim(char).toLowerCase()) {
+            case '&nbsp;':
+                break;
+            case 'clear':
+                numerickeyboarddomainkeypressed = false;
+                numerickeyboardextentionkeypressed = false;
+                newstring = '';
+                playSound(sfxvoltage);
+                break;
+            case 'cancel':
+                updatenumericKeyboardEntry(numerickeyboardoriginalstring);
+                $('.cancel').css('background-color', 'rgba(0,0,0,0.3)'); $('.cancel').css('color', '#fff');
+                dismissKeyboardFornumeric();
+                return;
+            case 'ok':
+                $('.okbutton').css('background-color', 'rgba(0,0,0,0.3)'); $('.okbutton').css('color', '#fff');
+
+                dismissKeyboardFornumeric();
+
+                if (okfunction != null) {
+                    okfunction(numerickeyboardentry, okfunctionadditionalparameter);
+                }
+                return;
+
+        }
+
+        updatenumericKeyboardEntry(newstring);
+
+        donumericKeyboardPostKeyProcessing();
+    }
+
+    function donumericKeyboardPostKeyProcessing() {
+
+        var string = $(keyboardfornumeric_field).html();
+
+        if (string.length > 0) {
+            $('.okbutton').addClass('highlightedbutton');
+        }
+        else {
+            $('.okbutton').removeClass('highlightedbutton');
+        }
+
+    }
+    function dismissKeyboardFornumeric() {
+        $(keyboardfornumeric_field).css('border', 'thin solid rgba(255, 255, 255, 0.1)');
+        keyboardfornumeric_field = null;
+        numerickeyboarddomainkeypressed = false;
+        numerickeyboardextentionkeypressed = false;
+        playSound(sfxwhoosh);
+        $('#keyboardfornumeric').animate({ bottom: '-' + $('#keyboardfornumeric').css('height') }, 250);
+
+        $('#keyboardbackground').css("opacity", 0);
+        $('#keyboardbackground').hide();
+        
+    }
+</script>

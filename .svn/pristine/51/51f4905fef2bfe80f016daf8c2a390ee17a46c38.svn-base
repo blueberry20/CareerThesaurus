@@ -1,0 +1,1108 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<!-- ================================================== SKILL TEST ================================================== -->
+<html lang="en">
+<head>
+    <title>Skill Test</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=device-dpi, minimal-ui" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="Stylesheet" />
+    <link href="../../Content/css/Skilltest/skilltest.css" rel="Stylesheet" />
+    <link href="~/Content/fonts/fontello.css" rel="stylesheet" />
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!---->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+    <script src="@Url.Content("~/Scripts/Custom/jquery.nicescroll.min.js")"></script>
+
+
+    <!--modernizer-->
+    <script src="@Url.Content("~/Scripts/Custom/jquery.modernizr.js")"></script>
+    <script src="@Url.Content("~/Scripts/Custom/jquery.placeholder.js")"></script>
+
+    <!-- If IE8, load local copy of bootstrap, and for support of HTML5 elements and media queries load HTML5 shim and Respond.js   -->
+    <!--[if lt IE 9]>
+      <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+      <script src="@Url.Content("~/Scripts/Custom/bootstrap.js")"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    @if ((@ViewBag.id != null) && (@ViewBag.gender != null))
+    {
+        <script src="@Url.Content("~/Scripts/SkillTest/Page_" + @ViewBag.id + "_" + @ViewBag.gender + ".js" )"></script>
+        <script src="@Url.Content("~/Scripts/SkillTest/main.js" )"></script>
+    }
+    else
+    {
+        <script src="@Url.Content("~/Scripts/SkillTest/main.js" )"></script>
+        <script src="@Url.Content("~/Scripts/SkillTest/Modal.js" )"></script>
+        <script src="@Url.Content("~/Scripts/Thesaurus/zipCodes.js")"></script>
+        <script src="@Url.Content("~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js")"></script>
+    }
+    <script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-53993232-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+</head>
+
+<body>
+    <form id='navigationForm' method="post">
+        <input type="hidden" id="moveToQuestion" name="questionNumber" value="" />
+    </form>
+    @if (@ViewBag.skilltestModal != null)
+    {
+
+        if (!@ViewBag.IsMobileDevice || @ViewBag.IsiPad)
+        {
+            <!--===================  Modal Start Test. Desktop Version ===================-->
+            <div class="imageDiv">
+            </div>
+
+            @* temp modal 1 question about gender *@
+            <div class="modal fade desktop" id="tempModal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Select your gender</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="radio blueBorderBtn">
+                                <label>
+                                    <input type="radio" name="gender" id="male" value="male">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="radio blueBorderBtn">
+                                <label>
+                                    <input type="radio" name="gender" id="female" value="female">
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            @*<button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>*@
+                            <button type="button" class="btn tempNewTest">Start</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+
+            <div class="modal fade desktop" id="skillTestModal" tabindex="-1" role="dialog" aria-labelledby="skilltestModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-dialog-center">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-center" id="skilltestModalLabel">Career Assessment Test</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="panel-group" id="accordion">
+                                <!--*********************Step 1************************-->
+                                <div class="panel panel-default">
+                                    <div id="headingOne" class="panel-heading">
+                                        <div data-parent="#accordion" data-target="#collapseOne">
+                                            Step 1
+                                        </div>
+                                    </div>
+
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="panelContent">
+                                                <div class="row">
+                                                    @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                            <p>Title</p>
+                                                        </div>*@
+                                                    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                        <select id="titleSelect" class="form-control">
+                                                            <option selected disabled value="none">Title</option>
+                                                            <option value="ms">Ms.</option>
+                                                            <option value="mrs">Mrs.</option>
+                                                            <option value="mr">Mr.</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                            <p>First name</p>
+                                                        </div>*@
+                                                    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                        <input type="text" class="form-control" id='firstName' name="firstName" placeholder="First Name" autofocus>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                            <p>Last name</p>
+                                                        </div>*@
+                                                    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                        <input type="text" class="form-control" id='lastName' name="lastName" placeholder="Last Name" autofocus>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                            <p>Your email</p>
+                                                        </div>*@
+                                                    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                        <input type="email" class="form-control" id='email' name="Email" placeholder="Email">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row lastRow">
+                                                    <p class="errorMsg"></p>
+                                                </div>
+                                                <button class="btn nextBtn" onclick="checkFields()">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--*********************Step 2************************-->
+                                <div class="panel panel-default">
+                                    <div id="headingTwo" class="panel-heading">
+                                        <div id="collapseTitle2" data-parent="#accordion" data-target="#collapseTwo">
+                                            Step 2
+                                        </div>
+                                    </div>
+
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div id="slides">
+                                                <div id="slide1" class="slide">
+                                                    <div class="slideContent">
+                                                        <p>Are you currently working?</p>
+                                                        <div class="btn-group btn-group-justified" id="worknoToggle">
+                                                            @* data-toggle="buttons">*@
+                                                        <button type="button" class="btn preTestBtn" id="yesWorkBtn">Yes</button>
+                                                        <button type="button" class="btn preTestBtn" id="noWorkBtn" onclick="movetoslidethree()">No</button>
+                                                        @*<label class="btn preTestBtn">
+                                                                <input type="radio" name="options" id="yesWorkBtn">Yes
+                                                            </label>
+                                                            <label class="btn preTestBtn" onclick="movetoslidethree()">
+                                                                <input type="radio" name="options" id="noWorkBtn">No
+                                                            </label>*@
+                                                    </div>
+                                                </div>
+                                                <button class="btn pull-right skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                                <i class="icon-right-open-big"></i>
+                                            </div>
+
+                                            <div id="slide2" class="slide">
+                                                <div class="slideContent">
+                                                    <p>Are you satisfied with your job?</p>
+                                                    <div class="btn-group btn-group-justified" id="satisfiedToggle">
+                                                        @* data-toggle="buttons">*@
+                                                    <button type="button" class="btn preTestBtn" id="satisfiedYesBtn">Yes</button>
+                                                    <button type="button" class="btn preTestBtn" id="satisfiedNoBtn" onclick="movetoslidethree()">No</button>
+                                                    @*<label class="btn preTestBtn">
+                                                            <input type="radio" name="options" id="satisfiedYesBtn">Yes
+                                                        </label>
+                                                        <label class="btn preTestBtn" onclick="movetoslidethree()">
+                                                            <input type="radio" name="options" id="satisfiedNoBtn">No
+                                                        </label>*@
+                                                </div>
+                                            </div>
+                                            <button class="btn pull-right skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                            <i class="icon-left-open-big"></i>
+                                            <i class="icon-right-open-big"></i>
+                                        </div>
+
+                                        <div id="slide3" class="slide">
+                                            <div class="slideContent">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                                                        <p>Your profession</p>
+                                                    </div>
+                                                    <div class="col-lg-9 col-md-9 col-sm-9">
+                                                        <input id="searchJob" type="text" class="form-control" onkeyup="searchJob(this.value)" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-3"></div>
+                                                    <div class="col-lg-9">
+                                                        <div class="jobs" id="professionList">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<div class="row">
+                                                        <div class="col-lg-3 text-right"><p class="other">Other career:</p></div>
+                                                        <div class="col-lg-9">
+                                                            <input id="otherJob" type="text" class="form-control" placeholder="Enter your job title" onkeyup="otherJob(this.value)" />
+                                                        </div>
+                                                    </div>*@
+                                                <div class="row lastRow">
+                                                    <button class="btn pull-right nextBtn" onclick="movetoslidethree()">Next</button>
+                                                    <button class="btn pull-right skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                                </div>
+                                            </div>
+                                            <i class="icon-left-open-big"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--*********************Step 3************************-->
+                        <div class="panel panel-default">
+                            <div id="headingThree" class="panel-heading">
+                                <div id="collapseTitle3" data-parent="#accordion" data-target="#collapseThree">
+                                    Step 3
+                                </div>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="panelContent">
+                                        <p class="text-center">For better results please provide</p>
+                                        <div class="row">
+                                            @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                    <p>Zip Code</p>
+                                                </div>*@
+                                            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                <input type="text" class="form-control" id='zipCode' name="zipcode" onpaste="return false;" onkeypress="return isNumber(event, this.value);" placeholder="Your Zip Code" autofocus>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                    <p>Graduation Year</p>
+                                                </div>*@
+                                            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                <select id="gradYearSelect" class="form-control">
+                                                    <option selected disabled value="none">Your Graduation Year</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            @*<div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+                                                    <p>Education Level</p>
+                                                </div>*@
+                                            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                                                <select id="educationLevelSelect" class="form-control">
+                                                    <option selected disabled value="none">Your Education Level</option>
+                                                    <option value="Still in High School">Still in High School</option>
+                                                    <option value="GED">GED</option>
+                                                    <option value="High School Diploma">High School Diploma</option>
+                                                    <option value="Certificate">Certificate</option>
+                                                    <option value="Some College">Some College</option>
+                                                    <option value="Associates Degree">Associates Degree</option>
+                                                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                                    <option value="Master's Degree'">Master's Degree</option>
+                                                    <option value="Doctoral Degree">Doctoral Degree</option>
+                                                    <option value="None">None</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <button type="button" class="startNewTest btn">Begin test</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="closeModal btn btn-default" data-dismiss="modal">Back</button>
+                    @*<a href="/Home" id="homeButton" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><p class="p1">Home</p></a>*@
+                    <button type="button" class="startNewTest btn disabled">Begin Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+        else
+        {
+            <!--*************************MOBILE PRE TEST QUESTIONS******************************-->
+            <div id="tempModal" class="mobileTestModal">
+                <div class="mobileHeader">
+                    <h4 class="modalTitle text-center" id="skilltestModalLabel">Career Assessment Test</h4>
+                </div>
+                <div class="steps">
+                    <div class="stepsHeader">
+                        Select your gender
+                    </div>
+                    <div class="questionContent">
+                        <div class="radio blueBorderBtn">
+                            <label>
+                                <input type="radio" name="gender" id="male" value="male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="radio blueBorderBtn">
+                            <label>
+                                <input type="radio" name="gender" id="female" value="female">
+                                Female
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 lastRow">
+                                <button class="btn tempNewTest">Next</button>
+                            </div>
+                            <div class="row">
+                                <p class="errorMsg"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="skillTestModal" class="mobileTestModal" style="display:none;">
+                <div class="mobileHeader">
+                    <h4 class="modalTitle text-center" id="skilltestModalLabel">Career Assessment Test</h4>
+                </div>
+                <div class="step1 steps">
+                    <div class="stepsHeader">
+                        Step 1
+                    </div>
+                    <div class="questionContent">
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <select id="titleSelect" class="form-control">
+                                    <option selected disabled value="none">Title</option>
+                                    <option value="ms">Ms.</option>
+                                    <option value="mrs">Mrs.</option>
+                                    <option value="mr">Mr.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" id='firstName' name="firstName" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" id='lastName' name="lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="email" class="form-control" id='email' name="Email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 lastRow">
+                                <button class="btn nextBtn" onclick="checkFields()">Next</button>
+                            </div>
+                            <div class="row">
+                                <p class="errorMsg"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step2 steps" style="display:none;">
+                    <div class="stepsHeader">
+                        Step 2
+                    </div>
+                    <div class="questionContent">
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <div id="slides">
+                                    <div id="slide1" class="slide">
+                                        <div class="slideContent">
+                                            <p>Are you currently working?</p>
+                                            <div class="btn-group btn-group-justified" id="worknoToggle">
+                                                @* data-toggle="buttons">*@
+                                                <button type="button" class="btn preTestBtn" id="yesWorkBtn">Yes</button>
+                                                <button type="button" class="btn preTestBtn" id="noWorkBtn" onclick="movetoslidethree()">No</button>
+                                                @*<label class="btn preTestBtn">
+                                                        <input type="radio" name="options" id="yesWorkBtn">Yes
+                                                    </label>
+                                                    <label class="btn preTestBtn" onclick="movetoslidethree()">
+                                                        <input type="radio" name="options" id="noWorkBtn">No
+                                                    </label>*@
+                                            </div>
+                                        </div>
+                                        <button class="btn pull-right skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                        <i class="icon-right-open-big"></i>
+                                    </div>
+
+                                    <div id="slide2" class="slide">
+                                        <div class="slideContent">
+                                            <p>Are you satisfied with your job?</p>
+                                            <div class="btn-group btn-group-justified" id="satisfiedToggle">
+                                                @* data-toggle="buttons">*@
+                                            <button type="button" class="btn preTestBtn" id="satisfiedYesBtn">Yes</button>
+                                            <button type="button" class="btn preTestBtn" id="satisfiedNoBtn" onclick="movetoslidethree()">No</button>
+                                            @*<label class="btn preTestBtn">
+                                                    <input type="radio" name="options" id="satisfiedYesBtn">Yes
+                                                </label>
+                                                <label class="btn preTestBtn" onclick="movetoslidethree()">
+                                                    <input type="radio" name="options" id="satisfiedNoBtn">No
+                                                </label>*@
+                                        </div>
+                                    </div>
+                                    <button class="btn pull-right skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                    <i class="icon-left-open-big"></i>
+                                    <i class="icon-right-open-big"></i>
+                                </div>
+
+                                <div id="slide3" class="slide">
+                                    <div class="slideContent">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p id="instructions" class="mobile">Please select your current career</p>
+                                                <div id="pickProfessionBtn" onclick="openProfessions()">Pick One <i class="icon-right-open-big pull-right"></i></div>
+                                                <p id="selectedCareer"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p class="other">Other career:</p>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <input id="otherJob" type="text" class="form-control" placeholder="Enter your job title" onfocus="clearProfessions()" onkeyup="otherJob(this.value)" />
+                                            </div>
+                                        </div>
+                                        <div class="row lastRow">
+                                            <button class="btn skipBtn" onclick="movetoslidethree()">Skip Survey</button>
+                                            <button class="btn nextBtn" onclick="movetoslidethree()">Next</button>
+
+                                        </div>
+                                    </div>
+                                    <i class="icon-left-open-big"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="step3 steps" style="display:none;">
+                <div class="stepsHeader">
+                    Step 3
+                </div>
+                <div class="questionContent">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p>For better results please provide</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="text" class="form-control" id='zipCode' name="zipcode" onpaste="return false;" onkeypress="return isNumber(event, this.value);" placeholder="Your Zip Code">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <select id="gradYearSelect" class="form-control">
+                                <option selected disabled value="none">Your Graduation Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <select id="educationLevelSelect" class="form-control">
+                                <option selected disabled value="none">Your Education Level</option>
+                                <option value="Still in High School">Still in High School</option>
+                                <option value="GED">GED</option>
+                                <option value="High School Diploma">High School Diploma</option>
+                                <option value="Certificate">Certificate</option>
+                                <option value="Some College">Some College</option>
+                                <option value="Associates Degree">Associates Degree</option>
+                                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                <option value="Master's Degree'">Master's Degree</option>
+                                <option value="Doctoral Degree">Doctoral Degree</option>
+                                <option value="None">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-lg-12">
+                            <button type="button" class="startNewTest btn">Begin test</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!--mobile overlay with professions list-->
+        <div id="professionsOverlay" style="display:none;">
+            <div class="menuWrap">
+                <div class="closeIcon">
+                    <i class="icon-cancel"></i>
+                </div>
+                <input id="searchJob" type="text" class="form-control" placeholder="Search" onkeyup="searchJob(this.value)" />
+            </div>
+            <div class="jobs">
+            </div>
+        </div>
+
+        }
+    }
+    else
+    {
+        <!-- desktop load test questions -->
+        if (!@ViewBag.IsMobileDevice || @ViewBag.IsiPad)
+        {
+            <!--Modal with instructions. SHOW ONLY WHEN WIDTH IS OVER 768-->
+            <div id="hintModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p>Select a person in the picture that best suits your personality</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default okBtn" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Nav Menu Desktop -->
+            <div id="navigationWrapper">
+                <nav id="bt-menu" class="bt-menu">
+                    <div id="triggerWrapper" class="bt-menu-trigger">
+                        <a href="#" class=""><span>Menu</span></a>
+                    </div>
+                    <ul class="btn-group" id="leftside">
+                        <li><button type="button" id="question_1" class="btn btn-default desktopNav" title="extrovert or introvert">1</button></li>
+                        <li><button type="button" id="question_2" class="btn btn-default desktopNav" title="mobile or stationary">2</button></li>
+                        <li><button type="button" id="question_3" class="btn btn-default desktopNav" title="process or result">3</button></li>
+                        <li><button type="button" id="question_4" class="btn btn-default desktopNav" title="focused or relaxed">4</button></li>
+                        <li><button type="button" id="question_5" class="btn btn-default desktopNav" title="facts or imagination">5</button></li>
+                        <li><button type="button" id="question_6" class="btn btn-default desktopNav" title="rational or emotion">6</button></li>
+                        <li><button type="button" id="question_7" class="btn btn-default desktopNav" title="present or remote">7</button></li>
+                        <li><button type="button" id="question_8" class="btn btn-default desktopNav" title="routine or discovery">8</button></li>
+                        <li><button type="button" id="question_9" class="btn btn-default desktopNav" title="variable or fixed">9</button></li>
+                    </ul>
+                    <ul id="rightside">
+                        <li><a href="/Careers/ByPersonality" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                        <li><a href="/SkillTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                        @{
+                            string homeLink = ViewBag.ProfileType == "student" ? "/Assessment/Student" : "/Home";
+                        }
+                        <li><a href="@homeLink" id="homeButton" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><p class="p1">Home</p></a></li>
+                    </ul>
+                </nav>
+            </div>
+             <!-- main div with images, mapping and text-->
+            <div class="imageDiv">
+                <div class="characters"></div>
+                <map name="mapping"></map>
+            </div>
+
+            <!-- hover and selected tooltips -->
+            <div class="hover-tooltip popover top fade in">
+                <div class="arrow"></div>
+                <div id="hover-content" class="popover-content"></div>
+            </div>
+
+            <div class="selected-tooltip popover top fade in">
+                <div class="arrow"></div>
+                <div id="selected-content" class="popover-content"></div>
+            </div>
+            <div class="continueWrapper">
+                <a class="btn btn-default btn-lg disabled" id="continue">Next <i class="icon-right-open-big"></i></a>
+            </div>
+        }
+        else
+        {
+
+        <!--  Mobile. Load test questions -->
+            <div class="mobileWrapper">
+
+                <!--  Progress bar
+                <div class="progress mobileProgress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="9"></div>
+                    <span id="progressText"></span>
+                </div> -->
+                <!--  Mobile buttons. Select response -->
+                <div class="mobileBottons btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button id="mobileLeft" class="btn btn-default btn-lg" onclick="selectPerson(this.value)"></button>
+                    </div>
+                    <div class="btn-group">
+                        <button id="mobileRight" class="btn btn-default btn-lg" onclick="selectPerson(this.value)"></button>
+                    </div>
+                </div>
+
+                @*result btn for mobile*@
+                <a class="resultBtnMobile btn" style="display:none;" href="/Careers/ByPersonality">See your results</a>
+            </div>
+
+
+            <!--Mobile Menu-->
+            <div class="mobileMenu">
+                <div class="row">
+                    <div class="leftSideMenu col-sm-6 col-xs-6">
+                        <ul class="nav">
+                            <li><a class="mobileNavigation" id="mobile_question_1">Question 1</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_2">Question 2</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_3">Question 3</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_4">Question 4</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_5">Question 5</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_6">Question 6</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_7">Question 7</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_8">Question 8</a></li>
+                            <li><a class="mobileNavigation" id="mobile_question_9">Question 9</a></li>
+                        </ul>
+                    </div>
+                    <div class="rightSideMenu col-sm-6 col-xs-6">
+                        <div class="row">
+                            <div id="testCloseIcon">
+                                <i class="icon-cancel"></i>
+                            </div>
+                        </div>
+                        <ul id="rightsideMobile">
+                            <li><a href="/Careers" id="resultsBtn" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><p class="p1">View</p><p class="p2">Results</p></a></li>
+                            <li><a href="/SkillTest" class="btn startOver iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" /><p class="p1">Start</p><p class="p2">Over</p></a></li>
+                            @{
+                                string homeLink = ViewBag.ProfileType == "student" ? "/Assessment/Student" : "/Home";
+                            }
+                            <li><a href="@homeLink" id="homeButton" class="btn iconWrapper"><img class="icon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><p class="p1">Home</p></a></li>
+                        </ul>
+                        @*<div class="menuNavBtn">
+                                <img class="buttonIcon" src='@Url.Content("~/Content/images/reset.png")' alt="start icon" />
+                                <a class="startOver" href="/SkillTest">Start Over</a>
+                            </div>
+                            <div class="menuNavBtn"><img class="buttonIcon" src='@Url.Content("~/Content/images/person.png")' alt="results icon" /><a href="/SkillTest/Result">View Results</a></div>
+                            <div class="menuNavBtn"><img class="buttonIcon" src='@Url.Content("~/Content/images/home.png")' alt="home icon" /><a href="/Home">Home</a></div>*@
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        <!--continue button get method and home button -->
+        <div class="headersText">
+            <div id="testMenuIcon" class="mobile">
+                <i class="icon-menu"></i>
+            </div>
+        </div>
+
+    }
+
+
+    <script>
+
+    /*move menu icon to mobile position
+    $(window).resize(function () {
+        if ($(window).width() < 992) {
+            $('#dropdownMenu1').empty();
+            var mobileTrigger = $('.bt-menu-trigger').clone();
+            mobileTrigger.appendTo('#dropdownMenu1');
+        }
+    });*/
+
+    //open test menu on menu navbar icon click
+    var clicked = false;
+    $('.bt-menu-trigger').click(function () {
+        if (clicked == false) {
+            // odd clicks
+            $('.bt-menu').addClass('bt-menu-open');
+
+
+            if (isDeviceMobile && !isiPad) {//mobile - hide
+                $('#continue').css({ 'display': 'none', 'position': 'fixed', 'right': '-300px', 'width': '200px', 'background-color': '#38D5A3;' });
+            }
+            else { //animate continue button only on desktop - hide
+                var right = $('#continue').offset().right;
+                $("#continue").css({ right: right }).animate({ "right": "-300px" }, "fast");
+            }
+
+            var overlay = $('.bt-menu').append('<div class="bt-overlay"></div>');
+            $('.bt-overlay').click(function () {
+                resetMenu();
+            })
+            clicked = true;
+        } else {
+            // even clicks
+            resetMenu();
+            $('.bt-overlay').remove();
+
+            clicked = false;
+        }
+    });
+
+    function resetMenu() {
+        $('.bt-menu').removeClass('bt-menu-open');
+        $('.bt-menu').addClass('bt-menu-close');
+
+        if (!($('#continue').hasClass('disabled'))) {
+            //show continue button
+            if (isDeviceMobile && !isiPad) {
+                $('#continue').css({ 'display': 'inline-block', 'position': 'relative', 'right': '0', 'width': '100%', 'background-color': 'rgb(66, 212, 170)' });
+            }
+            else {//mobile - show
+                var right = $('#continue').offset().right;
+                $("#continue").css({ right: right }).animate({ "right": (winWidth / 2) - 130 + 'px' }, "fast");
+            }
+        }
+    }
+
+
+
+    var winWidth,
+        winHeight,
+        currentQuestion,
+        nextQuestion = null,
+        delay = 2000,
+        animateDelay = 500,
+        gender,
+        imagePath = '@Url.Content("~/Content/images/skilltest/Page_")',
+        appserverurl = "@ViewBag.AppServerUrl",
+        isDeviceMobile = "@ViewBag.IsMobileDevice".toLowerCase() == 'true' ? true : false,
+        isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false,
+        hint = 'Please select a person in the picture that best suits your personality',
+        answered = 0,
+        dimensions = ["attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation"],
+        images = [], 
+        showedBefore = false,
+        changeAnswer = false,
+        name = '@ViewBag.Name',
+        user = '@ViewBag.Email',
+        profileType = '@ViewBag.ProfileType';
+
+        //---------------------------------------------- document ready function ----------------------------------
+        $(document).ready(function () {
+            
+            if (isiPad) {
+                imagePath = '@Url.Content("~/Content/images/skilltestIpad/Page_")'
+            }
+            if (isDeviceMobile && !isiPad) {                
+                $('.blueBorderBtn').css({ 'margin': '10px 0', 'width': '100%' }).find('label').css('color', 'black');
+            }
+
+            $('.blueBorderBtn').click(function () {
+                $('.blueBorderBtn').removeClass('selectedGender');
+                $(this).addClass('selectedGender');
+            })
+
+            var nua = navigator.userAgent;
+            var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1);
+            if (isAndroid) {
+                var pxratio = window.devicePixelRatio;
+                $('meta[name=viewport]').attr('content', 'user-scalable=0, width=' + screen.width / pxratio + ', height=' + screen.height / pxratio + ', initial-scale=1.0, maximum-scale=1.0, target-densitydpi=device-dpi');
+            }
+            //if (!isDeviceMobile || isiPad) {
+            //    $(".mobileMenu").niceScroll({ cursoropacitymin: 0.9, zindex: 10000, cursorwidth: "3px", cursorborder: "1px solid #fff" });
+            //}
+
+            function viewport() {
+                var e = window, a = 'inner';
+                if (!('innerWidth' in window)) {
+                    a = 'client';
+                    e = document.documentElement || document.body;
+                }
+                return { width: e[a + 'Width'], height: e[a + 'Height'] };
+            }
+            function updateVw() {
+                var vw = viewport().width / 100;
+                jQuery('html').css({
+                    'font-size': vw + 'px'
+                });
+            }
+
+            jQuery(window).ready(function () {
+                updateVw();
+            });
+
+            if (window.innerHeight < 768) {
+                var updatedHeight = window.innerHeight / 9;
+                $('#leftside li').height(updatedHeight).width(updatedHeight).css('margin', '0 5px');
+                $('.desktopNav').css({ height: '100%', width: '100%' });
+            }
+
+            jQuery(window).resize(function () {
+                updateVw();
+                if (window.innerHeight < 768) {
+                    var updatedHeight = window.innerHeight / 9;
+                    $('#leftside li').height(updatedHeight).width(updatedHeight).css('margin', '0 5px');
+                    $('.desktopNav').css({ height: '100%', width: '100%' });
+                }
+            });
+
+            if ("@ViewBag.skilltestModal") {  //==================  Modal view  =====================
+            //document.addEventListener('touchstart', function (event) {
+            //    if (!isTextInput(event.target) && isTextInput(document.activeElement)) {
+            //        document.activeElement.blur();
+            //    } else if (isBtn) {
+            //        checkFields();
+            //    }
+            //}, false);
+            tempnewtest();
+            function isTextInput(node) {
+                return ['INPUT'].indexOf(node.nodeName) !== -1;
+            }
+
+            function isBtn(node) {
+                return ['nextBtn'].indexOf(node) !== -1;
+            }
+
+            $('input').keyup(function (event) {
+                event = (event) ? event : window.event;
+                var charCode = (event.which) ? event.which : event.keyCode;
+                if (charCode == 13) {
+                    document.activeElement.blur();
+                }
+            });
+
+            if (isDeviceMobile && !isiPad) {
+
+                // ================================mobile modal================================
+                //$('.questionContent').css('height', ((pxratio) ? window.innerHeight / pxratio : window.innerHeight) - 135);
+                var slidesHeight = (pxratio ? window.innerHeight / pxratio : window.innerHeight) - 125;
+                $('#slides').css('height', slidesHeight > 400 ? slidesHeight : 400);
+                $('.jobs').css('height', '100%');
+            }
+            else if (isDeviceMobile && isiPad) {
+                $('.imageDiv').append('<img id="background" src="/Content/images/skilltest/Page_1/female_bg.jpg" />');
+                //$('#skillTestModal').modal('show');
+                $('#tempModal').modal('show');
+                $('.jobs').css('overflow-y', 'scroll');
+                // $('.jobs .job').css({ padding: '8px 10px', 'border-bottom': '1px solid rgb(228, 248, 252)'});
+            }
+            else {
+                $('.imageDiv').append('<img id="background" src="/Content/images/skilltest/Page_1/female_bg.jpg" />');
+                $('#tempModal').modal('show');
+                //$('#skillTestModal').modal('show');
+                $('.jobs').niceScroll({ cursoropacitymin: 0.9, zindex: 10000, cursorwidth: "3px", cursorborder: "0", autohidemode: false, cursorcolor: "#D9DADB" });
+            }
+            window.onorientationchange = function (event) {
+                var slidesHeight = (pxratio ? window.innerHeight / pxratio : window.innerHeight) - 125;
+                $('#slides').css('height', slidesHeight > 400 ? slidesHeight : 400);
+            }
+            showJobsSelection('');
+            displaySize();
+            //  modalPosition();
+
+
+            $(window).resize(function () {
+                displaySize();
+                // modalPosition();
+            });
+
+            //if (winWidth < 768) {
+            //    //change height of panel-body depending on screen size
+            //    var newHeight = document.documentElement.clientHeight - 102 + 'px';
+            //    $('.panel-body').css('height', newHeight);
+            //}
+
+
+
+            $('#titleSelect').change(function () {
+                getTitle();
+            });
+
+
+            //$('.jobs').niceScroll({ cursoropacitymin: 0.9, zindex: 10000, cursorwidth: "3px", cursorborder: "0", autohidemode: false });
+            //$('#ascrail2000').show();
+
+
+            //step 1.
+            //generate years for grad year select
+            var yearslisted;
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            for (var i = year; i > year - 100; i--) {
+                yearslisted += '<option value="' + i + '">' + i + '</option>'
+            }
+            $('#gradYearSelect').append(yearslisted);
+
+
+            //step 2 slide 1
+            $('#yesWorkBtn').click(function () {
+                $('#slide2').stop().animate({ left: '0' }, 500, 'easeOutBack');
+                $('#slide1 .icon-right-open-big').show();
+                $('#slide2 .icon-left-open-big').show();
+            })
+
+            $('#noWorkBtn').click(function () {
+                //$('#collapseTwo').collapse('toggle');
+                //$('#collapseThree').collapse('toggle');
+                $('#collapseThree').removeClass('collapse').addClass('in');
+                $('#collapseTwo').removeClass('in').addClass('collapse');
+            })
+
+            //step 2 slide 2
+            $('#satisfiedYesBtn').click(function () {
+                $('#slide3').stop().animate({ left: '0' }, 500, 'easeOutBack');
+                $('#slide2 .icon-right-open-big').show();
+                $('#slide3 .icon-left-open-big').show();
+                // $('#slide2 .slideContent').hide();
+            })
+
+
+            //step 2. arrows to switch between slides.
+            $('#skillTestModal .icon-left-open-big').click(function () {
+                $(this).closest('.slide').animate({ left: '100%' }, 500, 'easeOutBack');
+            })
+
+            $('#skillTestModal .icon-right-open-big').click(function () {
+                $(this).closest('.slide').next().animate({ left: '0%' }, 500, 'easeOutBack');
+            })
+
+            //step 2 slide 3
+
+            $('.jobs').click(function (event) {
+                var target = $(event.target);
+                if (!target.is('div')) {
+                    pickThisJob(target.parent());
+                } else {
+                    pickThisJob(target);
+                }
+                setTimeout(function () {
+                    $('#professionsOverlay').hide();
+                    if (isDeviceMobile && !isiPad) {
+                        $('#skillTestModal').show();
+                    }
+                }, 500);
+
+            });
+
+            $('.startNewTest').click(startNewTest);
+            $('.tempNewTest').click(tempnewtest);
+
+            $('.closeModal').click(function () {
+
+                if (document.referrer && document.referrer.toLowerCase().indexOf('skilltest') == -1) {
+                    window.history.back();
+                } else {
+                    window.location = "/home";
+                }
+
+            });
+            if (ga) ga('send', 'event', 'page', 'Question number', 'pre test');
+        } else { //================================  Test View ================================
+
+            currentQuestion = parseInt('@ViewBag.id');
+            if (ga) ga('send', 'event', 'page', 'Question number', currentQuestion); 
+            gender = '@ViewBag.gender';
+
+            window.onorientationchange = function (event) {
+                if (isAndroid) {
+                    location.reload();
+                }
+                if (isiPad) {
+                    displaySize();
+                    resizeMapping(currentQuestion);
+                    var positionXY = tooltipMapping($('.selectedPerson').data('positionx'), $('.selectedPerson').data('positiony'));
+                    $('.selected-tooltip').css({ left: positionXY[0] - ($('.selected-tooltip').innerWidth() / 2), top: positionXY[1] - ($('.selected-tooltip').innerHeight()) });
+                    continueBtnPosition();
+                }
+            }
+
+            constractor(currentQuestion);
+
+            $('map, area').click(function (event) {
+                event.preventDefault();
+            });
+
+            document.ondragstart = function () {
+                return false;
+            }
+
+
+            //open/close nav menu overlay in mobile
+            $('#testMenuIcon').click(function () {
+                $('.mobileMenu').show();
+                $('.mobileWrapper').hide();
+                $('.headersText').hide();
+                $('html, body').css('height', '100%');
+
+            })
+
+            $('#testCloseIcon').click(function () {
+                $('.mobileMenu').hide();
+                $('.mobileWrapper').show();
+                $('.headersText').show();
+            })
+
+            $(window).resize(function () {
+                if (!isDeviceMobile || isiPad) {
+                    displaySize();
+                    resizeMapping(currentQuestion);
+                    var positionXY = tooltipMapping($('.selectedPerson').data('positionx'), $('.selectedPerson').data('positiony'));
+                    $('.selected-tooltip').css({ left: positionXY[0] - ($('.selected-tooltip').innerWidth() / 2), top: positionXY[1] - ($('.selected-tooltip').innerHeight()) });
+                    continueBtnPosition();
+                }
+                displaySize();
+            });
+            // window.addEventListener("orientationchange", $(window).trigger('resize'));
+            $('.desktopNav, .mobileNavigation').click(function () {
+                var questionNumber = this.id.slice(-1);
+                $('#moveToQuestion').val(questionNumber);
+                //$('#navigationForm').attr('action', 'SkillTest/' + questionNumber);
+                $('#navigationForm').submit();
+            });
+
+            $('.desktop button').on('mouseenter', function () {
+                var questionNumber = this.id.slice(-1);
+                preloadImages(parseInt(questionNumber) - 1);
+            });
+
+            $('.startOver').click(function (event) {
+                for (var i = 0; i < 9; i++) {
+                    setCookie(dimensions[i], '', -1);
+                }
+                answers = 0;
+                setCookie('question1', '', -1);
+                setCookie('gender', '', -1);
+                setCookie('firstname', '', -1);
+                setCookie('lastname', '', -1);
+                setCookie('email', '', -1);
+            });
+
+            $('#continue').click(function (event) {
+                if (!$(this).attr('href')) {
+                    event.preventDefault();
+                    $('#moveToQuestion').val(nextQuestion);
+                    $('#navigationForm').submit();
+                }
+
+            });
+
+            $('.slideOut').click(function () {
+                if ($('#navigationWrapper').hasClass('visible')) {
+                    $('#navigationWrapper').animate({ bottom: '-60px' }, 500).removeClass('visible');
+                } else {
+                    $('#navigationWrapper').animate({ bottom: '-10px' }, 500).addClass('visible');
+                }
+            });
+        }
+
+        //if (answered > 0) {
+        //    setCookie('tooktest', 'yes', 365);
+        //}
+
+    }); // END document ready
+
+    
+    </script>
+
+
+</body>
+
+</html>

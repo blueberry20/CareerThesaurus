@@ -1,0 +1,90 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers
+@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClientCampusProgram
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+</style>
+
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+
+    <!--Breadcrumbs-->    
+    <div>
+        @Html.ActionLink("Client Index", "Index", "directEmployerclients") > 
+        @Html.ActionLink(((DirectEmployerClient)ViewBag.Client).Name, "Edit", "directEmployerclients", new { id = ((DirectEmployerClient)ViewBag.Client).RowKey }, null) > 
+        @Html.ActionLink(((DirectEmployerClientCampus)ViewBag.Campus).Name, "Edit", "directEmployerclientcampuses", new { id = ((DirectEmployerClientCampus)ViewBag.Campus).RowKey }, null)
+    </div>
+
+    <h1>Create a Posting for <span style="color: rgba(0,0,255,1)">@(((DirectEmployerClient)ViewBag.Client).Name)</span> - <span style="color: rgba(255,128,0,1)">@(((DirectEmployerClientCampus)ViewBag.Campus).Name)</span></h1>
+
+    @using (Html.BeginForm())
+    {
+        <table width=100% cellspacing=0>
+            <tr>
+                <td style="font-size: 24pt; padding: 5px;"></td>
+                <td style="padding: 5px;"><input type="submit" value="Save" style="float: right;"/></td>
+            </tr>
+        </table>
+        
+        <br />
+        
+        @Html.ValidationSummary(true)
+        
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.Status,
+                                    new SelectList(new List<object> {
+                                        new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" },
+                                        new { Value = "Demo", Text = "Demo" },
+                                        new { Value = "EmailOnly", Text = "Email Only" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </fieldset>
+        @Html.Partial("Forms/ProgramDetails")
+        @Html.HiddenFor(model => model.PostedDateTime)
+    }
+</div>
+
+<script>
+    function document_ready() {
+
+        $('.attributes tr td').click(function () {
+            $('td[dimension="' + $(this).attr('dimension') + '"]').removeClass('selected');
+            $('td[dimension="' + $(this).attr('dimension') + '"]').filter(':contains("' + $(this).html() + '")').addClass('selected');
+            setDimensionVariable($(this).attr('dimension'), $(this).html());
+        });
+
+        $('.importantthings tr td').click(function () {
+            var e = $('.importantthings td').filter(':contains("' + $(this).html() + '")');
+
+            if (e.hasClass('selected')) {
+                e.removeClass('selected');
+                setImportantThingVariable($(this).html(), '');
+            }
+            else {
+                e.addClass('selected');
+                setImportantThingVariable($(this).html(), $(this).html());
+            }
+
+        });
+        $('textarea').jtextarea();
+    }
+</script>
+

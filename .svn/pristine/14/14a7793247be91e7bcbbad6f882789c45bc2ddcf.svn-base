@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "CreateSchool";
+}
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="createSchoolPage">
+    <div class="jumbotron">
+        <h1>Create School</h1>
+    </div>
+    <div class="container">
+
+        <!--login box-->
+        <div class="centerBox">
+            <div class="row">
+                <form method="POST" role="form">
+
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolname">Official School Name:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolname" id="schoolname" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolid">Official ID (if available):</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolid" id="schoolid" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolphone">Primary Phone Number:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolphone" id="schoolphone" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schooladdress1">Address 1:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schooladdress1" id="schooladdress1" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schooladdress2">Address 2</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schooladdress2" id="schooladdress2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolcity">City:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolcity" id="schoolcity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolcity">State:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolstate" id="schoolstate">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolzip">School Zip Code:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolzip" id="schoolzip" onpaste="return false;" onkeypress="return isNumber(event, this.value);">
+                            </div>
+                        </div>
+
+                        <div class="form-group row termsRow">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="classSelect"></label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="checkbox" class="required">
+                                    <label>
+                                        I agree to the Terms and Conditions of using this site
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row lastFormRow">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-success loginBtn">Create!</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function document_ready() {
+        $('form').submit(function (event) {
+            var valid = true;
+            $('.required').each(function (index, element) {
+                var name = $(element).attr('name');
+                var value = $(element).val();
+                switch (name) {
+                    case 'schoolid':
+                        //if optional it can be empty
+                        break;
+                    case 'schoolzip':
+                        if (!validateZip(value)) {
+                            valid = false;
+                            //zip is not valid
+                        }
+                        break;
+                    default:
+                        if (value == '' || value == null) {
+                            valid = false;
+                            alert('You must fill out this field');
+                        }
+                        break;
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    }
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+    function validateZip(zip) {
+        var reg = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+        return reg.test(zip);
+    }
+</script>

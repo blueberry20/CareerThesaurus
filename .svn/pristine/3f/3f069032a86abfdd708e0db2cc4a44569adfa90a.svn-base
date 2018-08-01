@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Confirm Email</title>
+</head>
+<body>
+    <div>Hi {{name}},</div>
+    <br>
+    <div>Thanks for creating an account with CareerThesaurus. Click below to confirm your email address:</div>
+    <a href="{{url}}">{{url}}</a>
+    <br>
+    <br>
+    <div>If you have problems, please paste the above URL into your web browser.</div>
+    <br>
+    <div>Thanks,</div>
+    <div>CareerThesuarus Support Team</div>
+</body>
+</html>

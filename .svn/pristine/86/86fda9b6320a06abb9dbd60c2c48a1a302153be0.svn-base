@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillCowResponsive", "SkillCowResponsive\SkillCowResponsive.csproj", "{4AA32243-47C3-4491-9C44-8F439D44157A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E849CB40-0F86-4C32-B8B3-0A24E4479A2A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "WindowsAzure1", "WindowsAzure1\WindowsAzure1.ccproj", "{DB090BA3-6945-4D90-A3BD-C2CF6CE813DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4AA32243-47C3-4491-9C44-8F439D44157A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AA32243-47C3-4491-9C44-8F439D44157A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AA32243-47C3-4491-9C44-8F439D44157A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AA32243-47C3-4491-9C44-8F439D44157A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB090BA3-6945-4D90-A3BD-C2CF6CE813DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB090BA3-6945-4D90-A3BD-C2CF6CE813DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB090BA3-6945-4D90-A3BD-C2CF6CE813DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB090BA3-6945-4D90-A3BD-C2CF6CE813DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

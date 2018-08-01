@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Encryption;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class WelcomeController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Welcome/
+
+        public ActionResult Index(string email, string fname, string title, string v)
+        {
+            //if (email == null)
+            //{
+            //    return View();
+            //    //return RedirectToAction("Index", "Home");
+            //}
+            //string gender = GetGender(title);
+            //email = email.ToLower();
+            //fname = HttpUtility.UrlDecode(fname);
+            //string firstName = fname.Substring(0, fname.IndexOf(""));
+            //string lastName = fname.Substring(fname.IndexOf(" ") + 1);
+            //UserAccountClient uac = new UserAccountClient();
+            //UserAccount account = uac.GetByPartitionAndRowKey(email.Substring(0, 1), email);
+            //if (account == null)
+            //{
+            //    uac.AddNewItem(new UserAccount { PartitionKey = email.Substring(0, 1), RowKey = email, FirstName = firstName, LastName = lastName, Email = email, Password = "Password1", ProfileType = "email" });
+            //}
+            //else
+            //{
+            //    if (account.ProfileType == "email")
+            //    {
+            //        ViewBag.Message = "Welcome back";
+            //    }
+            //    else
+            //    {
+            //        ViewBag.Message = "Already exist";
+            //    }
+            //}
+            //string sessionkey = ClientSession.GetClientSessionKey("user", email, firstName + " " + lastName, "email");
+            //string decryptedsessionkey = SimpleAES.DecryptString(sessionkey);
+            //AuthTokens = decryptedsessionkey.Split('|');
+            //ViewBag.Name = AuthTokens[2];
+            //ViewBag.Email = AuthTokens[1];
+            //ViewBag.ProfileType = AuthTokens[3];
+            //Response.Cookies["sessionkey"].Value = sessionkey;
+            //Response.Cookies["sessionusername"].Value = email;
+            //Response.Cookies["firstname"].Value = firstName;
+            //Response.Cookies["lastname"].Value = lastName;
+            //Response.Cookies["email"].Value = email;
+            //Response.Cookies["gender"].Value = title;
+            return View();
+        }
+
+        private string GetGender(string gender)
+        {
+            gender = gender.ToLower();
+            switch (gender.Replace(@"[^a-z]+", "")) {
+                case "mr":
+                case "male":
+                    return "male";
+                case "mrs":
+                case "ms":
+                case "female":
+                    return "female";
+                default:
+                    return "male";
+            }
+        }
+    }
+}

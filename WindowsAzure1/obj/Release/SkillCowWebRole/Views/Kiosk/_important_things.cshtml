@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_important_things_scrollablecontent div {display: inline-block;}
+</style>
+
+<style>
+    
+</style>
+    
+<div id="_important_things" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    <h1 style="@(ViewBag.IsMobileDevice?"font-size: 18pt":""); margin: @(ViewBag.IsMobileDevice?"13px":"130px") 0 0 @(ViewBag.IsMobileDevice?"100px":"125px");">Select things that are Important to you <sup style="font-size: @(ViewBag.IsMobileDevice?"10pt":""); font-weight: 100">(Check all that apply)</sup></h1>
+    
+    <div id="selectedthingsheader" style="position: relative; margin-left: @(ViewBag.IsMobileDevice?"100px":"125px"); font-size: 12pt; text-align:left;"></div>
+    <div id="selectedthings" style="position: relative; margin-left: @(ViewBag.IsMobileDevice?"100px":"125px"); font-size: @(ViewBag.IsMobileDevice?"10pt":"18pt"); text-align:left;"></div>
+    
+    <br />
+    <br />
+    <br />
+    
+    <div id="_important_things_viewport" style="position: absolute; width: 100%; bottom: 0px; border: thin none red; height: @(ViewBag.IsMobileDevice?"400px":"600px"); overflow-x: scroll; display: none;">
+        <div id="_important_things_scrollablecontent" style="overflow-y: hidden; border: thin none yellow; height: @(ViewBag.IsMobileDevice?"400px":"480px"); margin-left: 100px; opacity: 0;">
+            <!--IMPORTANT THINGS GO HERE-->
+            
+        </div>
+    </div>
+    
+    
+    
+    <div id="_important_things_backbutton" class="backbutton"></div>
+    <div id="btnresults" class="forwardbutton" style="display: none;"></div>
+
+    <div id="___OBSOLETE___btnresults" class="button" style="position: absolute; right: 0px; bottom: 0px; padding: @(ViewBag.IsMobileDevice?"21px":"30px"); font-size: 20pt; width: 360px; display: none; ">View Results</div>
+</div>
+
+@Html.Partial("_test_results")
+    
+<script>
+
+    var _important_things_loaded = false;
+    var _imp_things_itemstopmargin = Math.max(0, (document.documentElement.clientHeight - 90) / 2 - (320 / 2) - 40);
+
+    function showImportantThings() {
+        showOverlay('_important_things');
+        setTimeout(doShowImportantThingsWork, @(ViewBag.IsMobileDevice ? "500" :"0"));
+    }
+
+    function doShowImportantThingsWork()
+    {
+        if (!_important_things_loaded) {
+            
+            $('#_important_things_scrollablecontent').css('width', @(ViewBag.IsMobileDevice ? "40" :"125") + (220 + 40) * 15 );
+            $("#_important_things_viewport").niceScroll("#_important_things_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+            $("#_important_things_viewport").getNiceScroll().resize();
+            $("#_important_things_viewport").show();
+            $('#_important_things_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+            
+        
+            //Formatting
+            if(ismobile)
+            {
+                $('#_important_things h1').css('margin-top', Math.min(13, 13+_imp_things_itemstopmargin/2));
+            }
+
+            $('#_important_things_viewport').css('height', document.documentElement.clientHeight - 90);
+            $('#_important_things_scrollablecontent').css('height', document.documentElement.clientHeight - 90);
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_important_things');
+                }
+            });
+            $('#btnresults').press(showTestResults);
+            $('#_important_things_backbutton').press(function () {
+                hideOverlay('_important_things');
+            });
+        
+
+            _important_things_loaded = true;
+
+            showHowToSlide();   
+        }
+    }
+
+    function preloadImportantThings(){
+
+        loadImportantThings();
+        
+    }
+    var allthings;
+    function loadImportantThings() {
+
+        allthings = [
+        { name: "Beauty", caption: "Beauty</br>&amp;</br>Visual Perfection", inlinecaption: "Beauty", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Beauty.png" },
+        { name: "Helping", caption: "Helping Others", inlinecaption: "Helping others", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Helping-Others.png" },
+        { name: "Adventure", caption: "Challenge, Risk</br>&amp;</br>Adventure", inlinecaption: "Challenge", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Adventure.png" },
+        { name: "Safety", caption: "Safety of Others", inlinecaption: "Safety of others", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Safety-of-others.png" },
+        { name: "Technology", caption: "Technology", inlinecaption: "Technology", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Technology.png" },
+
+        { name: "People", caption: "Working with People", inlinecaption: "Working with people", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Working-with-people.png" },
+        { name: "Science", caption: "Precision</br>&amp;</br>Scientific Methods", inlinecaption: "Precision", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Scientific-Methods.png" },
+        { name: "Easy", caption: "Low Involvement", inlinecaption: "Low involvement", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Low-involvement.png" },
+        { name: "Duty", caption: "Sense of Duty ", inlinecaption: "Sense of duty", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Sense-of-duty.png" },
+        { name: "Growth", caption: "Growth potential", inlinecaption: "Growth", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Growth-Potential.png" },
+
+        { name: "Creativity", caption: "Creativity", inlinecaption: "Creativity", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Creativity.png" },
+        { name: "Admiration", caption: "Being in the</br>Spotlight", inlinecaption: "Spotlight", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Admiration.png" },
+        { name: "Competition", caption: "High Competition", inlinecaption: "Competition", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/High-Competition.png" },
+        { name: "Animals", caption: "Working with Nature", inlinecaption: "Nature", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Nature-and-Animals.png" },
+        { name: "Politics", caption: "Politics</br>&amp;</br>Strategy", inlinecaption: "Potitics", sortkey: Math.random(), image: "/content/images/kiosk/importantthings/Politics.png" }
+        ];
+
+        
+
+        for (var i = 0; i < allthings.length; i++) {
+            addImportantThing(i, allthings[i]);
+        }
+
+        for (var i = 0; i < allthings.length; i++) {
+            var c = getCookie('importantthing_' + allthings[i].name);
+            if (c != null && c == "1") {
+                restoreCheckedState($('#importantthing_' + allthings[i].name));
+            }
+        }
+
+        listSelectedThings();
+
+        $('.clickableimportantthing').click(function () { importantThingClicked(this, false); });
+    }
+
+    function addImportantThing(sequence, thing) {
+        
+        var margin = sequence === 0 ? (ismobile ? 40 : 125 ) : 40;
+
+        $('#_important_things_scrollablecontent').append('<div id="importantthing' + sequence + '" style="position: relative; display: inline-block; margin-top: ' + _imp_things_itemstopmargin + 'px; margin-left: ' + margin + 'px; width:220px; height: 320px; border: thin none yellow;">' +
+            '<div style="position: absolute; top: 0; left: 0; width:220px; height: 320px; border: thin solid black;" class="diagonalwhitegradient">' +
+            '<img src="' + thing.image + '" style="width: 220px; height: 220px;" />' +
+            '<img id="importantthing_check_' + thing.name + '" src="/content/images/kiosk/importantthings/check.png" style="position: absolute; top: 125px; left: 41px; opacity: 0" />' +
+            '<div style="position: absolute; top: 225px; left: 0px; width: 220px; text-align: center; font-size: 16pt; color: #000;">' + thing.caption + '</div>' + 
+            '</div>' +
+            '<div class="whitereflection" style="position: absolute; top: 330px; left: 1px; width: 220px; height: 150px;"></div>' +
+            '<@(ViewBag.IsMobileDevice?"div":"input") type="button" class="invisiblebutton clickableimportantthing" id="importantthing_' + thing.name + '" name="' + thing.name + '" caption="' + thing.inlinecaption + '" value="0" style="position: absolute; top: 0px; left: 0px; width: 222px; height: 322px; outline: none" @(ViewBag.IsMobileDevice?"></div>":"/>")' +
+            '</div>');
+    }
+
+</script>

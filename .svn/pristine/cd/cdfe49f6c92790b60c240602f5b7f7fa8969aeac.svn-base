@@ -1,0 +1,9 @@
+﻿
+.pageContainer .container {
+
+}
+
+#advertiseForm {
+    background-color: rgb(143, 214, 228);
+    margin: 50px auto;
+}

@@ -1,0 +1,149 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools
+@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools.DirectSchoolClientCampusProgram
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+
+    <!--Breadcrumbs-->    
+    <div>
+        @Html.ActionLink("Client Index", "Index", "directschoolclients") > 
+        @Html.ActionLink(((DirectSchoolClient)ViewBag.Client).Name, "Edit", "directschoolclients", new { id = ((DirectSchoolClient)ViewBag.Client).RowKey }, null) > 
+        @Html.ActionLink(((DirectSchoolClientCampus)ViewBag.Campus).Name, "Edit", "directschoolclientcampuses", new { id = ((DirectSchoolClientCampus)ViewBag.Campus).RowKey }, null)
+    </div>
+
+<h1>Create Program for <span style="color: rgba(0,0,255,1)">@(((DirectSchoolClient)ViewBag.Client).Name)</span> - <span style="color: rgba(255,128,0,1)">@(((DirectSchoolClientCampus)ViewBag.Campus).Name)</span></h1>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        
+        <fieldset>
+            <legend>Status</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.Status,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Program Details</legend>
+
+            <div class="editor-label">
+                Program Id
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ProgramId)
+                @Html.ValidationMessageFor(model => model.ProgramId)
+            </div>
+
+            <div class="editor-label">
+                Program Type
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ProgramType,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "AS", Text = "Associates" },
+                                        new { Value = "BA", Text = "Bachelor of Art" },
+                                        new { Value = "BS", Text = "Bachelor of Science" },
+                                        new { Value = "MA", Text = "Master's" },
+                                        new { Value = "PHD", Text = "PhD Program" },
+                                        new { Value = "CRT", Text = "Certificate" },
+                                        new { Value = "DIP", Text = "Diploma" },
+                                        new { Value = "GED", Text = "GED" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.ProgramType)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+    
+        </fieldset>
+        <fieldset>
+            <legend>Payout</legend>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Payout)
+            </div>
+            <div class="editor-field" class="smallnumberinput">
+                <input type="text" name="Payout" value="@(Model != null ? Model.Payout.ToString() : "")" style="width: 100px; text-align: center" />
+                @Html.ValidationMessageFor(model => model.Payout)
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Caps</legend>
+        
+            <div class="editor-label">
+                Caps by period
+            </div>
+            <div class="editor-field">
+                <table width="400px">
+                    <tr>
+                        <th>Total</th>
+                        <th>Annual</th>
+                        <th>Monthly</th>
+                        <th>Weekly</th>
+                        <th>Daily</th>
+                    </tr>
+                    <tr>
+                        <td class="numberinput"><input type="text" name="TotalCap" value="@(Model != null ? Model.TotalCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="AnnualCap" value="@(Model != null ? Model.AnnualCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="MonthlyCap" value="@(Model != null ? Model.MonthlyCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="WeeklyCap" value="@(Model != null ? Model.WeeklyCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="DailyCap" value="@(Model != null ? Model.DailyCap.ToString() : "0")" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan=5>
+                            @Html.ValidationMessageFor(model => model.TotalCap)
+                            @Html.ValidationMessageFor(model => model.AnnualCap)
+                            @Html.ValidationMessageFor(model => model.MonthlyCap)
+                            @Html.ValidationMessageFor(model => model.WeeklyCap)
+                            @Html.ValidationMessageFor(model => model.DailyCap)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+        
+        
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+        
+        @Html.Hidden("ClientRowKey", ((DirectSchoolClient)ViewBag.Client).RowKey)     
+        @Html.Hidden("ClientId", ((DirectSchoolClient)ViewBag.Client).ClientId)     
+        
+        @Html.Hidden("CampusRowKey", ((DirectSchoolClientCampus)ViewBag.Campus).RowKey)     
+        @Html.Hidden("CampusId", ((DirectSchoolClientCampus)ViewBag.Campus).CampusId)     
+
+    }
+    
+</div>

@@ -1,0 +1,3 @@
+﻿var title = 'You prefer variable income';
+var careerheading = 'Variable income jobs';
+var desc = 'When it comes to your compensation, you are willing to take a risk if it means that you will make more money than you would if you accepted a fixed salary. You jump at the chance to take jobs that pay a base salary plus commissions, bonuses, or incentive payments. Because your performance affects how much money you make, you strive to do your best at every task. Colleagues and managers alike think of you as a go-getter who refuses to accept anything less than a first-place finish. This drive helps you earn as much income as possible while enjoying the personal satisfaction of achieving your goals.';

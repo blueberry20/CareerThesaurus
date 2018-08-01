@@ -1,0 +1,285 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_profession_branch_scrollablecontent div {display: inline-block;}
+</style>
+
+<style>
+    
+</style>
+    
+
+<div id="_profession_branch" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    @if(!ViewBag.IsMobileDevice)
+    {
+    <div style="position: absolute; top: 80px; left: 125px;">
+        <img id="branchimage" src="" style="position: absolute; top: 0px; left: 0px; width: 240px; height:240px;"/>
+        <h3 style="position: absolute; top: 0px; margin: 0px; left: 300px; width: 300px;">Professions in</h3>
+        <h1 id="professionbranchname" style="position: absolute; top: 20px; margin: 0px; left: 300px; font-size: 36pt; width: 900px;"></h1>
+    </div>
+    }
+    
+    <div id="_profession_branch_viewport" style="position: absolute; width: 100%; bottom: 0px; height: 560px; overflow-x: scroll; display: none; border: thin none red;">
+        <div id="_profession_branch_scrollablecontent" style="overflow-y: hidden; height: 560px; margin-left: 100px; opacity: 0;">
+            
+            <div style="position: relative; display: inline-block; margin-left: 125px; width:220px; height: 480px;">
+                <div style="position: absolute; top: 0; left: 0; width:220px; height: 320px; border: thin solid black;" class="diagonalwhitegradient clickablebranchprofession">
+                    <div style="position: relative; width: 210px; padding: 5px; font-size: 12pt; background-color: #000; color: white;">Computer Programmer</div>
+                    <div style="position: relative; width: 220px; text-align: center; font-size: 10pt; color: #000;"></div>
+                </div>
+                <div class="whitereflection" style="position: absolute; top: 330px; left: 1px; width: 220px; height: 150px;"></div>
+            </div>
+
+            <div style="position: relative; display: inline-block; margin-left: 20px; width:220px; height: 480px;">
+                <div style="position: absolute; top: 0; left: 0; width:220px; height: 320px; border: thin solid black;" class="diagonalwhitegradient clickablebranchprofession">
+                    <div style="position: absolute; top: 235px; left: 0px; width: 220px; text-align: center; font-size: 16pt; color: #000;"></div>
+                </div>
+                <div class="whitereflection" style="position: absolute; top: 330px; left: 1px; width: 220px; height: 150px;"></div>
+            </div>
+
+            <div style="position: relative; display: inline-block; margin-left: 20px; width:220px; height: 480px;">
+                <div style="position: absolute; top: 0; left: 0; width:220px; height: 320px; border: thin solid black;" class="diagonalwhitegradient clickablebranchprofession">
+                    <div style="position: absolute; top: 235px; left: 0px; width: 220px; text-align: center; font-size: 16pt; color: #000;"></div>
+                </div>
+                <div class="whitereflection" style="position: absolute; top: 330px; left: 1px; width: 220px; height: 150px;"></div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <div id="_profession_branch_backbutton" class="backbutton" ></div>
+    
+</div>
+
+@Html.Partial("_profession")
+    
+<script>
+
+    var _profession_branch_loaded = false;
+    var logourl;
+    
+    var pbboxwidth = @(ViewBag.IsMobileDevice?"280":"280");
+    var pbboxheight = @(ViewBag.IsMobileDevice?"0":"500");
+    
+    function showProfessionBranch(e) 
+    {
+        showOverlay('_profession_branch');
+
+        var branchname = $(e).attr("branch");
+
+        $("#_profession_branch_viewport").scrollLeft(0);
+        $('#_profession_branch_scrollablecontent').animate({ 'margin-left': '100px', 'opacity': 0 }, 0);
+        
+        logourl = '/content/images/careerassessment/covers/bybranch/' + branchname.replace(/\s/g, '').replace(/\,/g, '') + '.jpg';
+
+        setTimeout(function (branchname) {
+
+            $('#_profession_branch_scrollablecontent').html('');
+
+            if(!ismobile)
+            {
+                $('#branchimage').attr('src', logourl);
+                $('#professionbranchname').html(branchname);
+            }
+            else{
+                addBranchHeaderAsPanel(branchname, logourl);
+            }
+            
+            var cnt = loadBranchProfessions(branchname);
+            $('#_profession_branch_scrollablecontent').css('width', 125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280);
+            $("#_profession_branch_viewport").niceScroll("#_profession_branch_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+            $("#_profession_branch_viewport").getNiceScroll().resize();
+            $("#_profession_branch_viewport").show();
+            $('#_profession_branch_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+
+            
+        }, 300, branchname);
+        
+        if (!_profession_branch_loaded) {
+            $('#_profession_branch_backbutton').press(function () {
+                $('.profession_branch').removeClass('active_overlay');
+                hideOverlay('_profession_branch');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_profession_branch');
+                }
+            });
+
+            _profession_branch_loaded = true;
+        }
+
+        
+        if(ismobile)
+        {
+            //Formatting
+            $('#_profession_branch_viewport').css('height', document.documentElement.clientHeight - 90);
+            $('#_profession_branch_scrollablecontent').css('height', document.documentElement.clientHeight - 90);
+     
+            pbboxheight = document.documentElement.clientHeight - 90 - 80;
+        }
+
+    }
+
+    function loadBranchProfessions(branchname) {
+
+        
+        var cnt = @(ViewBag.IsMobileDevice ? "1" : "0");
+        var matches = matchprofessions(getinputs());
+        if (matches.length > 0) {
+            var branches = groupmatchesbybranch(matches);
+
+            for (var v = 0; v < branches.length; v++) {
+                if (branches[v].name === branchname) {
+                    branches[v].matches.sort(sortbyrelevancedesc);
+                    for (var i = 0; i < branches[v].matches.length; i++)
+                    {
+                        addBranchProfession(cnt++, branches[v].matches[i].profession, branches[v].matches[i].relevance);
+                    }
+                }
+            }
+
+
+        }
+
+        $('.clickablebranchprofession').click(function () {
+            branchProfessionClicked(this);
+        });
+
+        return cnt;
+    }
+
+    function branchProfessionClicked(e) {
+        showProfession(e);
+    }
+
+    function addBranchHeaderAsPanel(branchname, logourl) {
+            
+        $('#_profession_branch_scrollablecontent').append('<div style="position: relative; display: inline-block; margin-left: @(ViewBag.IsMobileDevice ? "40px" : "125px"); width:240px; height: '+pbboxheight+'px;">' +
+                '<img src="'+logourl+'" style="position: absolute; top: 0px; left: 0px; width: 240px; height:240px;"/>' +
+                '<h3 style="position: absolute; top: 250px; margin: 0px; left: -1px; width: 240px; margin: 0px;">Professions in</h3>' +
+                '<h1 style="position: absolute; top: 270px; left: -2px; width: 240px; font-size: 24pt; margin: 0px;">'+branchname+'</h1>' +
+                '</div>');
+        
+    }
+    function addBranchProfession(sequence, p, relevance) {
+            
+        var margin = sequence == 0 ? 125 : 20;
+        
+        $('#_profession_branch_scrollablecontent').append('<div professionid="' + p.RowKey + '" professionname="' + p.DisplayName + '" branch="' + p.Branch + '" programid="' + p.ProgramId + '" style="position: relative; display: inline-block; margin-left: ' + margin + 'px; width:280px; height: '+pbboxheight+'px;" class="" >' +
+                '<div style="position: absolute; top: 0; left: 0; width:280px; height: '+(pbboxheight-40)+'px; border: thin solid black; overflow: hidden;" class="diagonalwhitegradient">' +
+                '    <div style="position: relative; width: 270px; padding: 5px; font-size: 12pt; background-color: #000; color: white;">'+p.DisplayName+'</div>' +
+                '    <div class="' + p.RowKey + '_description" style="position: relative; width: 260px; text-align: left; padding: 10px; font-size: 10pt; color: #000; overflow-y: hidden;"></div>' +
+                '</div>' +
+                '<div style="position: absolute; top: '+(pbboxheight-40)+'px; width: 261px; font-size: 14pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: right;">Explore <img src="/content/images/kiosk/icons/arrow_2.png" /></div>' +
+                '<div class="whitereflection" style="position: absolute; top: '+(pbboxheight+10)+'px; left: 1px; width: 280px; height: 150px;"></div>' +
+                //'<div style="position: absolute; top: 550px; left: 1px; width: 280px; height: 150px; color: #fff; font-size: '+parseInt(16 + 48 * ((relevance-0.5)*2) )+'pt; opacity: 1; text-align: center; text-shadow: 0px -7px 7px rgba(0, 0, 0, 0.6);">' + (relevance * 100).toFixed(0) + '%</div>' +
+                '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablebranchprofession" value="" style="position: absolute; top: 0px; left: 0px; width: 282px; height: '+(pbboxheight)+'px; outline: none;" professionid="' + p.RowKey + '" professionname="' + p.DisplayName + '" branch="' + p.Branch + '" programid="' + p.ProgramId + '" @(ViewBag.IsMobileDevice ? "></div>" : "/>")' +
+                '</div>');
+                
+        getDescriptionsFromBlob(p.RowKey);
+    }
+
+    function $details_ready(data, container) {
+
+        try {
+            if (data.description != null && $.trim(data.description) != '') {
+                if ($('.' + container + '_description_container') != null) {
+                    $('.' + container + '_description_container').show();
+                }
+                $('.' + container + '_description').html($.trim(data.description).replace(/<br\/>/g, ''));
+            }
+            else {
+                if ($('.' + container + '_description_container') != null) {
+                    $('.' + container + '_description_container').hide();
+                }
+            }
+        }
+        catch (e) { }
+
+        try {
+            if (data.duties != null && $.trim(data.duties) != '') {
+                if ($('.' + container + '_duties_container') != null) {
+                    $('.' + container + '_duties_container').show();
+                }
+                $('.' + container + '_duties').html($.trim(data.duties).replace(/<br\/>/g, ''));
+            }
+            else {
+                if ($('.' + container + '_duties_container') != null) {
+                    $('.' + container + '_duties_container').hide();
+                }
+            }
+        }
+        catch (e) { }
+
+        try {
+            if (data.wheretofind != null && $.trim(data.wheretofind) != '') {
+                if ($('.' + container + '_wheretofind_container') != null) {
+                    $('.' + container + '_wheretofind_container').show();
+                }
+                $('.' + container + '_wheretofind').html($.trim(data.wheretofind).replace(/<br\/>/g, ''));
+            }
+            else {
+                if ($('.' + container + '_wheretofind_container') != null) {
+                    $('.' + container + '_wheretofind_container').hide();
+                }
+            }
+        }
+        catch (e) { }
+
+        try {
+            if (data.salary != null && $.trim(data.salary) != '') {
+                if ($('.' + container + '_salary_container') != null) {
+                    $('.' + container + '_salary_container').show();
+                }
+                $('.' + container + '_salary').html($.trim(data.salary).replace(/<br\/>/g, ''));
+            }
+            else {
+                if ($('.' + container + '_salary_container') != null) {
+                    $('.' + container + '_salary_container').hide();
+                }
+            }
+        }
+        catch (e) { }
+
+        try {
+            if (data.demand != null && $.trim(data.demand) != '') {
+                if ($('.' + container + '_demand_container') != null) {
+                    $('.' + container + '_demand_container').show();
+                }
+                $('.' + container + '_demand').html($.trim(data.demand).replace(/<br\/>/g, ''));
+            }
+            else {
+                if ($('.' + container + '_demand_container') != null) {
+                    $('.' + container + '_demand_container').hide();
+                }
+            }
+        }
+        catch (e) { }
+
+        if(ismobile)
+        {
+            try{
+                professionDescriptionsLoaded();
+            }
+            catch(ex)
+            {
+            }
+        }
+    }
+
+    function getDescriptionsFromBlob(id) {
+        var headID = document.getElementsByTagName("head")[0];
+        var newScript = document.createElement('script');
+        newScript.type = 'text/javascript';
+        newScript.src = 'https://chaindate.blob.core.windows.net/' + id + '/data/details.js';
+        headID.appendChild(newScript);
+    }
+
+</script>

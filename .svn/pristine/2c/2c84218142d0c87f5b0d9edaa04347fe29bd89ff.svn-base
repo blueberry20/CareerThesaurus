@@ -1,0 +1,180 @@
+﻿<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+
+@{
+    ViewBag.Title = "Blog";
+}
+
+<!--================================= Blog Page ============================== -->
+
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <!--================================= Main section ============================== -->
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 blogPostsWrapper">
+                <div class="blogPostShort">
+                    <div class="blogImageHolder row">
+                        <img class="img-responsive" src='@Url.Content("~/Content/images/arms_2045.jpg")' alt="" />
+                    </div>
+                    <h2>Choosing a Major or Career Path</h2>
+                    <div class="shareRowText">
+                        <p class="blogDate">January 12, 2014</p>
+                        <p class="blogCategory">Career</p>
+                        <p class="blogComments">15 Comments</p>
+                    </div>
+                    <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                    <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                </div>
+
+                <div class="blogPostShort">
+                    <div class="blogImageHolder row">
+                        <img class="img-responsive" src='@Url.Content("~/Content/images/faces_md.jpg")' alt="" />
+                    </div>
+                    <h2>Choosing a Major or Career Path</h2>
+                    <div class="shareRowText">
+                        <p class="blogDate">January 12, 2014</p>
+                        <p class="blogCategory">Career</p>
+                        <p class="blogComments">15 Comments</p>
+                    </div>
+                    <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                    <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                </div>
+
+                <div class="blogPostShort">
+                    <div class="blogImageHolder row">
+                        <img class="img-responsive" src='@Url.Content("~/Content/images/man_2045.jpg")' alt="" />
+                    </div>
+                    <h2>Choosing a Major or Career Path</h2>
+                    <div class="shareRowText">
+                        <p class="blogDate">January 12, 2014 </p>
+                        <p class="blogCategory">Career</p>
+                        <p class="blogComments">15 Comments</p>
+                    </div>
+                    <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                    <a type="submit" class="btn btn-lg btn-info" href="/blog/post">Read More</a>
+                </div>
+
+            </div>
+            <!--================================= Right sidebar ============================== -->
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 blogSidebar">
+                <!--Categories-->
+                <div class="sidebarWidget categoriesWidget">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li>
+                            <a>Jobs<i class="icon-right-open-big pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a>Careers<i class="icon-right-open-big pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a>Interviews<i class="icon-right-open-big pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a>Resources<i class="icon-right-open-big pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a>College<i class="icon-right-open-big pull-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--Tags-->
+                <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        <a>Business</a>
+                        <a>Web Development</a>
+                        <a>Quitting your job</a>
+                        <a>Find your passion</a>
+                    </div>
+                </div>
+
+                <!--Recent Posts-->
+                <div class="sidebarWidget">
+                    <h3>Recent Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to start?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What to do?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!--Most Popular Posts-->
+                <div class="sidebarWidget">
+                    <h3>Most Popular Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to study?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>How to grow?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What careers are popular?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!--Recent Tweets-->
+                <div class="sidebarWidget" id="recentTweets">
+                    <h3>Recent Tweets</h3>
+                    <div class="row">
+                        <i class="icon-twitter"></i>
+                        Hello everybody!
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                    <div class="row">
+                        <i class="icon-twitter"></i>
+                        Have you heard about the new tool?
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

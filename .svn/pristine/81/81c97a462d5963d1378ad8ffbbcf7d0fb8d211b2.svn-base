@@ -1,0 +1,643 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.Tests.SkillAssessment
+@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.CBNProfessions
+@using System.Text;
+@{
+    ViewBag.Title = ViewBag.Profession.DisplayName;
+    
+    ViewBag.MetaDescription = ViewBag.Description;
+    ViewBag.MetaKeywords = ViewBag.Profession.DisplayName + ", professions, profession, careers, career, jobs, job, training, schools";
+}
+    <script type="text/javascript" src="https://gdc.indeed.com/ads/apiresults.js"></script>
+
+    <style>
+        span.highlight {background-color: #ffff00;}
+    </style>
+
+    
+    <div class="container" style="background-color: rgba(255,255,255,0.5)">
+    
+        <div style="display: inline-block; vertical-align: top; height: 100%; ">
+
+            <!--PROFESSION DESTAILS PANE-->
+            <div id="careersummary" class="careersummary">
+            
+                <img id="imgcover" src="/content/images/careerassessment/covers/bybranch/@(ViewBag.Profession.Branch.Replace(" ", "").Replace(",", "")).jpg" align="left"/>
+
+                <h1 id="careername">@(ViewBag.Profession.DisplayName)</h1>
+                <br />
+                
+                <p>
+                    @Html.Raw(ViewBag.Description)
+                </p>
+
+                <div style="clear: both;"></div><br />
+                
+                <!--VM                
+                <div style="background-color: red; width: 607px; height: 200px;">
+                </div>
+                -->
+
+                <!--
+                @if (ViewBag.Profession.VMProdId != 0)
+                {
+                <div>
+                    <a href="/moreschools?prodid=@(ViewBag.Profession.VMProdId)" target="_blank">See even more schools&raquo;</a>
+                </div>
+                }
+                -->
+
+                @if (ViewBag.DutiesTitle != null && ViewBag.DutiesTitle != "")
+                {
+                    <h2>@Html.Raw(ViewBag.DutiesTitle)</h2>
+                    <p>@Html.Raw(ViewBag.DutiesText)</p>
+                }   
+
+                <div style="clear: both;"></div>
+
+                <h2>Attributes inherent to this profession</h2>
+                <div style="margin: 0 20px 0 20px;">
+                    <table width="100%">
+                        <tr>
+                            <td width="50%">
+                                <table width="100%">
+                                    <tr><td class="dimensionlabel">Social Attitude:</td><td><a href="/careers/byattribute/attitude-@(ViewBag.Profession.Attitude.ToLower())">@(ViewBag.Profession.Attitude)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Info gathering:</td><td><a href="/careers/byattribute/information-@(ViewBag.Profession.Information.ToLower())">@(ViewBag.Profession.Information)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Info completeness:</td><td><a href="/careers/byattribute/evidence-@(ViewBag.Profession.Evidence.ToLower())">@(ViewBag.Profession.Evidence)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Info processing:</td><td><a href="/careers/byattribute/processing-@(ViewBag.Profession.Processing.ToLower())">@(ViewBag.Profession.Processing)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Process or Result:</td><td><a href="/careers/byattribute/action-@(ViewBag.Profession.Action.ToLower())">@(ViewBag.Profession.Action)</a></td></tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table width="100%">
+                                    <tr><td class="dimensionlabel">Mobility:</td><td><a href="/careers/byattribute/endurance-@(ViewBag.Profession.Endurance.ToLower())">@(ViewBag.Profession.Endurance)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Presence:</td><td><a href="/careers/byattribute/presence-@(ViewBag.Profession.Presence.ToLower())">@(ViewBag.Profession.Presence)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Concentration:</td><td><a href="/careers/byattribute/concentration-@(ViewBag.Profession.Concentration.ToLower())">@(ViewBag.Profession.Concentration)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Patterns:</td><td><a href="/careers/byattribute/patterns-@(ViewBag.Profession.Patterns.ToLower())">@(ViewBag.Profession.Patterns)</a></td></tr>
+                                    <tr><td class="dimensionlabel">Compensation:</td><td><a href="/careers/byattribute/compensation-@(ViewBag.Profession.Compensation.ToLower())">@(ViewBag.Profession.Compensation)</a></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                @if (ViewBag.WhereToFindTitle != null && ViewBag.WhereToFindTitle != "")
+                {
+                    <h2>@Html.Raw(ViewBag.WhereToFindTitle)</h2>
+                    <p>@Html.Raw(ViewBag.WhereToFindText)</p>
+                }
+                    
+                @if (ViewBag.SalaryTitle != null && ViewBag.SalaryTitle != "")
+                {
+                    <h2>@Html.Raw(ViewBag.SalaryTitle)</h2>
+                    <p>@Html.Raw(ViewBag.SalaryText)</p>
+                }
+                    
+                @if (ViewBag.DemandTitle != null && ViewBag.DemandTitle != "")
+                {
+                    <h2>@Html.Raw(ViewBag.DemandTitle)</h2>
+                    <p>@Html.Raw(ViewBag.DemandText)</p>
+                }
+                
+                <br />
+
+                <h2>Get trained and become a @(ViewBag.Profession.DisplayName)</h2>
+
+                <div class="vm-container-three">
+                    <div class="vm-container-five">
+                        <br />
+                        <!-- **************** Brokers Web **************** -->
+                        <script type="text/javascript" src="http://www.bwserver.net/scripts/vmGeoLocation.v1.php"></script>
+                        <script type="text/javascript" src="http://www.bwserver.net/12300/12368/scripts/bw-load-edu-fr-7587.js"></script>
+                        <script type="text/javascript">
+                            vm_loadListings({
+                                prodId: '@(ViewBag.Profession.VMProdId)', //type insurance
+                                aid: 12368, //affiliate 12368
+                                cid: @(ViewBag.VMCampaign), //campaign 7587
+                                adSource: ''
+                            });
+                        </script>
+                        <!-- **************** End Brokers Web **************** -->
+
+                    </div>
+
+                    <div class="vm-clear"></div>
+                </div>
+
+                <br /><br />
+
+                <div class="fb-like" data-href="@Request.Url.ToString()" data-send="true" data-width="450" data-show-faces="false" data-font="verdana" data-action="recommend"></div>
+                              
+                <div style="clear: both;"></div>
+                
+                <br />
+                <br />
+
+                <div style="text-align: left; padding-left: 110px; position: relative; min-height: 100px; margin-bottom: 20px;">
+                    <img src="/content/images/girl-operator.jpg" style="position: absolute; left: 0px; top: 0px;"/>
+                    <div style="font-size: 12pt; font-weight: bold; color: #555;">Get live help</div>
+                    Our talented and knowledgeable professionals can find training that's right for You. In about 5 minutes, you will know everything there is to know about your available options.
+                    <br /><br />
+                    Call us toll free: <b><span class="vanitynumber">@(ViewBag.TollFreeNumberVanity)</span></b> (1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span>)
+                    
+                </div>
+                
+                <br />
+                               
+                
+                <div id="professioncontent" >
+                </div>
+
+                <br />
+                
+                @if(ViewBag.RecordSubmitted==null || ViewBag.RecordSubmitted!=true)
+                {
+                <h1 style="clear: both;">Request to be contacted by a representative</h1>
+                <br />
+
+                <div>
+                    <form id="frmregister" action="/skilltest" method="post">
+                        <table style="font-style: italic;">
+                            <tr>
+                                <td>First name:</td>
+                                <td><input id="careerformfirstname" type="text" name="firstname"/> </td>
+                            </tr>
+
+                            <tr>
+                                <td>Zip</td>
+                                <td><input id="careerformzip" type="text" name="zip"/> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Your email</td>
+                                <td><input id="careerformemail" type="text" name="email"/> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Your phone number</td>
+                                <td><input id="careerformphone" type="text" name="phone"/> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                        </table>
+                        <input type="hidden" name="sourceform" value="career"/> 
+                        <input type="hidden" name="testresults" value="@(ViewBag.TestResults)"/> 
+                        <input type="hidden" name="campus_key" value="0"/> 
+                        <input type="hidden" name="program_key" value="0"/> 
+                        <input type="hidden" name="address1" value="unknown"/> 
+                        <input type="hidden" name="client" value="20"/> 
+                        <input type="hidden" name="id" value="1727"/> 
+                        <input type="hidden" class="cbncampaign" name="campaign_id" value="@(ViewBag.CBNCampaign)"/> 
+                        <br />
+                        <input id="" type="button" onclick="submitfrmregister();" value="Request Info" />    
+                    </form>
+                
+                </div>
+                }
+
+                
+            </div>
+        </div>
+
+        <!--RIGHT PANE-->
+        <div id="testresults" class="testresults">
+            
+            <div class="unpaddedpane">
+                <div style="width: 305px; height: 600px; background-color: white;">
+                    <script type="text/javascript"><!--
+                        google_ad_client = "ca-pub-3486420009474810";
+                        /* SkillCow Skyscraper */
+                        google_ad_slot = "3473415280";
+                        google_ad_width = 300;
+                        google_ad_height = 600;
+                    //-->
+                    </script>
+                    <script type="text/javascript"
+                    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                </div>
+                
+            </div>
+            <div class="unpaddedpane">
+                <!--JOB RESULTS-->
+
+                <div id="jobslocation" class="jobresultslocationheader" style="padding: 5px 10px 5px 10px; margin-top: 0px; background-color: rgba(0,0,0,0.8); color: #fff;">Jobs for @(ViewBag.Profession.DisplayName)</div>
+                <div class="jobresultslocationsubheader" style="padding: 1px 10px 1px 10px; margin-top: 0px; background-color: rgba(0,0,0,0.7); color: #fff; text-align: right;"><a id="keywordtagstogglelink" href="javascript:toggletagscanvas()" style="color: #fff;" onclick="">refine&raquo;</a></div>
+
+                <div id="zipcodecontrols" style="padding: 10px 10px 0px 10px; height: 40px; margin: 0 0 10px 0;">
+                    <div>Enter 5 digit zip code to refine the search</div>
+                    <div style="position:relative;">
+                    <input type="text" id="careerpageindeedzipcode" style="position: absolute; left: 0px; top: 0px; width: 100px; font-size: 12pt; padding: 3px;"/>
+                    <!--<input type="button" value="Go" style="position: absolute; left: 110px; top: 0px;" onclick="" />-->
+
+                    <input type="button" value="GO" style="position: absolute; left: 110px; top: 0px;" onclick="setlocationziponcareerpage()" />
+                    </div>
+                </div>
+
+                <div id="keywordtagscanvas" style="display: none;">
+                    <div style="text-align: left; color: #333; margin-bottom: 0px; padding: 10px;">
+                        Click the <span style="color: #ff5500;">TaGs</span> to refine your <a href="/jobs/search?q=@(ViewBag.Profession.DisplayName)">Job Search</a><br />
+                    </div>
+                    <div id="keywordtags" style="padding: 5px 10px 10px 10px; text-align: center;"></div>
+                </div>           
+                
+                
+                
+                <div id="jobresults"></div>
+                <br />
+
+                <br />
+                <div style="padding: 10px;">
+                <span id="indeed_at"><a href="http://www.indeed.com/">jobs</a> by <a
+                href="http://www.indeed.com/" title="Job Search"><img src="http://www.indeed.com/p/jobsearch.gif" style="border: 0;
+                vertical-align: middle;" alt="Indeed job search"></a></span>
+                </div>
+            </div>
+        </div>
+        <div id="summarycontent" style="display:none;"></div>
+    </div>
+
+<script src="@Url.Content("~/Scripts/Controllers/Career/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/test.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/groupschools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/schools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/showsummary.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/statemapping.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/TagAggregation/tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script>
+    function setlocationziponcareerpage() 
+    {
+        var zip = $('#careerpageindeedzipcode').val();
+        if (zip.length != 5) {
+            alert('Invalid zip code entered');
+            $('#careerpageindeedzipcode').focus();
+            $('#careerpageindeedzipcode').select();
+        }
+        if (zip != null) {
+            setCookie("zip", zip, 365);
+        }
+
+        $('#jobslocation').html('Showing jobs near zip <b>' + zip + '</b> <a href="javascript:showzipcontrols()" style="color: #fff;">change zip</a>');
+
+        $('#zipcodecontrols').hide();
+
+        findjobs();
+    }
+    
+</script>
+<script>
+    function submitfrmregister() {
+        if ($.trim($('#careerformfirstname').val()) == '') {
+            alert('Please enter your First name');
+            $('#careerformfirstname').focus();
+            return;
+        }
+        if ($.trim($('#careerformzip').val()) == '') {
+            alert('Please enter your ZIP');
+            $('#careerformzip').focus();
+            return;
+        }
+        if ($.trim($('#careerformphone').val()) == '') {
+            alert('Please type your Primary Phone Number \n\n** cell phone is preferred');
+            $('#careerformphone').focus();
+            return;
+        }
+        
+        var reg = /^\d+$/;
+        var enteredzip = $.trim($('#careerformzip').val());
+        if (!(reg.test(enteredzip) && enteredzip.length == 5)) {
+            alert('Invalid ZIP code');
+            $('#careerformzip').focus();
+            return;
+        }
+
+        var enteredNumber = $.trim($('#careerformphone').val());
+        var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+        if (formattedNumber == "") {
+            alert('Invalid phone number');
+            $('#careerformphone').focus();
+            return;
+        }
+        else {
+            $('#careerformphone').val(formattedNumber);
+        }
+
+        if ($.trim($('#careerformemail').val()) == '') {
+            alert('Please enter your email');
+            $('#careerformemail').focus();
+            return;
+        }
+
+        if (!validateEmail($.trim($('#careerformemail').val()))) {
+            alert('Invalid email: ' + $('#careerformemail').val());
+            $('#careerformemail').focus();
+            return;
+        }
+
+        setCookie('zip', $('#careerformzip').val(), 365);
+
+        setCookie('firstname', $('#careerformfirstname').val(), 365);
+        setCookie('phone', $('#careerformphone').val(), 365);
+        setCookie('email', $('#careerformemail').val(), 365);
+
+        $('#frmregister').submit();
+
+        
+    }
+</script>
+
+<script>
+    var professions = null;
+
+    function $@(ViewBag.BranchUrlParam.Replace("-", ""))_ready(data, container) {
+        professions = data.items;
+        showallprofessions('@(ViewBag.BranchName)');
+    }
+    
+    function $p@(ViewBag.Profession.ProgramId)_ready(data, container) {
+        renderSchools(data);
+    }
+</script>
+<script>
+    function jobmouseover(div) {
+        $(div).find('.disclosure').show();
+    }
+    function jobmouseout(div) {
+        $(div).find('.disclosure').hide();
+    }
+</script>
+<script>
+
+    function monthnumber(m) {
+        switch(m.toLowerCase())
+        {
+            case "jan":
+                return 0;
+            case "feb":
+                return 1;
+            case "mar":
+                return 2;
+            case "apr":
+                return 3;
+            case "may":
+                return 4;
+            case "jun":
+                return 5;
+            case "jul":
+                return 6;
+            case "aug":
+                return 7;
+            case "sep":
+                return 8;
+            case "oct":
+                return 9;
+            case "nov":
+                return 10;
+            case "dec":
+                return 11;
+            default:
+                alert('Invalid month');
+        }
+    }
+    function getElapsedTime(sincedate) {
+
+        var now = new Date(); 
+        var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        
+        var elapsedms = now_utc.getTime() - parseFloat(sincedate);
+
+        var seconds = elapsedms / 1000;
+        var minutes = 0;
+        var hours = 0;
+        var days = 0;
+        
+        var secondsperday = 60 * 60 * 24;
+        if(seconds > secondsperday) {
+            var rem = seconds % secondsperday;
+            days = (seconds - rem) / secondsperday;
+            seconds = rem;
+        }
+
+        var secondsperhour = 60 * 60;
+        if(seconds > secondsperhour) {
+            var rem = seconds % secondsperhour;
+            hours = (seconds - rem) / secondsperhour;
+            seconds = rem;
+        }
+
+        var secondsperminute = 60;
+        if(seconds > secondsperminute) {
+            var rem = seconds % secondsperminute;
+            minutes = (seconds - rem) / secondsperminute;
+            seconds = rem;
+        }
+
+        
+
+        if(days>0)
+        {
+            return days + ' <span>days,</span> ' + hours + ' <span>hh</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>mm</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+        }
+        else
+        {
+            return hours + ' <span>h</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>m</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+        }
+                
+    }
+    function padWithZero(n){
+        var str = new String(n);
+        
+        if(str.length>1)
+            return n;
+        else
+            return '0'+n;
+    }
+</script>
+<script>
+    
+    function findjobs() {
+    
+        var chnl = @(ViewBag.IndeedChannel);
+        if (getCookie('indeedchannel') != null) {
+            chnl = getCookie('indeedchannel');
+        }
+
+        var zip = '';
+        if (getCookie('zip') != null && getCookie('zip') != 'undefined') {
+            zip = getCookie('zip');
+        }
+        
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: '@(ViewBag.Profession.DisplayName)',
+                l: zip,
+                c: chnl
+            }
+        }).success(function (response) {
+            
+            $('#jobresults').html('');
+            $('#keywordtags').html('');
+            tagkeywords = new Array();
+
+            var professionname = '@(ViewBag.Profession.DisplayName)';
+            var professionkeywords = professionname.split(' ');
+            
+            for(var i=0; i<response.results.results.length; i++){
+                var x = response.results.results[i];
+
+                var datestring = $.trim(x.date.substring(5, 5 + 11));
+                var datecomponents = datestring.split(' ');
+                var timestring = $.trim(x.date.substring(17, 17 + 8));
+                var timecomponents = timestring.split(':');
+                var postingdate = new Date(parseInt(datecomponents[2]), monthnumber(datecomponents[1]), parseInt(datecomponents[0]), parseInt(timecomponents[0]), parseInt(timecomponents[1]), parseInt(timecomponents[2]));
+                
+                var description = x.snippet;
+                
+                registerKeywords(description, professionkeywords);
+                registerSpawned(x.jobtitle, professionkeywords);
+                
+                for(var j=0; j<professionkeywords.length; j++)
+                {
+                    var pattern = professionkeywords[j];
+                    var regex = new RegExp('\\b' + pattern + '\\b', "gi");
+
+                    description = description.replace(regex, '<span class="highlight">'+professionkeywords[j]+'</span>');
+                }
+
+                $('#jobresults').append('<a class="indeedresult" onmousedown="'+x.onmousedown+'" href="'+x.url+'" target="_blank">' + 
+                    '<div class="jobresult '+(i<response.results.results.length-1?'bottomborder':'')+'" onmouseover="jobmouseover(this);" onmouseout="jobmouseout(this);">'+
+                    '<div class="title">'+x.jobtitle+'</div>' +
+                    '<div class="company">'+x.company+', '+x.formattedLocation+'</div>' +
+                    '<div class="snippet">'+description+'</div>' +
+                    '<img class="disclosure" src="/content/images/elements/disclosure/27px.png" border=0/>' + 
+                    '</div></a>');
+
+                    /*'<div class="agelabel">Freshness meter</div>' +
+                    '<div timestamp="'+postingdate.getTime()+'" class="age">'+getElapsedTime(postingdate.getTime())+'</div>' +*/
+                    
+            }
+
+            
+            displaytags('@(ViewBag.Profession.DisplayName)');
+
+            /*
+            
+            setInterval(function() {
+                var ageboxes = $('.age');
+                for(var i=0; i<ageboxes.length; i++) {
+                    $(ageboxes[i]).html(getElapsedTime($(ageboxes[i]).attr('timestamp')));
+                };
+            }, 1000);
+
+            //Blinking dots
+            setTimeout(function() {
+                $('.dots').css('opacity',0);
+                $('.ss').css('color','#000');
+                setInterval(function() {
+                    $('.dots').css('opacity',0);
+                    $('.ss').css('color','#000');
+                }, 1000);
+            }, 500);
+            */
+        });
+
+        
+    }
+</script>
+
+<script>
+    function showzipcontrols() {
+        $('#zipcodecontrols').show();
+        $('#zipcodecontrols').focus();
+    }
+    function toggletagscanvas() {
+        
+        if ($('#keywordtagscanvas').css('display') != 'none') {
+            
+            $('#keywordtagscanvas').hide();
+            $('#keywordtagstogglelink').html('refine&raquo;');
+        }
+        else {
+            $('#keywordtagscanvas').show();
+            $('#keywordtagstogglelink').html('&laquo;hide');
+        }
+    }
+</script>
+<script>
+    function document_ready() {
+        getBlobData('skillcow', 'professions', '@(ViewBag.BranchUrlParam).js');
+        getBlobData('skillcow', 'schoolsbyprogram', 'p@(ViewBag.Profession.ProgramId).js');
+
+
+        if (getCookie('zip') != null && getCookie('zip') != 'undefined') {
+            $('#jobslocation').html('Showing jobs near zip <b>' + getCookie('zip') + '</b> <a href="javascript:showzipcontrols()" style="color: #fff;">change zip</a>');
+            $('#careerpageindeedzipcode').val(getCookie('zip'));
+            $('#zipcodecontrols').hide();
+        }
+
+        $('#careerpageindeedzipcode').bind('keypress', function (e) {
+            if (e.keyCode == 13) {
+                setlocationziponcareerpage();
+            }
+        });
+
+        findjobs();
+    }
+</script>
+
+
+
+<style>
+    div.careersummary { position: relative; top: 0px; left: 0px; width: 607px; border: thin solid #fff; background-color: rgba(255,255,255,1); padding: 20px 20px 20px 20px; }
+    div.careersummary h1 { margin: 0px 10px 0px 0;font-size: 16pt;}
+    div.careersummary h2 { margin: 20px 0px 10px 0; font-size: 11pt; color: #333;}
+    div.careersummary p { margin: 0px 0 40px 20px; font-size: 10pt; margin: 0px; }
+    div.careersummary img { margin: 0px 20px 10px 0px; }
+        
+    #schoolresulttabfirst { position: absolute; left: 5px; top: 0px; width: 180px; display: inline-block; padding: 5px; height: 15px; margin: 5px 0px 0 0px; border: thin solid #ddd; background:#eee; cursor: pointer; text-align: center;}
+    #schoolresulttabfirst:hover {background:#fff; border-bottom: thin solid #fff; }
+    #schoolresulttabsecond { position: absolute; left: 199px; top: 0px; width: 150px; display: inline-block; padding: 5px; height: 15px; margin: 5px 0px 0 0px; border: thin solid #ddd; background:#eee; cursor: pointer; text-align: center;}
+    #schoolresulttabsecond:hover {background:#fff; border-bottom: thin solid #fff; }
+
+    #schoolresulttabfirst.activetab { border-bottom: thin solid #fff; background:#fff;}
+    #schoolresulttabsecond.activetab { border-bottom: thin solid #fff; background:#fff;}
+    .schoolresulttabcontent { position: relative; top: 31px; background:#fff; border: thin solid #ddd; padding: 10px; font-style: normal; vertical-align: top;}
+    .schoolresulttabcontent a {cursor: pointer;}
+    
+    #careerdescription b {margin-bottom: 20px;}
+    
+    .dimensionlabel {font-style: italic;}
+    
+    #jobresults .bottomborder {border-bottom: thin dashed #bbb;}
+    
+    .jobresult { position: relative; padding: 10px 10px 10px 10px; cursor: pointer; padding-right: 15px;}
+    .jobresult:hover { background-color: #ccffcc; }
+    .jobresult .title { font-weight: bold; }
+    .jobresult .company { color: #555; font-size: smaller;}
+    .jobresult .location {}
+    .jobresult .agelabel { text-align: right; width: 100%; margin: 10px 0 0px 0; color: #888; font-style: italic;}
+    .jobresult .age { text-align: right; width: 100%; margin: 0px 0 10px 0; font-weight: bold; font-size: 11pt; font-family: Roboto;}
+    .jobresult .age span { display: inline-block; font-weight: normal; font-size: 9pt; font-family: Roboto; color: #888; }
+    .jobresult .age span.ss { display: inline-block; font-weight: bold; font-size: 11pt; color: #ff0000; }
+    .jobresult .age span.dots { display: inline-block; font-weight: bold; font-size: 9pt; font-family: Roboto; color: #000; }
+    .jobresult .snippet {}
+    .jobresult .url {}
+    .jobresult img.disclosure {position: absolute; top: 5px; right: 5px; display: none; }
+    .indeedresult {text-decoration: none; }
+    .indeedresult:hover {text-decoration: none; }
+    
+    div.schoolrequestinfobutton { width: 100%; padding: 10px; font-size:12pt; }
+    
+</style>
+
+

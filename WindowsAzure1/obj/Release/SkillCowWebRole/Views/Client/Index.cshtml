@@ -1,0 +1,224 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+
+@{
+    ViewBag.Title = "My SkillCow Inquiries";
+    ViewBag.SuppressTabs = true;
+}
+<style>
+h1,h2,h3,h4,h5 {color: #333;}
+</style>
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <div style="float:right;">
+        <a href="client/logoff">Log off</a> | <a href="javascript:changepassword()">Change password</a>
+    </div>
+    <div id="passwordchangeform" style="position: absolute; right: 0px; top: -60px; display: @(ViewBag.PasswordError!=null && ViewBag.PasswordError != "" ? "" : "none"); background-color: rgba(255,255,255,1); padding: 20px;" class="shadow20 rounded10">
+        <h3>Password change</h3>
+        @using (Html.BeginForm("changepassword","client", FormMethod.Post))
+        {
+            <table style="font-style: italic;">
+                <tr>
+                    <td>New Password:</td>
+                    <td><input type="password" name="newpassword" /> </td>
+                </tr>
+                <tr>
+                    <td>Confirm:</td>
+                    <td><input type="password" name="confirmpassword" /> </td>
+                </tr>
+                @if (ViewBag.PasswordError != "")
+                {
+                    <tr>
+                        <td colspan=2 style="color: red">@ViewBag.PasswordError</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Go"/> | <a href="javascript:cancelchangepassword()">Cancel</a>
+                    </td>
+                </tr>
+            </table>
+        }
+        <script>
+            function changepassword() {
+                $('#passwordchangeform').show();
+            }
+            function cancelchangepassword() {
+                $('#passwordchangeform').hide();
+            }
+        </script>
+    </div>
+    
+    <table>
+        <tr>
+            <td valign=top style="padding: 5px 20px 0 0;"><img src="https://chaindate.blob.core.windows.net/resources/schoollogos/@ViewBag.ClientRowKey" alt="Logo"/></td>
+            <td>
+                <h2>Report dates</h2>
+                @using (Html.BeginForm())
+                {
+                    <table style="font-style: italic;">
+                        <tr>
+                            <td>Start date:</td>
+                            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+                        </tr>
+                        <tr>
+                            <td>End date:</td>
+                            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="submit" value="Run"/>
+                                <input type="button" value="Export to Excel" onclick="exporttoexcel()"/>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+    
+</div>
+<script>
+    function exporttoexcel() {
+        
+        var url = 'client/exporttoexcel?startdate=' + $('#startdate').val() + '&enddate=' + $('#enddate').val();
+        
+        window.open(url,'_self');
+    }
+</script>
+
+<div class="pagecontent rounded20blbr" style="margin: 0 auto; background-color: rgba(255,255,255,0.8); text-align: center; padding: 20px;">
+    @{
+    DateTime cursordate = ViewBag.StartDate;
+    SkillCowRequestSubmissionClient rsc = new SkillCowRequestSubmissionClient();
+    }
+
+    <table style="text-align: left;" cellspacing=5>
+        <tr>
+            <th>Date</th>
+            <th></th>
+            <th>Name</th>
+            <th>GrYr</th>
+            <th>Phone</th>
+            <th>Program</th>
+            <th>Email</th>
+            
+            <th>Address</th>
+            <th>City</th>
+            <th>St.</th>
+            <th>Zip</th>
+            
+            <th>Edu?</th>
+            <th>Campus</th>
+            
+            <th>Attitude</th>
+            <th>Information</th>
+            <th>Processing</th>
+            <th>Action</th>
+            <th>Endurance</th>
+            <th>Presence</th>
+            <th>Concentration</th>
+            <th>Patterns</th>
+            <th>Compensation</th>
+        </tr>
+    @while (cursordate <= ViewBag.EndDate)
+    {
+        CloudTableQuery<SkillCowRequestSubmission> query = rsc.GetAllByClient(cursordate.ToString("yyyyMMdd"), ViewBag.ClientId);
+        foreach (SkillCowRequestSubmission x in query.Execute().OrderBy(x => x.Timestamp))
+        {
+            JObject json = null;
+            if (x.TestResults != null && x.TestResults != "")
+            {
+                try
+                {
+                    json = JObject.Parse(x.TestResults);
+                }
+                catch
+                {
+                }
+            }
+            <tr>
+                <td><nobr>@x.Timestamp.ToString("d")</nobr></td>
+                <td>@x.Salutation</td>
+                <td><nobr>@x.Name</nobr></td>
+                <td>@x.GradYear</td>
+                <td><nobr>
+                    @try
+                    {@String.Format("{0:(###) ###-####}", long.Parse(x.Phone))
+                    }
+                    catch{}
+                    </nobr>
+                </td>
+                <td><nobr>@x.ProgramKey</nobr></td>
+
+                <td>@x.Email</td>
+                
+                <td><nobr>@x.Address1</nobr></td>
+                <td><nobr>@x.City</nobr></td>
+                <td>@x.State</td>
+                <td>@x.Zip</td>
+                
+                <td>@x.EduIntent</td>
+            
+                <td>@x.CampusKey</td>
+                
+            
+                @if (json != null)
+                {
+                    <td>
+                    @try
+                    {@(json["dimesions"][0]["Attitude"])}
+                    catch {}
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][1]["Information"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][2]["Processing"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][3]["Action"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][4]["Endurance"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][5]["Presence"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][6]["Concentration"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][7]["Patterns"])}
+                    catch { }
+                    </td>
+                    <td>
+                    @try
+                    {@(json["dimesions"][8]["Compensation"])}
+                    catch {}
+                    </td>
+                }
+            </tr>
+        }
+        cursordate = cursordate.AddDays(1);
+    }
+    </table>
+
+</div>

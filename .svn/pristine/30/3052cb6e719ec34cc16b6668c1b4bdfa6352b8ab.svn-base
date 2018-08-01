@@ -1,0 +1,85 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+@{
+    AdminProfileClient apc = new AdminProfileClient();
+    UserAccountClient uac = new UserAccountClient();
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    StudentProfileClient spc = new StudentProfileClient();
+    ViewBag.Title = "School Admin";
+}
+<style>
+    .admin {
+        cursor:pointer;
+        background-color: white;
+    }
+    .admin:hover {
+        background-color:gainsboro;
+    }
+</style>
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Admin Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Pass</th>
+                        <th>Email Confirm</th>
+                        <th># of schools connected</th>
+                        <th># of groups connected</th>
+                        <th># of students engaged</th>
+                        <th>Date registered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        List<AdminProfile> adminProfiles = new List<AdminProfile>(apc.GetAllByPartition("adminProfile"));
+                        List<UserAccount> users = new List<UserAccount>();
+                        foreach (AdminProfile adminProfile in adminProfiles)
+                        {
+                            UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(adminProfile.RowKey), adminProfile.RowKey);
+                            users.Add(account);
+                        }
+                        users.Sort(delegate(UserAccount a, UserAccount b) { return b.CreatedOn.CompareTo(a.CreatedOn); });
+                        foreach (UserAccount account in users)
+                        {
+                            List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllByPartition(account.RowKey));                            
+                            List<AssessmentGroup> groups = new List<AssessmentGroup>(agc.GetAllByTeacher(account.RowKey));
+                            List<StudentProfile> students = new List<StudentProfile>(spc.GetAllByTeacher(account.RowKey));                            
+                            <tr>
+                                <td><div data-rowkey="@account.RowKey" data-adminname="@account.FirstName @account.LastName" class="admin">@account.FirstName @account.LastName</div></td>
+                                <td>@account.Email</td>
+                                <td>@adminProfiles.Where(x => x.RowKey == account.RowKey).SingleOrDefault().PhoneNumber</td>
+                                <td>@account.Password</td>
+                                <td>@(account.EmailConfirmed ? "Yes" : "No")</td>
+                                <td>@connections.Count</td>
+                                <td>@groups.Count</td>
+                                <td>@students.Count</td>
+                                <td>@account.CreatedOn</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $('.admin').click(function () {
+            var rowkey = $(this).data('rowkey');
+            var adminame = $(this).data('adminname');
+            setCookie('adminrowkey', rowkey, 1);
+            setCookie('adminname', adminame, 1);
+            window.location = '/AdminPortal';
+        });
+    }
+</script>
+

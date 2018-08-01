@@ -1,0 +1,2330 @@
+﻿
+.pageContainer {
+    padding:50px 0;
+}
+
+#studentPage, #rateInterestsPage, #adminPage, #addSchoolPage, #schoolPage {
+    padding-bottom:0;
+}
+
+.jumbotron {
+    min-height:350px;
+    background-image: url(/Content/images/hex/bluebackground.jpg);
+    margin-bottom:0;
+}
+
+.centerBox {
+    border: 1px solid #9CB7BA;
+    padding: 25px;
+    text-align: center;
+    background-color: rgb(209, 228, 230);
+    margin-top: -48px;
+}
+
+.loginBoxLong p {
+    font-weight:600;
+}
+
+.pageContainer h2 {
+    font-size: 36px;
+    margin: 40px 0;
+    text-align: center;
+    color: rgb(23, 121, 129);
+    font-family: 'open sans condensed';
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 700;
+    text-align:center;
+    margin:40px 0 0;
+}
+
+.chooseSignupCol {
+    min-height: 250px;
+}
+
+.chooseSignupCol p {
+    font-size: 18px;
+    padding:10px 50px;
+    min-height:100px;
+}
+
+.assessmentBtn {
+    height: 50px;
+    width: 200px;
+    line-height: 50px;
+    padding: 0;
+}
+
+
+input[type="text"], input[type="password"], input[type="email"] {
+    -webkit-appearance: none !important;
+}
+
+button.loginBtn {
+    height:50px;
+    padding: 0;
+    line-height: 50px;
+}
+
+.form-control {
+    font-family: 'open sans';
+    font-size: 18px;
+    padding: 10px;
+    height: 50px !important;
+}
+
+.form-group label.shortLabel {
+    text-align: left;
+    font-weight: 400;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.form-group {
+    padding: 0;
+    line-height: 50px;
+}
+
+input[type="checkbox"] {
+    margin-left:0;
+    cursor:pointer;
+}
+
+.checkbox label {
+    float:left;
+    cursor:auto;
+    line-height:initial;
+    text-align:left;
+}
+
+.shortField .checkbox {
+    margin-bottom:0;
+}
+
+
+.centerBox p {
+    font-weight:600;
+    font-size:18px;
+}
+
+
+.orgRow {
+   margin:0 0 10px;
+}
+
+.orgRow div {
+    padding:0;
+}
+
+.breadcrumbsWrapper {
+    line-height:60px;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    margin-bottom:0;
+    padding:0;
+}
+
+.breadcrumb li a {
+    font-size:20px;
+    padding:5px;
+}
+
+.logoutBtn {
+    padding:0;
+    font-size:16px;
+}
+
+.classificationCrumbs {
+    margin-bottom:0;
+    font-size:14px;
+}
+
+.classificationCrumbs a,  .classificationCrumbs span {
+    font-size:14px;
+}
+
+.welcomeMsg {
+    font-size: 14px;
+}
+
+.termsRow {
+    padding:15px;
+}
+
+.errorForm {
+    color: rgb(207, 2, 2);
+    font-size: 18px;
+    margin: 0;
+}
+
+.errorForm a {
+    color: rgb(207, 2, 2);
+    text-decoration:underline;
+}
+
+.errorForm a:hover, .errorForm a:focus, .errorForm a:active {
+    color: rgb(124, 18, 3);
+}
+
+.hasError {
+    border:1px solid red;
+}
+
+p.displayError {
+    display:none;
+    font-size: 14px;
+    color: rgb(207, 2, 2);
+    line-height: 30px;
+    text-align: left;
+}
+
+p.displaySuccess {
+    display:none;
+    font-size:14px;
+    color:#000;
+    line-height:30px;
+    text-align:left;
+}
+
+
+.mobileBtn {
+    display:none;
+}
+
+.desktopBtn {
+    display:block;
+    text-align:center;
+}
+
+.blueNavBtn {
+    height: 70px;
+    width: 200px;
+    line-height: 70px;
+    font-size: 15px;
+    background-color: rgb(194, 200, 202);
+}
+
+.blueNavBtn:hover, .blueNavBtn:focus, .blueNavBtn:active {
+    background-color: rgb(177, 184, 186);
+}
+
+.questionIcon {
+    height:30px;
+    cursor:pointer;
+}
+
+.belowMargin {
+    margin-bottom:10px;
+}
+
+.extraMargin {
+    padding:20px 0;
+}
+
+/*==============Assessment Index Page================*/
+
+#assessmentLoginPage .jumbotron h1 {
+    text-align: center;
+    font-size: 62px !important;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    margin: 95px 0 0 0;
+}
+
+/*#assessmentLoginPage {
+    background-image: url(/Content/images/hex/hex_bg17long.jpg);
+}*/
+
+#assessmentLoginPage .errorForm {
+    margin:15px;
+}
+
+#assessmentLoginPage .centerBox a {
+    font-size:16px;
+}
+
+/*==============Signup student page================*/
+
+#studentSignupPage .jumbotron h1 {
+    text-align: center;
+    font-size: 62px !important;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
+
+#studentSignupPage .centerBox {
+    margin-top:-200px;
+}
+
+#studentSignupPage .lastRowForm {
+    padding-top:20px;
+}
+
+#studentSignupPage .loginBtn {
+    float:right;
+}
+
+#studentSignupPage h2 {
+    margin: 40px 0 0px;
+}
+
+.pwinstructions {
+    padding-top: 20px;
+    font-size: 13px;
+    text-align: left;
+}
+
+.centerBox .extraPadding {
+    padding:15px;
+}
+
+.addMargin {
+    margin-bottom:5px;
+}
+
+.addMargin div {
+    text-align:left;
+}
+
+.nomargin {
+    margin:0;
+}
+
+.addMargin .shortLabel {
+    text-align: left;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+
+#studentSignupPage .smallPrint {
+    font-size: 12px !important;
+    line-height: 25px;
+    display: block;
+}
+
+.pwRequirements {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: rgb(49, 135, 170);
+}
+
+.termsRow .addPadding {
+    padding: 0 0 0 10px;
+}
+
+.checkboxWrapper {
+    padding-left:10px;
+}
+
+#studentSignupPage .chooseSignupCol p, #adminSignupPage .chooseSignupCol p {
+    min-height:initial;
+}
+
+#studentSignupPage .input-group-btn {
+    line-height:initial;
+}
+
+
+p.alreadyRegistered {
+    font-size: 14px !important;
+    margin: 20px 0 0;
+    text-transform: uppercase;
+}
+
+#studentSignupPage .shortBtn {
+    width: 110px;
+    padding: 0 3px;
+    font-size: 12px;
+}
+
+
+/*#studentSignupPage .chooseSignupCol {
+    width: 50%;
+    margin: 0 auto;
+}*/
+
+/*==============Signup admin page================*/
+
+#adminSignupPage .jumbotron h1 {
+    text-align: center;
+    font-size: 62px !important;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
+
+#adminSignupPage .centerBox {
+    margin-top:-200px;
+}
+
+
+#adminSignupPage .loginBtn {
+    float:right;
+}
+
+/*==============Admin page================*/
+
+#adminPage .container, #addSchoolPage .container {
+    padding-bottom: 160px;
+}
+
+.whiteBgPage .container {
+    background-color:#fff;
+    padding:20px 30px 30px;
+}
+
+
+.whiteBgPage {
+    background-image: url(/Content/images/hex/hex_bg14.jpg);
+    /*background-color: #BECACD;*/
+    background-attachment:fixed;
+}
+
+#adminPage .addLineHeight {
+    height:50px;
+    line-height:50px;
+}
+
+.whiteBgPage h1 {
+    font-size:34px;
+    font-family:'open sans condensed';
+    margin:0;
+    font-weight:600;
+    display:inline;
+    vertical-align:middle;
+}
+
+.noSchoolsAdded {
+    background-color: #DAEFF5;
+    padding:20px;
+    display:table;
+    width:100%;
+    height:700px;
+}
+
+.noGroupsAdded {
+    background-color: #DAEFF5;
+    padding:20px;
+    display:table;
+    width:100%;
+    height:300px;
+}
+
+.noSchoolsAdded .tableCell, .noGroupsAdded .tableCell {
+    display: table-cell;
+    vertical-align:middle;
+    text-align:center;
+}
+
+.noSchoolsAdded p {
+   font-size: 30px;
+   font-family: 'open sans condensed';
+   text-transform: uppercase;
+   margin-bottom:20px;
+}
+
+.noGroupsAdded p {
+   font-size: 30px;
+   font-family: 'open sans condensed';
+   text-transform: uppercase;
+   margin-bottom:20px;
+}
+
+.addSchoolBtn {
+    height:50px;
+    line-height:50px;
+    padding:0;
+}
+
+
+.schoolDiv {
+    background-color:#DAEFF5;
+    margin: 5px 0;
+    padding: 20px;
+    cursor:pointer;
+}
+
+
+#adminPage .schoolDiv:hover, #adminPage .schoolDiv:active, #adminPage .schoolDiv:focus {
+    background-color: #B1DFE3;
+}
+
+
+.schoolDiv h2 {
+    text-align:left;
+    font-family:'open sans';
+    color:#000;
+    margin:0;
+    font-size:22px;
+}
+
+
+.topRow {
+    margin:0;
+    padding:20px 0;
+}
+
+.topRow div {
+    padding:0;
+}
+
+.topRow .addSchoolBtn {
+    display:none;
+}
+
+.analyzeResultsDiv, .createSchoolDiv {
+    background-color: rgb(181, 211, 221);
+    background-color: #EAF4F7;
+    /*position:absolute;
+    width:100%;
+    bottom:0;
+    left:0;*/
+    margin-left:-30px;
+    margin-right:-30px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.analyzeResultsDiv h3 {
+    margin:0;
+    text-align:left;
+}
+
+.analyzeResultsDiv p, .createSchoolDiv p {
+    margin:0;
+    font-size:20px;
+    font-weight:300;
+}
+
+
+.createSchoolDiv .tableCell, .analyzeResultsDiv .tableCell {
+    height:140px;
+    padding: 0 20px;
+}
+
+.createSchoolDiv span, .analyzeResultsDiv span {
+    font-family: 'open sans condensed';
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.graphicon {
+    height:80px;
+}
+
+.iconWrapper {
+    height: 140px;
+    width: 140px;
+    line-height: 140px;
+    text-align: center;
+    background-color: #EAF4F7;
+}
+
+.addGroupLink {
+    font-size: 16px;
+    text-transform: uppercase;
+    height: 46px;
+    line-height: 46px;
+    color: #428bca;
+}
+
+
+.addGroupLink:hover, .addGroupLink:focus, .addGroupLink:active {
+    color: #2a6496;
+    text-decoration: underline;
+}
+
+/*==============Add school page================*/
+
+
+
+#addSchoolPage .container {
+    position:relative;
+}
+
+#addSchoolPage .form-inline {
+    margin:20px 0;
+    line-height: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+
+#addSchoolPage .schoolDiv {
+    cursor:pointer;
+}
+
+#addSchoolPage .schoolDiv:hover, #addSchoolPage .schoolDiv:focus, #addSchoolPage .schoolDiv:active {
+    background-color: #B1DFE3;
+}
+
+#addSchoolPage label {
+    font-size: 24px;
+    padding-right:20px;
+    line-height:50px;
+    margin:0;
+    font-weight:400;
+}
+
+.createSchoolBtn {
+    line-height:50px;
+    padding:0;
+}
+
+.schoolDiv .schoolAddress {
+    margin:0;
+}
+
+.zipRow {
+    margin-bottom:20px;
+}
+
+.modal-body p {
+    font-size:20px;
+    text-align:center;
+}
+
+#addSchoolPage .goBtn {
+    width:60px;
+    min-width:initial;
+}
+
+#zipForSchool {
+    font-size: 16px;
+    width: 30%;
+    background-color: #EDEDF5;
+    outline:0;
+    display:inline-block;
+}
+
+/*#zipForSchool:focus {
+    border-color: rgba(23, 184, 214, 1);
+    transition: width 1s ease-out;
+    webkit-transition: width 1s ease-out;
+    width:40%;
+}*/
+
+
+ .modal-footer {
+    text-align:center;
+    margin-top:0;
+    border-top: none;
+    padding:0;
+    background-color:#DAEFF5;
+}
+
+ .modal-footer button {
+    color: #000;
+    font-weight: 600;
+    height:70px;
+    background-color: #C7E7E8;
+    border: none;
+    margin: 0 !important;
+    padding: 0;
+}
+
+ .modal-footer .oneButton {
+     width:100%;
+ }
+
+ .modal-footer .twoButtons {
+    width: 49.6%;
+ }
+
+ .modal-footer button:hover, .modal-footer button:focus, .modal-footer button:active {
+    background-color: rgb(129, 200, 214);
+    color:#fff;
+}
+
+ .modal-dialog {
+    position:absolute;
+    top:50%;
+    margin-top:-108px;
+    left:50%;
+    margin-left:-250px;
+    width:500px;
+}
+
+ .oneButtonModal .modal-dialog {
+     width:400px;
+     margin-left:-200px;
+ }
+
+ .modal-body {
+    padding:30px 20px 20px;
+    text-align: center;
+    font-size:16px;
+}
+
+#schoolAddedModalConfirm {
+    margin-top: -118px;
+}
+
+#deleteSchoolModal {
+    margin-top: -119px;
+}
+
+.twoButtonModal {
+    width:500px;
+    margin-left:-250px;
+}
+
+/*#schoolAddedModal .modal-content {
+    border: 4px solid #27AEC0;
+}*/
+
+#mailIcon {
+    font-size: 56px;
+    padding: 30px;
+    display: inline-block;
+    background-color: rgb(87, 166, 206);
+    color: #fff;
+    float: left;
+}
+
+#schoolPage .smallerFont {
+    font-size:14px;
+}
+
+
+.searchSchoolsDiv {
+    height: 700px;
+    background-color: #DAEFF5;
+    color: #fff;
+    font-size: 30px;
+    display: table;
+    width: 100%;
+    padding:20px;
+}
+
+.searchSchoolsDiv p {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #B8B6B6;
+    font-family: 'open sans condensed';
+    font-size: 36px;
+}
+
+
+/*==================Create School Page==========*/
+
+
+
+#createSchoolPage .jumbotron h1 {
+    text-align: center;
+    font-size: 62px !important;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
+
+#createSchoolPage .centerBox {
+    margin-top: -200px;
+    padding: 50px 10px 20px;
+}
+
+#createSchoolPage .lastRowForm {
+    padding-top:20px;
+}
+
+#createSchoolPage .loginBtn {
+    float:right;
+}
+
+/*==============School page================*/
+
+#schoolPage h2 {
+    font-size: 22px;
+    font-family: 'open sans condensed';
+    font-weight: 600;
+    text-align:left;
+    color:#000;
+    display:inline;
+    line-height:50px;
+    text-transform:none;
+}
+
+#schoolPage .schoolAddress {
+   margin: 0px;
+   font-size:16px;
+}
+
+
+.classDiv {
+    background-color:#DAEFF5;
+    margin:5px 0px;
+    padding: 20px;
+}
+
+
+.classDiv h3 {
+    text-align:left;
+    margin:0;
+    font-weight:400;
+    text-transform:none;
+}
+
+
+.hidable {
+    display:none;
+    background-color: #EAF4F7;
+    padding: 20px;
+    margin-bottom:20px;
+}
+
+#schoolPage .addLineHeight {
+    line-height:50px;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.setLineHeight {
+    margin-bottom:20px;
+}
+
+#schoolPage .noSchoolsAdded, #schoolPage .noGroupsAdded {
+    display:none;
+}
+
+.hidable .form-group label {
+    font-size: 20px;
+    padding-right: 20px;
+    font-weight: 400;
+}
+
+.hidable .radio-inline {
+    font-family: 'open sans condensed';
+    font-size: 24px;
+    padding-left:0;
+}
+
+.hidable input[type="radio"] {
+   margin: 12px 12px 0 0;
+}
+
+.cancelBtn {
+    margin-right:20px;
+}
+
+
+.bottomMargin {
+    margin-bottom:20px;
+}
+
+.removeSchoolBtn {
+    width: initial;
+    padding: 0 10px;
+    margin-top: 20px;
+}
+
+.schoolInstructions {
+    background-color:#EAF4F7;
+    padding: 20px;
+    margin: 20px 0;
+    display: none;
+}
+
+.showInstructions {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    position: relative;
+    text-transform: uppercase;
+    text-align: left;
+    color: #428bca;
+    display: inline;
+    border: 1px solid #B1CCE3;
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.showInstructions:hover, .showInstructions:focus, .showInstructions:active {
+    background-color: #E5F8FB;
+}
+
+ #schoolPage .arrowDown,#schoolPage .arrowUp {
+    color: #428bca;
+}
+
+ .pinCode {
+     margin: 10px 0 0;
+ }
+
+/*==============Student page================*/
+
+.reportWrapper {
+    padding-left:0;
+}
+
+.reportWrap {
+    padding: 0 10px;
+}
+
+.squareStep {
+    width: 270px;
+    height: 270px;
+    background-color: #DAEFF5;
+    margin: 20px auto;
+    text-align:center;
+    line-height:250px;
+    cursor:pointer;
+    border-radius:50%;
+}
+
+.squareStep:hover, .squareStep:focus, .squareStep:active {
+    background-color: #D1E4E9;
+}
+
+.squareText {
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    display:inline-block;
+    vertical-align:middle;
+    line-height:normal;
+    font-size:26px;
+    padding:15px;
+    font-family:'open sans condensed';
+}
+
+.squareText p {
+    font-family: 'open sans condensed';
+    margin:10px 0;
+}
+
+#studentPage h2 {
+    font-family: 'open sans';
+    text-transform: none;
+    color: #000;
+    font-size: 25px;
+    font-weight:300;
+    margin:0;
+}
+
+.bottomAlert p {
+    font-size: 25px;
+    color: #000;
+    font-weight: 300;
+}
+
+.bottomAlert {
+    margin: 0 10px 15px;
+    display:none;
+}
+
+#studentPage h3 {
+    font-size: 45px;
+    font-weight: 400;
+    font-family: 'open sans condensed';
+    margin:20px;
+    cursor:pointer;
+}
+
+#studentPage h4 {
+    font-size: 26px;
+    font-weight: 300;
+    margin: 60px 0 30px;
+}
+
+#studentPage .blueBorderBtn {
+    margin: 0 auto;
+}
+
+.option h5, .option h6 {
+    display: block;
+    font-size: 22px;
+    color: #000;
+    font-weight: 600;
+}
+
+#studentPage h5 {
+    font-size: 16px;
+    background-color: #000;
+    color: #fff !important;
+    padding: 15px;
+    margin: 0 -10px;
+}
+
+.option h6 {
+    min-height: 66px;
+    text-transform: none;
+    font-size: 23px;
+    font-weight: 400;
+    margin-top: 15px;
+}
+
+#stepTwo p {
+    min-height: 200px;
+    text-align: center;
+}
+
+#studentPage .alert-warning {
+    margin-top: 20px;
+    background-color: #7FE0FD;
+    border:none;
+}
+
+.arrowDown, .arrowUp {
+    margin-left: 10px;
+    color: rgb(23, 184, 214);
+    display:none;
+}
+
+
+#studentPage .blueStripesBtn {
+    width: auto;
+    height: 90px;
+    line-height: 90px;
+    padding: 0 15px;
+    color: #000;
+    padding-right: 50px;
+    font-size: 24px;
+    margin: 50px 0;
+    font-weight:400;
+}
+
+#studentPage .blueStripesBtn .arrowRight {
+    font-size: 34px;
+    margin-top: -17px;
+    margin-right:15px;
+}
+
+.stepCollapse {
+    display:none;
+}
+
+.completedStepDiv .stepCollapse {
+    display:none;
+}
+
+.completedStepP {
+    text-align: center;
+    font-size: 26px;
+}
+
+.notCompletedStepDiv .glyphicon-ok, .notCompletedStepDiv .completedStepP {
+   display:none;
+}
+
+.notCompletedStepDiv .squareStep {
+    background-color:#f0f0f0;
+}
+
+.notCompletedStepDiv .squareStep:hover, .notCompletedStepDiv .squareStep:focus, .notCompletedStepDiv .squareStep:active  {
+    background-color:#E7E6E6;
+}
+
+.completedStepDiv .glyphicon-ok, .completedStepDiv .completedStepP {
+   display: initial;
+}
+
+
+.glyphicon-ok {
+    margin: 0 auto;
+    font-size: 60px;
+    color: rgb(11, 205, 11);
+    color: #38D5A3;
+    margin-top: -42px;
+    margin-right:20px;
+}
+
+.squaresRow div {
+    text-align:center;
+}
+
+.dolTitle {
+    min-height: 50px;
+    border-bottom: 1px solid rgba(23, 184, 214, 1);
+    position: relative;
+}
+
+
+
+.squareText img {
+    height:120px;
+}
+
+
+.matchingCareersContainer {
+    margin-top:50px;
+}
+
+.matchingCareers h3 {
+    font-weight: 300;
+}
+
+
+.squaresRow .goal {
+    /*background-color: rgb(222, 242, 247);*/
+    text-align: left;
+    margin-bottom:25px;
+    /*margin: 20px 0 0;
+    padding: 15px;*/
+}
+
+
+.goal p {
+    font-size: 16px;
+    text-align:center;
+}
+
+.circleGoBtnTest {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #38D5A3;
+    text-align: center;
+    line-height: 100px;
+    right: 300px;
+    bottom: 60px;
+    font-weight: 600;
+    font-family: 'open sans condensed';
+    font-size: 32px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    margin: 0 auto;
+}
+
+.circleIcon {
+    display: block;
+    background-color: #f0f0f0;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 20px auto;
+    line-height: 200px;
+}
+
+.circleIcon img {
+    height:80px;
+}
+
+.option {
+    position:relative;
+    padding:10px;
+    cursor:pointer;
+    opacity:0;
+}
+
+.optionFour {
+    padding-bottom:0 !important;
+}
+
+.option div:hover, .option div:focus, .option div:active {
+    background-color: rgb(222, 242, 247);
+    /*-moz-transition: background 0.3s linear;
+    -o-transition: background 0.3s linear;
+    -webkit-transition: background 0.3s linear;
+    transition: background 0.3s linear;*/
+}
+
+.option div {
+    text-align:center;
+    background-color: #F2F8FA;
+    padding:0 10px 20px;
+}
+
+
+#stepOne .blueBorderBtn {
+    margin: 20px auto;
+    width: 300px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 28px;
+    background-color: rgb(23, 184, 214);
+    font-weight:300;
+}
+
+.blueBorderBtn:hover, .blueBorderBtn:focus, .blueBorderBtn:active {
+    background-color: #fff !important;
+}
+
+#stepTwo .blueBorderBtn {
+    background-color: rgb(23, 184, 214);
+    line-height:50px;
+    padding:0;
+    font-weight:300;
+}
+
+a.grayBtn {
+    background-color: #F2F8FA !important;
+    color:#666;
+    border:none;
+}
+
+a.grayBtn:hover, a.grayBtn:focus, a.grayBtn:active {
+    background-color:#f0f0f0 !important;
+}
+
+#stepOne p {
+    font-size: 26px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.separator {
+    height: 3px;
+    background-color: #D1F4F8;
+    width:0;
+}
+
+
+/*==============Rate interests page================*/
+
+#rateInterestsPage h1 {
+    display: block;
+    margin-top: 10px;
+    text-align:center;
+}
+
+#rateInterestsPage .container {
+    background-color: #fff;
+    padding: 20px 30px 20px;
+}
+
+.ratingTable {
+    margin-top: 40px;
+    text-align:center;
+}
+
+.ratingTable .row {
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(23, 184, 214, 1);
+}
+
+
+ .interestName {
+    font-size:28px;
+    line-height:70px;
+}
+
+.importanceDiv {
+    border: 1px solid #4ABADB;
+    text-align: center;
+    font-family: 'open sans condensed';
+    display: block;
+    font-weight: 600;
+    cursor:pointer;
+    height:70px;
+    line-height:70px;
+    font-size:24px;
+}
+
+.chosenDiv {
+    background-color: rgb(141, 221, 233);
+    background-color: rgba(143, 214, 228, 1);
+    box-shadow: 3px 3px 5px #949292;
+    -moz-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    -webkit-transition: background 0.5s linear;
+    transition: background 0.5s linear;
+    height: 70px;
+    line-height: 70px;
+    font-size: 26px;
+    margin:0;
+}   
+
+.notChosenDiv {
+    height: 50px;
+    line-height: 50px;
+    font-size: 22px;
+    margin:10px 0;
+}
+
+#rateInterestsPage .lastRow{
+    height:150px;
+    text-align:center;
+    padding-top:50px;
+}
+
+#rateInterestsPage .blueStripesBtn {
+    width: auto;
+    height: 70px;
+    line-height: 70px;
+    padding: 0 15px;
+    color: #000;
+    padding-right: 50px;
+    font-size: 15px;
+    margin-left:20px;
+}
+
+.impThingsSpan {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 20px 20px 0;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1px solid #4ABADB;
+    font-size: 18px;
+    color: #000;
+    height: 70px;
+    line-height: 70px;
+}
+
+
+.impThingsSpan.active {
+    background-color: rgb(143, 214, 228);
+    box-shadow: 3px 3px 5px #949292;
+    transition: background-color 2s linear;
+    webkit-transition: background-color 2s linear; /* Chrome, Safari, Opera */
+}
+
+#rateInterestsPage p.text-center {
+    font-size: 17px;
+    margin: 10px 0 0;
+    font-style:italic;
+}
+
+
+/*====================MOBILE===========================*/
+
+@media only screen and (max-width:1200px) {
+    .goal p {
+        font-size:16px;
+    }
+
+    .option h6 {
+        min-height:78px;
+        font-size:22px;
+    }
+}
+
+@media only screen and (max-width:1050px) {
+
+
+    .form-group label.shortLabel {
+        font-size: 16px;
+    }
+
+    .form-control, .addMargin .shortLabel {
+        font-size:16px;
+    }    
+    
+    /*student signup page*/
+    #studentSignupPage .jumbotron h1, #adminSignupPage .jumbotron h1 {
+        font-size: 54px !important;
+    }
+
+    /*rate interests*/
+
+    .interestName {
+        font-size: 24px;
+    }
+}
+
+@media only screen and (max-width:992px) {
+
+    .whiteBgPage h1 {
+        font-size: 30px;
+    }
+
+    .pageContainer .container {
+        width: 90%;
+        min-height:650px;
+    }
+
+    .orgRow .text-right {
+        text-align:left;
+    }
+
+    /*Assessment index page*/
+    #assessmentLoginPage .jumbotron h1, #adminSignupPage .jumbotron h1 {
+        font-size: 54px !important;
+    }
+
+    .chooseSignupCol p {
+        min-height: 120px;
+        font-size: 14px;
+    }
+
+    #assessmentLoginPage input[type="password"], #assessmentLoginPage input[type="email"] {
+        width: 200px;
+    }
+
+    #assessmentLoginPage h2 {
+        font-size: 32px;
+        margin: 40px 0 0;
+    }
+
+    .chooseSignupCol {
+        min-height: initial;
+    }
+
+    /*admin page*/
+    .noSchoolsAdded p, .noGroupsAdded p {
+        font-size: 20px !important;
+    }
+
+    .noSchoolsAdded, .noGroupsAdded {
+        padding:30px 15px;
+    }
+
+    .mobileCenter {
+        text-align:center;
+    }
+
+    .addSchoolBtn {
+        margin-top:15px;
+    }
+
+    .topRow {
+        padding: 15px 0;
+    }
+
+    .topRow .addSchoolBtn {
+        margin-top:0;
+    }
+
+    .addGroupLink {
+        font-size: 13px;
+    }
+
+    .schoolDiv h2 {
+        font-size:20px;
+    }
+
+    /*add school page*/
+    #addSchoolPage .form-group label {
+        font-size:20px;
+    }
+
+    #addSchoolPage .goBtn {
+        min-width:initial;
+    }
+
+    #schoolPage p {
+        font-size: 16px;
+        margin-bottom:10px;
+    }
+
+    .hidable .form-group label {
+        font-size: 18px;
+    }
+
+    .searchSchoolsDiv p {
+        font-size:30px;
+    }
+
+    /*Student Home Page*/
+
+    .squareStep {
+        width:200px;
+        height:200px;
+        line-height:200px;
+    }
+
+    .squareText {
+        font-size:20px;
+    }
+
+    .glyphicon-ok {
+        font-size:50px;
+    }
+
+    .completedStepP {
+        font-size: 20px;
+    }
+
+    .squareText img {
+        height:70px;
+    }
+
+    .squareText p {
+        font-size: 16px;
+    }
+
+    #studentPage h3 {
+        font-size: 34px;
+    }
+
+    .circleIcon {
+        height:180px;
+        width:180px;
+        line-height:180px;
+    }
+
+    #stepOne .blueBorderBtn {
+        width: 250px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 20px;
+    }
+
+    .option h6 {
+        font-size:20px;
+        min-height: 88px;
+    }
+
+    .goal p {
+        font-size:15px;
+    }
+
+    #stepTwo .blueBorderBtn {
+        width: 120px;
+        min-width: 120px;
+    }
+
+    #stepOne p {
+        font-size:20px;
+    }
+
+    #stepTwo p {
+        min-height: 230px;
+    }
+
+    /*Rate Interests*/
+    .interestName {
+        font-size: 18px;
+    }
+
+    .importanceDiv {
+        font-size:20px;
+    }
+
+    .ratingTable {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 930px) {
+
+    /*student signup page*/
+    #studentSignupPage .jumbotron h1, #adminSignupPage .jumbotron h1 {
+        font-size: 46px !important;
+    }
+
+   .form-group label.shortLabel, .addMargin .shortLabel {
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size:14px;
+    }    
+
+    /*Rate Interests Page*/
+
+    #rateInterestsPage h1 {
+        font-size:30px;
+    }
+}
+
+
+
+@media only screen and (max-width:767px) {
+
+    .pageContainer {
+        padding: 50px 0 30px;
+    }
+
+    .pageContainer .container {
+        min-height:400px;
+        width:100%;
+    }
+
+    .classificationCrumbs a,  .classificationCrumbs span {
+        font-size:12px;
+    }
+
+    .welcomeMsg {
+        font-size: 12px;
+    }
+
+    .alert-warning {
+        padding:0;
+    }
+
+    .centerBox, #studentSignupPage .centerBox {
+        margin-top:-230px;
+        padding:15px;
+    }
+
+    .jumbotron {
+        padding:15px;
+    }
+
+    h3 {
+        font-size:18px;
+    }
+
+    /*Assessment index page*/
+    #studentSignupPage .jumbotron h1, #assessmentLoginPage .jumbotron h1, #adminSignupPage .jumbotron h1 {
+        font-size: 32px !important;
+        margin:20px 0;
+    }
+
+    #assessmentLoginPage input[type="password"], #assessmentLoginPage input[type="email"] {
+        width: 100%;
+    }
+
+    #assessmentLoginPage h2 {
+        font-size: 24px;
+        margin: 70px 0 0;
+    }
+
+    #assessmentLoginPage .loginBtn {
+        margin-top: 15px;
+    }
+
+    .chooseSignupCol p {
+        min-height: initial;
+        font-size:14px;
+        padding:5px;
+    }
+
+
+    .form-group label.shortLabel {
+        margin-bottom:0;
+    }
+
+    .addMargin .shortLabel {
+        line-height: 25px;
+        padding-top: 10px;
+    }
+
+    .smallPrint {
+        line-height:25px;
+    }
+
+    .termsRow .addPadding {
+        padding: 0;
+    }
+
+     /*student signup page*/
+    #studentSignupPage .loginBtn,  #adminSignupPage .loginBtn {
+        float: none;
+        clear:both;
+    }
+
+    form .col-xs-12 {
+        padding:0;
+    }
+
+    .termsRow {
+        padding: 15px 0;
+    }
+
+    .checkbox label {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .centerBox .extraPadding {
+        padding: 0;
+        font-size:12px;
+    }
+
+    div.centerBox .errorForm {
+        font-size: 14px;
+        margin: 0 0 10px;
+    }
+
+    p.displayError, .displaySuccess {
+        line-height: initial;
+        padding: 10px 0;
+        margin-bottom:0;
+    }
+
+    #studentSignupPage .shortBtn {
+        width:100px;
+        font-size:11px;
+        padding: 0 5px;
+    }
+
+    p.alreadyRegistered {
+        font-size: 12px !important;
+    }
+
+    /*Admin Page*/
+    .whiteBgPage .container {
+        padding: 10px 10px 30px;
+        width:100%;
+    }
+
+    .whiteBgPage h1 {
+        font-size: 26px;
+    }
+
+    .orgRow {
+        margin:0 0 5px;
+    }
+
+    .orgRow .text-right {
+        text-align:left;
+    }
+
+    .topRow {
+        padding: 0 0 10px;
+    }
+
+    .breadcrumb li a {
+        font-size: 16px;
+    }
+
+
+    .noSchoolsAdded, .noGroupsAdded {
+        padding:25px;
+        margin:10px 0;
+    }
+
+    .addSchoolBtn {
+        margin-top:10px;
+        width:100%;
+    }
+
+    .mobileCenter {
+        text-align:center;
+    }
+
+
+    .analyzeResultsDiv p, .createSchoolDiv p {
+        font-size: 14px;
+    }
+
+    .schoolDiv h2 {
+        font-size:18px;
+    }
+
+    .schoolDiv .schoolAddress {
+        font-size: 13px;
+    }
+
+    #adminPage .addLineHeight {
+        margin-bottom:10px;
+    }
+
+    #adminPage .schoolDiv .text-right {
+        text-align:left;
+    }
+
+    .addGroupLink {
+        font-size: 14px;
+        height: 26px;
+        line-height: 30px;
+        color: #428bca;
+        margin:5px 0;
+    }
+
+
+    /*===============Add school page===================*/
+
+    #addSchoolPage .form-group {
+         line-height: initial;
+    }
+
+    #addSchoolPage .form-inline {
+        margin: 0;
+    }
+
+    #zipForSchool {
+        width:100%;
+        margin-bottom:10px;
+    }
+
+    #addSchoolPage .goBtn {
+        width:100%;
+    }
+
+    #addSchoolPage label {
+        font-size: 18px;
+        margin-bottom:0;
+    }
+
+    .modal-body p {
+        font-size: 14px;
+    }
+
+    .modal-body {
+        padding: 20px; 
+    }
+
+    .modal-footer button {
+        min-width: initial;
+        font-size:12px;
+        height:50px;
+    }
+
+    .modal-footer .twoButtons {
+        width:49%;
+    }
+
+    .modal-dialog {
+        margin-left: -40%;
+        width: 80%;
+    }
+
+    .createSchoolDiv span, .analyzeResultsDiv span {
+        font-size: 22px;
+    }
+
+    .searchSchoolsDiv p {
+        font-size: 25px;
+    }
+
+    /*===============school page===============*/
+
+    .addClassBtn {
+        width: 100%;
+        margin-bottom:10px;
+    }
+
+    .hidable {
+        padding:10px;
+    }
+
+    #schoolPage .form-group {
+        padding:0;
+        margin:0;
+    }
+
+    .hidable .form-group label {
+        font-size: 16px;
+    }
+
+    .bottomMargin {
+        margin-bottom:0;
+    }
+
+    .classDiv {
+        padding: 10px;
+    }
+
+    .classDiv a {
+        font-size:12px;
+    }
+
+    #schoolPage p, #schoolPage .smallerFont {
+        font-size: 14px;
+    }
+
+    #schoolPage .schoolAddress {
+        font-size: 14px;
+    }
+
+    .removeSchoolBtn {
+        width:100%;
+        font-size:12px;
+    }
+
+    .schoolInstructions {
+        padding:10px;
+    }
+
+    .extraMargin {
+        padding: 10px 0 0;
+    }
+
+    /*Student Home Page*/
+
+    #studentPage h2 {
+        margin:10px 0;
+        font-size:15px;
+    }
+
+    .bottomAlert p {
+        font-size:15px;
+        margin:10px 0;
+    }
+
+    #studentPage h3 {
+        margin-top: 15px;
+        font-size:26px;
+    }
+
+   #studentPage .matchingCareers h3 {
+        margin-top: 40px;
+    }
+
+    .squareStep {
+        margin: 0 auto;
+        background-color: #DAEFF5;
+    }
+
+    .notCompletedStepDiv .squareStep {
+        background-color: #f0f0f0; 
+    }
+
+    .career {
+        font-size: 16px;
+        padding: 14px 5px;
+    }
+
+    .matchingCareersContainer {
+        margin-top: 10px;
+    }
+
+    .circleIcon {
+        height: 120px;
+        width: 120px;
+        line-height: 120px;
+    }
+
+    .circleIcon img {
+        height:60px;
+    }
+
+    #stepOne p {
+        font-size: 16px;
+    }
+
+    .glyphicon-ok {
+        font-size: 40px;
+    }
+
+    #stepOne .blueBorderBtn {
+        width: 150px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+    }
+
+    #studentPage h4 {
+        font-size: 20px;
+        margin: 30px 0 20px;
+    }
+
+    .option h6 {
+        min-height:initial;
+    }
+
+    #stepTwo p {
+        min-height: initial;
+    }
+
+    #stepTwo .blueBorderBtn {
+        width: 150px;
+        min-width: 150px;
+    }
+
+    #studentPage .blueStripesBtn {
+        height: 70px;
+        line-height: 70px;
+        font-size: 18px;
+        margin:30px 0;
+    }
+
+    #studentPage .blueStripesBtn .arrowRight {
+        font-size: 20px;
+        margin-top: -14px;
+    }
+
+    /*Rate Interests Page*/
+
+    #rateInterestsPage .container {
+        background-color: #fff;
+        padding: 10px 10px 20px;
+    }
+
+    .interestName {
+        font-size: 18px;
+        line-height:50px;
+    }
+
+    .chosenDiv {
+        height:50px;
+        line-height:50px;
+    }
+
+    .importanceDiv {
+        height: 50px;
+        line-height:50px;
+    }
+
+
+    #rateInterestsPage h1 {
+        font-size: 28px;
+    }
+
+    #rateInterestsPage .impThingsSpan {
+        height:50px;
+        line-height:50px;
+        font-size:15px;
+        margin: 0 15px 15px 0;
+    }
+
+    .ratingTable {
+        margin-top: 30px;
+    }
+
+    #rateInterestsPage p.text-center {
+        font-size: 15px;
+    }
+
+    
+    .analyzeResultsDiv, .createSchoolDiv {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+}
+
+@media only screen and (max-width:600px) {
+    .mobileBtn {
+        display: block;
+    }
+
+    .desktopBtn {
+        display: none;
+    }
+
+    .whiteBgPage .container {
+        padding: 10px 10px 20px;
+    }
+
+    #adminPage .container {
+        padding-bottom: 160px;
+    }
+
+    #addSchoolPage .container  {
+        padding-bottom: 100px;
+    }
+
+    .viewReportsBtn {
+        width: 96%;
+        margin: 10px;
+    }
+
+    /*add school page*/
+    #mailIcon {
+        font-size: 40px;
+        padding: 12px;
+    }
+
+    .createSchoolDiv .tableCell, .analyzeResultsDiv .tableCell {
+        height: 80px;
+        padding: 0 15px;
+    }
+
+    .createSchoolDiv span, .analyzeResultsDiv span {
+        font-size: 16px;
+    }
+
+   .modal-dialog {
+        margin-left: -48%;
+        width: 96%;
+    }
+
+    .iconWrapper {
+        height: 80px;
+        width: 80px;
+        line-height: 80px;
+    }
+
+    .graphicon {
+        height: 60px;
+    }
+
+
+    /*Rate Interests Page*/
+    #rateInterestsPage h1 {
+        font-size: 24px;
+    }
+
+    .analyzeResultsDiv, .createSchoolDiv {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+}
+
+@media only screen and (max-width:500px) {
+
+
+    .orgRow div {
+        padding: 0;
+        margin-bottom: 0;
+        width: 100%;
+        text-align: left;
+    }
+
+    #studentSignupPage .jumbotron h1, #assessmentLoginPage .jumbotron h1, #adminSignupPage .jumbotron h1 {
+        font-size: 24px !important;
+    }
+
+    .jumbotron {
+        padding: 15px;
+    }
+     
+    .centerBox p {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .centerBox, #studentSignupPage .centerBox, #adminSignupPage .centerBox {
+        margin-top: -270px;
+        padding: 15px;
+    }
+
+    p.displayError {
+        font-size: 12px;
+    }
+
+    p.displaySuccess {
+        font-size:12px;
+    }
+
+
+     /*administrator page*/
+     #adminPage .container {
+        margin: 0;
+        width: 100%;
+    }
+
+     .whiteBgPage h1 {
+        font-size: 22px;
+    }
+
+    #adminPage .addLineHeight {
+        height: 36px;
+    }
+
+     .topRow {
+         margin:0;
+     }
+
+     .noSchoolsAdded, .noGroupsAdded {
+        padding: 20px;
+    }
+
+    .noSchoolsAdded p, .noGroupsAdded p {
+        font-size: 18px !important;
+    }
+
+    .analyzeResultsDiv h3 {
+        font-size:15px;
+    }
+
+    .analyzeResultsDiv p, .createSchoolDiv p {
+        font-size:13px;
+    }
+
+    .addSchoolBtn {
+        width:100%;
+    }
+
+    #adminPage .addLineHeight {
+        margin-bottom: 0;
+        line-height:initial;
+    }
+
+    .viewReportsBtn {
+        width: 94%;
+    }
+
+
+    /*Add school Page*/
+    #addSchoolPage .form-inline {
+       margin: 0;
+    }               
+
+    #addSchoolPage .form-group label {
+        font-size: 16px;
+    }
+
+    .schoolDiv {
+        margin:5px 0 ;
+        padding:15px;
+    }
+
+    .schoolDiv h2 {
+        font-size: 16px;
+    }
+
+    .schoolAddress {
+        font-size: 12px;
+    }
+
+    .modal-body p {
+        font-size: 14px;
+    }
+
+    .oneButtonModal .modal-dialog {
+        width:96%;
+        margin-left:-48%;
+    }
+
+    .searchSchoolsDiv p {
+        font-size: 18px;
+    }
+
+    /*School Page*/
+    #schoolPage .schoolAddress {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    #schoolPage h2 {
+        font-size: 20px;
+        margin:0;
+    }
+
+    .hidable .form-group label {
+        font-size: 14px;
+    }
+
+    .createClassBtn, .cancelBtn {
+        width:100%;
+    }
+
+    .cancelBtn {
+        margin: 10px 0;
+    }
+
+    .classDiv h3 {
+        font-size:14px;
+    }
+
+    #schoolPage p, #schoolPage .smallerFont {
+        font-size: 12px;
+    }
+
+    .noGroupsAdded {
+        height:200px;
+    }
+
+    /*Rate Interests Page*/
+    #rateInterestsPage h1 {
+        font-size: 20px;
+        margin-top:0;
+    }
+
+    .interestName {
+        font-size: 16px;
+        line-height: 42px;
+    }
+
+    .ratingTable .col-xs-6 {
+        padding: 0 5px;
+    }
+
+    .ratingTable .row {
+        padding: 0px 0 10px;
+    }
+
+    .importanceDiv {
+        font-size:15px;
+    }
+
+    #rateInterestsPage .impThingsSpan {
+        height: 40px;
+        line-height: 40px;
+        margin: 0 10px 10px 0;
+        padding: 0 5px;
+    }
+
+    #rateInterestsPage .lastRow {
+        height: 100px;
+    }
+
+    /*Student Page*/
+    
+    #studentPage .container {
+        padding: 10px 5px 10px;
+    }
+
+    #studentPage h3 {
+        margin: 10px 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .circleIcon {
+        margin:10px auto;
+        height: 100px;
+        width: 100px;
+        line-height: 100px;
+    }
+
+    .circleIcon img {
+        height:40px;
+    }
+
+    #studentPage h4 {
+        font-size: 16px;
+    }
+
+    #studentPage h5 {
+        font-size: 14px;
+        padding:10px;
+    }
+
+    .option {
+        padding: 0 0 25px;
+    }
+
+    .option div {
+       padding: 0 10px 10px;
+    }
+
+    .option h6 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .goal p {
+        font-size: 13px;
+    }
+
+    #studentPage .blueBorderBtn {
+        margin: 20px auto 10px;
+    }
+
+    .whiteBgPage {
+        background:none;
+    }
+
+    .bottomAlert {
+        margin: 0 0 15px;
+    }
+
+    #studentPage .alert-warning {
+        margin-top: 10px;
+    }
+
+    .glyphicon-ok {
+        font-size: 26px;
+        margin-right: 5px;
+    }
+
+    .arrowDown, .arrowUp {
+        margin-left: 5px;
+    }
+
+    .squaresRow .goal {
+        margin-bottom:15px;
+    }
+
+    #studentPage .blueStripesBtn {
+        height: 50px;
+        line-height: 50px;
+        font-size: 15px;
+    }
+
+    /*rating interests*/
+    .ratingTable {
+        margin-top: 20px;
+    }
+
+    #rateInterestsPage .container {
+        padding: 10px 5px 20px;
+    }
+}
+
+
+@media only screen and (max-width:400px) {
+    .centerBox, #studentSignupPage .centerBox, #adminSignupPage .centerBox {
+        margin-top: -240px;
+    }
+
+}

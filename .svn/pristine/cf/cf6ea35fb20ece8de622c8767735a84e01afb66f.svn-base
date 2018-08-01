@@ -1,0 +1,173 @@
+﻿<link href="../../../Content/css/Careers/Index_pics.css" rel="Stylesheet" />
+
+@{
+    ViewBag.Title = "Careers";
+}
+
+<!--================================= Careers Index Page ============================== -->
+
+<div class="pageContainer">
+    <div class="container">
+<!--================================= Icons Section ============================== -->
+        <div id="careerPageIcons">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-6">
+                    <h1>Which career is right for you?</h1>
+                </div>
+            </div> <!--row-->      
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="../../Content/images/briefcase.png" alt="icon of briefcase" />
+                <img src="../../Content/images/coffee.png" alt="icon of laptop" />
+                <img src="../../Content/images/glasses.png" alt="icon of glasses" />
+            </div>
+            <div class="col-lg-6">
+                <p>Explore career advancement paths, compare demand, salary, growth opportunities to find out which careers fit your future goals, while preserving a good balance
+                between work and play.
+               </p>
+            </div>
+        </div>
+    </div>
+</div><!--container-->
+
+<!--================================= Pictures Section ============================== -->
+        <div id="careerCategoriesPictures">    
+        <div class="row">
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">           
+              <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/business.jpg"  alt="Business Image"/></a>
+              <h3>Business</h3>
+              </div>
+        </div> 
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Computersciences.jpg" alt="Computer Science Image" /></a>
+             <h3>Computer Sciences</h3>
+             </div>
+            </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Visualarts.jpg" alt="Visual arts Image" /></a>
+             <h3>Visual Arts</h3>
+              </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Healthsciences.jpg" alt="Health Sciences Image" /></a>
+             <h3>Health Sciences</h3>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/lifesciences.jpg" alt="Life Science Image" /></a>
+             <h3>Life Sciences</h3>
+            </div>
+          </div>
+        
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Performingarts.jpg" alt="Performing Arts Image" /></a>
+             <h3>Performing Arts</h3>
+            </div>
+          </div>
+
+           <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Physics.jpg" alt="Physics Image" /></a>
+             <h3>Physics</h3>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Mathematics.jpg" alt="Mathematics Image" /></a>
+             <h3>Mathematics</h3>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Chemistry.jpg" alt="Chemistry Image" /></a>
+             <h3>Chemistry</h3>
+             </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Law.jpg" alt="Law Image" /></a>
+             <h3>Law</h3>
+             </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/SpecialTraining.jpg" alt="Special Training Image" /></a>
+             <h3>Special Training</h3>
+            </div>
+          </div>
+
+         
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Journalismmassmediaandcommunication.jpg" alt="Journalism Image" /></a>
+             <h3>Journalism</h3>
+             </div>
+          </div>
+          
+           <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/agriculture.jpg" alt="Agriculture Image" /></a>
+             <h3>Agriculture</h3>
+             </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">
+                <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/familyandconsumerscience.jpg" alt="Family and Consumer Science Image" /></a>
+             <h3>Consumer Science</h3>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+             <div class="imageCell">
+                 <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/socialwork.jpg" alt="Social Work Image" /></a>
+                <h3>Social Work</h3>
+                </div>
+             </div>     
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+             <div class="imageCell">
+                 <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/earthsciences.jpg" alt="Social Work Image" /></a>
+                <h3>Earth Sciences</h3>
+                </div>
+             </div> 
+
+         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+             <div class="imageCell">
+                 <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/Literature.jpg" alt="Social Work Image" /></a>
+                <h3>Literature</h3>
+                </div>
+             </div> 
+
+         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+             <div class="imageCell">
+                 <a href="/Careers/In"><img class="img-responsive" src="../../Content/images/careers/politicalscience.jpg" alt="Social Work Image" /></a>
+                <h3>Political Science</h3>
+                </div>
+             </div> 
+
+          </div><!--row-->
+                
+    </div> 
+    
+ </div><!--pageContainer-->
+
+<script>
+    function document_ready() {
+
+    }
+</script>

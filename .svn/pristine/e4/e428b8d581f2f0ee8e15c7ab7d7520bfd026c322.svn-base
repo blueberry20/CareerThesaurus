@@ -1,0 +1,31 @@
+﻿ h1 {
+    font-size: 43px;
+    margin: 30px;
+    font-weight: 600;
+    text-transform: none;
+    font-family: 'open sans condensed';
+}
+
+h2 {
+    margin:25px;
+}
+
+ h3 {
+    text-transform:none;
+}
+
+ .pageContainer .container {
+    padding: 15px;
+}
+
+
+ @media screen and (max-width:500px) {
+     h1 {
+         font-size: 30px;
+         margin: 15px;
+     }
+
+     h2 {
+         font-size:26px;
+     }
+ }

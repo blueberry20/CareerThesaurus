@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = "Find a Job";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+<style>
+#_featuredjobs_scrollablecontent div {display: inline-block;}
+</style>
+
+
+<br /><br />
+
+<div style="margin-left: 0px; border: thin none yellow;">
+    <h1>Find a new Job</h1>
+
+    <h2 id="recommendedtitle" style="position: absolute; top: 340px; left: 125px; font-size: 14pt; display : none;">Jobs recommended just for you</h2>
+    <div id="_featuredjobs_viewport" style="position: absolute; bottom: 0; width: 100%; height: 440px; overflow-x: scroll; overflow-y: hidden; display:none; border: thin none yellow;">
+        <div id="_featuredjobs_scrollablecontent" style="overflow-y: hidden; height: 440px; width: 30000px; margin-left: 250px; opacity: 0; ">
+            <!--RESULTS GO HERE-->
+        </div>
+    </div>
+
+    <div style="margin: 20px 0 0 125px; position: relative;">
+        <span style="font-size: 14pt;">Enter your ZIP code:</span>
+        @if (ViewBag.IsMobileDevice == false)
+        {
+            <div id="zip" keyboardtype="numeric" prompt="Enter your ZIP code:" style="position: absolute; left: 240px; width: 80px; height: 35px; padding: 7px; top: -12px; border: thin solid rgba(255,255,255,0.5); font-size: 20pt;"></div>
+        }
+        else
+        {
+            <input type="text" id="zip" style="position: absolute; left: 242px; width: 80px; height: 35px; padding: 7px; top: -12px; border: thin solid rgba(255,255,255,0.5); font-size: 20pt;"/>
+        }
+    </div>
+
+    
+
+    <div style="position: absolute; top: 180px; left: 365px;">
+        <span style="position: absolute; top:10px; left: -240px; font-size: 14pt;">Enter search Keywords:</span>    
+        @if (ViewBag.IsMobileDevice == false)
+        {
+            <div id="keywords" keyboardtype="standard" style="position: relative; display: inline-block; left: 0px; min-width: 270px; top: 2px; height: 35px; padding: 7px; border: thin solid rgba(255,255,255,0.5); font-size: 20pt;"></div> 
+        }
+        else
+        {
+            <input type="text" id="keywords" style="position: relative; display: inline-block; left: 0px; min-width: 270px; top: 2px; height: 35px; padding: 7px; border: thin solid rgba(255,255,255,0.5); font-size: 20pt;"/>
+            
+        }
+        <div id="btngo" class="button" style="position: relative; display: inline-block; left: 0px; width: 100px; top: -18px; height: 29px;">Go!</div>
+        <div style="position: absolute; left: 0px; top: 55px; font-style: italic; color: rgba(255,255,255,0.5);">e.g. sales, programmer, baby sitter etc.</div>
+        
+    </div>
+
+    
+
+</div>
+
+@if (ViewBag.IsMobileDevice == false)
+{
+    <div id="agentindicator" style="position: absolute; left: 0px; bottom: 0px; width: 50px; height: 50px; text-align: center; "></div>
+}
+
+<script src="@Url.Content("~/Scripts/TagAggregation/kiosk_tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+@Html.Partial("_job_search_results")
+@Html.Partial("_school")
+
+
+<script>
+
+    function document_ready() {
+
+        var agent = getCookie('utm_content');
+        var agentcolor = getCookie('agentcolor');
+        if (agentcolor != null && agentcolor != 'undefined' && agentcolor != '') {
+            $('#agentindicator').css('background-color', agentcolor);
+        }
+        if (agent == null || agent == '') {
+            $('#agentindicator').html('No Agent');
+        }
+        $('#agentindicator').press(function () {
+            document.location = '/Kiosk/Agent';
+        });
+
+        var zip = getCookie('zip');
+
+        $('#zip').val(zip);
+        $('#zip').html(zip);
+        $('#keywords').val(getCookie('job_search_term'));
+        $('#keywords').html(getCookie('job_search_term'));
+        $('#btngo').press(goClicked);
+
+        $('#keywords').bind('keypress', function (e) {
+            if (e.keyCode == 13) {
+                goClicked();
+            }
+        });
+
+        $('*[keyboardtype="email"]').press(function () { showKeyboardForEmail(this); });
+        $('*[keyboardtype="standard"]').press(function () { showKeyboardForStandard(this); });
+        $('*[keyboardtype="phone"]').press(function () { showKeyboardForPhone(this); });
+        $('*[keyboardtype="numeric"]').press(function () {
+            if ($(this).attr('id') == 'zip') {
+                showKeyboardForNumeric(this, false, false, 5);
+            }
+            else {
+                showKeyboardForNumeric(this);
+            }
+        });
+
+        var topcanvasclearance= 0;
+        if (!ismobile) {
+            topcanvasclearance = 270;
+        }
+        $('#_featuredjobs_viewport').css('height', document.documentElement.clientHeight - 90 - topcanvasclearance);
+        $('#_featuredjobs_scrollablecontent').css('height', document.documentElement.clientHeight - 90 - topcanvasclearance);
+
+        _job_search_results_itemstopmargin = Math.max(0, (document.documentElement.clientHeight - 90 - topcanvasclearance) / 2 - (_job_search_results_resultheight / 2) - 40);
+        
+        matchFeaturedJobs();
+
+    }
+
+    
+
+    function goClicked() {
+        setCookie('zip',$('#zip').val(),7);
+        setCookie('job_search_term',$('#keywords').val(),7);
+        showJobResults($('#zip').val(), $('#keywords').val());
+    }
+
+    function loadPopularTags() {
+               
+            var chnl = '13564694';
+        
+            var zip = 'new york';
+            if (getCookie('zip') != null && getCookie('zip')!='undefined') {
+                zip = getCookie('zip');
+            }
+
+            $.ajax({
+                url: appserverurl + "/Jobs/getindeedjobs",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    p: ' ',
+                    l: zip,
+                    c: chnl,
+                    limit: "25",
+                    start: 0
+                }
+            }).success(function (response) {
+            
+                $('#keywordtags').html('');
+            
+                var cnt=0;
+            
+                var professionkeywords = new Array();
+
+                try{
+            
+                    for(var i=0; i<response.results.results.length; i++){
+                        var x = response.results.results[i];
+                                
+                        var description = x.snippet;
+                
+                        registerKeywords(description, professionkeywords);
+                        registerSpawned(x.jobtitle, professionkeywords);
+                
+                        for(var j=0; j<professionkeywords.length; j++)
+                        {
+                            var pattern = professionkeywords[j];
+                            var regex = new RegExp('\\b' + pattern + '\\b', "gi");
+
+                            description = description.replace(regex, '<span class="highlight">'+professionkeywords[j]+'</span>');
+                        }
+                
+                        startingresultnumber++;
+                        cnt++;
+                    }
+
+                }
+                catch(e)
+                {
+                
+                }
+            
+                if(cnt<50)
+                {
+                    endofresults = true;
+                }
+
+            
+            
+                displaytags('');
+
+            }).error(function (response) {
+            
+            });
+
+
+        }
+
+
+
+
+        //Featured jobs
+
+        function matchFeaturedJobs() {
+
+            var RESULT_SEQUENCE = 0;
+            var startingresultnumber = 0;
+
+            var dimensionsjson = getCookie("testresults2");
+            var importantthingsjson = getCookie("importantthings2");
+
+            if (dimensionsjson == null || dimensionsjson == '' || importantthingsjson == null || importantthingsjson == '') {
+                return;
+            }
+
+            $.ajax({
+                url: appserverurl + "/jobs/matchjobs",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    zip: getCookie('zip'),
+                    a: dimensionsjson,
+                    t: importantthingsjson,
+                    g: getCookie('gender')
+                }
+            }).success(function (response) {
+
+                if (response.result == 'ok') {
+
+                    var submitted = getCookie("school_submitted");
+                    var submittedlist = new Array();
+                    if (submitted != null && submitted != "") {
+                        submittedlist = submitted.split(',');
+                    }
+
+                    var jobs = response.results.sort(sortbyjobmatchscore);
+
+                    if (jobs.length > 0) {
+                        $('#recommendedtitle').show();
+                    }
+                    for (var j = 0; j < jobs.length; j++) {
+
+                        var job = jobs[j];
+
+                        //var jobkeywords = job.keywords.split(',');
+                        //for (var k = 0; k < jobkeywords.length; k++) {
+                        //    topkeywords = rankPhrase(jobkeywords[k], termsarray, topkeywords);
+                        //}
+
+                        //topkeywords = rankWords(program.description2, professionkeywords, topkeywords);
+                        //topcompanies = rankPhrase('', termsarray, topcompanies);
+
+                        addFeaturedJobResult(RESULT_SEQUENCE, job, submittedlist);
+
+                        //$('#tenjob').append('Clientid: ' + job.clientid + ', Formid: ' + job.formid + '<br/><br/>');
+                        //$('#tenjob').append(program.description2);
+
+                        //downloadSingleSchoolForm(job.clientid, job.formid);
+                        //break;
+
+                        startingresultnumber++;
+                        RESULT_SEQUENCE++;
+
+
+                    }
+
+                    var jobs_scrollable_width = (380 + 20) * startingresultnumber + 20;
+                    $('#_featuredjobs_scrollablecontent').css('width', jobs_scrollable_width + 'px');
+
+                    $("#_featuredjobs_viewport").niceScroll("#_featuredjobs_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+                    $("#_featuredjobs_viewport").getNiceScroll().resize();
+                    $("#_featuredjobs_viewport").show();
+                    $('#_featuredjobs_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+
+                    $('.clickablerecommendedjob').click(function () {
+                        showSchool(this);
+                    });
+
+                }
+                else {
+                    alert(response.errormessage);
+                }
+            }).error(function (response) {
+                alert('Unable to connect');
+            });
+        }
+
+        function addFeaturedJobResult(sequence, x, submittedlist) {
+
+            var margin = sequence === 0 ? (ismobile ? 40 : 125) : 20;
+
+            var timestamp = getTimestampFromIndeedTime(x.date);
+
+            var html = '<div id="panel' + sequence + '" style="position: relative; display: inline-block;  margin-top: ' + _job_search_results_itemstopmargin + 'px; margin-left: ' + margin + 'px; width:' + _job_search_results_resultwidth + 'px; height: 480px;" class="">' +
+            '<div style="position: absolute; top: 0; left: 0; width:' + (_job_search_results_resultwidth - 20) + 'px; height: ' + (_job_search_results_resultheight - 20) + 'px; border: thin solid black; font-family: ' + (ismobile ? 'Arial' : 'Arial') + '; font-size: 10pt; color: #333; padding: 10px;" class="diagonalwhitegradient">' +
+            '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 50px; left: ' + (_job_search_results_resultwidth / 2 - 162 / 2) + 'px; opacity: 0.3; display: ' + (recordSubmitted(submittedlist, x.jobkey) ? '' : 'none') + '" class="x_indeedjob' + x.jobkey + '"/>' +
+            '<div style="position:absolute; left:10px; top: 70px; width:' + (_job_search_results_resultwidth - 20) + 'px; height:' + (_job_search_results_resultheight - 20) + 'px; text-align: center;" class="boxcenter">' +
+            '    <img src="' + x.companylogo + '" style="max-width: ' + (_job_search_results_resultwidth - 100) + 'px; max-height:' + (_job_search_results_resultheight - 100) + 'px; margin: 0 auto;"/>' +
+            '</div>' +
+            '    <span style="font-size: 12pt; font-weight: 400;"><b>' + x.jobtitle + '</b></span><br /><br />' +
+            '    <div style="position: absolute; bottom: 5px; left: 0px; width: ' + (_job_search_results_resultwidth - 5) + 'px; text-align:right; padding: 0 0px 5px 0; " class="age" timestamp="' + timestamp + '">' + getElapsedTime(timestamp) + '</div>' +
+            '</div>' +
+            '<div class="whitereflection" style="position: absolute; top: ' + (_job_search_results_resultheight) + 'px; left: 1px; width: ' + (_job_search_results_resultwidth) + 'px; height: 100px;"></div>' +
+            '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablerecommendedjob" value="" style="position: absolute; top: 0px; left: 0px; width: ' + (_job_search_results_resultwidth + 2) + 'px; height: ' + (_job_search_results_resultheight + 2) + 'px; outline:none;" clienttype="' + x.clienttype + '" logoclientid="' + x.clientid + '" clientid="' + x.clientid + '" frontendname="'+x.company+'" listingtype="scjob" jobkey="' + x.jobkey + '" formid="' + x.formid + '"@Html.Raw(ViewBag.IsMobileDevice?"></div>":"/>")' +
+            '</div>';
+
+            $('#_featuredjobs_scrollablecontent').append(html);
+
+        }
+
+        function sortbyjobmatchscore(a, b) {
+            if ((a.attributescore + a.importantthingsscore) < (b.attributescore + b.importantthingsscore))
+                return 1;
+            if ((a.attributescore + a.importantthingsscore) > (b.attributescore + b.importantthingsscore))
+                return -1;
+            return 0;
+        }
+
+    </script>

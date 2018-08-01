@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_featuredjob_scrollablecontent div {display: inline-block;}
+</style>
+
+    
+
+<div id="_featuredjob" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    <div style="position: absolute; top: 140px; left: 125px;">
+
+        <div style="position: absolute; top: 0px; left: 0px; padding: 10px 0 10px 0; width: 800px; height: 700px; text-align: left; background-color: white; border: thin solid #000;">
+            <img id="featuredjob_image" src="" style="margin: 20px 0 0 40px; max-width: 180px; "/>
+
+            <div style="position: absolute; top: 25px; left: 200px; color: #000;">
+                <h1 id="featuredjob_jobtitle" style="margin: 0 0 10px 0; font-size: 22pt;"></h1>
+                <h1 id="featuredjob_clientname" style="margin: 0 0 0px 0; font-size: 12pt;"></h1>
+                <h1 id="featuredjob_formattedlocation" style="margin: 0 0 20px 0; font-size: 12pt;"></h1>
+
+                <div id="_featuredjob_description_viewport" style="margin: 0px 20px 0 0; width: 570px; height: 548px; overflow-y: scroll; overflow-x: hidden;">
+                    <div id="_featuredjob_description_scrollablecontent" style="width: 560px; height: 400px; opacity: 0; margin-top: 100px;">
+                        <!-- VERTICALLY SCROLLABLE DESCRIPTION -->
+                        <p id="featuredjob_description" class="" style="font-size: 12pt; margin: 0px;">
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="whitereflection" style="position: absolute; top: 610px; left: 0px; width: 800px; height: 150px;"></div>
+        </div>
+    </div>
+    
+    @Html.Partial("_featuredjob_form")
+    <div id="_featuredjob_backbutton" class="backbutton" ></div>
+</div>
+
+<script>
+
+    var _featuredjob_clientid = '';
+    var _featuredjob_formid = '';
+    var _featuredjob_loaded = false;
+
+    
+    function showFeaturedJob(e) {
+
+        showOverlay('_featuredjob');
+
+        _featuredjob_clientid = $(e).attr('clientid');
+        _featuredjob_formid = $(e).attr('formid');
+
+        $('#featuredjob_image').attr('src', $(e).attr('logoimage'));
+        $('#featuredjob_jobtitle').html($(e).attr('jobtitle') + ' ' + _featuredjob_clientid + ' ' + _featuredjob_formid);
+        $('#featuredjob_clientname').html($(e).attr('clientname'));
+        $('#featuredjob_formattedlocation').html($(e).attr('formattedlocation'));
+
+        $('#featuredjob_description').html($(e).attr('description'));
+        
+        showFeaturedJobForm(_featuredjob_clientid, _featuredjob_formid);
+
+        var scrollableheight = $('#featuredjob_description').height();
+
+        $('#_featuredjob_description_scrollablecontent').animate({ 'margin-top': '100px', 'opacity': 0 }, 0);
+
+        $('#_featuredjob_description_scrollablecontent').css('height', scrollableheight);
+        $("#_featuredjob_description_viewport").niceScroll("#_featuredjob_description_scrollablecontent", { cursorcolor: "rgba(0,0,0,0.3)" });
+        $("#_featuredjob_description_viewport").getNiceScroll().resize();
+        $("#_featuredjob_description_viewport").show();
+
+        setTimeout(function () {
+            $('#_featuredjob_description_scrollablecontent').animate({ 'margin-top': '0px', 'opacity': 1 }, 1500);
+        }, 500);
+        
+
+        if (!_featuredjob_loaded) {
+            $('#_featuredjob_backbutton').press(function () {
+                hideOverlay('_featuredjob');
+            });
+
+            //$('#btnsubmitform').press(function () {
+            //    submitCustomForm();
+            //});
+            
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_featuredjob');
+                }
+            });
+            _featuredjob_loaded = true;
+        }
+    }
+
+    
+</script>

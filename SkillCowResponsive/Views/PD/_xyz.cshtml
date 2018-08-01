@@ -1,0 +1,52 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.PDEntries;
+@{
+    PDEntriesClient pdec = new PDEntriesClient();
+    ViewBag.Title = "_xyz";
+}
+
+<div class="pageContainer aboutContainer">
+    <div class="container">
+        <div class="pd">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>Date:</th>
+                        <th>Agency:</th>
+                        <th>Title:</th>
+                        <th>Name:</th>
+                        <th>Address:</th>
+                        <th>City:</th>
+                        <th>State:</th>
+                        <th>Zip Code:</th>
+                        <th>Phone:</th>
+                        <th>Email:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        List<PDEntries> pdList = new List<PDEntries>(pdec.GetAll());
+                        if (pdList != null)
+                        {
+                            foreach (PDEntries entry in pdList)
+                            {
+                                <tr>
+                                    <td>@entry.PartitionKey</td>
+                                    <td>@entry.AgencyName</td>
+                                    <td>@entry.Title</td>
+                                    <td>@entry.FullName</td>
+                                    <td>@entry.Address</td>
+                                    <td>@entry.City</td>
+                                    <td>@entry.State</td>
+                                    <td>@entry.Zip</td>
+                                    <td>@entry.Phone</td>
+                                    <td>@entry.Email</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>        
+        </div>
+    </div>
+</div>

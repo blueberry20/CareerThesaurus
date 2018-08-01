@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+/* some custom fonts via google font api */
+/* content block 1 */
+
+.mcs_container { width:320px; height:320px; border:1px none #888; padding: 0px 5px 5px 10px; margin: 0 auto;}
+
+.mcs_container .customScrollBox {position:relative; height:100%; overflow:hidden; }
+.mcs_container .customScrollBox .container{position:relative; width:316px; top:0; float:left; }
+.mcs_container .customScrollBox .content{clear:both; padding-right: 10px; font-family: Arial; font-size: 1.5em;}
+.mcs_container .customScrollBox .content p{padding:0 5px; margin:10px 0; color:#fff; }
+.mcs_container .customScrollBox .content p.alt{padding:10px 5px; margin:10px 0; color:#fff; font-family:Georgia, "Times New Roman", Times, serif; font-size:17px; line-height:19px; color:#999;}
+
+.mcs_container .dragger_container {position:relative; width:1px; height:300px; float:left; margin:5px 0 5px 0px; background:#555; cursor:pointer; -moz-border-radius:2px; -khtml-border-radius:2px; -webkit-border-radius:2px; border-radius:2px;}
+.mcs_container .dragger {position:absolute; width:6px; margin-left:-3px; height:20px; line-height:20px; background:#666; text-align:center; color:#666; overflow:hidden; cursor:pointer; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;}
+.mcs_container .dragger:hover { background:#aaa; }
+.mcs_container .dragger_pressed {position:absolute; width:8px; margin-left:-4px; height:20px; background:#00aadd; text-align:center; line-height:20px; color:#666; overflow:hidden; cursor:pointer; -moz-border-radius:4px; -khtml-border-radius:4px; -webkit-border-radius:4px; border-radius:4px;}
+
+input.inchatinput
+{
+    position: absolute;
+    width:160px;
+    height:18px;
+    border: thin solid #888888;
+    font-family: Arial;
+    font-size: 9pt;
+    color: #333333;
+    background-image: url("/Content/Images/textboxinnershadow.png");
+    background-repeat:no-repeat;
+        
+    /* rounded corners */
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+}

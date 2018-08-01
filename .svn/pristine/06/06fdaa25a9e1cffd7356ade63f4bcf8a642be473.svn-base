@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Education Level";
+}
+
+<!-- Question-->
+<link href="~/Content/css/SkilltestV2/takeTest.css?v=@ViewBag.AppVersion" rel=" stylesheet" />
+
+
+<div class="pageContainer takeTest" id="questionPage">
+    <div class="container">
+        @*<div id="question" class="row">
+            Based on your test answers, it looks like you selected a very rare combinaton. We would like to know more about you!
+        </div>*@
+        <div class="text-center">
+            <h2>What is your level of education?</h2>
+        </div>
+        <div id="educationLevel">
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="stillhighschool">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="stillhighschool">
+                    <p>Still in High School</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="ged">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="ged">
+                    <p>GED</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="highschool">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="highschool">
+                    <p>High School Diploma</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="certificate">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="certificate">
+                    <p>Certificate</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="college">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="college">
+                    <p>Some College</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="associates">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="associates">
+                    <p>Associates Degree</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="bachelors">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="bachelors">
+                    <p>Bachelor's Degree</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="masters">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="masters">
+                    <p>Master's Degree</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="doctoral">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="doctoral">
+                    <p>Doctoral Degree</p>
+                </div>
+            </div>
+            <div class="educationSelect row">
+                <div class="left col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @*<input type="radio" class="educationRadio" name="optionsRadios" value="none">*@
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="right col-lg-8 col-md-8 col-sm-8 col-xs-8 educationLabel" data-value="none">
+                    <p>None</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SkillTestV2/navigation.js?v=@ViewBag.AppVersion"></script>
+<script>
+    function document_ready() {
+        setNavigation();
+        $('.educationSelect').click(function () {
+            $(this).css('background-color', 'rgb(9, 193, 201)');
+            var educationSelected = $(this).find('.educationLabel').data('value');
+            setCookie('educationSelected', educationSelected, 365);         
+            nextQuestion();
+            window.location = '/TakeTest/EmailResults';
+        });
+    }
+</script>

@@ -1,0 +1,382 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.Tests.SkillAssessment
+@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.CBNProfessions
+@using System.Text;
+@{
+    ViewBag.Title = ViewBag.Profession.DisplayName;
+}
+    <script type="text/javascript" src="https://gdc.indeed.com/ads/apiresults.js"></script>
+
+    <style>
+        span.highlight {background-color: #ffff00;}
+    </style>
+
+    
+    <div class="container" style="background-color: rgba(255,255,255,0.5)">
+    
+        <div style="display: inline-block; vertical-align: top; height: 100%; ">
+
+            <!--PROFESSION DESTAILS PANE-->
+            <div id="careersummary" class="careersummary">
+            
+                <h1 style="font-size: 24pt;">Thank you!</h1>
+                <br />
+                
+                <div style="margin: 0 0 0 10px;">
+                
+                    <p>
+                        Someone will be in touch with you shortly!
+                    </p>
+
+                    <br />
+                    <b>Don't want to wait?</b>
+                    <br />
+                    Call us now 1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span> for immediate assistance</i>
+
+                    <br />
+                    <br />        
+                
+                    <div id="professioncontent">
+                    </div>
+
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <!--RIGHT PANE-->
+        <div id="testresults" class="testresults">
+            
+            <div class="unpaddedpane">
+                <!--JOB RESULTS-->
+                <div style="text-align: left; color: #333; margin-bottom: 0px; padding: 10px;">
+                    Click the <span style="color: #ff5500;">TaGs</span> to refine your <a href="/jobs/search">Job Search</a><br /></div>
+                <div id="keywordtags" style="padding: 5px 10px 10px 10px; text-align: center;"></div>
+                                
+                <div id="jobslocation" style="padding: 5px 10px 5px 10px; margin-top: 10px; background-color: rgba(0,0,0,0.8); color: #fff;"></div>
+                
+                <div id="zipcodecontrols" style="padding: 10px 10px 0px 10px; height: 40px;">
+                    <div>Enter 5 digit zip code to refine the search</div>
+                    <div style="position:relative;">
+                    <input type="text" id="indeedzipcode" style="position: absolute; left: 0px; top: 0px; width: 100px; font-size: 12pt; padding: 3px;"/>
+                    <input type="button" value="Go" style="position: absolute; left: 110px; top: 0px;" onclick="setlocationzip();"/>
+                    </div>
+                </div>
+                
+                <br />
+                <div id="jobresults"></div>
+                <br />
+
+                <br />
+                <div style="padding: 10px;">
+                <span id=indeed_at><a href="http://www.indeed.com/">jobs</a> by <a
+                href="http://www.indeed.com/" title="Job Search"><img src="http://www.indeed.com/p/jobsearch.gif" style="border: 0;
+                vertical-align: middle;" alt="Indeed job search"></a></span>
+                </div>
+            </div>
+
+            
+
+            
+            
+        </div>
+
+        <div id="summarycontent" style="display:none;"></div>
+    </div>
+    <br />
+
+<script src="@Url.Content("~/Scripts/Controllers/Career/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/test.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/groupschools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/schools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/showsummary.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Career/statemapping.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/TagAggregation/tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script>
+    function setlocationzip() {
+        var zip = $('#indeedzipcode').val();
+        if (zip.length != 5) {
+            alert('Invalid zip code entered');
+            $('#indeedzipcode').focus();
+            $('#indeedzipcode').select();
+        }
+        setCookie("zip", zip, 365);
+
+        $('#jobslocation').html('Showing jobs near zip <b>' + zip + '</b>');
+
+        findjobs();
+    }
+    
+</script>
+
+<script>
+    var professions = null;
+
+    function $@(ViewBag.BranchUrlParam.Replace("-", ""))_ready(data, container) {
+        professions = data.items;
+        showallprofessions('@(ViewBag.BranchName)');
+    }
+    
+    function $p@(ViewBag.Profession.ProgramId)_ready(data, container) {
+        
+        renderSchools(data);
+    }
+</script>
+<script>
+    function jobmouseover(div) {
+        $(div).find('.disclosure').show();
+    }
+    function jobmouseout(div) {
+        $(div).find('.disclosure').hide();
+    }
+</script>
+<script>
+
+    function monthnumber(m) {
+        switch(m.toLowerCase())
+        {
+            case "jan":
+                return 0;
+            case "feb":
+                return 1;
+            case "mar":
+                return 2;
+            case "apr":
+                return 3;
+            case "may":
+                return 4;
+            case "jun":
+                return 5;
+            case "jul":
+                return 6;
+            case "aug":
+                return 7;
+            case "sep":
+                return 8;
+            case "oct":
+                return 9;
+            case "nov":
+                return 10;
+            case "dec":
+                return 11;
+            default:
+                alert('Invalid month');
+        }
+    }
+    function getElapsedTime(sincedate) {
+
+        var now = new Date(); 
+        var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        
+        var elapsedms = now_utc.getTime() - parseFloat(sincedate);
+
+        var seconds = elapsedms / 1000;
+        var minutes = 0;
+        var hours = 0;
+        var days = 0;
+        
+        var secondsperday = 60 * 60 * 24;
+        if(seconds > secondsperday) {
+            var rem = seconds % secondsperday;
+            days = (seconds - rem) / secondsperday;
+            seconds = rem;
+        }
+
+        var secondsperhour = 60 * 60;
+        if(seconds > secondsperhour) {
+            var rem = seconds % secondsperhour;
+            hours = (seconds - rem) / secondsperhour;
+            seconds = rem;
+        }
+
+        var secondsperminute = 60;
+        if(seconds > secondsperminute) {
+            var rem = seconds % secondsperminute;
+            minutes = (seconds - rem) / secondsperminute;
+            seconds = rem;
+        }
+
+        
+
+        if(days>0)
+        {
+            return days + ' <span>days,</span> ' + hours + ' <span>hh</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>mm</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+        }
+        else
+        {
+            return hours + ' <span>h</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>m</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+        }
+                
+    }
+    function padWithZero(n){
+        var str = new String(n);
+        
+        if(str.length>1)
+            return n;
+        else
+            return '0'+n;
+    }
+</script>
+<script>
+    
+    
+    function findjobs() {
+    
+        var chnl = @(ViewBag.IndeedChannel);
+        if (getCookie('indeedchannel') != null) {
+            chnl = getCookie('indeedchannel');
+        }
+
+        var zip = '';
+        if (getCookie('zip') != null) {
+            zip = getCookie('zip');
+        }
+        
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: '@(ViewBag.Profession.DisplayName)',
+                l: zip,
+                c: chnl
+            }
+        }).success(function (response) {
+            
+            $('#jobresults').html('');
+            $('#keywordtags').html('');
+            tagkeywords = new Array();
+
+            var professionname = '@(ViewBag.Profession.DisplayName)';
+            var professionkeywords = professionname.split(' ');
+            
+            for(var i=0; i<response.results.results.length; i++){
+                var x = response.results.results[i];
+
+                var datestring = $.trim(x.date.substring(5, 5 + 11));
+                var datecomponents = datestring.split(' ');
+                var timestring = $.trim(x.date.substring(17, 17 + 8));
+                var timecomponents = timestring.split(':');
+                var postingdate = new Date(parseInt(datecomponents[2]), monthnumber(datecomponents[1]), parseInt(datecomponents[0]), parseInt(timecomponents[0]), parseInt(timecomponents[1]), parseInt(timecomponents[2]));
+                
+                var description = x.snippet;
+                
+                registerKeywords(description);
+                registerSpawned(x.jobtitle);
+                
+                for(var j=0; j<professionkeywords.length; j++)
+                {
+                    var pattern = professionkeywords[j];
+                    var regex = new RegExp('\\b' + pattern + '\\b', "gi");
+
+                    description = description.replace(regex, '<span class="highlight">'+professionkeywords[j]+'</span>');
+                }
+
+                $('#jobresults').append('<div class="jobresult '+(i<response.results.results.length-1?'bottomborder':'')+'" onclick="window.open(\''+x.url+'\');" onmousedown="'+x.onmousedown+'" onmouseover="jobmouseover(this);" onmouseout="jobmouseout(this);">'+
+                    '<div class="title"><a href="">'+x.jobtitle+'</a></div>' +
+                    '<div class="company">'+x.company+', '+x.formattedLocation+'</div>' +
+                    '<div class="snippet">'+description+'</div>' +
+                    '<img class="disclosure" src="/content/images/elements/disclosure/27px.png" />' + 
+                    '</div>');
+
+                    /*'<div class="agelabel">Freshness meter</div>' +
+                    '<div timestamp="'+postingdate.getTime()+'" class="age">'+getElapsedTime(postingdate.getTime())+'</div>' +*/
+                    
+            }
+
+            
+            displaytags('@(ViewBag.Profession.DisplayName)');
+
+            /*
+            
+            setInterval(function() {
+                var ageboxes = $('.age');
+                for(var i=0; i<ageboxes.length; i++) {
+                    $(ageboxes[i]).html(getElapsedTime($(ageboxes[i]).attr('timestamp')));
+                };
+            }, 1000);
+
+            //Blinking dots
+            setTimeout(function() {
+                $('.dots').css('opacity',0);
+                $('.ss').css('color','#000');
+                setInterval(function() {
+                    $('.dots').css('opacity',0);
+                    $('.ss').css('color','#000');
+                }, 1000);
+            }, 500);
+            */
+        });
+
+        
+    }
+</script>
+
+<script>
+    function togglezipcontrols() {
+        if ($('#zipcodecontrols').css('display') == '') {
+            $('#zipcodecontrols').hide();
+        }
+        else {
+            $('#zipcodecontrols').show();
+        }
+    }
+</script>
+<script>
+    function document_ready() {
+        getBlobData('skillcow', 'professions', '@(ViewBag.BranchUrlParam).js');
+        getBlobData('skillcow', 'schoolsbyprogram', 'p@(ViewBag.Profession.ProgramId).js');
+
+
+        if (getCookie('zip') != null) {
+            $('#jobslocation').html('Showing jobs near zip <b>' + getCookie('zip') + '</b>');
+            $('#indeedzipcode').val(getCookie('zip'));
+        }
+
+        findjobs();
+    }
+</script>
+
+
+
+<style>
+    div.careersummary { position: relative; top: 0px; left: 0px; width: 607px; border: thin solid #fff; background-color: rgba(255,255,255,1); padding: 20px 20px 20px 20px; }
+    div.careersummary h1 { margin: 0px 10px 0px 0;font-size: 16pt;}
+    div.careersummary h2 { margin: 20px 0px 10px 0; font-size: 11pt; color: #333;}
+    div.careersummary p { margin: 0px 0 40px 20px; font-size: 10pt; margin: 0px; }
+    div.careersummary img { margin: 0px 20px 10px 0px; }
+        
+    #schoolresulttabfirst { position: absolute; left: 5px; top: 0px; width: 180px; display: inline-block; padding: 5px; height: 15px; margin: 5px 0px 0 0px; border: thin solid #ddd; background:#eee; cursor: pointer; text-align: center;}
+    #schoolresulttabfirst:hover {background:#fff; border-bottom: thin solid #fff; }
+    #schoolresulttabsecond { position: absolute; left: 199px; top: 0px; width: 150px; display: inline-block; padding: 5px; height: 15px; margin: 5px 0px 0 0px; border: thin solid #ddd; background:#eee; cursor: pointer; text-align: center;}
+    #schoolresulttabsecond:hover {background:#fff; border-bottom: thin solid #fff; }
+
+    #schoolresulttabfirst.activetab { border-bottom: thin solid #fff; background:#fff;}
+    #schoolresulttabsecond.activetab { border-bottom: thin solid #fff; background:#fff;}
+    .schoolresulttabcontent { position: relative; top: 31px; background:#fff; border: thin solid #ddd; padding: 10px; font-style: normal; vertical-align: top;}
+    .schoolresulttabcontent a {cursor: pointer;}
+    
+    #careerdescription b {margin-bottom: 20px;}
+    
+    .dimensionlabel {font-style: italic;}
+    
+    #jobresults .bottomborder {border-bottom: thin dashed #bbb;}
+    
+    .jobresult { position: relative; padding: 10px 10px 10px 10px; cursor: pointer; padding-right: 15px;}
+    .jobresult:hover { background-color: #ccffcc; }
+    .jobresult .title { font-weight: bold; }
+    .jobresult .company { color: #555; font-size: smaller;}
+    .jobresult .location {}
+    .jobresult .agelabel { text-align: right; width: 100%; margin: 10px 0 0px 0; color: #888; font-style: italic;}
+    .jobresult .age { text-align: right; width: 100%; margin: 0px 0 10px 0; font-weight: bold; font-size: 11pt; font-family: Roboto;}
+    .jobresult .age span { display: inline-block; font-weight: normal; font-size: 9pt; font-family: Roboto; color: #888; }
+    .jobresult .age span.ss { display: inline-block; font-weight: bold; font-size: 11pt; color: #ff0000; }
+    .jobresult .age span.dots { display: inline-block; font-weight: bold; font-size: 9pt; font-family: Roboto; color: #000; }
+    .jobresult .snippet {}
+    .jobresult .url {}
+    .jobresult img.disclosure {position: absolute; top: 5px; right: 5px; display: none;}
+</style>

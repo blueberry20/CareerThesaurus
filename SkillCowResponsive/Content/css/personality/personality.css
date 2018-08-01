@@ -1,0 +1,189 @@
+﻿
+.traitsDescription {
+    opacity: 1;
+}
+
+.whiteBgPage h1 {
+    margin: 20px 0;
+    display: block;
+    text-align: left;
+}
+
+.pageContainer h2 {
+    font-size: 28px;
+    font-family: 'open sans condensed';
+}
+
+h3 {
+    margin: 10px 0 10px;
+}
+
+h4 {
+   font-size: 19px;
+    font-weight: 600;
+    font-family: 'open sans condensed';
+}
+
+.shareDiv {
+    padding:0;
+}
+
+.reportDiv {
+    /*margin: 0 0 35px;*/
+    padding:0;
+}
+
+.impThingsSpan {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 10px 10px 0;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1px solid #4ABADB;
+    font-size: 15px;
+    color: #000;
+    height: 40px;
+    line-height: 40px;
+}
+
+.professionAKA {
+    vertical-align:baseline;
+    font-size: 12px;
+}
+
+.displayInterests {
+    background-color: #DAEFF5;
+    padding:15px;
+}
+
+/*.displayCareers.row {
+    margin-top: 30px;
+}*/
+
+.instr {
+    font-size: 15px;
+    margin: 0 0 25px;
+    font-style: italic;
+}
+
+.checkboxWrapper:after {
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+.checkboxWrapper {
+    padding-right:20px;
+}
+
+.check-mark {
+    float:right;
+}
+
+.check-mark label {
+    font-size: 22px;
+    font-weight: 600;
+    font-family: 'open sans condensed';
+    text-transform: uppercase;
+}
+
+.check-mark input[type="checkbox"] {
+    margin:9px 12px;
+}
+
+
+.professionSalary {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 12px;
+    display: block;
+    margin-left: 5px;
+}
+
+.desktopBtn {
+    float:right;
+    display:inline-block;
+}
+
+.displayCareers .row {
+    margin-bottom:20px;
+}
+
+.previouslyChosen:after {
+    content: '*';
+    color: rgb(227, 84, 42);
+    font-size: 20px;
+    padding-left: 6px;
+}
+
+.starMessage {
+    font-size: 12px !important;
+    margin: 10px 0 0;
+    line-height:initial;
+    display:none;
+}
+
+
+
+@media only screen and (max-width:768px) {
+    .whiteBgPage h1 {
+        margin: 10px 0;
+    }
+
+    .pageContainer h2 {
+        font-size:25px;
+    }
+
+    /*.reportDiv {
+        margin: 0 0 25px;
+    }*/
+
+    .displayCareers.row {
+        margin-top: 10px;
+    }
+
+    .instr {
+        margin: 0 0 10px;
+    }
+
+    .interests {
+        text-align:center;
+    }
+
+    ul.social-icons {
+        text-align:center;
+    }
+}
+
+@media only screen and (max-width:500px) {
+    .whiteBgPage h1 {
+        margin:10px 0 0;
+    }
+
+    #careersForPersonality h1 {
+        margin:10px 0;
+    }
+
+    /*.reportDiv {
+        margin: 0 0 20px;
+    }*/
+
+    .displayInterests {
+        padding: 10px;
+    }
+
+    h4 {
+        font-size: 15px;
+        margin: 5px 0;
+    }
+
+    .instr {
+        font-size: 13px;
+    }
+
+    .pageContainer h2 {
+        font-size: 23px;
+    }
+
+}

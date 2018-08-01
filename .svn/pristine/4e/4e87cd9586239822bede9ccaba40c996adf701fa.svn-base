@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Lesson Plan";
+}
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/lessonPlan.css" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground">
+    <div class="container">
+        <h1>Lesson Plan</h1>
+        <p>
+            The length of the exercise really depends on your preference.
+            It can be as short as 5 minutes, or be more in-depth and last up to 50 minutes.
+            You can administer the test in a classroom, or give out the assignment as a homework exercise.
+        </p>
+
+        <div class="divider"></div>
+        <h2>The student assignment consists of 3 steps:</h2>
+        <ol>
+            <li>Rate interests (students will pick their top 3 out of 15 interests that they are the most passionate about)</li>
+            <li>Take personality test (answer 9 personality questions)</li>
+            <li>Review and rate careers by interest and personality</li>
+        </ol>
+
+        <h2>Things to note on the Career Results page:</h2>
+        <div class="lessonDiv">
+            <p>See page examples:</p>
+            <p><a href="http://careerthesaurus.com/Careers/ByInterest">http://careerthesaurus.com/Careers/ByInterest</a></p>
+            <p><a href="http://careerthesaurus.com/Careers/ByPersonality">http://careerthesaurus.com/Careers/ByPersonality</a></p>
+            <p>
+                Initial results are presented in a relevance order.  It is useful for students to SORT them by salary and popularity.
+                Such sorting will allow them to view the careers that are most in demand and have the highest compensation.
+                Also, students should GROUP their results by education, this way they can match their careers with the corresponding educational requirements.
+            </p>
+            <p>Career review and rating begins with careers matched by Interest, followed by review/rating careers by personality.</p>
+        </div>
+
+        <h2>Things to note on the Career Profile page:</h2>
+        <div class="lessonDiv">
+            <p>See page example: <a href="http://careerthesaurus.com/Career/Mechanical-Engineer">http://careerthesaurus.com/Career/Mechanical-Engineer</a><p>
+            <p>Data is based on the latest Bureau of Labor Statistics Release March 10th 2014.</p>
+            <h3>Each career profile follows the same template and consists of the following sections:</h3>
+            <ul>
+                <li>Alternative Titles</li>
+                <li>Description of duties</li>
+                <li>Local Job Openings (students can browse which companies are hiring)</li>
+                <li>Salary with highest/lowest paying states (students should pay attention to the state that pays the most, as well as their current state)</li>
+                <li>Breakdown of industries that hire the most</li>
+                <li>Breakdown of Industries that pay the most</li>
+                <li>Employment Outlook (this area describes the demand for the career over the next five years)</li>
+                <li>Career Advancement Tracks</li>
+                <li>Career Change Tracks (similar careers)</li>
+                <li>Career Predecessors (stepping stone careers, or entry career options)</li>
+            </ul>
+        </div>
+
+        <h2>Things to note on the Report Card:</h2>
+        <div class="lessonDiv">
+            <p>See page examples: <a href="http://careerthesaurus.com/demostudents">http://careerthesaurus.com/demostudents</a></p>
+            <ul>
+                <li>Report card offers a summary of the student’s answers, careers matched and rated, and the majors associated to their desired careers.</li>
+                <li>Careers are broken up by educational requirements, with identifiers of which careers matched to the students’ interests, personality, or both.</li>
+                <li>For careers that require a bachelor's degree, related degree options are listed.  This information will eventually lead students into College Research and Planning.</li>
+            </ul>         
+        </div>
+        <div class="divider"></div>
+        <p class="text-center">Our tool will continue to evolve to include more useful features to keep students engaged.</p>
+        <p class="text-center">Send us back an email at admin@careerthesaurus.com whenever you have any questions or comments.</p>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

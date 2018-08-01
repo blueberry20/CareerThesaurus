@@ -1,0 +1,168 @@
+﻿<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+
+@{
+    ViewBag.Title = "Post";
+}
+
+
+<!--================================= Blog Post Page ============================== -->
+
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+  <!--================================= Main section ============================== -->      
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 blogPostsWrapper">
+                <div class="blogPostShort">
+                    <div class="blogImageHolder row">
+                        <img class="img-responsive" src='@Url.Content("~/Content/images/arms_2045.jpg")' alt="" />
+                    </div>
+                    <h2>Choosing a Major or Career Path</h2>
+                    <div class="row socialIconsHolder">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 shareRowText text-left" >
+                            <p class="blogDate">January 12, 2014</p>
+                            <p class="blogCategory">Career</p>
+                            <p class="blogComments"><fb:comments-count href='http://127.0.0.1:81/blog/post'></fb:comments-count> comments</p>
+                        </div>
+                        <!--Share and Comment Row-->
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 shareDiv coloredSocialIcons text-right">                       
+                            <ul class="social-icons">
+                                <li class="share twitter"><a href="#" target="_blank"><i class="icon-twitter"></i></a></li>
+                                <li class="share facebook"><a href="#" target="_blank"><i class="icon-facebook"></i></a></li>
+                                <li class="share linkedin"><a href="#" target="_blank"><i class="icon-linkedin"></i></a></li>
+                                <li class="share gplus"><a href="#" target="_blank"><i class="icon-gplus"></i></a></li>
+                                <li class="mail"><a href="#"><i class="icon-mail"></i></a></li>
+                            </ul><!--/ .social-icons-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                        <p class="blogParagraph">The first step in the Career Roadmap is to Know Yourself. Whether you are a first year student interested in learning how majors relate to careers, a senior contemplating graduate school or an alumnus considering a career change, it is crucial that you first identify your INTERESTS, VALUES, SKILLS and PERSONALITY PREFERENCES in order to make a well–informed decision. Learning about your interests will help you identify opportunities to pursue and the topics you are most naturally drawn to, making school and work more motivating and enjoyable. Click on the below interest areas, based on John Holland’s Occupational Themes, to see how they connect to academic and career choices.</p>
+                    </div>
+                    <hr />
+                    <div class="fb-comments" data-href="localhost:81/blog/post" data-numposts="5" data-colorscheme="light"></div>
+                </div>
+            </div>
+ <!--================================= Right sidebar ============================== -->       
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 blogSidebar">
+                <!--Categories-->
+                <div class="sidebarWidget categoriesWidget">
+                    <h3>Categories</h3>
+                        <ul>
+                            <li><a>Jobs<i class="icon-right-open-big pull-right"></i></a></li>
+                            <li><a>Careers<i class="icon-right-open-big pull-right"></i></a></li>
+                            <li><a>Interviews<i class="icon-right-open-big pull-right"></i></a></li>
+                            <li><a>Resources<i class="icon-right-open-big pull-right"></i></a></li>
+                            <li><a>College<i class="icon-right-open-big pull-right"></i></a></li>
+                        </ul>
+                </div>
+
+                <!--Tags-->
+                 <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        <a>Business</a>
+                        <a>Web Development</a>
+                        <a>Quitting your job</a>
+                        <a>Find your passion</a>
+                    </div>    
+                </div>
+
+                <!--Recent Posts-->
+                <div class="sidebarWidget">
+                    <h3>Recent Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to start?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What to do?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!--Most Popular Posts-->
+                <div class="sidebarWidget">
+                    <h3>Most Popular Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to study?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>How to grow?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What careers are popular?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!--Recent Tweets-->
+                <div class="sidebarWidget" id="recentTweets">
+                    <h3>Recent Tweets</h3>
+                    <div class="row">
+                        <i class="icon-twitter"></i>
+                        Hello everybody!
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                    <div class="row">
+                        <i class="icon-twitter"></i>
+                        Have you heard about the new tool?
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        shareLinks();
+    }
+
+    function shareLinks() {
+        var linkURL = document.URL;
+        var shareMessage = 'test';
+        $('.share.twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + linkURL + '&url=' + 'http://Skillcow.com/' + '&via=CareerThesaurus.com');
+        $('.share.facebook a').attr('href', 'https://www.facebook.com/dialog/feed?app_id=153111284881428&link=' + linkURL + '&redirect_uri=https://facebook.com/&name=' + shareMessage + '&actions=%5B%7B"name"%3A"Find%20your%20job%20at%20Care­e­r­T­h­e­s­a­urus.com"%2C"link"%3A"http://skillcow.com%2F"%7D%5D');
+        $('.share.linkedin a').attr('href', 'https://www.linkedin.com/shareArticle?summary=message+here&title=title&mini=true&url=' + linkURL + '&source=CareerThesaurus.com');
+        $('.share.gplus a').attr('href', 'https://plus.google.com/share?url=' + linkURL.replace(/\,/g, '').replace(/\s/g, '_'));
+    }
+</script>

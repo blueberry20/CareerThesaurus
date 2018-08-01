@@ -1,0 +1,226 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.Thesaurus.ThesaurusEntry
+
+@{
+    ViewBag.SuppressNavigation = true;
+}
+<script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+
+    <script src='/scripts/thesaurus/helperfunctions.js'></script>
+    <script src='/scripts/thesaurus/similars.js'></script>
+    <script src='/scripts/thesaurus/progressions.js'></script>
+    <script src='/scripts/thesaurus/data.js'></script>
+    <script src='/scripts/thesaurus/descriptions.js'></script>
+    <script src='/scripts/thesaurus/alternatetitles.js'></script>
+
+    <script src='/scripts/thesaurus/professions.js'></script>
+    <script src='/scripts/thesaurus/professions_functions.js'></script>
+
+    <script src='/scripts/thesaurus/reconciliation.js'></script>
+
+<h1>Select <span style="color: @(Model.PartitionKey=="similars" ? "green" : (Model.To=="" ? "blue" : "red" ) )">@(Model.PartitionKey=="similars" ? "Similar" : (Model.To=="" ? "Progression" : "Predecessor" ) )</span> for @(Model.To=="" ? Model.From : Model.To) <span id="titlesalary"></span></h1>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.AddRemove)
+    
+    @Html.HiddenFor(model => model.From)
+    @Html.HiddenFor(model => model.To)
+    @Html.HiddenFor(model => model.AddedAs)
+
+    @Html.HiddenFor(model => model.PartitionKey)
+    @Html.HiddenFor(model => model.RowKey)
+}
+
+    <div id="main" style="background-color: rgba(255,255,255,0.8); padding: 20px;">
+        
+    </div>
+
+
+<style>
+    
+    * {vertical-align: top;}
+    div {font-family: Arial; font-size: 10pt;}
+    body {background-color: eeeeee;}
+    
+    h1 {font-family: Arial;}
+    i {font-family: Arial;}
+    table {margin: 5px;}
+    ul {list-style-type: none; font-family: Arial; font-size: 12pt; color: #888; margin: 0; padding: 0;}
+    li {margin: 0;}
+    div.columns
+    {
+        
+    }
+    div.popup {display: none; background-color: White; color: Black; position: fixed; padding: 20px; 
+              -webkit-box-shadow: 7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              -moz-box-shadow:    7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              box-shadow:         7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              border-radius: 5px 5px;
+              border: thin solid #aaa;
+              }
+    div.path h1 {margin-top: 0}
+    div.path input[type='button'] {position: absolute; top: 20px; right: 20px; }
+    div.path span {display: inline-block; margin-right: 10px;}
+    div.count {min-width: 30px; display: inline-block; text-align: center;}
+    input[type='text'] {font-size: 10pt; padding: 5px; border-radius: 5px; border: thin solid #ddd;}
+    div.dimension {}
+    div.dimension div.label {width: 110px; display: inline-block; margin-top: 5px;}
+    div.dimension span { display: inline-block; padding: 5px; margin: 0 1px 1px 0; background-color: rgba(64,64,128,0.1); border-radius: 5px; cursor: pointer; border: 3px solid rgba(64,64,128,0)}
+    div.dimension span.prompt { background-color: rgba(64,64,128,0.2); border: 3px solid rgba(64,64,128,0.1) }
+    div.dimension span.active { background-color: rgba(64,64,128,0.8); color: White; }
+    
+    
+    div.importantthings span { display: inline-block; padding: 5px; margin: 0 1px 1px 0; background-color: rgba(64,64,128,0.1); border-radius: 5px; cursor: pointer; }
+    div.importantthings span.active { background-color: rgba(64,64,128,0.8); color: White; }
+</style>
+<script>
+
+    var titleprofession = '@(Model.To=="" ? Model.From : Model.To)';
+    var to = '@(Model.To)';
+    var dict = '@(Model.PartitionKey)';
+    var currentsalary = 0;
+
+    var manualentries = new Array();
+
+    $(document).ready(function () {
+
+        if (titleprofession.indexOf('&#39;') > 0) {
+            titleprofession = titleprofession.replace('&#39;', '\'');
+        }
+        try {
+            titleprofession = htmlDecode(titleprofession);
+
+            $('#titlesalary').html(getdata(titleprofession));
+            var d = findone(data, titleprofession);
+            if (d != null) {
+                currentsalary = d.salary;
+            }
+
+            loadDictionaries();
+            
+        
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+
+
+    });
+    function addEntry(d, t, from, to, successpredicate) {
+        $.ajax({
+            url: appserverurl + "/Thesaurus/AddEntry",
+            type: "POST",
+            data: {
+                d: d,
+                t: t,
+                from: from,
+                to: to
+            }
+        }).done(function (response) {
+            successpredicate();
+        }).fail(function () {
+            alert('Error adding ' + from + ' - ' + to + ' association');
+        });
+    }
+
+    function loadDictionaries() {
+
+        
+        $.ajax({
+            url: appserverurl + "/Thesaurus/GetEntries",
+            type: "POST",
+            data: {}
+        }).done(function (response) {
+            if (response.result == 'ok') {
+                manualentries = response.entries;
+
+                doRenderData();
+            }
+        }).fail(function () {
+        });
+    }
+
+    function doRenderData(){
+        renderData('main', '',
+            {
+                itemshoulddisplay: function (profession) {
+                    if (dict == "similars") {
+                        return Math.abs(profession.salary / currentsalary - 1) <= 0.2;
+                    }
+                    else {
+                        if (to == "") {
+                            //progression
+                            return profession.salary >= currentsalary;
+                        }
+                        else {
+                            //predecessor
+                            return profession.salary <= currentsalary;
+                        }
+                    }
+
+                },
+
+                additionallinks: [
+                    {
+                        linktext: "&laquo;pre",
+                        onclick: function (title, keyword, itemguid) {
+                            //predecessor
+                            addEntry("progressions", 'add', title, titleprofession, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); $('#' + itemguid + 'links').hide(); });
+                        }
+                    },
+                    {
+                        linktext: "similar",
+                        onclick: function (title, keyword, itemguid) {
+                            //similar
+                            addEntry("similars", 'add', titleprofession, title, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); $('#' + itemguid + 'links').hide(); });
+                        }
+                    },
+                    {
+                        linktext: "progression&raquo;",
+                        onclick: function (title, keyword, itemguid) {
+                            //similar
+                            addEntry("progressions", 'add', titleprofession, title, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); $('#' + itemguid + 'links').hide(); });
+                        }
+                    }
+                ],
+
+                onitemclick: function (title, keyword, itemguid) {
+                    if (dict == "similars") {
+                        //similar
+                        addEntry(dict, 'add', titleprofession, title, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); });
+
+                        //$('#To').val(title);
+                        //$('#AddedAs').val("similar");
+                    }
+                    else {
+                        if (to == '') {
+                            //progression
+                            addEntry(dict, 'add', titleprofession, title, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); });
+                        }
+                        else {
+                            //predecessor
+                            addEntry(dict, 'add', title, titleprofession, function () { $('#' + itemguid).css('background-color', 'rgba(0,255,255,1)'); });
+                        }
+                    }
+                },
+
+                defaultgroupmethod: groupbymajor,
+                expandgroups: true,
+                seedprofession: titleprofession,
+                code: findbytitle(professions, titleprofession).code,
+                showdescription: true,
+
+                excludeditems: getExcludedItems()
+            });
+    }
+
+    function getExcludedItems() {
+        var results = new Array();
+        for (var j = 0; j < manualentries.length; j++) {
+            if (manualentries[j].from === titleprofession) {
+                results.push(manualentries[j].to);
+            }
+        }
+        return results;
+    }
+</script>

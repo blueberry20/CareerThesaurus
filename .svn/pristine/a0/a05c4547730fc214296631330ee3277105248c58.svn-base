@@ -1,0 +1,420 @@
+﻿
+<link href="/Content/css/Home/Index.css" rel="Stylesheet" />
+
+@{
+    ViewBag.Title = "Career Thesaurus";
+}
+<!--================================= HOME PAGE ============================== -->
+   
+<!--================================= Full Page Slider ============================== -->
+
+       <!--div that full screen image-->
+        <div id="frontpageImage"></div>
+        <div id="frontpageimageContent">
+            <h1 class="transitionElement">Find What You Love To Do</h1>
+            <h2 class="transitionElement">And Do It For The Rest Of Your Life</h2>
+        </div>
+   
+
+<!--================================= Find a job section ============================== -->
+    
+        <div class="section" id="findjobSection">
+            <div class="container">
+            <h2>Find a job</h2>
+            <div class="row">
+               <form id="findjobForm">              
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" class="form-control input-lg" id="jobKeywordText" placeholder="Enter Keyword">
+                    </div>
+
+                    <div class="col-md-4 col-sm-3">
+                        <input type="text" class="form-control input-lg" id="zipcodeText" placeholder="Zip Code">
+                    </div>
+
+                    <div class="col-md-2 col-sm-3">
+                        <button type="submit" id="jobsearchButton" class="btn btn-success btn-lg">Search</button>
+                    </div>
+                </form>
+        </div><!--end of row 1-->
+        @*<h3 class="text-center">Or Click Any Keyword To Search</h3>
+        <div class="keywordsDiv row" >
+            <div class="col-md-12">
+                <a class="cloudKeywords1">Responsibility</a>
+                <a class="cloudKeywords2">Responsible</a>
+                <a class="cloudKeywords3">Retail</a> 
+                <a class="cloudKeywords4">Role</a> 
+                <a class="cloudKeywords5">Route</a> 
+                <a class="cloudKeywords6">Safe</a> 
+                <a class="cloudKeywords7">Safety</a>
+                <a class="cloudKeywords8">Sales</a> 
+                <a class="cloudKeywords9">Scanning</a> 
+                <a class="cloudKeywords10">Schedule</a> 
+                <a class="cloudKeywords11">School</a> 
+                <a class="cloudKeywords12">Searching</a>
+                </br>
+                <a class="cloudKeywords13">Seeks</a>
+                <a class="cloudKeywords14">Sense</a> 
+                <a class="cloudKeywords15">Responsibility</a>
+                <a class="cloudKeywords16">Responsible</a>
+                <a class="cloudKeywords17">Retail</a> 
+                <a class="cloudKeywords18">Role</a> 
+                <a class="cloudKeywords19">Route</a> 
+                <a class="cloudKeywords1">Responsibility</a>
+                <a class="cloudKeywords2">Responsible</a>
+                <a class="cloudKeywords3">Retail</a> 
+                <a class="cloudKeywords4">Role</a> 
+                <a class="cloudKeywords5">Route</a> 
+                <a class="cloudKeywords6">Safe</a> 
+                <a class="cloudKeywords7">Safety</a>
+                <a class="cloudKeywords8">Sales</a> 
+                <a class="cloudKeywords9">Scanning</a> 
+                <a class="cloudKeywords10">Schedule</a> 
+                <a class="cloudKeywords11">School</a> 
+                <a class="cloudKeywords12">Searching</a>
+            </div>
+         </div>*@
+       </div><!--end of section-->
+   </div><!--container-->
+
+<!--================================= Counter Section ============================== -->
+ 
+ 		<div id="counterDiv" class="section parallax parallax-bg-2">
+
+			<div class="full-bg-image"></div>
+			<div class="parallax-overlay"></div>
+
+			<div class="container">
+
+				<div class="row">
+					
+					<div class="col-xs-12">						
+							<h2 class="text-center">Did You Know That?</h2>						
+					</div>
+					
+				</div><!--/ .row-->
+
+				<div class="row">
+					
+					<div class="col-xs-12">
+						
+						<div class="counter-box">
+
+							<div data-from="0" data-to="200478" data-speed="1300" class="counter opacity">
+								<span class="count"></span>
+								<h4 class="details">People Took Test</h4>
+							</div><!--/ .counter-->	
+
+
+							<div data-from="0" data-to="9743" data-speed="1300" class="counter opacity">
+								<span class="count"></span>
+								<h4 class="details">People Found New Jobs</h4>
+							</div><!--/ .counter-->	
+
+							<div data-from="0" data-to="759" data-speed="1300" class="counter opacity">
+								<span class="count"></span>
+								<h4 class="details">Changed Careers</h4>
+							</div><!--/ .counter-->		
+
+						</div><!--/ .counter-box-->	
+						
+					</div>
+
+				</div><!--/ .row-->
+
+			</div><!--/ .container-->
+
+		</div><!--/ .section-->
+
+<!--================================= Careers Section ============================== -->
+
+    @*<div class="section" id="careersSection">
+        
+        <h2 class="text-center">Browse Careers</h2>
+        <div class="row">
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell">           
+              <a href="#"><img class="img-responsive" src="../../Content/images/careers/business.jpg"  alt="Business Image"/></a>
+              <h3>Business</h3>
+            </div>
+        </div> 
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Computersciences.jpg"  alt="Computer Science Image"/></a>
+             <h3>Computer Sciences</h3>
+            </div> 
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Visualarts.jpg"  alt="Visual arts Image"/></a>
+             <h3>Visual Arts</h3>             
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Healthsciences.jpg"  alt="Health Sciences Image"/></a>
+             <h3>Health Sciences</h3>
+             </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/lifesciences.jpg"  alt="Life Science Image"/></a>
+             <h3>Life Sciences</h3>
+             
+             </div>
+          </div>
+
+          
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Performingarts.jpg"  alt="Performing Arts Image"/></a>
+             <h3>Performing Arts</h3>
+              
+              </div>
+          </div>
+
+
+           <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Physics.jpg"  alt="Physics Image"/></a>
+             <h3>Physics</h3>
+            
+              </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Mathematics.jpg"  alt="Mathematics Image"/></a>
+             <h3>Mathematics</h3>
+             
+              </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Chemistry.jpg"  alt="Chemistry Image"/></a>
+             <h3>Chemistry</h3>
+            
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/Law.jpg"  alt="Law Image"/></a>
+             <h3>Law</h3>
+            
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="imageCell"> 
+             <a href="#"><img class="img-responsive" src="../../Content/images/careers/SpecialTraining.jpg"  alt="Special Training Image"/></a>
+             <h3>Special Training</h3>
+             
+              </div>
+          </div>
+
+         
+              
+              <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                  <div class="imageCell">
+                      <a href="/Careers">
+                          <img class="img-responsive" src="../../Content/images/careers/Computersciences.jpg" alt="View More" />
+                      </a>
+                          <div id="viewmoreOverlay">
+                              <h3>View All Categories</h3>
+                          </div>
+                 </div>
+              </div>
+          
+
+        </div>
+    </div>*@
+
+
+
+<!--================================= Blog Section ============================== -->
+   
+    <div class="section" id="blogSection">
+        <div class="container">
+           <div class="row">
+               <h2 class="text-center">Latest News From Our Blog</h2>
+           </div>
+           <div class="row">
+               <div class="col-lg-4">
+                    <img class="img-circle img-responsive" src="../../Content/images/books_sm.jpg"  alt="Computer Science Image"/>
+                    <h2>Make Your Education Plan</h2>
+                    <p>Making decisions about colleges and careers can seem overwhelming, especially when you are young. If you are feeling unprepared, know that you are not alone. We're here to help.</p>
+                    <p><a class="btn btn-success btn-lg" href="Blog/Post" role="button">Read More &raquo;</a></p>
+               </div>
+
+               <div class="col-lg-4">
+                    <img class="img-circle img-responsive" src="../../Content/images/man_sm.jpg"  alt="Computer Science Image"/>
+                    <h2>Finding the Right Career</h2>
+                    <p>The first step in considering a career change is to think carefully about what really drives you. You might find it hard to get past thinking about “what pays the most”.</p>
+                    <p><a class="btn btn-success btn-lg" href="Blog/Post" role="button">Read More &raquo;</a></p>
+               </div>
+
+               <div class="col-lg-4">
+                    <img class="img-circle img-responsive" src="../../Content/images/man2_sm.jpg"  alt="Computer Science Image"/>
+                    <h2>Overcoming obstacles</h2>
+                    <p>It’s always challenging to consider a huge change in your life, and there may be many reasons why you think changing careers is not possible. Here are some common obstacles with tips.</p>
+                    <p><a class="btn btn-success btn-lg" href="Blog/Post" role="button">Read More &raquo;</a></p>
+               </div>
+           </div><!--row-->
+    </div> <!--section-->
+</div><!--container-->
+
+<!--================================= Search Section ============================== -->
+
+<div class="section parallax parallax-bg-1" id="searchSection">
+    <div class="full-bg-image"></div>
+        <div class="container">
+            <div class="row">
+                 <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+                        <input type="text" class="form-control input-lg" placeholder="Search Our Site For Anything">
+                    </div>
+
+                    <div class="col-md-2 col-sm-3 col-xs-12">
+                        <button type="submit" class="btn btn-success btn-lg">Search</button>
+                    </div>
+            </div>
+        </div>
+</div>
+
+
+
+    
+<script>
+    function document_ready() {
+        /* ----------------------use backstretch to center image------------- */
+        $('#frontpageImage').backstretch("../../Content/images/woman_2045.jpg");
+
+        //add class active to menu when on this page
+        $('.navbar-nav .@ViewContext.RouteData.Values["controller"].ToString().ToLower()').addClass('active');
+
+        $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+
+
+        /* ----------------------CountTo------------------------------ */
+        												
+        $.fn.countTo = function (options) {
+
+            options = options || {};
+
+            return $(this).each(function () {
+
+                // set options for current element
+                var settings = $.extend({}, $.fn.countTo.defaults, {
+                    from: $(this).data('from'),
+                    to: $(this).data('to'),
+                    speed: $(this).data('speed'),
+                    refreshInterval: $(this).data('refresh-interval'),
+                    decimals: $(this).data('decimals')
+                }, options);
+
+                // how many times to update the value, and how much to increment the value on each update
+                var loops = Math.ceil(settings.speed / settings.refreshInterval),
+	        increment = (settings.to - settings.from) / loops;
+
+                // references & variables that will change with each update
+                var self = this,
+	        $self = $(this),
+	        loopCount = 0,
+	        value = settings.from,
+	        data = $self.data('countTo') || {};
+
+                $self.data('countTo', data);
+
+                // if an existing interval can be found, clear it first
+                if (data.interval) {
+                    clearInterval(data.interval);
+                }
+                data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                // initialize the element with the starting value
+                render(value);
+
+                function updateTimer() {
+                    value += increment;
+                    loopCount++;
+
+                    render(value);
+
+                    if (typeof (settings.onUpdate) == 'function') {
+                        settings.onUpdate.call(self, value);
+                    }
+
+                    if (loopCount >= loops) {
+                        // remove the interval
+                        $self.removeData('countTo');
+                        clearInterval(data.interval);
+                        value = settings.to;
+
+                        if (typeof (settings.onComplete) == 'function') {
+                            settings.onComplete.call(self, value);
+                        }
+                    }
+                }
+
+                function render(value) {
+                    var formattedValue = settings.formatter.call(self, value, settings);
+                    $self.children('.count').html(formattedValue);
+                }
+            });
+        };
+
+        $.fn.countTo.defaults = {
+            from: 0, // the number the element should start at
+            to: 0, // the number the element should end at
+            speed: 1000, // how long it should take to count between the target numbers
+            refreshInterval: 10, // how often the element should be updated
+            decimals: 1, // the number of decimal places to show
+            formatter: formatter, // handler for formatting the value before rendering
+            onUpdate: null, // callback method for every time the element is updated
+            onComplete: null // callback method for when the element finishes updating
+        }; 
+
+        /* ----------------------Counter------------------------------ */
+        if ($('.counter').length) {
+            var counter = $('.counter');
+            if (!Modernizr.touch) {
+                counter.waypoint(function (direction) {
+                    if (direction == 'down') {
+                        counter.countTo();
+                    }
+                }, { offset: '64%' });
+            } else { counter.countTo(); }
+        };
+
+        function formatter(value, settings) {
+            return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+        };
+
+
+
+        //var divpos = $("#careersSection").offset().top;
+        //var interval = setInterval(function () {
+        //    if ($(window).scrollTop() >= divpos - 650) {
+        //        var animDelay = 0;
+        //        $('.imageCell').each(function () {
+        //            $(this).delay(animDelay).show("scale", { percent: 100, origin: ["middle", "center"] }, 500)
+
+        //            animDelay += 500;
+        //        });
+        //        clearInterval(interval);
+        //    }
+        //}, 250);
+
+
+       // $('#textEditorOverlay').stop(true, true).delay(300).show("scale", { percent: 100, origin: ["middle", "center"] }, 500);
+
+
+    }
+
+
+</script> 

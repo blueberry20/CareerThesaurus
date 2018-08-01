@@ -1,0 +1,71 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClientCampusProgram
+
+<fieldset>
+    <legend>Is it National Coverage?</legend>
+    <div class="editor-label">
+        &nbsp;
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.GeoAddNational,
+                            new SelectList(new List<object>
+                            {
+                                new { Value = "", Text = "" },
+                                new { Value = "National", Text = "National" }
+                            }, "Value", "Text"))
+        @Html.ValidationMessageFor(model => model.GeoAddNational)
+    </div>
+</fieldset>
+<fieldset>
+    <legend style="font-size: 24pt;">+</legend>
+    <div><b>NOTE:</b> values must be comma delimited e.g NY, NJ, PA or 10005, 11230, 10314</div><br />
+    <div class="editor-label" >
+        + states
+    </div>
+    <div class="editor-field">
+        <textarea id="GeoAddStateseditor" onkeydown="updatehiddenvariable('GeoAddStates', 'GeoAddStateseditor')" onchange="updatehiddenvariable('GeoAddStates', 'GeoAddStateseditor')" >@ViewBag.GeoAddStates</textarea>
+        <input type="hidden" name="GeoAddStates" id="GeoAddStates" value="@ViewBag.GeoAddStates" />
+        @Html.ValidationMessageFor(model => model.GeoAddStates)
+    </div>
+    
+    <div class="editor-label">
+        + zips
+    </div>
+    <div class="editor-field">
+        <textarea id="GeoAddZipseditor" style="height: 300px;" onkeydown="updatehiddenvariable('GeoAddZips', 'GeoAddZipseditor')" onchange="updatehiddenvariable('GeoAddZips', 'GeoAddZipseditor')" >@ViewBag.GeoAddZips</textarea>
+        <input type="hidden" name="GeoAddZips" id="GeoAddZips" value="@ViewBag.GeoAddZips" />
+        @Html.ValidationMessageFor(model => model.GeoAddZips)
+    </div>
+
+</fieldset>
+        
+<fieldset>
+    <legend style="font-size: 24pt;">-</legend>
+            
+    <div class="editor-label">
+        - states        
+    </div>
+    <div class="editor-field">
+        <textarea id="GeoSubtractStateseditor" onkeydown="updatehiddenvariable('GeoSubtractStates', 'GeoSubtractStateseditor')" onchange="updatehiddenvariable('GeoSubtractStates', 'GeoSubtractStateseditor')" >@ViewBag.GeoSubtractStates</textarea>
+        <input type="hidden" name="GeoSubtractStates" id="GeoSubtractStates" value="@ViewBag.GeoSubtractStates" />
+        @Html.ValidationMessageFor(model => model.GeoSubtractStates)
+    </div>
+    
+    <div class="editor-label">
+        - zips
+    </div>
+    <div class="editor-field">
+        <textarea id="GeoSubtractZipseditor" style="height: 300px;" onkeydown="updatehiddenvariable('GeoSubtractZips', 'GeoSubtractZipseditor')" onchange="updatehiddenvariable('GeoSubtractZips', 'GeoSubtractZipseditor')" >@ViewBag.GeoSubtractZips</textarea>
+        <input type="hidden" name="GeoSubtractZips" id="GeoSubtractZips" value="@ViewBag.GeoSubtractZips" />
+        @Html.ValidationMessageFor(model => model.GeoSubtractZips)
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Program Category Mapping</legend>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ProgramCategories)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ProgramCategories) <a onclick="showProgramSelector()">Add a Program</a>
+        @Html.ValidationMessageFor(model => model.ProgramCategories)
+    </div>
+</fieldset>

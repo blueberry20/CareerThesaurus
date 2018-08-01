@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "SendGrid";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<style>
+    .regular-input {
+        height: auto !important;
+    }
+    .regular-btn {
+        height: auto !important;
+        line-height: normal !important;
+    }
+    .sort {
+        cursor: pointer;
+    }
+    .row { 
+        margin-top: 20px;
+    }
+</style>
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <div>
+                <span>From: <input class="regular-input" type="text" id="fromdate"></span>
+                <span>To: <input class="regular-input" type="text" id="todate"></span>
+                <span class="btn btn-success regular-btn" onclick="searchRecord();">Search</span>
+                <span class="btn btn-default regular-btn pull-right" onclick="exportData();">Export Data</span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="sort" data-sort="Email">Email <i class="icon fa fa-angle-down"></i></th>
+                        <th class="sort" data-sort="Delivered">Delivered</th>
+                        <th class="sort" data-sort="Opened">Opened</th>
+                        <th class="sort" data-sort="Clicked">Clicked</th>
+                        <th class="sort" data-sort="Unsubscribed">Unsubscribed</th>
+                        <th class="sort" data-sort="Spam">Spam</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <select onchange="setDelivered(this);">
+                                <option value="">All</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <select onchange="setUnsubscribed(this);">
+                                <option value="">All</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </th>
+                        <th>
+                            <select onchange="setSpam(this);">
+                                <option value="">All</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="records">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var data = [];
+    var filters = {
+        delivered: '',
+        unsubscribed: '',
+        spam: ''
+    };
+    var reverse = false;
+    var sortBy = 'Email';
+    function document_ready() {
+        $("#fromdate").datepicker();
+        $("#todate").datepicker();
+        $('.sort').click(function () {
+            if (sortBy == $(this).data('sort')) {
+                reverse = !reverse;
+            } else {
+                sortBy = $(this).data('sort');
+                reverse = false;
+            }
+            var icon = '<i class="icon fa fa-angle-' + (reverse ? 'up' : 'down') + '"></i>';
+            $('.icon').remove();
+            $(this).append(icon);
+            renderContent();
+        });
+    }
+    function searchRecord() {
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        if (fromDate && toDate) {
+            $.ajax({
+                url: '/Admin/getrecords',
+                type: 'post',
+                data: {
+                    fromdate: fromDate,
+                    todate: toDate
+                }
+            }).success(function (response) {
+                console.log(response);
+                if (response.data) {
+                    data = response.data;
+                    renderContent();
+                }
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+    function renderContent() {
+        var html = '';
+        var filteredData = data.filter(function (x) {
+            return (filters.delivered == 'yes' ? x.Delivered : filters.delivered == 'no' ? !x.Delivered : true) &&
+                (filters.unsubscribed == 'yes' ? x.Unsubscribed : filters.unsubscribed == 'no' ? !x.Unsubscribed : true) &&
+                (filters.spam == 'yes' ? x.Spam : filters.spam == 'no' ? !x.Spam : true)
+        });
+        filteredData.sort(sorting);
+        for (var i = 0; i < filteredData.length; i++) {
+            var item = filteredData[i];
+            html += '<tr><td>' + item.Email +'</td><td>' + item.Delivered + '</td><td>' +  item.Opened + '</td><td>' + item.Clicked + '</td><td>' + item.Unsubscribed + '</td><td>' + item.Spam + '</td></tr>';
+        }
+        $('#records').html(html);
+    }
+    function setDelivered(element) {
+        filters.delivered = $(element).val();
+        renderContent();
+    }
+    function setUnsubscribed(element) {
+        filters.unsubscribed = $(element).val();
+        renderContent();
+    }
+    function setSpam(element) {
+        filters.spam = $(element).val();
+        renderContent();
+    }
+    function sorting(a, b) {
+        if (a[sortBy] < b[sortBy]) return reverse ? 1 : -1; if (a[sortBy] > b[sortBy]) return reverse ? -1 : 1; return 0; 
+    }
+    function exportData() {
+        var data = [];
+        $('tr').each(function (index, element) {
+            var row = [];
+            if (index != 1) {
+                $(element).children().each(function () {
+                    var text = $(this).text();
+                    if (text.indexOf(',') != -1) {
+                        row.push('"' + text + '"');
+                    } else {
+                        row.push(text);
+                    }
+                });
+                data.push(row.join(','));
+            }
+        });
+        var output = data.join('\r\n');
+        var uri = 'data:text/csv;charset=utf-8,' + encodeURI(output);
+        var downloadLink = document.createElement("a");
+        downloadLink.href = uri;
+        downloadLink.download = "data.csv";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

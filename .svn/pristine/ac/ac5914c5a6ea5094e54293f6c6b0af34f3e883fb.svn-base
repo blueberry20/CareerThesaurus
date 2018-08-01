@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Administrator</title>
+</head>
+<body>
+    <div>Congratulations {{name}}!</div>
+    <br>
+    <div>You have successfully registered with CareerThesaurus and ready to begin your school’s student Career Exploration assignment.</div>
+    <br>
+    <div>Here is a quick outline of the next steps you need to take once you are logged in:</div>
+    <ul>
+        <li>
+            <dl>
+                <dt><b>Step 1 - Associate yourself with a school</b>
+                <dd>On your Administrator Portal page, click Add School in the top right corner and type in your school’s zip code. When you see your school come up, click Add. If your school is not listed, you can simply use add a school feature on that page.
+            </dl>
+        </li>
+        <li>
+            <dl>
+                <dt><b>Step 2 (Optional) – Invite colleagues</b>
+                <dd>You can add other counselors and/or observers who will have access to the system. These users will be able to create groups and have access to analytics.
+            </dl>
+        </li>
+        <li>
+            <dl>
+                <dt><b>Step 3 – Create a Group(s)</b>
+                <dd>Adding groups will allow you to departmentalize your student population for analytical reporting and viewership. Each group will have a unique link and student access code, which will be used for assignment and results tracking.
+            </dl>
+        </li>
+        <li>
+            <dl>
+                <dt><b>Step 4 – Engage Students</b>
+                <dd>You can email students a unique link, or direct them to a sign up page where they'll enter a unique access code. Students will then register with their basic information which will be stored on our secure server.  And, none of the student information will be shared or sold to outside entities.
+            </dl>
+        </li>
+    </ul>
+    <div>Upon completion of the assignment, the fun part will begin. You as well as your colleagues can enlighten yourself with a summary of most/least popular student interests, personal attributes and career choices.</div>
+    <br>
+    <div>Keep in mind, we are always here to assist you with any questions and/or issues you may encounter.  So don’t hesitate to email or call us.</div>
+    <br>
+    <div>Happy Counseling!</div>
+    <br>
+    <div>Sincerely,</div>
+    <br>
+    <div>Michael</div>
+    <div>System Administrator</div>
+    <div>917-957-8770</div>
+    <div><a href="mailto:mike@peopli.com">mike@peopli.com</a></div>
+    <br>
+    <div>To log on to CareerThesaurus: </div>
+    <a href="http://CareerThesaurus.com/Account/Login">http://CareerThesaurus.com/Account/Login</a>
+</body>
+</html>

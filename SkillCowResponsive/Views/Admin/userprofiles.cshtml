@@ -1,0 +1,45 @@
+﻿@{
+        Layout = null;
+        SkillCowResponsive.Classes.Cloud.TableStorage.UserProfileClient upc = new SkillCowResponsive.Classes.Cloud.TableStorage.UserProfileClient();
+        List<SkillCowResponsive.Classes.Cloud.TableStorage.UserProfile> profiles = new List<SkillCowResponsive.Classes.Cloud.TableStorage.UserProfile>(upc.GetAllByPartition(ViewBag.pk));
+}
+First Name,Last Name,Email,Date,Grad Year,Phone,State,Zip,Attitude,Endurance,Action,Concentration,Information,Processing,Presence,Patterns,Compensation,Beauty,Helping,Adventure,Safety,Technology,People,Science,Easy,Duty,Growth,Creativity,Admiration,Competition,Animals,Politics
+@{
+    foreach (var user in profiles)
+    {
+        @(string.IsNullOrEmpty(user.FirstName) ? "N/A" : user.FirstName.Contains(',') ? "\"" + user.FirstName + "\"" : user.FirstName)@Html.Raw(",") 
+        @(string.IsNullOrEmpty(user.LastName) ? "N/A" : user.LastName.Contains(',') ? "\"" + user.LastName + "\"" : user.LastName)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.Email) ? "N/A" : user.Email.Contains(',') ? "\"" + user.Email + "\"" : user.Email)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.RegistrationDate) ? "N/A" : user.RegistrationDate.ToLower())@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.GradYear) ? "N/A" : user.GradYear.ToLower())@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.Phone) ? "N/A" : user.Phone.ToLower())@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.State) ? "N/A" : user.State.ToLower())@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.Zip) ? "N/A" : user.Zip.ToLower())@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionAttitude) ? "N/A" : user.DimensionAttitude)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionEndurance) ? "N/A" : user.DimensionEndurance)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionAction) ? "N/A" : user.DimensionAction)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionConcentration) ? "N/A" : user.DimensionConcentration)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionInformation) ? "N/A" : user.DimensionInformation)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionProcessing) ? "N/A" : user.DimensionProcessing)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionPresence) ? "N/A" : user.DimensionPresence)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionPatterns) ? "N/A" : user.DimensionPatterns)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.DimensionCompensation) ? "N/A" : user.DimensionCompensation)@Html.Raw(",")
+
+        @(string.IsNullOrEmpty(user.ImportantThingsBeauty) ? "N/A" : user.ImportantThingsBeauty)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsHelping) ? "N/A" : user.ImportantThingsHelping)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsAdventure) ? "N/A" : user.ImportantThingsAdventure)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsSafety) ? "N/A" : user.ImportantThingsSafety)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsTechnology) ? "N/A" : user.ImportantThingsTechnology)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsPeople) ? "N/A" : user.ImportantThingsPeople)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsScience) ? "N/A" : user.ImportantThingsScience)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsEasy) ? "N/A" : user.ImportantThingsEasy)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsDuty) ? "N/A" : user.ImportantThingsDuty)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsGrowth) ? "N/A" : user.ImportantThingsGrowth)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsCreativity) ? "N/A" : user.ImportantThingsCreativity)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsAdmiration) ? "N/A" : user.ImportantThingsAdmiration)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsCompetition) ? "N/A" : user.ImportantThingsCompetition)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsAnimals) ? "N/A" : user.ImportantThingsAnimals)@Html.Raw(",")
+        @(string.IsNullOrEmpty(user.ImportantThingsPolitics) ? "N/A" : user.ImportantThingsPolitics)@Html.Raw("\n")
+    }
+}
+

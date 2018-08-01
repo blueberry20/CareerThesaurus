@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "Agent";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+<br /><br />
+
+<style>
+    #loggedonagents .row { position: relative; margin-bottom: 2px; }
+    
+    #loggedonagents .row .active { position: absolute; left: -50px; }
+    #loggedonagents .row .active span { position: absolute; }
+    #loggedonagents .row .active img { position: absolute; top: 27px;}
+    
+    #loggedonagents .row .name { text-shadow: 1px 1px 1px #005fa2; }
+    
+</style>
+<div style="margin-left: 0px;">
+
+    <h1 style="position: absolute; left: 0px; top: 42px;">Active Agents</h1>
+    <div id="loggedonagents" style="position: absolute; left: 125px; top: 116px;">
+        
+    </div>
+
+    <h1 style="position: absolute; left: 650px; top: 42px;">New Agent Logon</h1>
+    <div style="position: absolute; left: 775px;  top: 116px;">
+
+        <div id="agentlogonname" keyboardtype="standard" prompt="Agent Logon ID:" style="width: 280px; height: 35px; padding: 20px; border: thin solid rgba(255,255,255,0.5); font-size: 24pt;"></div>
+                
+        <div id="btnlogon" class="button" style="margin-top: 5px; width: 280px; padding: 20px; font-size: 24pt;">Log on</div>
+        
+        <div id="agentcode" keyboardtype="numeric" prompt="Enter code:" style="width: 80px; height: 35px; padding: 7px; border: thin solid rgba(255,255,255,0.5); font-size: 20pt; opacity: 0;"></div>
+        
+    </div>
+    
+</div>
+
+<script>
+
+    var currentagent = "";
+
+    function document_ready() {
+
+        currentagent = getCookie('utm_content');
+
+        getAgents();
+
+        $('#btnlogon').press(logonClicked);
+        //$('#btnlogoff').press(logoffClicked);
+                
+        $('*[keyboardtype="standard"]').press(function () { showKeyboardForStandard(this); });
+    }
+
+    function processLogon(code) {
+
+        $.ajax({
+            url: appserverurl + "/Kiosk/checkagentlogoncode",
+            type: "POST",
+            dataType: "json",
+            data: {
+                location: getCookie('utm_campaign'),
+                agent: $('#agentlogonname').html(),
+                code: code
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+
+                currentagent = response.logonname;
+
+                setCookie('utm_content', currentagent, 30);
+                setCookie('agentcolor', response.logoncolor, 30);
+
+                $('#agentlogonname').html('');
+                $('#agentcode').html('');
+                $('#agentcode').val('');
+
+                getAgents();
+
+                //setTimeout(function () {
+                //    document.location = '/kiosk/careerassessmentintro';
+                //}, 500);
+            }
+            else {
+                alert("Error 1: " + response.errormessage);
+            }
+        }).error(function (response) {
+            alert("Unknown error in processLogon");
+        });
+    }
+
+    function logonClicked() {
+        if ($('#agentlogonname').html() == '') {
+            alert('Please enter your ID');
+            return;
+        }
+
+        showKeyboardForNumeric(document.getElementById('agentcode'), false, false, 0, true, processLogon);
+    }
+
+
+    function logoffClicked(code, element) {
+
+        $.ajax({
+            url: appserverurl + "/Kiosk/logoff",
+            type: "POST",
+            dataType: "json",
+            data: {
+                location: getCookie('utm_campaign'),
+                agent: $(element).attr('logonname'),
+                code: code
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+
+                if(response.logonname == currentagent){
+                    currentagent = '';
+                    setCookie('utm_content', currentagent, 30);
+                    setCookie('agentcolor', response.logoncolor, 30);
+                }
+
+                getAgents();
+            }
+            else {
+                alert(response.errormessage);
+            }
+        }).error(function (response) {
+            alert("Unknown error in logoffClicked");
+        });
+
+        
+    }
+
+
+    function getAgents() {
+
+    
+        $('#loggedonagents').html('<img src="/content/preloaders/25.gif" style="opacity: 0.8;" />');
+
+        $.ajax({
+            url: appserverurl + "/Kiosk/getactiveagents",
+            type: "POST",
+            dataType: "json",
+            data: {
+                location: getCookie('utm_campaign')
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+                if (response.agents.length > 0) {
+                    $('#loggedonagents').html('');
+                }
+                else {
+                    $('#loggedonagents').html('None');
+                }
+
+                for (var i = 0; i < response.agents.length; i++) {
+                    $('#loggedonagents').append(
+                        '<div class="row" id="' + response.agents[i].logonname + '">' +
+                        '<div class="active"><img src="/content/images/kiosk/icons/arrow_6.png" style="display: ' + (currentagent == response.agents[i].logonname ? '' : 'none') + '"/></div>' +
+                        '<div class="name" logonname="' + response.agents[i].logonname + '" logoncolor="' + response.agents[i].logoncolor + '" style="font-size: 24pt; padding: 20px; width: 340px; background-color: ' + response.agents[i].logoncolor + '; display: inline-block;">' + response.agents[i].firstname + '</div>' +
+                        '<div class="agentlogoffbutton button" logonname="' + response.agents[i].logonname + '" style="width: 125px; padding: 20px; font-size: 24pt; display: inline-block;">Log off</div>' +
+                        '<div id="' + response.agents[i].logonname + 'code" prompt="Enter code:" value="" style="display: none;"></div>' +
+                        '</div>'
+                    );
+                }
+
+                if (currentagent == '') {
+                    $('#loggedonagents').append(
+                        '<div class="row">' +
+                        '<div id="activeagentnotselected" class="name" style="font-size: 24pt; padding: 20px; width: 505px; background-color: rgba(255,0,0,1); display: inline-block;">Active Agent is NOT selected!</div>' +
+                        '</div>'
+                    );
+                    playSound(sfxerror);
+
+                    setTimeout(function () {
+                        $('#activeagentnotselected').animate({ "opacity": 0 }, 3000);
+                    }, 500);
+
+                }
+
+                $('.agentlogoffbutton').press(function () {
+                    showKeyboardForNumeric(document.getElementById($(this).attr('logonname') + 'code'), false, false, 0, true, logoffClicked, this);
+                });
+
+                $('#loggedonagents .row .name').press(function () {
+
+                    currentagent = $(this).attr('logonname');
+
+                    setCookie('utm_content', currentagent, 30);
+                    setCookie('agentcolor', $(this).attr('logoncolor'), 30);
+
+                    $('#loggedonagents .row .active img').hide();
+                    $('#' + $(this).attr('logonname') + ' .active img').show();
+
+                    document.location = '/kiosk/careerassessmentintro';
+                });
+
+            }
+            else {
+                alert(response.errormessage);
+            }
+        }).error(function (response) {
+            alert("Unknown error in getAgents");
+        });
+
+
+    }
+
+</script>

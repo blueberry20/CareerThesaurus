@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="assessmentLoginPage">
+    <div class="jumbotron">
+        <h1>Career Planning for Students</h1>
+    </div>
+    <div class="container">
+        <!--login box-->
+        <div class="centerBox">
+                <div class="row">
+                    <p>Already registered? Log in here:</p>
+                </div>
+                <div class="row">
+                    <form class="form-inline" role="form" method="POST">
+                        <div class="form-group">
+                            <input type="email" class=" form-control required" name="email" id="email" value="" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success loginBtn">Go!</button>
+                        </div>
+                    </form>
+                </div>
+            @{
+                if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="row"><div class="errorForm">@ViewBag.ErrorMessage</div></div>
+                    <div><a href="/Account/ResetPassword">reset password</a></div>
+                }
+                if (ViewBag.ResendConfirmationEmail != null)
+                {
+                    <div class="row"><a href="/SignUp/ResendVerificationEmail/@ViewBag.VerifyEmail">Resend verification email</a></div>
+                }
+                else if (ViewBag.ResendDone != null)
+                {
+                    <div class="row"><div class="errorForm">Confirmation Email has been resend to your email</div></div>
+                }
+
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        setCookie('cbnvm', '1', 365);
+        $('form').submit(function (event) {
+            var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/);
+            if (!regex.test($('#password').val()) || !validateEmail($('#email').val())) {
+                var error = $('.errorForm');
+                if (error.length == 0)
+                    $('.centerBox').append('<div class="row"><div class="errorForm">Invalid Username or Password</div></div>');
+                event.preventDefault();
+            }
+        });
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+</script>

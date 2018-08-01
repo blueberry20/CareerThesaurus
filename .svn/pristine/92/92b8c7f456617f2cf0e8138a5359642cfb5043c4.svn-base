@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Newsletter";
+}
+
+<link href="~/Content/css/About/newsletter.css" rel="stylesheet" />
+
+<div id="newsletterPage" class="pageContainer aboutContainer">
+    <div class="container">
+  
+            <form id="newsletterForm" method="post">
+                <h2>Join Our Newsletter</h2>
+                <div class="form-group row">
+                    <label class="shortLabel col-lg-3 col-md-4" for="name">Your Name</label>
+                    <div class="shortField col-lg-9 col-md-8">
+                        <input type="text" class=" form-control required" validation="name" name="name" id="name" value="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="shortLabel col-lg-3 col-md-4" for="email">Your E-mail</label>
+                    <div class="shortField col-lg-9 col-md-8">
+                        <input type="email" class=" form-control required" validation="email" name="email" id="email" value="">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" id="joinNewsletterBtn" class="btn btn-default">Submit</button>
+                </div>
+            </form>
+
+
+        
+        @*<form id="optionalForm">
+            <h2>Optional Survey</h2>
+            <div class="form-group row">
+                <label class="col-lg-12" for="name">Your Education Level</label>
+                <div class="col-lg-12">
+                    <select id="educationLevelSelect" class="form-control">
+                        <option selected disabled value="none">Select</option>
+                        <option value="Still in High School">Still in High School</option>
+                        <option value="GED">GED</option>
+                        <option value="High School Diploma">High School Diploma</option>
+                        <option value="Certificate">Certificate</option>
+                        <option value="Some College">Some College</option>
+                        <option value="Associates Degree">Associates Degree</option>
+                        <option value="Bachelor's Degree">Bachelor's Degree</option>
+                        <option value="Master's Degree'">Master's Degree</option>
+                        <option value="Doctoral Degree">Doctoral Degree</option>
+                        <option value="None">None</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-lg-12" for="email">Your Graduation Year</label>
+                <div class="col-lg-12">
+                    <select id="gradYearSelect" class="form-control">
+                        <option selected disabled value="none">Select</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-lg-12" for="workingstatus">Are You Currently Working?</label>
+                    <div class="radio">
+                        <label><input type="radio" class="required" name="workingstatus"  value="yesworking"> Yes</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" class="required" name="workingstatus"  value="noworking"> No</label>
+                    </div>
+           </div>
+
+            <div class="text-center">
+                <button type="submit" id="joinNewsletterBtn" class="btn btn-default">Submit</button>
+            </div>
+    </form>*@
+
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $("form").velocity("transition.slideLeftIn", { stagger: 250 })
+        .velocity({ opacity: 1 }, 500);
+
+        $('#joinNewsletterBtn').click(function () {
+            if (validateName($('#name').val()) && validateEmail($('#email').val())) {
+                $('form').submit();
+            }
+        });
+
+        //generate years for grad year select
+        var yearslisted;
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        for (var i = year; i > year - 100; i--) {
+            yearslisted += '<option value="' + i + '">' + i + '</option>'
+        }
+        $('#gradYearSelect').append(yearslisted);
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+</script>

@@ -1,0 +1,766 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+
+@{
+    ViewBag.Title = "StudentReport";
+    AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+    AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+    AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+    StudentProfileClient spc = new StudentProfileClient();
+    string user;
+    if (ViewBag.StudentToShow != null)
+    {
+        user = ViewBag.StudentToShow;
+    }
+    else
+    {
+        user = ViewBag.Email;
+    }
+
+    var greating = ViewBag.StudentFirstName != null ? ViewBag.StudentFirstName : "You";
+    var attitudeValue = "";
+    var enduranceValue = "";
+    var actionValue = "";
+    var concentrationValue = "";
+    var informationValue = "";
+    var processingValue = "";
+    var presenceValue = "";
+    var patternsValue = "";
+    var compensationValue = "";
+    StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+}
+
+<!--========================Student Report Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/reportcard.css" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/testattributes.js"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js"></script>
+
+<div class="pageContainer whiteBgPage" id="studentReportPage">
+    <div class="container">
+        <div class="reportWrapper">
+            <div class="row orgRow">
+                <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @{
+                        if (ViewBag.StudentFirstName != null)
+                        {
+                            <a href="/AdminPortal">Administrator Home </a><span>|</span><a href="/Analytics"> Analytics Home <i class="fa fa-angle-right"></i></a><a href="/Analytics/StudentReports">Student Reports<i class="fa fa-angle-right"></i></a><span>Student Report</span>
+                        }
+                        else
+                        {
+                            <a href="/StudentPortal">Student Home<i class="fa fa-angle-right"></i></a><span>Student Report</span>
+                        }
+                    }
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                    <span class="welcomeMsg">Hello @ViewBag.Name!</span>
+                </div>
+            </div>
+
+            <div class="reportWrap">
+                <div class="reportLink pull-right printLink noPrint" onclick="window.print()">
+                    <img src="../../Content/images/print3.png" alt="" />
+                    Print this page
+                </div>
+                <h1>@(ViewBag.StudentFirstName != null && ViewBag.StudentLastName != null ? ViewBag.StudentFirstName + ' ' + ViewBag.StudentLastName + "'s Report Card" : "Your Report Card")</h1>
+
+
+                <!--========================Traits Table========================================-->
+                <div class="reportDiv">
+                    <h2>@(ViewBag.StudentFirstName != null ? ViewBag.StudentFirstName + "'s Personality Traits" : "Your Personality Traits")</h2>
+                    <div class="personalityReport">
+                        @{
+                            List<AssessmentDimensionsRating> dimensionsList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndStudent(student.School, user));
+                            if (dimensionsList.Count != 0)
+                            {
+                                <div class="row">
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension1 = dimensionsList.Where(x => x.Dimension == "attitude").SingleOrDefault();
+                                if (singledimension1 != null)
+                                {
+                                    //string value = singledimension.Value == "Introvert" ? "Intro" : "Extrovert";
+                                    if (singledimension1.Value == "Introvert")
+                                    {
+                                        attitudeValue = "Introvert";
+                                        <span class="firstLine">Introvert</span><span class="secondLine">at work</span>
+                                    }
+                                    else
+                                    {
+                                        attitudeValue = "Extrovert";
+                                        <span class="firstLine">Extrovert</span><span class="secondLine">at work</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension2 = dimensionsList.Where(x => x.Dimension == "endurance").SingleOrDefault();
+                                if (singledimension2 != null)
+                                {
+                                    if (singledimension2.Value == "Mobile")
+                                    {
+                                        enduranceValue = "Mobile";
+                                        <span class="firstLine">Mobile</span><span class="secondLine">Job</span>
+                                    }
+                                    else
+                                    {
+                                        enduranceValue = "Stationary";
+                                        <span class="firstLine">Stationary</span><span class="secondLine">Job</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension3 = dimensionsList.Where(x => x.Dimension == "action").SingleOrDefault();
+                                if (singledimension3 != null)
+                                {
+                                    if (singledimension3.Value == "Process")
+                                    {
+                                        actionValue = "Process";
+                                        <span class="firstLine">Process</span><span class="secondLine">Oriented</span>
+                                    }
+                                    else
+                                    {
+                                        actionValue = "Result";
+                                        <span class="firstLine">Result</span><span class="secondLine">Oriented</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension4 = dimensionsList.Where(x => x.Dimension == "concentration").SingleOrDefault();
+                                if (singledimension4 != null)
+                                {
+                                    if (singledimension4.Value == "Focused")
+                                    {
+                                        concentrationValue = "Focused";
+                                        <span class="firstLine">Focus</span><span class="secondLine">Required</span>
+                                    }
+                                    else
+                                    {
+                                        concentrationValue = "Relaxed";
+                                        <span class="firstLine">Relaxed</span><span class="secondLine">Environment</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension5 = dimensionsList.Where(x => x.Dimension == "information").SingleOrDefault();
+                                if (singledimension5 != null)
+                                {
+                                    if (singledimension5.Value == "Facts")
+                                    {
+                                        informationValue = "Facts";
+                                        <span class="firstLine">Fact</span><span class="secondLine">Seeking</span>
+                                    }
+                                    else
+                                    {
+                                        informationValue = "Imagination";
+                                        <span class="secondLineInversed">Using</span><span class="firstLineInversed">Imagination</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension6 = dimensionsList.Where(x => x.Dimension == "processing").SingleOrDefault();
+                                if (singledimension6 != null)
+                                {
+                                    if (singledimension6.Value == "Rational")
+                                    {
+                                        processingValue = "Rational";
+                                        <span class="firstLine">Rational</span><span class="secondLine">Reasoning</span>
+                                    }
+                                    else
+                                    {
+                                        processingValue = "Emotional";
+                                        <span class="firstLine">Emotional</span><span class="secondLine">Reasoning</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension7 = dimensionsList.Where(x => x.Dimension == "presence").SingleOrDefault();
+                                if (singledimension7 != null)
+                                {
+                                    if (singledimension7.Value == "Present")
+                                    {
+                                        presenceValue = "Present";
+                                        <span class="firstLine">Presence</span><span class="secondLine">Required</span>
+                                    }
+                                    else
+                                    {
+                                        presenceValue = "Remote";
+                                        <span class="secondLineInversed">Working</span><span class="firstLineInversed">Remotely</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension8 = dimensionsList.Where(x => x.Dimension == "patterns").SingleOrDefault();
+                                if (singledimension8 != null)
+                                {
+
+                                    if (singledimension8.Value == "Routine")
+                                    {
+                                        patternsValue = "Routine";
+                                        <span class="secondLineInversed">Established</span><span class="firstLineInversed">Routine</span>
+                                    }
+                                    else
+                                    {
+                                        patternsValue = "Discover";
+                                        <span class="secondLineInversed">Constant</span><span class="firstLineInversed">Discovery</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                    <div class="cell col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @{
+                                AssessmentDimensionsRating singledimension9 = dimensionsList.Where(x => x.Dimension == "compensation").SingleOrDefault();
+                                if (singledimension9 != null)
+                                {
+                                    if (singledimension9.Value == "Variable")
+                                    {
+                                        compensationValue = "Variable";
+                                        <span class="firstLine">Variable</span><span class="secondLine">Income</span>
+                                    }
+                                    else
+                                    {
+                                        compensationValue = "Fixed";
+                                        <span class="firstLine">Fixed</span><span class="secondLine">Income</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Not answered yet</p>
+                                }
+                                        }
+                                    </div>
+
+                                </div>
+                            }
+                            else
+                            { //dimensionsListCount = 0
+                                <div class="noResultsError">
+                                    @(ViewBag.StudentFirstName != null ? ViewBag.StudentFirstName + " didn't take the career test yet" : "You need to take the career test before viewing results")
+                                </div>
+
+                            }
+                        }
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a class="reportLink" href="/SkillTest">Go to Career Test</a>
+                    </div>
+                </div>
+
+
+                <!--========================About you========================================-->
+                <div class="reportDiv">
+                    <h2>About @greating</h2>
+                    <div class="aboutYouReport">
+                        @{
+                            if (ViewBag.StudentFirstName != null)
+                            {
+                                <p class="annotation">This is how @ViewBag.StudentFirstName's report annotaion card reads:</p>
+                            }
+                        }
+
+                        <div class="traitsDescription">
+                            @{
+                                if (attitudeValue != null && attitudeValue != "")
+                                {
+                                    if (attitudeValue == "Introvert")
+                                    {
+                                        <h3>You are an introvert</h3>
+                                        <p>You excel at working independently and need little guidance when completing projects. Managers love that you are able to take a set of project guidelines and hit the ground running with little input from other team members. Like other introverts, you prefer working in a private space to spending time in a conference room or other group environment. Working alone gives you the energy to power through tough assignments and get things done quickly, making you a valuable asset to any employer. E-mail is your preferred method of communication, as it lets you think about what you are going to say before you send a message.</p>
+                                        <div class="text-right"><a href="/personality/@attitudeValue" class="blueStripesBtn">Show Introvert Careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You are an extrovert</h3>
+                                        <p>You thrive on collaboration and love to exchange ideas with your colleagues. A noisy office area or crowded conference room is the best place for you to get creative and find solutions to challenges. Your colleagues love the fact that you are able to approach just about anyone, so you may find yourself representing your team at meetings or off-site events where social skills are just as important as business skills. You'll have no problem succeeding at these events, as networking with others is a breeze for an extravert like you. Working with others gives you the energy you need to produce top results.</p>
+                                        <div class="text-right"><a href="/personality/@attitudeValue" class="blueStripesBtn">Show Extrovert Careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+
+                                if (enduranceValue != null && enduranceValue != "")
+                                {
+                                    if (enduranceValue == "Stationary")
+                                    {
+                                        <h3>You prefer to remain stationary</h3>
+                                        <p>Having an opportunity to move around during the workday isn't something that is important to you. Instead, you love to spend time sitting at your desk and powering through everything from routine tasks to unexpected challenges. As someone who prefers a stationary career, a desk job will actually cause you less stress than a job that has you moving constantly. Spending a lot of time at your desk also gives you the time you need to think about your work and make good decisions. Managers appreciate that you are usually available for impromptu meetings or telephone calls.</p>
+                                        <div class="text-right"><a href="/personality/@enduranceValue" class="blueStripesBtn">Show stationary careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You prefer to be on the move</h3>
+                                        <p>You prefer to be on the go most of the time, whether you are attending a meeting across town or escorting clients on a tour of your city. Jobs that require a lot of desk time do not appeal to your sense of adventure. You excel in jobs that require a great deal of flexibility, as you are more than willing to drop what you are doing and start a new task in a new location. You may also enjoy jobs that require athletic prowess or physical stamina, as they make use of your natural tendency to move around while making decisions.</p>
+                                        <div class="text-right"><a href="/personality/@enduranceValue" class="blueStripesBtn">Show mobile careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (actionValue != null && actionValue != "")
+                                {
+                                    if (actionValue == "Process")
+                                    {
+                                        <h3>You are process oriented</h3>
+                                        <p>How you perform your job tasks is more important to you than the tasks themselves. This is a good thing, as focusing on these processes helps you learn and grow as a person. You place a high level of importance on learning new things and understanding exactly why things work as they do. This emphasis on learning helps you develop new skills that will increase your worth as an employee and help you qualify for special projects or promotions. You do best when performing clearly-defined tasks and participating in work activities that have a clear agenda.</p>
+                                        <div class="text-right"><a href="/personality/@actionValue" class="blueStripesBtn">Show process oriented careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You are result oriented</h3>
+                                        <p>Results-oriented people like yourself thrive in challenging environments where the end result is more important than the process used to achieve a task. When you are assigned a new project, you picture the end result in your mind and work to achieve that result as quickly as possible. Managers rely on you to make quick decisions that will help the entire team get the best result possible, and colleagues value your ability to get things done. Your results-oriented approach motivates other people to act quickly, so you may excel as a team leader, supervisor, or manager.</p>
+                                        <div class="text-right"><a href="/personality/@actionValue" class="blueStripesBtn">Show result oriented careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+
+                            @{
+                                if (concentrationValue != null && concentrationValue != "")
+                                {
+                                    if (concentrationValue == "Focused")
+                                    {
+                                        <h3>You prefer to stay focused</h3>
+                                        <p>You excel in careers that require a great deal of concentration, especially when you are able to work in a quiet environment that does not have a lot of distractions. Colleagues and supervisors rely on you to buckle down and focus on the details, as your personality makes it easy for you to get through marathon work sessions that would get the best of other employees. Your ideal work environment is one that has very little foot traffic, as you do not like to be disturbed by visitors or people who have to walk past your work area to get to other parts of the office.</p>
+                                        <div class="text-right"><a href="/personality/@concentrationValue" class="blueStripesBtn">Show focused careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You prefer relaxed environment</h3>
+                                        <p>While some people avoid distractions during work hours, you thrive on them. You love when colleagues stop by your office to discuss upcoming projects or ask for your input in solving a work-related problem. Instead of being annoyed by ringing telephones and clicking computer keys, you find it almost impossible to work without some sort of background noise. It is actually easier for you to meet deadlines when you have a few distractions, as you prefer breaking work sessions into small chunks of time rather than working straight through without any interruptions.</p>
+                                        <div class="text-right"><a href="/personality/@concentrationValue" class="blueStripesBtn">Show relaxed careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (informationValue != null && informationValue != "")
+                                {
+                                    if (informationValue == "Facts")
+                                    {
+                                        <h3>You are a fact seeker</h3>
+                                        <p>When it's time for you to make a decision, you're the type to "believe it when you see it." Rather than relying on your imagination, you rely on concrete facts and statistics. Supervisors love your rational approach to problem-solving, which helps you identify the potential pitfalls of business deals before your colleagues do. Rather than make on-the-spot decisions, you prefer to gather as much information as possible. This approach to your work makes you a reliable team member who others count on when it's time to make tough decisions. You thrive in careers that require excellent analytical skills and strong problem-solving abilities.</p>
+                                        <div class="text-right"><a href="/personality/@informationValue" class="blueStripesBtn">Show factual careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You are an imaginator</h3>
+                                        <p>Your approach to problem-solving allows you to thrive in careers that require creativity and imagination. Rather than filling your mind with statistics and facts, you prefer to rely on your own imagination to come up with solutions and innovative ideas for new products or services. While some people prefer a step-by-step approach to problem-solving, you prefer to make imaginative leaps from one point to another. Your colleagues benefit from this approach, as it helps you come to conclusions that step-by-step thinkers would not come up with on their own. Managers especially appreciate your ability to come up with unique ways to solve problems.</p>
+                                        <div class="text-right"><a href="/personality/@informationValue" class="blueStripesBtn">Show imaginative careers <i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (processingValue != null && processingValue != "")
+                                {
+                                    if (processingValue == "Rational")
+                                    {
+                                        <h3>You are rational</h3>
+                                        <p>As a rational thinker, you prefer to rely on concrete information rather than emotions or instinct. Colleagues value your logical approach to problem-solving, especially when critical decisions need to be made. Managers rely on your use of logic to solve complex problems, so you are a valued team member in any environment. Although you prefer to use logic when making decisions, you still have the ability to "go with your gut" when necessary. The ability to use logic even under the toughest of circumstances will help you succeed in careers involving technology and scientific processes.</p>
+                                    }
+                                    else
+                                    {
+                                        <h3>You are emotional</h3>
+                                        <p>While some people prefer to deal with concrete information when making decisions, you rely on your instincts to guide you. Emotions and feelings play an important role in your decision-making process, so you are used to dealing with some level of uncertainty on the job. Your ability to roll with the punches helps you succeed in the toughest work environments, and colleagues rely on your gut feelings to guide them in making their own decisions. You have a high level of emotional intelligence, so you excel in careers that require the ability to read other people and use the information you gather to make decisions.</p>
+                                    }
+                                    <div class="text-right"><a href="/personality/@processingValue" class="blueStripesBtn">Show @processingValue careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (presenceValue != null && presenceValue != "")
+                                {
+                                    if (presenceValue == "Remote")
+                                    {
+                                        <h3>You can work remotely</h3>
+                                        <p>When it comes to interacting with colleagues, supervisors, and clients, you prefer e-mail and telephone conversations to actual face time. You thrive when you are able to work off-site, especially if you are able to make your own schedule. Freelance jobs and non-traditional jobs appeal to you because they give you the freedom to set your own hours and work when you are at your peak performance. Clients and managers don't mind giving you a lot of flexibility, as you achieve the best results when you are allowed to set your own pace and decide when and where you will work.</p>
+                                        <div class="text-right"><a href="/personality/@processingValue" class="blueStripesBtn">Show remote careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>Your presence is required</h3>
+                                        <p>You thrive in careers that require frequent contact with your clients and colleagues. Although you have the ability to work independently, you do not value independence above face time with those who need you most. Your supervisors love the fact that they never have to wonder where you are, and colleagues appreciate that you make yourself available to assist them with projects and listen to their ideas. You are perfectly content to spend most of your time in the office, so a traditional 9-to-5 job would appeal to you more than a job that required telecommuting.</p>
+                                        <div class="text-right"><a href="/personality/@processingValue" class="blueStripesBtn">Show in-person careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (patternsValue != null && patternsValue != "")
+                                {
+                                    if (patternsValue == "Discover")
+                                    {
+                                        <h3>You constantly discover</h3>
+                                        <p>You are somewhat of a perfectionist when it comes to your work methods. Rather than use the same process for every task, you love to explore new ways of doing things. Increasing efficiency and improving the quality of your work are always at the front of your mind. You excel in careers that give you plenty of opportunities for finding new ways to solve problems or perfect processes. What works for others may not work for you, so colleagues and supervisors think of you as an innovative person who will settle for nothing less than the best when it comes to getting things done.</p>
+                                        <div class="text-right"><a href="/personality/@patternsValue" class="blueStripesBtn">Show discovery careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You prefer an established process</h3>
+                                        <p>While some people are never content with their work processes, you are happy to stick with the status quo. You are one of those people who find a way to automate every task possible, so your colleagues think of you as someone who is efficient and committed to maintaining a high level of productivity. Computers, smart phones, and other gadgets are your most trusted tools, as you use them to automate routine tasks that require very little in the way of concentration. Because you are content with routine, you do not get bored as easily as people who enjoy finding new ways to complete tasks.</p>
+                                        <div class="text-right"><a href="/personality/@patternsValue" class="blueStripesBtn">Show procedural careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="traitsDescription">
+                            @{
+                                if (compensationValue != null && compensationValue != "")
+                                {
+                                    if (compensationValue == "Variable")
+                                    {
+                                        <h3>You prefer variable income</h3>
+                                        <p>When it comes to your compensation, you are willing to take a risk if it means that you will make more money than you would if you accepted a fixed salary. You jump at the chance to take jobs that pay a base salary plus commissions, bonuses, or incentive payments. Because your performance affects how much money you make, you strive to do your best at every task. Colleagues and managers alike think of you as a go-getter who refuses to accept anything less than a first-place finish. This drive helps you earn as much income as possible while enjoying the personal satisfaction of achieving your goals.</p>
+                                        <div class="text-right"><a href="/personality/@compensationValue" class="blueStripesBtn">Show variable income careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                    else
+                                    {
+                                        <h3>You prefer fixed income</h3>
+                                        <p>Because you are naturally averse to taking financial risks, you prefer to receive a fixed salary or hourly wage. You shy away from positions that involve incentive plans or commissions, as they do not offer you the financial stability you desire. Receiving a fixed income helps you budget for expenses and determine how much money you need to save to meet your financial goals. If you have family members who rely on you for their basic needs, choosing a guaranteed salary over a base salary plus performance-based commissions helps you meet your obligations and put away money for the future.</p>
+                                        <div class="text-right"><a href="/personality/@compensationValue" class="blueStripesBtn">Show fixed income careers<i class="fa fa-angle-right pull-right arrowRight"></i></a></div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                    </div>
+                    <div class="text-right row extraMargin"><a href="/CareerTest" class="reportLink">Go to Career Test</a></div>
+                </div>
+
+                <!--========================Your interests========================================-->
+                <div class="reportDiv">
+                    <h2>@(ViewBag.StudentFirstName != null ? ViewBag.StudentFirstName + "\'s" : "Your") Interests</h2>
+                    <div class="interestsReport">
+                        @{
+                            List<AssessmentInterestRating> interestsList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndStudent(student.School, user));
+                            if (interestsList.Count != 0)
+                            {
+                                foreach (AssessmentInterestRating interest in interestsList)
+                                {
+                                    if (interest.Rating == "1")
+                                    {
+                                        <p class="interest" data-interest="@interest.Interest"></p>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <div class="noResultsError">@greating didn't select any interests yet</div>
+                            }
+                        }
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a href="/StudentPortal/RateInterests" class="reportLink">Go to interests</a>
+                    </div>
+                </div>
+
+
+                <!--========================Careers you liked========================================-->
+                <div class="reportDiv">
+                    <h2>Careers @greating would definitely consider</h2>
+                    <div class="careersYesReport">
+                        @{
+                            List<AssessmentCareerRating> careersRatedList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(student.School, user));
+                            if (careersRatedList.Count != 0)
+                            {
+                                List<AssessmentCareerRating> ratedYesList = careersRatedList.Where(x => x.Rating == "1").ToList();
+                                if (ratedYesList.Count != 0)
+                                {
+                                    foreach (AssessmentCareerRating career in ratedYesList)
+                                    {
+                                        @*<a class="dolcode" data-dolcode="@career.DolCode"></a>*@
+                                        <a class="career" target="_blank" href="" data-dolcode="@career.DolCode"><span class="professionName"></span><i class="fa fa-angle-right pull-right arrowRight"></i></a>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="noResultsError">@greating didn't any careers yet</div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="noResultsError">@greating didn't rate any careers yet</div>
+                            }
+                        }
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a href="/Careers/ByPersonality" class="reportLink">Go to rate careers</a>
+                    </div>
+                </div>
+
+                <!--========================Careers you didnt like========================================-->
+                <div class="reportDiv">
+                    <h2>Careers @greating would definitely not consider</h2>
+                    <div class="careersNoReport">
+                        @{
+
+                            if (careersRatedList.Count != 0)
+                            {
+                                List<AssessmentCareerRating> ratedNoList = careersRatedList.Where(x => x.Rating == "0").ToList();
+                                if (ratedNoList.Count != 0)
+                                {
+                                    foreach (AssessmentCareerRating career in careersRatedList)
+                                    {
+                                        if (career.Rating == "0")
+                                        {
+                                            <a class="career" target="_blank" href="" data-dolcode="@career.DolCode"><span class="professionName"></span><i class="fa fa-angle-right pull-right arrowRight"></i></a>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="noResultsError">@greating didn't rate any careers yet</div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="noResultsError">@greating didn't rate any careers yet</div>
+                            }
+                        }
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a href="/Careers/ByPersonality" class="reportLink">Go to rate careers</a>
+                    </div>
+                </div>
+
+                <!--========================Careers matching your personality ========================================-->
+                <div class="reportDiv">
+                    <h2>Careers matching @(ViewBag.StudentFirstName != null ? ViewBag.StudentFirstName + "'s" : "your") personality</h2>
+                    <div class="careersReport">
+
+                    </div>
+                    @*<div class="text-right row extraMargin">
+                        <a href="/CareerTest" class="reportLink">Go to Career Test</a>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var interests = [];
+    var greating = '@greating';
+    function document_ready() {
+        dimensions.attitude = '@attitudeValue';
+        dimensions.information = '@informationValue';
+        dimensions.processing = '@processingValue';
+        dimensions.action = '@actionValue';
+        dimensions.endurance = '@enduranceValue';
+        dimensions.presence = '@presenceValue';
+        dimensions.concentration = '@concentrationValue';
+        dimensions.patterns = '@patternsValue';
+        dimensions.compensation = '@compensationValue';
+
+        var showDivs = false;
+        var showDivs2 = false;
+        var interestCount = $('.interest').length;
+        var answeredTraitsCount = $('.traitsDescription p').length;
+
+        if (greating.toLowerCase() != 'you') {
+            $('.reportLink').hide();
+            $('.blueStripesBtn').hide();
+            $('.printLink').show();
+        }
+
+        $('body').scrollTop(0);
+        $('html').scrollTop(0);
+        window.scrollTo(0, 0);
+        $(document).scrollTop(0);
+        $(window).scrollTop(0);
+
+        $('.blueStripesBtn').click(function () {
+            localStorage.interests = JSON.stringify(interests);
+        });
+
+        $('.career').each(function (index, element) {
+            var dolcode = $(element).data('dolcode');
+            //dolcode = dolcode.replace(user, '');
+            var title = professions[professions.map(function (x) { return x.code; }).indexOf(dolcode)].title;
+            $(element).attr('href', appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-')).find('.professionName').text(title);
+        });
+
+        // $('.blueStripesBtn').attr('href', appserverurl +'/personality' + )
+
+        var interestCounter = 0;
+        //display interest captions
+        $('.interest').each(function (index, element) {
+            textvalue = $(this).data('interest');
+            interests.push(textvalue);
+            var interestName = importantthingdefinitions[importantthingdefinitions.map(function (x) { return x.name; }).indexOf(textvalue)].caption;
+            $(this).text(interestName);
+            interestCounter++;
+            $(this).addClass('interest' + interestCounter);
+        });
+
+        //animate interests
+        if ($(window).width() > 767) {
+            if (showDivs == false) {
+                if ($(window).scrollTop() + $(window).height() >= $('.interestsReport').offset().top + $('.interestsReport').outerHeight()) {
+                    showDivs = true;
+                }
+            }
+
+            $(window).scroll(function () {
+                if (showDivs == false) {
+                    if ($(window).scrollTop() + $(window).height() >= $('.interestsReport').offset().top + $('.interestsReport').outerHeight()) {
+                        showDivs = true;
+
+                    }
+                }
+            });
+        }
+        else {
+            $('.interest').css('opacity', '1');
+        }
+
+        //animate trait descriptions
+        var loaded = [];
+        if ($(window).width() > 767) {
+
+            for (var k = 0; k < answeredTraitsCount; k++) {
+                if (loaded[k] != "1") {
+                    var bottom_of_object = $(".traitsDescription").eq(k).position().top + $(".traitsDescription").eq(k).outerHeight();
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if (bottom_of_window > bottom_of_object) {
+                        $(".traitsDescription").eq(k).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                        loaded[k] = "1";
+                    }
+                }
+            }
+
+
+            $(window).scroll(function () {
+                for (var k = 0; k < answeredTraitsCount; k++) {
+                    if (loaded[k] != "1") {
+                        var bottom_of_object = $(".traitsDescription").eq(k).position().top + $(".traitsDescription").eq(k).outerHeight();
+                        var bottom_of_window = $(window).scrollTop() + $(window).height();
+                        /* If the object is completely visible in the window, fade it it */
+                        if (bottom_of_window > bottom_of_object) {
+                            $(".traitsDescription").eq(k).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                            loaded[k] = "1";
+                        }
+                    }
+                }
+            });
+        }
+        else { //no animation for mobile
+            $('.traitsDescription').css('opacity', '1');
+        }
+
+
+
+        //Show Careers matching personality
+        if (answeredTraitsCount == 9) {
+            for (var i = 0; i < professions.length; i++) {
+                var item = professions[i];
+                //match selected dimensions
+                includeCareer(item);
+            }
+        }
+        else {
+            $('.aboutYouReport').html('<div class="noResultsError">' + (greating ? greating + ' didn\'t take the career test yet' : 'you need to take a career test before viewing results') + '</div>');
+            $('.careersReport').html('<div class="noResultsError">' + (greating ? greating + ' didn\'t take the career test yet' : 'you need to take a career test before viewing results') + '</div>');
+        }
+
+       // $('.noResultsError').closest('.reportDiv').addClass('noPrint');
+
+    } //document ready
+
+    function showDescription() {
+
+    }
+
+    function includeCareer(item) {
+        var rank = 0;
+        if (dimensions.attitude != '' && (!(item.attitude == '' || item.attitude == dimensions.attitude))) { return; } else if (dimensions.attitude != '' && item.attitude == dimensions.attitude) { rank++; }
+        if (dimensions.information != '' && (!(item.information == '' || item.information == dimensions.information))) { return; } else if (dimensions.information != '' && item.information == dimensions.information) { rank++; }
+        if (dimensions.processing != '' && (!(item.processing == '' || item.processing == dimensions.processing))) { return; } else if (dimensions.processing != '' && item.processing == dimensions.processing) { rank++; }
+        if (dimensions.action != '' && (!(item.action == '' || item.action == dimensions.action))) { return; } else if (dimensions.action != '' && item.action == dimensions.action) { rank++; }
+        if (dimensions.endurance != '' && (!(item.endurance == '' || item.endurance == dimensions.endurance))) { return; } else if (dimensions.endurance != '' && item.endurance == dimensions.endurance) { rank++; }
+        if (dimensions.presence != '' && (!(item.presence == '' || item.presence == dimensions.presence))) { return; } else if (dimensions.presence != '' && item.presence == dimensions.presence) { rank++; }
+        if (dimensions.concentration != '' && (!(item.concentration == '' || item.concentration == dimensions.concentration))) { return; } else if (dimensions.concentration != '' && item.concentration == dimensions.concentration) { rank++; }
+        if (dimensions.patterns != '' && (!(item.patterns == '' || item.patterns == dimensions.patterns))) { return; } else if (dimensions.patterns != '' && item.patterns == dimensions.patterns) { rank++; }
+        if (dimensions.compensation != '' && (!(item.compensation == '' || item.compensation == dimensions.compensation))) { return; } else if (dimensions.compensation != '' && item.compensation == dimensions.compensation) { rank++; };
+        $('.careersReport').append('<a target="_blank" class="career" href="' + appserverurl + '/Career/' + item.title.replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + item.title + '</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>');
+    }
+</script>

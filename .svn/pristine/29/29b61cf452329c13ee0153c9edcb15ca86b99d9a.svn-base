@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage;
+using SkillCowResponsive.Classes;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AboutController : AuthenticatedControllerController
+    {
+        //
+        // GET: /About/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Advertise()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Advertise(string name, string email, string message)
+        {
+            EmailManager emailManager = new EmailManager();
+            string body = "<p>Full name: " + name + "</p><p>Email: " + email + "</p><p>" + message + "</p>";
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "Advertising request", body);
+            return RedirectToAction("MessageSubmitted", "About");
+        }
+        public ActionResult MessageSubmitted()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Newsletter()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Newsletter(string name, string email)
+        {
+            AddresseeClient adc = new AddresseeClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email);
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+            }
+            return RedirectToAction("Thankyou", "About");
+        }
+        public ActionResult Thankyou()
+        {            
+            return View();
+        }
+        public ActionResult contactus()
+        {
+            return View();
+        }
+        public ActionResult Terms()
+        {
+            return View();
+        }
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+        public ActionResult Methodology()
+        {
+            return View();
+        }
+
+    }
+}

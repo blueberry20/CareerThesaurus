@@ -1,0 +1,472 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@model UserProfileClient
+@{
+    ViewBag.Title = "User Profiles";
+}
+
+@{
+    string[] allnames =
+    {
+    "fAaliyah","mAaron","fAarushi","fAbbey","fAbbi","fAbbie","fAbby","mAbdul","mAbdullah","mAbel"
+    ,"fAbi","fAbia","fAbigail","mAbraham","mAbram","mAbriel","fAby","fAcacia","mAce","fAda"
+    ,"fAdalia","fAdalyn","mAdam","mAdan","fAddie","fAddison","mAde","fAdelaide","fAdele","fAdelina"
+    ,"fAdeline","mAden","mAdnan","fAdreanna","mAdrian","fAdriana","fAdrianna","fAdrianne","fAdrienne","fAerona"
+    ,"fAgatha","fAggie","fAgnes","mAhmad","mAhmed","fAida","mAidan","mAiden","fAileen","fAimee"
+    ,"fAine","mAinsley","fAinsley","fAisha","fAisling","mAl","mAlain","fAlaina","mAlan","fAlana"
+    ,"fAlanna","fAlannah","mAlastair","fAlayah","fAlayna","fAlba","mAlbert","mAlberto","mAlbie","mAlden"
+    ,"mAldo","fAleah","mAlec","fAlecia","fAleisha","fAlejandra","mAlejandro","fAlena","mAlesandro","fAlessandra"
+    ,"fAlexa","mAlexander","fAlexandra","fAlexandria","fAlexia","fAlexis","fAlexus"
+    ,"mAlfie","mAlfonso","mAlfred","mAlfredo","fAlia","fAlice","fAlicia","fAlina"
+    ,"fAlisa","fAlisha","fAlison","fAlissa","mAlistair","fAlivia","fAliyah","fAlize","fAlka","mAllan"
+    ,"mAllen","fAllie","fAllison","fAlly","fAllyson","fAlma","fAlondra","mAlonzo","mAlphonso","mAlton"
+    ,"mAlvin","fAlycia","fAlyshialynn","fAlyson","fAlyssa","fAlyssia","fAmalia","fAmanda","fAmani","fAmara"
+    ,"mAmari","fAmari","fAmaris","fAmaya","fAmber","fAmelia","fAmelie","fAmerica","fAmethyst","fAmie"
+    ,"fAmina","mAmir","fAmirah","mAmit","mAmos","fAmy","fAmya","fAna","fAnahi","fAnais"
+    ,"fAnamaria","fAnastasia","fAndie","mAndre","fAndrea","mAndreas","mAndres","mAndrew","fAndromeda","mAndy"
+    ,"fAngel","mAngel","fAngela","fAngelia","fAngelica","fAngelina","fAngeline","fAngelique","mAngelo","fAngie"
+    ,"mAngus","fAnika","fAnisa","fAnita","fAniya","fAniyah","fAnjali","fAnn","fAnna","fAnnabel"
+    ,"fAnnabella","fAnnabelle","fAnnabeth","fAnnalisa","fAnnalise","fAnne","fAnneke","fAnnemarie","fAnnette","fAnnie"
+    ,"fAnnika","fAnnmarie","fAnselma","fAnthea","mAnthony","fAntoinette","mAnton","fAntonia","mAntonio","mAntony"
+    ,"fAnuja","fAnusha","fAnya","fAoibhe","fAoife","fAphrodite","fApple","fApril","fAqua","fArabella"
+    ,"mAran","mArcher","mArchie","mAri","fAria","fAriadne","fAriana","fArianna","fArianne","fAriel"
+    ,"fAriella","fArielle","fArisha","fArleen","fArlene","mArlo","mArman","mArmando","mArnold","mArrie"
+    ,"mArt","fArtemis","mArthur","mArturo","fArya","mAsa","mAsad","fAsh","fAsha","fAshanti"
+    ,"mAsher","fAshlee","fAshleigh","mAshley","fAshley","fAshlie","fAshlyn","fAshlynn","fAshvini","fAsia","fAsma","mAspen","fAspen","mAston","fAstrid","fAthena","mAtticus","fAubree"
+    ,"fAubrey","mAubrey","fAudra","fAudrey","fAudrina","mAudwin","mAugust","fAurelia","fAurora","mAustin"
+    ,"fAutumn","fAva","fAvalon","fAvery","mAvery","fAvril","mAxel","fAya","mAyaan","fAyana"
+    ,"fAyanna","mAyden","fAyesha","fAyisha","fAyla","fAzalea","fAzaria","fAzariah","fBailey","mBailey"
+    ,"fBarbara","mBarclay","mBarnaby","mBarney","mBarry","mBart","mBartholomew","mBasil","mBay","fBaylee"
+    ,"fBea","fBeatrice","fBeatrix","mBeau","fBecca","fBeccy","mBeckett","fBecky","fBelinda","fBella"
+    ,"fBelle","mBen","mBenedict","fBenita","mBenjamin","mBenji","mBennett","mBennie","mBenny","mBenson"
+    ,"fBenthe","mBentley","fBernadette","mBernard","mBernardo","fBernice","mBert","fBertha","mBertie","fBeryl"
+    ,"fBess","fBeth","fBethan","fBethanie","fBethany","fBetsy","fBettina","fBetty","fBeverly","fBeyonce"
+    ,"fBhu","fBianca","mBill","fBillie","mBilly","mBladen","mBlain","mBlaine","mBlair","mBlaise"
+    ,"mBlake","fBlanche","mBlaze","fBlossom","fBlythe","mBob","fBobbi","fBobbie","mBobby","fBonita"
+    ,"fBonnie","mBoris","mBoston","mBoyd","mBrad","mBraden","mBradford","mBradley","mBradwin","mBrady"
+    ,"mBraeden","fBraelyn","mBranden","fBrandi","mBrandon","fBrandy","mBrantley","mBraxton","mBrayan","mBrayden"
+    ,"mBraydon","fBrea","fBreanna","fBree","fBrenda","mBrendan","mBrenden","mBrendon","fBrenna","mBrennan"
+    ,"mBrent","mBret","mBrett","mBrevyn","fBria","mBrian","fBriana","fBrianna","fBrianne","fBriar"
+    ,"mBrice","fBridget","fBridgette","fBriella","fBrielle","mBrinley","fBriony","fBrisa","fBritney","fBritt"
+    ,"fBrittany","fBrittney","mBrock","mBrodie","mBrody","fBrogan","mBronson","fBronte","fBronwen","fBronwyn"
+    ,"fBrooke","fBrooklyn","fBrooklynn","mBruce","mBruno","mBryan","fBryanna","mBryant","mBryce","fBryn"
+    ,"fBrynlee","fBrynn","mBryon","fBryony","mBryson","mBuck","mBuddy","mBurt","mBurton","mButch"
+    ,"mByron","mCadby","mCade","mCaden","fCadence","mCael","mCaelan","mCaesar","mCai","fCailin"
+    ,"mCain","fCaitlan","fCaitlin","fCaitlyn","mCaleb","fCaleigh","mCalhoun","fCali","mCallan","fCallie"
+    ,"fCallista","mCallum","mCalum","mCalvin","fCalypso","mCam","mCamden","mCameron","fCameron","fCami"
+    ,"fCamila","fCamilla","fCamille","mCampbell","mCamron","fCamryn","fCandace","fCandice","fCandy","fCaoimhe"
+    ,"fCaprice","fCara","mCarey","fCarina","fCaris","fCarissa","mCarl","fCarla","fCarley","mCarlos"
+    ,"mCarlton","fCarly","fCarlynn","fCarmela","fCarmen","fCarol","fCarole","fCarolina","fCaroline","fCarolyn"
+    ,"fCarrie","mCarsen","mCarson","fCarter","mCarter","mCary","fCarys","mCasey","fCasey","mCash"
+    ,"mCasper","fCassandra","fCassidy","fCassie","mCassius","mCastiel","fCat","fCate","fCaterina","mCathal"
+    ,"fCathalina","fCatherine","fCathleen","fCathy","fCatrina","fCatriona","mCayden","fCayla","fCece","fCecelia"
+    ,"mCecil","fCecilia","fCecily","mCedric","fCeleste","fCelestia","fCelestine","fCelia","fCelina","fCeline"
+    ,"fCerys","mCesar","mChad","mChance","mChandler","fChanel","fChanelle","mChanning","fChantal","fChantelle"
+    ,"fCharis","fCharissa","fCharity","fCharlene","mCharles","fCharley","fCharlie","mCharlie","fCharlize","fCharlotte"
+    ,"fCharmaine","mChase","fChastity","mChaz","mChe","fChelsea","fChelsey","fChenille","fCher","fCheri"
+    ,"fCherie","fCherry","fCheryl","mChesney","mChester","mChevy","fCheyanne","fCheyenne","fChiara","mChip"
+    ,"fChloe","mChris","fChris","fChrissy","fChrista","fChristal","fChristi","mChristian","fChristiana","fChristie"
+    ,"fChristina","fChristine","mChristopher","fChristy","fChrystal","mChuck","mCian","fCiara","mCiaran","fCiel"
+    ,"fCierra","mCillian","fCindy","fClaire","mClancy","fClara","fClare","mClarence","fClarice","fClarissa"
+    ,"fClarisse","mClark","mClaude","fClaudette","fClaudia","fClaudine","mClay","mClayton","fClea","mClement"
+    ,"fClementine","fCleo","mClifford","mClifton","mClint","mClinton","mClive","fClodagh","fClover","mClyde"
+    ,"mCoby","fCoco","mCody","mCohen","mColby","mCole","fColette","mColin","fColleen","mCollin"
+    ,"mColm","mColt","mColton","mConner","fConnie","mConnor","mConor","mConrad","fConstance","mConstantine"
+    ,"mCooper","fCora","fCoral","fCoralie","fCoraline","mCorbin","fCordelia","mCorey","fCori","fCorina"
+    ,"fCorinne","mCormac","mCornelius","fCorra","mCory","fCosette","fCourtney","mCraig","mCristian","fCristina"
+    ,"mCristobal","mCruz","fCrystal","mCullen","mCurt","mCurtis","mCuthbert","fCynthia","mCyril","mCyrus"
+    ,"mDacey","fDagmar","fDahlia","mDaire","fDaisy","fDakota","mDale","mDallas","mDalton"
+    ,"mDamian","mDamien","mDamion","mDamon","mDan","mDana","fDana","mDane","fDanette","fDani"
+    ,"fDanica","mDaniel","fDaniela","fDaniella","fDanielle","fDanika","mDanny","mDante","fDaphne"
+    ,"fDara","mDaragh","fDarcey","fDarcie","fDarcy","mDaren","fDaria","mDarian","mDarin"
+    ,"mDarius","fDarla","fDarlene","mDarnell","mDarragh","mDarrel","mDarrell","mDarren","mDarrin","mDarryl"
+    ,"mDarwin","mDaryl","mDashawn","fDashee","mDave","mDavid","fDavida","fDavina","mDavion","mDavis"
+    ,"fDawn","mDawson","mDax","fDayna","fDaysha","mDeacon","mDean","fDeana","mDeandre","fDeann"
+    ,"fDeanna","fDeanne","fDebbie","fDebora","fDeborah","fDebra","mDeclan","fDee","fDeedee","fDeena"
+    ,"fDeidre","fDeirdre","fDeja","fDelaney","fDelanie","mDelbert","fDelia","fDelilah","fDella","fDelores"
+    ,"fDemetria","mDemetrius","fDemi","fDena","mDenis","fDenise","mDennis","fDenny","mDenver","mDenzel"
+    ,"mDerek","mDerrick","fDesiree","mDesmond","fDestinee","fDestiny","mDev","mDevin","mDevon","mDewayne"
+    ,"mDewey","mDexter","mDhalsim","fDiamond","fDiana","fDiane","fDianna","fDianne","mDiarmuid","mDick"
+    ,"mDiego","mDieter","mDillon","mDimitri","fDina","mDinesh","mDino","mDion","fDionne","mDirk"
+    ,"fDixie","mDjango","mDmitri","fDolly","fDolores","mDominic","mDominick","fDominique","mDon","mDonald"
+    ,"fDonna","mDonnie","mDonovan","fDora","fDoreen","mDorian","fDoris","fDorothy","mDoug","mDouglas"
+    ,"mDoyle","mDrake","mDrew","fDrew","mDuane","mDuke","fDulce","mDuncan","mDustin","mDwayne"
+    ,"mDwight","mDylan","fEabha","mEamon","mEarl","mEarnest","mEaston","fEbony","mEd","mEddie"
+    ,"mEddy","mEden","fEden","mEdgar","fEdie","mEdison","fEdith","mEdmund","fEdna","mEduardo"
+    ,"mEdward","mEdwardo","mEdwin","fEdwina","fEffie","mEfrain","mEfren","fEileen","fEilidh","fEimear"
+    ,"fElaina","fElaine","fEleanor","fElectra","fElektra","fElena","mEli","fEliana","mElias","mElijah"
+    ,"fElin","fElina","mEliot","fElisa","fElisabeth","fElise","mElisha","fEliza","fElizabeth","fElla"
+    ,"fElle","fEllen","fEllie","mElliot","mElliott","mEllis","fElly","mElmer","mElmo","fElodie"
+    ,"fEloise","fElora","fElsa","fElsie","fElspeth","mElton","fElvira","mElvis","fElysia","fElyza"
+    ,"mEmanuel","fEmanuela","fEmber","fEmely","fEmer","fEmerald","mEmerson","fEmerson","mEmery","mEmet"
+    ,"mEmil","fEmilee","fEmilia","mEmiliano","fEmilie","mEmilio","fEmily","fEmma","fEmmaline","fEmmalyn"
+    ,"mEmmanuel","fEmmanuelle","fEmmeline","mEmmett","fEmmie","fEmmy","mEnnio","mEnrique","fEnya","mEnzo"
+    ,"mEoghan","mEoin","mEric","fErica","mErick","mErik","fErika","fErin","mErnest","mErnesto"
+    ,"mErnie","mErrol","mErvin","fEsmay","fEsme","fEsmeralda","mEsteban","fEstee","fEstelle","fEster"
+    ,"fEsther","mEthan","fEthel","mEtienne","mEuan","mEugene","fEugenie","fEunice","mEustace","fEva"
+    ,"mEvan","fEvangeline","mEvangelos","fEve","fEvelyn","mEverett","fEvie","mEwan","mEzekiel","mEzra"
+    ,"mFabian","mFabio","fFabrizia","mFaisal","fFaith","fFallon","fFanny","fFarah","mFarley","fFarrah"
+    ,"fFatima","fFawn","fFay","fFaye","mFebian","fFelicia","fFelicity","mFelipe","mFelix","mFergus"
+    ,"fFern","fFernanda","mFernando","fFfion","mFidel","mFinbar","mFinlay","mFinley","mFinn","fFiona"
+    ,"mFionn","mFletcher","fFleur","fFlor","fFlora","fFlorence","mFloyd","mFlynn","mForrest","mFoster"
+    ,"mFox","fFran","fFrances","fFrancesca","mFrancesco","fFrancine","mFrancis","mFrancisco","mFrank","mFrankie"
+    ,"fFrankie","mFranklin","mFranklyn","mFraser","mFred","mFreddie","mFreddy","mFrederick","mFredrick","fFreya"
+    ,"mFritz","fGabby","mGabe","mGabriel","fGabriela","fGabriella","fGabrielle","mGael","mGage","fGail"
+    ,"mGale","mGannon","mGareth","mGarman","mGarrett","mGarrison","mGarry","mGarth","mGary","mGavin"
+    ,"fGayle","fGaynor","fGemma","fGena","mGene","fGenesis","fGenevieve","mGeoffrey","mGeorge","fGeorgette"
+    ,"fGeorgia","fGeorgina","mGeraint","mGerald","fGeraldine","mGerard","mGerardo","mGerry","fGertrude","fGia"
+    ,"mGian","fGianna","mGideon","fGigi","mGilbert","mGilberto","mGiles","fGillian","fGina","fGinger"
+    ,"fGinny","mGino","mGiorgio","fGiovanna","mGiovanni","fGiselle","fGisselle","fGladys","mGlen","fGlenda"
+    ,"mGlenn","fGloria","mGlyndwr","mGodric","mGordon","fGrace","fGracie","mGrady","mGraeme","mGraham"
+    ,"fGrainne","mGrant","mGrayson","mGreg","mGregg","mGregor","mGregory","fGreta","fGretchen","mGriffin"
+    ,"fGriselda","fGuadalupe","mGuillermo","fGuinevere","mGunnar","mGunner","mGus","mGustavo","mGuy","fGwen"
+    ,"fGwendolyn","fGwyneth","fHabiba","fHadley","fHailee","fHailey","fHaleigh","fHaley","fHalle","fHallie"
+    ,"mHamish","mHank","fHanna","fHannah","mHans","mHarley","fHarley","fHarmony","mHarold","fHarper"
+    ,"fHarriet","mHarrison","mHarry","mHarvey","mHassan","fHattie","mHayden","fHaylee","fHayley","fHazel"
+    ,"fHazeline","mHeath","fHeather","fHeaven","mHector","fHeidi","fHelen","fHelena","fHelga","fHelina"
+    ,"mHenri","fHenrietta","mHenry","fHera","mHerbert","mHerman","fHermione","fHester","fHetty","fHilary"
+    ,"fHilda","mHolden","fHollie","fHolly","mHomer","fHonesty","fHoney","fHonor","fHonour","fHope"
+    ,"mHorace","mHoratio","mHoward","mHubert","mHudson","mHugh","mHugo","mHumphrey","mHunter","mHuw"
+    ,"fHyacinth","mHywel","mIain","mIan","mIbrahim","fIda","mIdris","mIggy","mIgnacio","mIgor"
+    ,"fIlene","fIliana","fIlona","fIlse","fImani","fImelda","fImogen","fIndia","mIndiana","fIndira"
+    ,"fInes","fIngrid","fIona","mIra","fIrene","fIris","fIrma","mIrving","mIrwin","fIsa"
+    ,"mIsaac","fIsabel","fIsabella","fIsabelle","mIsaiah","fIsha","mIsiah","fIsis","fIsla","mIsmael"
+    ,"fIsobel","fIsolde","mIsrael","mIssac","fItzel","mIvan","fIvana","fIvy","fIyanna","fIzabella"
+    ,"fIzidora","fIzzy","mJace","fJacinda","fJacinta","mJack","fJackie","mJackson","mJacob"
+    ,"mJacoby","fJacqueline","fJacquelyn","fJada","fJade","fJaden","mJaden","mJadon","fJadyn","fJaelynn"
+    ,"mJago","mJai","mJaiden","mJaime","mJake","mJakob","mJalen","mJamal","mJames","mJameson"
+    ,"fJamie","mJamie","mJamison","fJan","fJana","fJancis","fJane","fJanelle","fJanessa","fJanet"
+    ,"fJanette","fJanice","fJanie","fJanine","fJanis","fJaniya","fJaqueline","mJared","mJarrett","mJarvis"
+    ,"mJase","fJasmin","fJasmine","mJason","mJasper","mJavier","mJavon","mJax","mJaxon","mJaxson"
+    ,"mJay","fJayda","fJayden","mJayden","mJaydon","fJayla","mJaylen","mJaylin","fJaylinn","mJaylon"
+    ,"fJaylynn","fJayne","mJayson","fJazlyn","fJazmin","fJazmine","fJean","fJeanette","fJeanine","fJeanne"
+    ,"fJeannette","fJeannie","fJeannine","mJeb","mJed","mJediah","mJeff","mJeffery","mJeffrey","mJeffry"
+    ,"fJemima","fJemma","fJen","fJena","fJenna","fJenni","fJennie","fJennifer","fJenny","mJensen"
+    ,"fJensen","mJenson","mJerald","mJeremiah","mJeremy","fJeri","mJericho","mJermaine","mJerome","fJerri"
+    ,"mJerry","fJess","mJesse","fJessica","fJessie","mJessie","mJesus","mJethro","mJett","fJewel"
+    ,"fJill","fJillian","mJim","mJimmie","mJimmy","fJo","fJoan","fJoann","fJoanna","fJoanne"
+    ,"mJoaquin","fJocelyn","fJodi","fJodie","fJody","mJoe","mJoel","fJoelle","mJoey"
+    ,"mJohan","fJohanna","mJohn","mJohnathan","mJohnathon","mJohnnie","mJohnny","fJoleen","fJolene","fJolie"
+    ,"mJon","mJonah","mJonas","mJonathan","mJonathon","fJoni","fJordan","mJordan","mJordy","fJordyn"
+    ,"mJorge","fJorja","mJose","fJoselyn","mJoseph","fJosephine","mJosh","mJoshua","mJosiah","fJosie"
+    ,"mJosue","fJoy","fJoyce","mJuan","fJuanita","mJudah","mJudas","mJudd","mJude","fJudith"
+    ,"fJudy","fJules","fJulia","mJulian","fJuliana","fJulianna","fJulianne","fJulie","fJuliet","fJuliette"
+    ,"mJulio","fJulissa","mJulius","fJuly","fJune","fJuno","mJustice","fJustice","mJustin","fJustina"
+    ,"fJustine","fKacey","mKade","mKaden","mKai","mKaiden","fKaidence","fKailey","fKailyn","fKaitlin"
+    ,"fKaitlyn","fKaitlynn","mKale","fKalea","mKaleb","fKaleigh","fKali","fKalia","fKamala","mKameron"
+    ,"fKamryn","mKane","fKara","fKaren","fKari","fKarin","fKarina","fKarissa","mKarl","fKarla"
+    ,"fKarlee","fKarly","fKarolina","fKaryn","fKasey","mKash","mKasper","fKassandra","fKassidy"
+    ,"fKassie","fKat","fKatara","fKatarina","fKate","fKatelyn","fKatelynn","fKaterina","fKatharine","fKatherine"
+    ,"fKathleen","fKathryn","fKathy","fKatia","fKatie","fKatlyn","fKatrina","fKaty","fKatya","fKay"
+    ,"fKaya","mKayden","fKaye","fKayla","fKaylee","fKayleigh","mKaylen","fKayley","fKaylie","fKaylin"
+    ,"mKayson","mKeanu","mKeaton","mKedrick","mKeegan","fKeeley","fKeely","mKeenan","fKeira","fKeisha"
+    ,"mKeith","fKelis","mKellen","fKelley","fKelli","fKellie","mKellin","fKelly","fKelsey"
+    ,"fKelsie","mKelvin","mKen","fKendall","mKendall","fKendra","mKendrick","fKennedy","mKenneth","mKenny"
+    ,"mKent","fKenzie","fKeri","fKerian","fKerri","fKerry","mKevin","mKhalil","mKian"
+    ,"fKiana","fKiara","fKiera","mKieran","fKierra","fKiersten","fKiki","fKiley","mKillian"
+    ,"fKim","fKimberlee","fKimberley","fKimberly","fKimbriella","fKimmy","mKingsley","mKingston","fKinley","fKinsey"
+    ,"fKinsley","mKip","fKira","mKirk","fKirsten","fKirstin","fKirsty","fKiswa","mKit","fKitty"
+    ,"mKlaus","mKlay","mKobe","mKody","mKolby","fKourtney","mKris","fKris","fKrista","fKristen"
+    ,"fKristi","mKristian","fKristie","fKristin","fKristina","fKristine","mKristopher","fKristy","fKrystal","mKurt"
+    ,"mKurtis","mKye","fKyla","mKylar","mKyle","fKylee","fKyleigh","mKylen","mKyler","fKylie"
+    ,"fKyra","mKyrin","fLacey","mLachlan","fLacie","fLacy","fLadonna","fLaila","fLakyn"
+    ,"fLala","mLamar","mLamont","fLana","mLance","mLanden","mLandon","mLane","mLangdon","fLara"
+    ,"fLarissa","mLarry","mLars","fLaura","fLaurel","fLauren","mLaurence","fLauri","fLaurie"
+    ,"fLauryn","fLavana","fLavender","fLavinia","mLawrence","mLawson","fLayla","mLayne","mLayton","fLea"
+    ,"fLeah","fLeandra","mLeandro","fLeann","fLeanna","fLeanne","mLee","fLee","fLeela","fLeena"
+    ,"fLeia","fLeigh","mLeighton","fLeila","fLeilani","fLela","mLeland","fLena","mLennie","mLennox"
+    ,"mLenny","mLeo","mLeon","fLeona","mLeonard","mLeonardo","mLeonel","fLeonie","mLeopold","fLeora"
+    ,"mLeroy","fLesa","fLesley","mLeslie","fLeslie","fLesly","mLester","fLeticia","mLeuan","mLeven"
+    ,"mLevi","mLewis","mLex","fLexi","fLexie","fLia","mLiam","fLiana","fLianne","fLibby"
+    ,"fLiberty","fLidia","mLief","fLila","fLilac","fLilah","fLilian","fLiliana","fLilita","fLilith"
+    ,"fLillian","fLillie","fLilly","fLily","fLina","mLincoln","fLinda","fLindsay","fLindsey","mLionel"
+    ,"fLisa","mLisandro","fLisette","fLivia","fLiz","fLiza","fLizbeth","fLizette","fLizzie","fLizzy"
+    ,"mLloyd","mLochlan","fLogan","mLogan","fLois","fLola","fLolita","mLonnie","fLora","fLoran"
+    ,"mLoren","fLorena","mLorenzo","fLoretta","fLori","fLorie","mLoris","fLorna","fLorraine","fLorri"
+    ,"fLorrie","fLottie","fLotus","mLouie","mLouis","fLouisa","fLouise","mLowell","fLuann","mLuca"
+    ,"mLucas","fLucia","mLucian","fLuciana","mLuciano","fLucie","fLucille","fLucinda","fLucky","fLucy"
+    ,"mLuigi","mLuis","mLukas","mLuke","fLulu","fLuna","fLupita","mLuther","fLydia","fLyla"
+    ,"mLyle","fLyna","fLynda","mLyndon","fLynette","fLynn","mLynn","fLynne","fLynnette","fLynsey"
+    ,"fLyra","mLysander","fMabel","fMacey","fMacie","mMack","fMackenzie","fMacy","fMada","fMadalyn"
+    ,"fMaddie","fMaddison","mMaddox","fMaddy","fMadeleine","fMadeline","fMadelyn","fMadison","fMadisyn","fMadyson"
+    ,"fMae","fMaeve","fMagda","fMagdalena","fMagdalene","fMaggie","mMagnus","fMaia","fMaire","fMaisie"
+    ,"fMaisy","fMaja","fMakayla","fMakenna","fMakenzie","mMalachi","mMalakai","mMalcolm","fMalia","mMalik"
+    ,"fMallory","fMandy","mManuel","fManuela","fMara","mMarc","mMarcel","fMarcela","fMarcella","fMarci"
+    ,"fMarcia","mMarco","mMarcos","mMarcus","fMarcy","fMargaret","fMargarita","fMargie","fMargo","fMargret"
+    ,"fMaria","fMariah","fMariam","fMarian","fMariana","fMarianna","fMarianne","fMarie","fMarilyn","fMarina"
+    ,"mMario","mMarion","fMarion","fMarisa","fMarisol","fMarissa","fMaritza","fMarjorie","mMark","fMarla"
+    ,"fMarlee","fMarlene","fMarley","mMarley","mMarlon","fMarnie","mMarquis","fMarsha","mMarshall","fMartha"
+    ,"mMartin","fMartina","mMarty","mMartyn","mMarvin","fMary","fMaryam","fMaryann","fMarybeth","mMason"
+    ,"mMat","mMateo","mMathew","fMatilda","mMatt","mMatthew","mMatthias","fMaura","fMaureen","mMaurice"
+    ,"mMauricio","mMaverick","fMavis","mMax","mMaximilian","mMaximus","fMaxine","mMaxwell","fMay","fMaya"
+    ,"fMckayla","fMckenna","fMckenzie","fMea","fMeadow","fMeagan","fMeera","fMeg","fMegan","fMeghan"
+    ,"mMehtab","fMei","mMekhi","fMelanie","fMelina","fMelinda","fMelissa","fMelody","mMelvin","fMercedes"
+    ,"fMercy","fMeredith","mMerick","mMervyn","fMia","mMicah","mMichael","fMichaela","mMicheal","fMichele"
+    ,"fMichelle","mMick","mMickey","mMiguel","fMika","fMikaela","fMikayla","mMike","mMikey","fMikhaela"
+    ,"fMila","mMilan","fMildred","fMilena","mMiles","fMiley","mMiller","fMillicent","fMillie","fMilly"
+    ,"mMilo","mMilton","fMimi","fMina","fMindy","fMinerva","fMinnie","fMira","fMiranda","fMiriam"
+    ,"mMisha","fMisty","mMitch","mMitchell","mMitt","fMitzi","mMoe","mMohamed","mMohammad","mMohammed"
+    ,"mMoises","fMollie","fMolly","fMona","fMonica","fMonika","fMonique","fMontana","mMonte","mMonty"
+    ,"mMorgan","fMorgan","fMorgana","mMorris","mMoses","fMoya","mMuhammad","fMuriel","mMurphy","mMurray"
+    ,"fMya","fMyfanwy","mMyles","fMyra","fMyrna","mMyron","fNadene","fNadia","fNadine","fNaja"
+    ,"fNala","fNancy","fNanette","fNaomi","mNash","mNasir","fNatalia","fNatalie","fNatasha","mNate"
+    ,"mNath","mNathan","mNathanael","mNathaniel","fNaya","fNayeli","mNeal","mNed","mNeil","fNell"
+    ,"fNelly","mNelson","fNena","mNesbit","mNestor","fNevaeh","fNeve","mNeville","mNevin","fNia"
+    ,"mNiall","fNiamh","fNichola","mNicholas","fNichole","mNick","fNicki","mNickolas","fNicky","mNico"
+    ,"fNicola","mNicolas","fNicole","fNicolette","mNigel","fNiki","fNikita","fNikki","mNikolas","fNila"
+    ,"mNile","mNils","fNina","fNishka","mNoah","mNoe","mNoel","fNoelle","fNola","mNolan"
+    ,"fNora","fNoreen","fNorma","mNorman","fNova","mOakes","mOakley","fOasis","fOcean","fOctavia"
+    ,"mOctavio","fOdalis","fOdele","fOdelia","fOdette","mOisin","fOlga","fOlive","mOliver","fOlivia"
+    ,"mOllie","mOlly","mOmar","fOpal","fOphelia","mOran","fOrianna","fOrla","fOrlaith","mOrlando"
+    ,"mOscar","mOsvaldo","mOtis","mOtto","mOwen","mOzzie","mPablo","mPadraig","fPage","fPaige"
+    ,"fPaisley","mPalmer","fPaloma","fPam","fPamela","fPandora","fPansy","fPaola","mPaolo","fParis"
+    ,"mParker","mPascal","mPasquale","mPat","fPatience","fPatrice","fPatricia","mPatrick","fPatsy","fPatti"
+    ,"fPatty","mPaul","fPaula","fPaulette","fPaulina","fPauline","mPaxton","mPayton","fPayton","fPearl"
+    ,"mPedro","fPeggy","fPenelope","fPenny","mPercy","fPerla","mPerry","fPersephone","mPetar","mPete"
+    ,"mPeter","fPetra","fPetunia","fPeyton","mPeyton","mPhebian","mPhil","mPhilip","mPhillip","fPhillipa"
+    ,"fPhilomena","mPhineas","fPhoebe","fPhoenix","mPhoenix","fPhyllis","mPierce","mPiers","fPiper","fPippa"
+    ,"fPolly","fPoppy","mPorter","fPortia","fPrecious","fPresley","fPreslie","mPreston","fPrimrose","mPrince"
+    ,"fPrincess","fPriscilla","fPromise","fPrudence","fPrue","fQueenie","mQuentin","fQuiana","mQuincy","mQuinlan"
+    ,"mQuinn","fQuinn","mQuinton","mQuintrell","fRabia","fRachael","fRachel","fRachelle","fRae","fRaegan"
+    ,"fRaelyn","mRafael","mRafferty","mRaheem","mRahul","mRaiden","fRaina","fRaine","mRaj","mRajesh"
+    ,"mRalph","mRam","mRameel","mRamon","fRamona","mRamsey","fRamsha","mRandal","mRandall","fRandi"
+    ,"mRandolph","mRandy","fRani","fRania","mRaphael","fRaquel","mRashad","mRashan","mRashid","mRaul"
+    ,"fRaven","mRavi","mRay","mRaymond","fRayna","fRayne","fReagan","fReanna","fReanne","fRebecca"
+    ,"fRebekah","mReece","mReed","mReef","mReese","fReese","fRegan","mReggie","fRegina","mReginald"
+    ,"mRehan","mReid","fReina","mRemco","mRemy","fRena","fRenata","fRene","mRene","fRenee"
+    ,"mReuben","mRex","fReyna","mReynaldo","mReza","fRhea","mRhett","fRhian","fRhianna","fRhiannon"
+    ,"fRhoda","fRhona","fRhonda","mRhys","fRia","mRian","fRianna","mRicardo","mRichard","mRichie"
+    ,"mRick","mRickey","mRickie","mRicky","mRico","mRider","fRihanna","mRik","mRiker","fRikki"
+    ,"mRiley","fRiley","mRio","fRita","fRiver","mRiver","mRoan","fRoanne","mRob","mRobbie"
+    ,"mRobby","mRobert","fRoberta","mRoberto","fRobin","mRobin","fRobyn","mRocco","fRochelle","fRocio"
+    ,"mRocky","mRod","mRoderick","mRodger","mRodney","mRodolfo","mRodrigo","mRogelio","mRoger","mRohan"
+    ,"fRoisin","mRoland","mRolando","mRoman","mRomeo","mRon","mRonald","mRonan","fRonda","fRoni"
+    ,"mRonnie","mRonny","mRoosevelt","mRory","fRosa","fRosalie","fRosalind","fRosalynn","fRose","fRosella"
+    ,"fRosemarie","fRosemary","fRosetta","fRosie","mRoss","fRosy","fRowan","mRowan","fRowena","fRoxanne"
+    ,"fRoxie","fRoxy","mRoy","fRozlynn","mRuairi","mRuben","mRubin","fRuby","mRudolph","mRudy"
+    ,"mRufus","mRupert","mRussell","mRusty","fRuth","mRyan","mRyder","mRyker","mRylan","mRyland"
+    ,"fRylee","fRyleigh","mRyley","fRylie","fSabina","fSabine","fSabrina","mSacha","fSade","fSadhbh"
+    ,"fSadie","fSaffron","fSafire","fSafiya","fSage","fSahara","mSaid","fSaige","fSaira","fSally"
+    ,"fSalma","fSalome","mSalvador","mSalvatore","fSamantha","fSamara","mSamir","fSamira"
+    ,"fSammie","mSammy","mSamuel","mSandeep","fSandra","mSandy","fSandy","mSanjay","mSantiago","fSaoirse"
+    ,"fSapphire","fSara","fSarah","fSarina","fSariya","fSascha","fSasha","fSaskia","mSaul","fSavanna"
+    ,"fSavannah","mSawyer","fScarlet","fScarlett","mScot","mScott","mScottie","mScotty","mSeamus","mSean"
+    ,"mSeb","mSebastian","fSebastianne","mSebestian","fSelah","fSelena","fSelina","fSelma","fSenuri","fSeren"
+    ,"fSerena","fSerenity","mSergio","mSeth","mShadrach","fShakira","fShana","mShane","fShania","fShannon"
+    ,"mShannon","fShari","fSharon","mShaun","fShauna","fShawn","mShawn","fShawna","fShawnette","fShayla"
+    ,"mShea","fShea","fSheena","fSheila","fShelby","mSheldon","fShelia","fShelley","fShelly","fSheri"
+    ,"fSheridan","mSherman","fSherri","fSherrie","fSherry","fSheryl","fShirley","fShreya","fShyla","fSian"
+    ,"mSid","mSidney","fSidney","fSienna","fSierra","mSilas","fSilvia","mSimon","fSimone","fSimran"
+    ,"fSinead","fSiobhan","fSky","fSkye","fSkylar","mSkylar","mSkyler","fSkyler","mSlade","fSloane"
+    ,"fSofia","fSofie","fSolange","mSolomon","fSondra","fSonia","fSonja","mSonny","fSonya","fSophia"
+    ,"fSophie","fSophy","mSpencer","mSpike","fStacey","mStacey","fStaci","fStacie","fStacy","mStacy"
+    ,"mStan","mStanley","fStar","fStarla","mStefan","fStefanie","fStella","mStephan","fStephanie","mStephen"
+    ,"mSterling","mSteve","mSteven","mStevie","mStewart","mStuart","fSue","fSuki","fSummer","fSusan"
+    ,"fSusanna","fSusanne","fSusie","fSutton","fSuzanna","fSuzanne","fSuzette","fSuzy","mSven","fSybil"
+    ,"fSydney","mSylvester","fSylvia","fSylvie","fTabatha","fTabitha","mTadhg","fTahlia","fTala","fTalia"
+    ,"fTaliyah","fTallulah","mTalon","mTam","fTamara","fTamera","fTami","fTamia","fTammi","fTammie"
+    ,"fTammy","fTamra","fTamsin","fTania","fTanisha","mTanner","fTanya","fTara","mTariq","mTarquin"
+    ,"fTaryn","fTasha","mTate","fTatiana","fTatum","fTawana","fTaya","fTayla","fTaylah","fTayler"
+    ,"mTaylor","fTaylor","fTeagan","mTed","mTeddy","fTeegan","fTegan","mTeo","mTerence","fTeresa"
+    ,"fTeri","mTerrance","mTerrell","mTerrence","fTerri","fTerrie","fTerry","mTerry","fTess","fTessa"
+    ,"mTex","mThad","mThaddeus","fThea","fThelma","mTheo","fTheodora","mTheodore","fTheresa","fTherese"
+    ,"mThomas","fTia","mTiago","fTiana","mTiberius","fTiffany","mTiger","fTilly","mTim","mTimmy"
+    ,"mTimothy","fTina","mTitus","mTobias","mToby","mTod","mTodd","mTom","mTomas","mTommie"
+    ,"mTommy","fToni","fTonia","mTony","fTonya","fTori","mToryn","mTrace","mTracey","fTracey"
+    ,"fTraci","fTracie","mTracy","fTracy","mTravis","mTrent","mTrenton","mTrevon","mTrevor","mTrey"
+    ,"fTricia","fTrina","fTrinity","fTrish","fTrisha","mTristan","mTristen","mTriston","fTrixie","fTrixy"
+    ,"mTroy","fTrudy","mTucker","mTy","mTyler","fTyra","mTyrese","mTyrone","mTyson","fUlrica"
+    ,"mUlysses","fUma","mUmar","fUna","mUriah","mUriel","fUrsula","mUsama","fValarie","mValentin"
+    ,"fValentina","mValentino","fValeria","fValerie","mVan","mVance","fVanessa","mVasco","mVaughn","fVeda"
+    ,"fVelma","fVenetia","fVenus","fVera","fVerity","mVernon","fVeronica","fVicki","fVickie","fVicky"
+    ,"mVictor","fVictoria","mVihan","mVijay","mVikram","mVince","mVincent","mVinnie","fViola","fViolet"
+    ,"mVirgil","fVirginia","mVishal","fVivian","mVivian","fViviana","fVivienne","mVladimir","fVonda","mWade"
+    ,"mWalker","mWallace","fWallis","mWalter","fWanda","mWarren","fWaverley","mWaylon","mWayne","mWendell"
+    ,"fWendi","fWendy","mWesley","mWeston","fWhitney","mWilbert","mWilbur","mWiley","mWilfred","mWilhelm"
+    ,"fWilhelmina","mWill","mWillam","mWillard","mWillem","mWilliam","mWillie","mWillis","fWillow","fWilma"
+    ,"mWilson","fWinnie","fWinnifred","mWinston","fWinter","mWolfgang","mWyatt","mXander","fXanthe","mXavier"
+    ,"fXaviera","fXena","mXerxes","fXimena","fXochitl","mYahir","mYardley","fYasmin","fYasmine","fYazmin"
+    ,"mYehudi","fYelena","fYesenia","mYestin","fYolanda","mYork","fYsabel","fYulissa","mYuri","mYusuf"
+    ,"fYvaine","mYves","fYvette","fYvonne","mZac","mZach","mZachariah","mZachary","mZachery","mZack"
+    ,"mZackary","mZackery","fZada","fZaheera","fZahra","mZaiden","mZain","mZaine","fZaira","mZak"
+    ,"fZali","mZander","mZane","fZara","fZaria","fZaya","mZayden","fZayla","mZayn","mZayne"
+    ,"mZeb","mZebulon","mZed","mZeke","fZelda","fZelida","fZelina","fZena","fZendaya","fZia"
+    ,"mZiggy","fZina","mZion","fZiva","fZoe","fZoey","fZola","mZoltan","fZora","fZoya"
+    ,"fZula","fZuri","mZuriel","fZyana","mZylen","fAvinash"
+    
+    ,"fAislynn","fAnastacia","fAalia","fAalyna","fAamari","fAanya","fAarianna","fAariel","fAariona","fAaronesha","fAbagail"
+    ,"fAbagale","fAbatha","fAbbee","fAbbigail","fAbbigale","fAbbigayle","fAbbye","fAbbygale","fAbigael","fabigale","fabigial"
+    ,"fabrea","fabriana","fabreil","fabricel","fabrielle","fabril","fabrionna","fadalida","fadamina","faddi","faddy","fadel"
+    ,"fadela","fadelita","fadilene","fadina","faditya","fadria","fAdriane","fAdrielle","fAdrien","fAdriene","fAdrienna","fAfrica"
+    ,"fAfrika","fAime","fAiyana","fAja","fAjanae","fajanaee","fajahnae","fAkila","fakilah","fakira","fakia","faksana","falanah","falani"
+    ,"falanis","falberta","falbertina","falbina","falea","faleena","faleesha","faleeza","falejah","faleksandra","faleksey","falesha"
+    ,"falesia","falli","fallina","fallysa","fallyssa","fallissa","falissa","fallisa","falona","falora","falpha","falshanee","falthea"
+    ,"falva","faly","falyona","falyse","falysa","falys","falyss","famadea","famarea","famberly","famberlyn","fambrosia","famena","fami"
+    ,"famira","famorette","famoria","famra","famrosia","famulya","fanabel","fanabella","fanastacia","fanastasiya","fanastassia","fandria"
+    ,"fanjelica","fannalee","fannamaria","fannamarie","fannastasia","fann-marie","fantonisha","fapryl","fAraceli","farceli","faracely"
+    ,"farcadia","farianah","fariane","faryana","faryanna","fashely","fashli","fashly","fashtyn","fasisa","fasya","faubry","faubrie","faudrianna"
+    ,"faudrie","faugusta","faugustine","faundrea","faurelie","favetana","favionna","fayah","faygul","faylin","faymari","fayonna","fbethy"
+    ,"falexys","falexxis","falexya"
+    
+    ,"mAlex","mAamir","mAanand","mAashish","mAbass","mAbbas","mAbdirahim","mAbdullahi","mabdulnaser","mabdulrahman","mabdul-rahman","mabe"
+    ,"mabelardo","mabhijeet","mabhud","mabish","mabran","madolfo","madolpho","madolphus","malek","maleksandr","maric","marik","maurelio"
+
+    ,"fannette","fchristen","fdannelle","fFabiana","fFabiola","fFantasia","ffaviola","fFelecia","fFebrina","ffelisha","fFilis","fFiolla","fFlavoris","fFlandrea"
+    ,"fflorencia","fFlorentina","fFloris","fForlette","fFragelia","fFRANCENA","fFrancesca-Marie","fFranceska","fFrancessca","ffranchesca","fFrancheska","fFranchezca"
+    ,"ffrancia","fFrancie","fFrancina","fFreda","fFREDI","fFredina","fFreida","fFrida","fgolda","fHalie","fHayleigh","fInga","fjasinda","fJennelle","fKaila","fKarrie","fKaryna"
+
+    ,"mbernie","mFederico","mForest","mfrancicso","mJanik","mJarrod","mJasen"
+
+    
+    };
+    
+    UserProfileClient updateclient = new UserProfileClient();
+        
+    Dictionary<string, string> femalenames = new Dictionary<string, string>();
+    Dictionary<string, string> malenames = new Dictionary<string, string>();
+
+    Dictionary<string, string[]> femalenegativeemailkeywords = new Dictionary<string, string[]>();
+    Dictionary<string, string[]> malenegativeemailkeywords = new Dictionary<string, string[]>();
+
+    malenegativeemailkeywords.Add("alex", new string[] { "chick", "alexandra", "alexandria", "alexis", "tiara", "alexxis", "girl" });
+    
+    foreach(string tag in allnames)
+    {
+        string name = tag.Substring(1, tag.Length-1);
+        try{
+            if(tag.StartsWith("f"))
+            {
+                femalenames.Add(name.ToLower(), "");
+            }
+            else
+            {
+                malenames.Add(name.ToLower(), "");
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    Dictionary<string, string> ambiguousnames = new Dictionary<string, string>();
+    foreach (KeyValuePair<string, string> kv in femalenames)
+    {
+        if (malenames.ContainsKey(kv.Key))
+        {
+            if (!ambiguousnames.ContainsKey(kv.Key))
+            {
+                ambiguousnames.Add(kv.Key, "");
+            }
+        }
+    }
+    foreach (KeyValuePair<string, string> kv in malenames)
+    {
+        if (femalenames.ContainsKey(kv.Key))
+        {
+            if (!ambiguousnames.ContainsKey(kv.Key))
+            {
+                ambiguousnames.Add(kv.Key, "");
+            }
+        }
+    }
+
+    string partitionsstring = "stuvwxyz0123456789";
+    
+    long totalcnt = 0;
+    long totalresolved = 0;
+}
+
+@for(int i=0; i<partitionsstring.Length; i++)
+{
+    string partition = partitionsstring[i].ToString();
+
+    CloudTableQuery<UserProfile> query = Model.GetAllWithoutGender(partition);
+    
+    long cnt = 0;
+    long resolved = 0;
+    
+    <br />
+    <div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+        @foreach (var p in query.Execute().OrderBy(x=>x.FirstName))
+        {
+            string[] fnametokens = p.FirstName.Trim().ToLower().Split(' ');
+            string proposedgender = "";
+
+            if (!ambiguousnames.ContainsKey(fnametokens[0]))
+            {
+
+                if (femalenames.ContainsKey(fnametokens[0]))
+                {
+                    bool reverseit = false;
+                    if (femalenegativeemailkeywords.ContainsKey(fnametokens[0]))
+                    {
+                        if (femalenegativeemailkeywords[fnametokens[0]].Any(x => p.Email.Contains(x)))
+                        {
+                            reverseit = true;
+                        }
+                    }
+                    if (!reverseit)
+                    {
+                        proposedgender = "F";
+                    }
+                    else
+                    {
+                        proposedgender = "M";
+                    }
+                }
+                else if (malenames.ContainsKey(fnametokens[0]))
+                {
+                    bool reverseit = false;
+                    if (malenegativeemailkeywords.ContainsKey(fnametokens[0]))
+                    {
+                        if (malenegativeemailkeywords[fnametokens[0]].Any(x => p.Email.Contains(x)))
+                        {
+                            reverseit = true;
+                        }
+                    }
+                    if (!reverseit)
+                    {
+                        proposedgender = "M";
+                    }
+                    else
+                    {
+                        proposedgender = "F";
+                    }
+                }
+            }
+            
+            if(proposedgender!="")
+            {
+                p.Gender = proposedgender;
+                try
+                {
+                    updateclient.Update(p);
+                }
+                catch
+                {
+                }
+                    
+                resolved++;
+                totalresolved++;
+            }
+            cnt++;
+            totalcnt++;
+        }   
+        <h1>Partition @(partition)</h1>
+        <h2>@(cnt) profiles - @String.Format("{0:0%}", (double)resolved/cnt) resolved</h2>
+    </div>
+}
+
+<br />
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>TOTAL: @(totalcnt) profiles - @String.Format("{0:0%}", (double)totalresolved / totalcnt) resolved</h1>
+</div>
+
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+    h1 {font-size: 24pt; color: #000;}
+    h2 {font-size: 16pt; color: #000;}
+</style>

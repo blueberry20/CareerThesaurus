@@ -1,0 +1,91 @@
+﻿@{
+    
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta property="og:image" content="http://www.skillcow.com/content/Images/Logos/logo-head.png"/>
+        <title>SkillCow</title>
+        <link href="http://www.skillcow.com/content/css/common/Site.css" rel="stylesheet" type="text/css" />
+        <link href="http://www.skillcow.com/content/css/common/decorations.css" rel="stylesheet" type="text/css" />
+        <!--[if IE 8]>
+        <link href="http://www.skillcow.com/content/css/ie8.css" rel="stylesheet" type="text/css" />
+        <![endif]-->
+    
+        <style>
+            a {color: #1155aa; text-decoration: none;}
+            a:hover {text-decoration: underline;}
+            div.container { position: relative; width: 960px; margin: 0 auto; text-align: left; padding: 0px; vertical-align: top;  }
+            div.header { position: relative; width: 960px; margin: 0 auto; text-align: left; padding: 0px; color: #fff;  }
+            div.header h1 { color: #000; margin: 20px 0 0 0; }
+            ul.topnav {list-style-type: none; margin: 10px 0 10px 0; }
+            ul.topnav li.logo {display: inline-block; padding: 0 20px 0 0; color: #fff; }
+            ul.topnav li.home {display: inline-block; background-color: rgba(255,255,255,0.5); padding: 20px; margin: 0; font-size: 12pt; border-radius: 10px 10px; cursor: pointer; color: #333; height: 19px;}
+            ul.topnav li.tab { display: inline-block; background-color: rgba(255,255,255,0.5); padding: 20px; margin: 0; font-size: 12pt; border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px; cursor: pointer; color: #333; height: 21px;}
+            ul.topnav li:hover {background-color: rgba(255,255,255,0.8); color: #000;} 
+            ul.topnav li:active {background-color: rgba(255,255,255,0.9); color: #ff0000;} 
+            ul.topnav li.active {background-color: rgba(255,255,255,0.9); color: #000;}
+            ul.topnav li.logo:hover { background-color: rgba(255,255,255,0); color: #000;}  
+            ul { list-style-type: none; padding: 0;}
+        </style>
+    </head>
+
+    <body>
+        <div class="header pagecontent">
+            <div style="margin-left: 3px">Careers, Jobs and Fast track training based on your Natural Abilities</div>
+            <ul class="topnav">
+                <li class="logo">
+                    <div style="display: inline-block;"><img src="http://www.skillcow.com/content/images/logo.png"/></div>
+                </li>
+            </ul>
+        </div>
+        <div class="pagecontent rounded10" style="margin: 0 auto; background-color: rgba(255,255,255,0.1); text-align: center; padding: 0px;">
+            <div style="text-align: left; width: 960px; margin: 0 auto; background-color: #fff; min-height: 600px">
+                <div style="padding: 20px;">
+
+
+                    <!--CBN FORM GOES HERE-->
+                    <table border="1">
+                        <tr>
+                            <td>Field name:</td>
+                            <td><input type="text" id="field1" name="field1" /></td>
+                        </tr>
+                    </table>
+                    <!--END OF FORM-->
+
+
+                </div>
+            </div>
+        </div>
+        <style>
+            .footer {}
+            .footer ul {}
+            .footer ul li { display: inline-block; margin: 0 5px 0 5px;}
+            .footer ul li a {color: #000;}
+        </style>
+        <div class="footer rounded10 pagecontent" style="width: 950px; margin: 1px auto; background-color: rgba(255,255,255,0.5); padding: 1px 5px 1px 5px;">
+            <ul style="list-style: none;">
+                <li><a href="http://www.skillcow.com/theprivacypolicy">Privacy</a></li>
+                <li><a href="http://www.skillcow.com/terms">Terms of Use</a></li>
+            </ul>
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39788184-1']);
+    _gaq.push(['_setDomainName', 'skillcow.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>

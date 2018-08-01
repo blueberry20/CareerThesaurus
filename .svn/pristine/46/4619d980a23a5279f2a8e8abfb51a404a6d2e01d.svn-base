@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+}
+
+
+<h3>The cow will miss you!</h3>
+    
+@(ViewBag.Email) unsubscribed
+
+<br /><br />
+
+<div style="width: 100%; text-align: center;">
+    <div style="max-width: 300px; height: 250px; margin: 0 auto;">
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-3486420009474810";
+            /* SkillCow 300x250 */
+            google_ad_slot = "5368950880";
+            google_ad_width = 300;
+            google_ad_height = 250;
+            //-->
+            </script>
+            <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+</div>

@@ -1,0 +1,204 @@
+﻿	
+/* BLOG PAGE
+-------------------------------------------------- */
+.blogPage {
+    padding:50px 0;
+}
+
+/*all posts. main section*/
+.blogPostsWrapper {
+   background-color: #fff;
+}
+
+/*one blog post preview*/
+.blogPostShort { 
+ padding:30px;
+ border-bottom: 1px solid rgb(200,200,200);
+}
+
+.blogPostShort:last-child {
+ border-bottom:none;   
+}
+
+.blogImageHolder {
+ height:350px;
+ overflow:hidden;   
+}
+
+.blogImageHolder .img-responsive {
+    max-width:none;
+    height:100%;
+}
+
+.blogParagraph {
+ font-family: 'Open Sans', Sans-Serif;
+ font-size:16px;   
+}
+
+
+.blogDate, .blogCategory, .blogComments {
+    display:inline-block;
+    font-family:'Open Sans Condensed', Sans-Serif;
+    font-size:18px;
+}
+
+.blogDate:after, .blogCategory:after {
+ content: " |";   
+}
+    
+.socialIconsHolder p {
+    font-family: 'Open Sans Condensed', Sans-Serif;
+    font-size: 18px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 300;
+    margin:0;
+}	
+
+
+/*************************Sidebar widgets*************************/
+.blogSidebar h3 {
+    margin:20px 0;   
+}
+
+.sidebarWidget {
+    padding: 0 30px 30px 30px;    
+    font-size:16px;
+}  
+
+.sidebarWidget .row {
+ margin:5px 0;   
+}
+    
+.sidebarWidget ul {
+    list-style:none;
+    padding-left:0;
+}   
+
+.sidebarWidget a {
+ color: #000;   
+}
+
+.no-touch .sidebarWidget a:hover {
+ text-decoration:none;
+}
+
+
+
+/****tags widget****/
+#tagsWidget a {
+    color:#000;
+    border:1px solid #39b3d7;
+    border-radius: 4px;
+    padding:5px;
+    margin:5px;
+    display:inline-block;
+}
+
+.no-touch #tagsWidget a:hover {
+    cursor:pointer;
+    color:#666; 
+    text-decoration:none;  
+    background-color: #f0f0f0;
+}
+
+/****Recent Posts widget****/
+.articleEntry {
+ padding:0;   
+ display:block;
+ margin:0;
+ background-color:#f0f0f0;
+}
+
+.no-touch .articleEntry:hover {
+    background-color: #e0e0e0;
+}
+
+.articleInfo {
+    padding-right:0; 
+    padding-top:5px;  
+}
+     
+.articleInfo h4 {
+    margin:0;
+    font-size:14px;
+}
+
+.articleImageHolder {
+ overflow:hidden;
+ padding:0;
+}
+
+
+
+/****Recent Tweets widget****/
+#recentTweets .row {
+  background-color:#f0f0f0;   
+  padding:5px;
+}
+
+.no-touch #recentTweets .row:hover {
+ background-color: #e0e0e0;
+}
+ 
+ #recentTweets a {
+  color: #39b3d7;
+ }
+ 
+ .no-touch #recentTweets a:hover {
+  color: #46b8da;  
+ }
+ 
+ /*****************Responsive*******************/
+
+@media only screen and (max-width:1200px) {
+
+    .blogImageHolder {
+        height: 300px;
+    }
+}
+
+
+@media only screen and (max-width:992px)  {
+
+     .blogSidebar {
+         padding:0;
+     }
+     
+     .sidebarWidget {
+      padding:0;   
+     }
+ 
+     .articleInfo {
+      padding:30px;   
+     }
+ 
+     .articleImageHolder 
+     {
+      height:150px;   
+     }   
+ 
+     .categoriesWidget ul li, #recentTweets .row {
+        height:50px;     
+     }
+}
+
+
+@media only screen and (max-width: 768px) {
+    
+     .blogImageHolder {
+        height:250px;
+      }
+    
+      .sidebarWidget {
+      padding:0 30px 30px 30px;   
+     }   
+}
+
+
+
+
+
+
+

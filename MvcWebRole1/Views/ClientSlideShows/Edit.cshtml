@@ -1,0 +1,218 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientSlideShows.ClientSlideShow
+@using SkillCow.Classes.Cloud.TableStorage.ClientSlideShows
+
+@{
+    ViewBag.Title = "Edit";
+}
+@{
+    ClientSlideShowSlideClient slides = new ClientSlideShowSlideClient();
+ }   
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+</style>
+
+<script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/nicescroll/jquery.nicescroll.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<link href="/content/css/pictureuploader/fileuploader.css" rel="stylesheet" type="text/css">
+
+<div class="pagecontent rounded20tltr" style="position: relative; margin: 0px auto; margin-top: 10px; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm())
+    {
+        
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>ClientSlideShow</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientName)
+                @Html.ValidationMessageFor(model => model.ClientName)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientType)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientType)
+                @Html.ValidationMessageFor(model => model.ClientType)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ClientId)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ClientId)
+                @Html.ValidationMessageFor(model => model.ClientId)
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Slides</legend>
+            <div class="editor-label">
+                Add new slide
+            </div>
+            <div class="editor-field">
+                <textarea name="slidecaption" id="slidecaption" rows=5 cols=1></textarea>
+                <br />
+                <div id="file-uploader-container" style="color:#333;"></div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div id="_slideshow_viewport" style="width: 800px; height: 300px; overflow-x: scroll; overflow-y: hidden; border: thin none red;" class="shadow20">
+                <div id="_slideshow_scrollablecontent" style="overflow-y: hidden; max-height: 300px; margin-left: 100px; opacity: 0; border: thin none blue;">
+                    <div id="slideshowimages">
+                        
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+        
+        @Html.HiddenFor(model => model.RowKey)
+        @Html.HiddenFor(model => model.PartitionKey)
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+
+<script>
+    var uploader;
+    
+    function document_ready() {
+
+        uploader = new qq.FileUploader({
+            multiple: true,
+            element: document.getElementById('file-uploader-container'),
+            action: '/ClientSlideShows/CreateSlide?slideshowid=@Model.RowKey&caption=' + readcaption(),
+            debug: false,
+            onComplete: function (id, fileName, responseJSON) {
+                /*
+                $.ajax({
+                    url: appserverurl + "/ClientSlideShows/UpdateSlideCaption",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        slideshowid: '@Model.RowKey',
+                        slideid: responseJSON.id,
+                        caption: readcaption()
+                    }
+                }).success(function (response) {
+                    document.location = '/ClientSlideShows/Edit/@Model.RowKey';
+                }).error(function (response) {
+                    alert('Failed to update slide caption');
+                });
+                */
+
+            }
+        });
+
+        $('textarea').jtextarea();
+
+        createSlideShow('@Model.ClientType', '@(Model.ClientId)');
+    }
+
+    function readcaption() {
+        return $('#slidecaption').val();
+    }
+
+</script>
+
+<!-- SLIDE SHOW -->
+<style>
+    .slidecaptionholder h1,h2,h3,h4,h5 {color:#fff; margin: 0px;}
+    .slidecaptionholder h2 {font-size: 18pt;}
+</style>
+<script>
+    var slidecount = 0;
+    var loadedslidecount = 0;
+    function $slideshow_ready(slideshow, container, resourceid) {
+        slidecount = slideshow.slides.length;
+        $('#slideshowimages').html('');
+        for (var i = 0; i < slideshow.slides.length; i++) {
+            var slide = slideshow.slides[i];
+            $('#slideshowimages').append('<div style="position: relative; display: inline-block; height: 400px;" >' +
+                '<img class="slideshowslideholder" src="https://chaindate.blob.core.windows.net/slideshows/' + slideshow.id + '/' + slide.id + '"' + 
+                ' onload="slideloaded(this)"' +
+                ' style="max-height: 300px; margin: 0px; padding: 0px; boarder: 0px;"' +
+                ' onclick="slideshowslideclicked(\'' + slide.id + '\', \'' + slideshow.id + '\')"/>' + 
+                '<div class="slidecaptionholder" style="position: absolute; bottom: 0px; left: 0px; width: 100%; background-color: rgba(0,0,0,0.8); color: #fff; text-align: left; font-size: 16pt;">' +
+                (slide.caption!='' ? '<div style="margin: 15px 20px 15px 20px;">' + slide.caption.replace(/\n/g,'<br>') + '</div>' : '') +
+                '<div style="position: absolute; bottom: 5px; right: 5px;"><a href="javascript:editslide(\'' + slide.id + '\', \'' + slideshow.id + '\')">Edit</a></div>' + 
+                '</div>' +
+                '</div>');
+        }
+        $('.slideshowslideholder').mouseover(function () { slide_mouseover(this); });
+        $('.slideshowslideholder').mouseout(function () { slide_mouseout(this); });
+    }
+
+    function slide_mouseover(e) {
+        $('.activeslidecaption').stop();
+        $('.activeslidecaption').animate({ 'bottom': 0 }, 300);
+        $('.activeslidecaption').removeClass('activeslidecaption');
+
+        var element = $(e).siblings('.slidecaptionholder');
+
+        element.animate({ 'bottom': '100' }, 500);
+        element.addClass('activeslidecaption');
+    }
+
+    function slide_mouseout(e) {
+        var element = $(e).children('.slidecaptionholder');
+        element.animate({ 'bottom': 0 }, 300);
+    }
+
+    function editslide(slideid, slideshowid) {
+        document.location = '/ClientSlideShows/editslide?id=' + slideid + '&slideshowid=' + slideshowid;
+    }
+
+    function slideshowslideclicked(slideid, slideshowid) {
+        
+    }
+    
+    function createSlideShow(clienttype, clientid) {
+        getBlobData('clientslideshows', clienttype, clientid.replace(/\s/g,'') + '.js');
+    }
+    function slideloaded(img) {
+        loadedslidecount++;
+        if (loadedslidecount >= slidecount) {
+            resizeslideshow();
+        }
+    }
+    function resizeslideshow() {
+        var slides = $('#_slideshow_scrollablecontent img');
+        var totalwidth = 0;
+        for (var i = 0; i < slides.length; i++) {
+            totalwidth += $(slides[i]).width();
+        }
+        $('#_slideshow_scrollablecontent').css('width', totalwidth + 2);
+        $("#_slideshow_viewport").niceScroll("#_slideshow_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_slideshow_viewport").getNiceScroll().resize();
+        $("#_slideshow_viewport").show();
+        $('#_slideshow_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+    }
+</script>

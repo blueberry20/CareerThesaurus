@@ -1,0 +1,127 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "Browse careers";
+}
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+
+    <div class="container" style="background-color: rgba(255,255,255,0.5)">
+    
+        <!--CONTENT PANE-->
+        <div style="display: inline-block; vertical-align: top; height: 100%; " class="contentpanel">
+            <div id="professioncontent" class="pane">
+            </div>
+        </div>
+        <!--LEFT PANEL-->
+        <div id="attributeselector" class="attributeselector">
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Attitude</h1>
+                    <div class="label">I'm a Extravert</div><div class="control"><input type="radio" name="Attitude" dimension="Attitude" value="Extravert"/></div><br />
+                    <div class="label">I'm a Introvert</div><div class="control"><input type="radio" name="Attitude" dimension="Attitude" value="Introvert"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Information gathering</h1>
+                    <div class="label">External sources</div><div class="control"><input type="radio" name="Information" dimension="Information" value="Facts"/></div><br />
+                    <div class="label">Own imagination</div><div class="control"><input type="radio" name="Information" dimension="Information" value="Imagination"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Information processing</h1>
+                    <div class="label">Rational</div><div class="control"><input type="radio" name="Processing" dimension="Processing" value="Rational"/></div><br />
+                    <div class="label">Emotional</div><div class="control"><input type="radio" name="Processing" dimension="Processing" value="Emotional"/></div>
+                </div>
+                <!--
+                <div class="attributebox">
+                    <h1>Uncertainty tolerance</h1>
+                    <div class="label">Seek evidence</div><div class="control"><input type="radio" name="Attitude" dimension="Attitude" value="Extravert"/></div><br />
+                    <div class="label">Embrace uncertainty</div><div class="control"><input type="radio" name="Attitude" dimension="Attitude" value="Introvert"/></div>
+                </div>
+                -->
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Drive</h1>
+                    <div class="label">Process oriented</div><div class="control"><input type="radio" name="Action" dimension="Action" value="Process"/></div><br />
+                    <div class="label">Results oriented</div><div class="control"><input type="radio" name="Action" dimension="Action" value="Result"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Stationary endurance</h1>
+                    <div class="label">Staying put</div><div class="control"><input type="radio" name="Endurance" dimension="Endurance" value="Stationary"/></div><br />
+                    <div class="label">On the move</div><div class="control"><input type="radio" name="Endurance" dimension="Endurance" value="Mobile"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Physical presence</h1>
+                    <div class="label">Presence required</div><div class="control"><input type="radio" name="Presence" dimension="Presence" value="Present"/></div><br />
+                    <div class="label">Being remote</div><div class="control"><input type="radio" name="Presence" dimension="Presence" value="Remote"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Focus and Concentration</h1>
+                    <div class="label">Relaxed</div><div class="control"><input type="radio" name="Concentration" dimension="Concentration" value="Relaxed"/></div><br />
+                    <div class="label">Focused</div><div class="control"><input type="radio" name="Concentration" dimension="Concentration" value="Focused"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Work patterns</h1>
+                    <div class="label">Discovery</div><div class="control"><input type="radio" name="Patterns" dimension="Patterns" value="Discover"/></div><br />
+                    <div class="label">Routine</div><div class="control"><input type="radio" name="Patterns" dimension="Patterns" value="Routine"/></div>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="attributebox">
+                    <h1>Compensation</h1>
+                    <div class="label">Fixed</div><div class="control"><input type="radio" name="Compensation" dimension="Compensation" value="Fixed"/></div><br />
+                    <div class="label">Variable</div><div class="control"><input type="radio" name="Compensation" dimension="Compensation" value="Variable"/></div>
+                </div>
+                
+            </div>
+
+            <div class="pane">
+                Don't have the right skills?  We're here to help!  Call us toll free for assistance.
+            
+                <div style="text-align: center;">
+                <h1 style="color: #3399cc; font-size: 26pt; margin: 10px 0 0 0;"><span class="vanitynumber">@(ViewBag.TollFreeNumberVanity)</span></h1>
+                or 1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span>
+                </div>
+            
+            </div>
+        </div>
+
+        
+
+        <div id="summarycontent" style="display:none;"></div>
+    </div>
+    <br />
+
+
+<script>
+    function $allwithattributes_ready(data, container) {
+        professions = data.items;
+        showallprofessions();
+        //exportsitemap();
+    }
+    
+</script>
+
+<script src="@Url.Content("~/Scripts/Controllers/Careers/ByAttribute/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Careers/ByAttribute/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Careers/ByAttribute/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Careers/ByAttribute/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Careers/ByAttribute/test.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    .attributebox {margin: 0 0 0px 0;}
+    .attributebox h1 {font-size: 10pt; font-weight: normal; font-style: italic; margin: 0 0 0px 0;}
+    .attributebox .label { display: inline-block; width: 150px; margin-left: 20px; font-size: 10pt;}
+    .attributebox .control {display: inline-block;}
+</style>
+

@@ -1,0 +1,79 @@
+﻿@using System.Web.Script.Serialization;
+@{
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    ViewBag.Title = "Career Report By Interest";
+}
+
+<!--========================Interest Report Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/reportcard.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/testattributes.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessionsCodes.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/careermajorsmapping.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/bachelormajors.js?v=@ViewBag.AppVersion"></script>
+
+<div class="pageContainer whiteBgPage" id="studentReportPage">
+    <div class="container">
+        <div class="reportWrapper">
+            <div class="reportWrap">
+
+                <!--========================Your interests========================================-->
+                <div class="reportDiv">
+                    <h1>Your report card</h1>
+                    <h2><span>Your Interests</span><i class="fa fa-angle-down arrowDown"></i></h2>
+                    <div class="interestsReport reportSection" id="interestsReport">
+                    </div>
+                    <div class="text-right row extraMargin">
+                        <a href="/StudentPortal/RateInterests" class="reportLink">Go to interests</a>
+                    </div>
+                </div>
+
+                <!--========================Careers matching ========================================-->
+                <div class="reportDiv">
+                    <h2><span>Your matching careers</span><i class="fa fa-angle-down arrowDown"></i></h2>
+                    <div class="careersReport reportSection" id="careersReport">
+
+                    </div>
+                    @*<div class="text-right row extraMargin">
+                            <a href="/CareerTest" class="reportLink">Go to Career Test</a>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var interests = @Html.Raw(js.Serialize(ViewBag.Interests));
+    function document_ready() {
+        //console.log(interests);
+        var interestList = '';
+        for (i = 0; i < interests.length; i++) {
+            //if (i == interests.length -1 ) {
+            //    interestList+= interests[i];
+            //}
+            //else {
+            interestList += '<p class="interest interest1">' + interests[i] +'</p>';
+            //}
+        }
+        $('#interestsReport').html(interestList);
+
+
+
+        matchedCareers = matchResults();
+        for (var i = 0; i < matchedCareers.length; i++) {
+            var item = matchedCareers[i];
+            $('.careersReport').append('<a target="_blank" class="career" href="/' + item.title.replace('\'s', '').replace(/[^a-zA-Z0-9]+/g, '-') + '"><span class="professionName">' + item.title + '</span><span class="professionSalary">' + Math.round(item.salary / 1000) + 'K per year</span><i class="fa fa-angle-right pull-right arrowRight"></i></a>');
+        }
+
+        function matchResults() {
+            var interestsCareers = professions.filter(function (x) {
+                return interests.map(function (y) { return x[y] == 1; }).every(Boolean);
+            }).map(function (x) { x.interests = true; x.traits = false; return x; }) || [];
+            return interestsCareers;
+        }
+
+    }
+</script>

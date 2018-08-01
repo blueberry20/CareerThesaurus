@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "ThankYou";
+}
+
+<link href="~/Content/css/Request/form.css" rel="stylesheet" />
+
+<div id="formThankyouPage" class="pageContainer">
+    <div class="container">
+        <h2>Thank you for submitting the form!</h2>
+
+        <div class="directions">
+            <div><p>Did you take our fun career test yet?</p><a href="/SkillTest">Go to career test</a></div>
+            <div><p>If you took a test, review your results</p><a href="/Analytics/StudentReport">Go to report card</a></div>
+        </div>
+    </div>
+</div>

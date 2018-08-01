@@ -1,0 +1,265 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.PendingSchool;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AccessCode;
+@{
+    UserAccountClient uac = new UserAccountClient();
+    AdminAccountClient aac = new AdminAccountClient();
+    CounselorAccountClient cac = new CounselorAccountClient();
+    StudentAccountClient sac = new StudentAccountClient();
+    SchoolAccountClient sc = new SchoolAccountClient();
+    PendingSchoolClient psc = new PendingSchoolClient();
+    AccessCodeClient acc = new AccessCodeClient();
+    ViewBag.Title = "Admins";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Admin Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Pass</th>
+                        <th>Email Confirm</th>
+                        <th>School</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th># of Counselors</th>
+                        <th># of groups</th>
+                        <th># of students</th>
+                        <th>Date registered</th>
+                        <th>Misc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        List<AdminAccount> adminAccounts = new List<AdminAccount>(aac.GetAllByPartition("admin"));
+                        List<UserAccount> users = new List<UserAccount>();
+                        foreach (AdminAccount adminAccount in adminAccounts)
+                        {
+                            UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(adminAccount.RowKey), adminAccount.RowKey);
+                            users.Add(account);
+                        }
+                        users.Sort(delegate(UserAccount a, UserAccount b) { return b.CreatedOn.CompareTo(a.CreatedOn); });
+                        foreach (UserAccount user in users)
+                        {
+                            AdminAccount adminAccount = adminAccounts.Where(x => x.RowKey == user.RowKey).SingleOrDefault();
+                            int groupsCount = 0;
+                            int studentCount = 0;
+                            int counselorsCount = 0;
+                            string schoolName = "N/A";
+                            string schoolState = "N/A";
+                            string schoolZip = "N/A";
+                            if (adminAccount.SchoolSelected)
+                            {
+                                List<AccessCode> groups = new List<AccessCode>(acc.GetAllBySchool(adminAccount.School));
+                                List<StudentAccount> students = new List<StudentAccount>(sac.GetAllBySchool(adminAccount.School));
+                                List<CounselorAccount> counselors = new List<CounselorAccount>(cac.GetAllBySchoolActive(adminAccount.School));
+                                groupsCount = groups.Count;
+                                studentCount = students.Count;
+                                counselorsCount = counselors.Count;
+                                SchoolAccount school = sc.GetByPartitionAndRowKey("school", adminAccount.School);
+                                PendingSchool pendingSchool = psc.GetByAdmin(adminAccount.RowKey);
+                                if (school != null)
+                                {
+                                    schoolName = school.SchoolName;
+                                    schoolState = school.State;
+                                    schoolZip = school.ZipCode;
+                                }
+                                else if (pendingSchool != null && pendingSchool.Pending)
+                                {
+                                    schoolName = pendingSchool.SchoolName + " (pending)";
+                                    schoolState = pendingSchool.State;
+                                    schoolZip = pendingSchool.ZipCode;
+                                }
+                            }
+                            else if (!string.IsNullOrEmpty(adminAccount.RequestStatus))
+                            {
+                                schoolName = "Rejected: " + adminAccount.RequestStatus;
+                            }
+                            <tr>
+                                <td><div data-rowkey="@user.RowKey" data-adminname="@user.FirstName @user.LastName" class="admin">@user.FirstName @user.LastName</div></td>
+                                <td>@user.Email</td>
+                                <td>@adminAccount.PhoneNumber</td>
+                                <td>@user.Password</td>
+                                <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
+                                <td>@schoolName</td>
+                                <td>@schoolState</td>
+                                <td>@schoolZip</td>
+                                <td>@counselorsCount</td>
+                                <td>@groupsCount</td>
+                                <td>@studentCount</td>
+                                <td>@user.CreatedOn</td>
+                                <td><button data-rowkey="@user.RowKey" class="btn btn-default" onclick="viewMisc(this);">View</button></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="export"><button class="btn btn-default" onclick="exportData();">Export Data</button></div>
+    </div>
+</div>
+
+<div id="miscModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Notes</h4>
+            </div>
+            <div class="modal-body">
+                <p>Notes</p>
+                <textarea id="notes" class="form-control" rows="3" onkeyup="getLength();"></textarea>
+                <p>Notes length limit is 65535 characters. Current length: <span id="length">0</span></p>
+                <p>Last time updated: <span id="lasttime"></span></p>
+                @*<button type="button" class="btn btn-default" onclick="deleteSchoolconnection();">Delete School Connection</button>
+                <button type="button" class="btn btn-default" onclick="deleteRecord();">Delete Record</button>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveChanges();">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    var rk = '';
+    var td = null;
+    function document_ready() {
+        $('.admin').click(function () {
+            var rowkey = $(this).data('rowkey');
+            var adminame = $(this).data('adminname');
+            setCookie('adminrowkey', rowkey, 1);
+            setCookie('adminname', adminame, 1);
+            window.location = '/AdminPortal';
+        });
+        $('#miscModal').on('hidden.bs.modal', function (e) {
+            rk = '';
+            td = null;
+        });
+    }
+    function getLength() {
+        $('#length').text($('#notes').val().length);
+    }
+    function viewMisc(element) {
+        rk = $(element).data('rowkey');
+        td = $(element).parent().parent();
+        $.ajax({
+            url: '/Admin/GetNotes',
+            type: 'post',
+            data: {
+                rk: rk
+            }
+        }).success(function (response) {
+            console.log(response);
+            if (response.result == 'ok') {
+                $('#notes').val(response.notes);
+                $('#lasttime').text(response.lasttime);
+                $('#length').text(response.notes.length);
+                $('#miscModal').modal('show');
+            } else {
+                alert('Server error');
+            }
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    function saveChanges() {
+        $.ajax({
+            url: '/Admin/SaveNotes',
+            type: 'post',
+            data: {
+                rk: rk,
+                notes: $('#notes').val()
+            }
+        }).success(function (response) {
+            console.log(response);
+            if (response.result == 'ok') {
+                $('#miscModal').modal('hide');
+            } else {
+                $('#miscModal').modal('hide');
+                alert('Server error');
+            }
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+    function deleteSchoolConnection() {
+        if (confirm('Are you sure you want to delete this administrator school connection?')) {
+            $.ajax({
+                url: '/Admin/DeleteSchoolConnection',
+                type: 'post',
+                data: {
+                    rk: rk
+                }
+            }).success(function (response) {
+                console.log(response);
+                if (response.result == 'ok') {
+                    td.children().each(function (element, index) {
+                        if (index == 5 || index == 6 || index == 7) {
+                            $(element).text('N/A');
+                        } else if (index == 8 || index == 9 || index == 10) {
+                            $(element).text('0');
+                        }
+                    });
+                } else {
+                    
+                    alert('Server error');
+                }
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+    function deleteRecord() {
+        if (confirm('Are you sure you want to delete this administrator?')) {
+            $.ajax({
+                url: '/Admin/DeleteRecord',
+                type: 'post',
+                data: {
+                    rk: rk
+                }
+            }).success(function (response) {
+                console.log(response);
+                if (response.result == 'ok') {
+                    td.remove();
+                } else {
+
+                    alert('Server error');
+                }
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+    function exportData() {
+        var data = [];
+        $('tr').each(function (index, element) {
+            var row = [];
+            $(element).children().each(function () {
+                var text = $(this).text();
+                if (text.indexOf(',') != -1) {
+                    row.push('"' + text + '"');
+                } else {
+                    row.push(text);
+                }
+            });
+            data.push(row.join(','));
+        });
+        var output = data.join('\r\n');
+        var uri = 'data:text/csv;charset=utf-8,' + encodeURI(output);
+        var downloadLink = document.createElement("a");
+        downloadLink.href = uri;
+        downloadLink.download = "data.csv";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

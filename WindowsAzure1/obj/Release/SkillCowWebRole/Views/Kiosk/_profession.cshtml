@@ -1,0 +1,959 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_profession_scrollablecontent div {display: inline-block;}
+</style>
+
+
+<div id="_school_search_results" style="display: none;">
+
+</div>
+
+<div id="_profession" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    @if (!ViewBag.IsMobileDevice)
+    {
+    <div style="position: absolute; top: 80px; left: 125px;">
+        <img id="profession_branchimage" src="" style="position: absolute; top: 0px; left: 0px; width: 240px; height:240px;"/>
+        <h1 id="profession_name" style="position: absolute; top: 0px; margin: 0px; left: 300px; font-size: 24pt; width: 900px; display: inline-block; "></h1>
+        <p id="profession_shortdesc" class="" style="position: absolute; top: 60px; margin: 0px; left: 300px; font-size: 12pt; width: 900px;">
+            
+        </p>
+    </div>
+    <div id="btnindepth" style="position: absolute; top: 20px; margin: 0px; right: 20px; font-size: 16pt; width: 170px;" >
+        Learn more <img style="position: absolute; top: -6px; right: 0px; " src="/content/images/kiosk/icons/disc_41.png" />
+    </div>
+    }
+    
+    
+    <div id="_profession_viewport" style="position: absolute; width: 100%; bottom: 0px; height: 560px; overflow-x: scroll; display: none;">
+        <div id="_profession_scrollablecontent" style="overflow-y: hidden; height: 560px; margin-left: 100px; opacity: 0;">
+            
+            @if (ViewBag.IsMobileDevice)
+            {
+            <div class="result_panel" style="margin-left: 40px; height: 700px; width: 400px;">
+                <h1 id="profession_name" style="margin: 10px 0px 0px 0px; font-size: 18pt; max-width: 400px;"></h1>
+                
+                <div id="_profession_description_viewport" style="width: 400px; bottom: 0px; height: 200px; overflow-y: scroll; display: ; margin-top: 18px;">
+                    <div id="_profession_description_scrollablecontent" style="overflow-x: hidden; margin-left: 0; opacity: 1;">
+                        
+                        <p id="profession_shortdesc" class="profession_shortdesc_container" style="font-size: 12pt; max-width: 400px; margin: 0 20px 10px 0;">
+                            
+                        </p>
+                        <p id="profession_duties" class="profession_duties_container" style="font-size: 12pt; max-width: 400px; margin: 0 20px 10px 0;">
+                            
+                        </p>
+                        <p id="profession_wheretofind" class="profession_wheretofind_container" style="font-size: 12pt; max-width: 400px; margin: 0 20px 10px 0;">
+                            
+                        </p>
+                        <p id="profession_salary" class="profession_salary_container" style="font-size: 12pt; max-width: 400px; margin: 0 20px 10px 0;">
+                            
+                        </p>
+                        <p id="profession_demand" class="profession_demand_container" style="font-size: 12pt; max-width: 400px; margin: 0 20px 10px 0;">
+                            
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            }
+
+            <div id="_profession_jobs_result_panel" class="result_panel" style="margin-left: @(ViewBag.IsMobileDevice ? "" : "125px"); height: 700px;">
+                <div class="title">WANTED</div><div id="btnviewalljobs" class="titlesuffix"> View all jobs <img src="/content/images/kiosk/icons/disc_31.png" /></div>
+                <br />
+                
+                <div id="profession_jobs" style="margin-left: -10px;">
+
+                    <!--JOB GO HERE-->
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25px; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Job Title</div>
+                            <div style="position: absolute; top: 25px; left: 0px; width: 270px; height: 25px; text-align: left; font-size: 10pt; padding: 5px; color: #555;">Company, Location</div>
+                            <div style="position: absolute; top: 50px; left: 0px; width: 270px; height: 25px; text-align: left; font-size: 10pt; padding: 5px; color: #000;">Description</div>
+                        </div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+                    <br />
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="_profession_matchedjobs_result_panel" class="result_panel" style="height: 700px; min-width: 300px; display: none;">
+                
+                <div class="title">Featured jobs</div> 
+                <br />
+
+                <div id="profession_matchedjobs" style="margin-left: -10px;">
+                    
+                </div>
+
+            </div>
+
+            <div id="_profession_schools_result_panel" class="result_panel" style="height: 700px; min-width: 300px;">
+                
+                <div class="title">Hang on...</div> 
+                <br />
+
+                
+                <div id="profession_schools" style="margin-left: -10px;">
+                
+                    
+                    <!--SCHOOLS GO HERE-->
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+                    <br />
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="_profession_courses_result_panel" class="result_panel" style="height: 700px; min-width: 300px;">
+                <div class="title">Cool online video courses you can take at home </div>
+                <!--<div id="btnviewallcourses" class="titlesuffix" > View all <img src="/content/images/kiosk/icons/disc_31.png" /></div>-->
+                <br />
+
+                <div id="profession_recommendedcourses" style="margin-left: -10px;">
+
+                    <!--SCHOOLS GO HERE-->
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                        <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>
+                    </div>
+
+
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    
+    
+    <div id="_profession_backbutton" class="backbutton" ></div>
+    
+</div>
+
+
+
+<script src="@Url.Content("~/Scripts/TagAggregation/kiosk_tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/udemy/courses.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/udemy/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+@Html.Partial("_job_search_results")
+
+@Html.Partial("_profession_indepth")
+
+@Html.Partial("_indeedjob")
+@Html.Partial("_school")
+@Html.Partial("_udemy_course")
+
+
+
+<script>
+
+    var professionid = '';
+    var profession_name = '';
+    var programid = 0;
+    var branchname = '';
+    var _profession_loaded = false;
+    var indeedjobsloaded=0;
+
+    function inDepthClicked() {
+        showProfessionInDepth(professionid, profession_name, branchname)
+    }
+
+    function showProfession(e) {
+
+        var ismobile = @(ViewBag.IsMobileDevice ? "true" : "false");
+
+        $('#profession_jobs').html('<div style="margin: 10px"><img src="/content/preloaders/25.gif" style="opacity: 0.8;" /></div>');
+        $('#profession_schools').html('<div style="margin: 10px"><img src="/content/preloaders/25.gif" style="opacity: 0.8;" /></div>');
+
+        
+        showOverlay('_profession');
+
+        professionid = $(e).attr('professionid');
+        branchname = $(e).attr('branch').toLowerCase();
+        profession_name = $(e).attr('professionname');
+        programid = $(e).attr('programid');
+
+        $('#profession_shortdesc').html('');
+        $('#profession_duties').html('');
+        $('#profession_wheretofind').html('');
+        $('#profession_salary').html('');
+        $('#profession_demand').html('');
+
+        $('#profession_branchimage').attr('src', '/content/images/careerassessment/covers/bybranch/' + branchname.replace(/\s/g, '').replace(/\,/g, '') + '.jpg');
+
+        if(ismobile)
+        {
+            $('#profession_name').html(profession_name);
+        }
+        else
+        {
+            $('#profession_name').html('You can be ' + articleForWord(profession_name) + ' ' + profession_name);
+        }
+        
+        indeedjobsloaded=0;
+        $('#profession_jobs').html('');
+        loadProfessionJobs(makeTitleSearchable(profession_name), 0);
+        getFeaturedJobsForProfession();
+        loadSchools();
+        loadCourses();
+
+        var scrollablewidth = 18000; //125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280
+
+        $("#_profession_viewport").scrollLeft(0);
+        $('#_profession_scrollablecontent').animate({ 'margin-left': '100px', 'opacity': 0 }, 0);
+
+        $('#_profession_scrollablecontent').css('width', scrollablewidth);
+        $("#_profession_viewport").niceScroll("#_profession_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.3)", cursorborder: "1px none #fff" });
+        $("#_profession_viewport").getNiceScroll().resize();
+        $("#_profession_viewport").show();
+
+        setTimeout(function () {
+            $('#_profession_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+        }, 500);
+
+        $('#profession_shortdesc').addClass(professionid + '_description');
+        if(ismobile)
+        {
+            $('#profession_duties').addClass(professionid + '_duties');
+            $('#profession_wheretofind').addClass(professionid + '_wheretofind');
+            $('#profession_salary').addClass(professionid + '_salary');
+            $('#profession_demand').addClass(professionid + '_demand');
+        }
+
+        if (!_profession_loaded) {
+            
+            $('#btnindepth').press(inDepthClicked);
+            $('#btnviewalljobs').press(refineJobSearch);
+            //TODO: $('#btnviewallschools').press();    //WARNING IMPLEMENT THIS!
+            //TODO: $('#btnviewallcourses').press();    //WARNING IMPLEMENT THIS!
+
+            $('#_profession_backbutton').press(function () {
+                hideOverlay('_profession');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_profession');
+                }
+            });
+
+            _profession_loaded = true;
+        }
+        
+        getDescriptionsFromBlob(professionid);
+
+        //Formatting
+        if(ismobile)
+        {
+            $('#_profession_viewport').css('height', document.documentElement.clientHeight - 90);
+            $('#_profession_scrollablecontent').css('height', document.documentElement.clientHeight - 90);
+        }
+    }
+
+    function professionDescriptionsLoaded()
+    {
+        $('#_profession_description_viewport').css('height', document.documentElement.clientHeight - 90 - 90 - 50 );
+        $("#_profession_description_viewport").niceScroll("#_profession_description_scrollablecontent", { cursorcolor: "rgba(255,255,255,0.5)", cursorborder: "1px none #fff" });
+        $("#_profession_description_viewport").getNiceScroll().resize();
+    }
+
+    function articleForWord(word) {
+        if(word==null || $.trim(word)=='')
+            return '';
+
+        if ('aeiou'.indexOf(word[0].toLowerCase()) >= 0) {
+            return 'an';
+        }
+        else {
+            return 'a';
+        }
+    }
+
+    
+    function loadProfessionJobs(searchterm, pass) {
+        
+        if(indeedjobsloaded >= (ismobile?2:4)) {
+            return;
+        }
+
+        var chnl = '13564694';
+        
+        var zip = getCookie('zip');
+        if(zip==null || zip=='')
+        {
+            zip = '';
+        }
+
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: 'title:(' + searchterm + ')',
+                l: zip,
+                c: chnl,
+                limit: (ismobile?2:4),
+                start: 0
+            }
+        }).success(function (response) {
+            var cnt = 0;
+
+            var professionkeywords = new Array();
+            var professionname = searchterm;
+            professionkeywords = professionname.split(' ');
+
+            var jobkeys;
+
+
+            var submitted = getCookie("indeedjob_submitted");
+            var submittedlist = new Array();
+            if (submitted != null && submitted != "") {
+                submittedlist = submitted.split(',');
+            }
+
+            try {
+
+                var rowspercol = 2;
+                var B2 = response.results.results.length;
+                var E2 = (B2 + 2) % rowspercol;
+                var itemsperrow = Math.max(2, (B2 - E2) / rowspercol);
+
+                if(ismobile){
+                    itemsperrow =1;
+                }
+                
+                if(response.results.results.length>0)
+                {
+                    $('#_profession_jobs_result_panel').show();
+                    for (var i = 0; i < response.results.results.length; i++) {
+                        if(indeedjobsloaded<(ismobile?2:4))
+                        {
+                            indeedjobsloaded++;
+                            cnt++;
+                            var x = response.results.results[i];
+                                        
+                            var description = x.snippet;
+
+                            var linebreak = false;
+                            if (indeedjobsloaded % itemsperrow == 0) {
+                                linebreak = true;
+                            }
+
+                            //collect job keys for descriptions
+                            if (jobkeys == '') {
+                                jobkeys += x.jobkey;
+                            }
+                            else {
+                                jobkeys += "," + x.jobkey;
+                            }
+
+                        
+                            addProfessionJobResult(indeedjobsloaded, x, linebreak, submittedlist, pass);
+                            
+
+                            if(indeedjobsloaded >= (ismobile?2:4)) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!ismobile)
+                    {
+                        $('.clickablebranchprofessionjob' + pass).click(function () {
+                            showIndeedJob(this);
+                        });
+                    }
+
+                    if(indeedjobsloaded >= (ismobile?2:4)) {
+                        return;
+                    }
+                }
+                else{
+                    $('#_profession_jobs_result_panel').hide();
+
+                    if(pass==0)
+                    {
+                        var tokens = searchterm.split(' ');
+                        for(var i=0; i<tokens.length; i++)
+                        {
+                            loadProfessionJobs(tokens[i], i+1);
+                        }
+                    }
+                }
+            }
+            catch (e) {
+                $('#profession_jobs').html('');
+                $('#_profession_jobs_result_panel').hide();
+            }
+
+        }).error(function (response) {
+            $('#profession_jobs').html('');
+            $('#_profession_jobs_result_panel').hide();
+        });
+    }
+
+    function addProfessionJobResult(sequence, job, linebreak, submittedlist, pass) {
+
+        var timestamp = getTimestampFromIndeedTime(job.date);
+        $('#profession_jobs').append('<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 234px; overflow:hidden;" class="">' +
+                        '<div style="position: absolute; top: 0; left: 0; width:280px; height: 234px; border: thin solid black;" class="diagonalwhitegradient80">' +
+                        '    <div style="color: #333; font-size: 10pt; padding: 10px;"><b>' + job.jobtitle + '</b><br/>' + job.company + '<br/>' + job.formattedLocation + '<br/><br/>' + (job.snippet != null ? job.snippet : '') + '</div>' +
+                        '</div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 50px; left: 60px; opacity: 0.5; display: ' + (recordSubmitted(submittedlist, job.jobkey) ? '' : 'none') + '" class="x_indeedjob' + job.jobkey + '"/>' +
+
+                        '    <div style="position: absolute; bottom: 5px; left: 0px; width: 275px; text-align:right; padding: 0 0px 5px 0; color: #333;" class="age" timestamp="' + timestamp + '">' + getElapsedTime(timestamp) + '</div>' +
+
+                        '<div class="whitereflection" style="position: absolute; top: 244px; left: 1px; width: 280px; height: 50px;"></div>' +
+                        
+                        //'<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablebranchprofessionjob" value="" style="position: absolute; top: 0px; left: 0px; width: 282px; height: 236px; outline: none;" jobkey="' + job.jobkey + '" jobtitle="' + job.jobtitle + '" company="' + job.company + '" formattedLocationFull="' + job.formattedLocationFull + '" formattedRelativeTime="' + job.formattedRelativeTime + '"  @(ViewBag.IsMobileDevice ? "></div>" : "/>")' +
+
+                        (ismobile ? '<a onmousedown="markAsViewed(\'indeedjob\',\'' + job.jobkey + '\'); ' + job.onmousedown + '" href="' + job.url + '" target="_blank">' : '') + '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button"   class="invisiblebutton clickablebranchprofessionjob'+pass+'" value="" style="position: absolute; top: 0px; left: 0px; width:                                           282px; height:                                            236px; outline:none;" jobkey="' + job.jobkey + '" jobtitle="' + job.jobtitle + '" company="' + job.company + '" formattedLocationFull="' + job.formattedLocationFull + '" formattedRelativeTime="' + job.formattedRelativeTime + '" timestamp="' + timestamp + '" snippet="' + job.snippet + '"@Html.Raw(ViewBag.IsMobileDevice?"></div>":"/>")' + (ismobile ? '</a>' : '') +
+            
+                        //(ismobile ? '<a onmousedown="markAsViewed(\'indeedjob\',\'' + x.jobkey + '\'); '     + x.onmousedown + '" href="'   + x.url + '" target="_blank">' : '') + '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickableindeedjobsearchresult" value="" style="position: absolute; top: 0px; left: 0px; width: ' + (_job_search_results_resultwidth + 2) + 'px; height: ' + (_job_search_results_resultheight + 2) + 'px; outline:none;" jobkey="' +   x.jobkey + '" jobtitle="' +   x.jobtitle + '" company="' +   x.company + '" formattedLocationFull="' +   x.formattedLocationFull + '" formattedRelativeTime="' +   x.formattedRelativeTime + '" timestamp="' + timestamp + '" snippet="' +   x.snippet + '"@Html.Raw(ViewBag.IsMobileDevice?"></div>":"/>")' + (ismobile ? '</a>' : '') +
+            
+                        '</div>');
+
+        
+        if (linebreak) {
+            $('#profession_jobs').append('<br/>');
+        }
+    }
+
+    function refineJobSearch() {
+        showJobResults(getCookie('zip'), makeTitleSearchable(profession_name));
+    }
+    function makeTitleSearchable(title) {
+        return title.replace(/(\\|\/)/g,' or ').replace(/\s\s/g,' ');
+    }
+</script>
+<script>
+    function loadSchools() {
+
+        var zip = getCookie('zip');
+        var degrees = programid;
+        var f = 'gradyear=' + getCookie('gradyear') + ',education_level=' + getCookie('education_level') + ',educationlevel=' + getCookie('education_level');
+        var edulevel = getCookie('education_level');
+
+
+        $('#_profession_schools_result_panel .title').html('Please wait...');
+
+        $('#_school_search_results').html('');
+
+        $.ajax({
+            url: appserverurl + "/Schools/GetSchoolsByProfession",
+            type: "POST",
+            data: {
+                zip: zip,
+                professionname: profession_name,
+                professionid: programid,
+                f: f,
+                edulevel: edulevel
+            }
+        }).done(function (response) {
+            if (response.result == 'ok') {
+
+                $('#_profession_schools_result_panel .title').html('We found career training near you!');
+
+                var submitted = getCookie("school_submitted");
+                var submittedlist = new Array();
+                if (submitted != null && submitted != "") {
+                    submittedlist = submitted.split(',');
+                }
+
+                $('#profession_schools').html('');
+                if (response.resultsets.length > 0) {
+
+                    var rs = response.resultsets[0];
+
+                    //dedupe schools by image url
+                    var uniqueshools = new Array();
+
+
+                    for (var i = 0; i < rs.schools.length; i++) {
+                        //unique.school.clientfrontendname
+                        //alert(appserverurl + "/Schools/GetSchoolsWithForms school.clientfrontendname: " + rs.schools[i].clientfrontendname);
+                        if (!uniqueSchoolRegistered(rs.schools[i], uniqueshools)) {
+                            uniqueshools.push({ school: rs.schools[i], image: rs.schools[i].image, programs: new Array() });
+                        }
+                        var unique = getUniqueSchool(rs.schools[i].image, rs.schools[i].clientsetid, uniqueshools);
+                        for (var j = 0; j < rs.schools[i].programs.length; j++) {
+                            if (!programRegistered(rs.schools[i].campustype, rs.schools[i].programs[j].type, unique.programs)) {
+                                unique.programs.push({
+                                    school: rs.schools[i],
+                                    program: rs.schools[i].programs[j]
+                                });
+                            }
+                        }
+                    }
+
+                    var cnt = 0;
+                    var itemsperrow = 0;
+
+                    if (uniqueshools.length > 8) {
+                        itemsperrow = 5;
+                    }
+                    else if (uniqueshools.length > 6) {
+                        itemsperrow = 4;
+                    }
+                    else if (uniqueshools.length > 4) {
+                        itemsperrow = 3;
+                    }
+                    else {
+                        itemsperrow = 2;
+                    }
+
+                    if(uniqueshools.length>0)
+                    {
+                        for (var i = 0; i < uniqueshools.length; i++) {
+                            cnt++;
+
+                            var linebreak = false;
+                            if (cnt % itemsperrow == 0) {
+                                linebreak = true;
+                            }
+
+                            var hidden = false;
+                            if (cnt > 10) {
+                                hidden = true;
+                            }
+                            addProfessionSchool(cnt, uniqueshools[i], linebreak, hidden, submittedlist);
+                        
+                        }
+
+                        $('.clickablebranchprofessionschool').click(function () {
+                            //alert($(this).attr('frontendname'));
+                            showSchool(this);
+                        });
+
+                        $('#_profession_schools_result_panel').show();
+                    }
+                    else{
+                        $('#_profession_schools_result_panel').hide();
+                    }
+
+                }
+
+            }
+            else {
+                $('#profession_schools').html('');
+                $('#_profession_schools_result_panel').hide();
+            }
+        }).fail(function () {
+            $('#profession_schools').html('');
+            $('#_profession_schools_result_panel').hide();
+        });
+    }
+
+    function uniqueSchoolRegistered(school, uniques) {
+        for (var i = 0; i < uniques.length; i++) {
+            if (uniques[i].school.image == school.image || uniques[i].school.clientsetid == school.clientsetid) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function getUniqueSchool(image, clientsetid, uniques) {
+        for (var i = 0; i < uniques.length; i++) {
+            if (uniques[i].school.image == image || uniques[i].school.clientsetid == clientsetid) {
+                return uniques[i];
+            }
+        }
+        return null;
+    }
+        
+
+    function programRegistered(name, programs) {
+        for (var i = 0; i < programs.length; i++) {
+            if (programs[i].name == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function addProfessionSchool(sequence, unique, linebreak, hidden, submittedlist) {
+
+        var programstring = '';
+        var programjson = '{"items" : [';
+        var jsonitemcnt = 0;
+        var onlineprograms = 0, campusprograms = 0;
+                
+        for (var i = 0; i < unique.programs.length; i++) {
+            //for display
+            if (unique.programs[i].school.campustype.toLowerCase() == 'online') {
+                onlineprograms++;
+            }
+            else {
+                campusprograms++;
+            }
+
+            
+            //as json
+            if (jsonitemcnt++ == 0) {
+                programjson += '{"campustype":"' + unique.programs[i].school.campustype + '", "campuskey":"' + unique.programs[i].school.campuskey + '", "id":"' + unique.programs[i].program.id + '", "type":"' + unique.programs[i].program.type + '", "typename":"' + unique.programs[i].program.typename + '", "isprimary":"' + unique.programs[i].program.isprimary + '", "name":"' + unique.programs[i].program.name + '"}';
+            }
+            else {
+                programjson += ',{"campustype":"' + unique.programs[i].school.campustype + '", "campuskey":"' + unique.programs[i].school.campuskey + '", "id":"' + unique.programs[i].program.id + '", "type":"' + unique.programs[i].program.type + '", "typename":"' + unique.programs[i].program.typename + '", "isprimary":"' + unique.programs[i].program.isprimary + '", "name":"' + unique.programs[i].program.name + '"}';
+            }
+        }
+        programjson += ']}';
+
+        //alert(programjson);
+
+        $('#profession_schools').append(
+                        '<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 234px; background-color: #fff; display: ' + (hidden ? 'none' : '') + '">' +
+                        '    <div style="position: absolute; top: 0px; left: 0px; width:280px; height: 234px; border: thin solid black; text-align: center;" ></div>' +
+                        
+                        '    <div style="position: absolute; top: 0px; left: 10px; background-color: #fff; margin: 10px;"><img src="https://chaindate.blob.core.windows.net/logooverrides/' + unique.school.clienttype + '/' + unique.school.logoclientid + '" onerror="$(this).attr(\'src\', \'' + unique.school.image + '\');" style="margin: 0px auto; max-width: 140px; max-height: 80px;" /></div>' +
+
+                        //'    <div style="position: absolute; top: 0px; left: 10px; background-color: #fff; margin: 10px;"><img src="' + unique.image + '" style="margin: 0px auto; max-width: 140px; max-height: 80px;" /></div>' +
+                        '    <ul style="position: absolute; top: 90px; left: 10px; background-color: #fff; margin: 15px 10px 10px 10px; color: #000; font-size: 12pt; font-weight: 400;">' +
+                        (campusprograms > 0 ? '<li>' + campusprograms + ' campus programs</li>' : '') +
+                        (onlineprograms > 0 ? '<li>' + onlineprograms + ' <span style="color: #ff5500;">online</span> programs</li>' : '') +
+                        '    </ul>' +
+                        (compilemode == 'DEBUG' ? '<div style="position: absolute; left: 20px; bottom: 60px; font-size: 10pt; color: #000;">'+unique.school.clienttype+'/' + unique.school.logoclientid + '</div>' : '') +
+                        '<div style="position: absolute; top: 192px; width: 262px; font-size: 14pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: right;">Learn more <img src="/content/images/kiosk/icons/arrow_2.png" /></div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 20px; left: 60px; opacity: 0.5; display: ' + (recordSubmitted(submittedlist, unique.school.clientid) ? '' : 'none') + '" class="x_school' + unique.school.clientid + '"/>' +
+                        '    <@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablebranchprofessionschool" value="" style="position: absolute; top: 0px; left: 0px; width: 282px; height: 236px; outline: none;" programjson="' + encodeURIComponent(programjson) + '" clientrowkey="' + (unique.school.clientrowkey != null ? unique.school.clientrowkey : "") + '" image="' + unique.school.image + '" location="' + unique.school.city + ', ' + unique.school.state + '" distance="' + unique.school.distance + '" clientid="' + unique.school.clientid.replace(/\s/g, '') + '" clientsetid="' + unique.school.clientsetid.replace(/\s/g, '') + '" logoclientid="' + unique.school.logoclientid.replace(/\s/g, '') + '" formid="' + unique.school.formid.replace(/\s/g, '') + '" frontendname="' + unique.school.clientfrontendname + '" clienttype="' + unique.school.clienttype + '" formdesc="' + $('<div>' + unique.school.formdescription + '</div>').text() + '" @(ViewBag.IsMobileDevice ? "></div>" : "/>")' +
+                        '</div>');
+
+        $('#_school_search_results').append('<div id="schooldesc' + unique.school.clientid.replace(/\s/g,'') + '" style="display:none;">' + unique.school.formdescription + '</div>');
+
+        
+        /*
+        //FROM SCHOOL SEARCH
+        $('#_school_search_results_scrollablecontent').append(
+                        '<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; background-color: #fff;">' +
+                        '    <div style="position: absolute; top: 0px; left: 0px; width:280px; height: 274px; border: thin solid #000; text-align: center;" ></div>' +
+                        '    <div style="position: absolute; width: 261px; font-size: 20pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: left;">Now Enrolling!</div>' +
+                        '    <div style="position: absolute; top: 60px; left: 10px; background-color: #fff; margin: 10px;"><img src="' + unique.school.image + '" style="margin: 0px auto;" /></div>' +
+                        '    <ul style="position: absolute; top: 140px; left: 10px; background-color: #fff; margin: 10px; color: #000; font-size: 12pt; font-weight: 400;">' +
+                        (campusprograms > 0 ? '<li>' + campusprograms + ' campus programs</li>' : '') +
+                        (onlineprograms > 0 ? '<li>' + onlineprograms + ' <span style="color: #ff5500;">online</span> programs</li>' : '') +
+                        '    </ul>' +
+                        '    <div style="position: absolute; bottom: -1px; width: 261px; font-size: 12pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: right;">Request FREE info <img src="/content/images/kiosk/icons/arrow_2.png" /></div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 60px; left: 60px; opacity: 0.5; display: ' + (getCookie('x_school' + unique.school.clientid) == '1' ? '' : 'none') + '" class="x_school' + unique.school.clientid + '"/>' +
+                        '    <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 150px; "></div>' +
+                        '    <div programjson="' + encodeURIComponent(programjson) + '" image="' + unique.school.image + '" location="' + unique.school.city + ', ' + unique.school.state + '" distance="' + unique.school.distance + '" clientid="' + unique.school.clientid + '" formid="' + unique.school.formid + '" clientsetid="" frontendname="' + unique.school.clientfrontendname + '" formdesc="' + $('<div>' + unique.school.formdescription + '</div>').text() + '" style="position: absolute; left: 0px; top:0px; width:280px; height: 274px;" class="clickableschool"></div>' +
+                        '</div>');
+                        */
+
+        
+        if (linebreak) {
+            $('#profession_schools').append('<br/>');
+        }
+    }
+
+</script>
+<script>
+    
+    function loadCourses() {
+        
+        $('#profession_recommendedcourses').html('');
+
+        var professiontags = null;
+
+        //find profession
+        for (var i = 0; i < udemyprofessions.length; i++) {
+            if (udemyprofessions[i].id === profession_name) {
+                professiontags = udemyprofessions[i].tags;
+                break;
+            }
+        }
+        
+        if (professiontags == null) {
+            return;
+        }
+
+        var submitted = getCookie("udemycourse_submitted");
+        var submittedlist = new Array();
+        if (submitted != null && submitted != "") {
+            submittedlist = submitted.split(',');
+        }
+
+
+        var courses = matchCourses(professiontags);
+        
+        courses.sort(sortbyrelevancedesc);
+
+        var cnt = 0;
+        
+        var rowspercol = 2;
+        var B2 = Math.min(courses.length, 10);
+        
+        //B2         
+        if (B2 % 2 != 0)
+            B2++; 
+
+        var itemsperrow = B2 / rowspercol;
+
+        for (var i = 0; i < B2; i++) {
+            if(courses[i]!=null)
+            {
+                cnt++;
+                var linebreak = false;
+                if (cnt % itemsperrow == 0) {
+                    linebreak = true;
+                }
+            
+                addProfessionCourse(cnt, courses[i], linebreak, submittedlist);
+            }
+        }
+
+        if(!ismobile)
+        {
+            $('.clickablecourse').click(function () {
+                courseClicked(this);
+            });
+        }
+
+    }
+
+    function addProfessionCourse(cnt, item, linebreak, submittedlist) {
+
+        var course_id = item.course.url.replace('http://ude.my/', '');
+
+        $('#profession_recommendedcourses').append('<div style="position: relative; display: inline-block; margin-left: 10px; width:240px; height: 234px;" class="">' +
+                        '<div style="position: absolute; top: 0; left: 0; width:240px; height: 234px; border: thin solid black;" class="diagonalwhitegradient">' +
+                        '<img src="'+item.course.image+'" style="position: absolute; top: 0px; left: 0px;"/>' +
+                        '<div style="position: absolute; top: 136px; left: 0px; width: 220px; height: 99px; text-align: left; vertical-align: bottom; font-size: 12pt; padding: 10px; color: #333; font-weight: normal; ">' + item.course.name + '</div>' +
+                        '</div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 20px; left: 40px; opacity: 0.5; display: ' + (recordSubmitted(submittedlist, course_id) ? '' : 'none') + '" class="x_udemycourse' + course_id + '"/>' +
+                        (ismobile ? '<a href="' + item.course.url + '" target="_blank">' : '') + '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablecourse" value="" style="position: absolute; top: 0px; left: 0px; width: 282px; height: 236px; outline: none;" name="' + item.course.name + '" url="' + item.course.url + '" image="' + item.course.image + '" @(ViewBag.IsMobileDevice ? "></div>" : "/>")' + (ismobile ? '</a>' : '') +
+                        '</div>');
+
+        if (linebreak) {
+            $('#profession_recommendedcourses').append('<br/>');
+        }
+    }
+
+    function courseClicked(e) {
+        showUdemyCourse(e);
+    }
+
+
+    function matchCourses(tags) {
+        
+        var courses = new Array();
+
+        for (var i = 0; i < udemycourses.length; i++) {
+
+            var points = 0;
+
+            for (var x = 0; x < udemycourses[i].tags.length; x++) {
+                for (var y = 0; y < tags.length; y++) {
+                    if (udemycourses[i].tags[x].toLowerCase() == tags[y].toLowerCase()) {
+                        points++;
+                    }
+                }
+            }
+
+
+            if (points > 0) {
+                courses.push({course: udemycourses[i], relevance: points });
+            }
+        }
+
+        return courses;
+    }
+    
+</script>
+<script>
+    //Featured jobs
+
+    function getFeaturedJobsForProfession() {
+
+        $('#profession_matchedjobs').html('');
+        $('#_profession_matchedjobs_result_panel').hide();
+
+        var RESULT_SEQUENCE = 0;
+        var startingresultnumber = 0;
+
+        var dimensionsjson = getCookie("testresults2");
+        var importantthingsjson = getCookie("importantthings2");
+
+        if (dimensionsjson == null || dimensionsjson == '' || importantthingsjson == null || importantthingsjson == '') {
+            return;
+        }
+
+        $.ajax({
+            url: appserverurl + "/jobs/getfeaturedjobsbyprogram",
+            type: "POST",
+            dataType: "json",
+            data: {
+                zip: getCookie('zip'),
+                programid: programid
+            }
+        }).success(function (response) {
+
+            if (response.result == 'ok') {
+
+                var submitted = getCookie("school_submitted");
+                var submittedlist = new Array();
+                if (submitted != null && submitted != "") {
+                    submittedlist = submitted.split(',');
+                }
+
+                var jobs = response.results.sort(sortbyjobmatchscore);
+
+                if (jobs.length > 0) {
+                    
+                    $('#_profession_matchedjobs_result_panel').show();
+                }
+                for (var j = 0; j < jobs.length; j++) {
+
+                    var job = jobs[j];
+
+                    try {
+                        addProfessionFeaturedJobResult(RESULT_SEQUENCE, job, submittedlist);
+                    }
+                    catch (e) {
+                        debugalert(e.message);
+                    }
+
+                    startingresultnumber++;
+                    RESULT_SEQUENCE++;
+                }
+
+                //                var jobs_scrollable_width = (380 + 20) * startingresultnumber + 20;
+                //                $('#_featuredjobs_scrollablecontent').css('width', jobs_scrollable_width + 'px');
+
+                //                $("#_featuredjobs_viewport").niceScroll("#_featuredjobs_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+                //                $("#_featuredjobs_viewport").getNiceScroll().resize();
+                //                $("#_featuredjobs_viewport").show();
+                //                $('#_featuredjobs_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+
+                $('.clickablerecommendedjob').click(function () {
+                    showSchool(this);
+                });
+
+            }
+            else {
+                alert(response.errormessage);
+            }
+        }).error(function (response) {
+            alert('Unable to connect');
+        });
+    }
+
+    function addProfessionFeaturedJobResult(sequence, x, submittedlist) {
+
+        //var margin = sequence === 0 ? (ismobile ? 40 : 125) : 20;
+
+        //var timestamp = getTimestampFromIndeedTime(x.date);
+        
+        var html = '<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 234px; background-color: #fff;">' +
+                        '    <div style="position: absolute; top: 0px; left: 0px; width:280px; height: 234px; border: thin solid black; text-align: center;" ></div>' +
+                        '    <div style="position: absolute; top: 0px; left: 10px; background-color: #fff; margin: 10px;"><img src="' + x.companylogo + '" style="margin: 0px auto; max-width: 140px; max-height: 80px;" /></div>' +
+                        '    <div style="position: absolute; bottom: 60px; left: 20px; width: 240px; color: #000; font-size: 12pt;">Now Hiring:<br><b>' + x.jobtitle + '</b></div>' +
+                        '<div style="position: absolute; top: 192px; width: 262px; font-size: 14pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: right;">Apply Now <img src="/content/images/kiosk/icons/arrow_2.png" /></div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 20px; left: 60px; opacity: 0.5; display: ' + (recordSubmitted(submittedlist, x.jobkey) ? '' : 'none') + '" class="x_school' + x.jobkey + '"/>' +
+                        '    <@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablerecommendedjob" value="" style="position: absolute; top: 0px; left: 0px; width: 282px; height: 236px; outline: none;" submittedkeyoverride="' + x.jobkey + '" clienttype="' + x.clienttype + '" logoclientid="' + x.clientid + '" clientid="' + x.clientid + '" frontendname="' + x.company + '" listingtype="scjob" jobkey="' + x.jobkey + '" formid="' + x.formid + '" programrowkey="' + x.programkey + '" clientrowkey="' + x.clientrowkey + '" @(ViewBag.IsMobileDevice ? "></div>" : "/>")' +
+                        '</div>'
+
+        /*
+        var html = '<div id="panel' + sequence + '" style="position: relative; display: inline-block;  margin-top: ' + _job_search_results_itemstopmargin + 'px; margin-left: ' + margin + 'px; width:' + _job_search_results_resultwidth + 'px; height: 480px;" class="">' +
+            '<div style="position: absolute; top: 0; left: 0; width:' + (_job_search_results_resultwidth - 20) + 'px; height: ' + (_job_search_results_resultheight - 20) + 'px; border: thin solid black; font-family: ' + (ismobile ? 'Arial' : 'Arial') + '; font-size: 10pt; color: #333; padding: 10px;" class="diagonalwhitegradient">' +
+            '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 50px; left: ' + (_job_search_results_resultwidth / 2 - 162 / 2) + 'px; opacity: 0.3; display: ' + (recordSubmitted(submittedlist, x.jobkey) ? '' : 'none') + '" class="x_indeedjob' + x.jobkey + '"/>' +
+            '<div style="position:absolute; left:10px; top: 70px; width:' + (_job_search_results_resultwidth - 20) + 'px; height:' + (_job_search_results_resultheight - 20) + 'px; text-align: center;" class="boxcenter">' +
+            '    <img src="' + x.companylogo + '" style="max-width: ' + (_job_search_results_resultwidth - 100) + 'px; max-height:' + (_job_search_results_resultheight - 100) + 'px; margin: 0 auto;"/>' +
+            '</div>' +
+            '    <span style="font-size: 12pt; font-weight: 400;"><b>' + x.jobtitle + '</b></span><br /><br />' +
+            '    <div style="position: absolute; bottom: 5px; left: 0px; width: ' + (_job_search_results_resultwidth - 5) + 'px; text-align:right; padding: 0 0px 5px 0; " class="age" timestamp="' + timestamp + '">' + getElapsedTime(timestamp) + '</div>' +
+            '</div>' +
+            '<div class="whitereflection" style="position: absolute; top: ' + (_job_search_results_resultheight) + 'px; left: 1px; width: ' + (_job_search_results_resultwidth) + 'px; height: 100px;"></div>' +
+            '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablerecommendedjob" value="" style="position: absolute; top: 0px; left: 0px; width: ' + (_job_search_results_resultwidth + 2) + 'px; height: ' + (_job_search_results_resultheight + 2) + 'px; outline:none;" clienttype="' + x.clienttype + '" logoclientid="' + x.clientid + '" clientid="' + x.clientid + '" frontendname="' + x.company + '" listingtype="scjob" jobkey="' + x.jobkey + '" formid="' + x.formid + '"@Html.Raw(ViewBag.IsMobileDevice?"></div>":"/>")' +
+            '</div>';
+        */
+
+        //debugalert('About to add featured job html');
+        $('#profession_matchedjobs').append(html);
+
+    }
+
+    function sortbyjobmatchscore(a, b) {
+        if ((a.attributescore + a.importantthingsscore) < (b.attributescore + b.importantthingsscore))
+            return 1;
+        if ((a.attributescore + a.importantthingsscore) > (b.attributescore + b.importantthingsscore))
+            return -1;
+        return 0;
+    }
+</script>

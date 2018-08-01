@@ -1,0 +1,664 @@
+﻿.pageContainer {
+    padding: 50px 0 0;
+}
+
+.whiteBgPage .container {
+    background-color: #fff;
+    padding: 20px 30px 30px;
+}
+
+#studentReportPage h1 {
+    text-align:left;
+    display:block;
+    margin-top:20px;
+}
+
+.pageContainer h2 {
+    margin: 20px 0;
+    text-align: left;
+    color: #000;
+    font-weight: 600;
+    font-family: 'open sans';
+    font-size: 24px;
+}
+
+h3 {
+    text-align: left;
+    margin: 30px 0 10px;
+    font-weight:300;
+    font-size:22px;
+}
+
+.reportDiv {
+    /*background-color:#F2F8FA;*/
+    margin: 20px 0;
+}
+
+
+/*.traitsDescription p {
+    font-size:18px;
+}*/
+
+.cell .firstLine {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 34px;
+    text-align: center;
+    margin-top: 42px;
+}
+
+.cell .secondLine {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: center;
+}
+
+.secondLineInversed {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: center;
+    margin-top:40px;
+}
+
+.firstLineInversed {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 34px;
+    text-align: center;
+}
+
+.cell {
+    border: 1px dashed rgb(147, 229, 237);
+    height: 130px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cell p {
+    margin-top: 55px;
+}
+
+.reportLink {
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+}
+
+.reportLink:hover, .reportLink:focus, .reportLink:active {
+    color:#fff;
+    text-decoration:none;
+    background-color: rgb(18, 157, 183);
+} 
+
+.printLink {
+    margin-top:10px;
+    cursor:pointer;
+}
+
+
+.printLink img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+
+.career {
+    border-bottom: 1px solid rgb(23, 184, 214);
+  
+}
+
+.career:hover {
+    /*background-image: url(/Content/images/stripespattern8.png);*/
+    background-repeat:repeat;  
+    text-decoration:none;
+    color:#000;
+}
+
+.traitsDescription {
+    opacity:0;
+}
+
+/*.interest {
+    font-size: 32px;
+    display: inline;
+    font-weight:300;
+}*/
+
+/*.interest:after {
+    content: ' / ';
+}
+
+.interest:last-child::after {
+    content: '';
+}*/
+
+.annotation {
+    color: #1C8791;
+    font-weight: 600;
+    font-size: 24px;
+    font-style: italic;
+}
+
+.arrowRight {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    font-size: 24px;
+    margin-top: -12px;
+    line-height:normal;
+    margin-right:7px;
+}
+
+.blueStripesBtn {
+    display: inline-block;
+    line-height: 50px;
+    padding: 0 10px;
+    color: #000;
+    background-color: transparent;
+    border: none;
+    height: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 17px;
+    position: relative;
+    padding-right: 30px;
+    background-image:url(/Content/images/stripespattern8.png);
+    margin:10px 0;
+}
+
+.blueStripesBtn:hover, .blueStripesBtn:focus, .blueStripesBtn:active {
+    background-image:url(/Content/images/stripespattern6.png);
+    color:#000;
+    text-decoration:none;
+}
+
+.careersByTRaitBtn .arrowRight {
+    font-size: 17px;
+    margin-top: -12px;
+}
+
+.reportDiv .extraMargin {
+    margin-top:20px;
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.interest {
+    display:inline;
+    margin: 5px 10px 5px 0;
+    line-height: 54px;
+}
+
+.interest1 {
+color: #000;
+background-color:rgb(134, 206, 215) ;
+font-size: 28px;
+font-weight: 300;
+}
+
+.interest2 {
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+font-weight: 300;
+color: #000;
+}
+
+.interest3 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(116, 218, 230);
+}
+
+
+.interest4 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest5 {
+font-size: 25px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #fff;
+background-color:#3199cc;
+border-radius:3px;
+}
+
+.interest6 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest7 {
+font-size: 27px;
+color: #000;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+background-color: #A9D7EE;
+border-radius:3px;
+text-transform:uppercase;
+}
+
+.interest8 {
+font-size: 22px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+text-transform: uppercase;
+}
+
+.interest9 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest10 {
+font-size: 24px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest11 {
+font-size: 30px;
+font-weight: 600;
+color: #000;
+}
+
+.interest12 {
+font-size: 32px;
+font-family:'Gentium Basic', serif;
+font-weight: 600;
+color: #fff;
+background-color: #74CEFA;
+border-radius:3px;
+}
+
+
+.interest13 {
+font-size: 20px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+}
+
+
+.interest14 {
+font-size: 28px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #000;
+}
+
+
+.interest15 {
+font-size: 34px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(145, 212, 219);
+text-transform: uppercase;
+}
+
+
+.interest16 {
+font-size: 26px;
+font-weight: 300;
+color: #fff;
+background-color: #70D5F5;
+border-radius: 3px;
+text-transform: uppercase;
+}
+
+.interest17 {
+font-size: 20px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+}
+
+.interest18 {
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+color: #000;
+text-transform: uppercase;
+}
+
+.interest19 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(19,150,165);
+background-color: rgba(19,150,165, 0.6)
+}
+
+.interest20 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest21 {
+font-size: 28px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #fff;
+background-color:#3199cc;
+border-radius:3px;
+}
+
+
+
+@media only screen and (max-width:1200px) {
+    .whiteBgPage .container {
+        width:95%;
+        padding:10px;
+    }
+
+    .pageContainer h2 {
+        font-size:22px;
+    }
+
+    h3 {
+        font-size: 21px;
+    }
+}
+
+
+@media only screen and (max-width:992px) {
+    .interest {
+        font-size: 23px;
+    }
+
+    .annotation {
+        font-size:20px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .reportDiv {
+        margin:0 5px 25px;
+    }
+
+    .reportDiv .extraMargin {
+        margin-bottom: 0;
+    }
+
+    .pageContainer h2 {
+         font-size: 20px;
+    }
+
+    .cell .firstLine, .firstLineInversed {
+        font-size: 22px;
+    }
+
+    .secondLineInversed {
+        margin-top:42px;
+    }
+
+    .traitsDescription .text-right {
+        text-align:left;
+    }
+
+    .blueStripesBtn {
+        font-size:14px;
+    }
+
+    .traitsDescription p {
+        font-size: 13px;
+    }
+
+    .interest {
+        font-size: 20px;
+    }
+
+    .printLink {
+        display:none !important;
+    }
+
+    .reportDiv .text-right {
+        text-align:left;
+    }
+
+    .annotation {
+        font-size:17px;
+    }
+
+}
+
+@media only screen and (max-width:500px) {
+
+    #studentReportPage h1 {
+        margin-top: 10px;
+    }
+
+    .whiteBgPage .container {
+        padding: 0 0 30px;
+    }
+
+   .container .col-md-9 {
+        padding:5px;
+    }
+
+    .pageContainer h2 {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .cell {
+        height:100px;
+        width:50%;
+    }
+
+    .cell .firstLine {
+        margin-top:22px;
+        font-size:20px;
+    }
+
+    .firstLineInversed {
+        font-size:20px;
+    }
+
+    .cell .secondLine, .secondLineInversed {
+        font-size:18px;
+    }
+
+    .secondLineInversed {
+        margin-top: 22px;
+    }
+
+    h3 {
+        margin: 15px 0 10px;
+        font-size:16px;
+    }
+
+    .blueStripesBtn {
+         font-size: 12px;
+    }
+
+    .annotation {
+        font-size:14px;
+    }
+}
+
+
+@media print {
+    @page {
+        margin: 10px 15px;
+        size:auto;
+    }
+
+    body {
+        margin:0;
+        padding:0;
+    }
+
+    #studentReportPage .container {
+        padding:0;
+    }
+
+    .navbar {
+        display:block;
+    }
+
+    .navbar .print {
+        display: inline;
+    }
+
+    .navbar-wrapper .container {
+        border-bottom:1px solid #000;
+        padding: 0 20px;
+    }
+
+    .navbar .screen {
+        display:none;
+    }
+
+    .col-lg-9, .col-md-9 {
+        width:100%;
+    }
+
+    .traitsDescription {
+        opacity:1;
+    }
+
+    .blueStripesBtn, .orgRow, .reportLink, .arrowRight {
+        display:none;
+    }
+
+    /*.pageContainer {
+        padding: 0;
+    }*/
+
+    .whiteBgPage .container {
+        background-color: #fff;
+        padding: 20px;
+    }
+
+    #studentReportPage h1{
+        font-size: 27px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .pageContainer h2 {
+        margin: 30px 0 15px;
+        font-size: 19px;
+    }
+
+    .cell {
+        height:100px;
+        line-height:100px;
+    }
+
+    .cell .firstLine {
+        font-size: 26px;
+        margin-top: 22px;
+    }
+
+    .reportDiv {
+        margin:0;
+        padding:0;
+    }
+
+    .reportDiv .extraMargin {
+        margin: 0;
+        height: 0;
+    }
+
+    h3 {
+       font-size: 15px;
+        margin: 15px 0 5px;
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    .annotation {
+        font-size: 19px;
+    }
+
+    .traitsDescription {
+        page-break-inside:avoid;
+    }
+
+    .traitsDescription p {
+        font-size: 14px;
+    }
+
+    .interest {
+        display: block;
+        font-family: 'open sans';
+        font-size: 16px;
+        line-height: initial;
+        font-weight: 400;
+    }
+
+      a[href]:after {
+        content: none !important;
+      }
+
+      footer .container {
+          display:none;
+      }
+
+    .career {
+        padding: 5px 0;
+        min-height: initial;
+    }
+
+    .noPrint {
+        display:none !important;
+    }
+    .noResultsError {
+        text-align:left;
+        padding: 0;
+        font-size: 18px;
+        font-family: 'open sans';
+    }
+
+    .professionName {
+        font-size:16px;
+    }
+
+    #back-top {
+        display:none;
+    }
+
+    .careersReport, .careersNoReport, .careersYesReport {
+        -webkit-column-count: 3; /* Chrome, Safari, Opera */
+        -moz-column-count: 3; /* Firefox */
+        column-count: 3;
+        -moz-column-gap: 30px;
+        -webkit-column-gap: 20px;
+    }
+
+    .career:last-child {
+        border-bottom: 1px solid rgb(23, 184, 214);
+    }
+}

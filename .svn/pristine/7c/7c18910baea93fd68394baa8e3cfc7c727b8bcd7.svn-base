@@ -1,0 +1,88 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+@{
+    Layout = null;
+}
+@{
+    DateTime cursordate = ViewBag.StartDate;
+    SkillCowRequestSubmissionClient rsc = new SkillCowRequestSubmissionClient();
+}
+    Timestamp,Salutation,Gender,Name,Address1,City,State,Zip,Phone,Email,GradYear,EduIntent,ClientId,CampusKey,ProgramKey,DimAttitude,DimInformation,DimProcessing,DimAction,DimEndurance,DimPresence,DimConcentration,DimPatterns,DimCompensation
+    @while (cursordate <= ViewBag.EndDate)
+    {
+        CloudTableQuery<SkillCowRequestSubmission> query = rsc.GetAll(cursordate.ToString("yyyyMMdd"));
+        foreach (SkillCowRequestSubmission x in query.Execute().Where(x => x.ClientType == "Direct" && x.ClientId == ViewBag.ClientId).OrderBy(x => x.Timestamp))
+        {
+            JObject json = null;
+            if (x.TestResults != null && x.TestResults != "")
+            {
+                try
+                {
+                    json = JObject.Parse(x.TestResults);
+                }
+                catch
+                {
+                }
+            }
+            @x.Timestamp@Html.Raw(",")
+            @x.Salutation@Html.Raw(",")
+            @x.Gender@Html.Raw(",")
+            @x.Name@Html.Raw(",")
+            @Html.Raw("\"" + x.Address1 + "\",")
+            @x.City@Html.Raw(",")
+            @x.State@Html.Raw(",")
+            @Html.Raw("" + x.Zip + ",")
+            @x.Phone@Html.Raw(",")
+            @x.Email@Html.Raw(",")
+            @x.GradYear@Html.Raw(",")
+            @x.EduIntent@Html.Raw(",")
+            @x.ClientId@Html.Raw(",")
+            @Html.Raw("\"" + x.CampusKey + "\",")
+            @Html.Raw("\"" + x.ProgramKey + "\",")
+            
+            if (json != null)
+            {
+                try
+                {@(json["dimesions"][0]["Attitude"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][1]["Information"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][2]["Processing"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][3]["Action"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][4]["Endurance"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][5]["Presence"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][6]["Concentration"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][7]["Patterns"])@Html.Raw(",")}
+                catch { }
+                try
+                {@(json["dimesions"][8]["Compensation"])@Html.Raw(",")}
+                catch { }
+            }
+            /*
+            @x.TestResults@Html.Raw(",")
+            @x.Recommendations@Html.Raw(",")
+            @x.Data@Html.Raw(",")
+            @x.PostedString@Html.Raw(",")
+            @x.SubmissionResult@Html.Raw(",")
+            @x.SchoolSearchResultId@Html.Raw(",")
+            @x.Mode
+             * */
+            @Html.Raw("\n")
+        }
+        cursordate = cursordate.AddDays(1);
+    }

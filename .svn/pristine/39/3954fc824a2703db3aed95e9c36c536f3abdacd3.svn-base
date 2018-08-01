@@ -1,0 +1,493 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareer;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentAccount;
+<link href="/Content/css/Jobs/jobsIndex.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="/Content/css/Career/Index.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<script src="~/Scripts/Jobs/gettime.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Career/career.js?v=@ViewBag.AppVersion"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+@{
+    AssessmentCareerClient acrc = new AssessmentCareerClient();
+    StudentAccountClient spc = new StudentAccountClient();
+    ViewBag.Title = "Career";
+}
+
+<!--================================= Career Page ============================== -->
+
+<div class="pageContainer" id="professionPage">
+    <div class="container">
+        <div class="row">
+            <!--================================= Left side ============================== -->
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 professionLeftSide">
+                <div class="professionInfo">
+                    <div class="careerSection">
+                        <div class="dol pull-right">DOL code: -----</div>
+                        <h1 class="title"></h1>
+                        <div id="aka-titles-wrapper"><a id="show-aka">Alternative titles<i class="fa fa-angle-right arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></a></div>
+                        <div class="aka"></div>
+                        <!--Share and Comment Row-->
+                        @*<div class="row socialIconsHolder">
+                                <div class="fb-like" data-href="@Request.Url.AbsoluteUri" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                                <script type="IN/Share" data-counter="right">
+                                </script>
+                                <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+                                <div class="inline-div"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a></div>
+                            </div>*@
+                        <div class="shareDiv row coloredSocialIcons text-left">
+                            <ul class="social-icons">
+                                <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=What career fits your personality? Find out at:&url=http://CareerThesaurus.com/careertest" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li class="share facebook"><a href='' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/CareerTest" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div id="statsSection" class="careerSection">
+                        <div class="row">
+                            <div class="leftCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="stat">Average National Salary:</span>
+                            </div>
+                            <div class="rightCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="statResult statSalary"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="leftCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="stat">Projected Growth:</span>
+                            </div>
+                            <div class="rightCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="statResult statGrowth"></span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="leftCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="stat">Top Employment Industry:</span>
+                            </div>
+                            <div class="rightCol col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <span class="statResult topEmployment"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="careerTrackSection" class="careerSection">
+                    <div class="row kolonkaRow">
+                        <h3 id="centerh3">Explore this Career Track</h3>
+                        <div id="predecessors" class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <span class="heading4">Career Predecessors<span class="triangle"></span></span>
+                            <div id="predecessorCareers"></div>
+                            <div class="plusIconMobile">[+]</div>
+                            <div class="minusIconMobile">[-]</div>
+                            <div class="expandable mobile col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <hr />
+                                <p>This is a list of predecessor careers that act as stepping stones on a path to become <span class="occtitle"></span>.</p>
+                            </div>
+                        </div>
+                        <div id="similars" class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <span class="heading4">Similar Careers<span class="triangle"></span></span>
+                            <div id="similarCareers"></div>
+                            <div class="text-right">
+                                <div class="plusIconMobile">[+]</div>
+                                <div class="minusIconMobile">[-]</div>
+                            </div>
+                            <div class="expandable mobile centerColumn col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <hr />
+                                <p><span class="occtitle"></span> might consider switching their career to one of the following tracks in order to better accommodate their short and long term life and career goals. These careers allow <span class="occtitle"></span> to apply similar skills and participate in similar job activities which can result in a favorable work-life balance.</p>
+                            </div>
+                        </div>
+                        <div id="advancements" class="kolonka col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <span class="heading4">Career Advancement<span class="triangle"></span></span>
+                            <div id="advancementCareers"></div>
+                            <div class="text-right">
+                                <div class="plusIconMobile">[+]</div>
+                                <div class="minusIconMobile">[-]</div>
+                            </div>
+                            <div class="expandable mobile col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <hr />
+                                <p>As work experience is gained in the field, <span class="title"></span> have a chance to advance their career to fill these roles.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="plusIcon desktop">[+]</div>
+                        <div class="minusIcon desktop">[-]</div>
+                    </div>
+                    <div class="expandableRow">
+                        <div class="expandable col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <h4>Career Predecessors</h4>
+                            <hr />
+                            <p>This is a list of predecessor careers that act as stepping stones on a path to become <span class="occtitle"></span>.</p>
+                        </div>
+                        <div class="expandable centerColumn col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <h4>Similar Careers</h4>
+                            <hr />
+                            <p><span class="occtitle"></span> might consider switching their career to one of the following tracks in order to better accommodate their short and long term life and career goals. These careers allow <span class="occtitle"></span> to apply similar skills and participate in similar job activities which can result in a favorable work-life balance.</p>
+                        </div>
+                        <div class="expandable col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <h4>Career Advancement</h4>
+                            <hr />
+                            <p>As work experience is gained in the field, <span class="title"></span> have a chance to advance their career to fill these roles.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                @{
+                    if (ViewBag.ProfileType == "student")
+                    {
+                        string email = ViewBag.Email;
+                        StudentAccount student = spc.GetByPartitionAndRowKey(StudentAccountClient.GetPartitionKeyForEmail(email), email);
+                        AssessmentCareer rating = acrc.GetByPartitionAndRowKey(student.School, email + student.Year + student.Grade + ViewBag.Dolcode);
+                        string like = "";
+                        string dislike = "";
+                        if (rating != null)
+                        {
+                            if (rating.Value == "0")
+                            {
+                                like = "";
+                                dislike = "chosenBtn";
+                            }
+                            else
+                            {
+                                like = "chosenBtn";
+                                dislike = "";
+                            }
+                        }
+                        <div class="careerSection rateitDiv">
+                            <h3>Would you ever consider this career?</h3>
+                            <div class="row">
+                                <button type="button" id="likeCareerBtn" class="btn @like" data-answer="1" onclick="saveCareerRating(this);">Definitely Yes!</button>
+                                <button type="button" id="dontcareBtn" class="btn" onclick="document.getElementById('nextCareerBtn').click()">Don't care</button>
+                                <button type="button" id="dislikeCareerBtn" class="btn @dislike" data-answer="0" onclick="saveCareerRating(this);">Definitely No!</button>
+                            </div>
+                            <div class="navigateCareersRow row"></div>
+                        </div>
+                    }
+                }
+
+                <div class="careerSection">
+                    <h3>Description</h3>
+                    <div class="description">
+                        <p class="professionOverview"></p>
+                    </div>
+                </div>
+                <div class="adsenseCenter careerSection">
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_2"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+                <div class="duties careerSection">
+                    <h3>Typical Duties</h3>
+                </div>
+
+                <div class="salary careerSection">
+                    <h3>Salary</h3>
+                    <div class="stateInfo">
+                        <p>As of <span class="year"></span>, the National average salary for <span class='occtitle'></span> ranges between  <span class="nationalPct10"></span> and <span class="nationalPct90"></span> per year, depending on location, training, skill level and experience.</p>
+                        <p class="yourState">In <span class="userstate"></span>, <span class='occtitle'></span> earn anywhere from <span class="userstatePct10"></span> to <span class="userstatePct90"></span>, with <span class="userstateMean"></span> being the average.</p>
+                        <p>The highest salaries for <span class='occtitle'></span> can be found in <span class="beststate"></span> where the average annual salary is around <span class="beststateMean"></span>, with <span class="worststate"></span> being the worst at <span class="worststateMean"></span> annual average.</p>
+                    </div>
+                </div>
+                <div class="careerSection">
+                    <div class="highestEmployment">
+                        @*<h4><span class="occtitle"></span> are most commonly employed in the following top industries:</h4>*@
+                        <h3>Where to Find</h3>
+                        <div class="wheretoFind">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="careerSection">
+                    <div class="highestSalary">
+                        <h3>Highest average salaries are in following top industries:</h3>
+                    </div>
+                </div>
+
+                <div class="demand careerSection">
+                    <h3>Employment Outlook</h3>
+                    <p><span class="occtitle"></span> held about <span class="currentlyEmployed"></span> jobs across the U.S. in <span class="year"></span>. <span class="forecast"></span></p>
+                </div>
+
+                <div class="careerTrack careerSection">
+                    <div class="careerImageWrapper">
+                        <img class="careerImage img-responsive" src="../../Content/images/career_advancement_image2.jpg" alt="" />
+                        <div class="h3wrapper">
+                            <h3>Career Track & Advancement Opportunities</h3>
+                        </div>
+                    </div>
+
+                    <div class="progressions">
+                        <p>As work experience is gained in the field, <span class="title"></span> have a chance to advance their career to fill roles similar to:</p>
+                    </div>
+                </div>
+                <div class="careerSection careerChange">
+                    <div class="careerImageWrapper">
+                        <img class="careerImage img-responsive" src="../../Content/images/career_change_image2.jpg" alt="" />
+                        <div class="h3wrapper">
+                            <h3>Career Change</h3>
+                            <h3>(Similar Careers)</h3>
+                        </div>
+                    </div>
+                    <div class="similars">
+                        <p><span class="occtitle"></span> might consider switching their career to one of the following tracks in order to better accommodate their short and long term life and career goals. These careers allow <span class="occtitle"></span> to apply similar skills and participate in similar job activities which allow them to meet their goals result in a favorable work-life balance:</p>
+                    </div>
+                </div>
+                <div class="careerSection careerPredecessors">
+                    <div class="careerImageWrapper">
+                        <img class="careerImage img-responsive" src="../../Content/images/career_predecessor.jpg" alt="" />
+                        <div class="h3wrapper">
+                            <h3>Career Predecessors</h3>
+                            @*<h3>(Similar Careers)</h3>*@
+                        </div>
+                    </div>
+                    <div class="predecessors">
+                        <p>This is a list of predecessor careers that act as stepping stones on a path to become <span class="occtitle"></span>:</p>
+                    </div>
+                </div>
+                @*<div id="careerOptions" class="careerSection">
+                        <h3>Career Categories</h3>
+                        <div class="ctBreadcrumbs">
+                        </div>
+                    </div>*@
+
+                @*<div class="liveHelp careerSection">
+                        <div class="row">
+                            <h3>Get Live Help</h3>
+                            <div class="operatorWrapper">
+                                <img class="img-responsive pull-left" src='@Url.Content("~/Content/images/operator.jpg")' alt="" />
+
+                                <div class="text">
+                                    <p>Our talented and knowledgeable professionals can find training that's right for You. In about 5 minutes, you will know everything there is to know about your available options.</p>
+                                    <p class="desktopParagraph">Call us toll free: <span class="bold">888.EDU.7757 (1.888.338.7757)</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div><!--professionInfo-->
+            <!--================================= Right Side ============================== -->
+
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 professionRightSide">
+                @*<div class="sidebarDiv" id="locationDiv">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="locationInp">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info shortBtn" type="button" id="locationBtn">Apply</button>
+                            </span>
+                        </div>
+                    </div>*@
+
+                <!--*******************Jobs********************-->
+                <div class="sidebarDiv" id="sidebarJobHolder">
+                    <h3>Jobs for <span class="title"></span></h3>
+
+                    <div class="change-zipcode-wrapper"><p class="inYourArea">located near <span id="location-zipcode"></span> <a id="change-zipcode">(change zip)</a></p></div>
+                    <div class="sidebarDiv" id="locationDiv">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="locationInp" onpaste="return false;" onkeypress="return isNumber(event, this.value);" maxlength="5">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info shortBtn" type="button" id="locationBtn">Apply</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="jobs"></div>
+                    <div class="row jobSidebar" id="sidebarJob">
+                        <div class="jobListing">
+                            <div class="row" style="padding-right:30px">
+                                <div class="col-lg-12">
+                                    <a style="text-decoration:none;" onmousedown=" " href=" " target=" _blank"><h3 class="positionName">Police Officer</h3></a>
+                                </div>
+                                <h4 class="companyName">Philadelphia Police Department</h4>
+                                <h5 class="locationName">Philadelphia, PA</h5>
+                            </div>
+                            <div class="row moreMargin" style="padding-right:30px">
+                                @*<a class="reportBtn" href=""><i class="fa fa-flag-o"></i></a>*@
+                                <!--Date-->
+                                <div class="dateInfoV1 age" timestamp="" data-toggle="tooltip" title="Time since posted">
+                                    <p>Time listed</p>
+                                    <div class="dateHolder">
+                                        <div class="dateTable">
+                                            <div class="tableRow">
+                                                <div class="hrDigit">01</div>
+                                                <div class="minDigit">05</div>
+                                                <div class="secDigit">12</div>
+                                            </div>
+                                            <div class="tableRow">
+                                                <div class="hr">hr</div>
+                                                <div class="min">mm</div>
+                                                <div class="sec">ss</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--job-->
+                </div>
+                <div class="sidebarDiv" id="sidebarJobHolderShowMore"></div>
+                <div class="sidebarDiv" id="vantageMedia">
+                    <h3>Review and Compare these Educators</h3>
+                    <div id="vantageList" class="row">
+
+                    </div>
+                </div>
+                <div class="sidebarDiv" id="cbnSchools">
+                    @*<h3>CBN Schools</h3>*@
+                    <div id="cbnSchoolsList" class="row">
+
+                    </div>
+                </div>
+                <div class="sidebarDiv" id="cbnJobs">
+                    <h3>Featured Jobs</h3>
+                    <div id="cbnJobsList" class="row">
+
+                    </div>
+                </div>
+                <div id="adsencetest" class="sidebarDiv">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_1"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div><!--professionsRightSide-->
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var userstate;
+    var userzip;
+    var title = "";
+    var occtitle = "";
+    var dolcode = '@ViewBag.Dolcode';
+    var year = 2013;
+    var prof = "@ViewBag.profession";
+    var formsGlobal;
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+
+    function document_ready() {
+        userstate = getCookie('state') ? getCookie('state') : getCookie('ipstate') != '*' ? getCookie('ipstate') : 'NY';
+        userzip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '10001';
+        $('.year').text(year);
+        if (profileType == 'student') {
+            linkNextAndPrevCareers();
+        }
+        $('#locationInp').val(userzip);
+        $('#location-zipcode').text(userzip);
+        setCookie('formzip', userzip, 7);
+        getBlobData("careers", "dolcodes", prof + ".js");
+        getAjaxData();
+        //shareLinks();
+
+        $('.plusIcon').click(function () {
+            $('.expandableRow').slideDown();
+            $('.plusIcon').hide();
+            $('.minusIcon').show();
+        });
+
+        $('.minusIcon').click(function () {
+            $('.expandableRow').slideUp();
+            $('.minusIcon').hide();
+            $('.plusIcon').show();
+        });
+
+        $('.plusIconMobile').click(function () {
+            $(this).closest('.kolonka').find('.expandable').slideDown();
+            $(this).closest('.kolonka').find('.plusIconMobile').hide();
+            $(this).closest('.kolonka').find('.minusIconMobile').show();
+        });
+
+        $('.minusIconMobile').click(function () {
+            $(this).closest('.kolonka').find('.expandable').slideUp();
+            $(this).closest('.kolonka').find('.minusIconMobile').hide();
+            $(this).closest('.kolonka').find('.plusIconMobile').show();
+        });
+
+        $('#locationBtn').click(function () {
+            if (userzip != $('#locationInp').val()) {
+                userzip = $('#locationInp').val();
+                setCookie('formzip', userzip, 7);
+                setCookie('zip', userzip, 7);
+                //getCityAndState(userzip, callback);
+                getAjaxData(formsGlobal);
+                $('#location-zipcode').text(userzip);
+            }
+            $('#locationDiv').velocity('slideUp', { duration: 300 }).removeClass('visible');
+        });
+        $('#change-zipcode').click(function () {
+            if ($('#locationDiv').hasClass('visible')) {
+                $('#locationDiv').velocity('slideUp', { duration: 300 }).removeClass('visible');
+            } else {
+                $('#locationDiv').velocity('slideDown', { duration: 300 }).addClass('visible');
+            }
+        });
+        //setTimeout(function () {
+        //    //$('.rateitDiv').velocity('slideDown', { duration: 500 });
+        //    //$('.rateitDiv').velocity({left: '0'}, { duration: 500 });
+        //}, 1500);
+
+        $('.collapseHeader').click(function () {
+            var icon = $(this).find("i");
+
+            if (icon.hasClass("icon-plus")) {
+                icon.removeClass("icon-plus").addClass("icon-minus");
+            }
+            else if (icon.hasClass("icon-minus")) {
+                icon.removeClass("icon-minus").addClass("icon-plus");
+            }
+        });
+        $('#show-aka').click(function () {
+            if ($('.aka').hasClass('visible')) {
+                $('.aka').velocity('slideUp', { duration: 300 }).removeClass('visible');
+                $('.arrowUp').hide();
+                $('.arrowDown').show();
+            } else {
+                $('.aka').velocity('slideDown', { duration: 300 }).addClass('visible');
+                $('.arrowUp').show();
+                $('.arrowDown').hide();
+            }
+        });
+
+        var $window = $(window);
+
+        $('#dontcareBtn').click(function () {
+            $('#nextCareerBtn').trigger("click");
+        });
+
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+        //$(window).resize(function () {
+        //    if ($(window).width() < 768) {
+        //        $('.expandable').eq(0).appendTo('#predecessors');
+        //        $('.expandable').eq(1).appendTo('#similars');
+        //        $('.expandable').eq(2).appendTo('#advancements');
+        //    }
+        //    else {
+        //        $('.expandable').eq(0).appendTo('.expandableRow');
+        //        $('.expandable').eq(1).appendTo('.expandableRow');
+        //        $('.expandable').eq(2).appendTo('.expandableRow');
+        //    }
+        //})
+
+    } //document_ready
+</script>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>
+    lang: en_US
+</script>

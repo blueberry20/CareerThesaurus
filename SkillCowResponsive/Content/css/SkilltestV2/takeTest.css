@@ -1,0 +1,671 @@
+﻿.takeTest {
+    background-image: url('/Content/Images/black-and-gray-diagonal-stripe-bg-output-50-150.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 170px;
+    min-height:100%;
+    overflow-x:hidden;
+}
+
+footer {
+    display: none !important;
+}
+
+.navbar-wrapper .navbar {
+    display:none;
+}
+
+#questionText, h1 {
+    color: #fff;
+    text-transform:none;
+    margin-bottom:30px;
+    margin-top:20px;
+}
+
+.color {
+    height:300px;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: rgb(0, 131, 255);
+}
+
+.grey {
+    background-color: gray;
+}
+
+.option {
+    padding: 15px;
+    position: relative;
+    display: table;
+    width:100%;
+    height:100%;
+    background-color: rgb(46, 46, 46);
+}
+
+.no-touch .option:hover .detailsBtn, .no-touch .option:focus .detailsBtn, .no-touch .option:active .detailsBtn {
+    background-color:rgb(9, 193, 201);
+}
+
+.optionDescription {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(182, 255, 254, 0.96);
+    color:#000;
+    opacity:0;
+    padding: 20px;
+    font-size: 20px;
+    font-weight:300;
+    visibility:hidden;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    vertical-align: middle;
+    text-align:center;
+}
+
+.optionInner {
+    display:table-cell;
+    vertical-align: middle;
+}
+
+.detailsBtn {
+    margin-top:50px;
+    background-color: transparent;
+    border:1px solid #fff;
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+    font-size:16px;
+}
+
+#selectSchoolPage2 p {
+    font-size:15px;
+}
+
+.animateColor { 
+    -webkit-animation: animateColor 1.5s linear;
+    -moz-animation: animateColor 1s linear;
+    -o-animation: animateColor 1s linear;
+    animation: animateColor 1s linear;
+}
+
+.schoolImage {
+    width: 120px;
+    height: 60px;
+}
+
+@-webkit-keyframes animateColor {
+      0%   { background-color: rgba(18, 157, 183, 0); }
+      20%  { background-color: rgba(18, 157, 183, 0.5); }
+      40% {background-color: rgba(18, 157, 183, 1);}
+      60% { background-color: rgba(18, 157, 183, 1); }
+      80% { background-color: rgba(18, 157, 183, 0.5);}
+      100% { background-color: rgba(18, 157, 183, 0);}
+}
+
+@-moz-keyframes animateColor {
+      0%   { background-color: rgba(18, 157, 183, 0); }
+      20%  { background-color: rgba(18, 157, 183, 0.5); }
+      40% {background-color: rgba(18, 157, 183, 1);}
+      60% { background-color: rgba(18, 157, 183, 1); }
+      80% { background-color: rgba(18, 157, 183, 0.5);}
+      100% { background-color: rgba(18, 157, 183, 0);}
+}
+@-o-keyframes animateColor {
+      0%   { background-color: rgba(18, 157, 183, 0); }
+      20%  { background-color: rgba(18, 157, 183, 0.5); }
+      40% {background-color: rgba(18, 157, 183, 1);}
+      60% { background-color: rgba(18, 157, 183, 1); }
+      80% { background-color: rgba(18, 157, 183, 0.5);}
+      100% { background-color: rgba(18, 157, 183, 0);}
+}
+@keyframes animateColor {
+      0%   { background-color: rgba(18, 157, 183, 0); }
+      20%  { background-color: rgba(18, 157, 183, 0.5); }
+      40% {background-color: rgba(18, 157, 183, 1);}
+      60% { background-color: rgba(18, 157, 183, 1); }
+      80% { background-color: rgba(18, 157, 183, 0.5);}
+      100% { background-color: rgba(18, 157, 183, 0);}
+}
+
+
+input[type="radio"] {
+    margin-top: -26px;
+    width: 3.5em;
+    height: 3.5em;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+
+#navigationWrapper {
+    display:block;
+}
+
+.fa-times {
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.optionDescription h3 {
+    text-align:center;
+    font-weight:600;
+}
+
+/********Shape***********/
+
+.shape {
+    margin:0 auto;
+}
+
+.circle {
+    height:300px;
+    width:300px;
+    border-radius:50%;
+}
+
+.square {
+    width:300px;
+    height:300px;
+}
+
+.triangle {
+    width:0;
+    height:0;
+    border-left:150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 300px solid red;
+    margin: 0 auto;
+}
+
+.sport {
+    height: 300px;
+}
+
+.sport p {
+    color: #4ADEE2;
+    font-size: 34px;
+    text-align: center;
+    padding-top: 133px;
+    font-weight: 300;
+}
+
+/*******school**********/
+
+.school img {
+    margin: 0 auto;
+    display: block;
+}
+
+.school {
+    height:300px;
+    width:100%;
+    vertical-align:middle;
+    padding:20px;
+}
+
+.headline {
+    color: #fff;
+    text-align:center;
+    margin-top:20px;
+    font-size:20px;
+    font-weight:300;
+}
+
+.schoolCircle {
+    height:300px;
+    width:300px;
+    background-color: #fff;
+    text-align:center;
+    line-height:300px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+#testMenuIcon {
+    display: none;
+}
+
+.mobileMenu {
+    display: none;
+}
+
+.headersText {
+    margin-top:20px;
+}
+
+#continue {
+    position:absolute;
+    bottom: auto;
+    margin-right:-130px;
+    margin-top:20px;
+}
+
+.positionRelative {
+    position: relative;
+    height:100px;
+}
+
+.closeBtn {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    margin-left: -75px;
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.selectedBorder {
+    /*border:3px solid rgb(53, 113, 128);*/
+}
+
+.selectedBackground {
+    background-color: rgb(23,184,214) !important;
+}
+
+/*Question*/
+
+.educationLabel p {
+  color: #fff;
+  font-size: 30px;
+  vertical-align:middle;
+  font-weight:300;
+}
+
+#question {
+    font-size: 40px;
+    font-weight: 300;
+    padding: 0 0 30px;
+    color: #fff;
+    text-align: center;
+    font-family: 'Boogaloo', cursive;
+    /*-webkit-text-stroke: 1px #000;
+    text-shadow: 1px 1px 0 #ff6a00, -1px -1px 0 #ff6a00, 1px -1px 0 #ff6a00, -1px 1px 0 #ff6a00, 1px 1px 0 #ff6a00;*/
+}
+
+#educationLevel {
+    display:table;
+    width:60%;
+    margin: 0 auto;
+    margin-bottom:50px;
+}
+
+.educationSelect {
+    background-color: rgb(31,31,31);
+    margin-bottom:4px;
+    cursor: pointer;
+    /*border:1px solid #fff;*/
+}
+
+.educationSelect:hover, .educationSelect:focus {
+    background-color: #333;
+}
+
+.educationSelect:active {
+    background-color: rgba(9, 193, 201, 1.0);
+}
+
+.left {
+    display: table-cell;
+    height: 100px;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.right {
+    display: table-cell;
+    height: 100px;
+    vertical-align: middle;
+}
+
+.educationSelect input[type="radio"] {
+    margin: 0;
+    vertical-align: middle;
+    position: static;
+}
+
+.left, .right {
+  padding-top: 28px;
+}
+
+#questionPage i.fa.fa-angle-right {
+  color: #fff;
+  font-size: 38px;
+}
+
+#questionPage h2 {
+    text-transform: none;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 300;
+    background-color: #000;
+    padding: 10px;
+    color: #FF7D5C;
+    display: inline-block;
+    margin: 0 auto 30px;
+}
+
+#questionPage .container {
+    padding:10px;
+    margin-top:-50px;
+}
+
+
+/*thank you page*/
+#thankyouPage .container {
+    padding:20px;
+    display:table;
+    text-align: center;
+    background-color: #fff;
+}
+
+#thankyouPage .tableCell {
+    /*background-color:rgb(143, 214, 228);*/
+}
+
+#thankyouPage .tableCell p {
+    font-size: 34px;
+    font-weight: 300;
+}
+
+#thankyouPage .divider {
+    margin: 30px auto;
+}
+
+.blueButton {
+    margin: 0 auto;
+    font-size: 15px;
+    background-color: rgb(23, 184, 214);
+    color: #fff;
+    min-width: 150px;
+    width:initial;
+    width:auto;
+    height: 60px;
+    text-transform: uppercase;
+    border: none;
+    line-height:60px;
+    padding: 0 10px;
+}
+
+.blueButton:hover, .blueButton:focus, .blueButton:active {
+      background-color: #129DB7;
+      color: #fff;
+}
+
+@media screen and (max-width:1200px) {
+    #question {
+        font-size:32px;
+    }
+
+    #questionPage h2 {
+        font-size: 30px;
+    }
+}
+
+
+@media screen and (max-width:992px) {
+    .kolonka {
+        padding:5px;
+    }
+
+    .option {
+        padding:10px;
+    }
+
+    .optionDescription {
+        font-size:14px;
+    }
+
+    .closeBtn {
+        bottom:10px;
+    }
+
+    .schoolCircle {
+        width:200px;
+        height:200px;
+        line-height:200px;
+    }
+
+    #selectSchoolPage2 p {
+        font-size:11px;
+    }
+
+    #selectSchoolPage2 h3 {
+        margin:10px;
+        font-size:16px;
+    }
+
+    #selectSchoolPage2 .optionDescription {
+        padding:10px;
+    }
+
+    #educationLevel {
+        width:90%;
+    }
+
+    .educationLabel p {
+        font-size:26px;
+    }
+
+    #questionPage i.fa.fa-angle-right {
+        font-size:34px;
+    }
+
+    .left, .right {
+        padding-top: 36px;
+    }
+
+    #thankyouPage .tableCell p {
+        font-size:28px;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+    .optionDescription {
+        font-size:14px;
+    }
+
+    .color {
+        height:200px;
+    }
+
+     #topBanner468 {
+        margin-left: -160px;
+    }
+
+    #questionText, h1 {
+        margin-top: 0;
+    }
+
+    /*#continue {
+        margin-left: -100px;
+    }*/
+
+    #question {
+        font-size: 26px;
+    }
+
+    .left, .right {
+        padding-top: 22px;
+        height: 70px;
+    }
+
+    #questionPage i.fa.fa-angle-right {
+        font-size: 24px;
+    }
+
+    .educationLabel p {
+        font-size:20px;
+    }
+
+    #thankyouPage .tableCell p {
+        font-size: 26px;
+    }
+
+    #thankyouPage .container {
+        min-height: 500px;
+    }
+    
+    .educationSelect {
+        border:none;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .kolonka {
+        width: 100%;
+        padding: 0 0 5px;
+    }
+
+    .color, .shape, .sport, .schoolCircle {
+        height:170px;
+        width: 170px;
+        margin: 0 auto;
+    }
+
+    .schoolCircle {
+        line-height:170px;
+    }
+
+    .option {
+        width:80%;
+        margin: 0 auto;
+        padding:10px;
+        background-color:#000;
+    }
+
+    .detailsBtn {
+        margin-top:10px;
+    }
+
+    #continue {
+        width:200px;
+        height:50px;
+        line-height:48px;
+        margin-left:-100px;
+        font-size:16px;
+        display:none;
+    }
+
+    #continue .fa-angle-right {
+        font-size: 21px;
+        padding: 12px 15px;
+    }
+
+    #selectSchoolPage2 p {
+        font-size: 13px;
+    }
+
+}
+
+@media screen and (max-width:500px) {
+    .detailsBtn {
+          font-size:16px;
+    }
+    
+    #navigationWrapper {
+        display:none;
+    }
+
+    .questionNumber, #percentageProgress {
+        display: none;
+    }
+
+    #questionText {
+        display:none;
+    }
+
+    #testMenuIcon {
+        display:block;
+        border:1px solid #fff;
+        color:#fff;
+        /*background-color:#000;*/
+    }
+
+    .headersText {
+        margin: 10px 0;
+    }
+
+    .color {
+        height: 120px;
+        width: 120px;
+    }
+
+    input[type="radio"] {
+          margin-top: -26px;
+          width: 2.5em;
+          height: 2.5em;
+    }
+
+    .optionDescription {
+        padding:10px;
+    }
+
+    .option {
+        padding:15px;
+    }
+
+    .mobileMenu {
+        margin-top: -50px;
+    }
+
+    .closeBtn {
+        bottom:15px;
+    }
+
+    .optionDescription h3 {
+        margin:10px;
+    }
+
+    .optionDescription p {
+        font-size:13px;
+    }
+
+    #question {
+        font-size: 18px;
+        padding: 0 0 15px;
+    }
+
+    #questionPage h2 {
+        font-size: 22px;
+        margin: 0 0 10px;
+        padding:5px;
+    }
+
+    #educationLevel {
+        width: 100%;
+    }
+
+    .left, .right {
+        padding-top: 16px;
+        height: 50px;
+    }
+
+    #questionPage i.fa.fa-angle-right {
+        font-size: 18px;
+    }
+
+    .educationLabel p {
+        font-size: 14px;
+    }
+
+    #thankyouPage .tableCell p {
+        font-size: 20px;
+        font-weight:600;
+    }
+
+}

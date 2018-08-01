@@ -1,0 +1,382 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogTag;
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    BlogTagClient btc = new BlogTagClient();
+    ViewBag.Title = "NewArticle";
+}
+
+<link href="~/Content/css/Blog/Index.css" rel="stylesheet" />
+<link href="~/Content/css/Blog/blog.css" rel="stylesheet" />
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <h1>Create new article</h1>
+        <div class="row">
+            <form role="form" method="post" enctype="multipart/form-data">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <label for="inputTitle">Title</label>
+                        <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="Enter title">
+                    </div>
+                    <div class="form-group">
+                        <label for="tagsList">Tags</label>
+                        <div id="tagsList"></div>
+                        <input type="hidden" name="tags">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="textbox">Article</label>
+                        <textarea class="form-control" rows="15" id="textbox" name="text"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="articleDescription">Article Description. No HTML Tags.</label>
+                        <textarea class="form-control" rows="5" id="articleDescription" name="articledescription"></textarea>
+                    </div>
+                    <div id="characterCount"></div>
+
+                    <input type="hidden" name="author" value="@ViewBag.Email" />
+                    <div class="checkbox">
+                        <label>
+                            <input name="makepublic" value="true" type="checkbox"> Make Public
+                        </label>
+                    </div>
+                    <div id="submitError" class="errorMessage">Check that title, article and article description is filled out, tags are picked and article description doesn't have any tags.</div>
+                </div>
+
+                @*<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <p>Select existing category</p>
+                        <select class="form-control" id="category" name="category">
+                            @{
+                                List<BlogCategory> categories = new List<BlogCategory>(bcc.GetAllByPartition("blogCategory"));
+                                if (categories.Count != 0)
+                                {
+                                    foreach (BlogCategory category in categories)
+                                    {
+                                        <option value="@category.Category">@category.Category</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        <p>Or add new category</p>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newCategoryInput">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="newCategoryBtn">Add category</button>
+                            </span>
+                        </div>
+                    </div>*@
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <p>Select existing tag</p>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Tags <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" id="tags">
+                                @{
+                                    List<BlogTag> tags = new List<BlogTag>(btc.GetAllByPartition("blogTag"));
+                                    if (tags.Count != 0)
+                                    {
+                                        foreach (BlogTag tag in tags)
+                                        {
+                                            <li><span data-tag="@tag.RowKey" data-name="@tag.Tag" onclick="addTag(this);">@tag.Tag</span></li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <p>Or add new tag</p>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newTagInput">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="newTagBtn">Add tag</button>
+                            </span>
+                        </div>
+                        <div class="errorMessage" id="tagError">Tag is empty</div>
+                    </div>
+
+                    <div id="headerImageWrapper">
+                        <div class="form-group">
+                            <label for="headerImage">Image for Header</label>
+                            <p>Best image file size to use is 800 x 448 px</p>
+                            @*<div class="upload">
+                                Upload*@
+                            <input type="file" name="headerImage" id="headerImage" accept="image/*" onchange="chooseHeaderImage(this);">
+                            @*</div>*@
+                            <input type="text" name="headerCode" class="code" readonly />
+                            <img src="#" class="imagePreview" />
+                        </div>
+                    </div>
+                    <div id="imagesUpload">
+                        <div class="form-group">
+                            <label for="inputFile[0]">File input</label>
+                            @*<div class="upload">
+                                Upload*@
+                            <input type="file" name="inputFile[0]" id="inputFile[0]" accept="image/*" class="additionalImages" onchange="chooseFile(this);">
+                            @*</div>*@
+                            <input type="text" name="inputCode[0]" class="code" readonly />
+                            <img src="#" class="imagePreview additionalImg" />
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-success" id="uploadBtn">Submit</button>
+                    <button type="button" class="btn btn-default" id="preview">Preview</button>
+                </div>
+            </div>
+            <div id="previewDiv">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 blogPostsWrapper">
+                    <div class="blogPostShort">
+                        <h2 id="previewTitle"></h2>
+                        <div class="blogImageHolder row" id="previewHeaderImage">
+                        </div>
+                        <div class="row" id="previewArticle">
+                        </div>
+                        <hr />
+                        <!--Share and Comment Row-->
+                        <div class="socialIconsHolder row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 shareComment">
+                                Share and Comment
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 shareDiv coloredSocialIcons text-right">
+                                <ul class="social-icons">
+                                    <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=@ViewBag.PostTitle&url=http://CareerThesaurus.com/blog/Post/@ViewBag.Url" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/Blog/Post/@ViewBag.Url&redirect_uri=https://facebook.com&name=@ViewBag.PostTitle&action=%5B%7B"name"%3a"Career%20advice%20blog"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/Blog/Post/@ViewBag.Url" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="fb-comments" data-href="localhost:81/Blog/Post/@ViewBag.Url" data-numposts="10" data-width="100%" data-colorscheme="light"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    var tags = [];
+    function document_ready() {
+        sortOptions();
+
+        //$('#articleDescription').keyup(function () {
+        //    $('#characterCount').text('Current character count' + $(this).val().length)
+        //});
+
+        $('#newCategoryBtn').click(function () {
+            var reg = new RegExp(/[a-zA-Z0-9]+/);
+            var categoryName = $('#newCategoryInput').val();
+            if (reg.test(categoryName) && categoryName.length > 2) {
+                $.post('newcategory', { newcategory: categoryName }).success(function (response) {
+                    if (response.result == 'ok') {
+                        $('#category').append('<option value="' + categoryName + '">' + categoryName + '</option>');
+                        $('#newCategoryInput').val('');
+                        sortOptions();
+                    }
+                }).error(function (error) {
+                    console.log(error);
+                });
+            }
+        });
+        $('#newTagBtn').click(function () {
+            var reg = new RegExp(/[a-zA-Z0-9\s\-]+/);
+            var tagName = $('#newTagInput').val();
+            tagName = tagName.toLowerCase().trim();
+            if (reg.test(tagName) && tagName.length > 2) {
+                $('#tagError').hide();
+                $.post('/blog/newtag', { tag: tagName }).success(function (response) {
+                    if (response.result == 'ok') {
+                        $('#tags').append('<li><span data-tag="' + tagName.replace(/\s/g, '-') + '" data-name="' + tagName + '" onclick="addTag(this);">' + tagName + '</span></li>');
+                        $('#newTagInput').val('');
+                        sortOptions();
+                    }
+                }).error(function (error) {
+                    console.log(error);
+                });
+            }
+            else {
+                $('#tagError').show();
+            }
+        });
+
+        
+        //if (regex.test($('#articleDescription').val())) {
+        //    alert('no html tags');
+        //}
+
+        $('#uploadBtn').click(function () {
+            var title = $('#inputTitle').val();
+            var tag = $('[name="tags"]').val();
+            var article = $('#textbox').val();
+            var regex = new RegExp(/(<([^>]+)>)/ig);
+           // var articleDescription = $('#articleDescription').val().replace(regex, "");
+            // $('#articleDescription').val(articleDescription);
+            //if (regex.test($('#articleDescription').val())) {
+            //    alert('tags found');
+            //}
+            if (title.length > 3 && tag != null && tag != '' && article.length > 10 && $('#articleDescription').val().length > 10 && !regex.test($('#articleDescription').val())) {
+                $('form').submit();
+            }
+            else {
+                $('#submitError').show();
+            }
+        });
+        $('#preview').click(function () {
+            var title = $('#inputTitle').val();
+            var category = $('#category').val();
+            var article = $('#textbox').val();
+            var date = new Date;
+            var headerImage = $('#headerImage').closest('.form-group').find('.imagePreview').attr('src');
+            var additionalImages = [];
+            $('.additionalImages').each(function (index, element) {
+                additionalImages.push({ code: $(element).closest('.form-group').find('.code').val(), src: $(element).closest('.form-group').find('.imagePreview').attr('src') });
+            });
+            var matches = article.match(/\{\{[a-z0-9]{4}\}\}/g);
+            if (matches != null) {
+                for (var i = 0; i < matches.length; i++) {
+                    article = article.replace(matches[i], '<img class="img-responsive" src="' + additionalImages[additionalImages.map(function (x) { return x.code; }).indexOf(matches[i])].src + '">');
+                }
+            }
+            if (headerImage != null && headerImage != '' && headerImage != '#') {
+                $('#previewHeaderImage').html('<img class="img-responsive" src="' + headerImage + '" />').show();
+            } else {
+                $('#previewHeaderImage').hide();
+            }
+            $('#previewTitle').html(title);
+            $('#previewDate').html(formatedDate);
+            $('#previewCategory').html(category);
+            $('#previewArticle').html(article);
+            $('#previewDiv').show();
+            var headHtml = $('head').html();
+            var html = $('#previewDiv').html();
+            var previewWindow = window.open("data:text/html," + encodeURIComponent(headHtml + html),
+                       "_blank", "width=960,height=960");
+        });
+    }
+    function addTag(element) {
+        var tag = $(element).data('tag');
+        var name = $(element).data('name');
+        if (tags.map(function (x) { return x.tag; }).indexOf(tag) == -1) {
+            tags.push({ tag: tag, name: name });
+            displayTags();
+        }
+    }
+    function displayTags() {
+        $('[name="tags"]').val(tags.map(function (x) { return x.tag }).join(','));
+        var html = '';
+        for (var i = 0; i < tags.length; i++) {
+            html += '<div class="blogTag" data-tag="' + tags[i].tag + '" onclick="removeTag(this);">' + tags[i].name + '</div>';
+        }
+        $('#tagsList').html(html);
+    }
+    function removeTag(element) {
+        var tag = $(element).data('tag');
+        var index = tags.map(function (x) { return x.tag; }).indexOf(tag);
+        tags.splice(index, 1);
+        displayTags();
+    }
+    function formatedDate() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var day = date.getDate();
+        var month = getMonthString(date.getMonth());
+        return month + ' ' + (day < 10 ? '0' + day.toString() : day) + ', ' + year;
+    }
+    function getMonthString(month) {
+        switch (month) {
+            case 0:
+                return 'January';
+            case 1:
+                return 'February';
+            case 2:
+                return 'March';
+            case 3:
+                return 'April';
+            case 4:
+                return 'May';
+            case 5:
+                return 'June';
+            case 6:
+                return 'July';
+            case 7:
+                return 'August';
+            case 8:
+                return 'September';
+            case 9:
+                return 'October';
+            case 10:
+                return 'November';
+            case 11:
+                return 'December';
+            default:
+                return month;
+        }
+    }
+    function sortOptions() {
+        var options = $('#category option');
+        if (options) {
+            options.sort(function (a, b) {
+                if (a.text > b.text) return 1;
+                else if (a.text < b.text) return -1;
+                else return 0
+            });
+        }
+        $('#category').html(options);
+    }
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
+    function updateImageIndexes() {
+        $('.additionalImages').each(function (index, element) {
+            $(element).attr('id', 'inputFile[' + index + ']').attr('name', 'inputFile[' + index + ']').siblings('label').attr('for', 'inputFile[' + index + ']').siblings('.code').attr('name', 'inputCode[' + index + ']');
+        });
+    }
+    function chooseFile(element) {
+        var regex = new RegExp('image');
+        if (element.files && element.files[0] && regex.test(element.files[0].type)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(element).siblings('.imagePreview').attr('src', e.target.result).show();
+                $(element).siblings('.code').val('{{' + s4() + '}}').show();
+            }
+            reader.readAsDataURL(element.files[0]);
+            $('#imagesUpload').append('<div class="form-group">' +
+                    '<label for="inputFile[]">File input</label>' +
+                    '<input type="file" name="inputFile[]" id="inputFile[]" class="additionalImages" accept="image/*" onchange="chooseFile(this);">' +
+                    '<input type="text" name="inputCode[]" class="code" readonly />' +
+                    '<img src="#" class="imagePreview additionalImg" />' +
+                '</div>');
+            updateImageIndexes();
+        } else {
+            if ($('.additionalImages').length > 1) {
+                $(element).closest('.form-group').remove();
+                updateImageIndexes();
+            } else {
+                $(element).siblings('.imagePreview').attr('src', '#').hide();
+                $(element).siblings('.code').val('').hide();
+            }
+        }
+    }
+    function chooseHeaderImage(element) {
+        var regex = new RegExp('image');
+        if (element.files && element.files[0] && regex.test(element.files[0].type)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(element).closest('.form-group').find('.imagePreview').attr('src', e.target.result).show();
+                $(element).closest('.form-group').find('.code').val('{{' + s4() + '}}').show();
+            }
+            reader.readAsDataURL(element.files[0]);
+        } else {
+            $(element).closest('.form-group').find('.imagePreview').attr('src', '#').hide();
+            $(element).closest('.form-group').find('.code').val('').hide();
+        }
+    }
+</script>

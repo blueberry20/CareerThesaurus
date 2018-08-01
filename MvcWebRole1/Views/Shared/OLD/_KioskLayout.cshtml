@@ -1,0 +1,485 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <script>
+        var isie8 = false;
+        var touches_supported = false;
+    </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!--[if IE 8]>
+    <link href="@Url.Content("~/Content/css/ie8.css")" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <!--[if IE 8]>
+        <script>isie8 = true;</script>
+    <![endif]-->
+
+    <script src="@Url.Content("~/Scripts/jQuery/jquery.easing.1.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/nicescroll/jquery.nicescroll.min.js")" type="text/javascript"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css' />
+
+    <script type="text/javascript">
+        var appserverurl = "@ViewBag.AppServerUrl";
+        var modernBrowser;
+        if (parseInt(navigator.appVersion) >= 5) {
+            modernBrowser = true;
+        }
+        else
+        {
+            modernBrowser = false;
+        }
+    </script>
+    <script type="text/javascript">
+        function showOverlay(id) {
+            $('#' + id).css('left', '1920px');
+            $('#' + id).css('opacity', 1);
+            $('#' + id).show();
+            $('#' + id).animate({ left: 0 }, 500);
+        }
+        function hideOverlay(id) {
+            $('#' + id).animate({ left: '1920px' }, 500);
+
+            $('.formoverlay').css('width', 0);
+
+            setTimeout(function () {
+                $('#' + id).css('opacity', 0);
+                $('#' + id).hide();
+            }, 500);
+        }
+
+        function getBlobData(container, directory, variable) {
+            
+            var headID = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            var d = new Date();
+            newScript.src = '@ViewBag.UrlScheme://chaindate.blob.core.windows.net/' + container + '/' + directory + '/' + variable; //  + '?d=' + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+            headID.appendChild(newScript);
+        }
+        function htmlEscape(str) {
+            return $('<div/>').text(str).html();
+        }
+        function htmlEncode(str) {
+            return $('<div/>').text(str).html();
+        }
+        function htmlFromJson(str) {
+            return htmlEscape(str.replace(/<br\/>/g, '_br_')).replace(/_br_/g, '<br/>');
+        }
+        function validateEmail(email) {
+            var x = email;
+            var atpos = x.indexOf("@@");
+            var dotpos = x.lastIndexOf(".");
+
+            
+            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+                return false;
+            }
+            return true;
+        }
+        function validateZip(zip) {
+            var reg = /^\d+$/;
+            if (!(reg.test(zip) && zip.length == 5)) {
+                return false;
+            }
+            return true;
+        }
+        function validatePhone(phone) {
+            var enteredNumber = phone;
+            var formattedNumber = formatPhoneNumber(enteredNumber.replace(/(\s|\.|\-|\(|\))/g, ''));
+            if (formattedNumber == "") {
+                return false;
+            }
+            return true;
+        }
+        function formatPhoneNumber(str) {
+            var raw_number = str.replace(/([^0-9]|\.|\-|\(\))/g,'');
+            var regex1 = /^1?([2-9]..)([2-9]..)(....)$/;
+            if(!regex1.test(raw_number)) {
+                return "";
+            } else {
+                return raw_number.replace(regex1,'$1$2$3');
+            }
+        }
+        function formatProgrammatic(string){
+            return string.replace(/[^a-z0-9]/gi,'');
+        }
+        function getCookie(c_name) {
+            var i, x, y, ARRcookies = document.cookie.split(";");
+            for (i = 0; i < ARRcookies.length; i++) {
+                x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+                y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+                x = x.replace(/^\s+|\s+$/g, "");
+                if (x == c_name) {
+                    return unescape(y);
+                }
+            }
+        }
+
+        function setCookie(c_name, value, exdays) {
+            if(!cookieExists(c_name)) {
+                var cookiecount = getCookie('cookiecount');
+                if (cookiecount == null || cookiecount == '') {
+                    cookiecount = 0;
+                }
+                persistSingleCookie('cookie' + cookiecount, c_name, 7);
+                persistSingleCookie('cookiecount', (parseInt(cookiecount) + 1), 7);
+            }
+            persistSingleCookie(c_name, value, exdays);
+        }
+        function cookieExists(name) {
+            var cookiecount = getCookie('cookiecount');
+            if (cookiecount == null || cookiecount == '') {
+                cookiecount = 0;
+                return false;
+            }
+            for(var i=0; i<cookiecount; i++) {
+                if(getCookie('cookie'+i)==name) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function persistSingleCookie(c_name, value, exdays) {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var c_value;
+            if (appserverurl.indexOf('skillcow.com') < 0)
+                c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+            else
+                c_value = escape(value) + ((exdays == null) ? "" : "; domain=.skillcow.com; path=/; expires=" + exdate.toUTCString());
+            document.cookie = c_name + "=" + c_value;
+        }
+
+        function clearCookies() {
+            var cookiecount = getCookie('cookiecount');
+            if (cookiecount == null || cookiecount == '') {
+                cookiecount = 0;
+                return false;
+            }
+            for (var i = 0; i < cookiecount; i++) {
+                persistSingleCookie('cookie' + i, null, 7);
+                persistSingleCookie(getCookie('cookie' + i), null, 7);
+
+            }
+            persistSingleCookie('cookiecount', 0, 7);
+        }
+
+        function cookiesAsJsonObjectString() {
+            var cookiecount = getCookie('cookiecount');
+            if (cookiecount == null || cookiecount == '') {
+                cookiecount = 0;
+                return '{}';
+            }
+
+            var json = '{';
+
+            for (var i = 0; i < cookiecount; i++) {
+                var name = getCookie('cookie' + i);
+                if (name.indexOf('_label') < 0) {
+                    var value = getCookie(name);
+                    if (i > 0) {
+                        json += ',';
+                    }
+                    json += '"' + name + '":"' + value.replace(/\"/g,"'") + '"';
+                }
+            }
+
+            json += '}';
+
+            return json;
+        }
+
+        function getElapsedTime(sincedate) {
+
+            var now = new Date();
+            var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+            var elapsedms = now_utc.getTime() - parseFloat(sincedate);
+
+            var seconds = elapsedms / 1000;
+            var minutes = 0;
+            var hours = 0;
+            var days = 0;
+
+            var secondsperday = 60 * 60 * 24;
+            if (seconds > secondsperday) {
+                var rem = seconds % secondsperday;
+                days = (seconds - rem) / secondsperday;
+                seconds = rem;
+            }
+
+            var secondsperhour = 60 * 60;
+            if (seconds > secondsperhour) {
+                var rem = seconds % secondsperhour;
+                hours = (seconds - rem) / secondsperhour;
+                seconds = rem;
+            }
+
+            var secondsperminute = 60;
+            if (seconds > secondsperminute) {
+                var rem = seconds % secondsperminute;
+                minutes = (seconds - rem) / secondsperminute;
+                seconds = rem;
+            }
+
+
+
+            if (days > 0) {
+                return days + ' <span>days,</span> ' + hours + ' <span>hh</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>mm</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+            }
+            else {
+                return hours + ' <span>h</span> <span class="dots">:</span> ' + padWithZero(minutes) + ' <span>m</span> <span class="dots">:</span> <span class="ss">' + padWithZero(seconds) + '</span> <span>ss</span>';
+            }
+
+        }
+        function padWithZero(n) {
+            var str = new String(n);
+
+            if (str.length > 1)
+                return n;
+            else
+                return '0' + n;
+        }
+    </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400' rel='stylesheet' type='text/css' />
+    
+
+    <style type="text/css">
+            body, html { font-family: 'Roboto'; font-weight: 300; color: #fff; padding: 0; margin: 0;}
+            h1, h2, h3, h4, h5 { font-weight: 300; }
+            
+            h1 {margin-left: 125px;}
+            h2 {margin-left: 125px;}
+            h3 {margin-left: 125px;}
+            
+            #menu {cursor: pointer;}
+            ul.menuitems { list-style-type: none;  font-size: 14pt; margin: 0px; padding: 0; }
+            ul.menuitems li {border-bottom: thin solid rgba(255,255,255,0.5); padding: 20px 0 20px 20px; }
+            ul.menuitems li:active {background-color: rgba(0,176,240,1);}
+            ul.menuitems li.last {border-bottom: none; padding: 15px 0 15px 20px; }
+            
+            div.backdrop
+            {
+                background: #003f77;
+                background: -moz-linear-gradient(top,  #003f77 0%, #005fad 20%, #002342 100%);
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#003f77), color-stop(20%,#005fad), color-stop(100%,#002342));
+                background: -webkit-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+                background: -o-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+                background: -ms-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+                background: linear-gradient(to bottom,  #003f77 0%,#005fad 20%,#002342 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#003f77', endColorstr='#002342',GradientType=0 );
+
+            }
+
+            div.backdrop_nice_blue
+            {
+                background: #2893b9;
+            }
+            
+            input[type='text'] { background-color: rgba(0,0,0,0); border: thin solid white; font-size: 14pt; padding: 10px; color: white;}
+            
+            input[type='button'] { background-color: rgba(0,176,240,1); font-size: 14pt; padding: 11px; color: white; border: none;}
+            input[type='button']:active { background-color: black; color: white; }
+            
+            div.button  
+            {
+                text-align: center;
+                
+                cursor: pointer;
+                position: relative;
+                border: 1px none #0090f0;
+            
+                text-shadow: 1px 1px 1px #005fa2;
+            
+                color: #fff;
+                font-size: 14pt;
+                
+                padding: 11px;
+                            
+                text-decoration: none;
+            
+                background: #0099ff; /* Old browsers */
+                /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+                background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOTlmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDgzZGIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+                background: -moz-linear-gradient(top,  #0099ff 0%, #0083db 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099ff), color-stop(100%,#0083db)); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top,  #0099ff 0%,#0083db 100%); /* IE10+ */
+                background: linear-gradient(to bottom,  #0099ff 0%,#0083db 100%); /* W3C */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#0083db',GradientType=0 ); /* IE6-8 */
+            }
+            div.button:active { background: white; color: black; }          
+            
+            input.backbutton {position: absolute; left: 32px; top: 13px; width: 55px; height: 55px; background-color: rgba(0,0,0,0); background-image: url('/content/images/kiosk/icons/back_button.png');}
+            input.backbutton:active { background-color: rgba(0,0,0,0); background-image: url('/content/images/kiosk/icons/back_button_active.png');}
+            
+            div.backbutton {position: absolute; left: 32px; top: 13px; width: 55px; height: 55px; background-color: rgba(0,0,0,0); background-image: url('/content/images/kiosk/icons/back_button.png'); }
+            div.backbutton:active { background-color: rgba(0,0,0,0); background-image: url('/content/images/kiosk/icons/back_button_active.png');}
+            
+            input.invisiblebutton {background-color: rgba(0,0,0,0); color: rgba(0,0,0,0);}
+            input.invisiblebutton:active {background-color: rgba(0,0,0,0.5); color: rgba(0,0,0,0);}
+
+            .whitereflection 
+            {
+                background: -moz-linear-gradient(top,  rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 1%, rgba(255,255,255,0) 100%);
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.1)), color-stop(1%,rgba(255,255,255,0.1)), color-stop(100%,rgba(255,255,255,0)));
+                background: -webkit-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.1) 1%,rgba(255,255,255,0) 100%);
+                background: -o-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.1) 1%,rgba(255,255,255,0) 100%);
+                background: -ms-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.1) 1%,rgba(255,255,255,0) 100%);
+                background: linear-gradient(to bottom,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.1) 1%,rgba(255,255,255,0) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#00ffffff',GradientType=0 );
+            }
+            .diagonalwhitegradient
+            {
+                background: rgb(255,255,255);
+                background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(247,247,247,1) 50%, rgba(191,191,191,1) 100%);
+                background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(247,247,247,1)), color-stop(100%,rgba(191,191,191,1)));
+                background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 50%,rgba(191,191,191,1) 100%);
+                background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 50%,rgba(191,191,191,1) 100%);
+                background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 50%,rgba(191,191,191,1) 100%);
+                background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 50%,rgba(191,191,191,1) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#bfbfbf',GradientType=1 );
+            }
+            .diagonalwhitegradient80
+            {
+                background: rgb(255,255,255);
+                background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(247,247,247,1) 80%, rgba(191,191,191,1) 100%);
+                background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(80%,rgba(247,247,247,1)), color-stop(100%,rgba(191,191,191,1)));
+                background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 80%,rgba(191,191,191,1) 100%);
+                background: -o-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 80%,rgba(191,191,191,1) 100%);
+                background: -ms-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 80%,rgba(191,191,191,1) 100%);
+                background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 80%,rgba(191,191,191,1) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#bfbfbf',GradientType=1 );
+            }
+            .shadow20 
+            {
+                -webkit-box-shadow:  20px 20px 30px 0px rgba(0, 0, 0, 0.5);
+                box-shadow:  20px 20px 30px 0px rgba(0, 0, 0, 0.5);
+            }
+
+            div.active_overlay {background-color: rgba(0,0,0,0.8); }
+    </style>
+
+
+    <!--FORM DROP DOWNS-->
+    <style>
+    
+        ul.selectionlist {list-style-image: url('/content/images/kiosk/icons/arrow_1.png'); margin: 0; padding-left: 20px; z-index: 99999; background-color: rgba(0,0,0,0.7); }
+        ul.selectionlist li {list-style-type: none; margin: 1px; }
+        ul.selectionlist li input {font-size: 12pt; padding: 20px; width: 300px; text-align: left; background-color: #0066aa; white-space: normal; }
+        ul.selectionlist li input:active { background-color: rgba(0,176,240,1);}
+    
+    </style>
+</head>
+    <body class="touchsensor">
+        <div class="backdrop" style="position: absolute; width: 100%; top: 0px; bottom: 0px; "></div>
+
+        <div style="position: absolute; width: 100%; top: 80px; bottom: 0px;">
+        @RenderBody()
+        </div>
+
+        <div class="touchsensor" id="menu" style="position: fixed; top: 0px; left: 125px; width: 240px; height: 80px; background-color: rgba(0,0,0,1); z-index: 9999999;">
+            <div id="menubar" style="text-align: center; width: 100%; height: 80px;">
+                <img src="/content/images/cowhead-logo-transparent-bg.png" style="position: absolute; width: 80px; left: -5px; top: 0px;"/>
+                <h2 id="menucaption" style="margin: 25px 0 0 0;">SkillCow</h2>
+            </div>
+            <div>
+                <ul class="menuitems" style="display: none; opacity: 0;">
+                    <li url="/Kiosk/CareerAssessmentIntro">
+                        Career Assessment Test
+                    </li>
+                    <li url="/Kiosk/FindJobs">
+                        Find a Job
+                    </li>
+                    <li url="/Kiosk/FindSchools">
+                        Find a School
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div id="touchscreenmode" style="position:absolute; top: 0px; right: 0px; z-index: 9999999; display: none;"><h1>Touch Screen Mode</h1></div>
+
+        
+        @Html.Partial("_record_form")
+
+    </body>
+</html>
+
+
+<script>
+    function toggleMenu() {
+        if ($('#menu').css('height') == '80px') {
+            $('#menu').animate({ 'height': '100%' }, 200);
+
+            setTimeout(function(){
+                $('.menuitems').show();
+                $('.menuitems').animate({ 'opacity': '1' }, 0);
+            }, 100);
+            
+        }
+        else {
+            $('.menuitems').animate({ 'opacity': '0' }, 200);
+            setTimeout(function () {
+                $('.menuitems').hide();
+            }, 0);
+            
+            
+            $('#menu').animate({ 'height': '80px' }, 200);
+        }
+    }
+
+
+    $.fn.extend({
+        press: function (code, touchstartcode, touchendcode) {
+            if (getCookie('istouchscreen') === '1') {
+                $(this).on('touchstart', code );
+            }
+            else {
+                $(this).bind('click', code);
+            }
+        }
+        ,
+        touchstart: function (code) {
+            $(this).bind('touchstart', function () {
+                code;
+            });
+        }
+    
+    });
+
+
+    $(document).ready(function () {
+
+        $('body').bind('contextmenu', function (e) {
+            return false;
+        });
+
+        $('#menubar').press(toggleMenu);
+        $('.menuitems li').press(function () { document.location = $(this).attr('url'); });
+
+        if (getCookie('istouchscreen') == null || getCookie('istouchscreen') != '1') {
+            $('.touchsensor').bind('touchstart', function () {
+                setCookie('istouchscreen', 1, 365);
+                $('#touchscreenmode').show();
+            });
+        }
+        else {
+            $('#touchscreenmode').show();
+        }
+
+        
+        document_ready();
+    });
+    
+
+
+</script>
+

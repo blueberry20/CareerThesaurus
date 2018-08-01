@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Error";
+}
+
+<link href="~/Content/css/About/error.css" rel="stylesheet" />
+
+<div class="pageContainer" id="404Page">
+    <div class="container text-center">
+        <h1>404. Page doesn't exist</h1>
+        <img class="img-responsive" src="~/Content/images/grumpycat.jpg" />
+        <h2>It's not me, it's you</h2>
+        <h3>Did you type the url correct?</h3>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        newHeight = $(window).height() - 150;
+        $('#404Page').css('min-height', newHeight);
+
+        $(window).resize(function () {
+            newHeight = $(window).height() - 150;
+            $('#404Page').css('min-height', newHeight);
+        });
+    }
+</script>

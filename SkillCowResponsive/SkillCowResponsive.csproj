@@ -1,0 +1,1275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4AA32243-47C3-4491-9C44-8F439D44157A}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SkillCowResponsive</RootNamespace>
+    <AssemblyName>SkillCowResponsive</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ServiceBus">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.4.3.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient">
+      <HintPath>..\packages\WindowsAzure.Storage.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\SendGrid.1.1.1\lib\net40\SendGridMail.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\Assemblies\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Api">
+      <HintPath>..\packages\Twilio.3.6.11\lib\3.5\Twilio.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\AgentDailyActivity.cs" />
+    <Compile Include="Classes\Cloud\BlobStorage\BlobJsonResourceManager.cs" />
+    <Compile Include="Classes\Cloud\BlobStorage\BlobStringManager.cs" />
+    <Compile Include="Classes\Cloud\BlobStorage\PictureManager.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTest.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestConversion.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestConversionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestImpression.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestImpressionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestResult.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestStringComponents.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ABTests\ABTestStringParser.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AccessCode\AccessCode.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AccessCode\AccessCodeClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminAccount\AdminAccount.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminAccount\AdminAccountClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminMisc\AdminMisc.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminMisc\AdminMiscClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminProfile\AdminProfile.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AdminProfile\AdminProfileClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AgentEvents\AgentEvent.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AgentEvents\AgentEventClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\Agents\Agent.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\Agents\AgentClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentCareerRating\AssessmentCareerRating.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentCareerRating\AssessmentCareerRatingClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentCareer\AssessmentCareer.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentCareer\AssessmentCareerClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentDimensionsRating\AssessmentDimensionsRating.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentDimensionsRating\AssessmentDimensionsRatingClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentDimension\AssessmentDimension.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentDimension\AssessmentDimensionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentGroupPinCode\AssessmentGroupPinCode.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentGroupPinCode\AssessmentGroupPinCodeClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentGroup\AssessmentGroup.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentGroup\AssessmentGroupClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentInterestRating\AssessmentInterestRating.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentInterestRating\AssessmentInterestRatingClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentInterest\AssessmentInterest.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\AssessmentInterest\AssessmentInterestClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogCategory\BlogCategory.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogCategory\BlogCategoryClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogPost\BlogPost.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogPost\BlogPostClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogTag\BlogTag.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\BlogTag\BlogTagClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ChainDateTableServiceClientBase.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientLogoOverrides\ClientLogoOverride.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientLogoOverrides\ClientLogoOverrideClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientSlideShows\ClientSlideShow.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientSlideShows\ClientSlideShowClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientSlideShows\ClientSlideShowSlide.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ClientSlideShows\ClientSlideShowSlideClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\CounselorAccount\CounselorAccount.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\CounselorAccount\CounselorAccountClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\CounselorInvite\CounselorInvite.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\CounselorInvite\CounselorInviteClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DelayedRecord\DelayedRecord.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DelayedRecord\DelayedRecordClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Campus\DirectEmployerClientCampus.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Campus\DirectEmployerClientCampusClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Employer\DirectEmployerClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Employer\DirectEmployerClientClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\AddState\GeoIndexAddState.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\AddState\GeoIndexAddStateClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\AddZip\GeoIndexAddZip.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\AddZip\GeoIndexAddZipClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\National\GeoIndexNational.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\National\GeoIndexNationalClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\SubtractState\GeoIndexSubtractState.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\SubtractState\GeoIndexSubtractStateClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\SubtractZip\GeoIndexSubtractZip.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\GeoIndex\SubtractZip\GeoIndexSubtractZipClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Lead\DirectEmployerClientLead.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Lead\DirectEmployerClientLeadClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Program\DirectEmployerClientCampusProgram.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\Program\DirectEmployerClientCampusProgramClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Employers\SearchEngine\DirectEmployerSearchEngine.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\IGeoIndex\IGeoIndex.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\IGeoIndex\IGeoIndexClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\LeadCaps\LeadCap.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\LeadCaps\LeadCapClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\LeadCounters\LeadCounter.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\LeadCounters\LeadCounterClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Campus\DirectSchoolClientCampus.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Campus\DirectSchoolClientCampusClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\AddState\GeoIndexAddState.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\AddState\GeoIndexAddStateClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\AddZip\GeoIndexAddZip.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\AddZip\GeoIndexAddZipClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\National\GeoIndexNational.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\National\GeoIndexNationalClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\SubtractState\GeoIndexSubtractState.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\SubtractState\GeoIndexSubtractStateClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\SubtractZip\GeoIndexSubtractZip.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\GeoIndex\SubtractZip\GeoIndexSubtractZipClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Lead\DirectSchoolClientLead.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Lead\DirectSchoolClientLeadClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Program\DirectSchoolClientCampusProgram.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\Program\DirectSchoolClientCampusProgramClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\School\DirectSchoolClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\School\DirectSchoolClientClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\DirectClients\Schools\SearchEngine\DirectSchoolSearchEngine.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\EmailSettings\Addressee.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\EmailSettings\AddresseeClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\JobPosting\JobPosting.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\JobPosting\JobPostingClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\LockedModeUser\LockedModeUser.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\LockedModeUser\LockedModeUserClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PDEntries\PDEntries.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PDEntries\PDEntriesClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PendingSchool\PendingSchool.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PendingSchool\PendingSchoolClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNProfessions\CBNProfession.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNProfessions\CBNProfessionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNPrograms\CBNSchoolProgram.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNPrograms\CBNSchoolProgramClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchoolCampuses\CBNSchoolCampus.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchoolCampuses\CBNSchoolCampusClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchoolForms\CBNSchoolForm.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchoolForms\CBNSchoolFormClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchools\CBNSchool.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\CBNSchools\CBNSchoolClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\SkillCowRequestSubmissions\SkillCowRequestSubmission.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\SkillCowRequestSubmissions\SkillCowRequestSubmissionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\Tests\SkillAssessment\Question.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\PersonalityTests\Tests\SkillAssessment\QuestionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SchoolNewsletter\SchoolNewsletter.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SchoolNewsletter\SchoolNewsletterClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SchoolToTeacherConnection\SchoolToTeacherConnection.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SchoolToTeacherConnection\SchoolToTeacherConnectionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\School\SchoolAccount.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\School\SchoolAccountClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SendGridEvent\SendGridEvent.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SendGridEvent\SendGridEventClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SiteVisits\SiteVisit.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\SiteVisits\SiteVisitClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\StudentAccount\StudentAccount.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\StudentAccount\StudentAccountClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\StudentProfile\StudentProfile.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\StudentProfile\StudentProfileClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\TableServiceClientBase.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\TeacherToSchoolConnection\TeacherToSchoolConnection.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\TeacherToSchoolConnection\TeacherToSchoolConnectionClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\Thesaurus\ThesaurusEntry.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\Thesaurus\ThesaurusEntryClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UserAccount\UserAccount.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UserAccount\UserAccountClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UserProfiles\UserProfile.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UserProfiles\UserProfileClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UXEvents\UXEvent.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\UXEvents\UXEventClient.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ZipCodes\ZipCode.cs" />
+    <Compile Include="Classes\Cloud\TableStorage\ZipCodes\ZipCodeClient.cs" />
+    <Compile Include="Classes\CookieData\CookieDataImportantThings.cs" />
+    <Compile Include="Classes\CookieData\CookieDataTestResults.cs" />
+    <Compile Include="Classes\CookieData\CookieDecoder.cs" />
+    <Compile Include="Classes\DeferredProcesses\DeferredEmailSender.cs" />
+    <Compile Include="Classes\DeferredProcesses\DeferredProcess.cs" />
+    <Compile Include="Classes\DeferredProcesses\MessageBroker\MessageBroker.cs" />
+    <Compile Include="Classes\Email\EmailTemplateHelper.cs" />
+    <Compile Include="Classes\Email\WelcomeEmail.cs" />
+    <Compile Include="Classes\Encryption\ClientSession.cs" />
+    <Compile Include="Classes\Encryption\SimpleAES.cs" />
+    <Compile Include="Classes\Factory\ControllerFactory.cs" />
+    <Compile Include="Classes\Helpers\AggregationExtensionMethods.cs" />
+    <Compile Include="Classes\Helpers\AttributeMaskCalculator.cs" />
+    <Compile Include="Classes\Helpers\EasternTimeConverter.cs" />
+    <Compile Include="Classes\Helpers\EmailTemplateHelper.cs" />
+    <Compile Include="Classes\Helpers\ExtensionMethodHelper.cs" />
+    <Compile Include="Classes\Helpers\GeoDistanceCalculator.cs" />
+    <Compile Include="Classes\Helpers\GraphicsHelper.cs" />
+    <Compile Include="Classes\Helpers\ImportantThings.cs" />
+    <Compile Include="Classes\Helpers\ImportantThingsMaskCalculator.cs" />
+    <Compile Include="Classes\Helpers\JsonHelper.cs" />
+    <Compile Include="Classes\Helpers\Password.cs" />
+    <Compile Include="Classes\Helpers\PinCodeGenerator.cs" />
+    <Compile Include="Classes\Helpers\RandomHelper.cs" />
+    <Compile Include="Classes\Helpers\ShortGuidGenerator.cs" />
+    <Compile Include="Classes\Helpers\StringHelper.cs" />
+    <Compile Include="Classes\Helpers\Telephony.cs" />
+    <Compile Include="Classes\Helpers\USStateMap.cs" />
+    <Compile Include="Classes\Helpers\XmlHelper.cs" />
+    <Compile Include="Classes\MyViewEngine.cs" />
+    <Compile Include="Classes\ProgramMapper\ProgramMapper.cs" />
+    <Compile Include="Classes\RankedString.cs" />
+    <Compile Include="Classes\SchoolFormParser.cs" />
+    <Compile Include="Classes\SchoolFormParserV2.cs" />
+    <Compile Include="Classes\SendGrid.cs" />
+    <Compile Include="Classes\UdemyCourseParser.cs" />
+    <Compile Include="Classes\VMMapper.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AdminPortalController.cs" />
+    <Compile Include="Controllers\AnalyticsController.cs" />
+    <Compile Include="Controllers\API\SendGridEventController.cs" />
+    <Compile Include="Controllers\Assessment.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\CareerController.cs" />
+    <Compile Include="Controllers\CareersController.cs" />
+    <Compile Include="Controllers\CareerTestController.cs" />
+    <Compile Include="Controllers\CatchAllController.cs" />
+    <Compile Include="Controllers\ClassificationController.cs" />
+    <Compile Include="Controllers\ControllerBase\AuthenticatedControllerController.cs" />
+    <Compile Include="Controllers\ControllerBase\ControllerBase.cs" />
+    <Compile Include="Controllers\ControllerBase\SimpleAuthenticatedControllerController.cs" />
+    <Compile Include="Controllers\ControllerBase\SimpleControllerBase.cs" />
+    <Compile Include="Controllers\CounselorPortalController.cs" />
+    <Compile Include="Controllers\DemoStudentsController.cs" />
+    <Compile Include="Controllers\ElementsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\JobsController.cs" />
+    <Compile Include="Controllers\PDController.cs" />
+    <Compile Include="Controllers\PersonalityController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
+    <Compile Include="Controllers\SandBoxController.cs" />
+    <Compile Include="Controllers\Signup.cs" />
+    <Compile Include="Controllers\SkillTestController.cs" />
+    <Compile Include="Controllers\StudentPortalController.cs" />
+    <Compile Include="Controllers\TakeTestController.cs" />
+    <Compile Include="Controllers\WelcomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminReportsModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\About\advertise.css" />
+    <Content Include="Content\css\About\contactus.css" />
+    <Content Include="Content\css\About\error.css" />
+    <Content Include="Content\css\About\methodology.css" />
+    <Content Include="Content\css\About\newsletter.css" />
+    <Content Include="Content\css\About\termsprivacy.css" />
+    <Content Include="Content\css\AdminPortal\adminPortal.css" />
+    <Content Include="Content\css\AdminPortal\Groups.css" />
+    <Content Include="Content\css\AdminPortal\lessonPlan.css" />
+    <Content Include="Content\css\Analytics\analytics.css" />
+    <Content Include="Content\css\Analytics\analyticsReports.css" />
+    <Content Include="Content\css\Analytics\reportcard.css" />
+    <Content Include="Content\css\Assessment\AdministratorWelcome.css" />
+    <Content Include="Content\css\Assessment\assessment.css" />
+    <Content Include="Content\css\Blog\blog.css" />
+    <Content Include="Content\css\Blog\Index.css" />
+    <Content Include="Content\css\Blog\Post.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\Careers\CareersIndex.css" />
+    <Content Include="Content\css\Careers\In.css" />
+    <Content Include="Content\css\Careers\Index_pics.css" />
+    <Content Include="Content\css\Careers\selectinterests.css" />
+    <Content Include="Content\css\Career\Index.css" />
+    <Content Include="Content\css\Classification\classification.css" />
+    <Content Include="Content\css\Counselor\counselor.css" />
+    <Content Include="Content\css\Custom.css" />
+    <Content Include="Content\css\Home\Home.css" />
+    <Content Include="Content\css\Home\Index.css" />
+    <Content Include="Content\css\Jobs\form.css" />
+    <Content Include="Content\css\Jobs\jobsIndex.css" />
+    <Content Include="Content\css\Pd\pd.css" />
+    <Content Include="Content\css\personality\personality.css" />
+    <Content Include="Content\css\Request\form.css" />
+    <Content Include="Content\css\royalslider.css" />
+    <Content Include="Content\css\royalslider\rs-default.css" />
+    <Content Include="Content\css\royalslider\rs-default.png" />
+    <Content Include="Content\css\SkilltestV2\skilltest.css" />
+    <Content Include="Content\css\SkilltestV2\testResults.css" />
+    <Content Include="Content\css\Skilltest\EmailResults.css" />
+    <Content Include="Content\css\Skilltest\locked.css" />
+    <Content Include="Content\css\Skilltest\skilltest.css" />
+    <Content Include="Content\css\Careers\Careers.css" />
+    <Content Include="Content\css\Skilltest\testResults.css" />
+    <Content Include="Content\css\Welcome\welcome.css" />
+    <Content Include="Content\emails\adminreg.htm" />
+    <Content Include="Content\emails\confirmemail.htm" />
+    <Content Include="Content\emails\counseloraccept.htm" />
+    <Content Include="Content\emails\counselorinvite.htm" />
+    <Content Include="Content\emails\counselorreg.htm" />
+    <Content Include="Content\emails\interestresults.htm" />
+    <Content Include="Content\emails\nacacfollowup.htm" />
+    <Content Include="Content\emails\nacacfollowupv2.htm" />
+    <Content Include="Content\emails\passwordchanged.htm" />
+    <Content Include="Content\emails\pendingschoolstatusapproved.htm" />
+    <Content Include="Content\emails\pendingschoolstatusdup.htm" />
+    <Content Include="Content\emails\pendingschoolstatuselementary.htm" />
+    <Content Include="Content\emails\pendingschoolstatusinvalid.htm" />
+    <Content Include="Content\emails\resetpassword.htm" />
+    <Content Include="Content\emails\signupthankyou.htm" />
+    <Content Include="Content\emails\stateschoolcounselingprospects.htm" />
+    <Content Include="Content\emails\studentreg.htm" />
+    <Content Include="Content\emails\testresults.htm" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\images\13-1161.jpg" />
+    <Content Include="Content\images\19-3011.jpg" />
+    <Content Include="Content\images\27-1011.jpg" />
+    <Content Include="Content\images\41-4012.jpg" />
+    <Content Include="Content\images\analyticsicon.png" />
+    <Content Include="Content\images\analyticsicon3.png" />
+    <Content Include="Content\images\analyticsiconbig.png" />
+    <Content Include="Content\images\arms_2045.jpg" />
+    <Content Include="Content\images\blackboard.jpg" />
+    <Content Include="Content\images\blank.gif" />
+    <Content Include="Content\images\books_sm.jpg" />
+    <Content Include="Content\images\briefcase.jpg" />
+    <Content Include="Content\images\briefcase.png" />
+    <Content Include="Content\images\brushed.png" />
+    <Content Include="Content\images\ByInterest.jpg" />
+    <Content Include="Content\images\ByInterestMob.png" />
+    <Content Include="Content\images\Bytrait.jpg" />
+    <Content Include="Content\images\BytraitMob.png" />
+    <Content Include="Content\images\careerPhotos\Advertising_manager.jpg" />
+    <Content Include="Content\images\careerPhotos\placeholder.jpg" />
+    <Content Include="Content\images\careers-jumbotron-background.jpg" />
+    <Content Include="Content\images\careers.jpg" />
+    <Content Include="Content\images\careersMob.png" />
+    <Content Include="Content\images\careers\agriculture.jpg" />
+    <Content Include="Content\images\careers\Architectureanddesign.jpg" />
+    <Content Include="Content\images\careers\business.jpg" />
+    <Content Include="Content\images\careers\Chemistry.jpg" />
+    <Content Include="Content\images\careers\Computersciences.jpg" />
+    <Content Include="Content\images\careers\earthsciences.jpg" />
+    <Content Include="Content\images\careers\Economics.jpg" />
+    <Content Include="Content\images\careers\Education.jpg" />
+    <Content Include="Content\images\careers\Engineering.jpg" />
+    <Content Include="Content\images\careers\EnvironmentalstudiesandForestry.jpg" />
+    <Content Include="Content\images\careers\familyandconsumerscience.jpg" />
+    <Content Include="Content\images\careers\Healthsciences.jpg" />
+    <Content Include="Content\images\careers\humanphysicalperformanceandrecreation.jpg" />
+    <Content Include="Content\images\careers\Journalismmassmediaandcommunication.jpg" />
+    <Content Include="Content\images\careers\Languagesandlinguistics.jpg" />
+    <Content Include="Content\images\careers\Law.jpg" />
+    <Content Include="Content\images\careers\lifesciences.jpg" />
+    <Content Include="Content\images\careers\Literature.jpg" />
+    <Content Include="Content\images\careers\Mathematics.jpg" />
+    <Content Include="Content\images\careers\Performingarts.jpg" />
+    <Content Include="Content\images\careers\Physics.jpg" />
+    <Content Include="Content\images\careers\politicalscience.jpg" />
+    <Content Include="Content\images\careers\socialwork.jpg" />
+    <Content Include="Content\images\careers\SpecialTraining.jpg" />
+    <Content Include="Content\images\careers\Visualarts.jpg" />
+    <Content Include="Content\images\cart1.jpg" />
+    <Content Include="Content\images\cart2.jpg" />
+    <Content Include="Content\images\cart3.jpg" />
+    <Content Include="Content\images\cartoon1.jpg" />
+    <Content Include="Content\images\cartoon2.jpg" />
+    <Content Include="Content\images\checkbox.png" />
+    <Content Include="Content\images\checkbox_32x32.png" />
+    <Content Include="Content\images\checkbox_checked.png" />
+    <Content Include="Content\images\checkbox_checked_32x32.png" />
+    <Content Include="Content\images\coffee.jpg" />
+    <Content Include="Content\images\coffee.png" />
+    <Content Include="Content\images\cowhead.png" />
+    <Content Include="Content\images\cowheadsmall.png" />
+    <Content Include="Content\images\crazywomanhex3.png" />
+    <Content Include="Content\images\dot_pattern.png" />
+    <Content Include="Content\images\faces_cropped.jpg" />
+    <Content Include="Content\images\faces_md.jpg" />
+    <Content Include="Content\images\filterinterestsbg.gif" />
+    <Content Include="Content\images\filtertraitsbg.gif" />
+    <Content Include="Content\images\glasses.jpg" />
+    <Content Include="Content\images\glasses.png" />
+    <Content Include="Content\images\grab.cur" />
+    <Content Include="Content\images\grab.png" />
+    <Content Include="Content\images\grabbing.cur" />
+    <Content Include="Content\images\grabbing.png" />
+    <Content Include="Content\images\graphicon.png" />
+    <Content Include="Content\images\headicon.png" />
+    <Content Include="Content\images\hexagonperson.png" />
+    <Content Include="Content\images\hexagontransparent.png" />
+    <Content Include="Content\images\hexagontransparent2.png" />
+    <Content Include="Content\images\hex\bluebackground.jpg" />
+    <Content Include="Content\images\hex\hex_bg.jpg" />
+    <Content Include="Content\images\hex\hex_bg10.jpg" />
+    <Content Include="Content\images\hex\hex_bg12.jpg" />
+    <Content Include="Content\images\hex\hex_bg13.jpg" />
+    <Content Include="Content\images\hex\hex_bg14.jpg" />
+    <Content Include="Content\images\hex\hex_bg16.jpg" />
+    <Content Include="Content\images\hex\hex_bg17.jpg" />
+    <Content Include="Content\images\hex\hex_bg2.jpg" />
+    <Content Include="Content\images\hex\hex_bg5.jpg" />
+    <Content Include="Content\images\hex\hex_bg6.jpg" />
+    <Content Include="Content\images\hex\hex_bg61.jpg" />
+    <Content Include="Content\images\hex\hex_bg7.jpg" />
+    <Content Include="Content\images\hex\hex_bg8.jpg" />
+    <Content Include="Content\images\hex\hex_bg9.jpg" />
+    <Content Include="Content\images\home.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-114x114.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-120x120.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-128x128.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-152x152.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-192x192.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-57x57.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-60x60.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-72x72.png" />
+    <Content Include="Content\images\icons\apple-touch-icon-76x76.png" />
+    <Content Include="Content\images\Index.jpg" />
+    <Content Include="Content\images\IndexMob.png" />
+    <Content Include="Content\images\interests\admiration.jpg" />
+    <Content Include="Content\images\interests\adventure.jpg" />
+    <Content Include="Content\images\interests\animals.jpg" />
+    <Content Include="Content\images\interests\beauty.jpg" />
+    <Content Include="Content\images\interests\competition.jpg" />
+    <Content Include="Content\images\interests\coordinating.jpg" />
+    <Content Include="Content\images\interests\creativity.jpg" />
+    <Content Include="Content\images\interests\critical.jpg" />
+    <Content Include="Content\images\interests\drafting.jpg" />
+    <Content Include="Content\images\interests\duty.jpg" />
+    <Content Include="Content\images\interests\handlabor.jpg" />
+    <Content Include="Content\images\interests\helping.jpg" />
+    <Content Include="Content\images\interests\machinery.jpg" />
+    <Content Include="Content\images\interests\numbers.jpg" />
+    <Content Include="Content\images\interests\people.jpg" />
+    <Content Include="Content\images\interests\politics.jpg" />
+    <Content Include="Content\images\interests\safety.jpg" />
+    <Content Include="Content\images\interests\salesy.jpg" />
+    <Content Include="Content\images\interests\science.jpg" />
+    <Content Include="Content\images\interests\strength.jpg" />
+    <Content Include="Content\images\interests\technology.jpg" />
+    <Content Include="Content\images\loader.gif" />
+    <Content Include="Content\images\loader.png" />
+    <Content Include="Content\images\logoddd.png" />
+    <Content Include="Content\images\logoempty.png" />
+    <Content Include="Content\images\logoicon.png" />
+    <Content Include="Content\images\logoicon1.png" />
+    <Content Include="Content\images\logoiconblack.png" />
+    <Content Include="Content\images\logoiconblack1.png" />
+    <Content Include="Content\images\logomob.png" />
+    <Content Include="Content\images\logomobile2.png" />
+    <Content Include="Content\images\logostacked.png" />
+    <Content Include="Content\images\logotext.png" />
+    <Content Include="Content\images\logotext1.png" />
+    <Content Include="Content\images\logotextblack.png" />
+    <Content Include="Content\images\logotextblack1.png" />
+    <Content Include="Content\images\man1.jpg" />
+    <Content Include="Content\images\man2_sm.jpg" />
+    <Content Include="Content\images\mancomp.jpg" />
+    <Content Include="Content\images\manhappy.jpg" />
+    <Content Include="Content\images\manstaringatcomp.jpg" />
+    <Content Include="Content\images\mansurprised_cropped.jpg" />
+    <Content Include="Content\images\man_2045.jpg" />
+    <Content Include="Content\images\man_hexoverlay1.png" />
+    <Content Include="Content\images\man_sm.jpg" />
+    <Content Include="Content\images\map.png" />
+    <Content Include="Content\images\operator.jpg" />
+    <Content Include="Content\images\overlay-pattern.png" />
+    <Content Include="Content\images\peopleicon.png" />
+    <Content Include="Content\images\person.png" />
+    <Content Include="Content\images\personIcon.png" />
+    <Content Include="Content\images\preloader.gif" />
+    <Content Include="Content\images\print2.png" />
+    <Content Include="Content\images\print3.png" />
+    <Content Include="Content\images\questionIcon.png" />
+    <Content Include="Content\images\questionIcon2.png" />
+    <Content Include="Content\images\reset.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_1\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\female_left_1.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\female_right_1.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_center_1.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_left_1.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_1\male_right_1.png" />
+    <Content Include="Content\images\skilltestIpad\Page_2\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_2\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_2\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_2\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_2\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_2\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_3\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_3\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_3\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_3\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_3\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_3\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_4\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_4\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_4\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_4\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_4\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_4\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_5\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_5\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_5\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_5\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_5\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_5\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_6\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_6\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_6\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_6\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_6\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_6\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_7\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_7\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_7\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_7\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_7\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_7\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_8\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_8\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_8\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_8\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_8\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_8\male_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_9\female_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_9\female_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_9\female_right.png" />
+    <Content Include="Content\images\skilltestIpad\Page_9\male_bg.jpg" />
+    <Content Include="Content\images\skilltestIpad\Page_9\male_left.png" />
+    <Content Include="Content\images\skilltestIpad\Page_9\male_right.png" />
+    <Content Include="Content\images\skilltest\blank.png" />
+    <Content Include="Content\images\skilltest\Page_1\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_1\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_1\female_left_1.png" />
+    <Content Include="Content\images\skilltest\Page_1\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_1\female_right_1.png" />
+    <Content Include="Content\images\skilltest\Page_1\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_1\male_center_1.png" />
+    <Content Include="Content\images\skilltest\Page_1\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_1\male_left_1.png" />
+    <Content Include="Content\images\skilltest\Page_1\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_1\male_right_1.png" />
+    <Content Include="Content\images\skilltest\Page_2\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_2\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_2\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_2\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_2\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_2\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_3\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_3\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_3\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_3\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_3\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_3\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_4\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_4\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_4\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_4\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_4\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_4\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_5\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_5\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_5\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_5\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_5\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_5\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_6\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_6\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_6\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_6\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_6\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_6\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_7\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_7\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_7\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_7\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_7\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_7\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_8\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_8\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_8\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_8\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_8\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_8\male_right.png" />
+    <Content Include="Content\images\skilltest\Page_9\female_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_9\female_left.png" />
+    <Content Include="Content\images\skilltest\Page_9\female_right.png" />
+    <Content Include="Content\images\skilltest\Page_9\male_bg.jpg" />
+    <Content Include="Content\images\skilltest\Page_9\male_left.png" />
+    <Content Include="Content\images\skilltest\Page_9\male_right.png" />
+    <Content Include="Content\images\square_pattern.png" />
+    <Content Include="Content\images\stripes.png" />
+    <Content Include="Content\images\stripes2.png" />
+    <Content Include="Content\images\stripes3.png" />
+    <Content Include="Content\images\stripespattern3.png" />
+    <Content Include="Content\images\stripespattern4.png" />
+    <Content Include="Content\images\stripespattern5.png" />
+    <Content Include="Content\images\stripespattern6.png" />
+    <Content Include="Content\images\stripespattern7.png" />
+    <Content Include="Content\images\stripespattern8.png" />
+    <Content Include="Content\images\stripes_pattern.jpg" />
+    <Content Include="Content\images\StudentReport.jpg" />
+    <Content Include="Content\images\StudentReportMob.png" />
+    <Content Include="Content\images\students.jpg" />
+    <Content Include="Content\images\studentsincircle.jpg" />
+    <Content Include="Content\images\studentsoutside.jpg" />
+    <Content Include="Content\images\students_banner.jpg" />
+    <Content Include="Content\images\students_comp.jpg" />
+    <Content Include="Content\images\student_arrows.jpg" />
+    <Content Include="Content\images\testicon.png" />
+    <Content Include="Content\images\topviewstudents_cropped.jpg" />
+    <Content Include="Content\images\welcome\img1.jpg" />
+    <Content Include="Content\images\welcome\img2.jpg" />
+    <Content Include="Content\images\welcome\img3.jpg" />
+    <Content Include="Content\images\welcome\img4.jpg" />
+    <Content Include="Content\images\welcome\img5.jpg" />
+    <Content Include="Content\images\welcome\img6.jpg" />
+    <Content Include="Content\images\welcome\img7.jpg" />
+    <Content Include="Content\images\welcome\img8.jpg" />
+    <Content Include="Content\images\welcome\img9.jpg" />
+    <Content Include="Content\images\womanmanlooking.jpg" />
+    <Content Include="Content\images\womanmanpointing.jpg" />
+    <Content Include="Content\images\womanthinkinghex.png" />
+    <Content Include="Content\images\woman_2045.jpg" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Career\career.js" />
+    <Content Include="Scripts\Custom\bootstrap.js" />
+    <Content Include="Scripts\Custom\jquery.backstretch.min.js" />
+    <Content Include="Scripts\Custom\jquery.modernizr.js" />
+    <Content Include="Scripts\Custom\jquery.nicescroll.min.js" />
+    <Content Include="Scripts\Custom\jquery.placeholder.js" />
+    <Content Include="Scripts\Custom\jquery.royalslider.min.js" />
+    <Content Include="Scripts\Custom\jquery.smooth-scroll.min.js" />
+    <Content Include="Scripts\Custom\jquery.smoothscroll.js" />
+    <Content Include="Scripts\Custom\jquery.sticky.js" />
+    <Content Include="Scripts\Custom\jquery.velocity.min.js" />
+    <Content Include="Scripts\Custom\parser.js" />
+    <Content Include="Scripts\Custom\respond.min.js" />
+    <Content Include="Scripts\Custom\smooth-scroll.js" />
+    <Content Include="Scripts\Custom\tokenizer.js" />
+    <Content Include="Scripts\Custom\velocity.min.js" />
+    <Content Include="Scripts\Custom\velocity.ui.min.js" />
+    <Content Include="Scripts\Custom\vminpoly.js" />
+    <Content Include="Scripts\Custom\waypoints-sticky.min.js" />
+    <Content Include="Scripts\Custom\waypoints.min.js" />
+    <Content Include="Scripts\Jobs\gettime.js" />
+    <Content Include="Scripts\Jobs\ZeroClipboard.min.js" />
+    <Content Include="Scripts\Jobs\ZeroClipboard.swf" />
+    <Content Include="Scripts\jquery-1.11.0.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\layerslider\css\blank.gif" />
+    <Content Include="Scripts\layerslider\css\layerslider.css" />
+    <Content Include="Scripts\layerslider\jQuery\jquery-easing-1.3.js" />
+    <Content Include="Scripts\layerslider\jQuery\jquery-transit-modified.js" />
+    <Content Include="Scripts\layerslider\jQuery\jquery.js" />
+    <Content Include="Scripts\layerslider\js\layerslider.kreaturamedia.jquery.js" />
+    <Content Include="Scripts\layerslider\js\layerslider.transitions.js" />
+    <Content Include="Scripts\layerslider\skins\accio\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\accio\overlay-pattern.png" />
+    <Content Include="Scripts\layerslider\skins\accio\skin.css" />
+    <Content Include="Scripts\layerslider\skins\borderlessdark3d\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\borderlessdark\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\borderlessdark\shadow.png" />
+    <Content Include="Scripts\layerslider\skins\borderlessdark\skin.png" />
+    <Content Include="Scripts\layerslider\skins\borderlesslight\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\borderlesslight\shadow.png" />
+    <Content Include="Scripts\layerslider\skins\borderlesslight\skin.css" />
+    <Content Include="Scripts\layerslider\skins\carousel\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\carousel\nothumb.png" />
+    <Content Include="Scripts\layerslider\skins\darkskin\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\defaultskin\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\defaultskin\nothumb.png" />
+    <Content Include="Scripts\layerslider\skins\fullwidthdark\skin.css" />
+    <Content Include="Scripts\layerslider\skins\fullwidthdark\skin.png" />
+    <Content Include="Scripts\layerslider\skins\fullwidth\nothumb.png" />
+    <Content Include="Scripts\layerslider\skins\glass\nothumb.png" />
+    <Content Include="Scripts\layerslider\skins\glass\skin.css" />
+    <Content Include="Scripts\layerslider\skins\glass\skin.png" />
+    <Content Include="Scripts\layerslider\skins\lightskin\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\lightskin\skin.png" />
+    <Content Include="Scripts\layerslider\skins\minimal\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\minimal\skin.css" />
+    <Content Include="Scripts\layerslider\skins\minimal\skin.png" />
+    <Content Include="Scripts\layerslider\skins\noskin\loading.gif" />
+    <Content Include="Scripts\layerslider\skins\noskin\nothumb.png" />
+    <Content Include="Scripts\layerslider\skins\noskin\skin.png" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\Personality\Discover.js" />
+    <Content Include="Scripts\Personality\Emotional.js" />
+    <Content Include="Scripts\Personality\Extrovert.js" />
+    <Content Include="Scripts\Personality\Facts.js" />
+    <Content Include="Scripts\Personality\Fixed.js" />
+    <Content Include="Scripts\Personality\Focused.js" />
+    <Content Include="Scripts\Personality\Imagination.js" />
+    <Content Include="Scripts\Personality\Introvert.js" />
+    <Content Include="Scripts\Personality\Mobile.js" />
+    <Content Include="Scripts\Personality\Present.js" />
+    <Content Include="Scripts\Personality\Process.js" />
+    <Content Include="Scripts\Personality\Rational.js" />
+    <Content Include="Scripts\Personality\Relaxed.js" />
+    <Content Include="Scripts\Personality\Remote.js" />
+    <Content Include="Scripts\Personality\Result.js" />
+    <Content Include="Scripts\Personality\Routine.js" />
+    <Content Include="Scripts\Personality\Stationary.js" />
+    <Content Include="Scripts\Personality\Variable.js" />
+    <Content Include="Scripts\Request\info.js" />
+    <Content Include="Scripts\SkillTestV2\borderMenu.js" />
+    <Content Include="Scripts\SkillTestV2\classie.js" />
+    <Content Include="Scripts\SkillTestV2\main.js" />
+    <Content Include="Scripts\SkillTestV2\Modal.js" />
+    <Content Include="Scripts\SkillTestV2\Page_1_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_1_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_2_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_2_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_3_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_3_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_4_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_4_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_5_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_5_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_6_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_6_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_7_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_7_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_8_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_8_male.js" />
+    <Content Include="Scripts\SkillTestV2\Page_9_female.js" />
+    <Content Include="Scripts\SkillTestV2\Page_9_male.js" />
+    <Content Include="Scripts\SkillTestV2\results.js" />
+    <Content Include="Scripts\SkillTest\borderMenu.js" />
+    <Content Include="Scripts\SkillTest\classie.js" />
+    <Content Include="Scripts\SkillTest\main.js" />
+    <Content Include="Scripts\SkillTest\Modal.js" />
+    <Content Include="Scripts\SkillTest\Page_6_male.js" />
+    <Content Include="Scripts\SkillTest\Page_6_female.js" />
+    <Content Include="Scripts\SkillTest\Page_7_male.js" />
+    <Content Include="Scripts\SkillTest\Page_7_female.js" />
+    <Content Include="Scripts\SkillTest\Page_8_male.js" />
+    <Content Include="Scripts\SkillTest\Page_8_female.js" />
+    <Content Include="Scripts\SkillTest\Page_9_female.js" />
+    <Content Include="Scripts\SkillTest\Page_9_male.js" />
+    <Content Include="Scripts\SkillTest\Page_2_male.js" />
+    <Content Include="Scripts\SkillTest\Page_2_female.js" />
+    <Content Include="Scripts\SkillTest\Page_3_male.js" />
+    <Content Include="Scripts\SkillTest\Page_3_female.js" />
+    <Content Include="Scripts\SkillTest\Page_4_male.js" />
+    <Content Include="Scripts\SkillTest\Page_4_female.js" />
+    <Content Include="Scripts\SkillTest\Page_5_male.js" />
+    <Content Include="Scripts\SkillTest\Page_5_female.js" />
+    <Content Include="Scripts\SkillTest\Page_1_female.js" />
+    <Content Include="Scripts\SkillTest\Page_1_male.js" />
+    <Content Include="Scripts\SkillTest\results.js" />
+    <Content Include="Scripts\TagAggregation\kiosk_tags.js" />
+    <Content Include="Scripts\TagAggregation\responsive_tags.js" />
+    <Content Include="Scripts\TagAggregation\tags.js" />
+    <Content Include="Scripts\Thesaurus\alternatetitles.js" />
+    <Content Include="Scripts\Thesaurus\bachelormajors.js" />
+    <Content Include="Scripts\Thesaurus\byInterest_functions.js" />
+    <Content Include="Scripts\Thesaurus\careermajorsmapping.js" />
+    <Content Include="Scripts\Thesaurus\ctProfessions.js" />
+    <Content Include="Scripts\Thesaurus\ctProfessionsCodes.js" />
+    <Content Include="Scripts\Thesaurus\Data.js" />
+    <Content Include="Scripts\Thesaurus\degreetaxonomy.js" />
+    <Content Include="Scripts\Thesaurus\descriptions.js" />
+    <Content Include="Scripts\Thesaurus\dolcode_title.js" />
+    <Content Include="Scripts\Thesaurus\helperfunctions.js" />
+    <Content Include="Scripts\Thesaurus\OLD_DEPRICATED_Professions.js" />
+    <Content Include="Scripts\Thesaurus\OLD_Progressions.js" />
+    <Content Include="Scripts\Thesaurus\OLD_Similars.js" />
+    <Content Include="Scripts\Thesaurus\professions.js" />
+    <Content Include="Scripts\Thesaurus\professionsKeywordsAndAlternatetitles.js" />
+    <Content Include="Scripts\Thesaurus\professions_functions.js" />
+    <Content Include="Scripts\Thesaurus\Progressions.js" />
+    <Content Include="Scripts\Thesaurus\reconciliation.js" />
+    <Content Include="Scripts\Thesaurus\Similars.js" />
+    <Content Include="Scripts\Thesaurus\testattributes.js" />
+    <Content Include="Scripts\Thesaurus\zipCodes.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\fonts\" />
+    <Folder Include="Scripts\layerslider\skins\borderlesslight3d\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\BackstretchSlider.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Jobs\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\BootstrapSlider.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\SkillTest\Index.cshtml" />
+    <Content Include="Views\Careers\Index_pics.cshtml" />
+    <Content Include="Views\Elements\Index.cshtml" />
+    <Content Include="Views\Blog\Post.cshtml" />
+    <Content Include="Views\Career\Index.cshtml" />
+    <Content Include="Views\Careers\In.cshtml" />
+    <Content Include="Views\About\Newsletter.cshtml" />
+    <Content Include="Views\Elements\Form.cshtml" />
+    <Content Include="Views\Jobs\cbn.cshtml" />
+    <Content Include="Views\Jobs\vantage.cshtml" />
+    <Content Include="Content\images\Thumbs.db" />
+    <Content Include="Content\jobs mockup.bmml" />
+    <Content Include="Content\mobileJobs.bmml" />
+    <Content Include="Views\Careers\ByPersonality.cshtml" />
+    <Content Include="Views\About\contactus.cshtml" />
+    <Content Include="Views\About\terms.cshtml" />
+    <Content Include="Views\About\privacy.cshtml" />
+    <Content Include="Views\Careers\ByInterest.cshtml" />
+    <Content Include="Views\Careers\Index.cshtml" />
+    <Content Include="Content\images\hex\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_1\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_2\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_3\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_4\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_5\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_6\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_7\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_8\Thumbs.db" />
+    <Content Include="Content\images\skilltestIpad\Page_9\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\__SchoolAdmin.cshtml" />
+    <Content Include="Views\Admin\__SchoolStudents.cshtml" />
+    <Content Include="Views\Analytics\Byinterest.cshtml" />
+    <Content Include="Views\Analytics\Bytrait.cshtml" />
+    <Content Include="Views\Analytics\careers.cshtml" />
+    <Content Include="Views\Analytics\Index.cshtml" />
+    <Content Include="Views\Analytics\StudentList.cshtml" />
+    <Content Include="Views\Assessment\AddSchool.cshtml" />
+    <Content Include="Views\Assessment\Administrator.cshtml" />
+    <Content Include="Views\Assessment\CreateSchool.cshtml" />
+    <Content Include="Views\Assessment\Index.cshtml" />
+    <Content Include="Views\Assessment\RateInterests.cshtml" />
+    <Content Include="Views\Assessment\School.cshtml" />
+    <Content Include="Views\Assessment\Student.cshtml" />
+    <Content Include="Views\Classification\Index.cshtml" />
+    <Content Include="Views\PD\Index.cshtml" />
+    <Content Include="Views\PD\Thankyou.cshtml" />
+    <Content Include="Views\PD\_xyz.cshtml" />
+    <Content Include="Views\Personality\Index.cshtml" />
+    <Content Include="Views\Report\StudentReport.cshtml" />
+    <Content Include="Views\Request\info.cshtml" />
+    <Content Include="Views\Request\ThankYou.cshtml" />
+    <Content Include="Views\SandBox\Index.cshtml" />
+    <Content Include="Views\SandBox\Quin.cshtml" />
+    <Content Include="Views\Signup\Administrator.cshtml" />
+    <Content Include="Views\Signup\Student.cshtml" />
+    <Content Include="Views\Welcome\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Admin.cshtml" />
+    <Content Include="Views\Blog\Archive.cshtml" />
+    <Content Include="Views\Blog\Category.cshtml" />
+    <Content Include="Views\Blog\Edit.cshtml" />
+    <Content Include="Views\Blog\NewArticle.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\About\Thankyou.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\__Subscribed.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Analytics\StudentReports.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\LogIn.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AdminPortal\AddSchool.cshtml" />
+    <Content Include="Views\AdminPortal\Index.cshtml" />
+    <Content Include="Views\AdminPortal\School.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Analytics\Interests.cshtml" />
+    <Content Include="Views\Analytics\Report.cshtml" />
+    <Content Include="Views\Analytics\Traits.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Assessment\Welcome.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CareerTest\Index.cshtml" />
+    <Content Include="Views\CareerTest\Results.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SandBox\AdministratorWelcome.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SkillTest\Results.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\StudentPortal\Index.cshtml" />
+    <Content Include="Views\StudentPortal\RateInterests.cshtml" />
+    <Content Include="Views\StudentPortal\Report.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TakeTest\EmailResults.cshtml" />
+    <Content Include="Views\TakeTest\SchoolResults.cshtml" />
+    <Content Include="Views\TakeTest\TestReport.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Signup\ThankYou.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Signup\Counselor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SandBox\Report.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CounselorPortal\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CatchAll\Career.cshtml" />
+    <Content Include="Views\CatchAll\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Assessment\AccessCode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CareerTest\TakeTest.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Analytics\analytics.cshtml" />
+    <Content Include="Views\Analytics\CareersV2.cshtml" />
+    <Content Include="Views\Analytics\InterestsV2.cshtml" />
+    <Content Include="Views\Analytics\sandbox.cshtml" />
+    <Content Include="Views\Analytics\StudentReportsV2.cshtml" />
+    <Content Include="Views\Analytics\TraitsV2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\About\Advertise.cshtml" />
+    <Content Include="Views\About\MessageSubmitted.cshtml" />
+    <Content Include="Views\About\Methodology.cshtml" />
+    <Content Include="Views\Admin\AdminRequests.cshtml" />
+    <Content Include="Views\Admin\admins.cshtml" />
+    <Content Include="Views\Admin\__Schools.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AdminPortal\Groups.cshtml" />
+    <Content Include="Views\AdminPortal\Index_old.cshtml" />
+    <Content Include="Views\AdminPortal\SchoolSubmitted.cshtml" />
+    <Content Include="Views\AdminPortal\Students.cshtml" />
+    <Content Include="Views\AdminPortal\SubmitSchool.cshtml" />
+    <Content Include="Views\Admin\EditPendingSchools.cshtml" />
+    <Content Include="Views\Admin\PendingSchools.cshtml" />
+    <Content Include="Views\Admin\Students.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Careers\ByPersonalityV2.cshtml" />
+    <Content Include="Views\Careers\SelectInterests.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\HomeV2.cshtml" />
+    <Content Include="Views\Home\Index_old.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Articles.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Article.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\About\SchoolNewsletter.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AdminPortal\LessonPlan.cshtml" />
+    <Content Include="Views\Admin\Newsletter.cshtml" />
+    <Content Include="Views\Admin\SendGrid.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Tag.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Careers\CareerReport.cshtml" />
+    <Content Include="Views\Careers\InterestReport.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SandBox\GetAllRecords.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57475</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

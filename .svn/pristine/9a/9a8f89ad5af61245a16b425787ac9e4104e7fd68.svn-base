@@ -1,0 +1,396 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "ByInterest";
+}
+
+@*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
+<script src="~/Scripts/Thesaurus/testattributes.js"></script>
+
+<div class="pageContainer" id="ByInterest">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <a href="../Analytics">Analytics Home<i class="icon-right-open-big"></i></a>
+                <span>By Interests</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1>Report by Life Interests</h1>
+            </div>
+        </div>
+
+        <div class="reportContent">
+            <div id="stripesBackground"></div>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <label class="control-label">School:</label>
+                </div>
+                <div class="col-lg-5 col-md-5-col-sm-5 col-xs-12">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-school" data-toggle="dropdown">
+                            <span class="btnLabel" data-bind="test:label">
+                                @{
+                                    string teacher = ViewBag.Email;
+                                    List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllByPartition(teacher));
+                                    if (connections.Count == 0)
+                                    {
+                                        <script>
+                                            var noSchools = true;
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connections[0].RowKey);
+                                        @school.SchoolName;
+                                        <script>
+                                            var noSchools = false;
+                                        </script>
+                                    }
+                                }
+                            </span>
+
+                            <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                            @{
+
+                                if (connections.Count == 0)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">No schools added</a></li>
+                                }
+                                else
+                                {
+                                    foreach (SchoolToTeacherConnection connection in connections)
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connection.RowKey);
+                                        <li id="btn1" role="presentation"><a role="menuitem" tabindex="-1" href="#" data-rowkey="@school.RowKey" onclick="getGroups(this);">@school.SchoolName</a></li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
+                    <label class="control-label">Groups:</label>
+                </div>
+                <div class="col-lg-5 col-md-5-col-sm-5 col-xs-12">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-class" data-toggle="dropdown">
+                            <span class="btnLabel" data-bind="test:label">
+                                Select Group
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="groups" class="dropdown-menu" role="menu" aria-labelledby="dropdown-class"></ul>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div id="report">
+                <!--html javascript-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var teacher = '@ViewBag.Email';
+
+    /*Markup interest*/
+    var dimensions = [
+   { name: 'beauty', like: 250 },
+   { name: 'helping', like: 100 },
+   { name: 'adventure', like: 150 },
+   { name: 'safety', like: 250 },
+   { name: 'people', like: 250 },
+   { name: 'science', like: 250 },
+   { name: 'duty', like: 300 },
+   { name: 'admiration', like: 250 },
+   { name: 'creativity', like: 100 },
+   { name: 'competition', like: 250 },
+   { name: 'animals', like: 90 },
+   { name: 'politics', like: 250 },
+   { name: 'technology', like: 260 },
+   { name: 'machinery', like: 90 },
+   { name: 'handlabor', like: 90 },
+   { name: 'strength', like: 300 },
+   { name: 'drafting', like: 400 },
+   { name: 'coordinating', like: 350 },
+   { name: 'numbers', like: 230 },
+   { name: 'critical', like: 356 },
+   { name: 'salesy', like: 428 },
+    ];
+
+
+    function document_ready() {
+        $('#btn1>a').eq(0).click();
+        //  getData($('#allGroups'));
+        if (noSchools == true) {
+            $('.reportContent').html('<div class="noResultsError"><p>There are no schools added to your account.<p><a href="/Assessment/AddSchool">Go to add schools</a></div>');
+        }
+    }
+
+    function getLabelByInterest(interest) {
+        for (var i = 0; i < importantthingdefinitions.length; i++) {
+            if (importantthingdefinitions[i].name == interest) {
+                return importantthingdefinitions[i].label;
+            }
+        }
+        return interest;
+    }
+
+    function getGroups(school) {
+        $.ajax({
+            url: appserverurl + '/Analytics/GetGroupsForSchool',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: $(school).data('rowkey'),
+                teacher: teacher
+            }
+        }).success(function (response) {
+            var groups = response.results;
+            if (groups.length != 0) {
+                //var html = '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-school="' + $(school).data('rowkey') + '" data-rowkey="" onclick="getData(this)"></a></li>';
+                var html = '<li role="presentation"><a id="allGroups" role="menuitem" tabindex="-1" href="#" data-school="' + $(school).data('rowkey') + '" data-rowkey="' + groups.Group + '" onclick="getData(this)">All groups</a></li>';
+                for (var i = 0; i < groups.length; i++) {
+                    html += '<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-school="' + $(school).data('rowkey') + '" data-rowkey="' + groups[i].Group + '" onclick="getData(this)">' + groups[i].Group + '</a></li>'
+                }
+                $('#groups').html(html);
+                $('#allGroups').click();
+                $('#dropdown-class .btnLabel').text("All Groups");
+                //on dropdown change show value in button
+                $('.dropdown-menu li a').click(function () {                
+                    var chosenValue = $(this).text();
+                    $('#dropdown-class .btnLabel').text(chosenValue);
+                })
+            } else {
+
+            }
+        }).error(function (error) {
+
+        });
+    }
+
+    function getData(group) {
+        $.ajax({
+            url: appserverurl + '/analytics/GetDimensions',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: $(group).data('school'),
+                teacher: teacher,
+                group: $(group).data('rowkey')
+            }
+        }).success(function (response) {
+            var data = response.results;
+            var interest = '';
+            var i = 0;
+            var j = 0;
+            var html = '';
+
+
+            /* get  names & likes for interest from dimensions*/
+            var getotalLikes = 0;
+            for (var x = 0; x < dimensions.length; x++) {
+                if (dimensions.length != 0) {
+                    getotalLikes = getotalLikes + dimensions[x].like;
+                }
+                getotalLikes;
+            }
+
+
+            html += '<div class="row"><div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 statTitle text-right leftSide">Interest</div><div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 statTitle rightSide">Total</div></div>'
+            /* get Caption for Interest*/
+            for (j = 0; j < importantthingdefinitions.length ; j++) {
+                //html += '<div id="group" class="row">' +
+                //                '<div class="col-lg-10 col-md-offset-2 col-sm-12 col-xs-12">' +
+                //                    '<div>  <span data-width="0">&nbsp;</span><span class="text-center">' + importantthingdefinitions[j].caption + '</span></div>' +
+                //                    '</div>' +
+                //                '</div>' +
+                //             '</div>';
+                /*end/
+
+                /*get data-width*/
+                var defineWidthtoAnimate = 0;
+
+                defineWidthtoAnimate = getotalLikes / 100;
+                $attrWidth = parseInt(dimensions[j].like / defineWidthtoAnimate);
+                /*end*/
+
+                /* get interest name and likes*/
+                html += '<div class="row">' +
+                   '<div class="leftSide col-lg-6 col-md-6 col-sm-12 col-xs-12"><span class="right">' + importantthingdefinitions[j].caption + '</span></div>' +
+                   '<div class=" rightSide col-lg-6 col-md-6 col-sm-10 col-xs-10" >' +
+                   '<div class="statsBlock" data-width="' + $attrWidth + '"></div><span class="counter opacity" data-width="' + $attrWidth + '" data-from="0" data-to="' + dimensions[j].like + '" data-speed="1300"><a href="/Analytics/StudentList" data-width="' + $attrWidth + '" class="count"></a></span>' +
+                   '</div>' +
+                   '</div>';
+            }
+            /* start animation for likes statsBlock(class)*/
+            $('#report').html(html);
+            var $Items = $('.statsBlock');
+            var i = 0;
+            $Items.each(
+              function () {
+                  //$(this).delay(100 * i);
+                  $(this).animate({ width: $(this).attr('data-width') * 35 }, 500);
+                  i++
+              }
+              )
+
+            $("div").find(".counter");
+            var $ICount = $('.counter');
+            var j = 0;
+            $ICount.each(
+            function () {
+                //$(this).animate({ width: $(this).attr('data-to') }, 800);
+               // $(this).css({ width: $(this).attr('data-to') });
+            });
+
+            $.fn.countTo = function (options) {
+
+                options = options || {};
+
+                return $(this).each(function () {
+                    $(this).delay(100 * i);
+                    // set options for current element
+                    var settings = $.extend({}, $.fn.countTo.defaults, {
+                        from: $(this).data('from'),
+                        to: $(this).data('to'),
+                        speed: $(this).data('speed'),
+                        refreshInterval: $(this).data('refresh-interval'),
+                        decimals: $(this).data('decimals')
+                    }, options);
+
+                    // how many times to update the value, and how much to increment the value on each update
+                    var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                    increment = (settings.to - settings.from) / loops;
+
+                    // references & variables that will change with each update
+                    var self = this,
+                    $self = $(this),
+                    loopCount = 0,
+                    value = settings.from,
+                    data = $self.data('countTo') || {};
+
+                    $self.data('countTo', data);
+
+                    // if an existing interval can be found, clear it first
+                    if (data.interval) {
+                        clearInterval(data.interval);
+                    }
+                    data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                    // initialize the element with the starting value
+                    render(value);
+
+                    function updateTimer() {
+                        value += increment;
+                        loopCount++;
+
+                        render(value);
+
+                        if (typeof (settings.onUpdate) == 'function') {
+                            settings.onUpdate.call(self, value);
+                        }
+
+                        if (loopCount >= loops) {
+                            // remove the interval
+                            $self.removeData('countTo');
+                            clearInterval(data.interval);
+                            value = settings.to;
+
+                            if (typeof (settings.onComplete) == 'function') {
+                                settings.onComplete.call(self, value);
+                            }
+                        }
+                    }
+
+                    function render(value) {
+                        var formattedValue = settings.formatter.call(self, value, settings);
+                        $self.children('.count').html(formattedValue);
+                    }
+
+                });
+            };
+
+            $.fn.countTo.defaults = {
+                from: 0, // the number the element should start at
+                to: 0, // the number the element should end at
+                speed: 1000, // how long it should take to count between the target numbers
+                refreshInterval: 10, // how often the element should be updated
+                decimals: 1, // the number of decimal places to show
+                formatter: formatter, // handler for formatting the value before rendering
+                onUpdate: null, // callback method for every time the element is updated
+                onComplete: null // callback method for when the element finishes updating
+            };
+
+            /* ----------------------Counter------------------------------ */
+            if ($('.counter').length) {
+                var counter = $('.counter');
+                if (!Modernizr.touch) {
+                    counter.waypoint(function (direction) {
+                        if (direction == 'down') {
+                            counter.countTo();
+                        }
+                    }, { offset: '64%' });
+                } else { counter.countTo(); }
+            };
+
+            function formatter(value, settings) {
+                return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+            };
+
+
+
+            //var divpos = $("#careersSection").offset().top;
+            //var interval = setInterval(function () {
+            //    if ($(window).scrollTop() >= divpos - 650) {
+            //        var animDelay = 0;
+            //        $('.imageCell').each(function () {
+            //            $(this).delay(animDelay).show("scale", { percent: 100, origin: ["middle", "center"] }, 500)
+
+            //            animDelay += 500;
+            //        });
+            //        clearInterval(interval);
+            //    }
+            //}, 250);
+
+
+            // $('#textEditorOverlay').stop(true, true).delay(300).show("scale", { percent: 100, origin: ["middle", "center"] }, 500);
+
+
+
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+
+    //$(document.body).on('click', '.dropdown-menu li', function (event) {
+
+    //    var $target = $(event.currentTarget);
+
+    //    $target.closest('.dropdown')
+    //       .find('[data-bind="test:label"]').text($target.text())
+    //          .end()
+    //       .children('.dropdown-toggle').dropdown('toggle');
+    //    return false;
+    //});
+
+
+
+</script>
+
+
+
+

@@ -1,0 +1,128 @@
+﻿/*contact us*/
+
+#contactus {
+    min-height:100%;
+    background-color: #BECACD;
+    padding-bottom:0;
+}
+
+#contactus .container {
+    background-color: #fff;
+    padding-top:50px;
+}
+
+#contactus .shareDiv {
+    margin-top:50px;
+}
+
+#contactus h2 {
+    font-size:40px;
+    text-align:center;
+    font-weight:700;
+}
+
+#contactus h3 {
+    font-size: 34px;
+    text-transform: none;
+    margin-top: 70px;
+    font-family: 'open sans condensed';
+    text-align:center;
+}
+
+.email {
+    margin-top:40px;
+    font-size:30px;
+    text-align:center;
+}
+
+#contactus ul.social-icons li a {
+    width:70px;
+    height:70px;
+}
+
+#contactus ul.social-icons li i {
+    font-size: 32px;
+    line-height: 70px;
+}
+
+ #contactus .coloredSocialIcons ul.social-icons li i:hover {
+    font-size: 32px;
+    line-height: 70px;
+}
+
+ .email p {
+     font-weight:300;
+     margin:20px 0;
+ }
+
+ #mailIcon {
+    font-size: 40px;
+    border-radius: 50%;
+    padding: 15px;
+    display: inline-block;
+    background-color: rgb(128, 209, 125);
+    color: #fff;
+}
+
+#mailIcon:hover {
+    color: #a0a0a0;
+}
+
+.contactSection {
+    opacity:0;
+}
+
+/*@media only screen and (max-width:992px) {
+
+    .aboutContainer .container {
+        width:100%;
+    }
+
+}*/
+
+@media only screen and (max-width:768px) {
+
+    #contactus h2 {
+        font-size:28px;
+    }
+
+    #contactus h3 {
+        font-size:26px;
+    }
+
+    #contactus .shareDiv {
+        text-align:center;
+    }
+
+    .email {
+        margin-top:26px;
+    }
+
+    .email p {
+        font-size:20px;
+    }
+
+    #contactus .shareDiv {
+        margin-top:26px;
+    }
+
+   #contactus ul.social-icons li a {
+        width:50px;
+        height:50px;
+    }
+
+    #contactus ul.social-icons li i {
+        font-size: 22px;
+        line-height: 50px;
+    }
+
+     #contactus .coloredSocialIcons ul.social-icons li i:hover {
+        font-size: 22px;
+        line-height: 50px;
+    }
+
+     #mailIcon {
+         font-size:24px;
+     }
+
+}

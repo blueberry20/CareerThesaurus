@@ -1,0 +1,496 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers
+@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClient
+@{
+    ViewBag.SuppressNavigation = true;
+}
+
+<!--For tab-->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<!--End for tabs-->
+
+<script src="@Url.Content("~/Scripts/nicescroll/jquery.nicescroll.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Edit</title>
+    <style>
+        input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .editor-field {position: relative; float: left; clear: right; }
+        p {clear: both; margin-top: 100px;}
+        
+        th {text-align: center}
+        .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+        div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+        
+        html, body {padding: 0px; margin: 0px;}
+        * {font-family: Arial; font-size: 10pt;} 
+        * { outline: none; }
+        div.backdrop
+        {
+            background: #003f77;
+            background: -moz-linear-gradient(top,  #003f77 0%, #005fad 20%, #002342 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#003f77), color-stop(20%,#005fad), color-stop(100%,#002342));
+            background: -webkit-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+            background: -o-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+            background: -ms-linear-gradient(top,  #003f77 0%,#005fad 20%,#002342 100%);
+            background: linear-gradient(to bottom,  #003f77 0%,#005fad 20%,#002342 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#003f77', endColorstr='#002342',GradientType=0 );
+        }
+        h1 {color: #fff; font-size: 24pt; margin: 0px;}
+    </style>
+    <script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <link href="/content/css/pictureuploader/fileuploader.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    
+    @{
+        DirectEmployerClientCampusClient campusclient = new DirectEmployerClientCampusClient();
+        List<DirectEmployerClientCampus> campuses = new List<DirectEmployerClientCampus>(campusclient.GetAllByClientId(Model.RowKey));
+
+        DirectEmployerClientCampusProgramClient campusprogramclient = new DirectEmployerClientCampusProgramClient();
+        List<DirectEmployerClientCampusProgram> campusprograms = new List<DirectEmployerClientCampusProgram>(campusprogramclient.GetAllByClientId(Model.RowKey));
+    }
+
+    <div class="pagecontent " style="margin: 0 auto; background-color: rgba(@(Model.Status == "Paused" ? 255 : 0),@(Model.Status == "Live" ? 255 : 0),0,0.3); text-align: left; padding: 20px;">
+        @using (Html.BeginForm())
+        {
+                
+            <div style="position: fixed; top: 0px; right: 0px;">
+                @Html.DropDownListFor(model => model.Status, new SelectList(new List<object> {
+                                    new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" },
+                                        new { Value = "Demo", Text = "Demo" },
+                                        new { Value = "EmailOnly", Text = "Email Only" }
+                                }, "Value", "Text"), new { width = "100px" })
+                <input type="submit" value="Save" style="margin-top: -3px;"/>
+            </div>
+            
+            @Html.ValidationSummary(true)
+            
+            <div id="tabs" style="padding: 0px; border: none; background: none; background-color: rgba(0,0,0,0);">
+                <ul style="border: none; background: none; background-color: rgba(0,0,0,0);">
+                    <li><a href="#tabs-1">Preview</a></li>
+                    <li><a href="#tabs-2">HTML</a></li>
+                    <li style="margin-left: 20px;"><a href="#tabs-3">Edit Details</a></li>
+                    <li><a href="#tabs-4">Client Access</a></li>
+                    <li style="margin-left: 20px;"><a href="#tabs-5">Caps</a></li>
+                    <li><a href="#tabs-6">Notes</a></li>
+                    <li style="margin-left: 20px;"><a href="#tabs-7">Campuses (@campuses.Count())</a></li>
+                </ul>
+                <div id="tabs-1" style="padding: 0px;">
+                    <div style="width: 100%; text-align: center;" class="backdrop">
+                        <div style="position: absolute; left: -413px; top: 447px; background-color: rgba(0,0,0,1); padding: 20px; width: 860px; -webkit-transform: rotate(-90deg); text-align: center; font-size: 20pt; color: #fff;">
+                            @Model.Name
+                        </div>
+                        <div style="position: relative; margin: 0 auto; width: 904px; text-align: left;">
+                            <div id="previewpane" style="height: 900px;  margin: 0px;">
+                                @Html.Raw(Model.Html)
+                            </div>
+                            @Html.Partial("admin/slideshow")
+                        </div>
+                    </div>
+                </div>
+                <div id="tabs-2" style="padding: 0px;">
+                    <textarea id="Htmleditor" onkeydown="updatehiddenvariable('Html', 'Htmleditor'); showpreview();" onchange="updatehiddenvariable('Html', 'Htmleditor'); showpreview();" style="font-size: 10pt; font-family: Courier New; width: 100%;">@Model.Html</textarea>
+                    @Html.HiddenFor(model => model.Html)
+                </div>
+                <div id="tabs-3" style="padding: 0px;">
+                    <div style="margin: 0px 0 0 0; padding-top: 20px; border: thin solid #aaa; background-color: rgba(255,255,255,0.5);">
+                        <fieldset>
+                            <legend>Employer Logo</legend>
+                            
+                            <div class="editor-label">
+                                Logo image
+                            </div>
+
+                            <div class="editor-field">
+                                <div id="logocontainer">
+                                    <img src="https://chaindate.blob.core.windows.net/resources/employerlogos/@(Model.ClientType)@Model.RowKey" alt="Logo" style="max-width: 400px;"/>
+                                </div>
+                                <br />
+                                <div id="file-uploader-container" style="color:#333;"></div>
+                                @Html.ValidationMessageFor(model => model.Logo)
+                            </div>
+                            
+                        </fieldset>
+
+                        <fieldset>
+                            
+                            <div class="editor-label">
+                                Plain text Description
+                            </div>
+                            <div class="editor-field">
+                                <textarea id="descriptioneditor" onkeydown="updatehiddenvariable('Description', 'descriptioneditor');" onchange="updatehiddenvariable('Description', 'descriptioneditor');" style=" width: 400px;">@Model.Description</textarea>
+                                @Html.HiddenFor(model => model.Description)
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Identifiers</legend>
+        
+                            <div style="float: left; margin-right: 20px;">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.ClientType)
+                                </div>
+                                <div class="display-field">
+                                    @Model.ClientType
+                                </div>
+
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.ClientId)
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.ClientId)
+                                    @Html.ValidationMessageFor(model => model.ClientId)
+                                </div>
+    
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.FormId)
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.FormId)
+                                    @Html.ValidationMessageFor(model => model.FormId)
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Info</legend>
+
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.Category)
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.Category)
+                                @Html.ValidationMessageFor(model => model.Category)
+                            </div>
+
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.Name)
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.Name)
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+                <div id="tabs-4" style="padding: 0px;">
+                    <div style="margin: 0px 0 0 0; padding-top: 20px; border: thin solid #aaa; background-color: rgba(255,255,255,0.5);">
+                        <fieldset>
+                            <legend>Administrative Contact</legend>
+
+                            <div style="float: left; margin-right: 20px;">
+                                <div class="editor-label">
+                                    Administrative Contact Name
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.AdministrativeContactName)
+                                    @Html.ValidationMessageFor(model => model.AdministrativeContactName)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Administrative Contact Phone1
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.AdministrativeContactPhone1)
+                                    @Html.ValidationMessageFor(model => model.AdministrativeContactPhone1)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Administrative Contact Phone2
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.AdministrativeContactPhone2)
+                                    @Html.ValidationMessageFor(model => model.AdministrativeContactPhone2)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Administrative Contact Email
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.AdministrativeContactEmail)
+                                    @Html.ValidationMessageFor(model => model.AdministrativeContactEmail)
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <fieldset>
+                            <legend>Billing Contact</legend>
+
+                            <div style="float: left; ">
+                                <div class="editor-label">
+                                    Billing Contact Name
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.BillingContactName)
+                                    @Html.ValidationMessageFor(model => model.BillingContactName)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Billing Contact Phone1
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.BillingContactPhone1)
+                                    @Html.ValidationMessageFor(model => model.BillingContactPhone1)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Billing Contact Phone2
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.BillingContactPhone2)
+                                    @Html.ValidationMessageFor(model => model.BillingContactPhone2)
+                                </div>
+    
+                                <div class="editor-label">
+                                    Billing Contact Email
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.BillingContactEmail)
+                                    @Html.ValidationMessageFor(model => model.BillingContactEmail)
+                                </div>
+                            </div>
+                        </fieldset>
+                    
+            
+                        
+
+                        
+
+
+                        <fieldset>
+                            <legend>Delivery</legend>
+ 
+                            <div class="editor-label">
+                                Method
+                            </div>
+                            <div class="editor-field">
+                                @Html.DropDownListFor(model => model.DeliveryMethod,
+                                new SelectList(new List<object>
+                                {
+                                    new { Value = "", Text = "" },
+                                    new { Value = "Email", Text = "Email" },
+                                    new { Value = "AutoPost", Text = "AutoPost" },
+                                    new { Value = "EmailAutoPost", Text = "Email + AutoPost" }
+                                }, "Value", "Text"))
+                                @Html.ValidationMessageFor(model => model.DeliveryMethod)
+                            </div>
+
+                            <div class="editor-label">
+                                Frequency
+                            </div>
+                            <div class="editor-field">
+                                @Html.DropDownListFor(model => model.DeliveryFrequency,
+                                new SelectList(new List<object>
+                                {
+                                    new { Value = "", Text = "" },
+                                    new { Value = "RT", Text = "Real Time" },
+                                    new { Value = "Monday9am", Text = "9am Monday" },
+                                }, "Value", "Text"))
+                                @Html.ValidationMessageFor(model => model.DeliveryFrequency)
+                            </div>
+
+                            <div class="editor-label">
+                                Destination
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.DeliveryDestination)
+                                @Html.ValidationMessageFor(model => model.DeliveryDestination)
+                            </div>
+                            
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Client Logon</legend>
+                            <div class="editor-label">
+                                Username
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.UserName)
+                                @Html.ValidationMessageFor(model => model.UserName)
+                            </div>
+                            <div class="editor-label">
+                                Password
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Auto Posting</legend>
+                            <div class="editor-label">
+                                Lead Post URL
+                            </div>
+                            <div class="editor-field">
+                                <textarea id="LeadPostURLeditor" onkeydown="updatehiddenvariable('LeadPostURL', 'LeadPostURLeditor')" onchange="updatehiddenvariable('LeadPostURL', 'LeadPostURLeditor')" >@Model.LeadPostURL</textarea>
+                                @Html.HiddenFor(model => model.LeadPostURL)
+                                @Html.ValidationMessageFor(model => model.LeadPostURL)
+                            </div>
+                            <div class="editor-label">
+                                Lead Post Form
+                            </div>
+                            <div class="editor-field">
+                                <textarea id="LeadPostFormeditor" onkeydown="updatehiddenvariable('LeadPostForm', 'LeadPostFormeditor')" onchange="updatehiddenvariable('LeadPostForm', 'LeadPostFormeditor')" >@Model.LeadPostForm</textarea>
+                                @Html.HiddenFor(model => model.LeadPostForm)
+                                @Html.ValidationMessageFor(model => model.LeadPostForm)
+                            </div>
+                        </fieldset>
+                    </div>
+
+                        
+                </div>
+
+                <div id="tabs-5" style="padding: 0px;">
+                    <div style="margin: 0px 0 0 0; padding-top: 20px; border: thin solid #aaa; background-color: rgba(255,255,255,0.5);">
+                        <fieldset>
+                            <legend>Caps</legend>
+        
+                            <div class="editor-label">
+                                Caps by period
+                            </div>
+                            <div class="editor-field">
+                                <table width="400px">
+                                    <tr>
+                                        <th>Total</th>
+                                        <th>Annual</th>
+                                        <th>Monthly</th>
+                                        <th>Weekly</th>
+                                        <th>Daily</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="numberinput"><input type="text" name="TotalCap" value="@(Model != null ? Model.TotalCap.ToString() : "0")" /></td>
+                                        <td class="numberinput"><input type="text" name="AnnualCap" value="@(Model != null ? Model.AnnualCap.ToString() : "0")" /></td>
+                                        <td class="numberinput"><input type="text" name="MonthlyCap" value="@(Model != null ? Model.MonthlyCap.ToString() : "0")" /></td>
+                                        <td class="numberinput"><input type="text" name="WeeklyCap" value="@(Model != null ? Model.WeeklyCap.ToString() : "0")" /></td>
+                                        <td class="numberinput"><input type="text" name="DailyCap" value="@(Model != null ? Model.DailyCap.ToString() : "0")" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan=5>
+                                            @Html.ValidationMessageFor(model => model.TotalCap)
+                                            @Html.ValidationMessageFor(model => model.AnnualCap)
+                                            @Html.ValidationMessageFor(model => model.MonthlyCap)
+                                            @Html.ValidationMessageFor(model => model.WeeklyCap)
+                                            @Html.ValidationMessageFor(model => model.DailyCap)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            
+                <div id="tabs-6" style="padding: 0px;">
+                    <div style="margin: 0px 0 0 0; padding-top: 0px; border: thin solid #aaa; background-color: rgba(255,255,255,0.5);">
+                        <textarea id="noteseditor" onkeydown="updatehiddenvariable('Notes', 'noteseditor')" onchange="updatehiddenvariable('Notes', 'noteseditor')" style="width: 100%; min-height: 400px; padding: 0px;">@Model.Notes</textarea>
+                        @Html.HiddenFor(model => model.Notes)
+                    </div>
+                </div>
+
+                <div id="tabs-7" style="padding: 0px;">
+                    <div style="margin: 0px 0 0 0; padding-top: 20px; border: thin solid #aaa; background-color: rgba(255,255,255,0.5);">
+                        
+                        <fieldset>
+                            <legend>Campuses</legend>
+
+                            <div style="background-color: rgba(255,255,255,0.5); padding: 10px; border-radius: 10px 10px;">
+                            @Html.ActionLink("Create New", "Create", "DirectEmployerClientCampuses", new { clientid = Model.RowKey }, null)
+                            <table width=100%>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Programs</th>
+                                    <th>Actions</th>
+                                </tr>
+                                @foreach (DirectEmployerClientCampus campus in campuses)
+                                {
+                                <tr style="background-color: rgba(@(campus.Status == "Paused" ? 255 : 0),@(campus.Status == "Live" ? 255 : 0),0,0.3)">
+                                    <td>@Html.ActionLink(campus.Name, "Edit", "DirectEmployerClientCampuses", new { id = campus.RowKey }, null)</td>
+                                    <td>@campus.CampusType</td>
+                                    <td>@(campus.CampusType != "Online" ? campus.City + ", " + @campus.State : "")</td>
+                                    <td>@(campusprograms.Where(x => x.CampusRowKey == campus.RowKey).Count())</td>
+                                    <td>
+                                        <a href="javascript:duplicateCampus('@campus.Name', '@campus.RowKey');" onclick="">Duplicate</a>
+                                    </td>
+                                </tr>    
+                                }
+                            </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+                        
+            
+
+            
+            @Html.HiddenFor(model => model.RowKey)
+        }
+    
+        
+    </div>
+</body>
+</html>
+
+<script>
+    var uploader;
+
+    function document_ready() {
+        
+        uploader = new qq.FileUploader({
+            multiple: false,
+            element: document.getElementById('file-uploader-container'),
+            action: '/DirectEmployerClients/UploadLogo?clienttype=@(Model.ClientType)&clientid=@(Model.RowKey)',
+            debug: false,
+            onComplete: function (id, fileName, responseJSON) {
+                var d = new Date();
+                $('#logocontainer').html('<img style="" src="https://chaindate.blob.core.windows.net/resources/schoollogos/@(Model.ClientType)@Model.RowKey?' + d.getTime + '" />');
+            }
+        });
+
+        $('textarea').jtextarea();
+        $("#tabs").tabs();
+
+        createSlideShow('@(Model.ClientType)', '@(Model.ClientId)');
+    }
+
+    function showpreview() {
+        $('#previewpane').html($('#Html').val());
+    }
+
+    function updatehiddenvariable(fieldname, editorname) {
+        //debugalert($('#' + editorname).val());
+        $('#' + fieldname).val($('#' + editorname).val());
+           
+    }
+
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
+    }
+
+</script>
+
+<script>
+    function duplicateCampus(name, id) {
+        if (confirm('Are you sure you want to duplicate ' + name + ' campus with id ' + id + '?')) {
+            document.location = '/DirectEmployerClientCampuses/Duplicate/' + id;
+        }
+    }
+</script>
+

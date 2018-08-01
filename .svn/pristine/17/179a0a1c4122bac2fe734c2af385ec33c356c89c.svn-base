@@ -1,0 +1,228 @@
+﻿@{
+    ViewBag.Title = "Submit School";
+}
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer blueBackground" id="createSchoolPage">
+
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Submit school</h2>
+                            <p>If your school was not found in the list of schools, you can submit it on this page.  </p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <h1>Submit School</h1>
+        <div class="centerBox">
+            <div class="row">
+                <form method="POST" role="form">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolname">Official School Name:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolname" id="schoolname" value="">
+                                <p class="displayError">This filed cannot be empty</p>
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+                                <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolid">Official ID (if available):</label>
+                                <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" class="form-control required" name="schoolid" id="schoolid" value="">
+                                </div>
+                            </div>*@
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolphone">Primary Phone Number:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolphone" id="schoolphone" value="">
+                                <p class="displayError">Please enter a valid phone number</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schooladdress1">Address:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schooladdress1" id="schooladdress1" value="">
+                                <p class="displayError">This filed cannot be empty</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolcity">City:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolcity" id="schoolcity">
+                                <p class="displayError">This filed cannot be empty</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolstate">State:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolstate" id="schoolstate">
+                                <p class="displayError">This filed cannot be empty</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="schoolzip">School Zip Code:</label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" class="form-control required" name="schoolzip" id="schoolzip" onpaste="return false;" onkeypress="return isNumber(event, this.value);">
+                                <p class="displayError">Please enter a valid zip code</p>
+                            </div>
+                        </div>
+                        <div class="form-group row termsRow">
+                            <label class="shortLabel col-lg-4 col-md-4 col-sm-4 col-xs-12" for="classSelect"></label>
+                            <div class="shortField col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="checkbox" class="required">
+                                    <label>
+                                        I agree to the <a href="/About/Terms" target="_blank">Terms and Conditions</a> of using this site
+                                    </label>
+                                </div>
+                                <p class="displayError termsError">You haven't agreed to terms and conditions</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row lastFormRow">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-success loginBtn">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="output">
+                            @{
+                                if (ViewBag.Output == "done")
+                                {
+                                    <div>Your request to add school has been submited for review</div>
+                                    <div>You will be notified via email about result</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        })
+
+        $('form').submit(function (event) {
+            var valid = true;
+            $('.required').each(function (index, element) {
+                var name = $(element).attr('name');
+                var value = $(element).val();
+                switch (name) {
+                    //case 'schoolid':
+                    //    //optional it can be empty
+                    //    break;
+                    case 'schoolzip':
+                        if (!validateZip(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'schoolphone':
+                        if (!validatePhone(value)) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'checkbox':
+                        if (!$(element).is(':checked')) {
+                            valid = false;
+                            $('.termsError').show();
+                            $('.checkboxWrapper').addClass('hasError');
+                        } else {
+                            $('.termsError').hide();
+                            $('.checkboxWrapper').removeClass('hasError');
+                        }
+                        break;
+                    default:
+                        if (value == '' || value == null) {
+                            valid = false;                            
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        } else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    }
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+    function validateZip(zip) {
+        var reg = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/);
+        return reg.test(zip);
+    }
+    function validatePhone(phone) {
+        if (phone) {
+            var formattedNumber = formatPhoneNumber(phone.replace(/(\s|\.|\-|\(|\))/g, ''));
+            if (formattedNumber == "" || formattedNumber.length != 10) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    function formatPhoneNumber(str) {
+        var raw_number = str.replace(/([^0-9]|\.|\-|\(\))/g, '');
+        var regex1 = /^1?([2-9]..)([2-9]..)(....)$/;
+        if (!regex1.test(raw_number)) {
+            return "";
+        } else {
+            return raw_number.replace(regex1, '$1$2$3');
+        }
+    }
+</script>

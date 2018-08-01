@@ -1,0 +1,124 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "Administrator";
+}
+
+<!--================================ dministrator index================================================== -->
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" /> 
+
+<div class="pageContainer whiteBgPage" id="adminPage">
+    <div class="container positionRelative">
+        <div class="row orgRow">
+            <a href="/Analytics">Analytics Home</a>
+            <span>|</span>
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-6">
+                <span>Administrator Home</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row topRow">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 addLineHeight">
+                    <h1>My Schools</h1>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                    <a href="/Assessment/AddSchool" class="btn btn-success addSchoolBtn">Add School</a>
+                </div>
+            </div>
+            @{
+                string teacher = ViewBag.Email;
+                List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllByPartition(teacher));
+                if (connections.Count == 0)
+                {
+                    <div class="noSchoolsAdded row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mobileCenter addLineHeight">
+                            <p>You haven't associated yourself with any schools yet</p>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mobileCenter">
+                            <a href="/Assessment/AddSchool" class="btn btn-success addSchoolBtn">Add School</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (SchoolToTeacherConnection connection in connections)
+                    {
+                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connection.RowKey);
+                        <div class="schoolDiv row" data-rowkey="@school.RowKey">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <h2 class="schoolName">@school.SchoolName</h2>
+                                <p class="schoolAddress">@(school.Address + ", " + school.City + ", " + school.State + " " + school.ZipCode)</p>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                                <p class="addGroupLink">Add Group</p>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            <form action="/Assessment/School" method="post">
+                <input type="hidden" name="school" id="schoolValue" value="" />
+            </form>
+            @*<div class="schoolDiv row">
+                    <div class="col-lg-9">
+                        <h2 class="schoolName">SI Tech</h2>
+                        <p class="schoolAddress">485 Clawson St, Staten Island, NY 10306</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-info">View</button>
+                    </div>
+                </div>
+
+                <div class="schoolDiv row">
+                    <div class="col-lg-9">
+                        <h2 class="schoolName">SI Tech</h2>
+                        <p class="schoolAddress">485 Clawson St, Staten Island, NY 10306</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-info">View</button>
+                    </div>
+                </div>*@
+
+            <div class="analyzeResultsDiv row">
+                <div class="iconWrapper pull-left">
+                    <img class="graphicon " src="~/Content/images/analyticsiconbig.png" />
+                </div>
+                <div class="tableCell">
+                    <span>View Analytics</span>
+                    <p>View and Analyze Student Assessment Results.</p>
+                </div>
+                <div class="tableCell">
+                    <div class="row">
+                        <a href="/Analytics" type="button" class="btn btn-info desktopBtn viewReportsBtn">Go</a>
+                    </div>
+                </div>
+                <a href="/Analytics" type="button" class="btn btn-info mobileBtn viewReportsBtn">Go</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        //if schools were added, show add school button
+        if ($('.noSchoolsAdded').length == 0) {
+            $('.topRow .addSchoolBtn').css('display', 'inline-block');
+        }
+        else {
+            $('.topRow .addSchoolBtn').css('display', 'none');
+        }
+
+        $('.schoolDiv').click(function () {
+            $('#schoolValue').val($(this).data('rowkey'));
+            $('form').submit();
+            //window.location.href = '/Assessment/School';
+        });
+    }
+</script>

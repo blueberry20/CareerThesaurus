@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Click";
+}
+
+<div class="pageContainer">
+    <div id="schools"></div>
+</div>
+<script>
+    var ip = '@ViewBag.IPAddress';
+    function document_ready() {
+        getClickNet();
+    }
+    function getClickNet() {
+        $.ajax({
+            url: '/SandBox/getClickNet',
+            type: 'POST',
+            data: {
+                study: 'Business and MBA',
+                eduLevel: '',
+                degree: '',
+                ip: getCookie('ip') ? getCookie('ip') : ip
+            }
+        }).success(function (response) {
+            console.log(response);
+        }).error(function (error) {
+            console.log(error);
+        });
+    }
+</script>

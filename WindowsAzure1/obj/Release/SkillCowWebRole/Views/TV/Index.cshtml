@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "SkillCow TV";
+}
+
+<!-- saved from url=(0022)http://internet.e-mail -->
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="container">
+  
+    <h1 id="caption" class="content">Centered div</h1>
+  
+</div>
+</body>
+</html>
+<style>
+  body {background-color: #000; font-family: Roboto;}
+  * {color:white;}
+#container{
+   position: absolute;
+   top: 50%;
+   margin-top: 0px;/* half of #content height*/
+   left: 0;
+   width: 100%;
+text-align: center;
+}
+.content {
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   height: 100px;
+}
+</style>
+
+<script>
+
+    var headlines = [
+
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 0, outtime: 2000, trailtime: 0, text: 'Find a Job' },
+        { op1: 0, op2: 1, s1: 10, s2: 160, intime: 0, displaytime: 0, outtime: 2000, trailtime: 0, text: 'Get TRAINING' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 120, intime: 0, displaytime: 0, outtime: 2000, trailtime: 1000, text: 'Career Assessment' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 180, intime: 0, displaytime: 1000, outtime: 0, trailtime: 0, text: 'IGNORANCE' },
+        { op1: 0, op2: 1, s1: 10, s2: 180, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'IS' },
+        { op1: 0, op2: 1, s1: 10, s2: 180, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'NOT' },
+        { op1: 0, op2: 1, s1: 10, s2: 180, intime: 0, displaytime: 0, outtime: 2000, trailtime: 0, text: 'BLISS' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 120, intime: 0, displaytime: 5000, outtime: 0, trailtime: 0, text: '<span style="font-weight: 100; font-size: 120;">Visit</span> SkillCow<span style="font-weight: 100; font-size: 60;">.com</span>' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 1000, outtime: 0, trailtime: 0, text: 'FIND OUT' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'WHAT' },
+        { op1: 0, op2: 1, s1: 10, s2: 280, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'YOU' },
+        { op1: 0, op2: 1, s1: 10, s2: 280, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'WERE' },
+        { op1: 0, op2: 1, s1: 10, s2: 280, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'BORN' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'TO' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'DO' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'IN' },
+        { op1: 0, op2: 1, s1: 10, s2: 280, intime: 0, displaytime: 2000, outtime: 0, trailtime: 1000, text: 'LIFE' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 100, intime: 0, displaytime: 3000, outtime: 0, trailtime: 0, text: 'FREE Career Assessment' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 120, intime: 0, displaytime: 5000, outtime: 0, trailtime: 1000, text: '<span style="font-size: 120;">log on</span> <span style="font-weight: 100; font-size: 120;">to</span> SkillCow<span style="font-weight: 100; font-size: 60;">.com</span>' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 1000, outtime: 0, trailtime: 0, text: 'YOUR BRAIN' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'is' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 500, outtime: 0, trailtime: 0, text: 'already' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 500, outtime: 0, trailtime: 0, text: 'WIRED' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 500, outtime: 0, trailtime: 0, text: 'to perform' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'certain' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 300, outtime: 0, trailtime: 0, text: 'tasks' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 500, outtime: 0, trailtime: 0, text: 'BETTER' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 500, outtime: 1500, trailtime: 500, text: 'than OTHERS' },
+
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'DO' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'YOU' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'KNOW' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'WHAT' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 0, trailtime: 0, text: 'THEY' },
+        { op1: 0, op2: 1, s1: 10, s2: 220, intime: 0, displaytime: 200, outtime: 1500, trailtime: 1000, text: 'ARE?' }
+
+    ];
+    $(document).ready(function () {
+        run(0);
+    });
+
+    function run(index) {
+        var hl = headlines[index];
+        $('#caption').css('opacity', hl.op1);
+        $('#caption').css('font-size', hl.s1 + 'px');
+        $('#container').css('margin-top', (-hl.s1) + 'px');
+
+        $('#caption').html(hl.text);
+        $('#caption').animate({ 'opacity': hl.op2, 'font-size': hl.s2 + 'px', 'height': hl.s2 + 'px' }, hl.intime);
+        $('#container').animate({ 'margin-top': (-hl.s2 * 1.3) + 'px' }, hl.intime);
+
+        //Wait for intime
+        setTimeout(function () {
+            //Wait for displaytime
+            setTimeout(function () {
+                $('#caption').animate({ 'opacity': 0 }, hl.outtime);
+                //Wait for outtime
+                setTimeout(function () {
+                    setTimeout(function () {
+                        if (index < headlines.length - 1) {
+                            run(index + 1);
+                        }
+                        else {
+                            run(0);
+                        }
+                    }, hl.trailtime);
+                }, hl.outtime);
+            }, hl.displaytime);
+        }, hl.intime);
+
+    }
+</script>

@@ -1,0 +1,14 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClientCampusProgram
+
+<fieldset>
+    <legend>Keywords</legend>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Keywords)
+    </div>
+    <div class="editor-field">
+        <textarea id="Keywordseditor" onkeydown="updatehiddenvariable('Keywords', 'Keywordseditor');" onchange="updatehiddenvariable('Keywords', 'Keywordseditor');" >@Model.Keywords</textarea>
+        @Html.HiddenFor(model => model.Keywords)
+        @Html.ValidationMessageFor(model => model.Keywords)
+    </div>
+</fieldset>

@@ -1,0 +1,64 @@
+﻿.pageContainer {
+    padding: 50px 0 0;
+}
+
+.whiteBgPage h1 {
+    text-align:center;
+    display:block;
+    margin:20px;
+}
+
+h3 {
+    font-size: 23px;
+    font-weight: 700;
+    text-align: left;
+    margin: 20px 0 10px;
+    text-transform: none;
+    font-family: 'open sans condensed';
+}
+
+p, .pageContainer li {
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.pageContainer h2 {
+    margin: 25px 0 15px;
+    text-align:center;
+}
+
+.lessonDiv {
+    padding: 0 20px;
+}
+
+.divider {
+    width:200px;
+    height:1px;
+    background-color: rgb(23, 184, 214);
+    margin: 30px  auto;
+}
+
+@media screen and (max-width:768px) {
+    .pageContainer h2 {
+        text-align:center;
+    }
+
+    h3 {
+        font-size:20px;
+        text-align:center;
+    }
+
+    .divider {
+        margin:20px auto;
+    }
+}
+
+@media screen and (max-width:500px) {
+    p, .pageContainer li {
+        font-size:14px;
+    }
+
+    .whiteBgPage h1 {
+        margin: 10px;
+    }
+}

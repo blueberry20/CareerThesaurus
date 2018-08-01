@@ -1,0 +1,5 @@
+﻿@{
+    ViewBag.Title = "UdemyCourse";
+}
+
+<h2>UdemyCourse</h2>

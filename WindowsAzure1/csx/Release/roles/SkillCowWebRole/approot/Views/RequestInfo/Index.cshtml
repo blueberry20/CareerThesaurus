@@ -1,0 +1,144 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.Tests.SkillAssessment
+@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.CBNProfessions
+@using System.Text;
+@{
+    ViewBag.Title = "Request Info";
+}
+    <style>
+        
+        h2 {color: #ff5500; margin: 20px 20px 20px 0; }
+    </style>
+    <div class="container" style="background-color: rgba(255,255,255,0.5); border-top: thin solid #fff; ">
+        
+        <div style="display: inline-block; vertical-align: top; height: 100%; ">
+            <!--LEFT PANE-->
+            <div id="requestinfopane" class="requestinfopane">
+                
+                <div style="padding: 0 20px 20px 20px;">
+                
+                    <h2 style="clear: both;">Request to be contacted by a representative</h2>
+                    
+                    <div>
+                        @using (Html.BeginForm())
+                        {
+                            <table style="font-style: italic;">
+                                <tr>
+                                    <td>First name:</td>
+                                    <td width=180><input type="text" name="firstname"/> </td>
+                                    <td>Last name:</td>
+                                    <td><input type="text" name="lastname"/> </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Street address:</td>
+                                    <td colspan=3><input type="text" name="address1"/> </td>
+                                </tr>
+
+                                <tr>
+                                    <td>City</td>
+                                    <td><input type="text" name="city"/> </td>
+                                    <td>State</td>
+                                    <td><input type="text" name="state"/> </td>
+                                </tr>
+                                <tr>
+                                    <td>Zip</td>
+                                    <td><input type="text" name="zip"/> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Graduation year</td>
+                                    <td><input type="text" name="gradyear"/> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Your email</td>
+                                    <td><input type="text" name="email"/> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Your phone number</td>
+                                    <td><input type="text" name="phone"/> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                            </table>
+                            <input type="hidden" name="campus_key" value="0"/> 
+                            <input type="hidden" name="program_key" value="0"/> 
+                            <input type="hidden" name="address1" value="unknown"/> 
+                            <input type="hidden" name="client" value="20"/> 
+                            <input type="hidden" name="id" value="1727"/> 
+                            <input type="hidden" name="campaign_id" value="@(ViewBag.CBNCampaign)"/> 
+                            
+                            <br />
+                            <div style="text-align: left;">
+                            <input id="" class="submitinfo" type="submit" value="Submit" />    
+                            </div>
+                        }
+                
+                    </div>
+
+                    <p>
+                    By entering my information and clicking "Submit", I understand that I may be contacted by a SkillCow.com representative, text and/or phone regarding job openings, career services and educational opportunities. I also understand that SkillCow.com privacy policy governs the collection of this information.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!--RIGHT PANE-->
+        <div id="testresults" class="testresults">
+        
+            <div id="professioncontent" class="pane">
+            </div>
+            <div class="pane">
+                Don't have the right skills?  We're here to help!  Call us toll free for assistance.
+            
+                <div style="text-align: center;">
+                <h1 style="color: #3399cc; font-size: 26pt; margin: 10px 0 0 0;"><span class="vanitynumber">@(ViewBag.TollFreeNumberVanity)</span></h1>
+                or 1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span>
+                </div>
+            
+            </div>
+            
+        </div>
+
+        <div id="summarycontent" style="display:none;"></div>
+    </div>
+    <br />
+
+<script>
+    
+</script>
+
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/test.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/groupschools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/schools.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/resultmatching.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/showsummary.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/RequestInfo/statemapping.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<script>
+
+
+    function $allwithattributes_ready(data, container) {
+        professions = data.items;
+        showallprofessions();
+
+        if (!summaryshown) {
+            showsummary();
+        }
+    }
+
+    function $test1_ready(data, container) {
+        questions = data.items;
+        loadtestquestions();
+    }
+    
+    
+</script>

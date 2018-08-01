@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Email Results";
+}
+
+<link href="~/Content/css/Skilltest/locked.css" rel="stylesheet" />
+<link href="~/Content/css/Skilltest/EmailResults.css" rel="stylesheet" />
+
+<div class="pageContainer lockedMode" id="emailResultsPage">
+    <div class="container">
+        
+        <form id="emailForm" method="post">
+            <h1>Email me my test results</h1>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-3 col-md-4" for="name">Your Name</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="text" class=" form-control required" name="name" id="name" value="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="shortLabel col-lg-3 col-md-4" for="email">Your E-mail</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="email" class=" form-control required" name="email" id="email" value="">
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" id="joinNewsletterBtn" class="btn btn-default">Ok</button>
+            </div>
+            <p class="errorMsg"></p>
+        </form>
+
+        <div class="extraMargin text-center">
+            <a href="/TakeTest/SchoolResults">No, thanks</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="adsenseResponsive">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- CareerThesaurus -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3486420009474810"
+                 data-ad-slot="6576327288"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $('#regularMenu, footer').hide();
+        $('#lockedModeMenu').show();
+        $("form").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+        $('#joinNewsletterBtn').click(function () {
+            if (validateName($('#name').val()) && validateEmail($('#email').val())) {
+                setCookie('resultsEmailed', 'yes', 365);
+                $('form').submit();
+            }
+            else {
+                if (!validateName($('#name').val()) && validateEmail($('#email').val())) {
+                    // alert('name not valid');
+                    $('.errorMsg').text('Please enter a valid name');
+                } else if (!validateEmail($('#email').val()) && validateName($('#name').val())) {
+                    // alert('email not valid');
+                    $('.errorMsg').text('Please enter a valid email');
+                }
+                else {
+                    $('.errorMsg').text('Please enter a valid name and email');
+                }
+            }
+        });
+    }
+
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+</script>

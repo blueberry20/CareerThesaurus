@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_MobileLayout.cshtml";
+    ViewBag.Title = "Job Opening";
+    ViewBag.IncludeIndeedTrackingScript = true;
+}
+
+<h3 style="margin-top: 0px;">Now hiring</h3>
+<div id="jobtitle" style="font-size: 12pt;"></div>
+<br />
+<div id="company" style="font-size: 10pt;"></div>
+<div id="formattedLocation" style="font-size: 10pt;"></div>
+
+<p id="snippet" style="font-size: 10pt; padding: 0 5px 5px 0;">
+    
+</p>
+
+<a id="buttonlink" onmousedown="" href="" style="text-decoration: none;">
+    <div class="actionbutton">
+        <span>View &amp; Apply now</span>
+        <span><img style="position: absolute; display: block; top: -20px; opacity: 0.5;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+    </div>
+</a>
+
+
+<p id="formattedRelativeTime" style="font-size: 10pt; color: #555;">
+    
+</p>
+<br />
+
+<span id="indeed_at"  style="font-size: 10pt;"><a href="http://www.indeed.com/">jobs</a> by <a href="http://www.indeed.com/" title="Job Search"><img src="http://www.indeed.com/p/jobsearch.gif" style="border: 0; vertical-align: middle;" alt="Indeed job search"></a></span>
+
+
+
+<script>
+
+    //Get job details
+    $(document).ready(function () {
+
+
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobdescriptions",
+            type: "POST",
+            dataType: "json",
+            data: {
+                jobkeys: '@(ViewBag.JobKey)'
+            }
+        }).success(function (response) {
+            for (var i = 0; i < response.results.results.length; i++) {
+                $('#pagetitle').html(response.results.results[i].jobtitle);
+                $('#jobtitle').html(response.results.results[i].jobtitle);
+                $('#company').html(response.results.results[i].company);
+                $('#formattedLocation').html(response.results.results[i].formattedLocationFull);
+
+                if (response.results.results[i].snippet != null) {
+                    $('#snippet').html(response.results.results[i].snippet);
+                }
+
+                if (response.results.results[i].formattedRelativeTime != null) {
+                    $('#formattedRelativeTime').html('Posted ' + response.results.results[i].formattedRelativeTime);
+                }
+
+                $('#buttonlink').attr('onmousedown', response.results.results[i].onmousedown);
+                $('#buttonlink').attr('href', response.results.results[i].url);
+
+                break;
+            }
+        }).error(function () { });
+    });
+    
+</script>

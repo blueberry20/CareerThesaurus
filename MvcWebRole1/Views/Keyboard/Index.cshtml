@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Keyboard Tests";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+<h2>Keyboard Tests</h2>
+
+<div>
+    <div style="display: inline-block;">Your Email: </div>
+    <div id="email" class="emailinput" style="width:300px; padding: 10px; font-size: 12pt; color: #fff; border: thin solid rgba(255,255,255,0.5); display: inline-block;"></div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $('.emailinput').press(function () {
+            showKeyboardForEmail(this);
+        });
+        
+    }
+</script>
+
+

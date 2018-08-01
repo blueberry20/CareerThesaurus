@@ -1,0 +1,124 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Employers.DirectEmployerClient
+@{
+    ViewBag.Title = "Create Employer";
+}
+    
+    <script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,500' rel='stylesheet' type='text/css' />
+
+    <style>
+        input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; height: 100px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 120px;}
+        .editor-field {position: relative; float: left; clear: right;}
+        p {clear: both; margin-top: 100px;}
+        fieldset {position: relative;}
+        legend {position: relative; font-family: 'Roboto', sans-serif; font-weight: 100; font-size: 24pt;}
+        div.step { position: relative; font-family: Arial; font-weight: bold;font-size: 24pt; background-color: #6699cc; color: #fff; border-radius: 40px 40px; width: 80px; height: 60px; display: inline-block; top: 0px; text-align: center; padding-top: 20px; margin-right: 20px;}
+    </style>
+    
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">    
+    <h1>Create New Direct Employer Client</h1>
+    <br /><br />
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend><div class="step">1</div>Identifiers</legend>
+        
+            <div style="float: left; margin-right: 20px;">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Status)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Status, new SelectList(new List<object> {
+                                    new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" },
+                                        new { Value = "Demo", Text = "Demo" },
+                                        new { Value = "EmailOnly", Text = "Email Only" }
+                                }, "Value", "Text"), new { width = "100px" })
+                    @Html.ValidationMessageFor(model => model.Status)
+                </div>
+
+                <div class="editor-label">
+                    Client type
+                </div>
+                <div class="editor-field">
+                    <select id="ClientType" name="ClientType">
+                        <option selected=true value="direct">Direct</option>
+                        <option value="network">Network</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.ClientType)
+                </div>
+
+                <div class="editor-label">
+                    Client ID
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ClientId)
+                    @Html.ValidationMessageFor(model => model.ClientId)
+                </div>
+    
+                <div class="editor-label">
+                    Form ID
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.FormId)
+                    @Html.ValidationMessageFor(model => model.FormId)
+                </div>
+            </div>
+            
+        </fieldset>
+        <fieldset>
+            <legend><div class="step">2</div>Info</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Category) (optional)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Category)
+                @Html.ValidationMessageFor(model => model.Category)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </fieldset>
+        
+        
+        <fieldset>
+            <legend><div class="step">3</div>Notes</legend>
+            <div class="editor-label">
+                &nbsp;
+            </div>
+            <div class="editor-field">
+                <textarea id="Notes" name="Notes"></textarea>
+                @Html.ValidationMessageFor(model => model.Notes)
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <div class="editor-label">
+                &nbsp;
+            </div>
+            <div class="editor-field">
+                <input type="submit" value="Create" />
+            </div>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+<script>
+    function document_ready() {
+        $('textarea').jtextarea();
+    }
+</script>

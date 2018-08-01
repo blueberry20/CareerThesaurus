@@ -1,0 +1,145 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    ViewBag.Title = "Admin";
+}
+<style>
+    img {
+        max-height: 200px;
+        max-width: 200px;
+        display: none;
+    }
+
+    .code {
+        display: none;
+        height: 20px !important;
+        line-height: 20px !important;
+    }
+</style>
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <form role="form" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" id="category" name="category">
+                        @{
+                            List<BlogCategory> categories = new List<BlogCategory>(bcc.GetAllByPartition("blogCategory"));
+                            if (categories.Count != 0)
+                            {
+                                foreach (BlogCategory category in categories)
+                                {
+                                    <option value="@category.Category">@category.Category</option>
+                                }
+                            }
+                        }
+                    </select>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="newCategoryInput">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="newCategoryBtn">Add category</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="textbox">Article</label>
+                    <textarea class="form-control" rows="10" id="textbox" name="text"></textarea>
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="inputFile[0]">File input</label>
+                    <input type="file" name="inputFile[0]" id="inputFile[0]">
+                    <input type="text" name="inputCode[0]" class="code" readonly />
+                    <img src="#" class="imagePreview" />
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="inputFile[1]">File input</label>
+                    <input type="file" name="inputFile[1]" id="inputFile[1]">
+                    <input type="text" name="inputCode[1]" class="code" readonly />
+                    <img src="#" class="imagePreview" />
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="inputFile[2]">File input</label>
+                    <input type="file" name="inputFile[2]" id="inputFile[2]">
+                    <input type="text" name="inputCode[2]" class="code" readonly />
+                    <img src="#" class="imagePreview" />
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="inputFile[3]">File input</label>
+                    <input type="file" name="inputFile[3]" id="inputFile[3]">
+                    <input type="text" name="inputCode[3]" class="code" readonly />
+                    <img src="#" class="imagePreview" />
+                </div>
+                <input type="hidden" name="author" value="@ViewBag.Email"/>
+            </form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-default" id="uploadBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        sortOptions();
+        var regex = new RegExp('image');
+        $('[type="file"]').change(function () {
+            var element = this;
+            if (this.files && this.files[0] && regex.test(this.files[0].type)) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(element).siblings('.imagePreview').attr('src', e.target.result).show();
+                    $(element).siblings('.code').val('{{' + s4() + '}}').show();
+                }
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                $(element).siblings('.imagePreview').attr('src', '#').hide();
+                $(element).siblings('.code').val('').hide();
+            }
+        });
+        $('#newCategoryBtn').click(function () {
+            var reg = new RegExp(/[a-zA-Z0-9]+/);
+            var categoryName = $('#newCategoryInput').val();
+            if (reg.test(categoryName) && categoryName.length > 2) {
+                $.post('newcategory', { newcategory: categoryName }).success(function (response) {
+                    if (response.result == 'ok') {
+                        $('#category').append('<option value="' + categoryName + '">' + categoryName + '</option>');
+                        $('#newCategoryInput').val('');
+                        sortOptions();
+                    }
+                }).error(function (error) {
+                    console.log(error);
+                });
+            }
+        });
+        $('#uploadBtn').click(function () {
+            var title = $('#inputTitle').val();
+            var category = $('#category').val();
+            var article = $('#textbox').val();
+            if (title.length > 3 && category != null && category != '' && article.length > 10) {
+                $('form').submit();
+            }
+        });
+    }
+    function sortOptions() {
+        var options = $('#category option');
+        if (options) {
+            options.sort(function (a, b) {
+                if (a.text > b.text) return 1;
+                else if (a.text < b.text) return -1;
+                else return 0
+            });
+        }
+        $('#category').html(options);
+    }
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+                   .toString(16)
+                   .substring(1);
+    }
+</script>

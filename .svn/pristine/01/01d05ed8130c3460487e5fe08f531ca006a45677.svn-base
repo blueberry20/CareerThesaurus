@@ -1,0 +1,363 @@
+﻿using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+using SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection;
+using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating; 
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+using SkillCowResponsive.Classes.Encryption;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Helpers;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AssessmentController : AuthenticatedControllerController
+    {
+        public string zipcode { get; set; }
+        public string[] dimensions = { "attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation" };
+
+        List<ImportantThings> importantThings = new List<ImportantThings>() {
+            new  ImportantThings { name = "beauty", caption = "Beauty & Visual Perfection" },
+            new  ImportantThings { name = "helping", caption = "Helping Others" },
+            new  ImportantThings { name = "adventure", caption = "Risk & Adventure" },
+            new  ImportantThings { name = "safety", caption = "Safety of Others" },
+            new  ImportantThings { name = "people", caption = "Working with People" },
+            new  ImportantThings { name = "science", caption = "Scientific Methods & Precision" },
+            new  ImportantThings { name = "duty", caption = "Sense of Duty" },
+            new  ImportantThings { name = "admiration", caption = "Being in a Spot Light" },
+            new  ImportantThings { name = "creativity", caption = "Creativity" },
+            new  ImportantThings { name = "competition", caption = "Competitiveness" },
+            new  ImportantThings { name = "animals", caption = "Nature & Animals" },
+            new  ImportantThings { name = "politics", caption = "Politics & Strategy" },
+            new  ImportantThings { name = "technology", caption = "Technology & Gadgets" },
+            new  ImportantThings { name = "machinery", caption = "Machinery" },
+            new  ImportantThings { name = "handlabor", caption = "Hand Labor" },
+            new  ImportantThings { name = "strength", caption = "Using Body Strength" },
+            new  ImportantThings { name = "drafting", caption = "Drafting & Sketching" },
+            new  ImportantThings { name = "coordinating", caption = "Coordinating Groups" },
+            new  ImportantThings { name = "numbers", caption = "Working with Numbers" },
+            new  ImportantThings { name = "critical", caption = "Giving Critical Advice" },
+            new  ImportantThings { name = "salesy", caption = "Salesiness" }
+        };
+        //
+        // GET: /Assessment/
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(FormCollection collection)
+        {
+            UserAccountClient aac = new UserAccountClient();
+            UserAccount account = aac.Logon(collection["email"], collection["password"]);
+            if (account == null)
+            {
+                ViewBag.ErrorMessage = "Invalid Username or Password";
+                return View();
+            }
+
+            string sessionkey = ClientSession.GetClientSessionKey("user", collection["email"], account.FirstName + " " + account.LastName, account.ProfileType);
+            Response.Cookies["sessionkey"].Value = sessionkey;
+            Response.Cookies["sessionusername"].Value = collection["email"];
+            if (account.ProfileType == "administrator")
+            {
+                return RedirectToAction("Administrator");
+            }
+            else
+            {
+                StudentProfileClient spc = new StudentProfileClient();
+                StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(account.Email), account.Email);
+                Response.Cookies["firstname"].Value = account.FirstName;
+                Response.Cookies["lastname"].Value = account.LastName;
+                Response.Cookies["email"].Value = account.Email;
+                Response.Cookies["gender"].Value = student.Gender;
+                AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+                for (var i = 0; i < dimensions.Length; i++)
+                {
+                    AssessmentDimensionsRating dimensionsRating = adrc.GetByPartitionAndRowKey(student.School, account.Email + dimensions[i]);
+                    if (dimensionsRating != null)
+                    {
+                        Response.Cookies[dimensions[i]].Value = dimensionsRating.Value;
+                    }                                    
+                }
+                return RedirectToAction("Student", "Assessment");
+            }            
+        }
+
+        public ActionResult Logout()
+        {
+            if (AuthTokens[3] == "student")
+            {
+                Response.Cookies["gender"].Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies["firstname"].Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies["lastname"].Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies["email"].Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies["question1"].Expires = DateTime.Now.AddDays(-1d);
+                for (var i = 0; i < dimensions.Length; i++) {
+                    Response.Cookies[dimensions[i]].Expires = DateTime.Now.AddDays(-1d);
+                }
+                HttpCookieCollection cookies = Request.Cookies;
+                for (var i = 0; i < cookies.Count; i++)
+                {
+                    string cookiename = cookies[i].Name;
+                    if (cookiename.Contains("dolcode_"))
+                    {
+                        Response.Cookies[cookiename].Expires = DateTime.Now.AddDays(-1d);
+                    }
+                }
+            }
+            Response.Cookies["sessionkey"].Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies["sessionusername"].Expires = DateTime.Now.AddDays(-1d);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Administrator()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Student()
+        {
+            string user = AuthTokens[1];
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            List<AssessmentInterestRating> importantThingRatings = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndStudent(student.School, user));
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            List<AssessmentCareerRating> careerRatings = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(student.School, user));
+            ViewBag.CareersRated = careerRatings.Count == 0 ? "no" : "yes";
+            ViewBag.School = student.School;
+            if (importantThingRatings.Where(x => x.Rating == "1").ToList().Count == 3)
+            {
+                ViewBag.ImportantThings = "yes";
+            }
+            //else if (importantThingRatings.Count != 0)
+            //{
+            //    ViewBag.ImportantThings = "some";
+            //}
+            else 
+            {
+                ViewBag.ImportantThings = "no";
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RateInterests()
+        {
+            string user = AuthTokens[1];
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            ViewBag.School = student.School;
+            ViewBag.importantThings = importantThings;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddSchool()
+        {
+            if (zipcode != null)
+            {
+                ViewBag.ZipCode = zipcode;
+                zipcode = null;          
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateSchool()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateSchool(FormCollection collection)
+        {
+            //SchoolAccountClient sac = new SchoolAccountClient();
+            //sac.AddNewItem(new SchoolAccount { SchoolName = collection["schoolname"], Address = collection["schooladdress1"], City = collection["schoolcity"], State = collection["schoolstate"], ZipCode = collection["schoolzip"], PhoneNumber = collection["schoolphone"], OfficialID = collection["schoolid"] });
+            //zipcode = collection["schoolzip"];
+            return RedirectToAction("AddSchool", "Assessment");
+        }
+        [HttpGet]
+        public ActionResult School()
+        {
+            return RedirectToAction("Administrator", "Assessment"); ;
+        }
+        [HttpPost]
+        public ActionResult School(string school)
+        {
+            ViewBag.School = school;
+            return View();
+        }
+        [HttpPost]
+        public HttpResponse GetSchoolsByZip(string zipcode)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            List<SchoolAccount> schoolList = new List<SchoolAccount>(sac.GetByZipCode(zipcode));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string response = schoolList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(schoolList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse AddSchoolPost(string rowkey)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            SchoolAccount school = sac.GetByPartitionAndRowKey("school", rowkey);
+            string response = "";
+            if (school != null)
+            {
+                AdminProfileClient apc = new AdminProfileClient();
+                AdminProfile admin = apc.GetByPartitionAndRowKey("adminProfile", AuthTokens[1].ToLower());
+                if (admin != null)
+                {
+                    TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+                    TeacherToSchoolConnection connection = ttscc.GetByPartitionAndRowKey(rowkey, admin.RowKey);
+                    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+                    SchoolToTeacherConnection s2tconnection = sttcc.GetByPartitionAndRowKey(admin.RowKey, rowkey);
+                    if (connection == null)
+                    {
+                        ttscc.AddNewItem(new TeacherToSchoolConnection { PartitionKey = rowkey, RowKey = admin.RowKey });
+                        sttcc.AddNewItem(new SchoolToTeacherConnection { PartitionKey = admin.RowKey, RowKey = rowkey });
+                        response = "{\"result\": \"done\"}";
+                    }
+                    else
+                    {
+                        response = "{\"result\": \"already exist\"}";
+                    }
+                }
+                else
+                {
+                    response = "{\"result\": \"fail\"}";
+                }                    
+            }
+            else
+            {
+                response = "{\"result\": \"fail\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public void SaveInterest(string user, string interest, string rating)
+        {
+            StudentProfileClient spc = new StudentProfileClient();
+            StudentProfile student = spc.GetByPartitionAndRowKey(StudentProfileClient.GetPartitionKeyForEmail(user), user);
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            AssessmentInterestRating interestRating = airc.GetByPartitionAndRowKey(student.School, user + interest);
+            if (interestRating == null)
+            {
+                airc.AddNewItem(new AssessmentInterestRating { PartitionKey = student.School, RowKey = user + interest, Interest = interest, Rating = rating, GradYear = student.GradYear, Student = user, Teacher = student.Teacher, Group = student.Group });
+            }
+            else
+            {
+                interestRating.Rating = rating;
+                airc.Update(interestRating);
+            }
+        }
+        [HttpPost]
+        public HttpResponse CreateGroup(string school, string teacher, string group)
+        {
+            string response;
+            string pincode = getUniquePinCode(school);
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            agc.AddNewItem(new AssessmentGroup { PartitionKey = school, RowKey = pincode, Teacher = teacher, Group = group });
+            response = "{\"result\": \"ok\", \"pincode\": \"" + pincode + "\"}";
+
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        private string getUniquePinCode(string school)
+        {
+            string pincode = PinCodeGenerator.NewPin();
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            AssessmentGroup groupEntry = agc.GetByPartitionAndRowKey(school, pincode);
+            while (groupEntry != null)
+            {
+                pincode = PinCodeGenerator.NewPin();
+                groupEntry = agc.GetByPartitionAndRowKey(school, pincode);
+            }
+            return pincode;
+        }
+        [HttpPost]
+        public HttpResponse ChangePinCode(string school, string oldpin, string newpin)
+        {
+            string response;
+
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            AssessmentGroup newgroup = agc.GetByPartitionAndRowKey(school, newpin);
+            if (newgroup != null)
+            {
+                response = "{\"result\": \"exist\"}";
+            }
+            else
+            {
+                AssessmentGroup oldgroup = agc.GetByPartitionAndRowKey(school, oldpin);
+                string teacher = oldgroup.Teacher;
+                string group = oldgroup.Group;
+                agc.Delete(oldgroup);
+                agc.AddNewItem(new AssessmentGroup { PartitionKey = school, RowKey = newpin, Teacher = teacher, Group = group });
+                response = "{\"result\": \"ok\"}";
+            }
+            
+
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        private bool checkPinCode(string pin) 
+        {
+            Regex duplicates = new Regex(@"/^(?:([A-Za-z0-9])(?!.*\1))*$/");
+            Regex format = new Regex(@"/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{5,}$/");
+            return duplicates.IsMatch(pin) && format.IsMatch(pin);
+        }
+        public void DeleteProfileRecords()
+        {
+            AdminProfileClient apc = new AdminProfileClient();
+            UserAccountClient uac = new UserAccountClient();
+            StudentProfileClient spc = new StudentProfileClient();
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+
+            //apc.DeleteTable();
+            //uac.DeleteTable();
+            //spc.DeleteTable();
+            //agc.DeleteTable();
+        }
+        public void DeleteSchools()
+        {
+            //SchoolAccountClient sac = new SchoolAccountClient();
+            TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+            SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+            //sac.DeleteTable();
+            //ttscc.DeleteTable();
+            //sttcc.DeleteTable();
+        }
+        public void DeleteResults()
+        {
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+
+            //acrc.DeleteTable();
+            //adrc.DeleteTable();
+            //airc.DeleteTable();
+        }
+    }
+}

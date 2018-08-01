@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Net;
+using System.Net.Mail;
+using SendGridMail;
+using SendGridMail.Transport;
+using System.Web.Security;
+using SkillCow.Classes.Cloud.TableStorage;
+
+namespace SkillCow.Classes.DeferredProcesses
+{
+    public class DeferredEmailSender : DeferredProcess
+    {
+        static string _mailaccountusername = "nycdude777";
+        static string _mailaccountpassword = "pendejos$15";
+
+        public string FromEmail { get; set; }
+        public string FromDisplay { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+
+        protected override DeferredProcessExitCode Execute(MessageBroker messageBroker)
+        {
+            try
+            {
+                
+                AddresseeClient ac = new AddresseeClient();
+                Addressee a = ac.GetByPartitionAndRowKey(AddresseeClient.GetPartitionKeyForEmail(To), To);
+                if (a.Unsubscribed)
+                {
+                    return DeferredProcessExitCode.NothingToDo;
+                }
+
+                SendGrid myMessage = SendGrid.GetInstance();
+
+                myMessage.From = new MailAddress(FromEmail, FromDisplay);
+                myMessage.Subject = Subject;
+
+                myMessage.AddTo(To);
+                myMessage.Html = Body;
+
+                SendByWeb(myMessage);
+
+                return DeferredProcessExitCode.Success;
+            }
+            catch
+            {
+                return DeferredProcessExitCode.Error;
+            }
+        }
+
+        private bool SendByWeb(SendGrid myMessage)
+        {
+            // Create credentials, specifying your user name and password.
+            var credentials = new NetworkCredential(_mailaccountusername, _mailaccountpassword);
+
+            // Create an REST transport for sending email.
+            var transportWeb = Web.GetInstance(credentials);
+
+            // Send the email.
+            transportWeb.Deliver(myMessage);
+
+            return true;
+        }
+    }
+}

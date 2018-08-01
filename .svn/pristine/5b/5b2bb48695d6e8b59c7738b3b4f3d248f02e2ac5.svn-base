@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .resultattribute {margin: 10px 20px 10px 20px; display: none; }
+</style>
+<p id="_attitude_introvert" class="resultattribute _attitude">
+    @Html.Partial("_attitude_introvert")
+</p>
+<p id="_attitude_extravert" class="resultattribute _attitude">
+    @Html.Partial("_attitude_extravert")
+</p>
+<p id="_information_facts" class="resultattribute _information">
+    @Html.Partial("_information_facts")
+</p>
+<p id="_information_imagination" class="resultattribute _information">
+    @Html.Partial("_information_imagination")
+</p>
+<p id="_processing_rational" class="resultattribute _processing">
+    @Html.Partial("_processing_rational")
+</p>
+<p id="_processing_emotional" class="resultattribute _processing">
+    @Html.Partial("_processing_emotional")
+</p>
+<p id="_process_or_result_process" class="resultattribute _process_or_result">
+    @Html.Partial("_process_or_result_process")
+</p>
+<p id="_process_or_result_result" class="resultattribute _process_or_result">
+    @Html.Partial("_process_or_result_result")
+</p>
+<p id="_endurance_stationary" class="resultattribute _endurance">
+    @Html.Partial("_endurance_stationary")
+</p>
+<p id="_endurance_mobile" class="resultattribute _endurance">
+    @Html.Partial("_endurance_mobile")
+</p>
+<p id="_presence_present" class="resultattribute _presence">
+    @Html.Partial("_presence_present")
+</p>
+<p id="_presence_remote" class="resultattribute _presence">
+    @Html.Partial("_presence_remote")
+</p>
+<p id="_concentration_relaxed" class="resultattribute _concentration">
+    @Html.Partial("_concentration_relaxed")
+</p>
+<p id="_concentration_focused" class="resultattribute _concentration">
+    @Html.Partial("_concentration_focused")
+</p>
+<p id="_patterns_discover" class="resultattribute _patterns">
+    @Html.Partial("_patterns_discover")
+</p>
+<p id="_patterns_routine" class="resultattribute _patterns">
+    @Html.Partial("_patterns_routine")
+</p>
+<p id="_compensation_fixed" class="resultattribute _compensation">
+    @Html.Partial("_compensation_fixed")
+</p>
+<p id="_compensation_variable" class="resultattribute _compensation">
+    @Html.Partial("_compensation_variable")
+</p>

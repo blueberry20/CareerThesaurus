@@ -1,0 +1,288 @@
+﻿@model IEnumerable<SkillCow.Classes.Cloud.TableStorage.PersonalityTests.CBNProfessions.CBNProfession>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <table>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Profession
+            </th>
+            <th>
+                CareerVertical
+            </th>
+            <th>
+                Discipline
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Program
+            </th>
+            <th>
+                Attitude
+            </th>
+            <th>
+                Information
+            </th>
+            <th>
+                Evidence
+            </th>
+            <th>
+                Processing
+            </th>
+            <th>
+                Action
+            </th>
+            <th>
+                Endurance
+            </th>
+            <th>
+                Presence
+            </th>
+            <th>
+                Concentration
+            </th>
+            <th>
+                Patterns
+            </th>
+            <th>
+                Compensation
+            </th>
+            <th>
+                ProgramId
+            </th>
+            <th>
+                DisplayName
+            </th>
+            <th>
+                ImageUrl
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Duties
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                WhereToFind
+            </th>
+            <th>
+                Demand
+            </th>
+            <th>
+                Beauty
+            </th>
+            <th>
+                Helping
+            </th>
+            <th>
+                Adventure
+            </th>
+            <th>
+                Safety
+            </th>
+            <th>
+                People
+            </th>
+            <th>
+                Science
+            </th>
+            <th>
+                Easy
+            </th>
+            <th>
+                Duty
+            </th>
+            <th>
+                Admiration
+            </th>
+            <th>
+                Creativity
+            </th>
+            <th>
+                Competition
+            </th>
+            <th>
+                Animals
+            </th>
+            <th>
+                Politics
+            </th>
+            <th>
+                Technology
+            </th>
+            <th>
+                Growth
+            </th>
+            <th>
+                VMProdId
+            </th>
+            <th>
+                Timestamp
+            </th>
+            <th>
+                PartitionKey
+            </th>
+            <th>
+                RowKey
+            </th>
+            <th></th>
+        </tr>
+    @{int cnt = 0;}
+    @foreach (var item in Model) {
+        <tr>
+            <td>@(++cnt)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profession)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CareerVertical)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discipline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Program)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Information)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Evidence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Processing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Endurance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Presence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Concentration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patterns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Compensation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgramId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageUrl)
+            </td>
+            <td>
+                @(item.Description != null && item.Description.Length>0 ? item.Description.Length.ToString() : "")
+            </td>
+            <td>
+                @(item.Duties != null && item.Duties.Length > 0 ? item.Duties.Length.ToString() : "")
+            </td>
+            <td>
+                @(item.Salary != null && item.Salary.Length > 0 ? item.Salary.Length.ToString() : "")
+            </td>
+            <td>
+                @(item.WhereToFind != null && item.WhereToFind.Length > 0 ? item.WhereToFind.Length.ToString() : "")
+            </td>
+            <td>
+                @(item.Demand != null && item.Demand.Length > 0 ? item.Demand.Length.ToString() : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Beauty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Helping)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adventure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Safety)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.People)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Science)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Easy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Admiration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creativity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Competition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Animals)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Politics)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Technology)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Growth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VMProdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartitionKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowKey)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+    </table>
+
+</div>

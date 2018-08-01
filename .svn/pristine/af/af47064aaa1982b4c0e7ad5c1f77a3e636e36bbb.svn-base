@@ -1,0 +1,175 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@{
+    ViewBag.Title = "Student List";
+}
+
+<!--===========================Student list page grouped by personality and interests========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/testattributes.js?v=@ViewBag.AppVersion"></script>
+<div class="pageContainer whiteBgPage blueBackground" id="studentListPage">
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {               
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Drill Down</h2>
+                            <p>View and analyze the composition of any group in your reports. </p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>             
+            }
+        }
+        <form method="post" action="/Analytics/Report">
+            <input type="hidden" name="studentemail" id="studentemail" value="" />
+        </form>
+        @*<div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <a href="/AdminPortal">Administrator Portal</a>
+                <span>|</span>
+                <a href="/Analytics">Analytics<i class="fa fa-angle-right"></i></a>
+                <a href="/Analytics/@ViewBag.PageUrl">@ViewBag.PageCaption<i class="fa fa-angle-right"></i></a>
+                <span>Student List</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>*@
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    @if (ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su")
+                    {
+                        <li><a href="/AdminPortal">Administrator Portal</a></li>
+                        <li><a href="/AdminPortal/Groups">Groups</a></li>
+                        <li><a href="/AdminPortal/Students">Students</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/CounselorPortal">Counselor Portal</a></li>
+                    }
+                    <li class="active activeTab"><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+            <ol class="breadcrumb">
+                <li><a href="/Analytics">Home</a></li>
+                <li><a href="/Analytics/@ViewBag.PageUrl">@ViewBag.PageCaption</a></li>
+                <li class="active">Student List</li>
+            </ol>
+        </div>*@
+        <div class="row">
+            <h1 id="studentsWhoPicked">students who picked </h1>
+            <p class="instructions">Click to view student's report card</p>
+        </div>
+
+        <div class="row studentNames">
+            <div class="searchBoxWrapper">
+                <input id="searchbox" type="text" placeholder="Search by student's name" onkeyup="searchName(this.value);">
+            </div>
+            <ol class="studentList">
+                @{
+                    if (ViewBag.Students != null)
+                    {
+                        List<UserAccount> studentList = ViewBag.Students;
+                        foreach (UserAccount student in studentList)
+                        {
+                            <li class="studentName"><a data-rowkey="@student.RowKey" @*href="/Analytics/Report/@student.RowKey"*@ onclick="selectStudent(this);">@student.FirstName @student.LastName</a><i class="fa fa-angle-right arrowRight"></i></li>
+                        }
+                    }
+                }
+                @*<li class="studentName"><a href="/Analytics/StudentReport">John Brown</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Svetlana Zelenkina</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Martin Gray</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Christina Ivanova</a><i class="icon-right-open-big arrowRight"></i></li>*@
+            </ol>
+        </div>
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row bottomDemo">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                        <h2>Drill Down</h2>
+                        <p>View and analyze the composition of any group in your reports. </p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                            <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                            <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    var param = '@ViewBag.Param';
+    var like = '@ViewBag.Like';
+    var interests = ["beauty", "helping", "adventure", "safety", "people", "science", "duty", "admiration", "creativity", "competition", "animals", "politics", "technology", "machinery", "handlabor", "strength", "drafting", "coordinating", "numbers", "critical", "salesy"];
+    var traits = ['Extrovert', 'Introvert', 'Stationary', 'Mobile', 'Process', 'Result', 'Focused', 'Relaxed', 'Facts', 'Imagination', 'Rational', 'Emotional', 'Emotional', 'Remote', 'Routine', 'Discover', 'Variable', 'Fixed'];
+    function document_ready() {
+        if (traits.indexOf(param) != -1) {
+            var studentsWhoPicked = 'STUDENTS WHO PICKED ' + param;
+        } else if (interests.indexOf(param) != -1) {
+            var studentsWhoPicked = 'STUDENTS WHO PICKED ' + importantthingdefinitions[importantthingdefinitions.map(function (x) { return x.name; }).indexOf(param)].caption;
+        } else {
+            var studentsWhoPicked = 'STUDENTS WHO ' + like + ' ' + param.replace(/-/g, ' ');
+        }
+        $('#studentsWhoPicked').html(studentsWhoPicked);
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        })
+    }
+    function selectStudent(element) {
+        var rowkey = $(element).data('rowkey');
+        $('#studentemail').val(rowkey);
+        $('form').submit();
+    }
+
+    function searchName(value) {
+        $('.studentName').each(function (index, element) {
+            var name = $(element).find('a').text().toLowerCase();
+            var regex = new RegExp(value.toLowerCase());
+            if (!regex.test(name)) {
+                $(element).hide();
+            } else {
+                $(element).show();
+            }
+        });
+    }
+</script>

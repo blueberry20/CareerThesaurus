@@ -1,0 +1,3 @@
+﻿var title = 'You are an introvert';
+var careerheading = 'Jobs for Introverts';
+var desc = 'You excel at working independently and need little guidance when completing projects. Managers love that you are able to take a set of project guidelines and hit the ground running with little input from other team members. Like other introverts, you prefer working in a private space to spending time in a conference room or other group environment. Working alone gives you the energy to power through tough assignments and get things done quickly, making you a valuable asset to any employer. E-mail is your preferred method of communication, as it lets you think about what you are going to say before you send a message.';

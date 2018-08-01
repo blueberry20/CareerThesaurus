@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "contactus";
+}
+
+<link href="~/Content/css/About/contactus.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div id="contactus" class="pageContainer aboutContainer whiteBgPage">
+    <div class="container">
+        <h2>Contact us</h2>
+
+        <div class="contactSection">
+            <h3>We'd love to hear from you. Let's keep in touch! </h3>
+            <div class="row shareDiv coloredSocialIcons text-center">
+                <ul class="social-icons">
+                    <li class="share twitter"><a href="https://twitter.com/CareerThesaurus" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li class="share facebook"><a href="https://www.facebook.com/careerthesaurus" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li class="share linkedin"><a href="https://www.linkedin.com/company/3782991?trk=tyah&trkInfo=tarId%3A1407332928637%2Ctas%3Acareerthesaurus.c%2Cidx%3A1-1-1" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                    <li class="share instagram"><a href="http://www.instagram.com/careerthesaurus" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                </ul><!--/ .social-icons-->
+            </div>
+        </div>
+
+        <div class="contactSection">
+            <h3>Or send us your question, feedback, or suggestion!</h3>
+            <div class="row email">
+                <a id="mailIcon" href="mailto:info@careerthesaurus.com"><i class="fa fa-envelope-o"></i></a><p>info@careerthesaurus.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        newHeight = $(window).height() - 150;
+        $('#contactus .container').css('min-height', newHeight);
+
+        $(window).resize(function () {
+            newHeight = $(window).height() - 150;
+            $('#contactus .container').css('min-height', newHeight);
+        });
+
+        $('#mailIcon').click(function () {
+            window.location.href = "mailto:info@careerthesaurus.com";
+        });
+
+        $(".contactSection").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+    }
+
+</script>

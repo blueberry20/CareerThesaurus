@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_0_declarations.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_1_downloader.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_2_createcookiesetter.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_2_createeventhandlers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_2_createform.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_2_createvalidation.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_generic.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_specialized_dropdown.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_specialized_input_text.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_specialized_uncategorized.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Kiosk/TENForm/formcontrols_submission.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    #formcontainer input[type='text'] {width: 550px; font-family: Roboto; font-weight: 100; }
+    
+    #formcontainer .logocontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); padding-bottom: 20px;}
+    
+    #formcontainer .controlcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0); min-height: 39px; margin-bottom: 1px; }
+    #formcontainer .controlcontainer .label { position: relative; width: 240px; left: 10px; padding-top: 9px; font-size: 12pt; }
+    #formcontainer .controlcontainer .control { position: absolute; left: 260px; top: 0px; }
+    #formcontainer .controlcontainer .control input[type='text'] { font-size: 12pt; padding: 7px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1);}
+    #formcontainer .controlcontainer .control div.touchscreeninput { position: relative; font-size: 12pt; padding: 7px; margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    #formcontainer .controlcontainer .control div.formdropdown { position: relative; font-size: 12pt; padding: 7px; margin-top: 2px; width: 350px; font-weight: 400; border: thin solid rgba(255,255,255,0.1); height: 22px;}
+    #formcontainer .controlcontainer .control select { font-size: 12pt; width: 350px; padding: 5px; color:#333; }
+    
+    #formcontainer .textareacontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .textareacontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;}
+    #formcontainer .textareacontainer .control { position: relative; width: 200px;  padding: 9px;}
+    #formcontainer .textareacontainer .control textarea { font-family: Arial; font-size: 12pt; padding: 5px; width: 475px; color:#333; }
+    
+    #formcontainer .checkboxcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .checkboxcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px;max-width: 475px;}
+    #formcontainer .checkboxcontainer .control { position: relative; width: 200px;  padding: 9px;}
+            
+    #formcontainer .fieldgroupcontainer {position: relative; width: 625px; background-color: rgba(255,255,255,0.5); margin-bottom: 1px; }
+    #formcontainer .fieldgroupcontainer .label { position: relative; left: 10px; font-size: 10pt; padding-top: 9px; max-width: 475px;}
+    #formcontainer .fieldgroupcontainer .control { position: relative; margin-left:200px;  padding: 9px;}
+    #formcontainer .fieldgroupcontainer .control select { font-size: 12pt; padding: 0px; color:#333; display: inline-block; padding: 5px;}
+    
+
+</style>
+    
+
+<div id="featuredjobform" style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 0px; padding: 25px; background-color: rgba(0,0,0,0.5);" class="formoverlay">
+    <div style="position: absolute; left: -462px; top: 430px; background-color: rgba(0,0,0,1); padding-right: 20px; width: 880px; height: 36px;  -webkit-transform: rotate(-90deg); text-align: right; font-size: 20pt;">
+        Request  FREE  INFO
+    </div>
+    <div id="formcontainer"></div>
+
+    <div class="formauthcontrols" id="authorizationcheckbox" style="position: absolute; left: 35px; top: 726px; width: 40px; height: 40px; border: 2px solid #fff;">
+        <img id="authorizationcheckboxcheck" style="position: absolute; left: -9px; top: -23px; width: 60px; height: 60px; display: none;" src="/content/images/kiosk/importantthings/check.png"/>
+    </div>
+    <div class="formauthcontrols" style="position: absolute; left: 80px; top: 700px; width: 545px; padding: 20px; font-size: 10pt; font-weight: 100; ">
+        By submitting this form, I authorize <span id="authorization_school_name" style="font-weight: bold;">The Employment Network</span> to contact me by phone, including cellular phone, SMS-TXT, email or mail and using automatic dialing equipment, to tell me about its programs of study.
+    </div>
+
+    <div id="btnsubmitform" class="button" style="position: absolute; right: 0px; bottom: 0px; width: 360px; padding: 30px; font-size: 20pt; font-weight: 100;">Submit</div>
+</div>
+
+    
+<script>
+
+    var _featuredjob_form_loaded = false;
+    var _featuredjob_form_authorized = false;
+
+    function showFeaturedJobForm(_featuredjob_clientid, _featuredjob_formid) {
+
+        _featuredjob_form_authorized = false;
+        $('#authorizationcheckboxcheck').hide();
+
+        years = new Array();
+
+        var d = new Date();
+        var year = d.getFullYear() + 5;
+        for (var i = 0; i < 100; i++) {
+            years.push({ value: (year - i), label: (year - i) });
+        }
+
+        $('#featuredjobform').animate({ "width": "625px" }, 1000);
+
+        setCookie("record_type", 'networkjoblead', 7);
+        setCookie("record_data", '', 7);
+        
+        setCookie("campus_key", "", 7);
+        setCookie("program_key", "", 7);
+
+        downloadSingleFeaturedJobForm(_featuredjob_clientid, _featuredjob_formid);
+
+        if (!_featuredjob_form_loaded) {
+            $('#authorizationcheckbox').press(function () {
+                playSound(sfxclick);
+                if (_featuredjob_form_authorized) {
+                    _featuredjob_form_authorized = false;
+                    $('#authorizationcheckboxcheck').hide();
+                }
+                else {
+                    _featuredjob_form_authorized = true;
+                    $('#authorizationcheckboxcheck').show();
+                }
+            });
+            _featuredjob_form_loaded = true;
+        }
+
+    }
+    
+</script>

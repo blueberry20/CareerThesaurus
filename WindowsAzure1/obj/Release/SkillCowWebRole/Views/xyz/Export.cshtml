@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Export";
+}
+
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    <h2>Export to excel</h2>    
+    @using (Html.BeginForm())
+    {
+        <table style="font-style: italic;">
+            <tr>
+                <td>Start date:</td>
+                <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+            </tr>
+            <tr>
+                <td>End date:</td>
+                <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            </tr>
+            <tr>
+                <td>Utm Source:</td>
+                <td><input type="text" id="utmsource" name="utmsource" value=""/> </td>
+            </tr>
+            <tr>
+                <td>Source form:</td>
+                <td><input type="text" id="sourceform" name="sourceform" value=""/> </td>
+            </tr>
+            <tr>
+                <td>Mode:</td>
+                <td><input type="text" id="mode" name="mode" value=""/> </td>
+            </tr>
+            <tr>
+                <td>Client Type:</td>
+                <td><input type="text" id="clienttype" name="clienttype" value=""/> </td>
+            </tr>
+            
+            <tr>
+                <td><input type="button" value="Go" onclick="go()"/></td>
+            </tr>
+
+
+        </table>
+    }
+</div>
+<script>
+    function go() {
+
+        var url = 'download?startdate=' + $('#startdate').val() + '&enddate=' + $('#enddate').val();
+
+        if ($('#utmsource').val() != '') {
+            url += '&utmsource='+ $('#utmsource').val();
+        }
+
+        if ($('#sourceform').val() != '') {
+            url += '&sourceform=' + $('#sourceform').val();
+        }
+
+        if ($('#mode').val() != '') {
+            url += '&mode=' + $('#mode').val();
+        }
+
+        if ($('#clienttype').val() != '') {
+            url += '&clienttype=' + $('#clienttype').val();
+        }
+
+        window.open(url);
+
+    }
+</script>

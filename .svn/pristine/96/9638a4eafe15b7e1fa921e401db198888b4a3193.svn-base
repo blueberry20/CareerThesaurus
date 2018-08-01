@@ -1,0 +1,71 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@{
+    TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    StudentProfileClient spc = new StudentProfileClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "__Schools";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>School Name</th>
+                        <th># of Administrators</th>
+                        <th># of Groups</th>
+                        <th># of Registered Students</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*<tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>*@
+
+                    @{
+                        List<TeacherToSchoolConnection> connections = new List<TeacherToSchoolConnection>(ttscc.GetAll());
+                        var schools = connections.GroupBy(x => x.PartitionKey).ToList();
+                        foreach (var school in schools)
+                        {
+                            List<AssessmentGroup> groups = new List<AssessmentGroup>(agc.GetAllByPartition(school.Key));
+                            List<StudentProfile> students = new List<StudentProfile>(spc.GetAllBySchool(school.Key));
+                            SchoolAccount schoolAccount = sac.GetByPartitionAndRowKey("school", school.Key);
+                            <tr>
+                                <td>@schoolAccount.SchoolName - @schoolAccount.ZipCode</td>
+                                <td>@school.Count()</td>
+                                <td>@groups.Count</td>
+                                <td>@students.Count</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

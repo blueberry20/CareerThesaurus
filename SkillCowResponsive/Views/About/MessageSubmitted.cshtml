@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Message Submitted";
+}
+
+<!--===========================Thank you Page for sending advertising request========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/About/newsletter.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div id="newsletterThankyouPage" class="pageContainer aboutContainer whiteBgPage">
+    <div class="container">
+        <div class="centerBox">
+            <h1>Thank you for sending us your advertising request!</h1>
+            <p>We will be in touch with you shortly!</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $(".messageContainer").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+    }
+</script>
+

@@ -1,0 +1,210 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+@{
+    SchoolAccountClient sac = new SchoolAccountClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    ViewBag.Title = "School";
+}
+
+<!--========================School Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+
+<div class="pageContainer whiteBgPage" id="schoolPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <a href="Administrator">Administrator Home<i class="fa fa-angle-right"></i></a>
+                <span>School</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                <span class="welcomeMsg">Hello @ViewBag.Name!</span>
+            </div>
+        </div>
+
+        <div class="row topRow">
+            @{
+                string schoolRowKey = ViewBag.School;
+                string teacher = ViewBag.Email;
+                SchoolAccount school = sac.GetByPartitionAndRowKey("school", schoolRowKey);
+                <h1 class="schoolName">@school.SchoolName</h1>
+                <p class="schoolAddress">@school.Address @school.City, @school.State @school.ZipCode</p>
+            }
+        </div>
+
+
+        <div class="row">
+            <div class="row bottomMargin">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 addLineHeight nopadding">
+                    <h2>My Assessment Groups</h2>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right nopadding">
+                    <button class="btn btn-success addClassBtn">Create A Group</button>
+                </div>
+            </div>
+
+            <!--Hidable div-->
+            <div class="hidable row">
+                <div class="row">
+                    <div class="form-group col-lg-5 col-md-5">
+                        <label>Enter your assessment group name:</label>
+                    </div>
+                    <div class="form-group col-lg-7 col-md-7">
+                        <input type="text" class="form-control" id="newClassName">
+                    </div>
+                </div>
+                @*<div class="row">
+                    <div class="form-group col-lg-5 col-md-5">
+                        <label>Pin Code:</label> 
+                    </div>
+                    <div class="form-group col-lg-7 col-md-7">
+                        <input type="text" class="form-control" id="pincode" disabled>
+                    </div>
+                </div>*@
+                @*<div class="row">
+                        <div class="form-group col-lg-4 col-md-4">
+                            <label>Select your role:</label>
+                        </div>
+                        <div class="form-group col-lg-8 col-md-8">
+                            <select class="form-control required" id="roleSelect" name="role">
+                                <option value="teacher">I am a teacher</option>
+                                <option value="counselor">I am a guidance counselor</option>
+                                <option value="administrator">I am an administrator</option>
+                            </select>
+                        </div>
+                    </div>*@
+                <div class="row extraMargin">
+
+                    <button class="btn btn-info createClassBtn pull-right">Create</button>
+                    <button type="button" class="btn btn-default cancelBtn pull-right">Cancel</button>
+
+                </div>
+            </div>
+            <div class="groups">
+                @{
+                    List<AssessmentGroup> groups = new List<AssessmentGroup>(agc.GetAllBySchoolAndTeacher(schoolRowKey, teacher));
+                    if (groups.Count == 0)
+                    {
+                        <div class="noSchoolsAdded row">
+                            <p class="col-lg-9">You haven't created any assessment groups yet</p>
+                            @*<div class="col-lg-3">
+                            <button class="btn btn-success addSchoolBtn">Add Class</button>
+                        </div>*@
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (AssessmentGroup group in groups)
+                        {
+                            <div class="classDiv row">
+                                <div class="col-lg-12">
+                                    <h3 class="schoolName">@group.Group</h3>
+                                    <p class="pinCode">@group.RowKey</p>
+                                    <a href="http://CareerThesaurus.com/SignUp/Student?school=@(schoolRowKey)&code=@(group.RowKey)">http://CareerThesaurus.com/SignUp/Student?school=@(schoolRowKey)&code=@(group.RowKey)</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            @*<div class="classDiv row">
+                <div class="col-lg-12">
+                    <h3 class="schoolName">HTML</h3>
+                </div>
+            </div>
+
+            <div class="classDiv row">
+                <div class="col-lg-12">
+                    <h3 class="schoolName">Principles of Web Development</h3>
+                </div>
+            </div>
+
+            <div class="classDiv row">
+                <div class="col-lg-12">
+                    <h3 class="schoolName">Graphic Design</h3>
+                </div>
+            </div>*@
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var school = '@ViewBag.School';
+    var teacher = '@ViewBag.Email';
+
+    function document_ready() {
+        $('.noSchoolsAdded').show();
+        $('.addClassBtn').click(function () {
+            //$(this).velocity({ height: '200px' });
+            $('.hidable').velocity('fadeIn', { duration: 500 });
+
+            $('#pincode').val(generatePinCode);
+            // $('.hidable').show();
+        });
+
+        $('.cancelBtn').click(function () {
+            $('.hidable').velocity('fadeOut', { duration: 500 });
+        });
+        $('.createClassBtn').click(function () {
+            //var pin = $('#pincode').val();
+            var groupName = $('#newClassName').val();
+            createGroup(groupName).done(function (response) {
+                if (response.result == 'ok') {
+                    var html = '<div class="classDiv row">' +
+                                '<div class="col-lg-12">' +
+                                    '<h3 class="schoolName">' + groupName + '</h3>' +
+                                    '<p class="pinCode">' + response.pincode + '</p>' +
+                                '</div>' +
+                            '</div>';
+                    $('.noSchoolsAdded').hide();
+                    $('.groups').append(html);
+                    $('.hidable').velocity('fadeOut', { duration: 500 });
+                } else {
+                    //error couldnt create group
+                    console.log(response);
+                }
+            });
+        });
+    }
+    function checkPinCode(pincode) {
+        for (var i = 1; i < pincode.length; i++) {
+            if (Math.abs(pincode.charCodeAt(i) - pincode.charCodeAt(i - 1)) == 1) {
+                return false;
+            }
+        }
+        var reg = new RegExp(/^(?:([A-Za-z0-9])(?!.*\1))*$/);
+        var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{5,}$/);
+        if (reg.test(pincode) && regex.test(pincode)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function createGroup(group) {
+        return $.ajax({
+            url: appserverurl + '/Assessment/CreateGroup',
+            type: 'POST',
+            data: {
+                school: school,
+                teacher: teacher,
+                group: group
+            }
+        });
+    }
+    function changePinCode(group, oldpin, newpin) {
+        return $.ajax({
+            url: appserverurl + '/Assessment/ChangePinCode',
+            type: 'POST',
+            data: {
+                school: school,
+                group: group,
+                oldpin: oldpin,
+                newpin: newpin
+            }
+        });
+    }
+</script>
+

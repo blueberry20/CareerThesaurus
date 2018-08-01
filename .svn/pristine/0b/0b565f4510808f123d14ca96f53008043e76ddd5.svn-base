@@ -1,0 +1,169 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+@using SkillCowResponsive.Classes.Helpers;
+@{
+    UserAccountClient uac = new UserAccountClient();
+    AdminProfileClient apc = new AdminProfileClient();
+    StudentProfileClient spc = new StudentProfileClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+    AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+    AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/Thesaurus/ctProfessions.js"></script>
+<style>
+    span {
+        color: red;
+    }
+</style>
+<div class="pageContainer">
+    <div class="container">
+        <div class="users">
+            @*@{
+                    string[] dimensions = { "attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation" };
+                    List<ImportantThings> importantThings = new List<ImportantThings>() {
+                        new  ImportantThings {name = "beauty", caption = "Beauty & Visual Perfection" },
+                        new  ImportantThings { name = "helping", caption = "Helping Others" },
+                        new  ImportantThings { name = "adventure", caption = "Risk & Adventure" },
+                        new  ImportantThings { name = "safety", caption = "Safety of Others" },
+                        new  ImportantThings { name = "people", caption = "Working with People" },
+                        new  ImportantThings { name = "science", caption = "Scientific Methods & Precision" },
+                        new  ImportantThings { name = "duty", caption = "Sense of Duty" },
+                        new  ImportantThings { name = "admiration", caption = "Being in a Spot Light" },
+                        new  ImportantThings { name = "creativity", caption = "Creativity" },
+                        new  ImportantThings { name = "competition", caption = "Competitiveness" },
+                        new  ImportantThings { name = "animals", caption = "Nature & Animals" },
+                        new  ImportantThings { name = "politics", caption = "Politics & Strategy" },
+                        new  ImportantThings { name = "technology", caption = "Technology & Gadgets" },
+                        new  ImportantThings { name = "machinery", caption = "Machinery" },
+                        new  ImportantThings { name = "handlabor", caption = "Hand Labor" },
+                        new  ImportantThings { name = "strength", caption = "Using Body Strength" },
+                        new  ImportantThings { name = "drafting", caption = "Drafting & Sketching" },
+                        new  ImportantThings { name = "coordinating", caption = "Coordinating Groups" },
+                        new  ImportantThings { name = "numbers", caption = "Working with Numbers" },
+                        new  ImportantThings { name = "critical", caption = "Giving Critical Advice" },
+                        new  ImportantThings { name = "salesy", caption = "Salesiness" }
+                    };
+                    List<UserAccount> accounts = new List<UserAccount>(uac.GetAll());
+                    foreach (UserAccount account in accounts)
+                    {
+                        <p><span>First Name:</span> @account.FirstName <span>Last Name:</span> @account.LastName <span>Account Type:</span> @account.ProfileType</p>
+                        if (account.ProfileType == "student")
+                        {
+                            StudentProfile profile = spc.GetByPartitionAndRowKey(account.Email.ToLower().Substring(0, 1), account.Email);
+                            if (profile != null)
+                            {
+                                <h3>Profile Info:</h3>
+                                <p><span>Gender:</span> @profile.Gender <span>Grad Year:</span> @profile.GradYear <span>Group:</span> @profile.Group <span>School:</span> @profile.School <span>School zip:</span> @profile.SchoolZip <span>Teacher:</span> @profile.Teacher</p>
+                                SchoolAccount school = sac.GetByPartitionAndRowKey("school", profile.School);
+                                if (school != null)
+                                {
+                                    for (var i = 0; i < dimensions.Length; i++)
+                                    {
+                                        AssessmentDimensionsRating rating = adrc.GetByPartitionAndRowKey(school.RowKey, account.Email + dimensions[i]);
+                                        if (rating != null)
+                                        {
+                                            <p><span>@dimensions[i]</span>: @rating.Value</p>
+                                        }
+                                        else
+                                        {
+                                            <p><span>@dimensions[i]</span>: No rating</p>
+                                        }
+                                    }
+                                    for (var i = 0; i < importantThings.Count; i++)
+                                    {
+                                        AssessmentInterestRating rating = airc.GetByPartitionAndRowKey(school.RowKey, account.Email + importantThings[i].name);
+                                        if (rating != null)
+                                        {
+                                            <p><span>@importantThings[i].name</span>: @rating.Rating</p>
+                                        }
+                                        else
+                                        {
+                                            <p><span>@importantThings[i].name</span>: No rating</p>
+                                        }
+                                    }
+                                    List<AssessmentCareerRating> careers = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(school.RowKey, account.Email));
+                                    if (careers != null)
+                                    {
+                                        foreach (AssessmentCareerRating rating in careers)
+                                        {
+                                            <p><span>@rating.RowKey</span>: @rating.Rating</p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>No careers selected</p>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>No school selected</p>
+                                }
+                            }
+                            else
+                            {
+                                <h3>No profile info</h3>
+                            }
+                        }
+                        else
+                        {
+                            AdminProfile profile = apc.GetByPartitionAndRowKey("adminProfile", account.Email);
+                            if (profile != null)
+                            {
+                                <h3>Profile Info:</h3>
+                                <p><span>Phone number:</span> @profile.PhoneNumber</p>
+
+                            }
+                            else
+                            {
+                                <h3>No profile info</h3>
+                            }
+                        }
+                    }
+                }*@
+        </div>        
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        //var object = professions[0];
+        //var html = '';
+        //for (var property in object) {
+        //    if (object.hasOwnProperty(property)) {
+        //        html += property + ',';
+        //    }
+        //}
+        //$('.users').append('<div>' + html.substring(0, html.length - 1) + '</div>');
+        //for (var i = 0; i < professions.length; i++) {
+        //    var object = professions[i];
+        //    var html = '';
+        //    for (var property in object) {
+        //        if (object.hasOwnProperty(property)) {
+        //            if (typeof object[property] == 'string') {
+        //                if (object[property].indexOf(',') == -1) {
+        //                    html += object[property] + ',';
+        //                } else {
+        //                    html += '"' + object[property] + '",';
+        //                }
+        //            } else {
+        //                html += object[property] + ',';
+        //            }
+        //        }
+        //    }
+        //    $('.users').append('<div>' + html.substring(0, html.length - 1) + '</div>');
+        //}
+    }
+</script>

@@ -1,0 +1,39 @@
+﻿@using SkillCow.Controllers
+@{
+    Layout = null;
+}
+@{int cnt = 0;}
+@{int programcategorycnt = 0;}
+    ParentId,ParentName,ProgramId,ProgramName,ClientId,ClientSetId,FormId,Payout,FormName,FrontEndName,City,State,Distance,CampusId,CampusType,CampusName,StudyProgramId,StudyProgramType,StudyProgramIsPrimary,StudyProgramTypeName,StudyProgramName,Filters
+    @foreach (ProgramTaxonomyItem item in ViewBag.Taxonomy)
+    {
+        programcategorycnt++;
+        System.Xml.XmlDocument doc = ViewBag.Controller.getXmlDoc("http://www.explore-schools.com/a3/xmlcapsulecreate.php?id=1727&code=aa798f5765dc0736aa8957a7968dffd3&desc=1&zip=" + ViewBag.Zip + "&degree=" + item.ProgramId + "&campaign_id=13564694&show_searched_location=true");
+        List<SchoolProgramResult> programs = ViewBag.Controller.ParseSchools(doc);
+        foreach (SchoolProgramResult result in programs)
+        {
+            cnt++;
+            @item.ParentId@Html.Raw(",")
+            @Html.Raw("\"" + @item.ParentName + "\"")@Html.Raw(",")
+            @item.ProgramId@Html.Raw(",")
+            @Html.Raw("\"" + @item.ProgramName + "\"")@Html.Raw(",")
+            @result.ClientId@Html.Raw(",")
+            @result.ClientSetId@Html.Raw(",")
+            @result.FormId@Html.Raw(",")
+            @result.Payout@Html.Raw(",")
+            @Html.Raw("\"" + result.FormName + "\"")@Html.Raw(",")
+            @Html.Raw("\"" + result.FrontEndName + "\"")@Html.Raw(",")
+            @result.City@Html.Raw(",")
+            @result.State@Html.Raw(",")
+            @Html.Raw("\"" + @result.Distance + "\"")@Html.Raw(",")
+            @result.CampusId@Html.Raw(",")
+            @result.CampusType@Html.Raw(",")
+            @Html.Raw("\"" + @result.CampusName + "\"")@Html.Raw(",")
+            @result.ProgramId@Html.Raw(",")
+            @result.ProgramType@Html.Raw(",")
+            @result.ProgramIsPrimary@Html.Raw(",")
+            @result.ProgramTypeName@Html.Raw(",")
+            @Html.Raw("\"" + result.ProgramName + "\"")@Html.Raw(",")
+            @Html.Raw("\n")
+        }
+    }

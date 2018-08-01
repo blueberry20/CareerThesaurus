@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Reset Password</title>
+</head>
+<body>
+    <div>Hi {{name}},</div>
+    <br>
+    <div>As requested, we have reset your CareerThesaurus.com password.</div>
+    <br>
+    <div>Your new temporary password is <b>{{password}}</b></div>
+    <br>
+    <div>Please note that we recommend you to change your password once you log in to your account. To change your password, navigate to CareerThesaurus.com/Account/ChangePassword after you log in.</div>
+    <br>
+    <div>If you did not request your password to be changed, please contact CareerThesaurus Support.</div>
+    <br>
+    <div>Thanks,</div>
+    <div>CareerThesuarus Support</div>
+</body>
+</html>

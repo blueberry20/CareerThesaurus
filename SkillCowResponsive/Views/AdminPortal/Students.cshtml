@@ -1,0 +1,258 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AdminAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentAccount;
+@{
+    AdminAccountClient aac = new AdminAccountClient();
+    UserAccountClient uac = new UserAccountClient();
+    StudentAccountClient sac = new StudentAccountClient();
+    ViewBag.Title = "Students";
+}
+
+<!--=============================ADMIN PORTAL. STUDENTS=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Counselor/counselor.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/Groups.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="studentsListPage">
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Manage Students</h2>
+                            <p>The sole purpose of this page is to activate/deactivate students at the school. </p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row">
+            <div class="row orgRow">
+                <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="pull-right">
+                            <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                            <span class="changePw">
+                                <a href="/Account/ChangePassword">Change Password</a>
+                            </span>
+                        </li>
+                        <li><a href="/AdminPortal">Administrator Portal</a></li>
+                        <li><a href="/AdminPortal/Groups">Groups</a></li>
+                        <li class="active activeTab"><a href="/AdminPortal/Students">Students</a></li>
+                        <li><a href="/Analytics">Analytics</a></li>
+                    </ul>
+                </div>
+            </div>
+            @*<div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Home</li>
+                </ol>
+            </div>*@
+            <h1>Students</h1>
+            @{
+                string adminEmail = ViewBag.Email;
+                AdminAccount admin = aac.GetByPartitionAndRowKey("admin", adminEmail);
+                if (!admin.ConnectionToSchoolConfirmed)
+                {
+                    <div class="noSchoolsAdded notReady">
+                        <p>You haven't associated yourself with a school or it's in a pending status</p>
+                    </div>
+                }
+                else
+                {
+
+                    List<StudentAccount> students = new List<StudentAccount>(sac.GetAllBySchool(admin.School));
+                    if (students.Count == 0)
+                    {
+                        <div class="noSchoolsAdded notReady"><p>There are no students on the student list yet. You can start by creating groups, and follow up with a next step to engage students by sending them a link to register and part-take in the Career Exploration assignment. If you have any questions email us at <a href="mailto:admin@careerthesaurus.com">admin@careerthesaurus.com</a></p></div>
+                    }
+                    else
+                    {
+                        students.OrderBy(x => x.Active).ThenBy(x => x.Grade);
+                        List<string> years = students.Select(x => x.Year).Distinct().ToList();
+                        List<string> grades = students.Select(x => x.Grade).Distinct().ToList();
+                        <div>
+                            <div class="row dropdownWrapper">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label class="control-label">Grad. Yr:</label>
+                                    <div class="dropdown">
+                                        <select id="yearSelect" class="dropdown-toggle">
+                                            <option value="all">All</option>
+                                            @{
+                                                years.Sort();
+                                                foreach (string year in years)
+                                                {
+                                                    <option value="@year">@year</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label class="control-label">Grade:</label>
+                                    <div class="dropdown">
+                                        <select id="gradeSelect" class="dropdown-toggle">
+                                            <option value="all">All</option>
+                                            @{
+                                                grades.Sort();
+                                                foreach (string grade in grades)
+                                                {
+                                                    <option value="@grade">@grade</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row studentNames">
+                            <p class="subheading">You can view a list of all your students; deactivate those who are no longer associated with the school anymore or activate those who were previously deactivated</p>
+                            <div class="searchBoxWrapper">
+                                <input type="text" id="searchbox" placeholder="Search by student's name" value="" onkeyup="searchName(this.value);" />
+                            </div>
+                                @{
+                                    foreach (StudentAccount student in students)
+                                    {
+                                    UserAccount user = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(student.RowKey), student.RowKey);
+                                    UserAccount counselor = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(student.Counselor), student.Counselor);
+                                    <div class="studentRecord @(student.Grade)grade @(student.Year)year">
+                                        <h3 class="name">@user.FirstName @user.LastName</h3>
+                                        @if (student.Year == StudentAccountClient.CurrentGradYear())
+                                        {
+                                            <div class="studentInfoWrapper">
+                                                <div class="grayInfo">Grade: @student.Grade</div>
+                                                <div class="grayInfo">Status: @(student.Active ? "Active" : "Not Active")</div>
+                                                @*<div class="grayInfo">@(student.AssessmentComplete ? "Completed Assessment" : "Not Completed Assessment")</div>*@
+                                                <div class="grayInfo grayBlock">Email: @student.RowKey</div>
+                                                <div class="grayInfo grayBlock">Group: @student.GroupName</div>
+                                                <div class="grayInfo grayBlock">Student's counselor this year: @counselor.FirstName @counselor.LastName</div>
+                                            </div>
+                                            <button data-toggle="tooltip" data-placement="top" title="@(student.Active ? "Deactivating students will make them lose access to their account and report card" : "Activating students will give them access to their account and report card")" class="btn btn-default activateStudentBtn  @(student.Active ? "activeStudent" : "")" data-student="@student.RowKey" onclick="changeStudentStatus(this);">@(student.Active ? "Deactivate" : "Activate")</button>
+                                        }
+                                        else
+                                        {
+                                            <div class="studentInfoWrapper">
+                                                <div class="grayInfo">Grade: @student.Grade</div>
+                                                <div class="grayInfo">Status: @(student.Active ? "Active" : "Not Active")</div>
+                                                <div class="grayInfo grayBlock">Email: @student.RowKey</div>
+                                                @*<div class="grayInfo">@(student.AssessmentComplete ? "Completed Assessment" : "Not Completed Assessment")</div>*@
+                                                <div class="grayInfo grayBlock">Last year student took assessment: @student.Year</div>
+                                                <div class="grayInfo grayBlock">Group: @student.GroupName</div> 
+                                                <div class="grayInfo grayBlock">Student's counselor that year was: @counselor.FirstName @counselor.LastName</div>                                        
+                                            </div>
+                                            <button data-toggle="tooltip" data-placement="top" title="@(student.Active ? "Deactivating students will make them lose access to their account and report card" : "Activating students will give them access to their account and report card")" class="btn btn-default activateStudentBtn  @(student.Active ? "activeStudent" : "")" data-student="@student.RowKey" onclick="changeStudentStatus(this);">@(student.Active ? "Deactivate" : "Activate")</button>
+                                        }
+                                    </div>
+                                    }
+                                }
+                        </div>
+                    }
+                }
+}
+        </div>
+    </div>
+</div>
+<script>
+    var yearToShow = 'all';
+    var gradeToShow = 'all';
+    function document_ready() {
+        $('.activateStudentBtn').tooltip();
+
+        $('#yearSelect').change(function () {
+            yearToShow = $(this).val();
+            showResults();
+        });
+        $('#gradeSelect').change(function () {
+            gradeToShow = $(this).val();
+            showResults();
+        });
+
+        //$('#searchBtn').click(function () {
+        //    var value = $('#searchbox').val();
+        //    if (value == '') {
+        //        showResults();
+        //    } else {
+        //        showResults(value.toLowerCase());
+        //    }
+        //});
+
+        $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        $(window).resize(function () {
+            $('.noSchoolsAdded').css('height', $(window).height() - 350);
+        });
+
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        });
+    }
+
+    //function searchName(value) {
+    //    $('.studenRecord').each(function (index, element) {
+    //        var name = $(element).find('a').text().toLowerCase();
+    //        var regex = new RegExp(value.toLowerCase());
+    //        if (!regex.test(name)) {
+    //            $(element).hide();
+    //        } else {
+    //            $(element).show();
+    //        }
+    //    });
+    //}
+
+    function searchName(value) {
+        if (value == '') {
+            showResults();
+        } else {
+            showResults(value.toLowerCase());
+        }
+    }
+
+    function showResults(value) {
+        $('.studentRecord').hide();
+        if (!value) {
+            $('.studentRecord' + (yearToShow == 'all' ? '' : '.' + yearToShow + 'year') + (gradeToShow == 'all' ? '' : '.' + gradeToShow + 'grade')).show();
+        } else {
+            $('.studentRecord' + (yearToShow == 'all' ? '' : '.' + yearToShow + 'year') + (gradeToShow == 'all' ? '' : '.' + gradeToShow + 'grade')).each(function (index, element) {
+                var text = $(element).find('.name').text();
+                if (text.toLowerCase().indexOf(value) != -1) {
+                    $(element).show();
+                }
+            });
+        }
+    }
+    function changeStudentStatus(element) {
+        var value = $(element).data('student');
+        $.post('/AdminPortal/StudentStatus', { user: value }, function (response) {
+            if (response.result == 'done') {
+                $(element).toggleClass('activeStudent').text($(element).hasClass('activeStudent') ? 'Deactivate' : 'Activate');
+            } else {
+                $(element).text('Error');
+            }
+        });
+    }
+</script>

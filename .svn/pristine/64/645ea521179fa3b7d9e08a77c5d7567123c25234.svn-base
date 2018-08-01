@@ -1,0 +1,3 @@
+﻿var title = 'You prefer to remain stationary';
+var careerheading = 'Stationary jobs';
+var desc = 'Having an opportunity to move around during the workday isn\'t something that is important to you. Instead, you love to spend time sitting at your desk and powering through everything from routine tasks to unexpected challenges. As someone who prefers a stationary career, a desk job will actually cause you less stress than a job that has you moving constantly. Spending a lot of time at your desk also gives you the time you need to think about your work and make good decisions. Managers appreciate that you are usually available for impromptu meetings or telephone calls.';

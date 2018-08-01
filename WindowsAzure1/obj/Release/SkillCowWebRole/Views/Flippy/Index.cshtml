@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Find a Job";
+    Layout = "~/Views/Shared/_KioskLayout.cshtml";
+}
+
+            <div class="flipbox-container box100" style="text-align: center;width: 280px; height: 274px;">
+                <div id="flipbox1" class="flipbox" style="margin: 0 auto; width: 280px; height: 274px; background-color: White;">
+                    <span>Hello!</span>
+                </div>
+            </div>
+                
+    
+    
+    
+<script>
+$(function(){
+
+    $("#flipbox1").on("click",function(e){
+        $(".flipbox").flippy({
+            color_target: "#eeeeee",
+            direction: "left",
+            depth:0.05,
+            duration: "400",
+            verso: "<span>Woohoo ! \\o/</span>",
+         });
+         e.preventDefault();
+    });
+});
+</script>

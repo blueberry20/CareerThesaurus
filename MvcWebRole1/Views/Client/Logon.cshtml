@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Logon";
+    Layout = null;
+}
+
+<h2>Logon</h2>
+
+@using (Html.BeginForm())
+{
+    <table style="font-style: italic;">
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" name="username"/> </td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password"/> </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Go"/></td>
+        </tr>
+    </table>
+}
+
+

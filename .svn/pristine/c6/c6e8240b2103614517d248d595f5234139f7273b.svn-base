@@ -1,0 +1,346 @@
+﻿
+
+<link href="~/Content/css/Home/Home.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Career Thesaurus";
+}
+<!--================================= HOME PAGE ============================== -->
+<!--================================= Full Page Slider ============================== -->
+<!--div that full screen image-->
+
+<div id="frontpageImage"></div>
+
+<div id="frontpageimageContent">
+    <div class="sectionContent">
+        <h1>More ways to find work</h1>
+        <h2>Find a full time job</h2>
+        <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+        <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Search</button>
+    </div>
+    @*<div class="bottom">
+        <div id="arrow"></div>
+    </div>*@
+</div>
+
+<section id="sectionInternship" class="">
+<img class="img-responsive" src="../../Content/images/internstop.jpg" alt="" />
+<img class="img-responsive" src="../../Content/images/internsBottom.png" alt="" />
+    <div class="container">
+        <h2>Find an internship</h2>
+        <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+        <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+        <button type="submit" class="btn blueStripesBtn btn-lg searchJobsBtn">Search</button>
+    </div>
+</section>
+@*<section id="sectionInternshipBottom">
+</section>*@
+
+
+<section id="sectionTempJob" class="">
+    <img class="img-responsive" src="../../Content/images/poolTop.jpg" alt="" />
+    <img class="img-responsive" src="../../Content/images/poolBottom.png" alt="" />
+    <div class="container">
+        <h2 class="white">Find a temp job</h2>
+        <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+        <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn clear">Search</button>
+    </div>
+</section>
+
+@*<section id="sectionTempJob" class="parallax parallax-bg-1">
+    <div class="full-bg-image"></div>
+    <div class="parallax-overlay"></div>
+    <div class="container">
+        <h2 class="white">Find a temp job</h2>
+        <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+        <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn clear">Search</button>
+    </div>
+    <div class="bottom">
+        <div id="arrow"></div>
+    </div>
+</section>*@
+
+@*<div class="section parallax parallax-bg-1 ss-style-triangles" id="sectionTempJob">
+    <div class="full-bg-image"></div>
+    <div class="parallax-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Search</button>
+        </div>
+    </div>
+</div>*@
+
+@*<section id="sectionTempJob" class="section parallax parallax-bg-1 ss-style-triangles">
+    <div class="full-bg-image"></div>
+    <div class="parallax-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+            <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+            <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Search</button>
+        </div>
+        <div class="row">
+        </div><!--/ .row-->
+    </div><!--/ .container-->
+</section><!--/ .section-->*@
+
+
+<section id="sectionThree" class="col-2 ss-style-triangles">
+    <div class="container">
+        <h2>Find a consulting gig</h2>
+        <input type="text" class="form-control input-lg searchJobsInput" placeholder="Enter keyword">
+        <input type="text" class="form-control input-lg zipcodeInput" placeholder="Enter zip code">
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Search</button>
+    </div>
+</section>
+
+@*<section id="sectionTempJob" class="color ss-style-bigtriangle">
+        <h2>Engage worldwide methodologies </h2>
+        <p>Galaxies a still more glorious dawn awaits shores of the cosmic ocean bits of moving fluff the only home we've ever known finite but unbounded colonies astonishment laws of physics a very small stage in a vast cosmic arena brain is the seed of intelligence realm of the galaxies Apollonius of Perga rogue intelligent beings courage of our questions made in the interiors of collapsing stars laws of physics how far away, rings of Uranus the carbon in our apple pies rings of Uranus a very small stage in a vast cosmic arena brain is the seed of intelligence preserve and cherish that pale blue dot muse about, globular star cluster ship of the imagination shores of the cosmic ocean, as a patch of light? Ship of the imagination, with pretty stories for which there's little good evidence across the centuries, brain is the seed of intelligence muse about, Vangelis hydrogen atoms?</p>
+    </section>
+    <svg id="bigTriangleColor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 102" preserveAspectRatio="none">
+        <path d="M0 0 L50 100 L100 0 Z" />
+    </svg>*@
+
+
+
+<!--================================= Counter Section ============================== -->
+
+<div id="counterDiv" class="section parallax parallax-bg-2">
+    <div class="full-bg-image"></div>
+    <div class="parallax-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text-center">How do we stack up?</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="counter-box">
+                    <div data-from="0" data-to="200478" data-speed="1300" class="counter opacity">
+                        <span class="count"></span>
+                        <h4 class="details">People Took Our Test</h4>
+                    </div><!--/ .counter-->
+                    <div data-from="0" data-to="9743" data-speed="1300" class="counter opacity">
+                        <span class="count"></span>
+                        <h4 class="details">people applied for a new job</h4>
+                    </div><!--/ .counter-->
+                    <div data-from="0" data-to="759" data-speed="1300" class="counter opacity">
+                        <span class="count"></span>
+                        <h4 class="details">People Changed their Careers</h4>
+                    </div><!--/ .counter-->
+                </div><!--/ .counter-box-->
+            </div>
+        </div><!--/ .row-->
+    </div><!--/ .container-->
+</div><!--/ .section-->
+
+
+<section id="sectionThree" class="col-2 ss-style-triangles">
+    <div class="container">
+        <h2>Get matched with a job that fits your unique personality.</h2>
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Go</button>
+    </div>
+</section>
+
+
+<section id="sectionThree" class="col-2 ss-style-triangles">
+    <div class="container">
+        <h2>Discover careers that match your life interests!</h2>
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Go</button>
+    </div>
+</section>
+
+<section id="sectionThree" class="col-2 ss-style-triangles">
+    <div class="container">
+        <h2>Take our personality test to discover which careers you would be natural at!</h2>
+        <button type="submit" class="btn btn-success btn-lg searchJobsBtn">Go</button>
+    </div>
+</section>
+
+
+
+<script>
+    var isiPad = "@ViewBag.IsiPad".toLowerCase() == 'true' ? true : false;
+    function document_ready() {
+        /* ----------------------use backstretch to center image------------- */
+        $('#frontpageImage').backstretch("../../Content/images/woman_2045.jpg");
+
+        //add class active to menu when on this page
+        $('.navbar-nav .@ViewContext.RouteData.Values["controller"].ToString().ToLower()').addClass('active');
+
+        //front slider arrow on bottom
+        $('.bottom').css('border-left', $(window).width() / 2 - 99 + 'px solid #fff');
+        $('.bottom').css('border-right', $(window).width() / 2 - 99 + 'px solid #fff');
+        $(window).resize(function () {
+            $('.bottom').css('border-left', $(window).width() / 2 - 99 + 'px solid #fff');
+            $('.bottom').css('border-right', $(window).width() / 2 - 99 + 'px solid #fff');
+        });
+
+        $('#frontpageimageContent .sectionContent').addClass('visible');
+
+        if ($(window).width() > 767) {
+            $('section .container').each(function (i, elem) {
+                var top_of_object = $(elem).offset().top;
+                var bottom_of_window = $(window).scrollTop() + $(window).height();
+                /* If the object is completely visible in the window, fade it it */
+                if (bottom_of_window > top_of_object) {
+                    // $("this").velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                    $(elem).addClass('viewed');
+                }
+            })
+
+            $(window).scroll(function () {
+                $('section .container').each(function (i, elem) {
+                    var top_of_object = $(elem).offset().top;
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if (bottom_of_window > top_of_object) {
+                        // $(elem).velocity("transition.slideUpIn").velocity({ opacity: 1 }, 0);
+                        $(elem).removeClass('notViewed').addClass('viewed');
+                    }
+                })
+            })
+            if (isiPad == true) {
+                $('section .container').css('opacity', '1');
+            }
+        }
+        else { //less than 767
+            $('section .container').css('opacity', '1');
+        }
+
+        $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+        $('#jobsearchButton').click(function () {
+            var linkURL = appserverurl + '/jobs?q=' + $('#jobKeywordText').val() + '&loc=' + $('#zipcodeText').val() + '&salary=&r=&jt=&sort=s';
+            window.open(linkURL, linkURL);
+        });
+
+        //$(window).scroll(function () {
+        //    $('.full-bg-image').stop().css({ backgroundPosition: 'center ' + (Math.floor($(window).scrollTop() * .5 * -1)) + 'px' });
+        //});
+        /* ----------------------CountTo------------------------------ */
+
+        $.fn.countTo = function (options) {
+
+            options = options || {};
+
+            return $(this).each(function () {
+
+                // set options for current element
+                var settings = $.extend({}, $.fn.countTo.defaults, {
+                    from: $(this).data('from'),
+                    to: $(this).data('to'),
+                    speed: $(this).data('speed'),
+                    refreshInterval: $(this).data('refresh-interval'),
+                    decimals: $(this).data('decimals')
+                }, options);
+
+                // how many times to update the value, and how much to increment the value on each update
+                var loops = Math.ceil(settings.speed / settings.refreshInterval),
+	        increment = (settings.to - settings.from) / loops;
+
+                // references & variables that will change with each update
+                var self = this,
+	        $self = $(this),
+	        loopCount = 0,
+	        value = settings.from,
+	        data = $self.data('countTo') || {};
+
+                $self.data('countTo', data);
+
+                // if an existing interval can be found, clear it first
+                if (data.interval) {
+                    clearInterval(data.interval);
+                }
+                data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                // initialize the element with the starting value
+                render(value);
+
+                function updateTimer() {
+                    value += increment;
+                    loopCount++;
+
+                    render(value);
+
+                    if (typeof (settings.onUpdate) == 'function') {
+                        settings.onUpdate.call(self, value);
+                    }
+
+                    if (loopCount >= loops) {
+                        // remove the interval
+                        $self.removeData('countTo');
+                        clearInterval(data.interval);
+                        value = settings.to;
+
+                        if (typeof (settings.onComplete) == 'function') {
+                            settings.onComplete.call(self, value);
+                        }
+                    }
+                }
+
+                function render(value) {
+                    var formattedValue = settings.formatter.call(self, value, settings);
+                    $self.children('.count').html(formattedValue);
+                }
+            });
+        };
+
+        $.fn.countTo.defaults = {
+            from: 0, // the number the element should start at
+            to: 0, // the number the element should end at
+            speed: 1000, // how long it should take to count between the target numbers
+            refreshInterval: 10, // how often the element should be updated
+            decimals: 1, // the number of decimal places to show
+            formatter: formatter, // handler for formatting the value before rendering
+            onUpdate: null, // callback method for every time the element is updated
+            onComplete: null // callback method for when the element finishes updating
+        };
+
+        /* ----------------------Counter------------------------------ */
+        if ($('.counter').length) {
+            var counter = $('.counter');
+            if (!Modernizr.touch) {
+                counter.waypoint(function (direction) {
+                    if (direction == 'down') {
+                        counter.countTo();
+                    }
+                }, { offset: '64%' });
+            } else { counter.countTo(); }
+        };
+
+        function formatter(value, settings) {
+            return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+        };
+
+
+
+        //var divpos = $("#careersSection").offset().top;
+        //var interval = setInterval(function () {
+        //    if ($(window).scrollTop() >= divpos - 650) {
+        //        var animDelay = 0;
+        //        $('.imageCell').each(function () {
+        //            $(this).delay(animDelay).show("scale", { percent: 100, origin: ["middle", "center"] }, 500)
+
+        //            animDelay += 500;
+        //        });
+        //        clearInterval(interval);
+        //    }
+        //}, 250);
+
+
+        // $('#textEditorOverlay').stop(true, true).delay(300).show("scale", { percent: 100, origin: ["middle", "center"] }, 500);
+
+
+    }
+
+
+
+
+</script>

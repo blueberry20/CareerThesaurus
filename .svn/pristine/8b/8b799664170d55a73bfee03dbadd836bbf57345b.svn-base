@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using System.Xml;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class SandBoxController : AuthenticatedControllerController
+    {
+        //
+        // GET: /SandBox/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Quin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public HttpResponse getQuinStreet(string json)
+        {
+            try
+            {
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://sl.qmp.quinstreet.com");
+                httpWebRequest.ContentType = "text/json";
+                httpWebRequest.Method = "POST";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                string results;
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    results = streamReader.ReadToEnd().Trim();
+                }
+                Response.ContentType = "application/json";
+                Response.Write("{\"result\": \"ok\", \"results\": " + results.Replace("\n", "") + " }");
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+
+            return null;
+        }
+
+        public HttpResponse crawler(string url)
+        {
+            try
+            {
+                string results = GetHttpResponse(url, null);
+                List<string> output = new List<string>();
+                Regex reg = new Regex(@"(<head\b[^<]*(?:(?!<\/head>)<[^<]*)*<\/head>)|(<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>)|(<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>)");
+                results = reg.Replace(results, "");
+                Regex linksReg = new Regex(@"(<a\b[^<]*(?:(?!<\/a>)<[^<]*)*<\/a>)");
+                List<string> linksList = new List<string>();
+                MatchCollection matches = linksReg.Matches(results);
+                foreach (Match match in matches)
+                {
+                    string str = match.ToString();
+                    if (str.IndexOf("List Schools") != -1)
+                    {
+                        string href = Regex.Match(str, @"'([^']*)").ToString();
+                        linksList.Add(href.Substring(1));
+                    }
+                }
+                
+                foreach (string link in linksList)
+                {
+                    output.Add(getinfo(link));
+                }
+
+                Response.ContentType = "application/json";
+                Response.Write(string.Join("", output));
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+            return null;
+        }
+        public string getinfo(string link)
+        {
+            string output = string.Empty;
+            string schoolurl = "http://education.state.nj.us/directory/";
+            string fullurl = schoolurl + link;
+            string results = GetHttpResponse(fullurl, null);
+            Regex reg = new Regex(@"(<head\b[^<]*(?:(?!<\/head>)<[^<]*)*<\/head>)|(<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>)|(<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>)|(<noscript\b[^<]*(?:(?!<\/noscript>)<[^<]*)*<\/noscript>)");
+            
+            results = reg.Replace(results, "");
+            output = results;
+            return output;
+        }
+        public HttpResponse crawlerny(string url)
+        {
+            try
+            {
+                string results = GetHttpResponse(url, null);
+                results = results.ToLower();
+                List<string> output = new List<string>();
+                Regex reg = new Regex(@"(<head\b[^<]*(?:(?!<\/head>)<[^<]*)*<\/head>)|(<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>)|(<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>)");
+                results = reg.Replace(results, "");
+                Regex linksReg = new Regex(@"(<a\b[^<]*(?:(?!<\/a>)<[^<]*)*<\/a>)");
+                List<string> linksList = new List<string>();
+                MatchCollection matches = linksReg.Matches(results);
+                foreach (Match match in matches)
+                {
+                    string str = match.ToString();
+                    int temp1 = str.IndexOf("#");
+                    int temp2 = str.IndexOf("@");
+                    int temp3 = str.IndexOf("admin");
+                    int temp4 = str.IndexOf("home");
+                    if (str.IndexOf("#") == -1 && str.IndexOf("@") == -1 && str.IndexOf("admin") == -1 && str.IndexOf("home") == -1 && str.IndexOf("name") == -1)
+                    {
+                        str = str.Replace('\"', '\'');
+                        string href = Regex.Match(str, @"'([^']*)").ToString();
+                        if (href != null && href.Length > 1)
+                        {
+                            linksList.Add(href.Substring(1));
+                        }
+                        else
+                        {
+                            string temp = href;
+                        }
+                    }
+                }
+
+                foreach (string link in linksList)
+                {
+                    output.Add(getinfony(link));
+                }
+
+                Response.ContentType = "application/json";
+                Response.Write(string.Join("", output));
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                Response.ContentType = "application/json";
+                Response.Write(DefaultErrorResponse(ex.Message));
+                Response.End();
+            }
+            return null;
+        }
+        public string getinfony(string link)
+        {
+            string output = string.Empty;
+            string schoolurl = "http://www.nysed.gov/admin/";
+            string fullurl = schoolurl + link;
+            string results = GetHttpResponse(fullurl, null);
+            results = results.ToLower();
+            Regex reg = new Regex(@"(<head\b[^<]*(?:(?!<\/head>)<[^<]*)*<\/head>)|(<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>)|(<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>)|(<noscript\b[^<]*(?:(?!<\/noscript>)<[^<]*)*<\/noscript>)");
+            results = reg.Replace(results, "");
+            Regex linksReg = new Regex(@"(<a\b[^<]*(?:(?!<\/a>)<[^<]*)*<\/a>)");
+            List<string> linksList = new List<string>();
+            MatchCollection matches = linksReg.Matches(results);
+            foreach (Match match in matches)
+            {
+                string str = match.ToString();
+                if (str.IndexOf("#") == -1 && str.IndexOf("@") == -1 && str.IndexOf("home") == -1)
+                {
+                    str = str.Replace('\"', '\'');
+                    string href = Regex.Match(str, @"'([^']*)").ToString();
+                    linksList.Add(href.Substring(1));
+                }
+            }
+            if (linksList.Count < 10)
+            {
+                return "";
+            }
+            string infopage = GetHttpResponse(linksList[0], null);
+            infopage = infopage.ToLower();
+            Regex h2Reg = new Regex(@"(<h2\b[^<]*(?:(?!<\/h2>)<[^<]*)*<\/h2>)");
+            Regex preReg = new Regex(@"(<pre\b[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>)");
+            string pre = preReg.Match(infopage).ToString();
+            string district = "";
+            MatchCollection matchesh2 = h2Reg.Matches(infopage);
+            foreach (Match match in matchesh2)
+            {
+                string temp = match.ToString();
+                if (temp.IndexOf("district:") != -1) {
+                    district = temp;
+                }
+            }
+            output = "<p>---------------------------------------------------------------------------</p>" + "<p>" + district + "</p>" + pre;
+            return output;
+        }
+    }
+}

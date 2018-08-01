@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Confirm Email";
+}
+<div class="pageContainer">
+    <div class="container">
+        <div class="row">
+            <h1>Your email confirmed</h1>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

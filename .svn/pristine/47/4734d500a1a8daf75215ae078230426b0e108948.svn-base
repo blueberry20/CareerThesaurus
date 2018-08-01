@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Records";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<style>
+    .regular-input {
+        height: auto !important;
+    }
+
+    .regular-btn {
+        height: auto !important;
+        line-height: normal !important;
+    }
+
+    .sort {
+        cursor: pointer;
+    }
+
+    .row {
+        margin-top: 20px;
+    }
+</style>
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <div>
+                <span>From: <input class="regular-input" type="text" id="fromdate"></span>
+                <span>To: <input class="regular-input" type="text" id="todate"></span>
+                <span class="btn btn-success regular-btn" onclick="searchRecord();">Search</span>                
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Total records:</th>
+                        <th>Records with out phone</th>
+                        <th>Records with phone</th>
+                    </tr>
+                </thead>
+                <tbody id="records"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        $("#fromdate").datepicker();
+        $("#todate").datepicker();
+    }
+    function searchRecord() {
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        if (fromDate && toDate) {
+            $.ajax({
+                url: '/Admin/getsignuprecords',
+                type: 'post',
+                data: {
+                    fromdate: fromDate,
+                    todate: toDate
+                }
+            }).success(function (response) {
+                console.log(response);
+                if (response) {
+                    var html = '<tr><td>' + response.total + '</td><td>' + response.email + '</td><td>' + response.phone + '</td></tr>';
+                    $('#records').html(html);
+                }
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+    }
+</script>

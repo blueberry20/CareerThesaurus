@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<!--[if lte IE 8]>               <html class="ie8 no-js" lang="en">    <![endif]-->
+<!--[if lte IE 10]>				 <html class="ie10 no-js" lang="en">   <![endif]-->
+<!--[if !IE]>-->				 <html class="not-ie no-js" lang="en"> <!--<![endif]-->
+<head>
+	
+	<!-- Google Web Fonts
+  ================================================== -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,700|Julius+Sans+One|Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<title>skillcow</title>	
+	
+	<meta name="description" content=""/>
+	<meta name="author" content=""/>
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="@Url.Content("~/Content/Responsive/layout1/images/favicon.ico")">
+	<link rel="apple-touch-icon" href="@Url.Content("~/Content/Responsive/layout1/images/apple-touch-icon.png")">
+	<link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/Responsive/layout1/images/apple-touch-icon-72x72.png")">
+	<link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/Responsive/layout1/images/apple-touch-icon-114x114.png")">	
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- CSS
+  ================================================== -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/css/style.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/css/grid.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/css/layout.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/css/fontello.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/css/animation.css")" />
+	
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/js/layerslider/css/layerslider.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/Content/Responsive/layout1/js/flexslider/flexslider.css")" />
+	
+	<!-- HTML5 Shiv
+	================================================== -->
+	<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.modernizr.js")"></script>
+	
+</head>
+
+<body data-spy="scroll" data-target="#navigation" class="home">
+	<div id="fb-root"></div>
+    <script>    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=560626447327662";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));</script>
+	<!-- - - - - - - - - - - - - - Loader - - - - - - - - - - - - - - - - -->	
+
+	<script>
+        var allowstickyheader = @(ViewBag.AllowStickyHeader != null && ViewBag.AllowStickyHeader ? "true" : "false");
+    </script>
+    
+	<div class="loader"></div><!--/ .loader-->
+	
+	
+	<!-- - - - - - - - - - - - - end Loader - - - - - - - - - - - - - - - -->	
+
+	
+	<!-- - - - - - - - - - - - - - BG Video - - - - - - - - - - - - - - - - -->		
+
+    @if (ViewBag.IncludeBGVideo != null && ViewBag.IncludeBGVideo == true)
+    {
+	<a class="player" id="bgndVideo" data-property="{
+		videoURL: 'http://www.youtube.com/watch?v=o9gLqh8tmPA&feature',
+		containment:'body',
+		autoPlay: true,
+		quality: 'small',
+		mute: true, 
+		startAt: 0,
+		opacity: 1,
+		ratio: '16/9', 
+		addRaster: false }">
+	</a>
+    }
+
+
+	<!-- - - - - - - - - - - - - end BG Video - - - - - - - - - - - - - - - -->	
+	
+	
+<!-- - - - - - - - - - - - - - Header - - - - - - - - - - - - - - - - -->	
+	
+
+<header id="header" class="transparent header-shrink">
+	
+	<div class="header-in clearfix">
+
+        <h1 id="logo" style="margin: 0px;"><a href="/mobile"><img src="/content/images/logo-head.png" style="position: relative; height: 80px; top: 67px; left: 25px; display: @(ViewBag.AllowStickyHeader != null && ViewBag.AllowStickyHeader ? "" : "none");"/> SkillCow</a></h1>
+        <a id="responsive-nav-button" class="responsive-nav-button" href="#"></a> 
+
+		<nav id="navigation" class="navigation">
+			
+			<ul>
+				<li class="current-menu-item"><a href="/mobile">Home</a></li>
+				<li><a href="/mobile/blog")">About</a></li>
+                <li><a href="/mobile/jobs">Find a job</a></li>
+				<li><a href="/mobile/shortcodes">Shortcodes</a></li>
+			</ul>
+
+		</nav><!--/ #navigation-->
+		
+	</div><!--/ .header-in-->
+	
+</header><!--/ #header-->
+
+
+<!-- - - - - - - - - - - - - end Header - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - Wrapper - - - - - - - - - - - - - - - - -->
+	
+
+<div id="wrapper">
+
+    @RenderBody()
+
+	<!-- - - - - - - - - - - - - - Footer - - - - - - - - - - - - - - - - -->
+	
+	
+	<footer id="footer">
+		
+        @if (!(ViewBag.SuppressFooter != null && ViewBag.SuppressFooter == true))
+        {
+		<section class="section parallax parallax-bg-4">
+
+			<div class="full-bg-image"></div>
+
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-md-6 opacity">
+
+						<form class="contact-form" method="post" action="/">
+
+							<p class="input-block">
+								<input type="text" name="name" id="name" placeholder="Name *" />
+							</p>
+
+							<p class="input-block">
+								<input type="email" name="email" id="email" placeholder="Email *" />
+							</p>
+
+							<p class="input-block">
+								<input type="url" name="website" id="url" placeholder="Website" />
+							</p>
+
+							<p class="input-block">
+								<textarea name="message" id="message" placeholder="Message *"></textarea>	
+							</p>
+
+							<p class="input-block">
+								<button class="button turquoise submit" type="submit" id="submit"><i class="icon-paper-plane-2"></i></button>
+							</p>
+
+						</form><!--/ .contact-form-->	
+
+					</div>
+
+					<div class="col-md-6">
+						
+						<div class="widget widget_text opacity">
+							
+							<p>
+								Lorem ipsum dolor amet, consectetur adipiscing elit. Pellentesque ut lacus at velit consequat sodales. 
+								Ut posuere neque in molestie gravida. Integer neque lementum posuere purus. Nam convallis ipsum. Maecenas a vulputate ipsum.
+								Sed nec consequat felis sit amet sollicitudin neque.
+							</p>	
+							
+						</div><!--/ .widget-->
+						
+						<div class="widget widget_contacts opacity">
+							
+							<ul class="contact-details">
+								<li>Address: 12 Street, Los Angeles, CA, 94101</li>
+								<li>Phone: +1 800 123 4567</li>
+								<li>Email:testmail@sitename.com</li>
+							</ul><!--/ .contact-details-->
+							
+						</div><!--/ .widget-->
+						
+						<div class="widget widget_social opacity">
+							
+							<ul class="social-icons">
+								<li class="twitter"><a href="#"><i class="icon-twitter"></i>Twitter</a></li>
+								<li class="facebook"><a href="#"><i class="icon-facebook"></i>Facebook</a></li>
+								<li class="linkedin"><a href="#"><i class="icon-linkedin"></i>LinkedIn</a></li>
+								<li class="pinterest"><a href="#"><i class="icon-pinterest-circled"></i>Pinterest</a></li>
+								<li class="rss"><a href="#"><i class="icon-rss"></i>Rss</a></li>
+								<li class="gplus"><a href="#"><i class="icon-gplus"></i>Gplus</a></li>
+								<li class="youtube"><a href="#"><i class="icon-youtube"></i>Youtube</a></li>
+								<li class="instagram"><a href="#"><i class="icon-instagramm"></i>Instagram</a></li>
+								<li class="dribbble"><a href="#"><i class="icon-dribbble"></i>Dribbble</a></li>
+							</ul><!--/ .social-icons-->
+							
+						</div><!--/ .widget-->
+						
+					</div>
+
+				</div><!--/ .row-->
+
+			</div><!--/ .container-->
+
+		</section><!--/ .section-->	
+		
+		<div class="logo-in-footer">
+			
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-xs-12">
+						<h1><a href="http://skillcow.com"><img style="opacity: 0.1" src="/content/images/logo-head.png" /></a></h1>
+					</div>
+				</div><!--/ .row-->
+				
+			</div><!--/ .container-->
+			
+		</div><!--/ .logo-in-footer-->
+        }
+		<div class="bottom-footer clearfix">
+
+			<div class="container">
+				
+				<div class="row">
+					
+					<div class="col-sm-6">
+						
+						<div class="copyright">
+							Copyright © 2013. <a target="_blank" href="http://skillcow.com">SkillCow.com</a>. All rights reserved
+						</div><!--/ .cppyright-->
+						
+					</div>
+					
+					
+					
+				</div><!--/ .row-->
+				
+			</div><!--/ .container-->
+
+		</div><!--/ .bottom-footer-->	
+		
+	</footer><!--/ #footer-->
+
+	
+	<!-- - - - - - - - - - - - - end Footer - - - - - - - - - - - - - - - -->
+
+	
+</div><!--/ #wrapper-->
+
+
+<!-- - - - - - - - - - - - - end Wrapper - - - - - - - - - - - - - - - -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document_ready());
+</script>
+<script>    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+<![endif]-->
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.queryloader2.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/waypoints.min.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.easing.1.3.min.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.cycle.all.min.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/layerslider/js/layerslider.transitions.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/layerslider/js/layerslider.kreaturamedia.jquery.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.mixitup.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.mb.YTPlayer.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.smoothscroll.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/flexslider/jquery.flexslider.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/twitter/jquery.tweet.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/jquery.touchswipe.min.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/config.js")"></script>
+<script src="@Url.Content("~/Content/Responsive/layout1/js/custom.js")"></script>
+
+
+</body>
+</html>
+
+<style>
+    .listing {  }
+</style>

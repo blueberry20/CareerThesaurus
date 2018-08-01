@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "SchoolResults";
+}
+
+<link href="~/Content/css/Skilltest/locked.css" rel="stylesheet" />
+
+<div class="pageContainer lockedMode">
+    <div class="container">
+        <h1>My School Results</h1>
+        <div class="row">
+            <div class="leftSide col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <div id="vm">
+
+                </div>
+            </div>
+            <div class="rightColumn col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="rightSide">
+                    <a class="sideNav activeTab" href="">My School results</a>
+                    <a class="sideNav" href="/Careers/ByPersonality">My Career Results<i class="fa fa-angle-right"></i></a>
+                    <a class="sideNav" href="/TakeTest/TestReport">My Report Card<i class="fa fa-angle-right"></i></a>                  
+                </div>
+                <div id="insertHere"></div>
+                <div class="ad"> 
+                    <h6 class="advertisement">Advertisement</h6>
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Thesaurus/ctProfessions.js?v=@ViewBag.AppVersion"></script>
+<script>
+    var userzip = getCookie('zip') ? getCookie('zip') : getCookie('ipzip') != '*' ? getCookie('ipzip') : '11215';
+    var dimensions = { attitude: "", information: "", processing: "", action: "", endurance: "", presence: "", concentration: "", patterns: "", compensation: "" };
+    var schoolsToShow = 20;
+    var schoolNames = [];
+
+    function document_ready() {
+
+        getDimensions();
+
+        moveNav();
+        $(window).resize(function () {
+            moveNav();
+        });
+    }
+
+    function moveNav() {
+        if ($(window).width() <= 768) {
+            $('.rightSide').insertBefore('h1');
+        }
+        else {
+            $('.rightSide').insertBefore('#insertHere');
+        }
+    }
+
+
+    function getDimensions() {
+        for (var property in dimensions) {
+            console.log(property);
+            if (dimensions.hasOwnProperty(property)) {
+                dimensions[property] = getCookie(property) ? getCookie(property) : '';
+            }
+        }
+        matchResults();
+    }
+
+    function matchResults() {
+        var careers = professions.filter(function (x) {
+            return (x.attitude == '' || dimensions.attitude == '' || x.attitude == dimensions.attitude) &&
+            (x.information == '' || dimensions.information == '' || x.information == dimensions.information) &&
+            (x.processing == '' || dimensions.processing == '' || x.processing == dimensions.processing) &&
+            (x.action == '' || dimensions.action == '' || x.action == dimensions.action) &&
+            (x.endurance == '' || dimensions.endurance == '' || x.endurance == dimensions.endurance) &&
+            (x.presence == '' || dimensions.presence == '' || x.presence == dimensions.presence) &&
+            (x.concentration == '' || dimensions.concentration == '' || x.concentration == dimensions.concentration) &&
+            (x.patterns == '' || dimensions.patterns == '' || x.patterns == dimensions.patterns) &&
+            (x.compensation == '' || dimensions.compensation == '' || x.compensation == dimensions.compensation);
+        });
+        var vmCodes = careers.map(function (x) { x.rank = careers.filter(function (y) { return y.vm == x.vm; }).length; return { rank: x.rank, vm: x.vm } }).filter(unique).sort(sortByRank);
+        for (var i = 0; i < vmCodes.length; i++) {
+            getVantageMedia(vmCodes[i].vm);
+        }
+    }
+    function unique(value, index, self) {
+        return self.map(function(x) { return x.vm; }).indexOf(value.vm) == index;
+    }
+    function sortByRank(a, b) { if (a.rank > b.rank) return -1; if (a.rank < b.rank) return 1; return 0; }
+
+    function ipInfo(callback) {
+        $.ajax({
+            url: 'http://ip-api.com/json'
+        }).success(function (responseip) {
+            if (responseip.status == 'success') {
+                setCookie('ipzip', responseip.zip, 365);
+                setCookie('zipcode', responseip.zip, 365);
+                $.ajax({
+                    url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + responseip.lat + ',' + responseip.lon + '&sensor=false',
+                }).success(function (response) {
+                    var ipstate = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[e.types.indexOf('administrative_area_level_1')]; }).indexOf('administrative_area_level_1')].short_name;
+                    setCookie('ipstate', ipstate, 365);
+                }).error(function (error) {
+                    setCookie('ipstate', '*', 365);
+                });
+            } else {
+                fallbackToDefaultZip();
+            }
+        }).error(function (error) {
+            fallbackToDefaultZip();
+        });
+
+        if (callback)
+            callback();
+    }
+    function fallbackToDefaultZip() {
+        setCookie('ipstate', 'NY', 365);
+        setCookie('ipzip', '11215', 365);
+        setCookie('zipcode', '11215', 365);
+    }
+
+    function getVantageMedia(vm) {
+        $.ajax({
+            url: appserverurl + '/Jobs/getvantagemedia',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                zipCode: userzip,
+                campaign: '23371',
+                modality: '3',
+                eduLevel: '1',
+                gradYear: '',
+                areaOfStudy: vm,
+                subAreaOfStudy: '32',
+                degreeLevel: '1',
+                military: '',
+                maxresults: '25'
+            }
+        }).success(function (response) {
+            //console.log(response);
+            // BrandName - name of the school
+            // LogoUrl - url to image (all same size 125px x 60 px)
+            // HeadLine - slogan with name of school
+            // Description - array of 4 strings
+            // DisplayUrl - url to college website
+            // Products.ActionUrl - url to form
+            var schoolsArray = response.results.Results;
+            if (schoolsArray.length > 0) {
+                for (var i = 0; i < schoolsArray.length; i++) {
+                    if (schoolNames.indexOf(schoolsArray[i].BrandName) != -1 || schoolsToShow <= 0) {
+                        continue;
+                    }
+                    schoolNames.push(schoolsArray[i].BrandName);
+                    schoolsToShow--;
+                    var description = '';
+                    for (var j = 0; j < schoolsArray[i].Description.length; j++ ) {
+                        description += '<p>' + schoolsArray[i].Description[j] + '<\p>';
+                    }
+                    var html = '<div class="school-wrapper"><a target="_blank" href="'+ schoolsArray[i].Products[0].ActionUrl +'">' +
+                        '<div class="imageWrapper"><img src="' + schoolsArray[i].LogoUrl + '" /></div>' +
+                        '<div class="textWrapper"><p class="headline">' + schoolsArray[i].HeadLine + '</p>' +
+                        description +
+                        '</div></a></div>';
+
+                    //var html = '<div class="cells col-lg-6 col-md-6 col-sm-4 col-xs-6"><a href="' + schoolsArray[i].Products[0].ActionUrl + '" target="_blank"><img src="' + schoolsArray[i].LogoUrl + '" /></a></div>';
+                    $('#vm').append(html);
+                }
+            }
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+</script>

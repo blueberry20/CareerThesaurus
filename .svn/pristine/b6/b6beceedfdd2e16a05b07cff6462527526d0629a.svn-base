@@ -1,0 +1,149 @@
+﻿using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+using SkillCowResponsive.Classes.Encryption;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Text;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class SignupController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Signup/
+        [HttpGet]
+        public ActionResult Student(string school, string code)
+        {
+            if (school != null && code != null)
+            {
+                AssessmentGroupClient agc = new AssessmentGroupClient();
+                AssessmentGroup group = agc.GetByPartitionAndRowKey(school, code);
+                if (group != null)
+                {
+                    SchoolAccountClient sac = new SchoolAccountClient();
+                    SchoolAccount schoolAccount = sac.GetByPartitionAndRowKey("school", school);
+                    ViewBag.SignUpSchoolZip = schoolAccount.ZipCode;
+                    ViewBag.SignUpSchool = school;
+                    ViewBag.SignUpSchoolName = schoolAccount.SchoolName;
+                    ViewBag.SignUpCode = code;
+                    ViewBag.SignUpGroup = group.Group;
+                    ViewBag.SignUpTeacher = group.Teacher;
+                }
+            }
+            return View();
+        }
+
+        public ActionResult Administrator()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Student(FormCollection collection)
+        {
+            UserAccountClient aac = new UserAccountClient();
+            UserAccount account = aac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["email"]), collection["email"]);
+            if (account == null)
+            {
+                aac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(collection["email"]), RowKey = collection["email"].ToLower(), FirstName = collection["firstname"], LastName = collection["lastname"], Email = collection["email"], Password = collection["password"], ProfileType = "student" });
+                StudentProfileClient spc = new StudentProfileClient();
+                string school = collection["school"] != null ? collection["school"] : "";
+                string teacher = collection["teacher"] != null ? collection["teacher"] : "";
+                string group = collection["group"] != null ? collection["group"] : "";
+                spc.AddNewItem(new StudentProfile { PartitionKey = StudentProfileClient.GetPartitionKeyForEmail(collection["email"]), RowKey = collection["email"].ToLower(), Gender = collection["gender"], GradYear = collection["gradyear"], School = school, SchoolZip = collection["zipcode"], Teacher = teacher, Group = group });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "There is an account already associated with this email. Please log in instead.";
+                return View();             
+            }
+            string sessionkey = ClientSession.GetClientSessionKey("user", collection["email"], collection["firstname"] + " " + collection["lastname"], "student");
+            Response.Cookies["sessionkey"].Value = sessionkey;
+            Response.Cookies["sessionusername"].Value = collection["email"];
+            Response.Cookies["firstname"].Value = collection["fistname"];
+            Response.Cookies["lastname"].Value = collection["lastname"];
+            Response.Cookies["email"].Value = collection["email"];
+            Response.Cookies["gender"].Value = collection["gender"];
+            return RedirectToAction("Student", "Assessment");            
+        }
+        [HttpPost]
+        public ActionResult Administrator(FormCollection collection)
+        {
+            UserAccountClient aac = new UserAccountClient();
+            UserAccount account = aac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(collection["email"]), collection["email"].ToLower());
+            if (account == null)
+            {
+                aac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(collection["email"]), RowKey = collection["email"].ToLower(), FirstName = collection["firstname"], LastName = collection["lastname"], Email = collection["email"], Password = collection["password"], ProfileType = "administrator" });
+                AdminProfileClient apc = new AdminProfileClient();
+                apc.AddNewItem(new AdminProfile { RowKey = collection["email"].ToLower(), PhoneNumber = collection["phonenumber"]});
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "There is an account already associated with this email. Please log in instead.";
+                return View();
+                 
+            }
+            string sessionkey = ClientSession.GetClientSessionKey("user", collection["email"], collection["firstname"] + " " + collection["lastname"], "administrator");
+            Response.Cookies["sessionkey"].Value = sessionkey;
+            Response.Cookies["sessionusername"].Value = collection["email"];
+            EmailManager emailManager = new EmailManager();
+            string str = "<p>Full name: " + collection["firstname"] + " " + collection["lastname"] + "</p><p>Email: " + collection["email"] + "</p><p>Phone Number: " + collection["phonenumber"] + "</p>";
+            emailManager.SendMail("no-reply@careerthesaurus.com", "Admin", "mike@peopli.com", "HS Admin", str);
+            return RedirectToAction("Administrator", "Assessment");
+        }
+        [HttpPost]
+        public HttpResponse GetSchoolsByZip(string zipcode)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            List<SchoolAccount> schoolList = new List<SchoolAccount>(sac.GetByZipCode(zipcode));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string response = schoolList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(schoolList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse GetTeacherAndGroup(string pincode, string school)
+        {
+            string response;
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            AssessmentGroup group = agc.GetByPartitionAndRowKey(school, pincode);
+            if (group != null) {
+                response = "{\"result\": \"ok\", \"teacher\":\"" + group.Teacher + "\", \"group\":\"" + group.Group + "\"}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"teacher\":\"\", \"group\":\"\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        private void UpdatePartitionKeys()
+        {
+            UserAccountClient uac = new UserAccountClient();
+            List<UserAccount> accounts =  new List<UserAccount>(uac.GetAll());
+            foreach (UserAccount account in accounts)
+            {
+                //uac.Delete(account);
+                //uac.AddNewItem(new UserAccount { PartitionKey = UserAccountClient.GetPartitionKeyForEmail(account.RowKey), RowKey = account.RowKey, FirstName = account.FirstName, LastName = account.LastName, Email = account.Email, Password = account.Password, ProfileType = account.ProfileType });
+            }
+            StudentProfileClient spc = new StudentProfileClient();
+            List<StudentProfile> students = new List<StudentProfile>(spc.GetAll());
+            foreach (StudentProfile student in students)
+            {
+                //spc.Delete(student);
+                //spc.AddNewItem(new StudentProfile { PartitionKey = StudentProfileClient.GetPartitionKeyForEmail(student.RowKey), RowKey = student.RowKey, Gender = student.Gender, GradYear = student.GradYear, School = student.School, SchoolZip = student.SchoolZip, Teacher = student.Teacher, Group = student.Group });
+            }
+        }
+    }
+}

@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "IndeedKeywords";
+}
+
+<style>
+#results {text-align: left;}
+#results .jobtitle { background-color: rgba(255,255,255,0.8); border: thin dashed #ddd; margin: 1px; padding: 1px;}
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    <h1>Indeed Keywords</h1>
+    <table>
+        <tr>
+            <td valign=top>
+                <div id="results"></div>
+            </td>
+            <td valign=top>
+                <div id="topkeywords"></div>
+            </td>
+        </tr>
+    </table>
+    
+    <div id="stats" style="position: absolute; top: 0px; right: 0px; background-color: rgba(255,255,255,0.5); padding: 20px;">
+        
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/TagAggregation/kiosk_tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script>
+
+    //stats
+    var _searches = 0;
+    var _titles = 0;
+    var _keywords = 0;
+    var _keywordsprocessed = 0;
+    var _currentlevel = 0;
+
+    var topkeywords, topcompanies;
+    var uniquetitles = new Array();
+
+    function document_ready() {
+
+        var query = '';
+        var start = 0;
+        var loaded = 0;
+        var target = 100;
+        var level = 0;
+        var maxdepth = 5;
+
+        searchIndeedJobs(query, start, loaded, target, level, maxdepth);
+    }
+
+    function searchIndeedJobs(query, start, loaded, target, level, maxdepth) {
+
+        if (level > maxdepth) {
+            return;
+        }
+
+        var chnl = '13564694';
+
+        _searches++;
+        _level = level;
+
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: query,
+                l: "10005",
+                c: chnl,
+                limit: "25",
+                start: "start"
+            }
+        }).success(function (response) {
+
+            try {
+                var results = response.results.results;
+                if (results != null) {
+                    var newitems = false;
+                    for (var i = 0; i < results.length; i++) {
+                        var x = results[i];
+                        var titlekey = $.trim(x.jobtitle).toLowerCase();
+                        if (!isregistered(titlekey, uniquetitles)) {
+                            newitems = true;
+                            uniquetitles.push(titlekey);
+                            _titles++;
+
+                            $('#results').append('<div class="jobtitle">' + x.jobtitle + '</div>')
+                            loaded++;
+
+                            topkeywords = rankWords(x.jobtitle.toLowerCase(), null, topkeywords);
+                            _keywords = topkeywords.length;
+                        }
+                        start++;
+                    }
+
+                    showStats();
+
+                    if (newitems == true && results.length == 25 && loaded < target) {
+                        searchIndeedJobs(query, start, loaded, target, level, maxdepth);
+                    }
+                    else {
+                        showTopKeywords();
+                        processKeywords(level + 1, maxdepth);
+                    }
+
+                }
+            }
+            catch (ex) {
+                alert(ex.message);
+            }
+
+        }).error(function (response) {
+            alert("Error 2: " + response.errormessage);
+        });
+
+    }
+
+    function isregistered(item, items) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i] == item) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function showTopKeywords() {
+        var sorted = topkeywords.sort(sortbycount);
+        $('#topkeywords').html('');
+        for (var i = 0; i < sorted.length; i++) {
+            $('#topkeywords').append('<div class="keyword">' + sorted[i].keyword + ' (' + sorted[i].count + ')</div>')
+        }
+    }
+
+    var processedKeywords = new Array();
+
+    function processKeywords(level, maxdepth) {
+        var sorted = topkeywords.sort(sortbycount);
+        for (var i = 0; i < sorted.length; i++) {
+            if (!isregistered(sorted[i].keyword, processedKeywords)) {
+                processedKeywords.push(sorted[i].keyword);
+                _keywordsprocessed++;
+                searchIndeedJobs(sorted[i].keyword, 0, 0, 100, level, maxdepth);
+            }
+        }
+    }
+
+    function showStats() {
+        $('#stats').html('');
+        $('#stats').append('Searches: ' + _searches + '<br>');
+        $('#stats').append('Titles: ' + _titles + '<br>');
+        $('#stats').append('Keywords: ' + _keywords + '<br>');
+        $('#stats').append('KW processed: ' + _keywordsprocessed + '<br>');
+        $('#stats').append('Level: ' + _currentlevel + '<br>');
+    }
+
+</script>

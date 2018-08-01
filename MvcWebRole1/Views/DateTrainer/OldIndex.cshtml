@@ -1,0 +1,257 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<style>
+    html,body {background-color: #000; padding: 0; margin: 0; overflow:hidden;}
+    
+    .leftcurtain 
+    {
+        position: absolute; top: 0px; left: 0px; width: 300px; height:100%;
+        
+        background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+    }
+    
+    .rightcurtain 
+    {
+        position: absolute; top: 0px; right: 0px; width: 300px; height:100%;
+        
+        background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
+    }
+    
+    div.overlay {position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgba(0,0,0,1);}
+    div.overlay h1 {color: #fff;}
+    div.boxcenter
+    {
+        /* Firefox */
+        display:-moz-box;
+        -moz-box-pack:center;
+        -moz-box-align:center;
+
+        /* Safari, Opera, and Chrome */
+        display:-webkit-box;
+        -webkit-box-pack:center;
+        -webkit-box-align:center;
+
+        /* W3C */
+        display:box;
+        box-pack:center;
+        box-align:center;
+    }
+    div.controls {position: absolute;  width: 100%; height: 100%; top: 0px; left: 0px; text-align: center;}
+    div.controls input[type='button'] {font-size: 24pt; padding: 5px 20px 5px 20px; font-family: Roboto; cursor: pointer;}
+</style>
+<html>
+<head>
+    <title>The Date Trainer</title>
+    <script src="@Url.Content("~/Scripts/jquery/jquery.tools.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery/jquery-ui.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <script>var isIE = false;</script>
+    <!--[if IE]><script>isIE = true;</script><![endif]-->
+    <div style="position: relative; text-align: center; width: 100%;">
+        
+        <div style="position: relative; margin: 0 auto; width: 900px; text-align: left;">
+        <h1 style="color: rgba(255,255,255,0.5)">The Date Trainer</h1>  
+        </div>
+        <div style="position: relative; margin: 0 auto; width: 900px; height: 500px;">
+            <div id="q1holder" style="position: absolute; opacity: 0; left: 0px; top: 0px; width: 900px; height: 500px;"><div id="q1"></div></div>
+            <div id="q2holder" style="position: absolute; opacity: 0; left: 0px; top: 0px; width: 900px; height: 500px;"><div id="q2"></div></div>
+
+            <!--
+            <iframe id="ytplayer" type="text/html" width="100%" height="100%"
+            src="https://www.youtube.com/embed/5fWzcq8xeIA?autoplay=1&controls=0&enablejsapi=1&rel=0&showinfo=0&color=white&iv_load_policy=1&volume=100&fs=1"
+            frameborder="0" ></iframe>
+            -->
+        </div>
+    </div>
+
+    <div class="leftcurtain"></div>
+    <div class="rightcurtain"></div>
+    <div id="overlay" class="overlay" ></div>
+    
+    
+    <div id="theend" class="overlay boxcenter">
+        <h1>THE END</h1>
+    </div>
+
+    <div id="controls" class="controls boxcenter">
+        <input type="button" value="Start" onclick="starttheshow()"/>
+    </div>
+
+
+    <script>
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        
+        var youtubeapiready = false;
+        function onYouTubeIframeAPIReady() {
+            
+            youtubeapiready = true;
+        }
+
+        
+
+        $(document).ready(function () {
+            $('#theend').hide();    
+            waitforyoutubeapi();
+        });
+
+        function waitforyoutubeapi() {
+            if (youtubeapiready) {
+                loadallvideos();
+            }
+            else {
+                setTimeout(waitforyoutubeapi, 100);
+            }
+        }
+
+        var q1, q2;
+        var VIDEOS_TO_LOAD = 2;
+        var currentcanvas;
+        var fillercanvas;
+        function loadallvideos() {
+            
+            q1 = new YT.Player('q1', { height: '100%', width: '100%', videoId: '5fWzcq8xeIA', playerVars: { controls: 0, showinfo: 0, modestbranding: 0, rel: 0, disablekb: 1 }, events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange} });
+            //q2 = new YT.Player('q2', { height: '100%', width: '100%', videoId: '3TTTppSIMuY', playerVars: { controls: 0, showinfo: 0, modestbranding: 0, rel: 0, disablekb: 1 }, events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange} });
+            
+            //frame recentered:
+            //q2 = new YT.Player('q2', { height: '100%', width: '100%', videoId: '73hfsrtUQUk', playerVars: { controls: 0, showinfo: 0, modestbranding: 0, rel: 0, disablekb: 1 }, events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange} });
+
+            //frame recentered 3/30/2013 test:
+            q2 = new YT.Player('q2', { height: '100%', width: '100%', videoId: 'Km7IOPF9Fu4', playerVars: { controls: 0, showinfo: 0, modestbranding: 0, rel: 0, disablekb: 1 }, events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange} });
+            
+            
+        }
+
+        // 4. The API will call this function when the video player is ready.
+        var loadcnt = 0;
+        
+        function onPlayerReady(event) {
+
+            loadcnt++;
+
+            event.target.pauseVideo();
+            
+            if (loadcnt >= VIDEOS_TO_LOAD) {
+                $('#controls').show();
+            }
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+        function onPlayerStateChange(event) {
+
+
+            if (event.data == YT.PlayerState.PLAYING) {
+                
+                if (event.target.id == 1) {
+                    //First video
+                    var timeout = 8000;
+                    if (isIE == true) {
+                        timeout = 9000;
+                    }
+                    setTimeout(transitiontofiller, timeout);
+                    //animatePOVHeadMovementQ1();
+                }
+
+                if (event.target.id = 2) {
+                    //transitioning to video 2
+                    if (transition) {
+                        $('#q2holder').show();
+                        $('#q2holder').animate({ "opacity": 1 }, 1000);
+
+                        $('#q1holder').animate({ "opacity": 0 }, 1000);
+                        setTimeout(function () {
+                            //$('#q1holder').css('left', -500);
+                            $('#q1holder').hide();
+                            q1.stopVideo();
+                        }, 500);
+                    }
+                }
+            }
+
+            //if (event.data == 2 ) {
+            //    if (event.target.id == 2) {
+            //        alert('the end');
+            //        theend();
+            //    }
+            //}
+            
+        }
+        function stopVideo() {
+            q1.stopVideo();
+        }
+
+
+        function starttheshow() {
+
+            $('#controls').animate({ "opacity": 0 }, 100);
+            $('#overlay').animate({ "opacity": 0 }, 1000);
+
+            $('#q1holder').show();
+            $('#q1holder').css('opacity', 1);
+
+            q1.playVideo();
+            
+            currentcanvas = $('#q1holder');
+            fillercanvas = $('#q2holder');
+
+        }
+
+        var transition = false;
+        function transitiontofiller() {
+            transition = true;
+            q2.playVideo();
+        }
+
+        function animatePOVHeadMovementQ1() {
+            setTimeout(function () {
+                $('#q1holder').animate({ "left": -30 }, 1000);
+
+                setTimeout(function () {
+                    $('#q1holder').animate({ "left": 0 }, 500);
+
+                    setTimeout(function () {
+                        $('#q1holder').animate({ "top": -50 }, 1000);
+                        setTimeout(function () {
+                            $('#q1holder').animate({ "top": 0 }, 100);
+                        }, 2300);
+                    }, 4000);
+
+                }, 1500);
+            }, 2000);
+        }
+
+        function theend() {
+            $('#theend').show();   
+        }
+
+    </script>
+</body>
+</html>

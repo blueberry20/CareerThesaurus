@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js"></script>
+<div class="pageContainer">
+    <div id="quin"></div>
+    <div id="schools"></div>
+</div>
+
+<script>
+    var result;
+    var responseText;
+    function document_ready() {
+        //quinStreet();
+        //crawler();
+        //crawlerny();
+
+
+        //dimensions();
+
+        //interests();
+
+        //careers();
+
+    }
+
+    function dimensions() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetDimensions',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+    function interests() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetInterests',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+    function careers() {
+        $.ajax({
+            url: appserverurl + '/analytics/GetCareers',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: '7186673222',
+                teacher: 'test@test.com',
+                group: ''
+            }
+        }).success(function (response) {
+            console.log('-----------------');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        }).error(function (response) {
+            console.log('+++++++++++++++++');
+            console.log(response);
+            //result = response;
+            //responseText = response.responseText;
+            //console.log(responseText);
+            //$('#schools').html(responseText);
+            //setTimeout(function () {
+            //    var elements = $('.district_box');
+            //    console.log(elements.length);
+            //}, 2000);
+        });
+    }
+
+    function crawler() {
+        var url = 'http://education.state.nj.us/directory/district.php';
+        $.ajax({
+            url: appserverurl + '/sandbox/crawler',
+            data: {
+                url: url
+            }
+        }).success(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+            setTimeout(function () {
+                var elements = $('.district_box');
+                console.log(elements.length);
+            }, 2000);
+        }).error(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+            setTimeout(function () {
+                var elements = $('.district_box');
+                console.log(elements.length);
+            }, 2000);
+        });
+    }
+    function crawlerny() {
+        var url = 'http://www.nysed.gov/admin/admindex.html';
+        $.ajax({
+            url: appserverurl + '/sandbox/crawlerny',
+            data: {
+                url: url
+            }
+        }).success(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+        }).error(function (response) {
+            console.log(response);
+            result = response;
+            responseText = response.responseText;
+            console.log(responseText);
+            $('#schools').html(responseText);
+        });
+    }
+
+    function quinStreet() {
+        var json = {
+            "widgets":
+            [
+                {
+                    "webSiteName": "careerthesaurus.com",
+                    "webPageUri": "/",
+                    "affiliateKey": "81614244",
+                    "tag": "204433542",
+                    "widgetInstanceKey": "22382810",
+                    "zip": "11235",
+                    "areaOfInterest": "BUSINESS",
+                    //"template": "%3Cdiv%3E%24%7BgetVendorName()%7D%3C%2Fdiv%3E"
+                    "template": encodeURIComponent("<img src=\"${getLogoPath('small')}\" width=\"120\" height=\"60\" border=\"0\"/>" +
+                        "<div>Bluid -- ${getBluid()}</div>" +
+                        "<a href=\"http://hqx.qmp.quinstreet.com/hqxapi/qsctredirect/?VKEY=${getVendorKey()}&BLUID=${getBluid()}&tag=204433542&webSiteName=careerthesaurus.com&requestInfoUrl=" + appserverurl + "/sandbox/quin\" rel=\"nofollow\">Request Info Vkey -- ${getVendorKey()}</a>" +                       
+                        "<div class=\"campusblurb\">{{html getVendorBlurb('long')}}</div>")
+                }
+            ],
+            "clientData":
+            {
+                "userAgent": "Mozilla/5.0 (Windows NT 5.1; rv:17.0) Gecko/20100101 Firefox/17.0",
+                "browserIp": "127.0.0.1",
+                "requestUri": "127.0.0.1:81" + '/Sandbox/'
+            }
+        }
+        console.log(JSON.stringify(json));
+        $.ajax({
+            url: appserverurl + "/Sandbox/" + 'getQuinStreet',
+            type: "POST",
+            data: { json: JSON.stringify(json) }
+        }).done(function (response) {
+            console.log(response);
+            var html;
+            if (response.result == 'ok') {
+                for (var property in response.results) {
+                    if (response.results.hasOwnProperty(property)) {
+                        html = response.results[property].renderedListing;
+                    }
+                }
+                $('#quin').append(decodeURIComponent(html));
+                $('#quin a').each(function () {
+                    var link = $(this).attr('href');
+                    link = link.slice(0, link.lastIndexOf('=') + 1) + encodeURIComponent(link.slice(link.lastIndexOf('=') + 1));
+                    $(this).attr('href', link); 
+                });
+            }            
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+            console.log(ajaxOptions);
+            console.log(thrownError);
+        });
+    }
+</script>

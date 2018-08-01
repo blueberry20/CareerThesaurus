@@ -1,0 +1,232 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.Agent
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    fieldset {border: none;}
+        fieldset .editor-label {position: relative; display: inline-block; width: 150px; }
+        fieldset .editor-field {position: relative; display: inline-block;}
+</style>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+
+<h1>Edit Agent</h1>
+
+
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Agent</legend>
+
+        @Html.HiddenFor(model=>model.Timestamp)
+        @Html.HiddenFor(model=>model.RowKey)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Firstname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Firstname)
+            @Html.ValidationMessageFor(model => model.Firstname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Lastname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Lastname)
+            @Html.ValidationMessageFor(model => model.Lastname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EmploymentStatus)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EmploymentStatus)
+            @Html.ValidationMessageFor(model => model.EmploymentStatus)
+        </div>
+
+
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MobilePhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MobilePhone)
+            @Html.ValidationMessageFor(model => model.MobilePhone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HomePhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HomePhone)
+            @Html.ValidationMessageFor(model => model.HomePhone)
+        </div>
+
+        
+        <br />
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoginName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoginName)
+            @Html.ValidationMessageFor(model => model.LoginName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoginCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoginCode)
+            @Html.ValidationMessageFor(model => model.LoginCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoginColor)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoginColor)
+            @Html.ValidationMessageFor(model => model.LoginColor)
+        </div>
+
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+
+        <br />
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Address)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
+        </div>
+
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.City)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.City)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.State)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.State)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Zip)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Zip)
+            @Html.ValidationMessageFor(model => model.Zip)
+        </div>
+
+        <br />
+        <br />
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CurrentStatus)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CurrentStatus)
+            @Html.ValidationMessageFor(model => model.CurrentStatus)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CurrentLocation)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CurrentLocation)
+            @Html.ValidationMessageFor(model => model.CurrentLocation)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AssignedLocation)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AssignedLocation)
+            @Html.ValidationMessageFor(model => model.AssignedLocation)
+        </div>
+
+        <br />
+        <br />
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Supervisor)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Supervisor)
+            @Html.ValidationMessageFor(model => model.Supervisor)
+        </div>
+               
+
+        <br /><br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PayPerHour)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PayPerHour)
+            @Html.ValidationMessageFor(model => model.PayPerHour)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PayPerLead)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PayPerLead)
+            @Html.ValidationMessageFor(model => model.PayPerLead)
+        </div>
+
+        <br /><br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Notes)
+        </div>
+        <div class="editor-field">
+            <textarea id="Notes" name="Notes" style="width: 770px; height: 200px;"></textarea>
+            @Html.ValidationMessageFor(model => model.Notes)
+        </div>
+
+        
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+</div>
+

@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #_profession_indepth_scrollablecontent div {display: inline-block;}
+</style>
+
+    
+
+<div id="_profession_indepth" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    
+    <div style="position: absolute; top: 80px; left: 125px;">
+        <img id="profession_indepth_branchimage" src="" style="position: absolute; top: 0px; left: 0px; width: 240px; height:240px;"/>
+        <h1 id="profession_indepth_name" style="position: absolute; top: 0px; margin: 0px; left: 300px; font-size: 24pt; width: 900px; display: inline-block; "></h1>
+        <p id="profession_indepth_shortdesc" class="" style="position: absolute; top: 60px; margin: 0px; left: 300px; font-size: 12pt; width: 900px;">
+            Lorem ipsum dolor sit amet, an pro ipsum tation. Amet consequat usu no. Mel ut maiestatis moderatius. Munere salutatus scribentur nam ut, id eum volumus scriptorem, et euismod fastidii voluptaria sea. Id reque ludus eos, ad mel quaeque sensibus evertitur.
+            Autem qualisque et per, pri everti persius ex. Ea justo vulputate sed, vis melius invidunt apeirian ei. Cibo decore lucilius ne his, ex cibo neglegentur vis, bonorum corpora definiebas ne per. Ea usu modus vitae interesset. No exerci ceteros est, ei mel fastidii offendit facilisi.
+            Equidem mnesarchum sea id, sed nonumes voluptua salutatus in, cu libris labitur vix. Quo ut vidisse mnesarchum. Sententiae quaerendum mel ea. Ex natum persius corrumpit qui, nec te rebum summo. Quodsi facilis ea vim, ne vim ornatus convenire.
+            Posse fierent cum et, vel ut primis utamur, quod dolores apeirian nam at. Id oblique graecis his, dolor corpora te mel. Cum docendi petentium ea, meis aliquid efficiendi eam eu. Ut eos fugit ullamcorper. At has esse idque sententiae. Te ius mucius elaboraret instructior.
+        </p>
+    </div>
+    
+    
+    <div id="_profession_indepth_viewport" style="position: absolute; width: 100%; bottom: 0px; height: 560px; overflow-x: scroll; display: none;">
+        <div id="_profession_indepth_scrollablecontent" style="overflow-y: hidden; height: 560px; margin-left: 100px; opacity: 0;">
+            
+            <div id="duties_container" class="result_panel" style="margin-left: 125px; height: 560px; width: 387px">
+                <div class="smalltitle">Typical Duties and Responsibilites.</div>
+                <br />
+                
+                <div id="profession_duties">
+
+                    Lorem ipsum dolor sit amet, an pro ipsum tation. Amet consequat usu no. Mel ut maiestatis moderatius. Munere salutatus scribentur nam ut, id eum volumus scriptorem, et euismod fastidii voluptaria sea. Id reque ludus eos, ad mel quaeque sensibus evertitur.
+                    Autem qualisque et per, pri everti persius ex. Ea justo vulputate sed, vis melius invidunt apeirian ei. Cibo decore lucilius ne his, ex cibo neglegentur vis, bonorum corpora definiebas ne per. Ea usu modus vitae interesset. No exerci ceteros est, ei mel fastidii offendit facilisi.
+                    Equidem mnesarchum sea id, sed nonumes voluptua salutatus in, cu libris labitur vix. Quo ut vidisse mnesarchum. Sententiae quaerendum mel ea. Ex natum persius corrumpit qui, nec te rebum summo. Quodsi facilis ea vim, ne vim ornatus convenire.
+                    Posse fierent cum et, vel ut primis utamur, quod dolores apeirian nam at. Id oblique graecis his, dolor corpora te mel. Cum docendi petentium ea, meis aliquid efficiendi eam eu. Ut eos fugit ullamcorper. At has esse idque sententiae. Te ius mucius elaboraret instructior.
+
+                </div>
+            </div>
+
+            <div id="wheretofind_container" class="result_panel" style="height: 560px; width: 387px;">
+                <div class="smalltitle">Where this profession is found.</div>
+                <br />
+                
+                <div id="profession_wheretofind">
+
+                    Lorem ipsum dolor sit amet, an pro ipsum tation. Amet consequat usu no. Mel ut maiestatis moderatius. Munere salutatus scribentur nam ut, id eum volumus scriptorem, et euismod fastidii voluptaria sea. Id reque ludus eos, ad mel quaeque sensibus evertitur.
+                    Autem qualisque et per, pri everti persius ex. Ea justo vulputate sed, vis melius invidunt apeirian ei. Cibo decore lucilius ne his, ex cibo neglegentur vis, bonorum corpora definiebas ne per. Ea usu modus vitae interesset. No exerci ceteros est, ei mel fastidii offendit facilisi.
+                    Equidem mnesarchum sea id, sed nonumes voluptua salutatus in, cu libris labitur vix. Quo ut vidisse mnesarchum. Sententiae quaerendum mel ea. Ex natum persius corrumpit qui, nec te rebum summo. Quodsi facilis ea vim, ne vim ornatus convenire.
+                    Posse fierent cum et, vel ut primis utamur, quod dolores apeirian nam at. Id oblique graecis his, dolor corpora te mel. Cum docendi petentium ea, meis aliquid efficiendi eam eu. Ut eos fugit ullamcorper. At has esse idque sententiae. Te ius mucius elaboraret instructior.
+
+                </div>
+            </div>
+            
+            <div id="salary_container" class="result_panel" style="height: 560px; width: 387px;">
+                <div class="smalltitle">Salary.</div>
+                <br />
+                
+                <div id="profession_salary">
+
+                    Lorem ipsum dolor sit amet, an pro ipsum tation. Amet consequat usu no. Mel ut maiestatis moderatius. Munere salutatus scribentur nam ut, id eum volumus scriptorem, et euismod fastidii voluptaria sea. Id reque ludus eos, ad mel quaeque sensibus evertitur.
+                    Autem qualisque et per, pri everti persius ex. Ea justo vulputate sed, vis melius invidunt apeirian ei. Cibo decore lucilius ne his, ex cibo neglegentur vis, bonorum corpora definiebas ne per. Ea usu modus vitae interesset. No exerci ceteros est, ei mel fastidii offendit facilisi.
+                    Equidem mnesarchum sea id, sed nonumes voluptua salutatus in, cu libris labitur vix. Quo ut vidisse mnesarchum. Sententiae quaerendum mel ea. Ex natum persius corrumpit qui, nec te rebum summo. Quodsi facilis ea vim, ne vim ornatus convenire.
+                    Posse fierent cum et, vel ut primis utamur, quod dolores apeirian nam at. Id oblique graecis his, dolor corpora te mel. Cum docendi petentium ea, meis aliquid efficiendi eam eu. Ut eos fugit ullamcorper. At has esse idque sententiae. Te ius mucius elaboraret instructior.
+
+                </div>
+            </div>
+            
+            <div id="demand_container" class="result_panel" style="height: 560px; width: 387px;">
+                <div class="smalltitle">Demand.</div>
+                <br />
+                
+                <div id="profession_demand">
+
+                    Lorem ipsum dolor sit amet, an pro ipsum tation. Amet consequat usu no. Mel ut maiestatis moderatius. Munere salutatus scribentur nam ut, id eum volumus scriptorem, et euismod fastidii voluptaria sea. Id reque ludus eos, ad mel quaeque sensibus evertitur.
+                    Autem qualisque et per, pri everti persius ex. Ea justo vulputate sed, vis melius invidunt apeirian ei. Cibo decore lucilius ne his, ex cibo neglegentur vis, bonorum corpora definiebas ne per. Ea usu modus vitae interesset. No exerci ceteros est, ei mel fastidii offendit facilisi.
+                    Equidem mnesarchum sea id, sed nonumes voluptua salutatus in, cu libris labitur vix. Quo ut vidisse mnesarchum. Sententiae quaerendum mel ea. Ex natum persius corrumpit qui, nec te rebum summo. Quodsi facilis ea vim, ne vim ornatus convenire.
+                    Posse fierent cum et, vel ut primis utamur, quod dolores apeirian nam at. Id oblique graecis his, dolor corpora te mel. Cum docendi petentium ea, meis aliquid efficiendi eam eu. Ut eos fugit ullamcorper. At has esse idque sententiae. Te ius mucius elaboraret instructior.
+
+                </div>
+            </div>
+            
+
+            <div class="result_panel" style="height: 700px; width: 280px; margin-left: 80px; display: none;">
+                <div class="smalltitle"><img src="/content/images/kiosk/icons/discover.png" style="position: absolute; left: -50px; "/> Discover similar professions.</div>
+                <br />
+
+                <div id="profession_similarprofessions" style="margin-left: -10px">
+
+                    <!--SCHOOLS GO HERE-->
+                    <div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">
+                        <div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient">
+                            <div style="position: absolute; top: 0px; left: 0px; width: 270px; height: 25; text-align: left; font-size: 12pt; padding: 5px; color: #fff; background-color: #000;">Branch name</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <div id="_profession_indepth_backbutton" class="backbutton"></div>
+    
+</div>
+    
+<script>
+
+    var profession_name = '';
+    var programid = 0;
+    var _profession_indepth_loaded = false;
+
+    function showProfessionInDepth(professionid, profession_name, branchname) {
+
+        showOverlay('_profession_indepth');
+                
+        $('#profession_indepth_branchimage').attr('src', '/content/images/careerassessment/covers/bybranch/' + branchname.replace(/\s/g, '').replace(/\,/g, '') + '.jpg');
+
+        $('#profession_indepth_name').html(profession_name);
+        $('#profession_indepth_shortdesc').addClass(professionid + '_description');
+
+        $('#profession_duties').addClass(professionid + '_duties');
+        $('#profession_wheretofind').addClass(professionid + '_wheretofind');
+        $('#profession_salary').addClass(professionid + '_salary');
+        $('#profession_demand').addClass(professionid + '_demand');
+
+        $('#duties_container').addClass(professionid + '_duties_container');
+        $('#wheretofind_container').addClass(professionid + '_wheretofind_container');
+        $('#salary_container').addClass(professionid + '_salary_container');
+        $('#demand_container').addClass(professionid + '_demand_container');
+        
+        getDescriptionsFromBlob(professionid);
+                
+        var scrollablewidth = 1920; //125 + 280 + 300 * (cnt - 1) + 1920 - 125 - 280
+
+        $('#_profession_indepth_scrollablecontent').css('width', scrollablewidth);
+        $("#_profession_indepth_viewport").niceScroll("#_profession_indepth_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+        $("#_profession_indepth_viewport").getNiceScroll().resize();
+        $("#_profession_indepth_viewport").show();
+
+        setTimeout(function () {
+            $('#_profession_indepth_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+        }, 500);
+
+        if (!_profession_indepth_loaded) {
+            $('#_profession_indepth_backbutton').press(function () {
+                hideOverlay('_profession_indepth');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_profession_indepth');
+                }
+            });
+
+            _profession_indepth_loaded = true;
+        }
+
+
+    }
+    
+    
+
+    function addSimilarProfession(sequence, job) {
+
+        $('#profession_similarprofessions').append('<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; ">' +
+                        '<div style="position: absolute; top: 0; left: 0; width:280px; height: 274px; border: thin solid black;" class="diagonalwhitegradient80">' +
+                        '    <div style="width: 260px; height: 25; text-align: left; font-size: 12pt; font-weight: bold; padding: 10px 10px 0 10px; color: #000; ">' + (linebreak?'BR ':'') + job.jobtitle + '</div>' +
+                        '    <div style="width: 260px; height: 25; text-align: left; font-size: 10pt; padding-left: 10px; color: #333;">'+job.company+', '+job.formattedLocation+'</div>' +
+                        '    <div id="jobkey' + job.jobkey + '" style="width: 260px; text-align: left; font-size: 10pt; padding: 10px; color: #000;">' + (job.description != null ? job.description : '') + '</div>' +
+                        //'    <div timestamp="'+postingdate.getTime()+'" class="age">'+getElapsedTime(postingdate.getTime())+'</div>' + 
+                        '</div>' +
+                        '<div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 50px;"></div>' +
+                        '</div>');
+    }
+
+    
+</script>

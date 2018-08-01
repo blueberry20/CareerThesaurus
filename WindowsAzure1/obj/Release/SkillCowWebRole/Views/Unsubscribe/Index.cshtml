@@ -1,0 +1,41 @@
+﻿    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_MobileLayout.cshtml";
+    }
+
+    <h1>Unsubscribe</h1>
+
+    @using (Html.BeginForm())
+    {
+        <table width="100%" cellpadding=0 cellspacing=0>
+            <tr>
+                <td>Your email: </td>
+                <td><input type="text" name="email" value="@ViewBag.Email"/></td>
+            </tr>
+        </table>
+        
+        <br />
+        <div class="actionbutton" onclick="submitform()">
+            <span>Unsubscribe</span>
+            <span><img style="position: absolute; display: block; top: -20px; opacity: 0.5;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+            <span><img style="position: absolute; display: block; top: -20px; opacity: 0.25;" src="http://skillcow.com/content/images/kiosk/icons/arrow_5.png" /></span>
+        </div>
+    }
+
+    <style>
+        h1{font-weight: 100; font-size: 16pt;}
+        input[type='text']
+        {
+            border: thin solid #ddd;
+            
+            font-size: 12pt;
+            padding: 5px;
+            width: 200px;
+        }
+    </style>
+
+    <script>
+        function submitform() {
+            document.forms[0].submit();
+        }
+    </script>

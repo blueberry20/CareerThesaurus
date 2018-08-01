@@ -1,0 +1,214 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+@using SkillCow.Classes.Cloud.TableStorage
+@using SkillCow.Classes
+
+@model List<AgentDailyActivity>
+           
+@{
+    ViewBag.Title = "Agent Hours";
+}
+
+<script>
+    function settoday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+</script>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    @using (Html.BeginForm())
+    {
+    <table style="font-style: italic;">
+        <tr>
+            <td>Agent:</td>
+            <td><input type="text" id="agent" name="agent" value="@(ViewBag.Agent)"/> </td>
+        </tr>
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            <td><input type="submit" value="Go"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+        </tr>
+    </table>
+    }
+</div>
+
+<br />
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>Internal campaigns</h1>
+    <br />
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Agent</th>
+
+            <th>Logged On</th>
+            <th>Logged Off</th>
+
+            <th>Hours</th>
+            <th>Last Submission</th>
+            <th>...</th>
+
+        </tr>
+        @{double totalhours = 0;
+          SkillCowRequestSubmissionClient rsc = new SkillCowRequestSubmissionClient();
+        }
+
+
+        
+
+
+
+        @if(Model !=null)
+        {
+            string prevagent="";
+            
+                
+            foreach (AgentDailyActivity item in Model.OrderBy(x=>x.Agent + x.Location))
+            {
+                if (prevagent != "" && prevagent != item.Agent)
+                {
+                    <tr><td colspan=5>&nbsp;</td><td colspan=1><b>@String.Format("{0:0.0}", totalhours)</b></td></tr>
+                    <tr><td colspan=6>&nbsp;</td></tr>
+                    totalhours = 0;
+                }
+
+                SkillCowRequestSubmission lastlead = null;
+                if (item.Hours == 0)
+                {
+                    List<SkillCowRequestSubmission> leadsfortheday = new List<SkillCowRequestSubmission>(rsc.ByDayAndAgent(item.FormattedDate, item.Agent).Execute());
+                    lastlead = leadsfortheday.OrderByDescending(x => x.Timestamp).FirstOrDefault();
+                }
+                
+            <tr>
+                <td align="left">@item.FormattedDate</td>
+                <td align="left">@item.Location</td>
+                <td align="left">@item.Agent</td>
+                <td align="center">@item.LogonTime</td>
+                <td align="center">@item.LogoffTime</td>
+                <td align="right">@String.Format("{0:0.0}", item.Hours)</td>
+
+                <td>@(lastlead!=null ? lastlead.Timestamp.ToString("HH:mm MM/dd/yyyy") : "")</td>
+                <td>@Html.Raw(item.Hours == 0 ? "<a href=\"javascript:enterTime('" + item.FormattedDate + "','" + item.Location + "','" + item.Agent + "')\">fix time</a>" : "")</td>
+
+                @{totalhours += item.Hours;}
+                
+            </tr>
+                prevagent = item.Agent;
+            }
+        }
+        
+        <tr><td colspan=5>&nbsp;</td><td colspan=1><b>@String.Format("{0:0.0}", totalhours)</b></td></tr>
+        <tr><td colspan=6>&nbsp;</td></tr>
+                    
+    </table>
+</div>
+
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+</style>
+
+<script>
+    function enterTime(date, location, agent) {
+        $('#timedate').val(date);
+        $('#timelocation').val(location);
+        $('#timeagent').val(agent);
+        $('#entertimeform').show();
+    }
+    function cancelEnterTime() {
+        $('#entertimeform').hide();
+    }
+    function saveTime() {
+        $.ajax({
+            url: appserverurl + "/Kiosk/ManualTimeEntry",
+            type: "POST",
+            data: {
+                formatteddate: $('#timedate').val(),
+                location: $('#timelocation').val(),
+                agent: $('#timeagent').val(),
+                eventtype: $('#timeeventtype').val(),
+                hours: $('#timehours').val(),
+                minutes: $('#timeminutes').val()
+            }
+        }).done(function (response) {
+            $('#entertimeform').hide();
+        }).fail(function () {
+            alert('Uh oh, an error has occured');
+        });
+        
+    }
+</script>
+
+<div id="entertimeform" class="centered" style="position: fixed; top: 200px; left: 0px; width: 100%; display: none;">
+    <div class="rounded20 shadow" style="position: relative; margin: 0 auto; background-color: rgba(255,255,255,0.9); padding: 20px; width: 400px;">
+        <h1>Enter time</h1>
+
+        <table style="font-style: italic;">
+            <tr>
+                <td>Date:</td>
+                <td><input type="text" id="timedate" value=""/></td>
+            </tr>
+            <tr>
+                <td>Location:</td>
+                <td><input type="text" id="timelocation" value=""/></td>
+            </tr>
+            <tr>
+                <td>Agent:</td>
+                <td><input type="text" id="timeagent" value=""/></td>
+            </tr>
+            <tr>
+                <td>Event Type:</td>
+                <td>
+                    <select id="timeeventtype">
+                        <option value="" selected="true"></option>
+                        <option value="logon">Logon</option>
+                        <option value="logoff">Logoff</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Time:</td>
+                <td>
+                    <select id="timehours">
+                        @for (int i = 0; i < 24; i++)
+                        {
+                            <option value="@String.Format("{0:0}",i)">@String.Format("{0:00}",i)</option>
+                        }
+                    </select>
+                    :
+                    <select id="timeminutes">
+                        @for (int i = 0; i < 60; i++)
+                        {
+                            <option value="@String.Format("{0:0}",i)">@String.Format("{0:00}",i)</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <br /><br />
+        <input type="button" value="Save"  onclick="saveTime()"/>
+        <input type="button" value="Cancel" onclick="cancelEnterTime()"/>
+        
+    </div>
+</div>

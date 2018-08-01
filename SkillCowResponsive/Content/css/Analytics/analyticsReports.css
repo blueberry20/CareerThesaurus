@@ -1,0 +1,35 @@
+﻿.dropdownWrapper {
+    padding: 20px 0 30px;
+}
+
+.dropdown {
+    width:98%;
+}
+
+.viewAnalyticsBtn {
+    margin-top:50px;
+}
+
+.resultsButtonWrapper {
+    text-align:left;
+}
+
+@media screen and (max-width:768px) {
+    .dropdownWrapper {
+        padding: 10px;
+    }
+
+    .resultsButtonWrapper {
+        text-align: center;
+    }
+
+    .viewAnalyticsBtn {
+        margin-top: 60px;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .viewAnalyticsBtn {
+        margin-top:30px;
+    }
+}

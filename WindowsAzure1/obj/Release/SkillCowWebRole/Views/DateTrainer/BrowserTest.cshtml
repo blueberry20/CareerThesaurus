@@ -1,0 +1,189 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Date Trainer</title>
+    <script src="@Url.Content("~/Scripts/jquery/jquery.tools.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery/jquery-ui.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/datetrainer/logging.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link href="@Url.Content("~/Content/css/datetrainer/style.css")" rel="stylesheet" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body>
+    <script>var isIE = false;</script>
+    <!--[if IE]><script>isIE = true;</script><![endif]-->
+    <div style="position: relative; text-align: center; width: 100%; height: 100%;">
+        <div style="position: fixed; margin: 0 auto; width: 100%; height: 100%;">
+            <div id="frames" style="position:absolute; width: 100%; height: 100%;">
+                <div id="Q1holder" style="width: 500px; height: 300px;"><div id="Q1"></div></div>
+                <audio id="audiotag" src="https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.ogg" autoplay controls>
+                    <source src="https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.ogg" type="audio/ogg">
+                    <source src="https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.mp3" type="audio/mpeg">
+                </audio>
+                
+            </div>
+            <div id="extras" style="position:absolute; width: 100%; height: 100%;">
+            <!--FILLER LOOP, PAN -->
+            </div>
+        </div>
+    </div>
+        
+    <div id="log" style="position: absolute; top: 40px; right: 0px; width: 600px; color: White; text-align: left; font-family: Arial; font-size: 8pt; display: ;">
+    
+    </div>
+    
+    <div id="answerscanvas" style="position: fixed; bottom: 20px; width: 100%; text-align: center; display: none; opacity: 1;">
+        <div id="answers" style="width: 100%; margin: 0 auto; text-align: center;">
+            <div class="buttonholder">
+                <div id="button1" class="answerbutton"><div class="highlight"></div><span></span></div>
+            </div>
+            <div class="buttonholder">
+                <div id="button2" class="answerbutton"><div class="highlight"></div><span></span></div>
+            </div>
+            <div class="buttonholder">
+                <div id="button3" class="answerbutton"><div class="highlight"></div><span></span></div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+
+<script>
+    var firstquestionplayed = false;
+    var VIDEOS_TO_LOAD = 0;
+    var EXTRA_VIDEOS_TO_LOAD = 0;
+    var TOTAL_VIDEO_PLAYERS_LOADED = 0;
+
+    var QUEUED_VIDEOS = 0;
+    var READY_VIDEOS = 0;
+
+    var curindex = 0;
+    var currentlanguage = "_eng";
+    var videoquality = "large";
+        
+    var youtubeapiready = false;
+    var q1player = null;
+    var audioplayer = null;
+    var q1audio;
+
+    $(document).ready(function () {
+
+        log('document ready');
+
+        //CREATE YoutTube API Script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var youtubeapiscripttag = document.getElementsByTagName('script')[0];
+        youtubeapiscripttag.parentNode.insertBefore(tag, youtubeapiscripttag);
+
+        //And wait for Player to initialize
+        waitforyoutubeapi();
+    });
+
+    function onYouTubeIframeAPIReady() {
+        youtubeapiready = true;
+    }
+
+    function waitforyoutubeapi() {
+        if (youtubeapiready) {
+            //Call WIREUP functions
+            log('youtube ready');
+
+            try{
+                q1player = new YT.Player("Q1", { height: '100%', width: '100%', playerVars: { controls: 0, showinfo: 0, modestbranding: 0, rel: 0, disablekb: 1 }, events: { 'onReady': onPlayerReady} });
+
+                log('player created');
+            }
+            catch (e) {
+                log(e.message);
+            }
+
+            try{
+                //q1audio = createAudioPlayer('https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.mp3');
+                //q1audio = createAudioPlayer('https://chaindate.blob.core.windows.net/datetrainer/audio/mpov_Q1_eng.ogg');
+                
+            }
+            catch (e) {
+                log(e.message);
+            }
+
+        }
+        else {
+            setTimeout(waitforyoutubeapi, 100);
+        }
+    }
+
+
+    function cueExtras() {
+        try {
+            log('Cuing video' );
+            q1player.cueVideoById('TBorhxVhiFQ', 0, videoquality);
+        }
+        catch (e) {
+            log('ERROR: ' + e.message);
+        }
+    }
+
+    //YoutTube player events
+    function onPlayerReady(event) {
+
+        TOTAL_VIDEO_PLAYERS_LOADED++;
+
+        log('TOTAL_VIDEO_PLAYERS_LOADED=' + TOTAL_VIDEO_PLAYERS_LOADED + '; VIDEOS_TO_LOAD=' + VIDEOS_TO_LOAD + '; EXTRA_VIDEOS_TO_LOAD=' + EXTRA_VIDEOS_TO_LOAD);
+
+        if (TOTAL_VIDEO_PLAYERS_LOADED >= (VIDEOS_TO_LOAD + EXTRA_VIDEOS_TO_LOAD)) {
+            //SEQUENCING
+            if (!firstquestionplayed) {
+        
+                log('all players are ready');
+
+                q1player.addEventListener("onStateChange", "onPlayerStateChange");
+
+                cueExtras();
+                //cueResourcesForFirstQuestion();
+            }
+        }
+    }
+    
+    function onPlayerStateChange(event) {
+        if (event.data == 5) {
+            event.target.playVideo();
+        }
+
+        if (event.data == YT.PlayerState.PLAYING) {
+            log("PLAYING " + event.data);
+
+            //alert(typeof audioplayer);
+            //q1audio.play();
+            try {
+                
+                //$('#audiotag').play();
+
+                var audioplayer = document.getElementById('audiotag');
+                audioplayer.play();
+                //q1audio.play();
+            }
+            catch (e) {
+                alert(e.message);
+            }
+        }
+
+
+    }
+
+    function createAudioPlayer(url) {
+        var audio = new Audio(url);
+        audio.autoplay = false;
+        return audio;
+    }
+    function isAppLoaded() {
+    }
+
+</script>

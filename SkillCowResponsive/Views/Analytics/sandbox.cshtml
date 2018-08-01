@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "sandbox";
+}
+
+<div class="pageContainer whiteBgPage" id="analyticsPage">
+    <div class="container">
+        <div class="row" id="main"></div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+        $.post('GetYearAndGrade', {}, function (response) {
+            console.log(response);
+            var results = response.results;
+            var html = '';
+            for (var i = 0; i < results.length; i++) {
+                html += '<div>' + results[i].year + '</div>';
+                for (var g = 0; g < results[i].grades.length; g++) {
+                    html += '<p>' + results[i].grades[g] + '</p>';
+                }
+            }
+            $('#main').html(html);
+        }).fail(function (error) {
+            console.log(error);
+        });
+    }
+</script>

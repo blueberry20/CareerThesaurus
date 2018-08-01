@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using SkillCowResponsive.Classes.Cloud.TableStorage;
+using SkillCowResponsive.Classes;
+using SkillCowResponsive.Classes.Email;
+using SkillCowResponsive.Classes.Cloud.TableStorage.LockedModeUser;
+using SkillCowResponsive.Classes.Encryption;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class TakeTestController : Controller
+    {
+        //
+        // GET: /TakeTest/
+
+        public ActionResult Index()
+        {
+            Response.Cookies["locked"].Value = "1";
+            Response.Cookies["locked"].Expires = DateTime.UtcNow.AddDays(1);
+            return RedirectToAction("TakeTest", "CareerTest");          
+        }
+
+        public ActionResult EmailResults()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EmailResults(string name, string email)
+        {
+            AddresseeClient adc = new AddresseeClient();
+            LockedModeUserClient lmu = new LockedModeUserClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email.ToLower());
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+            }
+            LockedModeUser user = lmu.GetByPartitionAndRowKey(emailpartition, email);
+            if (user == null)
+            {
+                lmu.AddNewItem(new LockedModeUser
+                {
+                    PartitionKey = emailpartition,
+                    RowKey = email.ToLower(),
+                    Name = name,
+                    Email = email.ToLower(),
+                    Referer = "lm",
+
+                    Attitude = Request.Cookies["attitude"] != null ? Request.Cookies["attitude"].Value : "",
+                    Action = Request.Cookies["action"] != null ? Request.Cookies["action"].Value : "",
+                    Information = Request.Cookies["information"] != null ? Request.Cookies["information"].Value : "",
+                    Processing = Request.Cookies["processing"] != null ? Request.Cookies["processing"].Value : "",
+                    Endurance = Request.Cookies["endurance"] != null ? Request.Cookies["endurance"].Value : "",
+                    Patterns = Request.Cookies["patterns"] != null ? Request.Cookies["patterns"].Value : "",
+                    Presence = Request.Cookies["presence"] != null ? Request.Cookies["presence"].Value : "",
+                    Compensation = Request.Cookies["compensation"] != null ? Request.Cookies["compensation"].Value : "",
+                    Concentration = Request.Cookies["concentration"] != null ? Request.Cookies["concentration"].Value : ""
+                });
+            }
+            sendResultEmail(name, email);
+            return RedirectToAction("SchoolResults", "TakeTest");
+        }
+        public ActionResult SchoolResults()
+        {
+            return View();
+        }
+        public ActionResult TestReport(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                SimpleAES aes = new SimpleAES();
+                string email = aes.DecryptFromBase64String(id);
+                LockedModeUserClient lmu = new LockedModeUserClient();
+                LockedModeUser user = lmu.GetByPartitionAndRowKey(LockedModeUserClient.GetPartitionKeyForEmail(email), email);
+                if (user != null)
+                {
+                    Response.Cookies["attitude"].Value = user.Attitude;
+                    Response.Cookies["attitude"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["endurance"].Value = user.Endurance;
+                    Response.Cookies["endurance"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["action"].Value = user.Action;
+                    Response.Cookies["action"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["concentration"].Value = user.Concentration;
+                    Response.Cookies["concentration"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["information"].Value = user.Information;
+                    Response.Cookies["information"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["processing"].Value = user.Processing;
+                    Response.Cookies["processing"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["presence"].Value = user.Presence;
+                    Response.Cookies["presence"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["patterns"].Value = user.Patterns;
+                    Response.Cookies["patterns"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["compensation"].Value = user.Compensation;
+                    Response.Cookies["compensation"].Expires = DateTime.UtcNow.AddDays(7);
+                    Response.Cookies["resultsEmailed"].Value = "yes";
+                    Response.Cookies["resultsEmailed"].Expires = DateTime.UtcNow.AddDays(7);
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public JsonResult EmailMeMyResults(string name, string email)
+        {
+            AddresseeClient adc = new AddresseeClient();
+            LockedModeUserClient lmu = new LockedModeUserClient();
+            string emailpartition = AddresseeClient.GetPartitionKeyForEmail(email);
+            Addressee a = adc.GetByPartitionAndRowKey(emailpartition, email);
+            if (a == null)
+            {
+                adc.AddNewItem(new Addressee(email.ToLower()) { Name = name, Email = email.ToLower() });
+            }
+            LockedModeUser user = lmu.GetByPartitionAndRowKey(emailpartition, email);
+            if (user == null)
+            {
+                lmu.AddNewItem(new LockedModeUser
+                {
+                    PartitionKey = emailpartition,
+                    RowKey = email.ToLower(),
+                    Name = name,
+                    Email = email.ToLower(),
+                    Referer = "lm",
+
+                    Attitude = Request.Cookies["attitude"] != null ? Request.Cookies["attitude"].Value : "",
+                    Action = Request.Cookies["action"] != null ? Request.Cookies["action"].Value : "",
+                    Information = Request.Cookies["information"] != null ? Request.Cookies["information"].Value : "",
+                    Processing = Request.Cookies["processing"] != null ? Request.Cookies["processing"].Value : "",
+                    Endurance = Request.Cookies["endurance"] != null ? Request.Cookies["endurance"].Value : "",
+                    Patterns = Request.Cookies["patterns"] != null ? Request.Cookies["patterns"].Value : "",
+                    Presence = Request.Cookies["presence"] != null ? Request.Cookies["presence"].Value : "",
+                    Compensation = Request.Cookies["compensation"] != null ? Request.Cookies["compensation"].Value : "",
+                    Concentration = Request.Cookies["concentration"] != null ? Request.Cookies["concentration"].Value : ""
+                });
+            }
+            sendResultEmail(name, email);
+            return new JsonResult { Data = new { result = "ok" } };
+        }
+        private void sendResultEmail(string name, string email)
+        {
+            SimpleAES aes = new SimpleAES();
+            EmailManager emailManager = new EmailManager();
+            EmailTemplateHelper eth = new EmailTemplateHelper();
+            string token = aes.EncryptToBase64String(email);
+            string url = "http://www.CareerThesaurus.com/TakeTest/TestReport/" + token;
+            string body = eth.GetTemplate("testresults");
+            body = body.Replace("{{name}}", name);
+            body = body.Replace("{{url}}", url);
+            emailManager.SendMail("admin@careerthesaurus.com", "CareerThesaurus", email, "Your Career Test Results", body);
+        }
+    }
+}

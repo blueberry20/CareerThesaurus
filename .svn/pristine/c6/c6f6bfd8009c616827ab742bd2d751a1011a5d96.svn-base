@@ -1,0 +1,68 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@{
+    ViewBag.Title = "Student List";
+}
+
+<!--===========================Student list page grouped by personality and interests========================================-->
+<link href="~/Content/css/Assessment/assessment.css" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/testattributes.js"></script>
+<div class="pageContainer whiteBgPage" id="studentListPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <a href="/AdminPortal">Administrator Home</a>
+                <span>|</span>
+                <a href="/Analytics">Analytics Home<i class="fa fa-angle-right"></i></a>
+                <a href="/Analytics/@ViewBag.PageUrl">@ViewBag.PageCaption<i class="fa fa-angle-right"></i></a>
+                <span>Student List</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>
+        <div class="row">
+            <h1 id="studentsWhoPicked">students who picked </h1>
+            <p class="subheading">Click to view student's report card</p>
+        </div>
+
+        <div class="row studentNames">
+            <div class="searchBoxWrapper">
+                <input id="searchbox" type="text" placeholder="Search by student's name">
+            </div>
+            <ol class="studentList">
+                @{
+                    if (ViewBag.Students != null)
+                    {
+                        List<UserAccount> studentList = ViewBag.Students;
+                        foreach (UserAccount student in studentList)
+                        {
+                            <li class="studentName"><a href="/Analytics/Report/@student.RowKey">@student.FirstName @student.LastName</a><i class="fa fa-angle-right arrowRight"></i></li>
+                        }
+                    }
+                }
+                @*<li class="studentName"><a href="/Analytics/StudentReport">John Brown</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Svetlana Zelenkina</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Martin Gray</a><i class="icon-right-open-big arrowRight"></i></li>
+                <li class="studentName"><a>Christina Ivanova</a><i class="icon-right-open-big arrowRight"></i></li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script>
+    var param = '@ViewBag.Param';
+    var like = '@ViewBag.Like';
+    var interests = ["beauty", "helping", "adventure", "safety", "people", "science", "duty", "admiration", "creativity", "competition", "animals", "politics", "technology", "machinery", "handlabor", "strength", "drafting", "coordinating", "numbers", "critical", "salesy"];
+    var traits = ['Extrovert', 'Introvert', 'Stationary', 'Mobile', 'Process', 'Result', 'Focused', 'Relaxed', 'Facts', 'Imagination', 'Rational', 'Emotional', 'Emotional', 'Remote', 'Routine', 'Discover', 'Variable', 'Fixed'];
+    function document_ready() {
+        if (traits.indexOf(param) != -1) {
+            var studentsWhoPicked = 'STUDENTS WHO PICKED ' + param;
+        } else if (interests.indexOf(param) != -1) {
+            var studentsWhoPicked = 'STUDENTS WHO PICKED ' + importantthingdefinitions[importantthingdefinitions.map(function (x) { return x.name; }).indexOf(param)].caption;
+        } else {
+            var studentsWhoPicked = 'STUDENTS WHO ' + like + ' ' + param.replace(/-/g, ' ');
+        }
+        $('#studentsWhoPicked').html(studentsWhoPicked);
+    }
+</script>

@@ -1,0 +1,241 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    span.highlight {background-color: #ffff00;}
+    div.searchterm { position: relative; display: inline-block; margin: 0 5px 5px 0px; padding: 17px; border: thin dashed rgba(255,255,255,0.5); border-radius: 5px 5px; cursor: pointer;}
+    div.addsearchterm {display: inline-block; margin: 0 10px 10px 10px; padding: 3px 3px 3px 5px; }
+</style>
+    
+
+<div id="_school_search_results" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1>School search results</h1>
+    <div id="status" style="position: relative; margin-left: 125px;">Ready</div>
+    
+    <div id="_school_search_results_viewport" style="position: absolute; width: 100%; bottom: 0px; height: @(ViewBag.IsMobileDevice?"400px":"600px"); overflow-x: scroll; display: none; ">
+        <div id="_school_search_results_scrollablecontent" style="overflow-y: hidden; margin-left: 200px; height: @(ViewBag.IsMobileDevice?"400px":"600px"); opacity: 0; ">
+            <!--RESULTS GO HERE-->
+        </div>
+    </div>
+    
+    
+    <div id="_school_search_results_backbutton" class="backbutton" ></div>
+
+    <div id="logger123123" style="position: absolute; right: 0px; top: 0px; width: 500px;"></div>
+</div>
+
+@Html.Partial("_school")
+
+<script>
+    var _school_search_results_loaded = false;
+    function showSchoolResults(location, keywords) {
+    
+        showOverlay('_school_search_results');
+
+        if (!_school_search_results_loaded) {
+            $('#_school_search_results_backbutton').press(function () {
+                hideOverlay('_school_search_results');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_school_search_results');
+                }
+            });
+
+            _school_search_results_loaded = true;
+        }
+
+        loadSchoolsByDegree();
+    }
+
+    function loadSchoolsByDegree() {
+
+        var zip = getCookie('zip');
+        var career = getCookie('careerofinterest');
+        var degrees = getCookie('degreeofinterest');
+        var f = 'gradyear=' + getCookie('gradyear') + ',education_level=' + getCookie('education_level') + ',educationlevel=' + getCookie('education_level');
+        var edulevel = getCookie('education_level');
+
+        $('#_school_search_results_scrollablecontent').html('');
+        $("#_school_search_results_viewport").hide();
+
+        $('#status').html('<img src="/content/preloaders/25.gif" style="position: absolute; left: 0px; top: -10px;"/><span style="margin-left: 45px;">Searching schools near ' + zip + '...</span>');
+
+        $.ajax({
+            url: appserverurl + "/Schools/FindSchoolsByDegree",
+            type: "POST",
+            data: {
+                zip: zip,
+                career: career,
+                degrees: degrees,
+                f: f,
+                edulevel: edulevel
+            }
+        }).done(function (response) {
+            if (response.result == 'ok') {
+
+                try {
+                    var submitted = getCookie("school_submitted");
+                    var submittedlist = new Array();
+                    if (submitted != null && submitted != "") {
+                        submittedlist = submitted.split(',');
+                    }
+
+                    if (response.resultsets.length > 0) {
+
+                        //dedupe schools by image url
+                        var uniqueshools = new Array();
+                        
+                        for (var k = 0; k < response.resultsets.length; k++) {
+                            var rs = response.resultsets[k];
+                            for (var i = 0; i < rs.schools.length; i++) {
+                                if (!uniqueSchoolRegistered(rs.schools[i], uniqueshools)) {
+                                    uniqueshools.push({ school: rs.schools[i], programs: new Array() });
+                                }
+                                var unique = getUniqueSchool(rs.schools[i].image, rs.schools[i].clientsetid, uniqueshools);
+                                for (var j = 0; j < rs.schools[i].programs.length; j++) {
+                                    if (!programRegistered(rs.schools[i].campustype, rs.schools[i].programs[j].id, unique.programs)) {
+                                        unique.programs.push({
+                                            school: rs.schools[i],
+                                            program: rs.schools[i].programs[j]
+                                        });
+                                    }
+                                }
+                            }
+                        }
+
+
+                        if (uniqueshools.length != 1) {
+                            $('#status').html(uniqueshools.length + ' schools found near ' + zip + '');
+                        }
+                        else {
+                            $('#status').html(uniqueshools.length + ' school found near ' + zip + '');
+                        }
+
+                        var cnt = 0;
+                        var totalwidth = 290;
+                        for (var i = 0; i < uniqueshools.length; i++) {
+                            cnt++;
+                            addSchoolResult(cnt, uniqueshools[i], submittedlist);
+                            totalwidth += 290;
+                        }
+
+                        $('.clickableschoolsearchresult').click(function () {
+                            schoolClicked(this);
+                        });
+
+
+                        $('#_school_search_results_scrollablecontent').css('width', totalwidth + 'px');
+                        $("#_school_search_results_viewport").niceScroll("#_school_search_results_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+                        $("#_school_search_results_viewport").show();
+                        $('#_school_search_results_scrollablecontent').animate({ 'margin-left': '115px', 'opacity': 1 }, 1500);
+                    }
+                }
+                catch (ex) {
+                    alert(ex.message);
+                }
+
+            }
+            else {
+
+            }
+        }).fail(function () {
+
+        });
+    }
+
+    function uniqueSchoolRegistered(school, uniques) {
+        for (var i = 0; i < uniques.length; i++) {
+            if (uniques[i].school.image == school.image || uniques[i].school.clientsetid == school.clientsetid) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function getUniqueSchool(image, clientsetid, uniques) {
+        for (var i = 0; i < uniques.length; i++) {
+            if (uniques[i].school.image == image || uniques[i].school.clientsetid == clientsetid) {
+                return uniques[i];
+            }
+        }
+        return null;
+    }
+    function programRegistered(campustype, programid, programs) {
+        for (var i = 0; i < programs.length; i++) {
+            if (programs[i].school.campustype == campustype && programs[i].program.id == programid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function addSchoolResult(sequence, unique, submittedlist) {
+
+        var programstring = '';
+        var programjson = '{"items" : [';
+        var jsonitemcnt = 0;
+        var onlineprograms = 0, campusprograms = 0;
+
+        for (var i = 0; i < unique.programs.length; i++) {
+            if (unique.programs[i].school.campustype.toLowerCase() == 'online') {
+                onlineprograms++;
+            }
+            else {
+                campusprograms++;
+            }
+
+            //as json
+            if (jsonitemcnt++ == 0) {
+                programjson += '{"campustype":"' + unique.programs[i].school.campustype + '", "campuskey":"' + unique.programs[i].school.campuskey + '", "id":"' + unique.programs[i].program.id + '", "type":"' + unique.programs[i].program.type + '", "typename":"' + unique.programs[i].program.typename + '", "isprimary":"' + unique.programs[i].program.isprimary + '", "name":"' + unique.programs[i].program.name + '"}';
+            }
+            else {
+                programjson += ',{"campustype":"' + unique.programs[i].school.campustype + '", "campuskey":"' + unique.programs[i].school.campuskey + '", "id":"' + unique.programs[i].program.id + '", "type":"' + unique.programs[i].program.type + '", "typename":"' + unique.programs[i].program.typename + '", "isprimary":"' + unique.programs[i].program.isprimary + '", "name":"' + unique.programs[i].program.name + '"}';
+            }
+        }
+        programjson += ']}';
+
+        $('#_school_search_results_scrollablecontent').append(
+                        '<div style="position: relative; display: inline-block; margin-left: 10px; width:280px; height: 274px; background-color: #fff;">' +
+                        '    <div style="position: absolute; top: 0px; left: 0px; width:280px; height: 274px; border: thin solid #000; text-align: center;" ></div>' +
+                        '    <div style="position: absolute; width: 261px; font-size: 20pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: left;">Now Enrolling!</div>' +
+                        '    <div style="position: absolute; top: 60px; left: 10px; background-color: #fff; margin: 10px;"><img src="https://chaindate.blob.core.windows.net/logooverrides/' + unique.school.clienttype + '/' + unique.school.logoclientid + '" onerror="$(this).attr(\'src\', \'' + unique.school.image + '\');" style="margin: 0px auto; max-width: 140px; max-height: 80px;" /></div>' +
+                        '    <ul style="position: absolute; top: 150px; left: 10px; background-color: #fff; margin: 10px; color: #000; font-size: 12pt; font-weight: 400;">' +
+                        (campusprograms > 0 ? '<li>' + campusprograms + ' campus programs</li>' : '') +
+                        (onlineprograms > 0 ? '<li>' + onlineprograms + ' <span style="color: #ff5500;">online</span> programs</li>' : '') +
+                        '    </ul>' +
+                        (compilemode == 'DEBUG' ? '<div style="position: absolute; left: 20px; bottom: 60px; font-size: 10pt; color: #000;">' + unique.school.clienttype + '/' + unique.school.logoclientid + '</div>' : '') +
+                        '    <div style="position: absolute; bottom: -1px; width: 261px; font-size: 12pt; font-weight: 400; padding: 10px; color: #fff; background-color: #000; text-align: right;">Request FREE info <img src="/content/images/kiosk/icons/arrow_2.png" /></div>' +
+                        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 60px; left: 60px; opacity: 0.5; display: ' + (recordSubmitted(submittedlist, unique.school.clientid.replace(/\s/g, '')) ? '' : 'none') + '" class="x_school' + unique.school.clientid.replace(/\s/g, '') + '"/>' + 
+                        '    <div class="whitereflection" style="position: absolute; top: 284px; left: 1px; width: 280px; height: 150px; "></div>' +
+                        '    <@(ViewBag.IsMobileDevice?"div":"input") type="button" class="invisiblebutton clickableschoolsearchresult" programjson="' + encodeURIComponent(programjson) + '" clientrowkey="' + (unique.school.clientrowkey != null ? unique.school.clientrowkey : "") + '" image="' + unique.school.image + '" location="' + unique.school.city + ', ' + unique.school.state + '" distance="' + unique.school.distance + '" clientid="' + unique.school.clientid.replace(/\s/g, '') + '" clientsetid="' + unique.school.clientsetid.replace(/\s/g, '') + '" logoclientid="' + unique.school.logoclientid.replace(/\s/g, '') + '" formid="' + unique.school.formid.replace(/\s/g, '') + '" frontendname="' + unique.school.clientfrontendname + '" clienttype="' + unique.school.clienttype + '" style="position: absolute; left: 0px; top:0px; width:280px; height: 274px; outline: none;" @(ViewBag.IsMobileDevice?"></div>":"/>")' +
+                        '</div>');
+
+        
+        $('#_school_search_results').append('<div id="schooldesc' + unique.school.clientid.replace(/\s/g,'') + '" style="display:none;">' + unique.school.formdescription + '</div>');
+
+        /*
+        (unique.campustype==='Online' ?
+        '    <div style="position: absolute; top: 5px; right: 5px;"><img src="/content/images/kiosk/icons/online.png" /></div>' : 
+        '    <div style="position: absolute; top: 5px; right: 0px; width: 270px; text-align: right; font-size: 10pt; padding: 5px; color: #000;">' + school.distance + ' miles' + '</div>' 
+        ) +
+        */
+
+        
+    }
+
+
+    function schoolClicked(e) {
+        showSchool(e);
+    }
+</script>

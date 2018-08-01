@@ -1,0 +1,291 @@
+﻿@{
+    ViewBag.Title = "Career Assessment";
+    ViewBag.SuppressRegistrationOverlay = true;
+
+    ViewBag.MetaDescription = "SkillCow is today's Best and Most Accurate Free Career Assessment and Career Planning tool on the web.  Discover Jobs, Schools, online courses and find Fast Track Career training that fits your personality.  Don't just fall into a job, do what you were born to do!";
+    ViewBag.MetaKeywords = "Free Career Assessment,Career Test,Skill Test,Skill Assessment career,jobs, careers,schools,training";
+}
+
+
+<script type="text/javascript" src="/scripts/jquery/jquery.rotate.2.2.js"></script>
+<style>
+    
+    .titleholder {margin: 20px 20px 20px 40px;}
+    .titleholder h1  { font-size: 24pt; color: #ff5500; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 0px;} 
+    
+    p.intro { font-size: 12pt; color: #888; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 20px 20px 20px 40px; max-width: 450px;}
+    p.testimonialleft { font-size: 12pt; color: #555; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 40px 20px 20px 40px; padding: 0 200px 0 00px;}
+    p.testimonialright { font-size: 12pt; color: #555; font-weight: normal; font-family: 'Roboto', sans-serif; margin: 40px 20px 20px 40px; padding: 0 20px 0 100px;}
+    
+    #branches {}
+    div.branchholder { position: relative; display: inline-block; margin: 5px; overflow: hidden; cursor: pointer; width: 270px; height: 288px; background-color: #000;}
+    div.branchholder .imageholder { position: absolute; top: 0px; left: 0px; overflow: hidden; cursor: pointer; width: 270px; height: 270px; }
+    div.branchholder .imageholder img { position: absolute; top: 0px; left: 0px;}
+    div.branchholder .footer { position: absolute; background-color: #000; color: #fff; bottom: 0; left: 0; width: 100%; min-height: 18px; font-family: Verdana; font-size: 10pt;}
+    div.branchholder .details { position: absolute; top: 100px; left: 0; width: 100%; opacity: 0;}
+    div.branchholder .details h1 { color: #fff; }
+    
+    .puzzle {position: absolute; height: 435px; width: 435px; top: 20px; left: 20px; }
+    .puzzlepiece {position: absolute; cursor: pointer;} 
+    .puzzlepiece img { } 
+    .puzzlepiece div {position: absolute; top: 78px;  color: #fff; font-family: 'Fjalla One', sans-serif; font-size: 14pt; text-align: center; width: 100%;}
+    .shifted div {position: absolute; top: 62px;  color: #fff; font-family: 'Fjalla One', sans-serif; font-size: 14pt; text-align: center; width: 100%;}
+    
+    #puzzlepiece1 { top: 16px; left:0px; }
+    #puzzlepiece2 { top: 0px; left:145px; }
+    #puzzlepiece3 { top: 16px; left:259px; }
+    
+    #puzzlepiece4 { top: 129px; left:16px; }
+    #puzzlepiece5 { top: 144px; left:129px; }
+    #puzzlepiece6 { top: 129px; left:274px; }
+    
+    #puzzlepiece7 { top: 273px; left:0px; }
+    #puzzlepiece8 { top: 257px; left:145px; }
+    #puzzlepiece9 { top: 273px; left:259px; }
+    
+    #startbutton { cursor: pointer; background-image:url('/content/images/start-button.png'); width: 200px; height: 200px; position: absolute; bottom: 60px; right: 135px;}
+    #startbutton:active {background-image:url('/content/images/start-button-pressed.png');}
+    
+    .openquote {font-size: 48pt; font-family: Times New Roman;}
+    
+    .transparencygradient 
+    {
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: -moz-linear-gradient(top,  rgba(255,255,255,0.1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  rgba(255,255,255,0.1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+    }
+    
+    .transparencygradient2 
+    {
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjkiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+        background: -moz-linear-gradient(top,  rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.9)), color-stop(100%,rgba(255,255,255,0.3))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.3) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.3) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.3) 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.3) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6ffffff', endColorstr='#66ffffff',GradientType=0 ); /* IE6-8 */
+
+
+    }
+</style>
+
+<div class="pagecontent" style="margin: 0 auto; text-align: center; padding: 0px; min-height: 700px; background-color: rgba(255,255,255,0.1)">
+    
+    <div class="" style="position: relative; margin: 0 auto; width: 960px; background-color: rgba(255,255,255,0); min-height: @(ViewBag.HideHomePageJobTools!=null && ViewBag.HideHomePageJobTools ? "750" : "550")px; border: thin solid white;">
+        <div style="position: absolute; top: 0px; right: 0px; width: 960px; height: 750px; " class="transparencygradient">
+            <h1 style="color: #ff5500; position: absolute; right: 10px; width: 470px; top: 20px; border: thin none white; "><a href="/skilltest" style="color: #ff5500; font-size: 16pt;">@(ViewBag.HPHeader)</a></h1>
+            <p class="rounded20tlbr" style="position: absolute; top: 70px; right: 10px; width: 430px;  border: thin solid white; padding: 20px; font-size: 12pt;">
+                @Html.Raw(ViewBag.HPText)
+            </p>
+            <div id="startbutton" style="bottom: 300px;"></div>
+        </div>
+        
+        <div class="puzzle">
+            <!--Third row first-->        
+            <div id="puzzlepiece8" class="puzzlepiece"><img src="/content/images/puzzle-piece-open-left-right.png"/><div>Patterns</div></div>
+            <div id="puzzlepiece7" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Focus</div></div>
+            <div id="puzzlepiece9" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Compensation</div></div>
+
+            <!--Second row-->
+            <div id="puzzlepiece5" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Mobility</div></div>
+            <div id="puzzlepiece4" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right-orange.png"/><div>Drive</div></div>
+            <div id="puzzlepiece6" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right.png"/><div>Presence</div></div>
+
+            <!--First row -->
+            <div id="puzzlepiece2" class="puzzlepiece"><img  src="/content/images/puzzle-piece-open-left-right.png"/><div>Sources</div></div>
+            <div id="puzzlepiece1" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Attitude</div></div>
+            <div id="puzzlepiece3" class="puzzlepiece shifted"><img  src="/content/images/puzzle-piece-open-top-bottom.png"/><div>Reaction</div></div>
+        </div>
+
+        
+        <div style="position: absolute; bottom: 20px; left: 20px;" class="fb-like" data-href="http://www.SkillCow.com" data-send="true" data-width="960" data-show-faces="false" data-font="segoe ui" data-action="recommend"></div>
+    </div>
+
+    @if (ViewBag.HideHomePageJobTools==null || (ViewBag.HideHomePageJobTools!=null && !ViewBag.HideHomePageJobTools))
+    {
+    <div class="rounded10blbr hplowerpanel" style="position: relative; margin: 0 auto; width: 960px; background-color: rgba(255,255,255,1); min-height: 250px; padding: 0 0 40px 0; border: thin solid white;">
+        <br />
+        <style>
+            .searchtable { width: 900px}
+            .keywordtextbox {font-size: 14pt; padding: 5px; width: 400px; border: thin solid #ccc; border-radius: 5px 5px; }
+            .ziptextbox {font-size: 14pt; padding: 5px; width: 160px; border: thin solid #ccc; border-radius: 5px 5px; text-align: center;}
+            .tags { margin: 10px 0 0 0; padding: 0px;}
+        </style>
+        <div style="width: 960px; margin: 0 auto; border-top: 2px dashed #aaa;">
+            <br />
+            <div style="font-family: Roboto; font-size: 16pt;">Already know your path in life?</div>
+            <div style="font-size: 10pt;">Great, let's skip the existential deliberations till later, perhaps, now let's find you a job!</div>
+            <br />
+            <br />
+            <table class="searchtable" style="margin: 0 auto;" border=0>
+                <tr><td></td><td width="5%">by entering a keyword</td><td>and zip code</td><td></td></tr>
+                <tr><td style="font-size: 18pt;" width="200">Find a job</td><td align=left><input id="keyword" class="keywordtextbox" type="text" /></td><td><input id="zip" class="ziptextbox" type="text" /></td><td align=left><input type="button" value="Search" onclick="searchjobs()"/></td></tr>
+                <tr><td style="font-size: 12pt;" valign="top">
+                    <br /><b>OR</b> <br />
+                    click any Keyword <br />
+                    to <br />
+                    explore <br />
+                    the possibilities
+                </td><td colspan="3" width="400"><div id="keywordtags" class="tags"></div></td></tr>
+            </table>
+            
+        </div>
+    </div>
+    }
+</div>
+
+<script src="@Url.Content("~/Scripts/Controllers/Home/cow.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Home/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/TagAggregation/tags.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<!--<img id="sillycow" style="position: absolute; left:-420px; bottom: 0px; cursor: pointer;" src="/content/images/curiouscow.png" alt="sillycow" onload="waitandpeekcow()" onclick="triggercow()" title="what's this" />-->
+
+<img style="position: absolute; display:none;" src="/content/images/icon-facebook.gif" title="fb icon" />
+
+<link rel="image_src" type="image/jpeg" href="http://www.skillcow.com/content/images/icon-facebook.gif" />
+
+<div id="cowline" class="shadow20 rounded20trblbr cowtalking" style="position: absolute; left:160px; bottom: 60px; border: 3px solid white; padding: 10px; background-color: rgba(255,255,255,0.5); height: 27px; font-size: 14pt; display: none;"></div>
+<div id="cowlinecontrols" class="shadow20 rounded20tltr rounded20br cowtalking" style="position: absolute; left:260px; bottom: 110px; border: 3px solid white; padding: 10px; background-color: rgba(255,255,255,0.5); height: 35px; font-size: 14pt; display: none;">
+    Find out what you would be great at!&nbsp;&nbsp;
+    <input id="cowtestbutton" type="button" class="cowtestbutton" value="Take the FREE Career Assessment Test" onclick="document.location='/skilltest'"/>
+</div>
+
+<style>
+    #cowtestbutton 
+    {
+        background: #0099ff; /* for non-css3 browsers */
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0099ff', endColorstr='#0066cc', enabled='true'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#0099ff), to(#0066cc)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #0099ff,  #0066cc); /* for firefox 3.6+ */ 
+        color: #fff;
+        font-size: 14pt;
+    }
+    #cowtestbutton:active
+    {
+        background: #0066cc; /* for non-css3 browsers */
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0066cc', endColorstr='#0066cc', enabled='true'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#0066cc), to(#0066cc)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #0066cc,  #0066cc); /* for firefox 3.6+ */ 
+
+    }
+</style>
+
+<script>
+        
+    var startingresultnumber = 0;
+    var endofresults = false;
+
+    function searchjobs() {
+        if($('#zip').val()!=null) {
+            setCookie('zip', $('#zip').val(),365);
+        }
+
+        var term = $('#keyword').val();
+        if($.trim(term)=='')
+        {
+            $('#keyword').focus();
+            return;
+        }
+
+        setCookie('homepagesearchkeyword', $.trim(term), 365);
+
+        document.location = '/jobs/search?q='+term;
+    }
+
+    function findjobs() {
+               
+        var chnl = @(ViewBag.IndeedChannel);
+        if (getCookie('indeedchannel') != null) {
+            chnl = getCookie('indeedchannel');
+        }
+
+        var zip = 'new york';
+        if (getCookie('zip') != null && getCookie('zip')!='undefined') {
+            zip = getCookie('zip');
+        }
+        
+        
+
+        $.ajax({
+            url: appserverurl + "/Jobs/getindeedjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                p: ' ',
+                l: zip,
+                c: chnl,
+                limit: "25",
+                start: startingresultnumber
+            }
+        }).success(function (response) {
+            
+            
+
+            $('#keywordtags').html('');
+            
+            var cnt=0;
+            
+            var professionkeywords = new Array();
+
+            try{
+            
+                for(var i=0; i<response.results.results.length; i++){
+                    var x = response.results.results[i];
+                                
+                    var description = x.snippet;
+                
+                    registerKeywords(description, professionkeywords);
+                    registerSpawned(x.jobtitle, professionkeywords);
+                
+                    for(var j=0; j<professionkeywords.length; j++)
+                    {
+                        var pattern = professionkeywords[j];
+                        var regex = new RegExp('\\b' + pattern + '\\b', "gi");
+
+                        description = description.replace(regex, '<span class="highlight">'+professionkeywords[j]+'</span>');
+                    }
+                
+                    startingresultnumber++;
+                    cnt++;
+                }
+
+            }
+            catch(e)
+            {
+                
+            }
+            
+            if(cnt<50)
+            {
+                endofresults = true;
+            }
+
+            
+            
+            displaytags('');
+
+        }).error(function (response) {
+            
+        });
+
+        
+    }
+</script>
+
+@if (ViewBag.UtmSource == "admedia")
+{
+<script type='text/javascript' src='http://pixel.admedia.com/clickheat/js/clickheat.js'></script>
+<script type='text/javascript'>
+    clickHeatSite = '2470773';
+    clickHeatGroup = encodeURIComponent(window.location.host + window.location.pathname);
+    clickHeatServer = 'http://pixel.admedia.com/clickheat/click.php';
+    initClickHeat();
+</script>
+}

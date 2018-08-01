@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentDimensionsRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentInterestRating;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AnalyticsController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Analytics/
+        public string[] dimensions = { "attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation" };
+        public string[] interests = { "beauty", "helping", "adventure", "safety", "people", "science", "duty", "admiration", "creativity", "competition", "animals", "politics", "technology", "machinery", "handlabor", "strength", "drafting", "coordinating", "numbers", "critical", "salesy" };
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Bytrait()
+        {
+            return View();
+        }
+
+        public ActionResult Byinterest()
+        {
+            return View();
+        }
+        public ActionResult Careers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public HttpResponse GetGroupsForSchool(string school, string teacher)
+        {
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            List<AssessmentGroup> groupsList = new List<AssessmentGroup>(agc.GetAllBySchoolAndTeacher(school, teacher));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string response = groupsList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(groupsList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        class Dimension
+        {
+            public string name { get; set; }
+            public int count { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetDimensions(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();        
+            AssessmentDimensionsRatingClient adrc = new AssessmentDimensionsRatingClient();
+            List<AssessmentDimensionsRating> dimensionList;
+            string response;
+            if (group != "" && group != null)
+            {
+                dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                dimensionList = new List<AssessmentDimensionsRating>(adrc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            if (dimensionList.Count != 0)
+            {
+                List<Dimension> resultList = new List<Dimension>();
+                foreach (string dimension in dimensions)
+                {
+                    var values = dimensionList.Where(x => x.Dimension == dimension).GroupBy(x => x.Value).ToList();
+                    foreach (var value in values)
+                    {
+                        resultList.Add(new Dimension { name = value.Key, count = value.Count() });
+
+                    }
+                }
+                response = "{\"result\": \"ok\", \"results\": " + jss.Serialize(resultList) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\": []}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+        class Interest
+        {
+            public string name { get; set; }
+            public int like { get; set; }
+            public int dislike { get; set; }
+        }
+        [HttpPost]
+        public HttpResponse GetInterests(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            AssessmentInterestRatingClient airc = new AssessmentInterestRatingClient();
+            List<AssessmentInterestRating> interestList;
+            string response;
+            if (group != "" && group != null)
+            {
+                interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                interestList = new List<AssessmentInterestRating>(airc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            List<Interest> resultList = new List<Interest>();
+            if (interestList.Count != 0)
+            {
+                foreach (string interest in interests)
+                {
+                    var values = interestList.Where(x => x.Interest == interest).GroupBy(x => x.Rating).ToList();
+                    int like = 0;
+                    int dislike = 0;
+                    foreach (var value in values)
+                    {
+                        if (value.Key == "1")
+                        {
+                            like = value.Count();
+                        }
+                        else
+                        {
+                            dislike = value.Count();
+                        }
+                    }
+                    resultList.Add(new Interest { name = interest, like = like, dislike = dislike });
+                }
+                response = "{\"result\": \"ok\", \"results\":" + jss.Serialize(resultList) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"results\":[]}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+        class Career
+        {
+            public string dolcode { get; set; }
+            public int count { get; set; }
+        }
+
+        [HttpPost]
+        public HttpResponse GetCareers(string school, string teacher, string group)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+            List<AssessmentCareerRating> careerList;
+            string response;
+            if (group != "" && group != null)
+            {
+                careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndGroup(school, teacher, group));
+            }
+            else
+            {
+                careerList = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndTeacher(school, teacher));
+            }
+            if (careerList.Count != 0)
+            {
+                var popular = careerList.Where(x => x.Rating == "1").GroupBy(x => x.DolCode).OrderByDescending(g => g.Count()).ToList();
+                List<Career> popularResult = new List<Career>();
+                foreach (var value in popular)
+                {
+                    popularResult.Add(new Career { dolcode = value.Key, count = value.Count() });
+
+                }
+                var unpopular = careerList.Where(x => x.Rating == "0").GroupBy(x => x.DolCode).OrderByDescending(g => g.Count()).ToList();
+                List<Career> unpopularResult = new List<Career>();
+                foreach (var value in unpopular)
+                {
+                    unpopularResult.Add(new Career { dolcode = value.Key, count = value.Count() });
+                }
+                response = "{\"result\": \"ok\", \"popular\":" + jss.Serialize(popularResult) + ", \"unpopular\":" + jss.Serialize(unpopularResult) + "}";
+            }
+            else
+            {
+                response = "{\"result\": \"ok\", \"popular\":[], \"unpopular\":[]}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+
+        public ActionResult StudentReport()
+        {
+            return View();
+        }
+    }
+}

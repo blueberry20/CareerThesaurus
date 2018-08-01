@@ -1,0 +1,80 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@using System.Text.RegularExpressions;
+
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    BlogPostClient bpc = new BlogPostClient();
+    ViewBag.Title = "Admin";
+}
+
+<link href="~/Content/css/Blog/Index.css" rel="stylesheet" />
+<link href="~/Content/css/Blog/blog.css" rel="stylesheet" />
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <h1>Administrator panel</h1>
+        <div class="row">
+            <div id="categoriesList">
+                <h3>List of Categories</h3>
+                @{
+                    List<BlogCategory> categories = new List<BlogCategory>(bcc.GetAllByPartition("blogCategory"));
+                    foreach (BlogCategory category in categories)
+                    {
+                        <div>
+                            Category name: @category.Category. Total Articles: @category.TotalPosts. Public Articles: @category.PublicPosts
+                        </div>
+                    }
+                }
+            </div>
+            <div id="articleList">
+                <h3>Not Published Articles</h3>
+                @{
+                    List<BlogPost> notPublished = new List<BlogPost>(bpc.GetAllNotPublish());
+                    if (notPublished.Count != 0)
+                    {
+                        foreach (BlogPost post in notPublished)
+                        {
+                            <div>
+                                <p>Title: @post.Title</p>
+                                <p>Author: @post.Author</p>
+                                <p>Created on: @post.Date.ToString("MM/dd/yyyy")</p>
+                                <p>Published: @post.Public, Removed: @post.Removed</p>
+                                <a class="btn btn-default" href="/blog/edit/@post.RowKey">Edit</a>
+                                <hr />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No unpublished articles</p>
+                    }
+                }
+            </div>
+            <div id="articleList">
+                <h3>Removed Articles</h3>
+                @{
+                    List<BlogPost> removed = new List<BlogPost>(bpc.GetAllRemoved());
+                    if (removed.Count != 0)
+                    {
+                        foreach (BlogPost post in removed)
+                        {
+                            <div>
+                                <p>Title: @post.Title</p>
+                                <p>Author: @post.Author</p>
+                                <p>Created on: @post.Date.ToString("MM/dd/yyyy")</p>
+                                <p>Published: @post.Public, Removed: @post.Removed</p>
+                                <a class="btn btn-default" href="/blog/edit/@post.RowKey">Edit</a>
+                                <hr />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No removed articles</p>
+                    }
+}
+            </div>
+        </div>
+    </div>
+</div>

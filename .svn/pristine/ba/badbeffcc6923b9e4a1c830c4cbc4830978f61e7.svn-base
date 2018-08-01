@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
+using SkillCowResponsive.Classes.Helpers;
+using SkillCowResponsive.Classes.Encryption;
+using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AdminProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+using SkillCowResponsive.Classes.Cloud.TableStorage.TeacherToSchoolConnection;
+using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroupPinCode;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class AdminPortalController : AuthenticatedControllerController
+    {
+        //
+        // GET: /AdminPortal/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult AddSchool()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult School()
+        {
+            return RedirectToAction("Index", "AdminPortal"); ;
+        }
+        [HttpPost]
+        public ActionResult School(string school)
+        {
+            ViewBag.School = school;
+            return View();
+        }
+        [HttpPost]
+        public HttpResponse GetSchoolsByZip(string zipcode)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            List<SchoolAccount> schoolList = new List<SchoolAccount>(sac.GetByZipCode(zipcode));
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string response = schoolList.Count != 0 ? "{\"result\": \"ok\", \"results\":" + jss.Serialize(schoolList) + "}" : "{\"result\": \"ok\", \"results\":[]}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse DeleteSchool(string rowkey)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            SchoolAccount school = sac.GetByPartitionAndRowKey("school", rowkey);
+            string response = "";
+            if (school != null)
+            {
+                AdminProfileClient apc = new AdminProfileClient();
+                AdminProfile admin = apc.GetByPartitionAndRowKey("adminProfile", AuthTokens[1].ToLower());
+                if (admin != null)
+                {
+                    TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+                    TeacherToSchoolConnection connection = ttscc.GetByPartitionAndRowKey(rowkey, admin.RowKey);
+                    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+                    SchoolToTeacherConnection s2tconnection = sttcc.GetByPartitionAndRowKey(admin.RowKey, rowkey);
+                    if (connection != null)
+                    {
+                        connection.Active = false;
+                        ttscc.Update(connection);
+                        s2tconnection.Active = false;
+                        sttcc.Update(s2tconnection);
+                        response = "{\"result\": \"done\"}";
+                    }
+                    else
+                    {
+                        response = "{\"result\": \"not found\"}";
+                    }
+                }
+                else
+                {
+                    response = "{\"result\": \"fail\"}";
+                }
+            }
+            else
+            {
+                response = "{\"result\": \"fail\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse AddSchoolPost(string rowkey)
+        {
+            SchoolAccountClient sac = new SchoolAccountClient();
+            SchoolAccount school = sac.GetByPartitionAndRowKey("school", rowkey);
+            string response = "";
+            if (school != null)
+            {
+                AdminProfileClient apc = new AdminProfileClient();
+                AdminProfile admin = apc.GetByPartitionAndRowKey("adminProfile", AuthTokens[1].ToLower());
+                if (admin != null)
+                {
+                    TeacherToSchoolConnectionClient ttscc = new TeacherToSchoolConnectionClient();
+                    TeacherToSchoolConnection connection = ttscc.GetByPartitionAndRowKey(rowkey, admin.RowKey);
+                    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+                    SchoolToTeacherConnection s2tconnection = sttcc.GetByPartitionAndRowKey(admin.RowKey, rowkey);
+                    if (connection == null)
+                    {
+                        ttscc.AddNewItem(new TeacherToSchoolConnection { PartitionKey = rowkey, RowKey = admin.RowKey });
+                        sttcc.AddNewItem(new SchoolToTeacherConnection { PartitionKey = admin.RowKey, RowKey = rowkey });
+                        response = "{\"result\": \"done\"}";
+                    }
+                    else
+                    {
+                        response = "{\"result\": \"already exist\"}";
+                    }
+                }
+                else
+                {
+                    response = "{\"result\": \"fail\"}";
+                }
+            }
+            else
+            {
+                response = "{\"result\": \"fail\"}";
+            }
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+        [HttpPost]
+        public HttpResponse CreateGroup(string school, string teacher, string group)
+        {
+            string response;
+            string pincode = getUniquePinCode(school);
+            string guid = ShortGuidGenerator.NewGuid();
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            AssessmentGroupPinCodeClient agpcc = new AssessmentGroupPinCodeClient();
+            //agc.AddNewItem(new AssessmentGroup { PartitionKey = school, RowKey = pincode, Teacher = teacher, Group = group });
+            //agpcc.AddNewItem(new AssessmentGroupPinCode { RowKey = guid, PinCode = pincode, School = school, Teacher = teacher, Group = group });
+
+
+
+            response = "{\"result\": \"ok\", \"pincode\": \"" + pincode + "\", \"url\": \"" + guid + "\"}";
+            Response.ContentType = "application/json";
+            Response.Write(response);
+            Response.End();
+            return null;
+        }
+
+        private string getUniquePinCode(string school)
+        {
+            string pincode = PinCodeGenerator.NewPin();
+            AssessmentGroupClient agc = new AssessmentGroupClient();
+            AssessmentGroup groupEntry = agc.GetByPartitionAndRowKey(school, pincode);
+            while (groupEntry != null)
+            {
+                pincode = PinCodeGenerator.NewPin();
+                groupEntry = agc.GetByPartitionAndRowKey(school, pincode);
+            }
+            return pincode;
+        }
+        private bool checkPinCode(string pin)
+        {
+            Regex duplicates = new Regex(@"/^(?:([A-Za-z0-9])(?!.*\1))*$/");
+            Regex format = new Regex(@"/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{5,}$/");
+            return duplicates.IsMatch(pin) && format.IsMatch(pin);
+        }
+    }
+}

@@ -1,0 +1,173 @@
+﻿#pictureholder { position: relative; width:420px; min-height: 430px; left: -20px; top: -20px; text-align: center; vertical-align: middle; clear: none; float: left; padding: 0px; background-color: rgba(0,0,0,0.1);  }
+.mainpic 
+{ 
+    position: relative; 
+        
+    max-width: 380px; 
+    max-height: 380px; 
+    border: thin solid #000; 
+    margin: 0 20px 20px 20px;
+    -moz-box-shadow: 0 0 30px #000;
+    -webkit-box-shadow: 0 0 30px #000;
+}
+
+.menuholder
+{
+    position: relative;
+        
+    left: -16px;
+    width: 140px;
+    border: thin solid #ddd;
+    background-color: #fff;
+    margin: 0 0 5px 0;
+}
+.menuholder ul
+{
+    margin: 0;
+}
+div.pastratings
+{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 0.8em;
+    text-align: left;
+    background-color: rgba(0,0,0,0.5); 
+    padding: 10px;
+}
+div.pastratings a {color: #fff; margin: 0 5px 0 5px;}
+    
+div.profilecontrols
+{
+    position: relative;
+    left: -20px;
+    top: -20px;
+    font-size: 0.8em;
+    text-align: left;
+    padding: 10px;
+    width: auto;
+}
+div.profilecontrols a {color: #fff; margin: -10px 0px 0 0px; padding: 5px; height: 40px; width: 200px;}
+div.profilecontrols a:hover { text-decoration: none; background-color: #555577; border-radius: 5px 5px;}
+div.profilecontrols a.active {color: #fff; margin: -10px 0px 0 0px; padding: 5px; height: 40px; width: 200px; background-color: #556688; border-radius: 5px 5px;}
+
+h1 {margin-bottom: 0px;}
+div.subtitle {font-size: 8pt; font-family: Verdana;}
+    
+div.profilecompleteness { position: relative; border: thin solid #fff; float: left; width: 315px; padding: 0 10px 10px 10px; background-color: rgba(255,255,255,0.1);}
+div.profilecompleteness h1 { font-size: 11pt; font-weight: bold;}
+div.profilecompleteness .redtitle 
+{ 
+    position: relative; 
+    left: -10px; 
+    padding: 12px 10px 10px 10px; 
+    width: 315px; 
+    margin: 0px 0 0 0;
+        
+    background-color: #880000; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#880000', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#222222), to(#880000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #000000,  #880000); /* for firefox 3.6+ */
+}
+div.profilecompleteness .orangetitle 
+{ 
+    position: relative; 
+    left: -10px; 
+    padding: 12px 10px 10px 10px; 
+    width: 315px; 
+    margin: 0px 0 0 0;
+        
+    background-color: #884400; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#880000', endColorstr='#884400', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#662200), to(#aa2200)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #880000,  #884400); /* for firefox 3.6+ */
+}
+div.profilecompleteness .bluetitle 
+{ 
+    position: relative; 
+    left: -10px; 
+    padding: 12px 10px 10px 10px; 
+    width: 315px; 
+    margin: 0px 0 0 0;
+        
+    background-color: #004488; 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088dd', endColorstr='#004488', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#001144), to(#004488)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #0088dd,  #004488); /* for firefox 3.6+ */
+}
+div.profilecompleteness .todo {  margin: 10px 0 0 0; padding: 10px; background-color: rgba(0,0,0,0.1);}
+div.profilecompleteness .todo ol { font-size: 12pt; }
+div.profilecompleteness .todo ol li { font-size: 12pt; margin-bottom: 10px;}
+div.profilecompleteness .todo ol li a { font-size: 12pt; }
+    
+div.profilecompleteness .todo ol li .todostep { background-color: rgba(0,0,0,0.1); border-radius: 10px 10px; padding: 10px; }
+div.profilecompleteness .todo ol li .todostep input[type="button"] { width: 100%; }
+div.profilecompleteness .todo ol li .todostep p { font-size: 10pt; }
+    
+div.profilecompleteness .redscore  
+{
+    position: absolute; 
+    top: -30px; 
+    right: -5px; 
+    font-size: 36pt; 
+    text-align: center; 
+    color: #fff; 
+        
+    border-radius: 50px 50px; 
+    border: 2px solid #fff; 
+    width: 90px; 
+    height: 78px;
+        
+    background-color: rgba(255,255,255,0.5); 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dd0000', endColorstr='#880000', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#dd0000), to(#880000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #dd0000,  #880000); /* for firefox 3.6+ */
+    padding: 22px 0 0 10px;
+}
+div.profilecompleteness .orangescore  
+{
+    position: absolute; 
+    top: -30px; 
+    right: -5px; 
+    font-size: 36pt; 
+    text-align: center; 
+    color: #fff; 
+        
+    border-radius: 50px 50px; 
+    border: 2px solid #fff; 
+    width: 90px; 
+    height: 78px;
+        
+    background-color: rgba(255,255,255,0.5); 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dd4400', endColorstr='#882200', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#dd4400), to(#882200)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #dd4400,  #882200); /* for firefox 3.6+ */
+    padding: 22px 0 0 10px;
+}
+div.profilecompleteness .bluescore  
+{
+    position: absolute; 
+    top: -30px; 
+    right: -5px; 
+    font-size: 36pt; 
+    text-align: center; 
+    color: #fff; 
+        
+    border-radius: 50px 50px; 
+    border: 2px solid #fff; 
+    width: 90px; 
+    height: 78px;
+        
+    background-color: rgba(255,255,255,0.5); 
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088dd', endColorstr='#004488', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#0088dd), to(#004488)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #0088dd,  #004488); /* for firefox 3.6+ */
+    padding: 22px 0 0 10px;
+}
+#completenessscore { position: absolute; top: 20px; left: 0px; width: 100%;}
+div.profilecompleteness sup { position: absolute; font-size: 14pt; margin: 0px; top: 50px; right: 5px; border: none;}
+
+a.tblink {}
+a.tblink:hover { background-color: #0000ff; }
+
+a.activelink { background-color: #ffaa00; color: #000000;}

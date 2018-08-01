@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ImageMap</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+</head>
+<body>
+    
+    <img id="image" src="/content/tv2/Attitude_f.jpg" onclick="getcoordinates(event, this)"/>
+    <div style="position: fixed; right: 0px; top: 0px; font-size: 18pt; margin: 20px">
+        <span>w: </span><span id="imgwidth" style="font-weight: bold;"></span> <span>h: </span><span id="imgheight" style="font-weight: bold;"></span><br />
+        <span>coord: </span><span id="coordinates" style="font-weight: bold;"></span>
+    </div>
+</body>
+</html>
+<script language="JavaScript">
+    function getcoordinates(event, elem) {
+        pos_x = event.offsetX ? (event.offsetX) : event.pageX - $(elem).offsetLeft;
+        pos_y = event.offsetY ? (event.offsetY) : event.pageY - $(elem).offsetTop;
+        $('#coordinates').html(pos_x + ', ' + pos_y);
+        $('#imgwidth').html($('#image').width());
+        $('#imgheight').html($('#image').height());
+    }
+</script>
+

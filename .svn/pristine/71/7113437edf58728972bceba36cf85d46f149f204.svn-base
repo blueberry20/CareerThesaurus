@@ -1,0 +1,126 @@
+﻿function getElapsedTime(sincedate) {
+
+    if (sincedate == null || sincedate == '') {
+        return;
+    }
+
+    var now = new Date();
+    var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+    var elapsedms = now_utc.getTime() - parseFloat(sincedate);
+
+    var seconds = elapsedms / 1000;
+    var minutes = 0;
+    var hours = 0;
+    var days = 0;
+
+    var secondsperday = 60 * 60 * 24;
+    if (seconds > secondsperday) {
+        var rem = seconds % secondsperday;
+        days = (seconds - rem) / secondsperday;
+        seconds = rem;
+    }
+
+    var secondsperhour = 60 * 60;
+    if (seconds > secondsperhour) {
+        var rem = seconds % secondsperhour;
+        hours = (seconds - rem) / secondsperhour;
+        seconds = rem;
+    }
+
+    var secondsperminute = 60;
+    if (seconds > secondsperminute) {
+        var rem = seconds % secondsperminute;
+        minutes = (seconds - rem) / secondsperminute;
+        seconds = rem;
+    }
+
+    if (days > 1) {
+        //return 'Posted ' + days + ' days ago';
+        return '<p>Posted ' + days + ' days ago</p>';
+        //return '<p class="justposted">Just Posted!</p>';
+
+    }
+    else if (days > 0) {
+        //return 'Posted yesterday';
+        return '<p>Posted yesterday</p>';
+    }
+    else {
+        if (hours > 0) {
+            //return 'Posted <span class="timer">' + hours + '<sub>hh</sub> <span class="dots">:</span> ' + padWithZero(minutes) + '<sub>mm</sub> <span class="dots">:</span><span class="ss"> ' + padWithZero(seconds) + '</span><sub>ss</sub></span> ago';
+            return '<div class="dateHolder"><div class="dateTable"><div class="tableRow">' +
+                    '<div class="hrDigit">' + hours + '</div><div class="hr">hr</div><div class="minDigit">' + padWithZero(minutes) + '</div><div class="min">mm</div><div class="secDigit blinking">' + padWithZero(seconds) + '</div><div class="sec">ss</div></div>' +
+                    '</div></div>';
+        }
+        else if (minutes > 0) {
+            //return 'Posted <span class="timer">' + padWithZero(minutes) + '<sub>mm</sub> <span class="dots">:</span><span class="ss"> ' + padWithZero(seconds) + '</span><sub>ss</sub></span> ago';
+            return '<div class="dateHolder minutesPosted"><div class="dateTable"><div class="tableRow">' +
+                    '<div class="minDigit">' + padWithZero(minutes) + '</div><div class="min">mm</div><div class="secDigit blinking">' + padWithZero(seconds) + '</div><div class="sec">ss</div></div>' +
+                    '</div></div>';
+        }
+        else {
+            //return '<span class="timer">Just posted!</span>';
+            return '<p class="justposted">Just Posted!</p>';
+        }
+        //$('.dateHolder').tooltip();
+        //$("[data-toggle=tooltip]").tooltip();
+        //$("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    }
+
+}
+
+function padWithZero(n) {
+    var str = new String(n);
+
+    if (str.length > 1)
+        return n;
+    else
+        return '0' + n;
+}
+
+function getTimestampFromIndeedTime(t) {
+    var tokens = t.split(' ');
+    var monthday = parseInt(tokens[1]); //[1] Date e.g. 04, 24
+    var monthnumber = tomonthnumber(tokens[2]); //[2] 3 letter Month = e.g. Jan, Nov
+    var year = parseInt(tokens[3]); //[3] Year e.g. 2013
+    var timetokens = tokens[4].split(':'); //[4] 24 hr Time hh:mm:ss e.g. 23:34:31
+    var h = parseInt(timetokens[0]);
+    var m = parseInt(timetokens[1]);
+    var s = parseInt(timetokens[2]);
+    var d = new Date(year, monthnumber, monthday, h, m, s, 0);
+    //var adjustedTime = addMinutes(d, d.getTimezoneOffset());
+    return d.getTime();
+}
+
+
+function tomonthnumber(m) {
+    switch (m.toLowerCase()) {
+        case "jan":
+            return 0;
+        case "feb":
+            return 1;
+        case "mar":
+            return 2;
+        case "apr":
+            return 3;
+        case "may":
+            return 4;
+        case "jun":
+            return 5;
+        case "jul":
+            return 6;
+        case "aug":
+            return 7;
+        case "sep":
+            return 8;
+        case "oct":
+            return 9;
+        case "nov":
+            return 10;
+        case "dec":
+            return 11;
+        default:
+            return -1;
+    }
+}
+

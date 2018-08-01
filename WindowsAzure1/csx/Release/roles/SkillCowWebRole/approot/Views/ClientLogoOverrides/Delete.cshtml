@@ -1,0 +1,59 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.ClientLogoOverrides.ClientLogoOverride
+
+@{
+    ViewBag.Title = "Delete";
+}
+    <style>
+        input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .editor-field {position: relative; float: left; clear: right;}
+        .display-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .display-field {position: relative; float: left; clear: right;}
+        p {clear: both; margin-top: 100px;}
+        
+        th {text-align: center}
+        .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+        div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+    </style>
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Client Logo Override</legend>
+
+    <div class="display-label">Client Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClientType)
+    </div>
+
+    <div class="display-label">Client Type</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClientType)
+    </div>
+
+    <div class="display-label">Client Id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClientId)
+    </div>
+
+    <div class="display-label">Logo image</div>
+    <div class="display-field">
+        <div id="logocontainer">
+            <img src="https://chaindate.blob.core.windows.net/logooverrides/@Model.ClientType/@Model.ClientId" alt="Logo Override Image"/>
+        </div>
+    </div>
+
+    
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

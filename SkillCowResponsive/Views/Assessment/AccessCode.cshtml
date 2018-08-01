@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Access Code";
+}
+
+<!--=============================Are you registered yet?=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div class="pageContainer blueBackground" id="accessCodePage">
+    <div class="container">
+        <div class="centerBox">
+            <div class="row orgRow">
+                <h1>Are you registered yet?</h1>
+                <p>Follow one of those links</p>
+                <div class="row text-center">
+                        <a class="btn btn-success" href="/Account/LogIn/@ViewBag.AccessCode">Login</a>
+                        <a class="btn btn-success" href="/SignUp/Student/@ViewBag.AccessCode">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function document_ready() {
+
+    }
+</script>

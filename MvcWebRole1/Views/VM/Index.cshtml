@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;    
+}
+
+<html>
+    <head>
+        <title>Explore Schools</title>
+        <style>
+            html,body
+            {
+                background-color: #fff; padding:0; font-family: Arial; color: #333; font-size: 10pt; 
+                background-image: url("/Content/Images/cows_field_background.jpg");
+                background-attachment: fixed;
+                background-position: center top;
+                background-repeat: no-repeat;
+            }
+            .footer {}
+            .footer ul {}
+            .footer ul li { display: inline-block; margin: 0 5px 0 5px;}
+            .footer ul li a {color: #000;}
+        </style>
+        <link href="@Url.Content("~/Content/css/common/Site.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/css/common/decorations.css")" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <img src="/content/images/logo.png" />
+        <div style="background-color: rgba(255,255,255,0.9); padding: 5px 5px 5px 5px;" class="rounded10">
+            <div style="background-color: rgba(255,255,255,0.8); padding: 0 5px 5px 5px;" class="">
+                <!-- **************** VANTAGE MEDIA **************** -->
+                <script type="text/javascript" src="http://images.vantage-media.net/p/ads/vm_load.js"></script>
+                <script type="text/javascript">
+                    vm_load({
+                        "displayId": @(ViewBag.DisplayId),
+                        "publisherId": 30282,
+                        "campaign": @(ViewBag.CampaignId),
+                        "location": "",
+                        "areaOfStudy": "@(ViewBag.ProgramID)"
+                
+                    });
+                </script>
+                <!-- **************** VANTAGE MEDIA **************** -->  
+            </div>
+        </div>
+        
+        <div class="footer rounded10 pagecontent" style="width: 950px; margin: 1px auto; background-color: rgba(255,255,255,0.5); padding: 1px 5px 1px 5px;">
+            <ul style="list-style: none;">
+                <li><a href="http://www.skillcow.com">Home</a></li>
+                <li><a href="/theprivacypolicy">Privacy</a></li>
+                <li><a href="/terms">Terms of Use</a></li>
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-39788184-1']);
+        _gaq.push(['_setDomainName', 'skillcow.com']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</html>
+
+    

@@ -1,0 +1,668 @@
+﻿#formPage .container {
+    padding: 0;
+    background-color:#fff;
+    overflow:hidden;
+}
+
+#formPage {
+    padding-bottom:0;
+    background-color: #F5F8F9;
+    background-color: #BECACD;
+}
+
+.row {
+    margin:10px 0;
+}
+
+.rightBar {
+    margin:15px 0;
+}
+
+h1 {
+    display: inline-block;
+    float: right;
+    margin: 3px 0;
+    font-weight: 600;
+    font-size: 40px;
+    color: #49626A;
+}
+
+#formPage h2 {
+    text-align: right;
+    font-weight: 600;
+    background-color: rgb(143, 214, 228);
+    padding: 15px;
+    margin: 0px -15px 15px;
+    font-family: 'open sans condensed';
+    font-size: 34px;
+}
+
+#formPage #header2 {
+    margin:30px -15px 15px;
+}
+
+#schoolName {
+    height: 40px;
+    margin: 15px 0;
+}
+
+.logo {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.schoolDescription {
+    padding:10px 15px;
+    font-size:16px;
+}
+
+.description {
+    display: inline-block;
+    line-height: 40px;
+    font-weight: 600;
+    font-size: 30px;
+    vertical-align: middle;
+    padding-left: 20px;
+    font-family:'open sans condensed';
+}
+
+.instructions {
+    font-size:20px;
+}
+
+
+.control-label {
+    font-family: 'open sans condensed';
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+#locationInfo {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 50px;
+    padding-bottom: 10px;
+    text-transform:capitalize;
+    font-style:italic;
+}
+
+
+#submitFormBtn {
+    outline: 0;
+    background-color: #38D5A3;
+    border: none;
+    width: 140px;
+    height: 60px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+#submitFormBtn:hover, #submitFormBtn:focus, #submitFormBtn:active {
+    background-color: #2CAD84;
+}
+
+input[type="text"] {
+    -webkit-appearance: none !important;
+    padding: 10px;
+    height: 50px !important;
+}
+
+select {
+    height:50px !important;
+}
+
+select optgroup {
+    font-family:'open sans condensed';
+    font-weight:300;
+}
+
+.form-group label.shortLabel {
+    text-align: right;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 50px;
+}
+
+
+.form-control {
+    font-family:'open sans';
+    font-size:20px;
+    text-transform:capitalize;
+}
+
+#contactInfo {
+    margin-bottom: 30px;
+}
+
+.has-error .form-control {
+    border-color: #f00;
+}
+
+/*additional info*/
+#infoWrapper {
+    margin: -15px -15px 0;
+}
+
+#additionalInfo {
+    margin: 0 auto;
+    padding-bottom:20px;
+}
+
+#additionalInfo .form-group>label, .questionLabel, .outsider {
+   width:100%;
+   text-align:left;
+   display:inline-block;
+   font-family: 'open sans condensed';
+   font-size: 36px;
+   font-weight: 300;
+   margin: 0;
+   padding-right:10px;
+   text-transform:capitalize;
+   padding-bottom:20px;
+}
+
+
+.questionLabel, .outsider {
+    padding-bottom:7px;
+}
+
+
+#additionalInfo .wrapper {
+    background-color: #fff;
+    padding: 75px 30px 24px;
+    /*border-bottom: 1px solid #ECECEC;*/
+    position:relative;
+}
+
+#additionalInfo .form-group {
+    margin:0;
+}
+
+#additionalInfo .form-control {
+    font-family:'open sans condensed';
+    font-size:26px;
+}
+
+.form-group>div {
+    display:block;
+    vertical-align:top;
+}
+
+.form-group>input {
+    width:100%;
+    display:inline-block;
+}
+
+
+div .form-group:not(:first-child) {
+    width:70%;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.form-group>.checkbox {
+    float:left;
+    padding:0;
+}
+
+
+.radio {
+    margin:0;
+}
+
+.radio label {
+    width: initial;
+    padding: 10px 0;
+    font-family: 'open sans condensed';
+    font-size: 26px;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    float: left;
+    margin: 13px;
+}
+
+
+/*form>div {
+    margin: 0 0 10px;
+}*/
+
+.notAndroidBrowser #contactInfo .form-control {
+    /*background-color: #D9F6F9;*/
+}
+
+.androidBrowser #infoWrapper {
+    background-color: #d9f6f9;
+}
+
+
+span.star {
+    color: rgb(238, 4, 4);
+}
+
+.disclaimer {
+    font-size: 13px;
+    padding: 0;
+    color: #989797;
+    margin:0 0 0 40px;
+}
+
+#other-schools-wrapper {
+    margin: 40px 0 40px 40px;
+    background-color: #E1F2F6;
+    padding: 20px;
+}
+
+#other-schools .cells {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 0;
+}
+
+
+#other-schools-wrapper p {
+    font-weight:600;
+    font-size:16px;
+}
+
+#buttonWrapper {
+    text-align:right;
+    padding:0 20px 20px;
+    margin-bottom:0;
+}
+
+.sidenote {
+    text-align: right;
+    padding: 0 14px 10px;
+}
+
+ .hiddenWrapper {
+    padding:0;
+    display:none;
+}
+
+.hiddenWrapper+hr {
+    display:none;
+}
+
+span.q {
+    display:none;
+    text-align:center;
+    padding-top:50px;
+}
+
+.visibleSpan {
+    display: block !important;
+}
+
+.number {
+    background-color: rgba(143, 214, 228, 1);
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    display: block;
+    font-size: 60px;
+    line-height: 100px;
+    text-align: center;
+    margin: 0 auto;
+    font-family: 'open sans condensed';
+    float:right;
+}
+
+.nomargin {
+    margin:0;
+}
+
+form {
+    margin-bottom:100px;
+}
+
+hr {
+    display:none;
+}
+
+.check-mark:not(#foo) > input[type='checkbox'] {
+    opacity: 0;
+    float: left;
+}
+.check-mark:not(#foo) > input[type='checkbox'] + label {
+    margin: 0;
+    clear: none;
+    padding: 5px 0 4px 60px;
+    cursor: pointer;
+    min-height: 32px;
+    background: url('../../images/checkbox_32x32.png') left center no-repeat;
+}
+.check-mark:not(#foo) > input[type='checkbox']:checked + label {
+    background-image: url('../../images/checkbox_checked_32x32.png');
+}
+
+
+.cells {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 20px;
+}
+
+
+/*========================Thank You Page==============================*/
+
+#formThankyouPage {
+    background-color: #BECACD;
+}
+
+#formThankyouPage .container {
+    background-color:#fff;
+}
+
+#formThankyouPage h2 {
+    font-family: "open sans condensed";
+    font-size: 47px;
+    font-weight: 300;
+    padding-right: 10px;
+    text-transform: capitalize;
+    text-align:center;
+    margin-top:15%;
+}
+
+.directions {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+}
+
+.directions div {
+    margin-bottom: 30px;
+}
+
+
+@media only screen and (max-width:992px) {
+    #formPage .container {
+        width:90%;
+    }
+
+    h1 {
+        display:none;
+    }
+    #infoWrapper {
+        padding:15px;
+    }
+
+    form {
+        margin-bottom:50px;
+    }
+
+
+    #additionalInfo {
+        width:100%;
+    }
+
+    #additionalInfo, #contactInfo {
+        padding: 0;
+    }
+
+    .outsider, div .form-group:not(:first-child), .form-group>input, .form-group>label, .form-group>div {
+        width:100%;
+        text-align:left;
+        font-size:34px;
+    }
+
+    label, .outsider {
+        padding-bottom:10px;
+    }
+
+    form {
+        width:100%;
+        margin:0 auto;
+    }
+
+    .form-group label.shortLabel {
+        width: 100%;
+        text-align:left;
+        line-height:initial;
+        margin-right:0;
+        padding-bottom: 0;
+        padding-top: 10px;
+    }
+
+    .form-group div.shortField {
+        width:100%;
+    }
+
+    #additionalInfo .wrapper {
+        padding: 36px 20px 20px;
+    }
+
+    .number {
+        clear:both;
+        float:none;
+        height:80px;
+        width:80px;
+        line-height:80px;
+    }
+
+    span.q {
+        padding:20px;
+    }
+
+     #locationInfo {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 50px;
+        padding-bottom: 0;
+        text-transform: capitalize;
+        margin-bottom: -15px;
+        padding-top: 5px;
+        font-style: italic;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    #formPage .container {
+        width:100%;
+    }
+
+    form {
+        width:100%;
+    }
+
+    .description {
+        display:none;
+    }
+
+    #additionalInfo, #contactInfo {
+        padding: 10px 0;
+    }
+
+    #infoWrapper {
+        margin: 0px -15px 0;
+        padding-top:15px 0;
+    }
+
+    .form-group label.shortLabel {
+        font-size:14px;
+        padding:5px 0px;
+    }
+
+    .form-group div.shortField {
+        padding:0;
+    }
+
+   .form-control {
+        font-size:14px;
+    }
+
+   #contactInfo {
+        padding: 0 15px 20px;
+   }
+
+   #additionalInfo {
+       padding:0;
+   }
+
+    #additionalInfo .form-group .questionLabel, #additionalInfo .outsider {
+        font-size:22px;    
+        font-weight:600;
+    }
+
+    .radio label {
+        font-size:22px;
+    }
+
+    #additionalInfo .form-group .questionLabel, #additionalInfo .outsider {
+        padding:0 0 10px;
+    }
+
+    #additionalInfo .form-control {
+        font-size:20px;
+        padding:6px 12px;
+    }
+
+
+    input[type="text"], select {
+        height: 42px !important;
+    }
+
+    #additionalInfo .wrapper {
+        margin: 0;
+        padding: 16px 5px 30px;
+    }
+
+    span.q {
+        padding:0;
+    }
+
+    .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+        margin: 8px;
+    }
+
+    .radioWrapper {
+        margin:0;
+    }
+
+    #schoolName {
+        background-color:#fff;
+        height:40px;
+        margin:10px 0;
+    }
+
+    .logo img {
+        height:40px;
+    }
+
+    .description {
+        line-height: 40px;
+        font-size: 18px;
+        vertical-align: middle;
+    }
+
+    #formPage h2 {
+        text-align: center;
+        font-weight: 600;
+        font-size: 20px;
+        margin:0 -15px;
+        padding:10px;
+    }
+
+    #formPage #header2 {
+        margin: 15px -15px 15px;
+    }
+
+    .sidenote {
+        padding:7px 0 0;
+    }
+
+    .number {
+        clear: both;
+        float: none;
+        height: 60px;
+        width: 60px;
+        line-height: 60px;
+        font-size: 40px;
+        margin-left:-20px;
+        border-radius: 0 50% 50% 0;
+        background-color: rgba(143, 214, 228, 0.5);
+    }
+
+    .disclaimer {
+        padding:20px 0;        
+        font-size: 11px;
+        text-align:justify;
+    }
+
+    #locationInfo {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 60px;
+        padding-bottom: 10px;
+        text-transform: capitalize;
+        padding: 0;
+        margin-bottom: -10px;
+    }
+
+    #buttonWrapper {
+        text-align:center;
+        padding-bottom:50px;
+    }
+
+    .wrapper>.form-group {
+        margin:0 0 5px;
+    }
+
+    .schoolDescription {
+        padding: 10px 0;
+        font-size:14px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+
+    #additionalInfo .hiddenWrapper {
+        padding: 0;
+    }
+
+    .disclaimer {
+        padding: 0;
+    }
+
+    #contactInfo {
+        padding:0 0 20px;
+    }
+
+    hr {
+        display:block;
+    }
+
+    #other-schools-wrapper p {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    #other-schools-wrapper {
+        margin: 20px 0 40px 40px;
+        padding: 10px;
+    }
+
+    .schoolDescription {
+        padding: 10px 0;
+        font-size: 12px;
+    }
+
+    #additionalInfo .form-group .questionLabel, #additionalInfo .outsider {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .check-mark img {
+        max-height:50px;
+    }
+
+    #submitFormBtn {
+        height:50px;
+    }
+
+}

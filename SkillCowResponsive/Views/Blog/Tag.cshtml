@@ -1,0 +1,156 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+@using System.Text.RegularExpressions;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogTag;
+
+@{
+    BlogPostClient bpc = new BlogPostClient();
+    BlogTagClient btc = new BlogTagClient();
+    ViewBag.Title = "Tagged Posts";
+}
+
+<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+<link href="/Content/css/Blog/blog.css" rel="Stylesheet" />
+
+<div id="archivePage" class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 blogPostsWrapper">
+                @{
+                    if (ViewBag.Articles == null)
+                    {
+                        <div class="blueBackground">No posts with this tag</div>
+                    }
+                    else
+                    {
+                        <h1>Posts Tagged '@ViewBag.Tag'</h1>
+                        List<BlogPost> postsList = ViewBag.Articles;
+                        foreach (BlogPost post in postsList)
+                        {
+                            string url = post.Date.ToString("yyyy/MM/dd/") + Regex.Replace(post.Title.ToLower(), @"[^a-zA-z0-9]+", "-");
+                            string article = Regex.Match(post.Article1, @"<p\b[^<]*(?:(?!<\/p>)<[^<]*)*<\/p>").ToString();
+                            article = Regex.Replace(article, @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>", "");
+                            <div class="blogPostShort">
+                                <h2>@post.Title</h2>
+                                <div class="blogImageHolder row" data-path="@url">
+                                    <img class="img-responsive" src='https://careerthesaurus.blob.core.windows.net/blog/@(url.Replace("/", "") + "/" + post.HeaderImageCode.Substring(2, 4))' alt="" />
+                                </div>
+                                <div class="shareRowText">
+                                    <p class="blogDate">@post.Date.ToString("MMMMMMMMM dd, yyyy")</p><span class="lineSeparator"></span>
+                                    <p class="blogComments"><fb:comments-count href='/Blog/Post/@url'></fb:comments-count> comments</p>
+                                </div>
+                                @*<p class="blogParagraph">@article</p>*@
+                                <div class="readButtonWrapper">
+                                    <a type="submit" class="btn btn-info" href='/Blog/Post/@url'>Read More</a>
+                                </div>
+                            </div>
+                        }
+                        @*int totalPages = ViewBag.Pages;
+                            int currentPage = ViewBag.CurrentPage;
+                            if (currentPage == 1 && totalPages != 1)
+                            {
+                                <ul class="pager">
+                                    <li class="previous disabled"><a href="Blog">&larr; Older Articles</a></li>
+                                    <li class="next"><a href="Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                                </ul>
+                            }
+                            else if (currentPage == totalPages && currentPage != 1)
+                            {
+                                <ul class="pager">
+                                    <li class="previous"><a href="Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                    <li class="next disabled"><a href="Blog">Newer Articles &rarr;</a></li>
+                                </ul>
+                            }
+                            else// if (currentPage != 1 && totalPages != 1)
+                            {
+                                <ul class="pager">
+                                    <li class="previous"><a href="Blog/Page/@(currentPage - 1)">&larr; Older Articles</a></li>
+                                    <li class="next"><a href="Blog/Page/@(currentPage + 1)">Newer Articles &rarr;</a></li>
+                                </ul>
+                            }
+                            <div>for debuging</div>
+                            <div>Current page @ViewBag.CurrentPage</div>
+                            <div>Total pages @ViewBag.Pages</div>*@
+                    }
+                }
+            </div>
+            <!--================================= Right sidebar ============================== -->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 blogSidebar">
+                @*<div class="sidebarWidget" id="signupWidget">
+                        <h3>Sign up to receive our new blog posts!</h3>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter your email" />
+                        </div>
+                        <button type="submit" class="btn greenBorderBtn">Sign up</button>
+                    </div>*@
+                <div class="shareDiv row coloredSocialIcons text-left sidebarWidget">
+                    <h3>Share this page</h3>
+                    <ul class="social-icons">
+                        <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=What career fits your personality? Find out at:&url=http://CareerThesaurus.com/careertest" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/CareerTest&redirect_uri=https://facebook.com&name=What career fits your personality? &action=%5B%7B"name"%3a"What%20career%20fits%20your%20personality"%3F%20Find%20out%20at:"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/CareerTest" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+
+                @*<div class="sidebarWidget">
+                        <h3>Archive</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="archive" data-toggle="dropdown">
+                                Select Month and Year
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                @{
+                                    DateTime startDate = new DateTime(2014, 09, 01);
+                                    while (startDate <= DateTime.Today)
+                                    {
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/Blog/Archive/@startDate.Year/@startDate.ToString("MM")">@startDate.ToString("MMMMMMMMM") @startDate.Year</a></li>
+                                        startDate = startDate.AddMonths(1);
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>*@
+                <!--Tags-->
+                <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        @{
+                            List<BlogTag> tags = new List<BlogTag>(btc.GetAllByPartition("blogTag"));
+                            if (tags.Count != 0)
+                            {
+                                foreach (BlogTag tag in tags)
+                                {
+                                    //if (tag.PublicPosts != 0)
+                                    //{
+                                    <a class="blogTag" href="/Blog/Tag/@tag.RowKey"><i class="fa fa-tag"></i>@tag.Tag</a>
+                                    //}
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="sidebarWidget advertisementWidget">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_1"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

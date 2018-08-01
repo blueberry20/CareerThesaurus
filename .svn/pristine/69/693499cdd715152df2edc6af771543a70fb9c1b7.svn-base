@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.ServiceRuntime;
+
+namespace SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating
+{
+    public class AssessmentCareerRatingClient : TableServiceClientBase<AssessmentCareerRating>
+    {
+        public AssessmentCareerRatingClient()
+            : base("AssessmentCareerRating")
+        {
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndStudent(string school, string student)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.Student == student
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndTeacher(string school, string teacher)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.Teacher == teacher
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndGroup(string school, string teacher, string groupName)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.Teacher == teacher && e.Group == groupName
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndGradYear(string school, string gradYear)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.GradYear == gradYear
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndRating(string school, string dolcode, string rating)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.DolCode == dolcode && e.Rating == rating
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+        public CloudTableQuery<AssessmentCareerRating> GetAllBySchoolAndGroupAndRating(string school, string dolcode, string schoolGroup, string rating)
+        {
+            return (from e in TableContext().CreateQuery<AssessmentCareerRating>(tableName)
+                    where e.PartitionKey == school && e.Group == schoolGroup && e.DolCode == dolcode && e.Rating == rating
+                    select e).AsTableServiceQuery<AssessmentCareerRating>();
+        }
+    }
+}

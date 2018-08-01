@@ -1,0 +1,121 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools
+@model DirectSchoolClientCampus
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .editor-field {position: relative; float: left; clear: right;}
+        p {clear: both; margin-top: 100px;}
+</style>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+
+    <!--Breadcrumbs-->    
+    <div>
+        @Html.ActionLink("Client Index", "Index", "directschoolclients") > 
+        @Html.ActionLink(((DirectSchoolClient)ViewBag.Client).Name, "Edit", "directschoolclients", new { id = ((DirectSchoolClient)ViewBag.Client).RowKey }, null) 
+    </div>
+
+<h1>Create Campus for <span style="color: rgba(0,0,255,1)">@(((DirectSchoolClient)ViewBag.Client).Name)</span></h1>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        
+        <fieldset>
+            <legend>Status</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.Status,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Details</legend>
+            
+            <div class="editor-label">
+                Campus Id
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CampusId)
+                @Html.ValidationMessageFor(model => model.CampusId)
+            </div>
+
+            <div class="editor-label">
+                Short Name
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+
+            <div class="editor-label">
+                Campus Type
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.CampusType,
+                                        new SelectList(new List<object>
+                                        {
+                                            new { Value = "Online", Text = "Online" },
+                                            new { Value = "Campus", Text = "Campus" }
+                                        }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.CampusType)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Address)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.City)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.City)
+                @Html.ValidationMessageFor(model => model.City)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.State)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.State)
+                @Html.ValidationMessageFor(model => model.State)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Zip)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Zip)
+                @Html.ValidationMessageFor(model => model.Zip)
+            </div>
+        </fieldset>
+
+        @Html.Hidden("ClientRowKey", ((DirectSchoolClient)ViewBag.Client).RowKey)     
+        @Html.Hidden("ClientId", ((DirectSchoolClient)ViewBag.Client).ClientId)     
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+
+</div>

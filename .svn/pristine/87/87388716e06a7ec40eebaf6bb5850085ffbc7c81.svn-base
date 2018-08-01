@@ -1,0 +1,1026 @@
+﻿.pageContainer {
+    padding: 50px 0 0;
+}
+
+/*.whiteBgPage .container {
+    background-color: #fff;
+    padding: 20px 30px 30px;
+}*/
+
+#studentReportPage h1 {
+    text-align:left;
+    display:block;
+    margin:40px 0;
+    font-size:38px;
+}
+
+#studentReportPage.lockedMode h1 {
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+
+#studentReportPage.lockedMode .container {
+    padding:15px 15px 50px;
+}
+
+#studentReportPage.lockedMode .reportWrapper {
+    padding:0 5px;
+}
+
+#studentReportPage.lockedMode .rightColumn {
+    padding:0;
+}
+
+#studentReportPage.lockedMode .printLink {
+    right:10px;
+    display:none;
+}
+
+#studentReportPage.lockedMode .noResultsError {
+    margin:10px 0;
+}
+
+.pageContainer h2 {
+    margin: 20px 0;
+    text-align: left;
+    color: #000;
+    font-weight: 600;
+    font-family: 'open sans';
+    font-size: 24px;
+}
+
+.reportDiv h2 {
+    margin: 0;
+    text-transform: none;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #E4F9FB;
+    padding: 15px;
+    position:relative;
+    padding-right:70px;
+}
+
+#studentReportPage h2 span {
+    vertical-align:middle;
+}
+
+h3 {
+    text-align: left;
+    margin: 30px 0 10px;
+    font-weight:300;
+    font-size:22px;
+}
+
+.reportDiv {
+    /*background-color: #FAFDFE;*/
+    margin: 20px 0;
+}
+
+.reportSection {
+    padding-left: 15px;
+    /*background-color: #F8FCFC;*/
+    padding: 20px;
+}
+
+#emailForm {
+    opacity:1;
+    width: 100%;
+    margin: 0 0 30px;
+    padding:15px;
+}
+
+#studentReportPage.lockedMode #emailForm h1 {
+    padding: 15px;
+}
+
+#emailForm .form-group label {
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 50px;
+    text-align: left;
+    font-family: 'open sans condensed';
+    padding: 0 15px;
+}
+
+#emailForm .form-group {
+    padding: 15px;
+}
+
+#emailForm #joinNewsletterBtn {
+    margin-top:15px;
+}
+
+.arrowDown, .arrowUp {
+    display: inline-block;
+    position: static;
+    /*background-color: #D2F4F9;*/
+    line-height: 30px;
+    height: 30px;
+    float: right; 
+    vertical-align: middle;
+    font-size:57px;   
+    -webkit-transition:all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -15px;
+}
+
+.arrowDown {
+    display:none;
+}
+
+/*.traitsDescription p {
+    font-size:18px;
+}*/
+
+.cell a {
+    color: #000;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+}
+
+.no-touch .cell a:hover, .cell a:focus, .cell a:active {
+    text-decoration:none;
+    color: rgb(23, 184, 214);
+}
+
+.cell .firstLine {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 34px;
+    text-align: center;
+    margin-top: 42px;
+}
+
+.cell .secondLine {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: center;
+}
+
+.secondLineInversed, .secondLine.inversed {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: center;
+    margin-top:40px;
+}
+
+.firstLineInversed, .firstLine.inversed {
+    font-family: 'open sans condensed';
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 34px;
+    text-align: center;
+    margin-top:0;
+}
+
+.cell {
+    border: 1px dashed rgb(147, 229, 237);
+    height: 130px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cell p {
+    margin-top: 55px;
+}
+
+
+
+.reportWrap {
+    position:relative;
+}
+
+.reportLink {
+    margin-top: 20px;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+}
+
+.major {
+    margin: 5px 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.no-touch .reportLink:hover, .reportLink:focus, .reportLink:active {
+    color:#fff;
+    text-decoration:none;
+    background-color: rgb(18, 157, 183);
+} 
+
+.printLink {
+    margin-top: 5px;
+    cursor: pointer;
+    width: 150px;
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+
+.printLink img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.reportCard {
+    color: #C0B9B9;
+    font-weight: 700;
+    font-size: 36px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -50px;
+    right: 0;
+}
+
+.career {
+    border-bottom: 1px solid rgb(23, 184, 214);
+  
+}
+
+.no-touch .career:hover {
+    /*background-image: url(/Content/images/stripespattern8.png);*/
+    background-repeat:repeat;  
+    text-decoration:none;
+    color:#000;
+}
+
+.traitsDescription {
+    opacity:0;
+}
+
+.traitsDescription.notViewed {
+    opacity:0;
+    position:relative;
+    left:100px;
+}
+
+.traitsDescription.viewed {
+    opacity:1;
+        -webkit-transition:all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition:all 1s ease-in-out;
+    left:0;
+}
+
+/*.interest {
+    font-size: 32px;
+    display: inline;
+    font-weight:300;
+}*/
+
+/*.interest:after {
+    content: ' / ';
+}
+
+.interest:last-child::after {
+    content: '';
+}*/
+
+.annotation {
+    color: #1C8791;
+    font-weight: 600;
+    font-size: 24px;
+    font-style: italic;
+}
+
+.arrowRight {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    font-size: 24px;
+    margin-top: -12px;
+    line-height:normal;
+    margin-right:7px;
+}
+
+.tir {
+    font-size:20px !important;
+    margin-top: -10px !important;
+}
+
+.iconExplanation {
+    background-color:#E7F6F9;
+    padding:10px;
+    line-height:2em;
+}
+
+.iconExplanation .tir {
+    width:20px;
+    text-align:center;
+}
+
+.blueStripesBtn {
+    display: inline-block;
+    line-height: 50px;
+    padding: 0 10px;
+    color: #000;
+    background-color: transparent;
+    border: none;
+    height: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 17px;
+    position: relative;
+    padding-right: 30px;
+    background-image:url(/Content/images/stripespattern8.png);
+    margin:10px 0;
+}
+
+.no-touch .blueStripesBtn:hover, .blueStripesBtn:focus, .blueStripesBtn:active {
+    background-image:url(/Content/images/stripespattern6.png);
+    color:#000;
+    text-decoration:none;
+}
+
+.careersByTRaitBtn .arrowRight {
+    font-size: 17px;
+    margin-top: -12px;
+}
+
+.reportDiv .extraMargin {
+    margin-top:20px;
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.interest {
+    display:inline;
+    margin: 5px 10px 5px 0;
+    line-height: 54px;
+}
+
+.interest1 {
+color: #000;
+background-color:rgb(134, 206, 215) ;
+font-size: 28px;
+font-weight: 300;
+}
+
+.interest2 {
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+font-weight: 300;
+color: #000;
+}
+
+.interest3 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(116, 218, 230);
+}
+
+
+.interest4 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest5 {
+font-size: 25px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #fff;
+background-color:#3199cc;
+border-radius:3px;
+}
+
+.interest6 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest7 {
+font-size: 27px;
+color: #000;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+background-color: #A9D7EE;
+border-radius:3px;
+text-transform:uppercase;
+}
+
+.interest8 {
+font-size: 22px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+text-transform: uppercase;
+}
+
+.interest9 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest10 {
+font-size: 24px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest11 {
+font-size: 30px;
+font-weight: 600;
+color: #000;
+}
+
+.interest12 {
+font-size: 32px;
+font-family:'Gentium Basic', serif;
+font-weight: 600;
+color: #fff;
+background-color: #74CEFA;
+border-radius:3px;
+}
+
+
+.interest13 {
+font-size: 20px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+}
+
+
+.interest14 {
+font-size: 28px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #000;
+}
+
+
+.interest15 {
+font-size: 34px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(145, 212, 219);
+text-transform: uppercase;
+}
+
+
+.interest16 {
+font-size: 26px;
+font-weight: 300;
+color: #fff;
+background-color: #70D5F5;
+border-radius: 3px;
+text-transform: uppercase;
+}
+
+.interest17 {
+font-size: 20px;
+color: #000;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+/*background-color: #FF7D5C;*/
+}
+
+.interest18 {
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+font-weight: 600;
+color: #000;
+text-transform: uppercase;
+}
+
+.interest19 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 300;
+color: #000;
+background-color: rgb(19,150,165);
+background-color: rgba(19,150,165, 0.6)
+}
+
+.interest20 {
+font-size: 30px;
+font-family: 'Open Sans Condensed', sans-serif;
+font-weight: 400;
+color: #000;
+}
+
+.interest21 {
+font-size: 28px;
+font-family:'Gentium Basic', serif;
+font-weight: 400;
+color: #fff;
+background-color:#3199cc;
+border-radius:3px;
+}
+
+
+.edulevelheader {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 30px;
+    text-transform: uppercase;
+    /* color: #777; */
+    font-weight: 300;
+}
+
+
+@media only screen and (max-width:1200px) {
+    /*.whiteBgPage .container {
+        width:95%;
+        padding:10px;
+    }*/
+
+    .pageContainer h2 {
+        font-size:22px;
+    }
+
+    h3 {
+        font-size: 21px;
+    }
+}
+
+
+@media only screen and (max-width:992px) {
+    .interest {
+        font-size: 23px;
+    }
+
+    .annotation {
+        font-size:20px;
+    }
+
+    #studentReportPage h1 {
+        font-size: 30px;
+        margin:30px 0;
+    }
+
+    #studentReportPage h2 {
+       font-size: 24px;
+    }
+
+    .reportDiv {
+        margin:15px 0;
+    }
+
+    #studentReportPage.lockedMode .container {
+        width: 100%;
+    }
+
+    .cell .secondLine {
+        font-size:18px;
+    }
+
+    .cell .firstLine {
+        font-size:24px;
+    }
+
+    #emailForm .form-group {
+        line-height:40px;
+        padding:10px;
+    }
+
+    #emailForm {
+        padding:10px;
+    }
+
+    #studentReportPage.lockedMode #emailForm h1 {
+        padding:10px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+
+    .reportDiv .extraMargin {
+        margin-bottom: 0;
+    }
+
+    .reportCard {
+        font-size:26px;
+    }
+
+    .pageContainer h2 {
+         font-size: 20px;
+    }
+
+    #studentReportPage h2 {
+        font-size: 22px;
+    }
+
+    .cell .firstLine, .firstLineInversed, .firstLine.inversed {
+        font-size: 22px;
+    }
+
+    .secondLineInversed, .secondLine.inversed {
+        margin-top:42px;
+    }
+
+    .traitsDescription {
+        opacity:1;
+    }
+
+    .blueStripesBtn {
+        font-size:14px;
+    }
+
+    .traitsDescription p {
+        font-size: 13px;
+    }
+
+    .interest {
+        font-size: 20px;
+    }
+
+    .printLink {
+        display:none !important;
+    }
+
+    .annotation {
+        font-size:17px;
+    }
+
+    .arrowDown, .arrowUp {
+        font-size:36px;
+    }
+
+    .edulevelheader {
+        margin-top:20px;
+        font-size:16px;
+    }
+
+    #studentReportPage.lockedMode .noResultsError {
+        margin: 5px 0;
+    }
+
+   #studentReportPage.lockedMode .reportDiv .extraMargin {
+        height: 38px;
+        padding:0;
+        margin: 5px 5px 10px;
+    }
+
+   #studentReportPage.lockedMode h1 {
+       padding:10px 0;
+   }
+
+   .reportDiv {
+        margin: 10px 0;
+    }
+
+   #studentReportPage.lockedMode .container {
+        padding: 5px;
+    }
+
+   #studentReportPage.lockedMode .reportLink {
+        margin-top: 0px;
+        background-color: #000;
+        color: #fff;
+        padding: 5px;
+        display: block;
+        width: 144px;
+        float: right;
+    }
+
+   #studentReportPage.lockedMode .reportWrapper, #studentReportPage.lockedMode .rightColumn {
+       width:100%;
+   }
+
+    .reportWrap {
+        padding:0;
+    }
+
+    #emailForm .form-group label {
+        font-size:24px;
+        line-height:40px;
+    }
+
+    #emailForm {
+        margin: 0 0 15px;
+    }
+
+}
+
+@media only screen and (max-width:500px) {
+
+    #studentReportPage h1 {
+        font-size:22px;
+        margin: 10px 0 20px;
+    }
+
+    #studentReportPage h2 {
+        font-size: 16px;
+        font-weight:600;
+        padding: 10px 50px 10px 10px;
+        margin-bottom:0;
+    }
+
+     .arrowDown, .arrowUp {
+        font-size:36px;
+        line-height: 20px;
+        height: 20px;
+        margin-top: -10px;
+    }
+
+     .reportSection {
+         padding:5px;
+     }
+
+     .reportDiv {
+        margin: 10px 0;
+    }
+
+     .interest {    
+        font-size: 16px;
+    }
+
+    /*.whiteBgPage .container {
+        padding: 0 0 30px;
+    }*/
+
+   .container .col-md-9 {
+        padding:5px;
+    }
+
+    .pageContainer h2 {
+        font-size: 16px;
+        margin: 10px 0;
+        font-weight: 700;
+    }
+
+    .cell {
+        height:100px;
+        width:50%;
+    }
+
+    .cell .firstLine {
+        margin-top:22px;
+        font-size:20px;
+    }
+
+    .firstLineInversed, .firstLine.inversed {
+        font-size:20px;
+        margin-top:0;
+    }
+
+    .cell .secondLine, .secondLineInversed, .secondLine.inversed {
+        font-size:18px;
+    }
+
+    .secondLineInversed, .secondLine.inversed {
+        margin-top: 22px;
+    }
+
+    #studentReportPage.lockedMode h1 {
+        margin: 0;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    h3 {
+        margin: 15px 0 10px;
+        font-size:16px;
+    }
+
+    .blueStripesBtn {
+         font-size: 12px;
+    }
+
+    .annotation {
+        font-size:14px;
+    }
+
+    .reportWrap {
+        padding: 0;
+    }
+
+     .reportDiv .text-right {
+        text-align:right;
+    }
+
+     .interest {
+         line-height:35px;
+     }
+
+     .reportCard {
+         display:none;
+     }
+     .tir {
+         display: none;
+     }
+
+     #studentReportPage.lockedMode .container {
+        padding: 5px;
+    }
+
+     #emailForm .form-group {
+         padding:0;
+     }
+
+     #emailForm .form-group label {
+        font-size: 20px;
+        line-height: 30px;
+        padding:0;
+    }
+
+     .shortField, .shortLabel {
+         padding:0;
+     }
+
+     #emailForm {
+         padding:5px 10px;
+     }
+}
+
+
+@media print {
+    @page {
+        margin: 10px 15px;
+        size:auto;
+    }
+
+    body {
+        margin:0;
+        padding:0;
+    }
+
+    #studentReportPage .container {
+        padding:0;
+    }
+
+    .navbar {
+        display:block;
+    }
+
+    .navbar .print {
+        display: inline;
+    }
+
+    .navbar-wrapper .container {
+        border-bottom:1px solid #000;
+        padding: 0 20px;
+    }
+
+    .navbar .screen {
+        display:none;
+    }
+
+    .col-lg-9, .col-md-9 {
+        width:100%;
+    }
+
+    .blueStripesBtn, .orgRow, .reportLink, .arrowRight {
+        display:none;
+    }
+
+    /*.pageContainer {
+        padding: 0;
+    }*/
+
+    /*.whiteBgPage .container {
+        background-color: #fff;
+        padding: 20px;
+    }*/
+
+    #studentReportPage h1{
+        font-size: 27px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .reportDiv h2 {
+        margin: 0;
+        font-size: 24px;
+        page-break-after: avoid;
+    }
+
+    .cell {
+        height:100px;
+        line-height:100px;
+    }
+
+    .cell .firstLine {
+        font-size: 26px;
+        margin-top: 22px;
+    }
+
+    .reportDiv {
+        margin:0;
+        padding:0;
+    }
+
+    .reportDiv .extraMargin {
+        margin: 0;
+        height: 0;
+    }
+
+    h3 {
+       font-size: 15px;
+        margin: 15px 0 5px;
+        font-style: italic;
+        font-weight: 400;
+        page-break-after: avoid;
+    }
+
+    .annotation {
+        font-size: 19px;
+    }
+
+    .traitsDescription {
+        page-break-inside:avoid;
+        opacity:1;
+    }
+
+    .traitsDescription p {
+        font-size: 14px;
+    }
+
+    .interest {
+        display: block;
+        font-family: 'open sans';
+        font-size: 16px;
+        line-height: initial;
+        font-weight: 400;
+    }
+
+      a[href]:after {
+        content: none !important;
+      }
+
+      footer .container {
+          display:none;
+      }
+
+    .career {
+        padding: 5px 0;
+        min-height: initial;
+        page-break-inside:avoid;
+    }
+
+    .noPrint {
+        display:none !important;
+    }
+    .noResultsError {
+        text-align:left;
+        padding: 0;
+        font-size: 18px;
+        font-family: 'open sans';
+    }
+
+    .professionName {
+        font-size:16px;
+    }
+
+    #back-top {
+        display:none;
+    }
+
+    .careersReport, .careersNoReport, .careersYesReport {
+        -webkit-column-count: 3; /* Chrome, Safari, Opera */
+        -moz-column-count: 3; /* Firefox */
+        column-count: 3;
+        -moz-column-gap: 30px;
+        -webkit-column-gap: 20px;
+    }
+
+    .career:last-child {
+        border-bottom: 1px solid rgb(23, 184, 214);
+    }
+
+    .demoContainer {
+        display: none;
+    }
+
+    .arrowDown, .arrowUp {
+        display:none !important;
+    }
+
+    .reportCard {
+        display:none;
+    }
+}

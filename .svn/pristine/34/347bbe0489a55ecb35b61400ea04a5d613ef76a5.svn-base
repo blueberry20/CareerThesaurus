@@ -1,0 +1,143 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+@model SkillCowRequestSubmissionClient
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function settoday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+{
+    <table style="font-style: italic;">
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            <td><input type="submit" value="Go"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+        </tr>
+    </table>
+    
+}
+</div>
+@{
+    int externalgradyearpass = 0;
+    int externalcnt = 0;
+    int externalleads = 0;
+    int cnt = 0;
+    
+    Dictionary<string, int> topschools = new Dictionary<string, int>();
+    
+    List<SkillCowRequestSubmission> allrecords = new List<SkillCowRequestSubmission>();
+    
+    DateTime cursordate = ViewBag.StartDate;
+    
+    while(cursordate<=ViewBag.EndDate)
+    {
+        CloudTableQuery<SkillCowRequestSubmission> query = Model.GetAll(cursordate.ToString("yyyyMMdd"));
+        allrecords.AddRange(query.Execute().Where(x=>x.UtmSource =="mgid.com").OrderBy(x => x.Timestamp));
+        cursordate = cursordate.AddDays(1);
+    }
+    
+    
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Grad</th>
+
+            <th>UtmSource</th>
+            <th>UtmCampaign</th>
+            <th>UtmContent</th>
+            <th>UtmTerm</th>
+
+            <th>Conv</th>
+            <th>Client</th>
+            <th>Form</th>
+            <th>Local Time</th>
+        </tr>
+    @foreach (var submission in allrecords)
+    {
+        int igradyear;
+        bool gradyearpass=false;
+        if(int.TryParse(submission.GradYear, out igradyear))
+        {
+            if(igradyear<EasternTimeConverter.Convert(DateTime.UtcNow).Year || EasternTimeConverter.Convert(DateTime.UtcNow).Month>5 && igradyear<=EasternTimeConverter.Convert(DateTime.UtcNow).Year)
+            {
+                gradyearpass = true;   
+            }
+        }
+            
+            externalcnt++;
+            
+            string recordtype = "";
+        
+            if (submission.ClientId != null && submission.ClientId != "")
+            {
+                if (gradyearpass)
+                {
+                    recordtype = "LEAD";
+                }
+                else
+                {
+                    recordtype = "HS";
+                }
+            }
+
+            
+            <tr>
+                <td align="right">@(++cnt)</td>
+                <td>@(submission.GradYear)</td>
+                
+                <td>@(submission.UtmSource)</td>
+                <td>@(submission.UtmCampaign)</td>
+                <td>@(submission.UtmContent)</td>
+                <td>@(submission.UtmTerm)</td>
+                                
+                <td>@(recordtype)</td>
+                <td>@(submission.ClientId)</td>
+                <td>@(submission.FormId)</td>
+                <td>@(submission.Timestamp.AddHours(-4))</td>
+            </tr>
+        }
+    }
+    </table>
+    
+    <div class="rounded20bl" style="position: fixed; top: 0px; right: 0px; font-size: 20pt; background-color: rgba(255,255,255,0.5); padding: 10px 20px 10px 20px; text-align: right;">
+        <span>@(externalgradyearpass)</span> / <span>@(externalleads)</span> / <span>@(externalcnt)</span> = @(externalcnt > 0 ? String.Format("{0:0.00%}", (double)externalleads / externalcnt) : "")<br />
+    </div>
+</div>
+
+<br />
+
+
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+</style>

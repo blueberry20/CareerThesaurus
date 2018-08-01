@@ -1,0 +1,197 @@
+﻿@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools.DirectSchoolClient
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Create</title>
+    <style>
+        input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+        select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+        textarea {width: 400px; font-family: Arial; padding: 5px;}
+        fieldset {border: none; margin-bottom: 20px;}
+        legend {font-size: 16pt; font-weight: bold; margin: 0;}
+        input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+        .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+        .editor-field {position: relative; float: left; clear: right;}
+        p {clear: both; margin-top: 100px;}
+        
+    </style>
+</head>
+<body>
+    <script src="@Url.Content("~/Scripts/jquery-1.5.1.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+    
+    <h1>Create New Direct School Client</h1>
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Identifiers</legend>
+        
+            <div style="float: left; margin-right: 20px;">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ClientId)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ClientId)
+                    @Html.ValidationMessageFor(model => model.ClientId)
+                </div>
+    
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FormId)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.FormId)
+                    @Html.ValidationMessageFor(model => model.FormId)
+                </div>
+            </div>
+            <div style="float: left; margin-right: 20px;">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Status)
+                </div>
+                <div class="editor-field">
+                    <select id="Status" name="Status">
+                        <option selected=true>Paused</option>
+                        <option>Live</option>
+                        <option>Demo</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Status)
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Info</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Category)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Category)
+                @Html.ValidationMessageFor(model => model.Category)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="editor-field">
+                <textarea id="Description" name="Description"></textarea>
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Images</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Logo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Logo)
+                @Html.ValidationMessageFor(model => model.Logo)
+            </div>
+            <div class="editor-label">
+                Image Urls
+            </div>
+            <div class="editor-field">
+                <textarea id="ImageUrls" name="ImageUrls"></textarea>
+                @Html.ValidationMessageFor(model => model.ImageUrls)
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Contact info</legend>
+
+            <div style="float: left; margin-right: 20px;">
+                <div class="editor-label">
+                    Administrative Contact Name
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.AdministrativeContactName)
+                    @Html.ValidationMessageFor(model => model.AdministrativeContactName)
+                </div>
+    
+                <div class="editor-label">
+                    Administrative Contact Phone1
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.AdministrativeContactPhone1)
+                    @Html.ValidationMessageFor(model => model.AdministrativeContactPhone1)
+                </div>
+    
+                <div class="editor-label">
+                    Administrative Contact Phone2
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.AdministrativeContactPhone2)
+                    @Html.ValidationMessageFor(model => model.AdministrativeContactPhone2)
+                </div>
+    
+                <div class="editor-label">
+                    Administrative Contact Email
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.AdministrativeContactEmail)
+                    @Html.ValidationMessageFor(model => model.AdministrativeContactEmail)
+                </div>
+            </div>
+            <div style="float: left; ">
+                <div class="editor-label">
+                    Billing Contact Name
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.BillingContactName)
+                    @Html.ValidationMessageFor(model => model.BillingContactName)
+                </div>
+    
+                <div class="editor-label">
+                    Billing Contact Phone1
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.BillingContactPhone1)
+                    @Html.ValidationMessageFor(model => model.BillingContactPhone1)
+                </div>
+    
+                <div class="editor-label">
+                    Billing Contact Phone2
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.BillingContactPhone2)
+                    @Html.ValidationMessageFor(model => model.BillingContactPhone2)
+                </div>
+    
+                <div class="editor-label">
+                    Billing Contact Email
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.BillingContactEmail)
+                    @Html.ValidationMessageFor(model => model.BillingContactEmail)
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Notes</legend>
+            <div class="editor-field">
+                <textarea id="Notes" name="Notes"></textarea>
+                @Html.ValidationMessageFor(model => model.Notes)
+            </div>
+    
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

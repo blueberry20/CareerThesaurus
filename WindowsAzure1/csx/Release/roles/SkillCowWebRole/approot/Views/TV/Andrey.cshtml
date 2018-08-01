@@ -1,0 +1,596 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
+        <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+    </head>
+
+    <body>
+        <div id="main">
+            
+        </div>
+    </body>
+</html>
+
+<style>
+
+    body {
+        overflow: hidden;
+        margin: 0 0;
+        padding: 0 0;
+    }
+
+    #main {
+        position: absolute;
+
+        margin: 0 auto;
+        
+        /* Firefox */
+        display:-moz-box;
+        -moz-box-pack:center;
+        -moz-box-align:center;
+
+        /* Safari, Opera, and Chrome */
+        display:-webkit-box;
+        -webkit-box-pack:center;
+        -webkit-box-align:center;
+
+        text-align: center;
+
+        /* W3C */
+        display:box;
+        box-pack:center;
+        box-align:center;
+        text-align: center;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+        
+        overflow: hidden;
+    }
+        
+        
+    img {
+        position: absolute;
+        margin: 0 auto;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    h1 {
+        z-index: 9999;
+        font-family: Arial, 'Sans Serif';
+        text-align: center;
+        font-size: 56pt;
+        position: absolute;
+        opacity: 0;
+    }
+    h1.center {
+        position: relative;
+        margin: 0;
+        padding: 0;
+    }
+    
+    sketchy {font-family: 'Cabin Sketch'; margin: 0; padding: 0;}
+    thin {font-family: Roboto; font-weight: 100; margin: 0;}
+    
+</style>
+
+<script type='text/javascript'>
+
+    //Slideshow Engine courtesy of Andrey Zalomskiy :)
+    var win_width;
+    var win_height;
+    var slides;
+
+    var startingslide = 0;
+
+    var cover_top_offset = 0;
+    var cover_left_offset = 0;
+    var longestside = 0;
+    var longestsidename = '';
+
+    function slideShow(slideIndex) {
+        var slide = slides[slideIndex];
+        var script = '<script>';
+        var delay = 0;
+        for (var i = 0; i < slide.length; i++) {
+            var object = slide[i];
+
+            if (object.type == 'image') {
+                $('#main').append('<img id="' + object.id + '" src="' + object.content + '" style="' + object.attr + '">');
+                if (object.animations != null) {
+                    var animationDelay = 0;
+                    script += '$("#' + object.id + '")';
+                    for (var j = 0; j < object.animations.length; j++) {
+                        if (object.animations[j].pointandzoom != null) {
+                            var scaleratio = longestside / object.originalheight;
+                            var zoomratio = ((object.originalheight * object.animations[j].pointandzoom.zoom) / object.originalheight);
+                            var yoffset = -(object.originalheight * scaleratio - win_height) / 2 * zoomratio;
+                            var animationscript = '.animate({' +
+                                    ' '+longestsidename+': ' + parseInt(longestside * object.animations[j].pointandzoom.zoom) + '' +
+                                    ', left: ' + (-parseInt(object.animations[j].pointandzoom.x * scaleratio * zoomratio - (win_width / 2))) + '' +
+                                    ', top: ' + (-parseInt(object.animations[j].pointandzoom.y * scaleratio * zoomratio - (win_height / 2))) + '}, ' + object.animations[j].duration + ', "' + (object.animations[j].easing != null ? object.animations[j].easing : 'linear') + '")';
+                                
+                            script += animationscript;
+                        }
+                        else {
+                            script += '.animate({' + object.animations[j].params + '}, ' + object.animations[j].duration + ', "' + (object.animations[j].easing != null ? object.animations[j].easing : 'linear') + '")';
+                        }
+                        
+                        animationDelay += object.animations[j].duration;
+                    };
+                    script += ';';
+                    if (delay < animationDelay) {
+                        delay = animationDelay;
+                    }
+                }
+            } else if (object.type == 'text') {
+
+                var html = '';
+                if (object.class != null) {
+                    if (object.class = 'center') {
+                        html = '<div style="position:relative; margin: 0 auto;"><h1 class="' + object.class + '" id="' + object.id + '" style="' + object.attr + '">' + object.content + '</h></div>';
+                    }
+                    else {
+                        html = '<h1 class="' + object.class + '" id="' + object.id + '" style="' + object.attr + '">' + object.content + '</h>';
+                    }
+                }
+                else {
+                    html = '<h1 id="' + object.id + '" style="' + object.attr + '">' + object.content + '</h>';
+                }
+
+                $('#main').append(html);
+
+                if (object.animations != null) {
+                    var animationDelay = 0;
+                    script += '$("#' + object.id + '")';
+                    for (var j = 0; j < object.animations.length; j++) {
+                        script += '.animate({' + object.animations[j].params + '}, ' + object.animations[j].duration + ', "linear")';
+                        animationDelay += object.animations[j].duration;
+                    }
+                    script += ';';
+                    if (delay < animationDelay) {
+                        delay = animationDelay;
+                    }
+                }
+            }
+            
+
+            if (object.effects != null) {
+                var animationDelay = 0;
+                for (var j = 0; j < object.effects.length; j++) {
+                    switch (object.effects[j].type) {
+                        case 'countto':
+                            setTimeout(function (id, from, to, step, interval) {
+                                countto(id, from, to, step, interval, 0);
+                            }, object.effects[j].delay, object.effects[j].elementid, object.effects[j].countfrom, object.effects[j].countto, object.effects[j].step, object.effects[j].interval);
+                            break;
+                    }
+
+                    animationDelay += object.effects[j].duration;
+                }
+                script += ';';
+                if (delay < animationDelay) {
+                    delay = animationDelay;
+                }
+            }
+
+        }
+
+        script += '</' + 'script>';
+
+        $("#main").append(script);
+
+        setTimeout(function (slideIndex) {
+            $('#main').children().remove();
+            if (startingslide == 0 && slideIndex < slides.length - 1) {
+                slideShow(slideIndex + 1);
+            } else {
+                document.location = '/tv';
+                //slideShow(startingslide);
+            };
+        }, delay, slideIndex);
+    }
+
+    function countto(id, from, to, step, interval, iteration) {
+        
+        var value = from + (step * iteration);
+        
+        if (value >= to) {
+            value = to;
+        }
+        else
+        {
+            setTimeout(function (id, from, to, step, interval, iteration) {
+                countto(id, from, to, step, interval, iteration + 1);
+            }, interval, id, from, to, step, interval, iteration);
+        }
+        $('#' + id).html(value.toLocaleString());
+    }
+
+</script>
+
+<script type='text/javascript'>
+
+    function heightForImage(w, h) {
+        return win_height*1.2;
+    }
+    function widthForImage(w, h) {
+        return win_width * 2;
+    }
+    function leftForImage(w, h) {
+        //return (win_height > win_width ? (1920 - win_width) / 2 : 0)
+        return -win_width * 0.5;
+    }
+    function bottomForImage(w, h) {
+        //return (win_height > win_width ? (1920 - win_width) / 2 : 0)
+        return -win_height*0.1;
+    }
+
+    
+    //Create slideshow
+    $(document).ready(function () {
+
+        win_width = document.documentElement.clientWidth;
+        win_height = document.documentElement.clientHeight;
+        $('#main').css({ 'width': win_width, 'height': win_height });
+
+        var ratio = parseInt(win_height * (win_height / win_width));
+
+        if (win_width > win_height) {
+            cover_top_offset = -parseInt((win_width - win_height) / 2);
+            longestside = win_width;
+        }
+        else {
+            cover_left_offset = -parseInt((win_height - win_width) / 2);
+            longestside = win_height;
+        }
+        longestsidename = (win_width > win_height ? 'width' : 'height');
+
+        slides = [
+            [
+                {
+                    //--------------------------------1 slide - intro----------------------
+                    type: 'text',
+                    id: 'headingtop',
+                    attr: 'font-size: ' + win_width / 15 + 'px; margin-bottom: 0px; bottom: 50%; width: 100%',
+                    content: 'If You Do What You Enjoy',
+                    animations: [
+                        { params: 'opacity: 1', duration: 0 },
+                        { params: 'opacity: 1', duration: 1000 },
+                        { params: 'opacity: 0.2', duration: 1000 }
+                    ]
+                }
+
+                , {
+                    type: 'text',
+                    id: 'headingbottom',
+                    attr: 'font-size: ' + win_width / 21 + 'px; margin-top: 5px; top: 50%; font-weight: normal; width: 100%',
+                    content: "you <b>don't have to work <span style='color: red'>a day</span></b> in your life",
+                    animations: [
+                        { params: 'opacity: 0', duration: 1000 },
+                        { params: 'opacity: 1', duration: 1000 },
+                        { params: 'opacity: 1', duration: 3000 }
+                    ]
+                }
+            ]
+
+            , [
+                {
+
+                    //---------------------------------2 slide - scroll---------------------
+                    type: 'image',
+                    id: 'scroll',
+                    attr: 'height: ' + win_height + 'px; left: -' + (win_height * 2.06 - win_width) / 2 + 'px; opacity: 0.2',
+                    content: '/content/tv2/scrollcrowd.jpg',
+                    animations: [
+                        { params: '"left": "-' + (win_height * 2 * 0.57 - win_width / 2) + 'px", opacity: 1', duration: 5000 },
+                        { params: '"height": "' + (win_height * 2) + 'px", left: "-' + (win_height * 4 * 0.59 - win_width / 2) + 'px", top: "-100px"', duration: 3000 },
+                        { params: 'opacity: 1', duration: 1000}]
+                }
+
+                , {
+                    type: 'text',
+                    id: 'career',
+                    attr: 'bottom: 10%; left:0; margin: 0 auto; display: table; font-size: ' + win_width / 20 + 'px;  background-color: yellow; padding: 10px; opacity: 0',
+                    content: 'What were You Born to Do?',
+                    animations: [
+                        { params: 'opacity: 0', duration: 1000 },
+                        { params: 'opacity: 1', duration: 1000 }
+
+                        ]
+                }
+
+
+            ]
+
+            , [
+                {
+                    type: 'text',
+                    id: 'headingcenter',
+                    class: 'center',
+                    attr: 'font-size: ' + win_width / 11 + 'px; color: red; width: 100%;',
+                    content: '<thin style="color: black; font-size:' + win_width / 20 + 'px">Take our</thin> <br> <sketchy>FREE CAREER TEST</sketchy> <br> <thin style="color: black; font-size:' + win_width / 25 + 'px">to <b>Discover Your Natural Career</b></thin>',
+                    animations: [
+                        { params: 'opacity: 1', duration: 0 },
+                        { params: 'opacity: 1', duration: 3000 }
+                    ]
+                }
+            ]
+
+            , [{
+
+                //----------------------------------4 slide - extravert-----------------
+                type: 'text',
+                id: 'question',
+                class: 'center',
+                attr: 'font-size:' + win_width / 16 + 'px',
+                content: 'What\'s your Social Attitude?',
+                animations: [
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'extravert',
+                attr: 'background-color: yellow; padding: 10px; top: 0px; right: 15%; font-size:' + win_width / 20 + 'px',
+                content: 'are you an Extravert?',
+                animations: [
+                { params: 'opacity: 0', duration: 4000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'introvert',
+                attr: 'background-color: yellow; padding: 10px; left: 0%; bottom: 0px; font-size:' + win_width / 20 + 'px',
+                content: 'or an Introvert?',
+                animations: [
+                { params: 'opacity: 0', duration: 7000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'image',
+                id: 'slide',
+                originalheight: 1920,
+                attr: 'top: ' + cover_top_offset + 'px; left:' + cover_left_offset + 'px; ' + longestsidename + ': ' + longestside + 'px;',
+                content: '/content/tv2/Attitude_f.jpg',
+                animations: [
+                { params: 'opacity: 0', duration: 2000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { pointandzoom: { x: 888, y: 924, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { pointandzoom: { x: 723, y: 1134, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000 }
+                ]
+
+            }], [{
+
+                //---------------------------------5 slide - result----------------------
+                type: 'text',
+                id: 'question',
+                class: 'center',
+                attr: 'font-size:' + win_width / 16 + 'px',
+                content: 'What\'s more <span style="color: red">Important</span> to you?',
+                animations: [
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'process',
+                attr: 'background-color: yellow; padding: 10px; bottom: 15%; left: 0%;font-size:' + win_width / 23 + 'px',
+                content: 'The Process itself?',
+                animations: [
+                { params: 'opacity: 0', duration: 4000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'result',
+                attr: 'background-color: yellow; padding: 10px; bottom: 0px; right: 0%;font-size:' + win_width / 23 + 'px',
+                content: 'or Result is all that matters?',
+                animations: [
+                { params: 'opacity: 0', duration: 7000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'image',
+                originalheight: 1920,
+                id: 'slide',
+                attr: 'top: ' + cover_top_offset + 'px; left:' + cover_left_offset + 'px; ' + longestsidename + ': ' + longestside + 'px; ',
+                content: '/content/tv2/Action_f.jpg',
+                animations: [
+                { params: 'opacity: 0', duration: 2000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { pointandzoom: { x: 652, y: 894, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { pointandzoom: { x: 918, y: 917, zoom: 1.3 }, duration: 1000 },
+                { pointandzoom: { x: 1255, y: 1072, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000 }
+                //,{ params: '"width": "' + win_width + 'px"; "left": "0px"; "top": "-' + (win_width - win_height) / 2 + 'px"', duration: 1000 }
+                ]
+            }], [{
+
+                //---------------------------------6 slide - mobile----------------------
+                type: 'text',
+                id: 'question',
+                class: 'center',
+                attr: 'font-size:' + win_width / 20 + 'px',
+                content: 'What\'s your Preferred Work <span style="color: red">Dynamic</span>?',
+                animations: [
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'stationary',
+                attr: 'background-color: yellow; padding: 10px; top: 10%; right: 0%;font-size:' + win_width / 23 + 'px',
+                content: 'Desk Job?',
+                animations: [
+                { params: 'opacity: 0', duration: 4000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'mobile',
+                attr: 'background-color: yellow; padding: 10px; top: 5%; left: 0%;font-size:' + win_width / 23 + 'px',
+                content: 'or Always on the Go?',
+                animations: [
+                { params: 'opacity: 0', duration: 7000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'image',
+                originalheight: 1920,
+                id: 'slide',
+                attr: 'top: ' + cover_top_offset + 'px; left:' + cover_left_offset + 'px; ' + longestsidename + ': ' + longestside + 'px; ',
+                content: '/content/tv2/Endurance_m.jpg',
+                animations: [
+                { params: 'opacity: 0', duration: 2000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { pointandzoom: { x: 1229, y: 1035, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { pointandzoom: { x: 723, y: 1028, zoom: 1.5 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { params: 'opacity: 0', duration: 1000 }
+                ]
+            }],
+
+            [{
+
+                //--------------------------------7 slide - focused----------------------
+                type: 'text',
+                id: 'question',
+                class: 'center',
+                attr: 'font-size:' + win_width / 22 + 'px',
+                content: 'What type of <span style="color: red">Environment</span> do you prefer?',
+                animations: [
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'text',
+                id: 'focused',
+                attr: 'background-color: yellow; padding: 10px; bottom: 25%; left: 0px; font-size:' + win_width / 23 + 'px',
+                content: 'Staying Focused?',
+                animations: [
+                { params: 'opacity: 0', duration: 6000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 0}]
+            }, {
+                type: 'text',
+                id: 'relaxed',
+                attr: 'background-color: yellow; padding: 10px; bottom: 25%; right: 0px; font-size:' + win_width / 23 + 'px',
+                content: 'or Laid back?',
+                animations: [
+                { params: 'opacity: 0', duration: 9000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { params: 'opacity: 0', duration: 1000}]
+            }, {
+                type: 'image',
+                originalheight: 1920,
+                id: 'slide',
+                attr: 'top: ' + cover_top_offset + 'px; left:' + cover_left_offset + 'px; ' + longestsidename + ': ' + longestside + 'px; ',
+                content: '/content/tv2/Concentration_m.jpg',
+                animations: [
+                { params: 'opacity: 0', duration: 4000 },
+                { params: 'opacity: 1', duration: 1000 },
+                { pointandzoom: { x: 714, y: 1038, zoom: 2 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                //{ pointandzoom: { x: 918, y: 917, zoom: 1.3 }, duration: 1000 },
+                {pointandzoom: { x: 1314, y: 990, zoom: 1.6 }, duration: 1000 },
+                { params: 'opacity: 1', duration: 2000 },
+                { params: 'opacity: 0', duration: 1000 }
+                ]
+            }]
+
+            ,
+                [{
+
+                    //--------------------------------8 slide - focused----------------------
+                    type: 'text',
+                    id: 'question',
+                    class: 'center',
+                    attr: 'font-size:' + win_width / 20 + 'px',
+                    content: '<span style="font-family: Roboto; font-size: ' + win_width / 20 + 'px; font-weight: 400;">Find</span>&nbsp;<span style="font-size: ' + win_width / 20 + 'px; font-weight: 100">a</span>&nbsp;<span style="font-family: Cabin Sketch; font-weight: bold; font-size: ' + win_width / 8 + 'px; color:#0099cc">Career</span> <br> <span style="font-weight: 100;">that</span>&nbsp;<span style="font-weight: 100;">fits</span> <br> <span style="color: #ff6600; font-family: Cabin Sketch; font-weight: bold; font-size: ' + win_width / 9 + 'px">Your Personality</span>',
+                    animations: [
+                        { params: 'opacity: 1', duration: 0 },
+                        { params: 'opacity: 1', duration: 3000 },
+                        { params: 'opacity: 0', duration: 1000 }
+                    ]
+                }]
+            
+
+            ,
+                [{
+
+                    //--------------------------------9 slide - focused----------------------
+                    type: 'text',
+                    id: 'question',
+                    class: 'center',
+                    attr: 'font-size:' + win_width / 16 + 'px; opacity: 1',
+                    content: 'Over <b><span id="peoplecount" style="color: red">100,000</span></b> thousand people <br>have taken this test!',
+                    animations: [
+                        { params: 'opacity: 1', duration: 5000 },
+                        { params: 'opacity: 0', duration: 1000 }
+                    ],
+                    effects: [
+                        { type: 'countto', elementid: 'peoplecount', countfrom: 100000, countto: 200000, step: 5127, interval: 100, delay: 0 }
+                    ]
+                }, {
+                    type: 'image',
+                    originalheight: 1920,
+                    id: 'slide',
+                    attr: 'top: ' + cover_top_offset + 'px; left:' + cover_left_offset + 'px; ' + longestsidename + ': ' + longestside + 'px; opacity: 0.2;',
+                    content: '/content/tv2/200kpeople.jpg',
+                    animations: [
+                        { params: 'opacity: 0.5', duration: 5000 },
+                        { params: 'opacity: 1', duration: 1000 },
+                        { params: 'opacity: 1', duration: 1000 },
+                        { params: 'opacity: 0', duration: 1000 }
+                   ]
+                }]
+
+
+                
+
+            ];
+
+        slideShow(startingslide);
+
+
+
+
+
+    });
+
+    /*  type: '',
+    id: '',
+    attr: '',
+    content: '',
+    animations: [
+    {params: '', duration: 1000},
+    {params: '', duration: 1000}] */
+
+</script>

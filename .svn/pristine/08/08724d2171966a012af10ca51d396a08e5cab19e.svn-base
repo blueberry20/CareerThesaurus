@@ -1,0 +1,182 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.StudentProfile;
+@using System.Web.Helpers;
+@{
+    AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+    StudentProfileClient spc = new StudentProfileClient();
+    ViewBag.Title = "ByInterest";
+}
+
+@section menuPlaceholder {
+    @*<div class="closeIcon menuIcon">Done</div>*@
+}
+
+<link href="../../Content/css/Custom.css" rel="Stylesheet" />
+<link href="~/Content/css/Careers/Careers.css" rel="stylesheet" />
+
+<script src='/scripts/thesaurus/testattributes.js'></script>
+<script src='/scripts/thesaurus/helperfunctions.js'></script>
+<script src="/Scripts/Thesaurus/ctProfessions.js"></script>
+<script src="~/Scripts/Thesaurus/ctProfessionsCodes.js"></script>
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js"></script>
+<script src="~/Scripts/Thesaurus/byInterest_functions.js"></script>
+
+
+
+<div class="pageContainer" id="byInterestPage">
+
+    @*<div class="jumbotron taketestJumbotron">
+        <div class="row imageStretch">
+            <img src="~/Content/images/manstaringatcomp.jpg" />
+            <h1 class="transitionElement">Is your current career the best choice for you?</h1>
+            <div class="jumbotronText transitionElement"> 
+                <p>Take our interactive 9-question test and find out!</p>
+                <a href="/Skilltest" class="circleGoBtnTest">Go</a> 
+            </div> 
+            <div class="arrowdownIcon">
+                <i class="icon-down-open-big"></i>
+            </div>          
+        </div>
+    </div>*@
+
+    <div class="container">
+        <div id="main" class="row">
+        </div>
+        @*<div class="overlay">
+                <h3>Select keywords to narrow down the results</h3>
+                <div class="insert">
+                </div>
+            </div>*@
+    </div>
+</div>
+
+
+
+<script>
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+    var ratedCareers;
+    var importantthings = { beauty: 0, helping: 0, adventure: 0, safety: 0, people: 0, science: 0, duty: 0, admiration: 0, creativity: 0, competition: 0, animals: 0, politics: 0, technology: 0, machinery: 0, gender: "", handlabor: 0, strength: 0, drafting: 0, coordinating: 0, numbers: 0, critical: 0, salesy: 0 };
+  
+    function document_ready() {
+        
+        /* ----------------------use backstretch to center image------------- */
+        $('.imageStretch').height($(window).height() * 0.80);
+        $('.imageStretch').backstretch("/Content/images/manstaringatcomp.jpg");
+
+
+        $('.arrowdownIcon').click(function () {
+            $('html,body').animate({
+                scrollTop: $("#main").offset().top
+            });
+        });
+     
+        $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+
+        //resize only on not mobile devices
+        $(window).resize(function () {
+            if (Modernizr.no-touch) {
+                if ($(window).width() >= 751) {
+                    $('.importantthings').show();
+                    $('#dimensionscontainer').show();
+                }
+                else {
+                    $('.importantthings').hide();
+                    $('#dimensionscontainer').hide();
+                }
+            }
+        });
+
+        if (profileType == 'student') {
+            $('.pageContainer').addClass('studentLoggedin');
+            $.ajax({
+                url: appserverurl + '/Careers/GetCareerRatings',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user: user
+                }
+            }).success(function (response) {
+                ratedCareers = response.results;
+                console.log(ratedCareers);
+                renderPage();
+            }).fail(function () {
+                ratedCareers = [];
+                renderPage();
+            });
+        } else {
+            ratedCareers = [];
+            renderPage();
+        }
+                
+    }
+
+    function renderPage() {
+        for (var i = 0; i < 9; i++) {
+            setDimensionValue(dimensiondefinitions[i].name, getCookie(dimensiondefinitions[i].name));
+        }
+
+        renderData('main', 'Profession Index',
+            {
+                itemshoulddisplay: function (profession) {
+                    return true;
+                },
+                onitemclick: function (title, keyword) { window.open('/thesaurus/index?p=' + title.replace(/&/g, '%26') + '&highlight=' + keyword); },
+
+                //callback: applyResultDimensions,
+
+                htmlforitem: function (title, formattedtitle, salary, onclick, aka, dolcode, ratedHtml) { return '<div><a target="_blank" href="' + appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >' + ratedHtml + '<span class="professionName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></span><span class="professionSalary">' + Math.round(salary / 1000) + 'K per year</span><i class="icon-right-open-big pull-right"></i></a></div>'; }
+
+            });
+        $('.importantthings').insertBefore($('#mainWrapper'));
+    }
+
+    //function applyResultDimensions() {
+    //    var spans = $('.dimension > div');
+    //    for (var i = 0; i < spans.length; i++) {
+    //        var value = '';
+    //        switch ($(spans[i]).attr('dimension')) {
+    //            case 'attitude': value = dimensions.attitude; break;
+    //            case 'information': value = dimensions.information; break;
+    //            case 'processing': value = dimensions.processing; break;
+    //            case 'action': value = dimensions.action; break;
+    //            case 'endurance': value = dimensions.endurance; break;
+    //            case 'presence': value = dimensions.presence; break;
+    //            case 'concentration': value = dimensions.concentration; break;
+    //            case 'patterns': value = dimensions.patterns; break;
+    //            case 'compensation': value = dimensions.compensation; break;
+    //            default: break;
+    //        }
+    //        if (value == $(spans[i]).data('value')) {
+    //        //if (value == $(spans[i]).html()) {
+    //            //$(spans[i]).trigger('click');//addClass('active');
+    //            $(spans[i]).addClass('active');
+    //            $(spans[i]).siblings().addClass('notActive');
+    //        }
+    //    }
+
+    //}
+    //----------------------- working with cookies ---------------------------------
+    function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        for (i = 0; i < ARRcookies.length; i++) {
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x == c_name) {
+                return unescape(y);
+            }
+        }
+    }
+
+    function setCookie(c_name, value, exdays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value;
+        c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value + "; path=/"; //------------------------------------- added path=/ ---------------------------
+    }
+
+
+  
+</script>

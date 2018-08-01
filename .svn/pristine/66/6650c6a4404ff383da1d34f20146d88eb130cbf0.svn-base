@@ -1,0 +1,80 @@
+﻿.pageContainer.lockedMode {
+    background-image: url(/Content/images/hex/graybackground2.jpg);
+}
+
+.lockedMode .container {
+    background-color: #fff;
+    padding: 0 15px;
+}
+
+h1 {
+    text-align:center;
+    margin:4px 0;
+    padding: 20px;
+    font-family:'open sans condensed';
+    font-weight:700;
+    font-size:38px;
+}
+
+.panel {
+    background-color:#fff;
+}
+
+.sideNav {
+    display:block;
+    background-color: rgb(229, 245, 250);
+    text-align:center;
+    height:50px;
+    line-height:50px;
+    color: #000;
+    text-transform:uppercase;
+    margin-bottom:5px;
+    padding:0 10px;
+    font-weight:600;
+    position:relative;
+}
+
+.sideNav:hover, .sideNav:focus, .sideNav:active,.activeTab {
+    background-color: rgb(23, 184, 214);
+    text-decoration:none;
+    color: #000;
+}
+
+.sideNav .fa-angle-right {
+    position:absolute;
+    right:15px;
+    top:10px;
+    top: 15px;
+    font-size: 20px;
+}
+
+.school-wrapper {
+    background-color: #fff;
+    padding: 15px;
+    margin: 0 0 4px;
+}
+
+.leftSide {
+    padding: 0 2px 0 0;
+}
+
+.rightSide {
+    padding: 0 0 0 2px;
+}
+
+.school-wrapper a {
+    text-decoration: none;
+    color:#000;
+}
+
+.school-wrapper a:hover, .school-wrapper a:focus, .school-wrapper:active {
+    text-decoration: none;
+    color:#000;
+}
+
+.headline {
+    font-weight:600;
+    margin: 10px 0;
+    font-size: 16px;
+}
+

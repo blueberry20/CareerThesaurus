@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Following up on our NACAC meeting</title>
+</head>
+<body>
+    <div>{{name}},</div>
+    <br>
+    <div>I hope all is well! It was a pleasure meeting you at NACAC, and having the opportunity to share with you our Career Assessment demo.</div>
+    <br>
+    <div>We have gathered overwhelming positive feedback and accolades on the current utility, effectiveness and intuitive design of our system.</div>
+    <br>
+    <div>In fact, our conference efforts yielded the trust of 100+ schools counselors and administrators, who have since registered and are now using our system.</div>
+    <div>We would like to extend our invitation to you as well.</div>
+    <br>
+    <div>You can start here with a refresher course: <a href="http://CareerThesaurus.com/Assessment{{urlparam}}">http://CareerThesaurus.com/Assessment</a></div>
+    <br>
+    <div>Feel free to email me directly if you any need help or have questions or feedback. Looking forward to reconnecting!</div>
+    <br>
+    <div>Sincerely,</div>
+    <div><b>Michael Mesheriakov</b></div>
+    <div>Chief of Product Development, Co-Founder</div>
+    <div><a href="mailto:mike@peopli.com">mike@peopli.com</a></div>
+    <div><a href="http://www.linkedin.com/pub/michael-mesheriakov/52/b2/987"><img width="100" src="http://m.c.lnkd.licdn.com/mpr/mpr/p/6/005/06a/0e1/31f1ff4.jpg" alt="LinkedIn"/></a></div>
+    <br />
+    <div><b>Cell: 917.957.8770 |</b></div>
+    <div>65 15th Street Suite 2F | Brooklyn, NY 11215</div>
+</body>
+</html>

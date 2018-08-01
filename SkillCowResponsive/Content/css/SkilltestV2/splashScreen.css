@@ -1,0 +1,215 @@
+﻿body {
+    background-image: url('/Content/Images/black-and-gray-diagonal-stripe-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 100px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.stripes30 {
+    background-image: url('/Content/Images/black-and-gray-diagonal-stripe-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 30px;
+}
+
+.stripes100 {
+    background-image: url('/Content/Images/black-and-gray-diagonal-stripe-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 100px;
+}
+
+h1 {
+    color: #b6ff00;
+    color: white;
+    font-size: 96pt;
+}
+
+h2 {
+    font-size:24pt;
+    margin: 0 0 40pt;
+}
+
+h3 {
+    font-size:12pt;
+    margin: 0 0 20px;
+}
+
+img {
+    left: 0;
+    opacity:0.05;
+    width: 100%;
+    position: fixed;
+}
+
+#pageWrapper {
+    background-color:rgba(255,255,255,0.0);
+    border-radius: 200px;
+    padding: 20px 100px 20px 100px;
+    display: inline-block;
+}
+
+.intro span {
+    font-size: 12pt;
+}
+
+#testList {
+    display: inline-block;
+    text-align: left;
+    color: #fff;
+    font-size:12pt;
+    margin-bottom:30pt;
+}
+
+#testList li {
+    font-size:14px;
+}
+
+.stroke {
+    -webkit-text-stroke: 3px #000;
+    text-shadow: 5px 5px 0 #ff6a00, -1px -1px 0 #ff6a00, 1px -1px 0 #ff6a00, -1px 1px 0 #ff6a00, 1px 1px 0 #ff6a00;
+}
+
+.yellow {
+    color: #ffe200;
+}
+
+.blue {
+    color: #78ffee;
+}
+
+h1.d {
+    font-family: 'Boogaloo', cursive;
+    font-size: 96pt;
+    margin-bottom:40pt;
+}
+
+.btn-start {
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Poiret One', cursive;
+    font-size: 36pt;
+    border: 3px solid #fff;
+    border-radius: 0;
+    padding: 20px 40px 20px 40px;
+    outline: none;
+    margin:20px;
+}
+
+.btn-start:hover {
+    background-color: rgba(255,255,255,0.2);
+    border: 3px solid #fff;
+    color: #fff;
+    outline: none;
+}
+
+.btn-start:focus, .btn-start:active {
+    background-color: rgba(255,255,255,1);
+    background-color: rgba(182, 255, 254, 1);
+    border: 3px solid #fff;
+    color: #000;
+    outline: none;
+}
+
+p {
+    color: #fff;
+    font-size: 10pt;
+    font-family: 'open sans', sans-serif;
+}
+
+p.footer {
+    color: #888;
+}
+
+hr {
+    border-color: rgba(255,255,255,0.1);
+}
+
+.intro {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24pt;
+    color:#fff;
+}
+
+.introLine {
+    font-size: 12pt;
+}
+
+@media screen and (max-width:1200px) {
+    h1.d {
+        font-size:80pt;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    #pageWrapper {
+        padding:20px;
+    }
+
+    #testList {
+        margin-bottom:20pt;
+    }
+}
+
+@media screen and (max-width:768px) {
+    h1.d {
+        font-size: 60pt;
+    }
+
+    .intro {
+        font-size: 20pt;
+    }
+
+    .btn-start {
+        font-size:26pt;
+        padding:20px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    h1.d {
+        font-size: 32pt;
+        margin-bottom:20pt;
+    }
+
+    h2 {
+        font-size: 14pt;
+        margin: 0 0 20pt;
+    }
+
+    h3 {
+        font-size: 10pt;
+        margin: 0 0 10px;
+    }
+
+    #testList li {
+        font-size: 12px;
+    }
+
+    .btn-start {
+        font-size: 20pt;
+        padding: 5px 10px;
+    }
+
+    #testList {
+        margin-bottom: 0;
+    }
+
+    .introLine {
+        font-size: 10pt;
+    }
+
+    .container {
+        padding:0;
+    }
+
+    #pageWrapper {
+        padding: 10px;
+    }
+
+}

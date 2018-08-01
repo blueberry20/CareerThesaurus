@@ -1,0 +1,78 @@
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\SkillCow.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\SkillCow.pdb
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\EntityFramework.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.ServiceBus.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Newtonsoft.Json.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\RestSharp.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\SendGridMail.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Helpers.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Mvc.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Providers.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Razor.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.Deployment.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.Razor.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Twilio.Api.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\EntityFramework.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.ServiceBus.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.Web.Infrastructure.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Newtonsoft.Json.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\RestSharp.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Mvc.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Razor.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.Helpers.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.Deployment.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\System.Web.WebPages.Razor.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Twilio.Api.pdb
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Twilio.Api.xml
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\obj\Debug\SkillCow.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\obj\Debug\SkillCow.pdb
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.StorageUtility.dll
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\bin\SkillCow.dll.config
+C:\Users\User\Documents\#SkillCow\VS Solution\MvcWebRole1\obj\Debug\SkillCowWebRole.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\SkillCow.dll.config
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\SkillCow.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\SkillCow.pdb
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\EntityFramework.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.Data.Edm.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.Data.OData.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.ServiceBus.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Newtonsoft.Json.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\RestSharp.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\SendGridMail.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Spatial.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Helpers.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Mvc.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Providers.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Razor.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.Deployment.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.Razor.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Twilio.Api.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.StorageUtility.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\EntityFramework.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.ServiceBus.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.Web.Infrastructure.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Newtonsoft.Json.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\RestSharp.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Mvc.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Razor.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.Helpers.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.Deployment.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\System.Web.WebPages.Razor.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Twilio.Api.pdb
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\bin\Twilio.Api.xml
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\obj\Debug\SkillCow.dll
+C:\Users\User\Documents\#CareerThesaurus\MvcWebRole1\obj\Debug\SkillCow.pdb

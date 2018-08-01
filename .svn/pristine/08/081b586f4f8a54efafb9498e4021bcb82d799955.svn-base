@@ -1,0 +1,180 @@
+﻿@model IEnumerable<SkillCow.Classes.Cloud.TableStorage.Agent>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+<h1>Active Agents</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Color
+        </th>
+        <th>
+            Full name
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            #Color
+        </th>
+        
+        <th>
+            Uid
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Location
+        </th>
+        
+        <th></th>
+    </tr>
+@{
+    string indexletter = "";
+    string previndexletter = "";
+}
+@foreach (var item in Model.Where(x=>x.EmploymentStatus!="Fired").OrderBy(x=>x.Firstname)) {
+    indexletter = item.Firstname.ToUpper()[0].ToString();
+    if (indexletter != previndexletter)
+    {
+        <tr>
+            <td style="width:20px;">
+                <h3 style="margin: 10px 0 0 0; color: black;">@indexletter</h3>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td style="background-color: @item.LoginColor">
+            &nbsp;
+        </td>
+        <td style="color: @(item.EmploymentStatus=="Fired"?"red":"#000")">
+            @item.Firstname @item.Lastname 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedLocation)
+        </td>
+        <td>
+            @item.LoginColor
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentLocation)
+        </td>
+        
+        
+        
+        <td style="margin-left: 10px;">
+            @Html.ActionLink("Edit", "Edit", new { id=item.RowKey }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.RowKey  }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.RowKey  })
+        </td>
+    </tr>
+    previndexletter = indexletter;
+}
+</table>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<h1>Inactive Agents</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Color
+        </th>
+        <th>
+            Full name
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            #Color
+        </th>
+        
+        <th>
+            Uid
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Location
+        </th>
+        
+        <th></th>
+    </tr>
+@{
+    indexletter = "";
+    previndexletter = "";
+}
+@foreach (var item in Model.Where(x=>x.EmploymentStatus=="Fired").OrderBy(x=>x.Firstname)) {
+    indexletter = item.Firstname.ToUpper()[0].ToString();
+    if (indexletter != previndexletter)
+    {
+        <tr>
+            <td style="width:20px;">
+                <h3 style="margin: 10px 0 0 0; color: black;">@indexletter</h3>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td style="background-color: @item.LoginColor">
+            &nbsp;
+        </td>
+        <td style="color: @(item.EmploymentStatus=="Fired"?"red":"#000")">
+            @item.Firstname @item.Lastname 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedLocation)
+        </td>
+        <td>
+            @item.LoginColor
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentLocation)
+        </td>
+        
+        
+        
+        <td style="margin-left: 10px;">
+            @Html.ActionLink("Edit", "Edit", new { id=item.RowKey }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.RowKey  }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.RowKey  })
+        </td>
+    </tr>
+    previndexletter = indexletter;
+}
+</table>
+</div>

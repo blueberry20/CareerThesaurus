@@ -1,0 +1,1058 @@
+﻿/*--================================= HOME PAGE CSS ============================== */
+body {
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 92px;
+    font-weight:700;
+    color:#fff;
+}
+
+ h2 {
+    font-size: 40px;
+    color: #fff;
+    text-transform: none;
+    font-family: 'roboto';
+    margin: 50px 0 30px;
+    font-weight:300;
+}
+
+ 
+h3 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 600;
+    font-family: 'roboto';
+    color: #fff;
+    margin-bottom:20px;
+}
+
+section h2 {
+	margin: 20px 0 40px;
+	padding: 0;
+    color:#fff;
+    font-weight: 700;
+    font-size: 70px;
+    text-transform: uppercase;
+}
+
+section {
+	position: relative;
+	padding: 0;
+	background: #fff;
+	color: #fff;
+	text-align: center;
+    background-color:transparent;
+    display:table;
+    overflow:hidden;
+    min-height:760px;
+    height:760px;
+    width:100%;
+    border-bottom:1px solid #fff;
+}
+
+section:last-child {
+    border-bottom:none;
+}
+
+.section .bottomArrow, section .bottomArrow {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    font-size: 70px;
+    left: 50%;
+    margin-left: -22px;
+    font-weight: 300;
+    cursor:pointer;
+}
+
+.shortSection {
+    min-height:initial;
+    height:initial;
+    width: 100%;
+    padding: 100px 0;
+    color: #000;
+}
+
+.shortRow {
+    width:90%;
+    margin: 0 auto;
+    height:120px;
+}
+
+.nowrap {
+    white-space:nowrap;
+}
+
+
+/* Common style for pseudo-elements */
+section::before,
+section::after {
+	position: absolute;
+	content: '';
+	pointer-events: none;
+}
+
+section .img-responsive {
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+}
+
+section .container {
+    opacity:0;
+    top:30px;
+    position:absolute;
+    -webkit-transition: all 1s ease-in;
+    -moz-transition: all 1s ease-in;
+    -ms-transition: all 1s ease-in;
+    -o-transition: all 1s ease-in;
+    transition: all 1s ease-in;
+    width: 100%;
+    top: 0;
+    /*background-color: rgba(0,0,0,0.3);*/
+    left: 0;
+    /* margin-left: -300px; */
+    height: 100%;
+    padding:200px 25px;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+section .container.viewed{
+    opacity:1;
+    top:0;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+    padding: 0 15px !important;
+    border: 4px solid #fff;
+    border:4px solid rgba(255,255,255,0.7);
+    background-color: rgb(189, 236, 234);
+    background-color: rgba(189, 236, 234, 0.9);
+    color:#000;
+}
+
+.form-control:focus {
+    border-color: #fff;
+    background-color: #fff;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.form-control:focus::-webkit-input-placeholder {
+   color: #000;
+}
+
+.form-control:focus:-moz-placeholder { /* Firefox 18- */
+   color: #000;  
+}
+
+.form-control:focus::-moz-placeholder {  /* Firefox 19+ */
+   color: #000;  
+}
+
+.form-control:focus:-ms-input-placeholder {  
+   color: #000;  
+}
+
+/* Triangles */
+.ss-style-triangles::after {
+	left: 50%;
+	width: 100px;
+	height: 100px;
+	-webkit-transform: translateX(-50%) rotate(45deg);
+	transform: translateX(-50%) rotate(45deg);
+    bottom:-50px;
+    z-index:0;
+    position:absolute;
+    background: inherit;
+}
+
+
+/*.ss-style-triangles::after {
+	bottom: -50px;
+	z-index: 10;
+	background: inherit;
+}*/
+
+
+
+/* Big Triangle */
+svg#bigTriangleColor {
+	pointer-events: none;
+}
+
+#bigTriangleColor path {
+	fill: #67E8F3;
+	stroke:#67E8F3;
+	stroke-width: 2;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left:0;
+    height: 75px;
+    overflow:hidden;
+    /* background-color: #fff; */
+    width: 100%;
+    border-left: 805px solid #67E8F3;
+    border-right: 898px solid #67E8F3;
+    border-top: 0 solid transparent;
+}
+
+#arrow {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    height: 100px;
+    /* width: 200px; */
+    bottom: 0;
+    border-left: 100px solid #fff;
+    border-right: 100px solid #fff;
+    border-top: 100px solid transparent;
+}
+
+/*.bottom {
+    position: absolute;
+    width: 100%;
+    border-left: 914px solid #67E8F3;
+    border-right: 944px solid #67E8F3;
+    bottom: 0;
+    border-top: 234px solid transparent;
+}*/
+
+/*#frontpageImage {
+    height: 110%;
+    width:110%;   
+    position: relative;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    right: -16%;
+    top: -12%;
+}*/
+
+#frontpageImage {
+    position:relative;
+    height:112%;
+    width:100%;
+}
+
+.frontpageimageContent {
+    /*position: absolute;*/
+    left:0;   
+    top:0;
+    height:100%;
+    width:100%;
+    background-color: rgb(8, 53, 54);
+    background-color: rgba(8, 53, 54, 0.6);
+    background-image:none;
+    text-align:center;
+}
+
+.frontpageimageContent .parallax-overlay {
+    background-image: url(/Content/images/overlay-pattern.png);
+    background-color: rgb(1, 16, 18 );
+    background-color:rgba(1, 16, 18, 0.4);
+}
+
+
+
+.frontpageimageContent .container {
+    position: absolute;
+    width: 100%;
+}
+
+
+.frontpageimageContent .sectionContent {
+    margin-top:10%;
+    opacity:0;
+    position:relative;
+    top:50px;
+    display:inline-block;
+}
+
+.frontpageimageContent .sectionContent.visible {
+    opacity:1;
+    -webkit-transition: all 2s ease-in;
+    -moz-transition: all 2s ease-in;
+    -ms-transition: all 2s ease-in;
+    -o-transition: all 2s ease-in;
+    transition: all 2s ease-in;
+    top:0;
+}
+
+
+ .searchJobsInput, .zipcodeInput {
+    width: 500px;
+    margin: 0 auto;
+}
+
+ .zipcodeInput {
+     margin-top: 25px;
+ }
+
+.frontpageimageContent .searchJobsBtn {
+    margin: 40px 0;
+    border: 1px solid #fff;
+    background-color: transparent;
+    width: 200px;
+}
+
+#sectionInternship .parallax-overlay {
+    background-image:none;
+    z-index:-1;
+    background-color: rgb(118, 115, 74);
+    background-color:rgba(118, 115, 74, 0.6);
+}
+
+.searchJobsBtn, .goBtn {
+    margin-top: 40px;
+    width:240px;
+    padding:0;
+    height:60px;
+    line-height:52px;
+    border:4px solid #fff;
+    background-color: transparent;
+    color:#fff;
+    font-weight:600;
+}
+
+.no-touch .searchJobsBtn:hover, .searchJobsBtn:focus, .searchJobsBtn:active,.no-touch .goBtn:hover, .goBtn:focus, .goBtn:active {
+    background-color: rgba(255,255,255,0.5);
+    color:#fff;
+}
+
+
+.searchJobsBtn.blackClear {
+    background-color: transparent;
+    border: 4px solid #000;
+    color:#000;
+}
+
+
+.parallax-bg-1 .full-bg-image  {
+    background-image: url(/Content/images/manstaringatcomp.jpg); 
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+/*#sectionInternship img {
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+}
+
+#sectionInternship {
+    background-image: url(/Content/images/interns2.png); 
+    background-size: cover;
+}
+
+#sectionInternshipBottom {
+    background-image: url(/Content/images/intern_arrow.png); 
+    background-size: cover;
+}*/
+
+
+.notMobileVersion #sectionFulltimeJob {
+    background-image: url('/Content/images/briefcase.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionFulltimeJob {
+    background-image: url('/Content/images/briefcasemobile.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+#sectionFulltimeJob .container {
+    background-color: rgba(114, 207, 205, 0.7);
+}
+
+.notMobileVersion #sectionTempJob {
+    background-image: url('/Content/images/pool.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionTempJob {
+    background-image: url('/Content/images/poolmobile.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+#sectionTempJob .container {
+    background-color:rgba(11, 137, 158, 0.7);
+}
+
+.notMobileVersion #sectionInternship {
+    background-image: url('/Content/images/internsfullscreen.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionInternship {
+    background-image: url('/Content/images/internsfullscreenmobile.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+} 
+
+#sectionInternship .container {
+    background-color: rgba(18, 36, 35, 0.6);
+}
+
+.notMobileVersion #sectionConsulting {
+    background-image: url('/Content/images/manwomanoutside.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionConsulting {
+    background-image: url('/Content/images/manwomanoutsidemobile.jpg');
+    background-size:cover;
+    background-position: 50% 50%;
+}
+
+#sectionConsulting  .container {
+    background-color: rgba(22, 198, 142, 0.7);
+}
+
+#didYouKnowSection {
+    background: url(/Content/images/cream_pixels.png) repeat;
+}
+
+#didYouKnowSection .bottomArrow {
+    color:#000;
+}
+
+.triangleRow {
+    background-color:rgb(12, 204, 228);
+    padding:60px 0;
+    position:relative;
+}
+
+.rowColumn {
+    padding: 70px 40px 0;
+    font-size: 28px;
+    font-family: 'open sans';   
+}
+
+.rowColumn p {
+    text-transform: uppercase;
+    font-size: 20px;
+    margin: 30px 0;
+}
+
+.frontPageIcon {
+    height: 100px;
+    margin-bottom: 25px;
+}
+
+.divider {
+    width: 200px;
+    border: 1px solid #66CED8;
+    margin: 40px auto 0;
+}
+
+.notMobileVersion #sectionMatchJob .full-bg-image {
+    background-image: url('/Content/images/skydiving.jpg');
+    background-position: 50% 50%;
+    background-size:cover;
+}
+
+.mobileVersion #sectionMatchJob .full-bg-image {
+    background-image: url('/Content/images/skydivingmobile.jpg');
+    background-position: 50% 50%;
+    background-size:cover;
+}
+
+#sectionMatchJob .parallax-overlay {
+    background-color:rgba(140, 54, 54, 0.5);
+}
+
+.notMobileVersion #sectionByPersonality {
+    background-image: url('/Content/images/womancook.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionByPersonality {
+    background-image: url('/Content/images/womancookmobile.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+#sectionByPersonality .container {
+    background-color: rgba(17, 69, 127, 0.4);
+    background-image: url(/Content/images/overlay-pattern.png);;
+}
+
+.notMobileVersion #sectionByInterest {
+    background-image:url(/Content/images/woman_2045.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionByInterest {
+    background-image: url(/Content/images/woman_2045mobile.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.notMobileVersion #sectionJobWays .full-bg-image {
+    background-image: url('/Content/images/womansuit.jpg');
+    background-position: 50% 50%;
+    background-size:cover;
+}
+
+.mobileVersion #sectionJobWays .full-bg-image {
+    background-image: url('/Content/images/womansuitmobile.jpg');
+    background-position: 50% 50%;
+    background-size:cover;
+}
+
+#sectionByInterest .container {
+    background-color:rgba(19, 124, 135, 0.4);
+}
+
+.notMobileVersion #sectionGetCareer {
+    background-image: url('/Content/images/womanpilot.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.mobileVersion #sectionGetCareer {
+    background-image: url('/Content/images/womanpilotmedium.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+#sectionGetCareer .container {
+    background-color: rgba(34, 106, 114, 0.7);
+}
+
+.justText h2 {
+    width: 70%;
+    margin: 0 auto;
+    font-size: 60px;
+    font-weight: 600;
+}
+
+
+#didYouKnowSection h2, #counterDiv h2, #testimonialSection h2 {
+    color:#000;
+}
+
+#testimonialSection {
+    background: url('/Content/images/p6.png') repeat;
+}
+
+#testimonialSection .bottomArrow {
+    color: #000;
+}
+
+p.testimonial {
+    margin: 20px;
+    color:#A3A1A1;
+    font-size:16px;
+}
+
+.testimonialRow {
+    display:none;
+}
+
+.testimonialRow h3, .testimonialRow h4 {
+    color:#000;
+    font-size:14px;
+    margin:30px 0 0;
+    font-family:'open sans';
+}
+
+.testimonialRow h4 {
+    margin-top:10px;
+}
+
+#testimonialSection .fa-angle-left {
+    position: absolute;
+    left: 100px;
+    font-size: 40px;
+    top: 50%;
+    margin-top: -20px;
+    color:#666;
+    cursor: pointer;
+}
+
+#testimonialSection .fa-angle-right {
+    position: absolute;
+    right: 100px;
+    font-size: 40px;
+    top: 50%;
+    margin-top: -20px;
+    color:#666;
+    cursor: pointer;
+}
+
+#smallFont {
+    margin: 20px auto 0;
+    font-size: 20px;
+    font-weight: 300;
+    width:80%;
+}
+
+i.fa.fa-quote-left, i.fa-quote-right {
+    padding: 0 10px;
+    font-size: 16px;
+    color: #A3A1A1;
+}
+
+
+/*COUNTER SECTION
+-------------------------------------------------- */	
+
+#counterDiv .parallax-overlay {
+    /*background-image: url(/Content/images/dot_pattern.png);*/
+    background-repeat: repeat;
+    background-color: rgba(236, 253, 253, 0.6);
+}
+
+
+.parallax { 
+    z-index: 0;
+    background-color: transparent;
+}
+		
+/* BG Overlay Grid  */
+		
+.parallax-overlay {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(19,150,165, 0.6);
+}
+
+    
+/* BG Image */
+		
+.full-bg-image {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: repeat;		
+}
+			
+.no-touch .full-bg-image { 
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.ie .full-bg-image {
+    background-attachment: scroll;
+}
+			
+		
+.parallax-bg-2 .full-bg-image  {
+/*background-image: url(/Content/images/hex/hex_bg.jpg);*/ 
+}
+
+
+/* -------------------------------------------------- */
+/* Counter Box
+/* -------------------------------------------------- */			
+#counterDiv {
+    min-height:initial;
+    background: url('/Content/images/p6.png') repeat;
+}
+
+#counterDiv .container {
+    opacity:1;
+}
+
+#counterDiv h2 {
+    width:100%;
+}
+
+
+.counter-box p, .counter-box span {
+    font-size: 24px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.counter-box p {
+    margin:15px 0;
+}
+
+.counter-box  {
+    text-align: center; 
+    margin-top:60px;
+}
+
+.counter, .counter3 {
+    display: block;
+    text-align: center;
+    position:relative;
+}
+
+#thinArrow {
+    position: absolute;
+    left: -26px;
+    width: 50px;
+    top: 50%;
+}
+
+.counter .count, #bluebox {
+    margin-bottom: 20px;
+    height: 150px;
+    border: 1px solid #c8c8c8;
+    border: 1px solid #5EE3F5;
+    display: block;
+    background-color: rgb(255,255,255);
+    background-color: rgba(12, 204, 228, 0.7);
+    color: #000;
+    font-weight: 300;
+    font-size: 33px;
+    font-family: 'Roboto Condensed', sans-serif;
+    line-height: 200px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;		
+    margin:0 auto;
+    width:200px;
+    height:200px;
+}   
+
+#bluebox {
+    font-size:16px;
+    line-height:initial;
+    margin-top: 59px;
+}
+
+#bluebox span {
+    vertical-align: middle;
+    padding-top: 76px;
+    display: block;
+    font-size: 20px;
+    font-family: 'roboto';
+    color: #000;
+    font-weight: 600;
+}
+
+
+#sectionGetCareer p {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+/*
+    .counter3 {
+    display: block;
+    width: 60%;
+    margin: 50px auto;
+    }
+
+    #bluebox {
+    background-color: #fff !important;
+    height: 100px;
+    line-height: 100px;
+    font-size: 30px;
+    color: #666;
+    border-radius:0;
+}*/
+
+
+@media only screen and (max-width : 1400px) {
+
+
+    section .container {
+        padding: 100px 25px;
+    }
+
+    .rowColumn {
+        padding: 50px 20px 0;
+    }
+
+    #testimonialSection .fa-angle-left {
+        left:50px;
+    }
+
+    #testimonialSection .fa-angle-right {
+        right:50px;
+    }
+
+
+} 
+
+@media only screen and (max-width: 1300px) {
+    section h2 {
+        font-size:60px;
+    }
+}
+
+@media only screen 
+and (max-width : 1200px) {
+
+  h1 {
+        font-size: 80px;
+    }
+
+    .searchJobsBtn, .goBtn {
+        width:200px;
+        height:50px;
+        line-height: 42px;
+    }
+
+    section h2, .justText h2 {
+        font-size: 50px;
+        margin-bottom: 30px;
+    }
+
+
+    .rowColumn p {
+        font-size: 18px;
+    }
+
+    #testimonialSection .fa-angle-left {
+        left:50px;
+    }
+
+    #testimonialSection .fa-angle-right {
+       right:50px;
+    }
+
+    #sectionJobWays h2 {
+        margin-top: 20%;
+    }
+
+} 
+
+/*hide one row of images when they get to 3 per row*/
+@media only screen 
+and (max-width : 992px) {
+
+     h1 {
+        font-size: 62px;
+    }
+
+    .frontpageimageContent .sectionContent {
+        margin-top: 20%;
+    }
+
+    .section .bottomArrow, section .bottomArrow {
+        font-size:50px;
+        margin-left:-16px;
+    }
+
+    section h2, .justText h2 {
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+
+    .shortRow {
+        width: 90%;
+    }
+
+    .rowColumn p {
+        font-size: 16px;
+    }
+
+    i.fa.fa-quote-left, i.fa.fa-quote-right {
+        padding: 0 5px;
+        font-size: 12px;
+        color: #A3A1A1;
+    }
+
+} 
+
+
+@media only screen and (max-width: 768px) {
+    #careersSection .row div:nth-child(4), #careersSection .row div:nth-child(3) {
+        display: none;
+    }
+
+    h1 {
+        font-size:50px;
+    }
+
+    .frontpageimageContent .sectionContent {
+        margin-top: 36%;
+    }
+
+
+    .searchJobsInput, .zipcodeInput {
+        width: 80%;
+    }
+
+    #testimonialSection .fa-angle-left {
+        left:-20px;
+        top:60%;
+    }
+
+    #testimonialSection .fa-angle-right {
+       right:-20px;
+       top:60%;
+    }
+
+    #smallFont {
+        margin: 20px auto 0;
+        font-weight: 300;
+        width: 90%;
+    }
+
+    .divider {
+        width: 200px;
+        border: 1px solid #66CED8;
+        margin: 30px auto 0;
+    }
+
+    .testimonialRow {
+        position:relative;
+    }
+
+    .shortRow {
+        min-height:200px;
+    }
+
+    section {
+        min-height:600px;
+        height:600px;
+    }
+
+}
+
+
+@media only screen and (max-width : 500px) {
+
+    h1 {
+        font-size:30px;
+    }
+
+    section .container {
+        padding: 60px 10px;
+    }
+
+    section h2, .justText h2 {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"] {
+        border: 2px solid #fff;
+        font-size: 14px;
+    }
+
+    .searchJobsBtn, .goBtn {
+        font-size:14px;
+        border:2px solid #fff;
+        line-height:46px;
+        margin-top:15px;
+    }
+
+    .rowColumn {
+        padding: 30px 10px 0;
+    }
+
+    .frontPageIcon {
+        margin-bottom:0;
+        height:80px;
+    }
+
+    .rowColumn p {
+        font-size: 14px;
+        margin: 12px;
+    }
+
+    #smallFont {
+        font-size:14px;
+    }
+
+    .divider {
+        margin:20px auto 0;
+    }
+
+    .shortSection {
+        padding: 70px 0;
+    }
+
+    .testimonialRow h3, .testimonialRow h4 {
+        width:80%;
+        font-size:12px;
+        margin:20px auto 10px;
+    }
+
+    .testimonialRow h4 {
+        margin-top:10px;
+    }
+
+    p.testimonial {
+        margin: 20px 40px;
+        color: #666;
+        font-size: 12px;
+    }
+
+    #testimonialSection .fa-angle-left {
+        left:0;
+        font-size:30px;
+        top:75%;
+    }
+
+    #testimonialSection .fa-angle-right {
+        right:0;
+        font-size:30px;
+        top:75%;
+    }
+
+    #sectionGetCareer p {
+        font-size:14px;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .justText h2 {
+        width:100%;
+    }
+
+    .searchJobsInput, .zipcodeInput {
+        width: 80%;
+        margin-top: 15px;
+    }
+
+    section {
+        min-height:390px;
+        height:390px;
+    }
+}
+
+
+@media only screen and (max-height:425px) {
+    .frontpageimageContent .sectionContent {
+        margin-top: 23%;
+    }
+}
+
+@media only screen and (max-height:300px) {
+    .frontpageimageContent .sectionContent {
+        margin-top: 50px;
+    }
+
+    section .container {
+        padding: 50px 10px;
+    }
+
+}

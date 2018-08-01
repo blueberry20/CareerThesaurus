@@ -1,0 +1,287 @@
+﻿/*#newsletterPage, #newsletterThankyouPage {
+    background-color: #BECACD;
+    padding-bottom:0;
+}*/
+
+/*#newsletterPage .container, #newsletterThankyouPage .container {  
+    padding:30px 30px 200px;
+}*/
+
+
+.aboutContainer .container {
+    background-color: transparent;
+}
+
+.centerBox h1 {
+    text-transform: none;
+}
+
+#newsletterPage h2, #newsletterThankyouPage h2, #advertisePage h2 {
+    text-align:center;
+    margin: 10px 0 30px;
+    font-size:30px;
+}
+
+input[type="text"] {
+    -webkit-appearance: none !important;
+    padding: 10px;
+    height: 50px !important;
+}
+
+select {
+    padding: 10px;
+    height: 50px !important;
+}
+
+
+div.form-group.row {
+    margin-bottom: 40px;
+}
+
+
+form {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 25px;
+    padding:20px;
+    opacity:0;
+}
+
+#joinNewsletterBtn, #advertiseBtn {
+    margin:0 auto;
+    font-size: 15px;
+    background-color: rgb(23, 184, 214);
+    color:#fff;
+    width: 150px;
+    height: 60px;
+    text-transform: uppercase;
+    border:none;
+    font-weight:600;
+}
+
+.no-touch #joinNewsletterBtn:hover, #joinNewsletterBtn:focus, #joinNewsletterBtn:active, .no-touch #advertiseBtn:hover, #advertiseBtn:focus, #advertiseBtn:active {
+    background-color: #129DB7;
+}
+
+#newsletterForm {
+    background-color: rgb(143, 214, 228);
+    margin:50px auto;
+}
+
+#newsletterForm label, #advertiseForm label {
+    text-align:right;
+    font-family:'open sans';
+    font-size:20px;
+}
+
+#optionalForm {
+    /*border: 1px solid rgb(143,214,228);*/
+}
+
+#optionalForm .form-control {
+    background-color: #D9F6F9;
+    font-size:18px;
+}
+
+.form-group label {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 50px;
+    text-align:left;
+    font-family:'open sans condensed';
+
+}
+
+.radio input[type="radio"] {
+    margin:20px;
+}
+
+.errorMsg {
+    color: rgb(207, 2, 2);
+    font-size: 16px;
+    text-align:center;
+    margin:0;
+    padding:15px 0;
+}
+
+.errorMessage {
+    display: none;
+    color:red;
+}
+
+p.displayError {
+    display: none;
+    font-size: 14px;
+    color: rgb(207, 2, 2);
+    line-height: 30px;
+    text-align: left;
+}
+
+.hasError {
+    border: 1px solid red;
+}
+
+#phoneLabel {
+    line-height:initial;
+}
+
+/*============Thank you Page===============*/
+.messageContainer {
+    min-height: 250px;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 15%;
+    width: 80%;
+    text-align: center;
+    opacity:0;
+    background-color: rgb(167, 229, 251);
+}
+
+.messageContainer p {
+    font-size: 34px;
+    text-transform: none;
+    margin-top: 70px;
+    font-family: 'open sans condensed';
+    text-align: center;
+    color: #666;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+}
+
+.directions {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 300;
+}
+
+
+ #newsletterThankyouPage h2 {
+     font-size:42px;
+     font-weight:600;
+     text-transform:none;
+ }
+
+ .centerBox {
+     padding:40px;
+     background-color: rgb(143, 214, 228);
+ }
+
+ .centerBox p {
+    font-weight: 300;
+    font-size: 24px;
+    margin: 30px 0;
+}
+
+
+@media only screen and (max-width:992px) {
+    /*#newsletterPage .container {
+        width:100%;
+    }*/
+
+    form, .messageContainer {
+        width: 90%;
+    }
+
+    #newsletterThankyouPage h2 {
+        font-size: 36px;
+    }
+
+    .centerBox h1 {
+        font-size: 28px;
+    }
+
+    .centerBox p {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    #newsletterPage .container, #newsletterThankyouPage .container {
+        padding:30px 30px 50px;
+    }
+
+    form, .messageContainer {
+        width: 100%;
+    }
+
+    #newsletterForm {
+        margin-top: 0;
+    }
+
+    #newsletterPage h2 {
+        font-size:26px;
+    }
+
+    div.form-group.row {
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-top:30px;
+    }
+
+    #newsletterThankyouPage h2, .messageContainer p {
+        font-size:30px;
+    }
+
+    .centerBox h1 {
+        font-size: 22px;
+    }
+
+}
+
+
+@media only screen and (max-width:500px) {
+    #newsletterPage .container, #newsletterThankyouPage .container {
+        padding:0 0 50px;
+    }
+
+    form {
+        padding:7px;
+        margin-top:10px;
+    }
+
+    .centerBox h1 {
+        font-size: 20px;
+    }
+
+    .centerBox p {
+        font-size: 16px;
+    }
+
+    #newsletterPage h2 {
+        font-size:22px;
+        margin:10px 15px 15px;
+    }
+
+    #newsletterForm label {
+        text-align: right;
+        font-family: 'open sans';
+        font-size: 18px;
+        line-height: 36px;
+    }
+
+    .form-group label {
+        font-size: 24px;
+    }
+
+    #joinNewsletterBtn {
+        width:100px;
+        height:50px;
+    }
+
+    #newsletterThankyouPage h2, .messageContainer p {
+        font-size: 21px;
+    }
+
+    .centerBox {
+        min-height: initial;
+    }
+
+    .whiteBgPage {
+        background-image: url(/Content/images/hex/hex_bg14.jpg);
+    }
+}

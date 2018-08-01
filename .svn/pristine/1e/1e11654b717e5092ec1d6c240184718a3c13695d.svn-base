@@ -1,0 +1,317 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.SchoolToTeacherConnection;
+@{
+    SchoolToTeacherConnectionClient sttcc = new SchoolToTeacherConnectionClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+
+    ViewBag.Title = "careers";
+}
+
+<link href="~/Content/css/Assessment/assessment.css" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/dolcode_title.js"></script>
+
+<div class="pageContainer" id="careersReport">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <a href="../Analytics">Analytics Home<i class="fa fa-angle-right"></i></a>
+                <span>Analytics</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-6 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1>Careers Report</h1>
+            </div>
+        </div>
+
+        <div class="reportContent">
+            <div class="row dropdownWrapper">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <label class="control-label">School:</label>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                    <div class="dropdown schoolDropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-school" data-toggle="dropdown">
+                            <span class="btnLabel" id="schoolLabel">
+                                @{
+                                    string teacher = ViewBag.Email;
+                                    List<SchoolToTeacherConnection> connections = new List<SchoolToTeacherConnection>(sttcc.GetAllByPartition(teacher));
+                                    if (connections.Count == 0)
+                                    {
+                                        <script>
+                                            var noSchools = true;
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connections[0].RowKey);
+                                        @school.SchoolName;
+                                    <script>
+                                        var noSchools = false;
+                                    </script>
+                                    }
+                                }
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            @{
+
+                                if (connections.Count == 0)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1">No schools added</a></li>
+                                }
+                                else
+                                {
+                                    foreach (SchoolToTeacherConnection connection in connections)
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", connection.RowKey);
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" data-rowkey="@school.RowKey" onclick="getGroups(this);">@school.SchoolName</a></li>
+                                    }
+                                }
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="groupLabel col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                    <label class="control-label">Group:</label>
+                </div>
+                <div class="groupDropdown col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-class" data-toggle="dropdown">
+                            <span class="btnLabel" id="groupsLabel">
+                                Select Group
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="groups" class="dropdown-menu" role="menu" aria-labelledby="dropdown-class"></ul>
+
+                    </div>
+                </div>
+                <div class="noResultsError col-lg-6 col-md-6 col-sm-6 col-xs-12"><p>There are no groups added to your account.<p><a href="/Assessment/School">Go to add groups</a></div>
+            </div>
+
+            <div id="report">
+                <!--html javascript-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var teacher = '@ViewBag.Email';
+    var schoolName = '';
+    var groupName = '';
+
+    function document_ready() {
+        if (noSchools) {
+            $('.reportContent').html('<div class="noResultsError"><p>There are no schools added to your account.<p><a href="/Assessment/AddSchool">Go to add schools</a></div>');
+        } else {
+            $('.schoolDropdown .dropdown-menu>li').eq(0).find('a').click();
+            $('.schoolDropdown .btnLabel').text($('.schoolDropdown .dropdown-menu>li').eq(0).find('a').text());
+        }
+    }
+
+
+    function getLabelByCareers(careers) {
+        for (var i = 0; i < professions.length; i++) {
+            if (professions[i].title == careers) {
+                return professions[i].title;
+            }
+        }
+        return careers;
+
+    }
+
+    function getGroups(school) {
+        $('#schoolLabel').text($(school).text());
+        $('#groupsLabel').text("All Groups");
+        schoolName = $(school).data('rowkey');
+        $.ajax({
+            url: appserverurl + '/Analytics/GetGroupsForSchool',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: schoolName,
+                teacher: teacher
+            }
+        }).success(function (response) {
+            var groups = response.results;
+            if (groups.length != 0) {
+                $('.noResultsError').hide();
+                $('.groupLabel, .groupDropdown').show();
+                var html = '<li role="presentation"><a id="allGroups" role="menuitem" tabindex="-1" data-school="' + $(school).data('rowkey') + '" data-rowkey="" onclick="getData(this)">All groups</a></li>';
+                for (var i = 0; i < groups.length; i++) {
+                    html += '<li role="presentation"><a role="menuitem" tabindex="-1" data-school="' + $(school).data('rowkey') + '" data-rowkey="' + groups[i].Group + '" onclick="getData(this)">' + groups[i].Group + '</a></li>'
+                }
+                $('#groups').html(html);
+                $('#allGroups').click();
+            } else { //no groups
+                $('.groupLabel, .groupDropdown').hide();
+                $('#report').html('');
+                $('.dropdownWrapper .noResultsError').show();
+                $('.dropdownWrapper').append(html);
+            }
+            $('.dropdownWrapper').show();
+        }).error(function (error) {
+
+        });
+    }
+
+    function getData(group) {
+        $('#groupsLabel').text($(group).text());
+        groupName = (typeof $(group).data('rowkey') === 'undefined' ? '' : $(group).data('rowkey'));
+        $.ajax({
+            url: appserverurl + '/analytics/GetCareers',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                school: $(group).data('school'),
+                teacher: teacher,
+                group: groupName
+            }
+        }).success(function (response) {
+            $('#report').html('');
+            var popular = response.popular;
+            var unpopular = response.unpopular;
+            var html = '<div class="row"><div class="statTitle">Most Popular Careers /by vote/</div></div><div class="resultsWrapper"><div id="stripesBackground"></div>';
+            var mostPopular = Math.max.apply(null, popular.map(function (x) { return x.count; }))
+            var mostUnpopular = Math.max.apply(null, unpopular.map(function (x) { return x.count; }))
+            for (var i = 0; i < popular.length; i++) {
+                var width = popular[i].count * 100 / mostPopular;
+                var careerTitle = dolcodeToTitle[dolcodeToTitle.map(function (x) { return x.code; }).indexOf(popular[i].dolcode)].title;
+                html += '<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftSide">' +
+                            '<div><span class="right">' + careerTitle + '</span></div></div>' +
+                            '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightSide">' +
+                            '<a href="/Analytics/StudentList/PopularCareer/' + careerTitle.replace(/[^a-zA-Z0-9]+/g, '-') + '" onclick="saveSchoolAndGroup();"><span class="statsBlock" data-width="' + width + '"></span><span class="counter opacity" data-from="0" data-to="' + popular[i].count + '" data-speed="1300"><span class="count"></span></span></a>' +
+                            '</div></div>';
+            }
+            html += '</div>';
+
+            if (popular.length != 0) {
+                $('#report').append(html);
+            }
+            html = '<div class="row"><div class="statTitle">Most Unpopular Careers /by vote/</div></div></div><div class="resultsWrapper"><div id="stripesBackground"></div>';
+            for (var i = 0; i < unpopular.length; i++) {
+                var width = unpopular[i].count * 100 / mostUnpopular;
+                var careerTitle = dolcodeToTitle[dolcodeToTitle.map(function (x) { return x.code; }).indexOf(unpopular[i].dolcode)].title;
+                html += '<div class="row"><div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftSide">' +
+                            '<div><span class="right">' + careerTitle + '</span></div></div>' +
+                            '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightSide">' +
+                            '<a href="/Analytics/StudentList/UnPopularCareer/' + careerTitle.replace(/[^a-zA-Z0-9]+/g, '-') + '" onclick="saveSchoolAndGroup();"><span class="statsBlock" data-width="' + width + '"></span><span class="counter opacity" data-from="0" data-to="' + unpopular[i].count + '" data-speed="1300"><span class="count"></span></span></a>' +
+                            '</div></div>';
+            }
+            html += '</div>';
+            if (unpopular.length != 0) {
+                $('#report').append(html);
+            }
+
+            if (popular.length == 0 && unpopular.length == 0) {
+                $('#report').html('<div class="noResultsError"><p>Students in your groups haven\'t answered any questions yet</div>');
+            }
+            $('.statsBlock').each(function (index, element) {
+                $(element).delay(100 * index).animate({ width: $(element).data('width') + '%' }, 500);
+            });
+
+            $.fn.countTo = function (options) {
+
+                options = options || {};
+
+                return $(this).each(function () {
+
+                    // set options for current element
+                    var settings = $.extend({}, $.fn.countTo.defaults, {
+                        from: $(this).data('from'),
+                        to: $(this).data('to'),
+                        speed: $(this).data('speed'),
+                        refreshInterval: $(this).data('refresh-interval'),
+                        decimals: $(this).data('decimals')
+                    }, options);
+
+                    // how many times to update the value, and how much to increment the value on each update
+                    var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                increment = (settings.to - settings.from) / loops;
+
+                    // references & variables that will change with each update
+                    var self = this,
+                $self = $(this),
+                loopCount = 0,
+                value = settings.from,
+                data = $self.data('countTo') || {};
+
+                    $self.data('countTo', data);
+
+                    // if an existing interval can be found, clear it first
+                    if (data.interval) {
+                        clearInterval(data.interval);
+                    }
+                    data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                    // initialize the element with the starting value
+                    render(value);
+
+                    function updateTimer() {
+                        value += increment;
+                        loopCount++;
+
+                        render(value);
+
+                        if (typeof (settings.onUpdate) == 'function') {
+                            settings.onUpdate.call(self, value);
+                        }
+
+                        if (loopCount >= loops) {
+                            // remove the interval
+                            $self.removeData('countTo');
+                            clearInterval(data.interval);
+                            value = settings.to;
+
+                            if (typeof (settings.onComplete) == 'function') {
+                                settings.onComplete.call(self, value);
+                            }
+                        }
+                    }
+
+                    function render(value) {
+                        var formattedValue = settings.formatter.call(self, value, settings);
+                        $self.children('.count').html(formattedValue);
+                    }
+
+                });
+            };
+
+            $.fn.countTo.defaults = {
+                from: 0, // the number the element should start at
+                to: 0, // the number the element should end at
+                speed: 1000, // how long it should take to count between the target numbers
+                refreshInterval: 10, // how often the element should be updated
+                decimals: 1, // the number of decimal places to show
+                formatter: formatter, // handler for formatting the value before rendering
+                onUpdate: null, // callback method for every time the element is updated
+                onComplete: null // callback method for when the element finishes updating
+            };
+
+            /* ----------------------Counter------------------------------ */
+            if ($('.counter').length) {
+                $('.counter').countTo();
+            };
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+    function formatter(value, settings) {
+        return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+    };
+    function saveSchoolAndGroup() {
+        setCookie('analyticsschoolname', schoolName, 1);
+        setCookie('analyticsschoolgroup', groupName, 1);
+    }
+</script>

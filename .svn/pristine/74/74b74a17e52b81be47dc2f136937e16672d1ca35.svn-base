@@ -1,0 +1,663 @@
+﻿@{
+    ViewBag.Title = "vantage";
+}
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js"></script>
+<script src="~/Scripts/Thesaurus/zipCodes.js"></script>
+<script src="~/Scripts/Thesaurus/ctProfessions.js"></script>
+
+
+<div class="pageContainer">
+
+    @*<div>
+        <input type="text" style="width:500px" id="textToParse"/>
+        <button onclick="parse()">parse</button>
+    </div>
+
+
+    <p>select photo</p>
+    <p><br /></p>
+    <input type="file" accept="image/*" name="image">
+    <p><br /></p>
+
+    <input id="zipCode" type="text" onpaste="return false;" onkeypress="return isNumber(event, this.value);" placeholder="Zip code" />
+    <button onclick="checkZipCode(document.getElementById('zipCode').value)">submit</button>
+
+
+    <input id="searchJob" type="text" placeholder="search" onkeyup="searchJob(this.value)"/>
+    <input id="otherJob" type="text" placeholder="other job" onkeyup="otherJob(this.value)" />
+    <div id="jobs">
+
+    </div>*@
+    <div class="row">
+        <select class="customselect">
+            <optgroup label="numbers123">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </optgroup>
+            <optgroup label="numbers456">
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </optgroup>
+        </select>
+        <button id="chg">change</button>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form role="form" id="vantage">
+                <div class="form-group">
+                    <label for="zip">zip code</label>
+                    <input type="text" class="form-control" id="zip" placeholder="zip">
+                </div>
+                <div class="form-group">
+                    <label for="category">category</label>
+                    <input type="text" class="form-control" id="category" placeholder="category">
+                </div>
+                <div class="form-group">
+                    <label for="subcategory">sub category</label>
+                    <input type="text" class="form-control" id="subcategory" placeholder="sub category">
+                </div>
+                <button type="submit" class="btn btn-default" id="submit">Submit</button>
+            </form>
+            <div id="vantageList">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <form role="form" id="cbnSchool">
+                <div class="form-group">
+                    <label for="filter">filter</label>
+                    <input type="text" class="form-control" id="filter" placeholder="filter">
+                </div>
+                <div class="form-group">
+                    <label for="degreeid">degree id</label>
+                    <input type="text" class="form-control" id="degreeid" placeholder="degree id">
+                </div>
+                <div class="form-group">
+                    <label for="cbnzip">zip</label>
+                    <input type="text" class="form-control" id="cbnzip" placeholder="zip">
+                </div>
+                <button type="submit" class="btn btn-default" id="cbnsubmit">Submit</button>
+            </form>
+            <div id="cbnList">
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+<style>
+    #jobs {
+        width: 1800px;
+    }
+    .title {
+        cursor: pointer;
+        font-size: 20px;
+    }
+    .job {
+        margin-left: 30px;
+        cursor: pointer;
+    }
+    .highlight {
+        color: red;
+    }
+
+    .aka {
+        font-size: 10px;
+        font-style: italic;
+    }
+
+
+</style>
+<script>
+    function document_ready() {
+
+        //getVantageMedia();
+        //geolocation();
+        //showJobsSelection('');
+        //ctProfessionsfunc();
+        //ctPopularCombos();
+        //professionToUrl('');
+        //console.log(checkbrowser());
+        $('#vantage').submit(function (event) {
+            $('#vantageList').html('');
+            var zip = $('#zip').val();
+            var category = $('#category').val();
+            var subcategory = $('#subcategory').val();
+            console.log(zip + '--' + category + '--' + subcategory);
+            getVantageMedia(zip, category, subcategory);
+            return false;
+        });
+        $('#cbnSchool').submit(function () {
+            $('#cbnList').html('');
+            var zip = $('#cbnzip').val();
+            var filter = $('#filter').val();
+            var degreeid = $('#degreeid').val();
+            getSchoolFormId(filter, degreeid, zip);
+            return false;
+        });
+        var rule = new RegExp("(AC[.]*|AD[.]*|AE[.]*|AF[.]*|AH[.]*|F[.]*|G[.]*|H[.]*|P[.]*|Q[.]*)");
+        var value = "Qrgt";
+        console.log(rule.test(value));
+        $('#chg').click(function () {
+            $('.customselect').val('3')
+        });
+    }
+
+    function getSchoolFormId(filter, degreeid, zip) {
+        $.ajax({
+            url: appserverurl + '/Jobs/getschoolformid',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                filter: filter,
+                value: degreeid,
+                zipcode: zip
+            }
+        }).success(function (response) {
+            console.log(response);
+            if (response.results.searchresults) {
+                var capsules = response.results.searchresults.capsule;
+                if (capsules instanceof Array) {
+                    $('#cbnList').append('<p>' + capsules.length + '</p>');
+                    for (var i = 0; i < capsules.length; i++) {
+                        $('#cbnList').append('<p>' + capsules[i].client_frontendname + '--' + capsules[i].client_id + '--' + capsules[i].id + '</p>');
+                    }
+                    //school = true;
+                    //form_id = capsules[6].id;
+                    //$('.description').text(capsules[6].client_frontendname);
+                    //getForm(form_id);
+                } else {
+                    $('#cbnList').append('<p>1</p>');
+                    $('#cbnList').append('<p>' + capsules.client_frontendname + '</p>');
+                }
+                
+            } else {
+                $('#cbnList').append('<p>no results</p>');
+            }
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+    function getJobFormId() {
+        $.ajax({
+            url: appserverurl + '/Jobs/getjobformid',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                zipcode: searchZipcode,
+                titlename: titleName
+            }
+        }).success(function (response) {
+            console.log(response);
+            if (response.results.root) {
+                var listings = response.results.root.tab.type == 'local' ? response.results.root.tab.listings.listing : null;
+                //for (var i = 0; i < capsules.length; i++) {
+                //    getForm(capsules[i].id);
+                //}
+                if (listings) {
+                    form_id = listings[0].form_id;
+                    $('.description').text(listings[0].client_name);
+                    //getForm(form_id);
+                }
+            }
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+
+    function enhancedLabel(label) {
+        switch (label) { //.toLowerCase()
+            case "Country":
+                return "";
+            case "Education Level":
+                return "";
+            case "Level of Education":
+                return "";
+            case "Best Time to Contact":
+                return "";
+            case "Location":
+                return "";
+            case "Preferred Location":
+                return "";
+            case "Position":
+                return "";
+            case "Program of interest":
+                return "";
+            case "Program Category":
+                return "";
+            case "campus":
+                return "";
+            case "Campus Location":
+                return "";
+            case "Program":
+                return "";
+            case "GPA":
+                return "";
+            case "H.S. Grad Year":
+                return "";
+            case "GED or HS Grad Year":
+                return "";
+            case "Start Date":
+                return "";
+            case "Enrollment Startdate":
+                return "";
+            case "Military":
+                return "";           
+            case "Military Affiliation":
+                return "";  
+            case "us citizen":
+                return "";
+            case "Age":
+                return "";
+            default:
+                return label;
+        }
+    }
+
+    var attitude = ["Extrovert", "Introvert"];
+    var endurance = ["Mobile", "Stationary"];
+    var action = ["Process", "Result"];
+    var concentration = ["Focused", "Relaxed"];
+    var information = ["Imagination", "Facts"];
+    var processing = ["Rational", "Emotional"];
+    var presence = ["Remote", "Present"];
+    var patterns = ["Discover", "Routine"];
+    var compensation = ["Variable", "Fixed"];
+
+    var combinations = [['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Rational', 'Present', 'Discover', 'Variable'],
+                        ['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Rational', 'Present', 'Routine', 'Fixed'],
+                        ['Extravert', 'Mobile', 'Process', 'Focused', 'Facts', 'Rational', 'Present', 'Discover', 'Variable'],
+                        ['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Rational', 'Present', 'Discover', 'Fixed'],
+                        ['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Rational', 'Present', 'Routine', 'Variable'],
+                        ['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Emotional', 'Present', 'Routine', 'Fixed'],
+                        ['Extravert', 'Mobile', 'Result', 'Focused', 'Facts', 'Emotional', 'Present', 'Discover', 'Variable'],
+                        ['Extravert', 'Mobile', 'Process', 'Focused', 'Facts', 'Rational', 'Present', 'Routine', 'Fixed'],
+                        ['Extravert', 'Mobile', 'Process', 'Relaxed', 'Imagination', 'Emotional', 'Present', 'Discover', 'Variable'],
+                        ['Extravert', 'Mobile', 'Result', 'Relaxed', 'Imagination', 'Emotional', 'Present', 'Discover', 'Variable']];
+
+    function ctPopularCombos() {
+        for (var i = 0; i < 10; i++) {
+            var total = 0;
+            var array = [];
+            for (var z = 0; z < professions.length; z++) {
+                var match = 9;
+                if (!(professions[z].attitude == combinations[i][0] || professions[z].attitude == '')) { match--; }
+                if (!(professions[z].endurance == combinations[i][1] || professions[z].endurance == '')) { match--; }
+                if (!(professions[z].action == combinations[i][2] || professions[z].action == '')) { match--; }
+                if (!(professions[z].concentration == combinations[i][3] || professions[z].concentration == '')) { match--; }
+                if (!(professions[z].information == combinations[i][4] || professions[z].information == '')) { match--; }
+                if (!(professions[z].processing == combinations[i][5] || professions[z].processing == '')) { match--; }
+                if (!(professions[z].presence == combinations[i][6] || professions[z].presence == '')) { match--; }
+                if (!(professions[z].patterns == combinations[i][7] || professions[z].patterns == '')) { match--; }
+                if (!(professions[z].compensation == combinations[i][8] || professions[z].compensation == '')) { match--; }
+                if (match == 9) {
+                    array.push('<p>' + professions[z].code + '-' + professions[z].title + '</p>');//'-' + professions[z].attitude + '-' + professions[z].endurance + '-' + professions[z].action + '-' + professions[z].concentration + '-' + professions[z].information + '-' + professions[z].processing + '-' + professions[z].presence + '-' + professions[z].patterns + '-' + professions[z].compensation + '</p>');
+                    total++;
+                } else if (match == 99) {
+                    total++;
+                }                                                
+            }
+            //if (array.length > 0 && total == 0) {
+            if (total < 1000) {
+                $('#jobs').append('<p>' + combinations[i][0] + '-' + combinations[i][1] + '-' + combinations[i][2] + '-' + combinations[i][3] + '-' + combinations[i][4] + '-' + combinations[i][5] + '-' + combinations[i][6] + '-' + combinations[i][7] + '-' + combinations[i][8] + '=' + total + '</p>');
+                for (var y = 0; y < array.length; y++) {
+                    $('#jobs').append(array[y]);
+                }
+            }
+        }
+    }
+
+    function ctProfessionsfunc() {
+        for (var a = 0; a < 2; a++) {
+            for (var b = 0; b < 2; b++) {
+                for (var c = 0; c < 2; c++) {
+                    for (var d = 0; d < 2; d++) {
+                        for (var e = 0; e < 2; e++) {
+                            for (var f = 0; f < 2; f++) {
+                                for (var g = 0; g < 2; g++) {
+                                    for (var h = 0; h < 2; h++) {
+                                        for (var i = 0; i < 2; i++) {                            
+                                            var total = 0;
+                                            var array = [];
+                                            for (var z = 0; z < professions.length; z++) {
+                                                var match = 9;
+                                                if (!(professions[z].attitude == attitude[a] || professions[z].attitude == '')) { match--; }
+                                                if (!(professions[z].endurance == endurance[b] || professions[z].endurance == '')) { match--; }
+                                                if (!(professions[z].action == action[c] || professions[z].action == '')) { match--; }
+                                                if (!(professions[z].concentration == concentration[d] || professions[z].concentration == '')) { match--; }
+                                                if (!(professions[z].information == information[e] || professions[z].information == '')) { match--; }
+                                                if (!(professions[z].processing == processing[f] || professions[z].processing == '')) { match--; }                                                
+                                                if (!(professions[z].presence == presence[g] || professions[z].presence == '')) { match--; }
+                                                if (!(professions[z].patterns == patterns[h] || professions[z].patterns == '')) { match--; }
+                                                if (!(professions[z].compensation == compensation[i] || professions[z].compensation == '')) { match--; }
+                                                if (match == 9) {
+                                                    array.push('<p>' + professions[z].code + '-' + professions[z].title + '</p>');//'-' + professions[z].attitude + '-' + professions[z].endurance + '-' + professions[z].action + '-' + professions[z].concentration + '-' + professions[z].information + '-' + professions[z].processing + '-' + professions[z].presence + '-' + professions[z].patterns + '-' + professions[z].compensation + '</p>');
+                                                    total++;
+                                                } else if (match == 99) {
+                                                    total++;
+                                                }                                                
+                                            }
+                                            //if (array.length > 0 && total == 0) {
+                                            if (total < 1000) {
+                                                $('#jobs').append('<p>' + attitude[a] + '-' + endurance[e] + '-' + action[d] + '-' + concentration[g] + '-' + information[b] + '-' + processing[c] + '-' + presence[f] + '-' + patterns[h] + '-' + compensation[i] + '=' + total + '</p>');
+                                                for (var y = 0; y < array.length; y++) {
+                                                    $('#jobs').append(array[y]);
+                                                }
+                                            }                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function professionToUrl(profession) {
+        for (var i = 0; i < professions.length; i++) {
+            console.log(professions[i].title.replace(/[^a-zA-Z0-9]+/g, '-'));
+        }
+    }
+
+    function checkbrowser(){
+        var ua= navigator.userAgent, tem, 
+        M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+        if(/trident/i.test(M[1])){
+            tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+            return 'IE '+(tem[1] || '');
+        }
+        if(M[1]=== 'Chrome'){
+            tem= ua.match(/\bOPR\/(\d+)/)
+            if(tem!= null) return 'Opera '+tem[1];
+        }
+        M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+        if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+        return M.join(' ');
+    }
+
+    function parse() {
+        var textToParse = $('#textToParse').val();
+        var tokens = [];
+        var tokenArray = [];
+        for (var c = 0; c < textToParse.length; c++) {
+            if (textToParse[c] == '(') {
+                if (textToParse[c - 1] == ' ' || textToParse[c - 1] == '(' || c == 0) {                   
+                    tokens.push({ position: c, state: 'open', connected: null });                
+                }
+            } else if (textToParse[c] == ')') {
+                if (textToParse[c - 1] != '%') {
+                    for (var end = c + 1; end < textToParse.length; end++) {
+                        if (textToParse[end] == ' ' || textToParse[end] == ')' || end == textToParse.length - 1) {
+                            tokens.push({ position: end, state: 'closed', connected: null });
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (tokens[0].position != 0) {
+            //tokenArray.push({ text: textToParse.slice(0, tokens[0].position), length: '' });
+        }
+        for (var i = 0; i < tokens.length; i++) {
+            if (tokens[i].state == 'closed') {
+                for (var j = i; j >= 0; j--) {
+                    if (tokens[j].state == 'open' && !tokens[j].connected) {
+                        tokens[j].connected = tokens[i].position;
+                        tokens[i].connected = tokens[j].position;
+                        tokenArray.push({ text: textToParse.slice(tokens[j].position, (tokens[i].position == textToParse.length - 1 ? tokens[i].position + 1: tokens[i].position)), length: '' });
+                        break;
+                    }
+                }
+            }
+        }
+        if (tokens[tokens.length - 1].position != textToParse.length - 1) {
+            //tokenArray.push({ text: textToParse.slice(tokens[tokens.length - 1].position), length: '' });
+        }
+
+        //var tokenToProcess = [];
+        //tokenToProcess.push(tokenArray[0].text);
+        //for (var i = 1; i < tokenArray.length; i++) {
+        //    if (tokenArray[i].text.indexOf(tokenArray[i - 1].text) != -1) {
+        //        tokenToProcess.push(tokenArray[i].text.replace(tokenArray[i - 1].text, '{' + (i - 1) + '}'));
+        //    } else {
+        //        tokenToProcess.push(tokenArray[i].text);
+        //    }           
+        //}
+        var tokenToProcess = [];
+        var indexes = [];
+        //tokenToProcess.push(tokenArray[0].text);
+        for (var i = tokenArray.length - 1; i >= 0; i--) {
+            var string = tokenArray[i].text;
+            for (var j = i - 1; j >= 0; j--) {
+                if (string.indexOf(tokenArray[j].text) != -1) {
+                    indexes.push(tokenArray[j].text);
+                    string = string.replace(tokenArray[j].text, '{' + (indexes.length - 1) + '}');                    
+                }
+            }
+            tokenToProcess.push(string);
+            //if (tokenArray[i].text.indexOf(tokenArray[i - 1].text) != -1) {
+            //    tokenToProcess.push(tokenArray[i].text.replace(tokenArray[i - 1].text, '{' + (i - 1) + '}'));
+            //} else {
+            //    tokenToProcess.push(tokenArray[i].text);
+            //}
+        }
+        console.log('=======');
+        for (var i = 0; i < tokenArray.length; i++) {
+            console.log(tokenArray[i].text);
+        }
+        console.log('-------');
+        for (var i = 0; i < tokenToProcess.length; i++) {
+            console.log(tokenToProcess[i]);
+        }       
+    }
+    function convert(token) {
+        var tokenParts = token.split(' ');
+        for (var i = 0; i < tokenParts.length; i++) {
+            if (tokenParts[i][0] == '(') {
+                var elements = tokenParts[i].split(').');
+                for (var e = 0; e < elements.length; e++) {
+                     
+                }
+            } else if (tokenParts[i][0] == '*') {
+                var elements = tokenParts[i].split('.');
+                // any word
+                for (var e = 1; e < elements.length; e++) {
+                    if (typeOfWord(elements[e])) {
+                        //type of word
+                        var type = elements[e];
+                    } else if (parseInt(elements[e]) != 'NaN') {
+                        //digit
+                        var digit = parseInt(elements[e]);
+                    } else {
+                        //error
+                    }
+                }
+            } else if (tokenParts[i][0] == '[') {
+                var elements = tokenParts[i].split('.');
+                var word = elements[0].replace(/\[|\]/g, '');
+                for (var e = 1; e < elements.length; e++) {
+                    if (typeOfWord(elements[e])) {
+                        // type of word
+                        var type = elements[e];
+                    } else if (parseInt(elements[e]) != 'NaN') {
+                        //digit
+                        var digit = parseInt(elements[e]);
+                    } else if (elements[e].indexOf('match') != -1) {
+                        var match = elements[e].replace(/[^0-9.]/g, '');
+                    }
+                }
+            } else if (tokenParts[i][0] == '{') {
+                //part from other code
+            } else {
+                // hard word
+                var word = tokenArray[i];
+            }
+        }
+    }
+
+    function typeOfWord(word) {
+        var reg = new RegExp(/(n|noun|v|verb)/, null);
+        return reg.test(word);
+    }
+
+    function isNumber(evt, val) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) || val.length == 5) {
+            return false;
+        }
+        return true;
+    }
+    function checkZipCode(zipCode) {
+        var reg = new RegExp(zipCode);
+        if (reg.test(zipCodes) && zipCode.length == 5) {
+            //alert('yes');
+            return true;
+        } else {
+            //alert('no');
+            return false;
+        }
+    }
+
+    function showJobsSelection(text) {
+        if (text != '') {
+            //text = '(' + text.replace(/\s/g, '|') + ')';
+            var reg = new RegExp(text, 'i');
+            $('.jobs').html('');
+            var professionsToDisplay = [];
+            for (var i = 0; i < professionsinfo.length; i++) {
+                //if (reg.test(professionsinfo[i].keywords) || reg.test(professionsinfo[i].alttitles)) {
+                if (reg.test(professionsinfo[i].title)) {
+                    professionsToDisplay.push({ profession: professionsinfo[i], aka: '' });
+                }
+                if (reg.test(professionsinfo[i].alttitles) && !reg.test(professionsinfo[i].keywords)) {
+                    for (var j = 0; j < professionsinfo[i].alttitles.length; j++) {
+                        if (professionsinfo[i].alttitles[j].indexOf(text) != -1) {
+                            professionsToDisplay.push({ profession: professionsinfo[i], aka: professionsinfo[i].alttitles[j] });
+                            break; //stop possibility to add multiple alt titles
+                        }
+                    }
+                }
+            }
+        } else {
+            var professionsToDisplay = [].concat(professionsinfo);
+        }
+        professionsToDisplay.sort(sortProfessions);
+        for (var i = 0; i < professionsToDisplay.length; i++) {
+            $('.jobs').append('<div class="job">' + professionsToDisplay[i].profession.title + (professionsToDisplay[i].aka == '' ? '' : '<br><span class="aka">' + professionsToDisplay[i].aka + '</span>') + '</div>');
+        }
+    }
+
+    function pickThisJob(job) {
+        $('.highlight').removeClass('highlight');
+        $('#otherJob').val('');
+        $(job).addClass('highlight');
+    }
+    function searchJob(text) {
+        text = text.slice(-1) == ' ' ? text.slice(0, -1) : text;
+        $('#otherJob').val('');
+        showJobsSelection(text);
+    }
+    function otherJob(text) {
+        $('.highlight').removeClass('highlight');
+        $('#searchJob').val('');
+        showJobsSelection('');
+    }
+
+    //function showJobsSelection(text) {
+    //    text = '(' + text.replace(/\s/g, '|') + ')';
+    //    var reg = new RegExp(text, 'i');
+    //    $('#jobs').html('');
+    //    for (var i = 0; i < professionsinfo.length; i++) {
+    //        if (reg.test(professionsinfo[i].keywords) || reg.test(professionsinfo[i].alttitles)) {
+    //            $('#jobs').append('<div class="job" onclick="pickThisJob(this)">' + professionsinfo[i].title + '</div>');
+    //        }
+    //    }
+    //}
+
+    // vantage =================================================================
+    function getVantageMedia(zip, category, subcategory) {
+        $.ajax({
+            url: appserverurl + '/Jobs/getvantagemedia',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                zipCode: zip,
+                campaign: '9011',
+                modality: '1',
+                eduLevel: '1',
+                gradYear: '',
+                areaOfStudy: category,
+                subAreaOfStudy: subcategory,
+                degreeLevel: '1',
+                military: '',
+                maxresults: '25'
+            }
+        }).success(function (response) {
+            console.log(response);
+            var schoolsArray = response.results.Results;
+            $('#vantageList').append('<p>' + schoolsArray.length + '</p>');
+            for (var i = 0; i < schoolsArray.length; i++) {
+                $('#vantageList').append('<div class="brand' + i + '"><h1>' + schoolsArray[i].BrandName + '</h1></div>');
+                for (var j = 0; j < schoolsArray[i].Description.length; j++) {
+                    $('.brand' + i).append('<p>' + schoolsArray[i].Description[j] + '</p><br>');
+                }
+                $('.brand' + i).append('<a href="http://' + schoolsArray[i].DisplayUrl + '">' + schoolsArray[i].HeadLine + '</a>');
+                $('.brand' + i).append('<img src="' + schoolsArray[i].LogoUrl + '">');
+                $('.brand' + i).append('<a href="http://' + schoolsArray[i].Products[0].ActionUrl + '">' + 'Click' + '</a>');
+            }
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+    // geolocation =====================================================================
+    function geolocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $('.pageContainer').append('<p>' + position.coords.latitude + ' --- ' + position.coords.longitude + '</p>');
+                $.ajax({
+                    url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&sensor=false',
+                }).success(function (response) {
+                    console.log(response);
+                    $('.pageContainer').append('<p>' + response.results[0].formatted_address + '</p>');
+                    if (response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('locality')) {
+                        var city = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('locality')].short_name;
+                    } else {
+                        var city = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('sublocality')].short_name;
+                    }
+                    
+                    var state = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('administrative_area_level_1')].short_name;
+                    var zip = response.results[0].address_components[response.results[0].address_components.map(function (e) { return e.types[0]; }).indexOf('postal_code')].short_name;
+                    if (checkZipCode(zip)) {
+                        
+                    } else {
+                        
+                    }
+                }).error(function (response) {
+                    console.log(response);
+                });
+
+            }, function (error) {
+                $('.pageContainer').append('<p>' + error.code + '---' + error.message + '</p>');
+                $.get('http://ipinfo.io', function (response) {
+                    console.log(response);
+                    $('.pageContainer').append('<p>' + response.city + '---' + response.region + '---' + response.country + '</p>');
+                }, 'jsonp');
+            }, {
+                enableHighAccuracy: true,
+                maximumAge: 6000,
+                timeout: 1000
+            });
+        } else {
+
+            $('.pageContainer').append('<p>no geolocation </p>');
+        }
+    }
+</script>

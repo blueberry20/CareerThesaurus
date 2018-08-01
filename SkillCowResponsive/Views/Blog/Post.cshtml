@@ -1,0 +1,279 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogTag;
+<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    BlogTagClient btc = new BlogTagClient();
+    ViewBag.Title = @ViewBag.PostTitle;
+    ViewBag.OgTitle = @ViewBag.PostTitle;
+    ViewBag.OgImage = "https://careerthesaurus.blob.core.windows.net/blog/" + ViewBag.Url.Replace("/", "") + "/" + ViewBag.HeaderImage.Substring(2, 4);
+    ViewBag.OgDescription = @ViewBag.ArticleDescription;
+}
+
+
+<!--================================= Blog Post Page ============================== -->
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+  <!--================================= Main section ============================== -->      
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 blogPostsWrapper">
+                <div class="blogPostShort">
+                    <h2>@ViewBag.PostTitle</h2>
+                    <div class="blogImageHolder row" data-path="@ViewBag.Url">
+                        <img class="img-responsive" src='https://careerthesaurus.blob.core.windows.net/blog/@(ViewBag.Url.Replace("/", "") + "/" + ViewBag.HeaderImage.Substring(2, 4))' alt="" />
+                        @*@post.HeaderImageCode*@                 
+                    </div>
+                    @*<h2>Choosing a Major or Career Path</h2>*@
+                    
+                    <div class="row shareRowText text-left">
+                        <p class="blogDate">@ViewBag.Date</p><span class="lineSeparator">|</span>
+                        @*<p class="blogDate">January 12, 2014</p>
+                        <p class="blogCategory">Career</p>*@
+                        @*<p class="blogCategory">@ViewBag.Category</p><span>|</span>*@
+                        <p class="blogComments"><fb:comments-count href='http://CareerThesaurus.com/Blog/Post/@ViewBag.Url'></fb:comments-count> comments</p>
+                    </div>
+
+                    <div class="row" id="article">
+                    </div>
+                    <hr />
+                    <!--Share and Comment Row-->
+                    <div class="socialIconsHolder row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 shareComment">
+                            Share and Comment
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 shareDiv coloredSocialIcons text-right">
+                            <ul class="social-icons">
+                                <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=@ViewBag.PostTitle&url=http://CareerThesaurus.com/blog/Post/@ViewBag.Url" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/Blog/Post/@ViewBag.Url&redirect_uri=https://facebook.com&name=@ViewBag.PostTitle&action=%5B%7B"name"%3a"Career%20advice%20blog"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                @*<li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://localhost:81/Blog/Post/@ViewBag.Url&redirect_uri=https://facebook.com&name=@ViewBag.PostTitle&action=%5B%7B"name"%3a"Career%20advice%20blog"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>*@
+                                <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/Blog/Post/@ViewBag.Url" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                   </div>
+                   <div class="fb-comments" data-href="http://CareerThesaurus.com/Blog/Post/@ViewBag.Url" data-numposts="10" data-width="100%" data-colorscheme="light"></div>
+                   @*<div class="fb-comments" data-href="http://localhost:81/Blog/Post/@ViewBag.Url" data-numposts="10" data-width="100%" data-colorscheme="light"></div>*@
+                </div>
+            </div>
+            <!--================================= Right sidebar ============================== -->       
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 blogSidebar">
+                @*<div class="sidebarWidget" id="signupWidget">
+                    <h3>Sign up to receive our new blog posts!</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter your email" />
+                    </div>
+                    <button type="submit" class="btn greenBorderBtn">Sign up</button>
+                </div>*@
+                <!--Categories-->
+                @*<div class="sidebarWidget categoriesWidget">
+                    <h3>Categories</h3>
+                    <ul>
+                        @{
+                            List<BlogCategory> categories = new List<BlogCategory>(bcc.GetAllByPartition("blogCategory"));
+                            if (categories.Count != 0)
+                            {
+                                foreach (BlogCategory category in categories)
+                                {
+                                    if (category.PublicPosts != -1) // change to 0 ===================================================================== to publish
+                                    {
+                                        <li>
+                                            <a href="/Blog/Category/@category.Category">@category.Category<i class="fa fa-angle-right pull-right"></i></a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    </ul>
+                </div>*@
+
+                <!--Tags-->
+                 <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        @*@{
+                            List<BlogTag> tags = new List<BlogTag>(btc.GetAllByPartition("blogTag"));
+                            if (tags.Count != 0)
+                            {
+                                foreach (BlogTag tag in tags)
+                                {
+                                    //if (tag.PublicPosts != 0)
+                                    //{
+                                        <a href="/Blog/Tag/@tag.RowKey">@tag.Tag</a>
+                                   // }
+                                }
+                            }
+                        }*@
+
+
+                            @{
+                                List<string> tagNames = new List<string>(ViewBag.Tags);
+                                foreach (string tagName in tagNames)
+                                {
+                                    BlogTag blogTag = btc.GetByPartitionAndRowKey("blogTag", tagName);
+                                    if (blogTag != null)
+                                    {
+                                        <a class="blogTag" href="/Blog/Tag/@blogTag.RowKey"><i class="fa fa-tag"></i>@blogTag.Tag</a>
+                                    }
+                                }
+                            }
+
+
+
+                    </div>    
+                </div>
+
+                @*<div class="sidebarWidget">
+                    <h3>Archive</h3>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="archive" data-toggle="dropdown">
+                            Select Month and Year
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            @{
+                                DateTime startDate = new DateTime(2014, 09, 01);
+                                while (startDate <= DateTime.Today)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/Blog/Archive/@startDate.Year/@startDate.ToString("MM")">@startDate.ToString("MMMMMMMMM") @startDate.Year</a></li>
+                                    startDate = startDate.AddMonths(1);
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>*@
+
+                <!--Recent Posts-->
+                @*<div class="sidebarWidget">
+                    <h3>Recent Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to start?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What to do?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>*@
+
+                <!--Most Popular Posts-->
+                @*<div class="sidebarWidget">
+                    <h3>Most Popular Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to study?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>How to grow?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What careers are popular?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>*@
+
+                <!--Recent Tweets-->
+                @*<div class="sidebarWidget" id="recentTweets">
+                    <h3>Recent Tweets</h3>
+                    <div class="row">
+                        <i class="fa fa-twitter"></i>
+                        Hello everybody!
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                    <div class="row">
+                        <i class="fa fa-twitter"></i>
+                        Have you heard about the new tool?
+                        <a href="#" class="twitterLink">http://t.co/NB0jPytt44</a>
+                    </div>
+                </div>*@
+
+                <div class="sidebarWidget advertisementWidget">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_1"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+<script>
+    var article = '@Html.Raw(ViewBag.Article.Replace("'", "\\'"))';
+    var articlePreview = '@Html.Raw(ViewBag.Article.Replace("'", "\\'"))';
+    var postPath = '@ViewBag.Path';
+    var postTitle = '@Html.Raw(ViewBag.PostTitle.Replace("'", "\\'"))';
+    var articleDescription = '@Html.Raw(ViewBag.ArticleDescription!=null ? ViewBag.ArticleDescription : "").ToString().Replace("'", "\\'")';
+    console.log(articleDescription);
+
+    function document_ready() {
+        var matches = article.match(/\{\{[a-z0-9]{4}\}\}/g);
+        if (matches) {
+            for (var i = 0; i < matches.length; i++) {
+                articlePreview = articlePreview.replace(matches[i], '<img class="img-responsive" src="https://careerthesaurus.blob.core.windows.net/blog/' + postPath + '/' + matches[i].substring(2, 6) + '">')
+            }
+        }
+        $('#article').html(articlePreview);
+        //shareLinks();
+        //$('.blogImageHolder').each(function (index, element) {
+        //    var regex = new RegExp(/\{\{[a-z0-9]{4}\}\}/g);
+        //    var code = $(element).text();
+        //    console.log(code.length);
+        //    if (regex.test(code)) {
+        //        var path = $(element).data('path');
+        //        $(element).html('<img src="https://careerthesaurus.blob.core.windows.net/blog/' + path + '/' + code.substring(2, 6) + '">');
+        //    } else {
+        //        $(element).hide();
+        //    }
+        //});
+    }
+
+    function shareLinks() {
+        var linkURL = document.URL;
+        var shareMessage = postTitle;
+        //console.log(shareMessage);
+        $('.share.twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + linkURL + '&via=CareerThesaurus.com');
+        $("meta[property='og\\:title']").attr("content", shareMessage);
+        //$('.share.facebook a').attr('href', 'https://www.facebook.com/dialog/feed?app_id=153111284881428&link=' + linkURL + '&redirect_uri=https://facebook.com/&name=' + shareMessage + '&actions=%5B%7B"name"%3A"Find%20your%20job%20at%20Care­e­r­T­h­e­s­a­urus.com"%2C"link"%3A"http://skillcow.com%2F"%7D%5D');
+        $('.share.gplus a').attr('href', 'https://plus.google.com/share?url=' + linkURL.replace(/\,/g, '').replace(/\s/g, '_'));
+    }
+</script>

@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<!--================================ Analytics index================================================== -->
+
+<link href="~/Content/css/Assessment/assessment.css" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="analyticsPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Analytics Home</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-6 text-right">
+                <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1>Pick a report</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <div id="traitsReport" class="reportDiv careers">                   
+                        <img class="graphicon" src="~/Content/images/analyticsiconbig.png" />
+                    <div class="reportWrapper">
+                        <h3>Personality Traits Summary</h3>
+                        <p>View the breakdown by personality traits. E.g. Extroverts vs. Introverts etc.</p>
+                    </div>
+                </div>
+                <div id="interestsReport" class="reportDiv careers">
+                        <img class="graphicon" src="~/Content/images/analyticsiconbig.png" />
+                    <div class="reportWrapper">
+                        <h3>Life interests</h3>
+                        <p>View which things in life matter the most to your test takers.</p>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                    <div id="careerReport" class="reportDiv careers">
+                            <img class="graphicon" src="~/Content/images/analyticsiconbig.png" />
+                        <div class="reportWrapper">
+                            <h3>Best and Worst Career Picks</h3>
+                            <p>View which careers generate the most and the least amount of interest.</p>
+                        </div>
+                    </div>
+
+                    <div id="personReport" class="reportDiv careers">
+                            <img class="graphicon" src="~/Content/images/analyticsiconbig.png" />
+                        <div class="reportWrapper">
+                            <h3>Individual reports</h3>             
+                            <p>Find and View individual results by Person’s Name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $('.reportWrapper').css('margin-top', $('.reportWrapper').height() / 2 * -1);
+
+        $(window).resize(function () {
+            $('.reportWrapper').css('margin-top', $('.reportWrapper').height() / 2 * -1);
+        });
+
+        $('#traitsReport').click(function () {
+            window.location.href = '/Analytics/ByTrait';
+        })
+
+        $('#careerReport').click(function () {
+            window.location.href = '/Analytics/careers';
+        })
+
+        $('#interestsReport').click(function () {
+            window.location.href = '/Analytics/Byinterest';
+        })
+
+        $('#personReport').click(function () {
+            window.location.href = '/Analytics/StudentReports';
+        })
+
+    }
+</script>

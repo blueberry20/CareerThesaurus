@@ -1,0 +1,129 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+
+@model SkillCowRequestSubmissionClient
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    function settoday() {
+        $('#partitionkey').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#partitionkey').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+{
+    <table style="font-style: italic;">
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            <td><input type="submit" value="Go"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+        </tr>
+    </table>
+    
+}
+</div>
+@{
+    List<SkillCowRequestSubmission> allrecords = new List<SkillCowRequestSubmission>();
+    
+    DateTime cursordate = ViewBag.StartDate;
+    
+    while(cursordate<=ViewBag.EndDate)
+    {
+        CloudTableQuery<SkillCowRequestSubmission> query = Model.GetAll(cursordate.ToString("yyyyMMdd"));
+        allrecords.AddRange(query.Execute().OrderBy(x => x.Timestamp));
+        cursordate = cursordate.AddDays(1);
+    }
+    
+    
+}
+<br />
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <br />
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Zip</th>
+            <th>Grad</th>
+            <th>EDU</th>
+                        
+            <th>CampaignId</th>
+            <th>Client</th>
+            <th>Form</th>
+                        
+            <th>Attitude</th>
+            <th>Information</th>
+            <th>Processing</th>
+            <th>Action</th>
+            <th>Endurance</th>
+            <th>Presence</th>
+            <th>Concentration</th>
+            <th>Patterns</th>
+            <th>Compensation</th>
+            
+            
+        </tr>
+
+    @foreach (var submission in allrecords)
+    {
+        if (submission.TestResults != null && submission.TestResults != "")
+        {
+            try
+            {
+                JObject json = JObject.Parse(submission.TestResults);
+        <tr>
+            <td>@(submission.Name)</td>
+            <td>@(submission.Zip)</td>
+            <td>@(submission.GradYear)</td>
+            <td>@(submission.EduIntent)</td>
+                                                
+            <td>@(submission.CampaignId)</td>
+            <td>@(submission.ClientId)</td>
+            <td>@(submission.FormId)</td>
+                
+            <td>@(json["dimesions"][0]["Attitude"])</td>
+            <td>@(json["dimesions"][1]["Information"])</td>
+            <td>@(json["dimesions"][2]["Processing"])</td>
+            <td>@(json["dimesions"][3]["Action"])</td>
+            <td>@(json["dimesions"][4]["Endurance"])</td>
+            <td>@(json["dimesions"][5]["Presence"])</td>
+            <td>@(json["dimesions"][6]["Concentration"])</td>
+            <td>@(json["dimesions"][7]["Patterns"])</td>
+            <td>@(json["dimesions"][8]["Compensation"])</td>
+
+        </tr>
+            }
+            catch
+            {
+            }
+        }
+    }
+    </table>
+
+</div>
+
+
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+</style>

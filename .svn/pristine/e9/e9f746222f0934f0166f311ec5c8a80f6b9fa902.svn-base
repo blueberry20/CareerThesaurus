@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Request Info";
+}
+
+<link href="~/Content/css/Request/form.css" rel="stylesheet" />
+<script src="~/Scripts/Thesaurus/degreetaxonomy.js"></script>
+<script src="~/Scripts/Request/info.js"></script>
+<div id="formPage" class="pageContainer">
+    <div class="container">
+        <div id="schoolName" class="col-lg-12">
+            <div class="logo"></div>
+            <div class="description"></div>
+            <h1>Apply Now</h1>
+        </div>
+        @*<div class="schoolDescription col-lg-12">
+            <p>Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.</p>
+        </div>*@
+        
+        @*<div class="row text-center instructions">
+            Please fill out the fields below
+        </div>*@
+        <div>
+            <div id="formWrapper" class="col-lg-8">
+                <form role="form">
+                    <h2 id="contact-info-header">Your contact info</h2>
+                    <div id="contactInfo">
+                        <div class="sidenote">All fields are required</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="other-schools-wrapper">
+            <div class="col-lg-offset-1 col-lg-3">
+                <h2>Other schools</h2>
+                <p>These schools are competing to have you as a student as well! Select the schools you like, and your information will be submitted to them also.</p>
+                <div id="other-schools">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var programKeys = [];
+    var campusKeys = [];
+    var programGroups = [];
+    var searchZipcode;
+    var searchState;
+    var searchCity;
+    var searchValue = 65;
+    var searchFilter = 'degree';
+    var titleName = 'business';
+    var school = getCookie('schoolorjobform') == 'job' ? false : true;
+    var form_id;
+    var filters;
+    var programForForm;
+    var moreThenOneSchool = false;
+    var moreSchools = [];
+    function document_ready() {
+        searchZipcode = getCookie('formzip') ? getCookie('formzip') : getCookie('zip') ? getCookie('zip') : getCookie('ipzip');
+        $('[name="zip"]').val(searchZipcode);//.attr('oninput', 'zipcodeInput(this.value)').trigger('oninput');
+        $('.description').text(getCookie('formname'));
+        getCityAndState(searchZipcode, getForm);
+
+        $('form').submit(function (event) {
+            event.preventDefault();            
+            submitForm();
+        });
+    }   
+</script>

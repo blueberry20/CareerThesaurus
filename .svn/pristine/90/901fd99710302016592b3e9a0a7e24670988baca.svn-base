@@ -1,0 +1,475 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.UserAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.CounselorAccount;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@{
+    UserAccountClient uac = new UserAccountClient();
+    CounselorAccountClient cac = new CounselorAccountClient();
+    SchoolAccountClient sac = new SchoolAccountClient();
+    ViewBag.Title = "Student Reports";
+}
+
+
+<!--=============================ANALYTICS=============================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+<link href="~/Content/css/Analytics/analytics.css?v=@ViewBag.AppVersion" rel="stylesheet" /> 
+<link href="~/Content/css/Counselor/counselor.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/adminPortal.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/AdminPortal/Groups.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/Analytics/analyticsReports.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+
+<div class="pageContainer whiteBgPage blueBackground" id="studentListPage">
+    <div class="container positionRelative">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Drill Down</h2>
+                            <p>View and analyze any student's report card.</p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row">
+            <form method="post" action="/Analytics/Report">
+                <input type="hidden" name="studentemail" id="studentemail" value="" />
+            </form>
+            <div class="row orgRow">
+                <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="pull-right">
+                            <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                            <span class="changePw">
+                                <a href="/Account/ChangePassword">Change Password</a>
+                            </span>
+                        </li>
+                        @if (ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su")
+                        {
+                            <li><a href="/AdminPortal">Administrator Portal</a></li>
+                            <li><a href="/AdminPortal/Groups">Groups</a></li>
+                            <li><a href="/AdminPortal/Students">Students</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/CounselorPortal">Counselor Portal</a></li>
+                        }
+                        <li class="active activeTab"><a href="/Analytics">Analytics</a></li>
+                    </ul>
+                </div>
+            </div>
+            @*<div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="/Analytics">Home</a></li>
+                    <li class="active">Student Reports</li>
+                </ol>
+            </div>*@
+
+            <h1>Student Reports </h1>
+            <div class="row dropdownWrapper">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <label class="control-label">Year:</label>
+                        <div class="dropdown">
+                            <select id="yearSelect" class="dropdown-toggle">
+                                <option value="all">All</option>
+                                <option value="2015">2015</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <label class="control-label">Grade:</label>
+                        <div class="dropdown">
+                            <select id="gradeSelect" class="dropdown-toggle">
+                                <option value="all">All</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="cs">College Student</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <label class="control-label">Gender:</label>
+                        <div class="dropdown">
+                            <select id="genderSelect" class="dropdown-toggle">
+                                <option value="all">All</option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class='@(ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su" ? "col-lg-4 col-md-4 col-sm-12 col-xs-12" : "col-lg-6 col-md-6 col-sm-6 col-xs-12")'>
+                        <label class="control-label">Grade:</label>
+                        <div class="dropdown">
+                            <select id="gradeSelect" class="dropdown-toggle">
+                                <option value="all">All</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='@(ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su" ? "col-lg-4 col-md-4 col-sm-12 col-xs-12" : "col-lg-6 col-md-6 col-sm-6 col-xs-12")'>
+                        <label class="control-label">Gender:</label>
+                        <div class="dropdown">
+                            <select id="genderSelect" class="dropdown-toggle">
+                                <option value="all">All</option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                        </div>
+                    </div>*@
+                    @if (ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su" || true)
+                    {
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <label class="control-label">Students:</label>
+                            <div class="dropdown">
+                                <select id="counselorSelect" class="dropdown-toggle">
+                                    @if (ViewBag.ProfileType == "administrator" || ViewBag.ProfileType == "su")
+                                    {
+                                        <option value="all">All school</option>
+                                        <option value="@ViewBag.Email">@ViewBag.Name</option>
+
+                                        List<CounselorAccount> counselors = new List<CounselorAccount>(cac.GetAllBySchoolActive(ViewBag.School));
+                                        if (counselors.Count != 0)
+                                        {
+                                            List<UserAccount> accounts = new List<UserAccount>();
+                                            foreach (CounselorAccount counselor in counselors)
+                                            {
+                                                UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                                accounts.Add(account);
+                                            }
+                                            accounts.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+                                            foreach (UserAccount account in accounts)
+                                            {
+                                                <option value="@account.RowKey">@account.FirstName @account.LastName</option>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        SchoolAccount school = sac.GetByPartitionAndRowKey("school", ViewBag.School);
+                                        UserAccount admin = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(school.Admin), school.Admin);
+                                        <option value="all">All school</option>
+                                        <option value="@ViewBag.Email">@ViewBag.Name</option>
+                                        <option value="@admin.RowKey">@admin.FirstName @admin.LastName</option>
+                                        List<CounselorAccount> counselors = new List<CounselorAccount>(cac.GetAllBySchoolActive(ViewBag.School));
+                                        if (counselors.Count != 0)
+                                        {
+                                            List<UserAccount> accounts = new List<UserAccount>();
+                                            foreach (CounselorAccount counselor in counselors)
+                                            {
+                                                UserAccount account = uac.GetByPartitionAndRowKey(UserAccountClient.GetPartitionKeyForEmail(counselor.RowKey), counselor.RowKey);
+                                                if (account.RowKey != ViewBag.Email)
+                                                {
+                                                    accounts.Add(account);
+                                                }
+                                            }
+                                            accounts.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+                                            foreach (UserAccount account in accounts)
+                                            {
+                                                <option value="@account.RowKey">@account.FirstName @account.LastName</option>
+                                            }
+                                        }
+                                        @*<option value="mystudents">My students</option>*@
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @*<div class="row">
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-success viewAnalyticsBtn">View results</button>
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="control-label">Groups:</label>
+                        <div class="dropdown">
+                            <select id="groupSelect" class="dropdown-toggle" onchange="selectGroup(this.value);">
+                                <option value="all">All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 resultsButtonWrapper">
+                        <button class="btn btn-success viewAnalyticsBtn">View results</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="report">
+            <div class="shortBlueDiv" id="noresults"><p>Please select criteria before viewing results.</p></div>
+            <div class="clearer">&nbsp;</div>
+            <div class="statsBlock"></div>
+        </div>
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row bottomDemo">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                        <h2>Drill Down</h2>
+                        <p>View and analyze any student's report card.</p>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                            <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                            <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script>
+    var school = '@ViewBag.School';
+    var currentYear = parseInt('@ViewBag.Year');
+    var globalData;
+
+    function document_ready() {
+        $('.ratingNumber i').tooltip();
+        var yearsHtml = '<option value="all">All</option>';
+        for (var i = 2015; i <= currentYear; i++) {
+            yearsHtml += '<option value="' + i + '"' + (i == currentYear ? ' selected ' : '') + '>' + i + '</option>';
+        }
+        $('#yearSelect').html(yearsHtml);
+        $('.viewAnalyticsBtn').click(function () {
+            getData();
+        });
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        });
+        $('.viewAnalyticsBtn').click();
+    }
+    function getData() {
+        var year = $('#yearSelect').val();
+        var grade = $('#gradeSelect').val();
+        var gender = $('#genderSelect').val();
+        var counselor = $('#counselorSelect').val();
+        $.ajax({
+            url: appserverurl + '/analytics/GetStudentsV3',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                year: year == 'all' ? '' : year,
+                grade: grade == 'all' ? '' : grade,
+                gender: gender == 'all' ? '' : gender,
+                counselor: counselor == 'all' ? '' : counselor,
+                schoolrow: school
+            }
+        }).success(function (response) {
+            globalData = response.results;
+            prepareData();
+            //$('#report').html();
+            //var html = '<div class="row studentNames">' +
+            //                '<div class="searchBoxWrapper">' +
+            //                '<input id="searchbox" type="text" placeholder="Search by student\'s name" onkeyup="searchName(this.value);">' +
+            //                '</div>' +
+            //                '<p class="subheading">Click to view student\'s report card</p>' +
+            //                '<ol class="studentList">'
+            //var data = response.results;
+            //data.sort(sort_by('firstName', { name: 'lastName', primer: null, reverse: false }));
+
+            //for (var i = 0; i < data.length; i++) {
+            //    html += '<li class="studentName"><a data-rowkey="' + data[i].Email + '" onclick="selectStudent(this);">' + data[i].firstName + ' ' + data[i].lastName + '</a><i class="fa fa-angle-right arrowRight"></i></li>';
+            //}
+
+            //html += '</ol></div>';
+
+            //if (data.length != 0) {
+            //    $('#report').html(html);
+            //} else {
+            //    $('#report').html('<div class="noResultsError"><p>There are no students in your groups yet</div>');
+            //}
+
+        }).error(function (response) {
+            console.log(response);
+        });
+    }
+
+    function selectGroup(value) {
+        if (value && value != '') {
+            prepareData(value);
+        } else {
+            prepareData();
+        }
+    }
+    function prepareData(selectedGroup) {
+        var data = [];
+        if (!selectedGroup) {
+            var groups = globalData.map(function (x) { return x.group; });
+            groups.sort();
+            var html = '<option value="all">All</option>';
+            for (var i = 0; i < groups.length; i++) {
+                html += '<option value="' + groups[i] + '">' + groups[i] + '</option>';
+            }
+            $('#groupSelect').html(html);
+        }
+        if (selectedGroup && selectedGroup != "all") {
+            var dim = globalData.filter(function (x) { return x.group == selectedGroup; })[0];
+            if (dim) {
+                data = dim.students;
+            }
+        } else {
+            for (var i = 0; i < globalData.length; i++) {
+                data = data.concat(globalData[i].students);
+            }
+        }
+        renderHtml(data);
+    }
+
+    function renderHtml(data) {
+        $('#report').html('');
+        var html = '<div class="row studentNames">' +
+                        '<div class="searchBoxWrapper">' +
+                        '<input id="searchbox" type="text" placeholder="Search by student\'s name" onkeyup="searchName(this.value);">' +
+                        '</div>' +
+                        '<p class="subheading">Click to view student\'s report card</p>'+
+                        '<div class="iconExplanation">'+
+                            '<div><i class="tir fa fa-check"></i><span>indicates careers that were rated and considered.</span></div>' +
+                            '<div><i class="tir fa fa-remove"></i><span>indicates careers that were rated and NOT considered.</span></div>' +
+                        '</div>' +
+                        '<ol class="studentList">'
+
+        data.sort(sort_by('firstName', { name: 'lastName', primer: null, reverse: false }));
+
+        for (var i = 0; i < data.length; i++) {
+            // data[i].careers - favorite careers
+            // data[i].dislikecareers - didnt like careers
+            html += '<li class="studentName"><a data-rowkey="' + data[i].Email + '" onclick="selectStudent(this);">' + data[i].firstName + ' ' + data[i].lastName + '</a><span class="ratingNumber disliked"><i data-toggle="tooltip" data-placement="top" title="# of Careers rated and considered" class="tir fa fa-check"></i>' + data[i].careers + '</span><span class="ratingNumber liked"><i data-toggle="tooltip" data-placement="top" title="# of Careers rated and NOT considered" class="tir fa fa-remove"></i>' + data[i].dislikecareers + '</span><i class="fa fa-angle-right arrowRight"></i></li>';
+        }
+
+        html += '</ol></div>';
+
+        if (data.length != 0) {
+            $('#report').html(html);
+        } else {
+            $('#report').html('<div class="noResultsError"><p>There are no students in your groups yet</div>');
+        }
+        $('[data-toggle="tooltip"]').tooltip();
+       // $('.ratingNumber i').tooltip();
+    }
+
+    function searchName(value) {
+        $('.studentName').each(function (index, element) {
+            var name = $(element).find('a').text().toLowerCase();
+            var regex = new RegExp(value.toLowerCase());
+            if (!regex.test(name)) {
+                $(element).hide();
+            } else {
+                $(element).show();
+            }
+        });
+    }
+    function selectStudent(element) {
+        var rowkey = $(element).data('rowkey');
+        $('#studentemail').val(rowkey);
+        $('form').submit();
+    }
+    function formatter(value, settings) {
+        return value.toFixed(settings.decimals).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.\d/, '');
+    }
+
+    var sort_by;
+
+    (function () {
+        // utility functions
+        var default_cmp = function (a, b) {
+            a = a.toLowerCase();
+            b = b.toLowerCase();
+            if (a == b) return 0;
+            return a < b ? -1 : 1;
+        },
+            getCmpFunc = function (primer, reverse) {
+                var dfc = default_cmp, // closer in scope
+                    cmp = default_cmp;
+                if (primer) {
+                    cmp = function (a, b) {
+                        return dfc(primer(a), primer(b));
+                    };
+                }
+                if (reverse) {
+                    return function (a, b) {
+                        return -1 * cmp(a, b);
+                    };
+                }
+                return cmp;
+            };
+
+        // actual implementation
+        sort_by = function () {
+            var fields = [],
+                n_fields = arguments.length,
+                field, name, reverse, cmp;
+
+            // preprocess sorting options
+            for (var i = 0; i < n_fields; i++) {
+                field = arguments[i];
+                if (typeof field === 'string') {
+                    name = field;
+                    cmp = default_cmp;
+                }
+                else {
+                    name = field.name;
+                    cmp = getCmpFunc(field.primer, field.reverse);
+                }
+                fields.push({
+                    name: name,
+                    cmp: cmp
+                });
+            }
+
+            // final comparison function
+            return function (A, B) {
+                var a, b, name, result;
+                for (var i = 0; i < n_fields; i++) {
+                    result = 0;
+                    field = fields[i];
+                    name = field.name;
+
+                    result = field.cmp(A[name], B[name]);
+                    if (result !== 0) break;
+                }
+                return result;
+            }
+        }
+    }());
+</script>

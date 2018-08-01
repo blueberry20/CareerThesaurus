@@ -1,0 +1,188 @@
+﻿@model UXEventClient
+@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using SkillCow.Classes.Helpers
+@using Newtonsoft.Json.Linq
+@using SkillCow.Classes.Cloud.TableStorage
+@using Microsoft.WindowsAzure.StorageClient
+@{
+    
+}
+<script>
+    function settoday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+    {
+    <table style="font-style: italic;">
+        <tr>
+            <td>Search name:</td>
+            <td><input type="text" id="searchname" name="searchname" value="@(ViewBag.SearchName)"/> </td>
+        </tr>
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+            <td><input type="submit" value="Go"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+        </tr>
+        
+    </table>
+    
+    }
+</div>
+
+@{
+    //SUBMISSION CLIENT
+    SkillCowRequestSubmissionClient rsc = new SkillCowRequestSubmissionClient();
+    List<SkillCowRequestSubmission> allsubmissions = new List<SkillCowRequestSubmission>();
+    
+    //EVENT RECORDS
+    List<UXEvent> allrecords = new List<UXEvent>();
+    DateTime cursordate = ViewBag.StartDate;
+    while (cursordate <= ViewBag.EndDate)
+    {
+        CloudTableQuery<UXEvent> query = Model.GetAll(cursordate.ToString("yyyyMMdd"));
+        allrecords.AddRange(query.Execute().OrderBy(x => x.Email));
+
+        CloudTableQuery<SkillCowRequestSubmission> submissionquery = rsc.GetAll(cursordate.ToString("yyyyMMdd"));
+        allsubmissions.AddRange(submissionquery.Execute().Where(x=>x.ClientId!=null && x.ClientId!="20").OrderBy(x => x.Timestamp));
+        
+        cursordate = cursordate.AddDays(1);
+    }
+    
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    <h1>UX Events</h1>
+    <table>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                EventName
+            </th>
+            <th>
+                GradYear
+            </th>
+            <th>
+                Zip
+            </th>
+            <th>
+                TestData
+            </th>
+            <th>
+                ImportantThings
+            </th>
+            <th>
+                ProfessionsRecomended
+            </th>
+            <th>
+                ProfessionsSelected
+            </th>
+            <th>
+                CustomData
+            </th>
+            <th>
+                Submissions
+            </th>
+        </tr>
+    
+    @foreach (var item in allrecords)
+    {
+        
+        JObject json = null;
+        if (item.CustomData != null && item.CustomData != "")
+        {
+            json = JObject.Parse(item.CustomData);
+        }
+
+        string bgcolor = "";
+
+        int gy;
+        if (json!=null && int.TryParse(item.GradYear, out gy))
+        {
+            if (gy < 2014)
+            {
+                if (json["status"].ToString() != "shown")
+                {
+                    bgcolor = "rgba(255,0,0,0.3)";
+                }
+                else if ((int)json["count"] < 4)
+                {
+                    bgcolor = "rgba(255,64,0,0.3)";
+                }
+                else if ((int)json["count"] == 4)
+                {
+                    bgcolor = "rgba(0,255,0,0.3)";
+                }
+            }
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GradYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestData)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImportantThings)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfessionsRecomended)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfessionsSelected)
+            </td>
+            <td style="background-color:@bgcolor">
+                @Html.DisplayFor(modelItem => item.CustomData)
+            </td>
+            <td>
+                @if(json!=null){
+                    IEnumerable<SkillCowRequestSubmission> leads = allsubmissions.Where(x => x.SchoolSearchResultId == json["searchresultid"].ToString());
+                    if (leads.Count() > 0)
+                    {
+                        <table>
+                            @foreach (SkillCowRequestSubmission lead in leads)
+                            {
+                                <tr>
+                                    <td>@lead.ClientId</td>
+                                    <td>@lead.FormId</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+            </td>
+        </tr>
+    }
+    
+    </table>
+</div>

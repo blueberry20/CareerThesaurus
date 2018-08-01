@@ -1,0 +1,343 @@
+﻿@using System.Xml
+@using SkillCow.Classes.Helpers
+@using SkillCow.Classes.Cloud.TableStorage
+@model XmlDocument
+@{
+    ViewBag.Title = "Manual Test";
+}
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <table>
+        <tr>
+            <td>
+                <table class="attributes">
+                    <tr><td dimension="Attitude">Extravert</td><td dimension="Attitude">Introvert</td><td dimension="Attitude">Either</td></tr>
+                    <tr><td dimension="Information">Facts</td><td dimension="Information">Imagination</td><td dimension="Information">Either</td></tr>
+                    <tr><td dimension="Processing">Rational</td><td dimension="Processing">Emotional</td><td dimension="Processing">Either</td></tr>
+
+                    <tr><td dimension="Action">Process</td><td dimension="Action">Result</td><td dimension="Action">Either</td></tr>
+                    <tr><td dimension="Endurance">Stationary</td><td dimension="Endurance">Mobile</td><td dimension="Endurance">Either</td></tr>
+                    <tr><td dimension="Presence">Present</td><td dimension="Presence">Remote</td><td dimension="Presence">Either</td></tr>
+
+                    <tr><td dimension="Concentration">Relaxed</td><td dimension="Concentration">Focused</td><td dimension="Concentration">Either</td></tr>
+                    <tr><td dimension="Patterns">Discover</td><td dimension="Patterns">Routine</td><td dimension="Patterns">Either</td></tr>
+                    <tr><td dimension="Compensation">Fixed</td><td dimension="Compensation">Variable</td><td dimension="Compensation">Either</td></tr>
+                </table>
+            </td>
+            <td>
+                <table class="importantthings">
+                    <tr><td>Beauty</td><td>People</td><td>Creativity</td></tr>
+                    <tr><td>Helping</td><td>Science</td><td>Admiration</td></tr>
+                    <tr><td>Adventure</td><td>Easy</td><td>Competition</td></tr>
+                    <tr><td>Safety</td><td>Duty</td><td>Animals</td></tr>
+                    <tr><td>Technology</td><td>Growth</td><td>Politics</td></tr>
+                </table>
+            </td>
+            <td>
+                <input id="btnsearch" type="button" value="Search" />
+            </td>
+        </tr>
+    </table>
+
+    <table id="jobresults">
+        
+    </table>
+
+    <input type="hidden" id="DimensionAttitude" />
+    <input type="hidden" id="DimensionInformation" />
+    <input type="hidden" id="DimensionProcessing" />
+
+    <input type="hidden" id="DimensionAction" />
+    <input type="hidden" id="DimensionEndurance" />
+    <input type="hidden" id="DimensionPresence" />
+
+    <input type="hidden" id="DimensionConcentration" />
+    <input type="hidden" id="DimensionPatterns" />
+    <input type="hidden" id="DimensionCompensation" />
+
+
+    <input type="hidden" id="ImportantThingsBeauty" />
+    <input type="hidden" id="ImportantThingsHelping" />
+    <input type="hidden" id="ImportantThingsAdventure" />
+    <input type="hidden" id="ImportantThingsSafety" />
+    <input type="hidden" id="ImportantThingsTechnology" />
+
+    <input type="hidden" id="ImportantThingsPeople" />
+    <input type="hidden" id="ImportantThingsScience" />
+    <input type="hidden" id="ImportantThingsEasy" />
+    <input type="hidden" id="ImportantThingsDuty" />
+    <input type="hidden" id="ImportantThingsGrowth" />
+
+    <input type="hidden" id="ImportantThingsCreativity" />
+    <input type="hidden" id="ImportantThingsAdmiration" />
+    <input type="hidden" id="ImportantThingsCompetition" />
+    <input type="hidden" id="ImportantThingsAnimals" />
+    <input type="hidden" id="ImportantThingsPolitics" />
+</div>
+
+
+<script>
+    var inputs = new Array();
+    var importantthings = new Array();
+
+    function document_ready() {
+
+        $('.attributes tr td').click(function () {
+            $('td[dimension="' + $(this).attr('dimension') + '"]').removeClass('selected');
+            $('td[dimension="' + $(this).attr('dimension') + '"]').filter(':contains("' + $(this).html() + '")').addClass('selected');
+
+            setDimensionVariable($(this).attr('dimension'), $(this).html());
+        });
+
+        $('.importantthings tr td').click(function () {
+            var e = $('.importantthings td').filter(':contains("' + $(this).html() + '")');
+
+            if (e.hasClass('selected')) {
+                e.removeClass('selected');
+                setImportantThingVariable($(this).html(), '');
+            }
+            else {
+                e.addClass('selected');
+                setImportantThingVariable($(this).html(), $(this).html());
+            }
+
+        });
+
+        $('#btnsearch').click(function () {
+            saveDimensionsAsJson();
+            saveImportantThingsAsJson();
+
+            searchTenJobs();
+        });
+    }
+
+    function setDimensionVariable(dimension, value) {
+        $('#Dimension' + dimension).val(value);
+
+        var found = false;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].dimension == dimension) {
+                inputs[i].value = value;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            inputs.push({dimension:dimension, value: value});
+        }
+
+    }
+    function setImportantThingVariable(name, value) {
+        $('#ImportantThings' + name).val(value);
+
+        var numericvalue = value == name ? 1 : 0;
+
+        var found = false;
+        for (var i = 0; i < importantthings.length; i++) {
+            if (importantthings[i].name == name) {
+                importantthings[i].value = numericvalue;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            importantthings.push({ name: name, value: numericvalue });
+        }
+    }
+
+    var dimensionsjson = "";
+    var importantthingsjson = "";
+
+    function saveDimensionsAsJson() {
+    
+        var results = '{';
+
+        var dimensions = '';
+        var dimensionsasproperties = '';
+
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            if (input.value != '') {
+                if (i < inputs.length - 1) {
+                    dimensions += '{"' + input.dimension + '":"' + input.value + '"},';
+                    dimensionsasproperties += '"' + input.dimension + '":"' + input.value + '",';
+                }
+                else {
+                    dimensions += '{"' + input.dimension + '":"' + input.value + '"}';
+                    dimensionsasproperties += '"' + input.dimension + '":"' + input.value + '"';
+                }
+            }
+        }
+
+        if (dimensions != '') {
+            results += '"dimesions":[' + dimensions + '],' + dimensionsasproperties;
+        }
+
+        results += '}';
+
+        dimensionsjson = results;
+    }
+
+    function saveImportantThingsAsJson() {
+
+        var results = '{';
+        var things = '';
+        var thingsasproperties = '';
+        var cnt = 0;
+
+        for (var i = 0; i < importantthings.length; i++) {
+            var thing = importantthings[i];
+            if (thing.value == 1 || thing.value == "1") {
+                if (cnt > 0) {
+                    things += ', {"name":"' + thing.name + '"}';
+                    thingsasproperties += ', "' + thing.name + '":"' + thing.name + '"';
+                }
+                else {
+                    things += '{"name":"' + thing.name + '"}';
+                    thingsasproperties += '"' + thing.name + '":"' + thing.name + '"';
+                }
+                cnt++;
+            }
+        }
+
+        if (things != '') {
+            results += '"importantthings":[' + things + '], '+thingsasproperties;
+        }
+
+        results += '}';
+
+        importantthingsjson = results;
+    }
+</script>
+
+<style>
+    .attributes { background-color: #fff; padding: 20px; border-radius: 10px 10px; display: inline-block;}
+    .attributes tr td {font-size: 12pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; font-weight: bold;}
+    .attributes tr td.selected {color: rgba(128,0,0,1);}
+    
+    .importantthings { background-color: #fff; padding: 20px; border-radius: 10px 10px;display: inline-block;}
+    .importantthings tr td {font-size: 12pt; color: rgba(0,0,0,0.3); cursor: pointer; padding-right: 20px; font-weight: bold;}
+    .importantthings tr td.selected {color: rgba(0,0,128,1);}
+</style>
+
+<script>
+
+    function searchTenJobs() {
+
+        $('#jobresults').html('');
+
+        $.ajax({
+            url: appserverurl + "/TenJobs/MatchJobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                zip: '11230',
+                attributes: dimensionsjson,
+                things: importantthingsjson
+            }
+        }).success(function (response) {
+
+            var htr = '<tr>' +
+                '<th>logo</th>' +
+                '<th>company</th>' +
+                '<th>title</th>' +
+                '<th>location</th>' +
+
+                '<th>Att</th>' +
+                '<th>Act</th>' +
+                '<th>Comp</th>' +
+                '<th>Focus</th>' +
+                '<th>Endur</th>' +
+                '<th>Info</th>' +
+                '<th>Patt</th>' +
+                '<th>Proc</th>' +
+                '<th>Pres</th>' +
+                '<th>Score</th>' +
+
+                '<th>Admi</th>' +
+                '<th>Adv</th>' +
+                '<th>Nat</th>' +
+                '<th>Beau</th>' +
+                '<th>Comp</th>' +
+
+                '<th>Crea</th>' +
+                '<th>Duty</th>' +
+                '<th>Easy</th>' +
+                '<th>Grow</th>' +
+                '<th>Help</th>' +
+
+                '<th>Peop</th>' +
+                '<th>Poli</th>' +
+                '<th>Safe</th>' +
+                '<th>Sci</th>' +
+                '<th>Tech</th>' +
+                '<th>Score</th>' +
+
+                '</tr>';
+
+            $('#jobresults').append(htr);
+
+            var jobs = response.jobs.sort(sortbyjobmatchscore);
+
+            for (var i = 0; i < response.jobs.length; i++) {
+                var x = response.jobs[i];
+
+                var tr = '<tr>' +
+
+                '<td><img src="' + x.logoimage + '" style="height: 40px;"/></td>' +
+                '<td>' + x.clientname + '</td>' +
+                '<td>' + x.jobtitle + '</td>' +
+                '<td>' + x.formattedlocation + '</td>' +
+
+                '<td>' + x.dimattitude + '</td>' +
+                '<td>' + x.dimaction + '</td>' +
+                '<td>' + x.dimcompensation + '</td>' +
+                '<td>' + x.dimconcentration + '</td>' +
+                '<td>' + x.dimendurance + '</td>' +
+                '<td>' + x.diminformation + '</td>' +
+                '<td>' + x.dimpatterns + '</td>' +
+                '<td>' + x.dimprocessing + '</td>' +
+                '<td>' + x.dimpresence + '</td>' +
+
+                '<td><b>' + x.attributescore + '</b></td>' +
+
+                '<td>' + (x.thingadmiration == null ? "" : x.thingadmiration) + '</td>' +
+                '<td>' + (x.thingadventure == null ? "" : x.thingadventure) + '</td>' +
+                '<td>' + (x.thinganimals == null ? "" : x.thinganimals) + '</td>' +
+                '<td>' + (x.thingbeauty == null ? "" : x.thingbeauty) + '</td>' +
+                '<td>' + (x.thingcompetition == null ? "" : x.thingcompetition) + '</td>' +
+
+                '<td>' + (x.thingcreativity == null ? "" : x.thingcreativity) + '</td>' +
+                '<td>' + (x.thingduty == null ? "" : x.thingduty) + '</td>' +
+                '<td>' + (x.thingeasy == null ? "" : x.thingeasy) + '</td>' +
+                '<td>' + (x.thinggrowth == null ? "" : x.thinggrowth) + '</td>' +
+                '<td>' + (x.thinghelping == null ? "" : x.thinghelping) + '</td>' +
+
+                '<td>' + (x.thingpeople == null ? "" : x.thingpeople) + '</td>' +
+                '<td>' + (x.thingpolitics == null ? "" : x.thingpolitics) + '</td>' +
+                '<td>' + (x.thingsafety == null ? "" : x.thingsafety) + '</td>' +
+                '<td>' + (x.thingscience == null ? "" : x.thingscience) + '</td>' +
+                '<td>' + (x.thingtechnology == null ? "" : x.thingtechnology) + '</td>' +
+
+                '<td><b>' + x.importantthingsscore + '</b></td>' +
+
+                '</tr>';
+
+                $('#jobresults').append(tr);
+            }
+
+        }).error(function (response) {
+            alert(response.errormessage);
+        });
+
+    }
+
+    function sortbyjobmatchscore(a, b) {
+        if ((a.attributescore + a.importantthingsscore) < (b.attributescore + b.importantthingsscore))
+            return 1;
+        if ((a.attributescore + a.importantthingsscore) > (b.attributescore + b.importantthingsscore))
+            return -1;
+        return 0;
+    }
+    
+</script>

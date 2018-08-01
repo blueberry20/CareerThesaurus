@@ -1,0 +1,316 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.PersonalityTests.SkillCowRequestSubmissions
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@using SkillCow.Classes.Helpers
+@model SkillCowRequestSubmissionClient
+@{
+    ViewBag.Title = "Dump";
+}
+
+<script>
+    function settoday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+    function setyesterday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        document.forms[0].submit();
+    }
+
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+    {
+        <table style="font-style: italic;">
+            <tr>
+                <td>Start date:</td>
+                <td><input type="text" id="startdate" name="startdate" value="@(ViewBag.StartDate.ToString("yyyyMMdd"))"/> </td>
+            </tr>
+            <tr>
+                <td>End date:</td>
+                <td><input type="text" id="enddate" name="enddate" value="@(ViewBag.EndDate.ToString("yyyyMMdd"))"/> </td>
+                <td><input type="submit" value="Go"/></td>
+                <td><input type="button" value="Today" onclick="settoday();"/></td>
+                <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+            </tr>
+        </table>
+    
+    }
+</div>
+@{
+    List<SkillCowRequestSubmission> allrecords = new List<SkillCowRequestSubmission>();
+
+    DateTime cursordate = ViewBag.StartDate;
+
+    while (cursordate <= ViewBag.EndDate)
+    {
+        CloudTableQuery<SkillCowRequestSubmission> query = Model.GetAll(cursordate.ToString("yyyyMMdd"));
+        allrecords.AddRange(query.Execute().OrderBy(x => x.Timestamp));
+        cursordate = cursordate.AddDays(1);
+    }
+}
+
+<br />
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>All Data</h1>
+    <br />
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>UtmSource</th>
+            <th>Gender</th>
+            <th>Name</th>
+            <th>Zip</th>
+            <th>GradYear</th>
+
+            <th>Attitude</th>
+            <th>Info</th>
+            <th>Processing</th>
+            <th>Action</th>
+            <th>Endurance</th>
+            
+            <th>Presence</th>
+            <th>Concentration</th>
+
+            <th>Patterns</th>
+            <th>Comp</th>
+
+            <th>Prof 1</th>
+            <th>Prof 2</th>
+            <th>Prof 3</th>
+            <th>Prof 4</th>
+            <th>Prof 5</th>
+
+        </tr>
+        
+        @using (StreamWriter sw = new StreamWriter(@"c:\chaindate\skillcow\dump.csv"))
+        {
+            foreach (SkillCowRequestSubmission x in allrecords)
+            {
+                if (x.Recommendations != null && x.Recommendations != "" &&
+                    x.TestResults != null && x.TestResults != "")
+                {
+                    JObject results = null;
+
+                    JToken professions = null;
+
+                    try
+                    {
+                        results = JObject.Parse(x.TestResults);
+                    }
+                    catch
+                    {
+                    }
+                    try
+                    {
+                        professions = JObject.Parse(x.Recommendations)["professions"];
+                    }
+                    catch
+                    {
+                    }
+            
+                    <tr>
+                        <td>@x.Timestamp</td>
+                        <td>@x.UtmSource</td>
+                        <td>@x.Gender</td>
+                        <td>@x.Name</td>
+                        <td>@x.Zip</td>
+                
+                        <td>@x.GradYear</td>
+                
+                
+                        @if (results != null)
+                        {
+                            try
+                            {
+                                <td>@results["dimesions"][0]["Attitude"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][1]["Information"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][2]["Processing"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][3]["Action"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][4]["Endurance"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][5]["Presence"].ToString()</td>
+                    
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][6]["Concentration"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][7]["Patterns"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+                            try
+                            {
+                                <td>@results["dimesions"][8]["Compensation"].ToString()</td>
+                            }
+                            catch
+                            {
+                                <td></td>
+                            }
+
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                
+                        @if (professions != null)
+                        {
+                            try
+                            {
+                            <td>@(professions.Count() > 0 ? professions[0]["name"].ToString().Replace(";", "") : "")</td>
+                            }
+                            catch { }
+                            try
+                            {
+                            <td>@(professions.Count() > 1 ? professions[1]["name"].ToString().Replace(";", "") : "")</td>
+                            }
+                            catch { }
+                            try
+                            {
+                            <td>@(professions.Count() > 2 ? professions[2]["name"].ToString().Replace(";", "") : "")</td>
+                            }
+                            catch { }
+                            try
+                            {
+                            <td>@(professions.Count() > 3 ? professions[3]["name"].ToString().Replace(";", "") : "")</td>
+                            }
+                            catch { }
+                            try
+                            {
+                            <td>@(professions.Count() > 4 ? professions[4]["name"].ToString().Replace(";", "") : "")</td>
+                            }
+                            catch { }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                
+                    </tr>
+                
+
+
+                    //Write dump file
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append(x.Timestamp + ",");
+                    sb.Append(x.Gender + ",");
+                    sb.Append(x.Name+ ",");
+                    sb.Append(x.Zip+ ",");
+                    sb.Append(x.GradYear+ ",");
+
+                    if (results != null)
+                    {
+                        try
+                        {
+                            StringBuilder sb2 = new StringBuilder();
+                            sb2.Append(results["dimesions"][0]["Attitude"].ToString() + ",");
+                            sb2.Append(results["dimesions"][1]["Information"].ToString() + ",");
+                            sb2.Append(results["dimesions"][2]["Processing"].ToString() + ",");
+                            
+                            sb2.Append(results["dimesions"][3]["Action"].ToString() + ",");
+                            sb2.Append(results["dimesions"][4]["Endurance"].ToString() + ",");
+                            sb2.Append(results["dimesions"][5]["Presence"].ToString() + ",");
+
+                            sb2.Append(results["dimesions"][6]["Concentration"].ToString() + ",");
+                            sb2.Append(results["dimesions"][7]["Patterns"].ToString() + ",");
+                            sb2.Append(results["dimesions"][8]["Compensation"].ToString() + ",");
+
+                            sb.Append(sb2.ToString());
+                        }
+                        catch{
+                            sb.Append(",,,,,,,,,");
+                        }
+                    }
+                
+                    if (professions != null)
+                    {
+                        sb.Append((professions.Count() > 0 ? professions[0]["name"].ToString().Replace(";", "") : "") + ",");
+                        sb.Append((professions.Count() > 1 ? professions[1]["name"].ToString().Replace(";", "") : "") + ",");
+                        sb.Append((professions.Count() > 2 ? professions[2]["name"].ToString().Replace(";", "") : "") + ",");
+                        sb.Append((professions.Count() > 3 ? professions[3]["name"].ToString().Replace(";", "") : "") + ",");
+                        sb.Append((professions.Count() > 4 ? professions[4]["name"].ToString().Replace(";", "") : ""));
+                    }
+
+                    sw.WriteLine(sb.ToString());
+                }
+            }
+        }
+
+        
+    </table>
+    
+</div>
+
+
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+</style>

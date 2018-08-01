@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;    
+}
+
+<style>
+    html,body
+    {
+        background-color: #fff; padding:0; font-family: Arial; color: #333; font-size: 10pt; 
+        background-image: url("/Content/Images/cows_field_background.jpg");
+        background-attachment: fixed;
+        background-position: center top;
+        background-repeat: no-repeat;
+    }
+</style>
+    
+<link href="@Url.Content("~/Content/css/common/Site.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/css/common/decorations.css")" rel="stylesheet" type="text/css" />
+
+<div style="background-color: rgba(255,255,255,0.5); padding: 20px;" class="rounded10">
+    <img src="/content/images/logo.png"/>
+    <div class="vm-container-three"">
+        <div class="vm-container-five">
+            <!-- **************** Brokers Web **************** -->
+            <script type="text/javascript" src="http://www.bwserver.net/scripts/vmGeoLocation.v1.php"></script>
+            <script type="text/javascript" src="http://www.bwserver.net/12300/12368/scripts/bw-load-edu-fr-7587.js"></script>
+            <!-- **************** End Brokers Web **************** -->
+            <script>
+                //Show VM listings
+                vm_loadListings({
+                    prodId: @(ViewBag.ProgramID), 
+                    aid: 12368, 
+                    cid: @(ViewBag.CampaignID),
+                    adSource: ''
+                });
+            </script>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .footer {}
+    .footer ul {}
+    .footer ul li { display: inline-block; margin: 0 5px 0 5px;}
+    .footer ul li a {color: #000;}
+</style>
+<div class="footer rounded10 pagecontent" style="width: 950px; margin: 1px auto; background-color: rgba(255,255,255,0.5); padding: 1px 5px 1px 5px;">
+    <ul style="list-style: none;">
+        <li><a href="http://www.skillcow.com">Home</a></li>
+        <li><a href="/theprivacypolicy">Privacy</a></li>
+        <li><a href="/terms">Terms of Use</a></li>
+    </ul>
+</div>

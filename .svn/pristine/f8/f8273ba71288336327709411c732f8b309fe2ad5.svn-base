@@ -1,0 +1,423 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentCareerRating;
+@{
+    AssessmentCareerRatingClient acrc = new AssessmentCareerRatingClient();
+    ViewBag.Title = "Student";
+}
+
+<!--========================Student Home Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css" rel="Stylesheet" />
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js"></script>
+<div class="pageContainer whiteBgPage" id="studentPage">
+    <div class="container">
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Student Home</span>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                <span class="welcomeMsg">Hello @ViewBag.Name!</span>
+            </div>
+        </div>
+
+        <div class="row alert alert-warning">
+            <h2>Please complete the following goals as part of your assignment</h2>
+        </div>
+
+        @*<div class="row squaresRow">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 notCompletedStepDiv" id="stepOne">
+                    <h3>Step 1</h3>
+                    <div class="squareStep">
+
+                        <span class="squareText">
+                            <img src="../../Content/images/testicon.png" alt="" />
+                            <p>Take the Test</p>
+                        </span>
+                    </div>
+                    <span class="glyphicon glyphicon-ok"></span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 notCompletedStepDiv" id="stepTwo">
+                    <h3>Step 2</h3>
+                    <div class="squareStep">
+                        <span class="squareText">
+                            <img src="../../Content/images/peopleicon.png" alt="" />
+                            <p>Rate Your Matching Careers</p>
+                        </span>
+                    </div>
+                    <span class="glyphicon glyphicon-ok"></span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 notCompletedStepDiv currentStep" id="stepThree">
+                    <h3>Step 3</h3>
+                    <div class="squareStep">
+                        <span class="squareText">
+                            <img src="../../Content/images/headicon.png" alt="" />
+                            <p>Rate Your Life Interests</p>
+                        </span>
+                    </div>
+                    <span class="glyphicon glyphicon-ok"></span>
+                </div>
+            </div>*@
+
+
+
+        <div class="squaresRow">
+            <div class="row goal notCompletedStepDiv" id="stepOne">
+                <h3><span class="glyphicon glyphicon-ok"></span>Goal 1. Pick your life interests<i class="fa fa-angle-down arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></h3>
+                <div class="stepCollapse">
+                    <span class="circleIcon">
+                        <img src="../../Content/images/headicon.png" alt="" />
+                    </span>
+                    <div class="row">
+                        <div>
+                            <p>Go through a list of interests, and select which interests are important to you. </p>
+                        </div>
+                        <a href="/Assessment/RateInterests" class="btn blueBorderBtn">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="separator row"></div>
+            <div class="row goal notCompletedStepDiv" id="stepTwo">
+                <h3><span class="glyphicon glyphicon-ok"></span>Goal 2. View and Rate Careers<i class="fa fa-angle-down arrowDown"></i><i class="fa fa-angle-up arrowUp"></i></h3>
+                <div class="stepCollapse">
+                    <span class="circleIcon">
+                        <img src="../../Content/images/peopleicon.png" alt="" />
+                    </span>
+                    <h4>There are a few ways to find and rate careers</h4>
+                    <div class="row">
+                        <div class="option optionOne col-lg-3 col-md-3 col-sm-3">
+                            <div class="">
+                                <h5>Option 1</h5>
+                                <h6>View All Careers</h6>
+                                <p>View the list of all 742 careers. Group them, sort them any way you want. Select and rate the ones you are definitely interested in and the ones you are definitely not!</p>
+                                <a href="/Careers" class="btn blueBorderBtn">Go</a>
+                            </div>
+                        </div>
+                        <div class="option optionTwo col-lg-3 col-md-3 col-sm-3">
+                            <div>
+                                <h5>Option 2</h5>
+                                <h6>Take Our Fun Career Matching Test</h6>
+                                <p>
+                                    Our short 9 question test can help you quickly narrow down the list of all careers to match your personality traits. Then rate results according to your level of interest.
+                                </p>
+                                <a href="/Skilltest" class="btn blueBorderBtn">Go</a>
+                            </div>
+                        </div>
+                        <div class="option optionThree col-lg-3 col-md-3 col-sm-3">
+                            <div>
+                                <h5>Option 3</h5>
+                                <h6>Match careers by personality traits</h6>
+                                <p>
+                                    Interactively tag personality traits on and off, to see the list of matching careers. Select and rate resulting careers according to your level of interest.
+                                </p>
+                                <a href="/Careers/ByPersonality" class="btn blueBorderBtn">Go</a>
+                            </div>
+                        </div>
+                        <div class="option optionFour col-lg-3 col-md-3 col-sm-3">
+                            <div>
+                                <h5>Option 4</h5>
+                                <h6>Match careers by interests</h6>
+                                <p>Interactively tag life interests on and off, to see the list of matching careers. Select and rate resulting careers according to your level of interest.</p>
+                                <a href="/Careers/ByInterest" class="btn blueBorderBtn">Go</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row lastRow">
+                <a class="btn blueStripesBtn" href="/Report/StudentReport">Go To My Report Card<i class="fa fa-angle-right pull-right arrowRight"></i></a>
+            </div>
+            @*<div class="row alert alert-warning bottomAlert">
+                <p>Thank you!</p>
+            </div>*@
+        </div>
+
+
+        @*<div class="matchingCareersContainer">
+                    <div class="row">
+                        <div class="matchingCareers col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+
+                            @{
+                                string user = ViewBag.Email;
+                                string school = ViewBag.School;
+                                List<AssessmentCareerRating> careerRatings = new List<AssessmentCareerRating>(acrc.GetAllBySchoolAndStudent(school, user));
+                                if (careerRatings.Count != 0)
+                                {
+                                    <h3>Careers you would consider</h3>
+                                    <div class="considerCareers">
+                                        @{
+                                    foreach (AssessmentCareerRating rating in careerRatings)
+                                    {
+                                        if (rating.Rating == "1")
+                                        {
+                                            <div class="dolTitle">
+                                                <a class="career" target="_blank" href="" data-dolcode="@rating.RowKey"><span class="professionName"></span><i class="fa fa-angle-right pull-right arrowRight"></i></a>
+                                            </div>
+                                        }
+                                    }
+                                        }
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="matchingCareers col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+
+                        @{
+                            if (careerRatings.Count != 0)
+                            {
+                                <h3>Careers you would not consider</h3>
+                                <div class="notConsiderCareers">
+                                    @{
+                                foreach (AssessmentCareerRating rating in careerRatings)
+                                {
+                                    if (rating.Rating == "0")
+                                    {
+                                        <div class="dolTitle">
+                                            <a class="career" target="_blank" href="" data-dolcode="@rating.RowKey"><span class="professionName"></span><i class="fa fa-angle-right pull-right arrowRight"></i></a>
+                                        </div>
+                                    }
+                                }
+                                    }
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+            </div>*@
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    var importantThings = '@ViewBag.ImportantThings';
+    var user = '@ViewBag.Email';
+    var careersRated = '@ViewBag.CareersRated';
+    var stepsTaken = 0;
+    var firstGoalCompleted = false;
+    var secondGoalCompleted = false;
+    var showOptions = false;
+    function document_ready() {
+
+            $('body').scrollTop(0);
+            $('html').scrollTop(0);
+
+            if ($(window).width() > 767) {
+                $(window).scroll(function () {
+                    if (showOptions == false) {
+                        if ($(window).scrollTop() + $(window).height() >= $('.option').offset().top) {
+                            $(".option").velocity("transition.slideLeftIn", { stagger: 100 }).velocity({ opacity: 1 }, 0);
+                            showOptions = true;
+                        }
+                    }
+                });
+            }
+            else {
+                $('.option').css('opacity', '1');
+            }
+
+        $('.option div').click(function () {
+            $(this).css('background-color', 'rgb(222, 242, 247)');
+        })
+
+
+        setTimeout(function () {
+            $('.separator').animate({ width: "100%" }, 500);
+        }, 1000);
+
+        $('.optionOne').click(function () {
+            window.location.href = '/careers';
+        });
+
+        $('.optionTwo').click(function () {
+            window.location.href = '/Skilltest';
+        });
+
+        $('.optionThree').click(function () {
+            window.location.href = '/careers/bypersonality';
+        });
+
+        $('.optionFour').click(function () {
+            window.location.href = '/careers/byinterest';
+        });
+
+
+        //test taken
+        var answered = 0;
+        var dimensions = ["attitude", "endurance", "action", "concentration", "information", "processing", "presence", "patterns", "compensation"];
+
+        for (var i = 0; i < 9; i++) {
+            if (getCookie(dimensions[i]) != null) {
+                answered++;
+            } else {
+
+            }
+        }
+
+
+        //goal 1
+
+        if (importantThings == 'yes') {
+            $('#stepOne').addClass('completedStepDiv').removeClass('notCompletedStepDiv');
+            firstGoalCompleted = true;        
+            $('#stepOne .arrowDown').show();
+           // $('#stepOne .blueBorderBtn').addClass('grayBtn');
+        }
+        else { //not completed
+            $('#stepOne .stepCollapse').show();
+        }
+
+        $('h3').click(function () {
+            if (!$(this).next('.stepCollapse').is(':visible')) {
+                $(this).next('.stepCollapse').velocity('fadeIn', { duration: 300 });
+                $(this).find('.arrowDown').hide();
+                $(this).find('.arrowUp').show();
+            }
+            else {
+                $(this).next('.stepCollapse').velocity('fadeOut', { duration: 300 });
+                $(this).find('.arrowDown').show();
+                $(this).find('.arrowUp').hide();
+            }
+        })
+
+        //goal 2
+        if (careersRated == 'yes') {
+            $('#stepTwo').addClass('completedStepDiv').removeClass('notCompletedStepDiv');           
+            $('#stepTwo .arrowDown').show();
+            secondGoalCompleted = true;
+        }
+        else { //not completed
+            $('#stepTwo .stepCollapse').show();
+        }
+
+        if (firstGoalCompleted && secondGoalCompleted) {
+            $('.alert-warning h2').text('You successfully completed your assignment!');
+           // $('#studentPage .blueStripesBtn').show();
+        }
+        else if (firstGoalCompleted && !secondGoalCompleted) {
+            $('.alert-warning h2').text('Good job! Please proceed to goal 2 now!');
+        }
+        else if (!firstGoalCompleted && secondGoalCompleted) {
+            $('.alert-warning h2').text('Good job! Please complete goal 1 now!');
+        }
+        else {//both goals not completed
+                $('.alert-warning h2').text('Please complete two goals as part of your assignment.');
+            }
+        
+
+        //if (answered == 9) {
+        //    $('#stepOne').addClass('completedStepDiv').removeClass('notCompletedStepDiv');
+        //    $('#stepOne .squareStep p').text('Review Test');
+        //    stepsTaken += 1;
+        //    secondGoalCompleted = true;
+        //} else {
+        //    $('#stepOne').removeClass('completedStepDiv').addClass('notCompletedStepDiv');
+
+        //    if (stepsTaken = 0) { //user didnt complete any steps and didnt take test
+        //        $('.alert-warning h2').text('Start by completing Step 1: Take Career Test now!')
+        //    }
+        //    else { //some steps taken but test not taken
+        //        $('.alert-warning h2').text('You still didn\'t complete Step 1: Take Career Test now!')
+        //    }
+        //}
+
+        //step2
+        //if ($('.career').length != 0) {
+        //    $('.career').each(function () {
+        //        var dolcode = $(this).data('dolcode');
+        //        dolcode = dolcode.replace(user, '');
+        //        var title = professionsinfo[professionsinfo.map(function (x) { return x.code; }).indexOf(dolcode)].title;
+        //        $(this).attr('href', appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-')).find('.professionName').text(title);
+        //    });
+        //    $('#stepTwo').addClass('completedStepDiv').removeClass('notCompletedStepDiv');
+        //    if ($('.considerCareers').children().length == 0) {
+        //        $('.considerCareers').closest('.matchingCareers').hide();
+
+        //    }
+        //    if ($('.notConsiderCareers').children().length == 0) {
+        //        $('.notConsiderCareers').closest('.matchingCareers').hide();
+        //    }
+        //    stepsTaken += 1;
+        //}
+        //else { //this step not taken
+        //    if (stepsTaken == 1) { //user didnt complete any steps and didnt take test
+        //        $('.alert-warning h2').text('Good work! Please proceed to step 2 now to rate matching careers! ');
+        //    }
+        //    else if (stepsTaken == 2) { //some steps taken but test not taken
+        //        $('.alert-warning h2').text('Almost done! You just need to finish step 2!');
+        //    }
+        //}
+
+        //step 3
+        //if (importantThings == 'yes') {
+        //    $('#stepThree').addClass('completedStepDiv').removeClass('notCompletedStepDiv');
+        //    stepsTaken += 1;
+        //}
+        //else {
+        //    if (stepsTaken == 2) { //some steps taken but test not taken
+        //        $('.alert-warning h2').text('Almost finished! You just need to let us know what your interests are: proceed to step 3!');
+        //    }
+        //}
+
+        //if (stepsTaken == 3) {
+        //    $('.alert-warning h2').text('Good job! You finished all 3 steps!');
+        //}
+
+
+
+        //goal 2. Rate at least 1 career
+
+        //if ($('.career').length != 0) {
+        //    $('.career').each(function () {
+        //        var dolcode = $(this).data('dolcode');
+        //        dolcode = dolcode.replace(user, '');
+        //        var title = professionsinfo[professionsinfo.map(function (x) { return x.code; }).indexOf(dolcode)].title;
+        //        $(this).attr('href', appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-')).find('.professionName').text(title);
+        //    });
+        //    secondGoalCompleted = true;
+        //};
+
+        //if (secondGoalCompleted) {
+        //    $('#stepTwo').addClass('completedStepDiv').removeClass('notCompletedStepDiv');
+        //}
+
+
+        //var ratedNo = document.getElementsByClassName('notConsiderCareers');
+        //if (ratedNo.ChildNodes.length > 0) {
+        //    alert('rated');
+        //}
+        //else {
+        //    alert('none rated');
+        //}
+
+        //if ($('.notConsiderCareers').children().length > 0) {
+        //    $(this).closest('.matchingCareers').find('h3').show();
+        //} else {
+        //    $(this).closest('.matchingCareers').find('h3').hide();
+        //}
+
+        //if ($('.considerCareers').children().length > 0) {
+        //    $(this).closest('.matchingCareers').find('h3').show();
+        //} else {
+        //    $(this).closest('.matchingCareers').find('h3').hide();
+        //}
+
+
+
+    }
+
+</script>

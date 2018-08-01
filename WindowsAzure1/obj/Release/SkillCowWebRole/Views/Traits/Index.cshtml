@@ -1,0 +1,254 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "Traits";
+}
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+
+    <div class="container" style="background-color: rgba(255,255,255,0.5)">
+    
+        <div style="display: inline-block; vertical-align: top; height: 100%; ">
+            
+            <!--PROFESSION DESTAILS PANE-->
+            <div id="traits" class="traits">
+                <h1 style="margin-top: 0px;">What is your social attitude?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Introvert</h2>
+                            <p>
+                                @Html.Partial("_attitude_introvert")
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Extravert</h2>
+                            <p>
+                                @Html.Partial("_attitude_extravert")
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+                
+                <h1>Where do you look for new information?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>External Sources</h2>
+                            <p>
+                                @Html.Partial("_information_facts")
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Your Own Imagination</h2>
+                            <p>
+                                @Html.Partial("_information_imagination")
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>How do you react to new information?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Rational</h2>
+                            <p>
+                                @Html.Partial("_processing_rational")
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Emotional</h2>
+                            <p>
+                                @Html.Partial("_processing_emotional")
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <h1>Are you Process oriented or Result is all that matters?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Process Oriented</h2>
+                            <p>
+                                @Html.Partial("_process_or_result_process")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Result Oriented</h2>
+                            <p>
+                                @Html.Partial("_process_or_result_result")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <!--
+                <h1>How much uncertainty can you tolerate?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Seek Evidence</h2>
+                            <p>
+                                @Html.Partial("_concreteness_evidence")
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Comfortable with Uncertainty</h2>
+                            <p>
+                                @Html.Partial("_concreteness_uncertainty")
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                -->
+
+                <h1>Can you stay put or must you go go go?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Being Stationary</h2>
+                            <p>
+                                @Html.Partial("_endurance_stationary")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Constantly on the move</h2>
+                            <p>
+                                @Html.Partial("_endurance_mobile")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>Does your ideal career require your physical presence?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Presence Required</h2>
+                            <p>
+                                @Html.Partial("_presence_present")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Being Remote</h2>
+                            <p>
+                                @Html.Partial("_presence_remote")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>Focus and Concentration or Pressure-free environment?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Relaxed</h2>
+                            <p>
+                                @Html.Partial("_concentration_relaxed")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Being Focused</h2>
+                            <p>
+                                @Html.Partial("_concentration_focused")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>What are your work patterns?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Discovery</h2>
+                            <p>
+                                @Html.Partial("_patterns_discover")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Routine</h2>
+                            <p>
+                                @Html.Partial("_patterns_routine")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>Fixed salary or performance based pay?</h1>
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <h2>Fixed salary</h2>
+                            <p>
+                                @Html.Partial("_compensation_fixed")
+                            
+                            </p>
+                        </td>
+                        <td width="50%">
+                            <h2>Variable</h2>
+                            <p>
+                                @Html.Partial("_compensation_variable")
+                            
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <!--RIGHT PANE-->
+        <div id="testresults" class="testresults">
+        
+            <div id="professioncontent" class="pane">
+            </div>
+
+            <div class="pane">
+                Don't have the right skills?  We're here to help!  Call us toll free for assistance.
+            
+                <div style="text-align: center;">
+                <h1 style="color: #3399cc; font-size: 26pt; margin: 10px 0 0 0;"><span class="vanitynumber">@(ViewBag.TollFreeNumberVanity)</span></h1>
+                or 1.<span class="numericnumber">@(ViewBag.TollFreeNumberNumeric)</span>
+                </div>
+            
+            </div>
+            
+        </div>
+
+        <div id="summarycontent" style="display:none;"></div>
+    </div>
+    
+
+
+<script src="@Url.Content("~/Scripts/Controllers/Traits/init.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Traits/comparers.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Traits/professions.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<style>
+    div.traits { position: relative; top: 0px; left: 0px; width: 607px; border: thin solid #fff; background-color: rgba(255,255,255,1); padding: 20px 20px 20px 20px; }
+    div.traits h1 { font-size: 18pt; color: #333; font-weight: normal; font-family: 'Roboto Condensed', sans-serif;}
+    div.traits h2 { font-size: 10pt; color: #333; margin: 0 0 0 10px;}
+    div.traits p { font-size: 10pt; color: #333; margin: 5px 10px 10px 10px;}
+    div.traits img { margin: 0px 20px 10px 0px; }
+    div.traits td { vertical-align: top; }
+</style>
+
+<script>
+    var professions = null;
+    function $allwithattributes_ready(data, container) {
+        professions = data.items;
+        showallprofessions();
+    }
+    getBlobData('skillcow', 'professions', 'allwithattributes.js');
+</script>

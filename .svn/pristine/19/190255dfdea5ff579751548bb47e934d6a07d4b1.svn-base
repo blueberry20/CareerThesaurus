@@ -1,0 +1,511 @@
+﻿@using SkillCow.Classes.Helpers
+@{
+    ViewBag.Title = "Dashboard - Agents";
+}
+
+<script type="text/javascript" src="/scripts/canvasjs/canvasjs.min.js"></script>
+
+<script>
+    @{
+        DateTime estNow = EasternTimeConverter.Convert(DateTime.UtcNow);
+
+        
+
+    }
+    
+    function settoday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+    }
+    function setyesterday() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-1).ToString("yyyyMMdd"))');
+    }
+    function setmtd() {
+        $('#startdate').val('@estNow.Year@String.Format("{0:00}",estNow.Month)@("01")');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+    }
+    function set7days() {
+        $('#startdate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).AddDays(-7).ToString("yyyyMMdd"))');
+        $('#enddate').val('@(EasternTimeConverter.Convert(DateTime.UtcNow).ToString("yyyyMMdd"))');
+    }
+        
+    var d = new Date()
+    var n = d.getTimezoneOffset();
+    
+</script>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+    
+    @using (Html.BeginForm())
+    {
+    <table style="font-style: italic;">
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" id="startdate" name="startdate" value="20130801"/> </td> <!--@(ViewBag.StartDate.ToString("yyyyMMdd"))-->
+        </tr>
+        <tr>
+            <td>End date:</td>
+            <td><input type="text" id="enddate" name="enddate" value="20130831" /> </td>  <!--@(ViewBag.EndDate.ToString("yyyyMMdd"))-->
+            <td><input type="button" value="Go" onclick="run();"/></td>
+            <td><input type="button" value="Today" onclick="settoday();"/></td>
+            <td><input type="button" value="Yesterday" onclick="setyesterday();"/></td>
+            <td><input type="button" value="MTD" onclick="setmtd();"/></td>
+            <td><input type="button" value="7 days" onclick="set7days();"/></td>
+        </tr>
+        
+    </table>
+    }
+</div>
+<div  id="chartContainer" style="height: 500px; width: 100%;"></div>
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    
+    
+    
+    <div id="results"></div>
+
+</div>
+<style>
+    td {padding: 1px 5px 1px 5px;}
+    h1 {margin: 0 0 20px 0;}
+    h2 {color: #000;}
+    .rowlabel {text-align: right; font-size: 8pt; font-style: italic; font-weight: bold; padding-right: 20px;}
+    .sectionlabel {text-align: left;}
+    .sectionlabel h2 {font-size: 10pt; font-style: italic; font-weight: bold; margin: 10px 0 0 0;}
+    
+    .money {color: rgba(0,128,0, 1); text-align: right;}
+    .company { color: rgba(0,128,255, 1);}
+    .average {font-style: italic;}
+    .worse { color: rgba(255,0,0, 1);}
+    .better { color: rgba(0,0,0, 1);}
+    .total {font-weight: bold;}
+</style>
+<script>
+    function run() {
+        $('#results').html('');
+        $.ajax({
+            url: appserverurl + "/Dashboard/GetAgentPerformance",
+            type: "POST",
+            dataType: "json",
+            data: {
+                startdate: $('#startdate').val(),
+                enddate: $('#enddate').val()
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+                for (var i = 0; i < response.agents.length; i++) {
+                    var agent = response.agents[i];
+                    var grid = getmatrixhtml(agent.Id, agent.Dates);
+                    $('#results').append('<div class="rounded20" style="background-color: #fff; padding: 20px; margin-bottom: 10px;"><h1>' + agent.Id + '</h1>' + grid + '</div>')
+                }
+
+                for (var i = 0; i < response.agents.length; i++) {
+                    var agent = response.agents[i];
+                    renderchart(agent.Id, agent.ProductionChartData.Agent,
+                        agent.ProductionChartData.CompanyMax,
+                        agent.ProductionChartData.CompanyMin,
+                        agent.ProductionChartData.CompanyMean);
+                    
+                }
+            }
+        }).error(function (request, status, error) {
+            alert(error.message);
+        });
+    }
+
+    function getmatrixhtml(agent, dates) {
+        var html = '<table style="text-align:center; font-size: 9pt;">';
+
+        //-------------- HOURS HEADER -------------
+        html += '<tr><td class="sectionlabel"><h2>Hours</h2></td></tr>';
+
+        var numberofdaysshown = 0;
+
+        //header
+        html += '<tr>';
+        html += '<td>...</th>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td style="font-size: 7pt; font-style: italic;">' + dates[i].Date + '</td>';
+                numberofdaysshown++;
+            }
+        }
+        html += '<tr>';
+
+        //hours worked line
+        html += '<tr>';
+        html += '<td class="rowlabel">Hours Worked</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td><b>' + (dates[i].Hours > 0 ? dates[i].Hours.toFixed(1) : '') + '</b></td>';
+            }
+        }
+        html += '<tr>';
+
+        //Log on
+        html += '<tr>';
+        html += '<td class="rowlabel">Log on</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td style="font-size: 8pt; color: rgba(0,0,0,0.7)">' + dates[i].Logon + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        //Log off
+        html += '<tr>';
+        html += '<td class="rowlabel">Log off</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td style="font-size: 8pt;  color: rgba(0,0,0,0.7)">' + dates[i].Logoff + '</td>';
+            }
+        }
+        html += '<tr>';
+
+
+
+
+        //--------- PRODUCTION SUMMARY Header ----------------
+        html += '<tr><td class="sectionlabel"><h2>Production Summary</h2></td></tr>';
+        
+        //Total Valid School Leads
+        html += '<tr>';
+        html += '<td class="rowlabel">Valid School Leads</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td><b>' + (dates[i].ValidSchoolLeadsNetwork > 0 ? dates[i].ValidSchoolLeadsNetwork : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+
+
+
+
+
+
+        //----------- EARNINGS Header -----------------------
+        html += '<tr><td class="sectionlabel"><h2>Earnings</h2></td></tr>';
+        //hourly earnings
+        html += '<tr>';
+        html += '<td class="rowlabel">Hourly Earnings</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="money">' + (dates[i].HourlyEarnings > 0 ? '$' + dates[i].HourlyEarnings.toFixed(2) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        //Commission Earnings
+        html += '<tr>';
+        html += '<td class="rowlabel">Network School Lead Commissions</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="money">' + (dates[i].CommissionsSchoolLeadsNetwork > 0 ? '$' + dates[i].CommissionsSchoolLeadsNetwork.toFixed(2) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        //Total Earnings
+        html += '<tr>';
+        html += '<td class="rowlabel">Total Earnings</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="money total">' + (dates[i].TotalEarnings > 0 ? '$' + dates[i].TotalEarnings.toFixed(2) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+
+
+
+
+
+        //------------ PRODUCTION BREAKDOWN HEADER -------------
+        html += '<tr><td class="sectionlabel"><h2>Production Details</h2></td></tr>';
+                
+        html += '<tr>';
+        html += '<td class="rowlabel">Valid Network School Leads</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td>' + (dates[i].ValidSchoolLeadsNetwork > 0 ? dates[i].ValidSchoolLeadsNetwork : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Total</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company total">' + (dates[i].CompanyValidSchoolLeadsNetwork > 0 ? dates[i].CompanyValidSchoolLeadsNetwork : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        //Spacer row
+        html += '<tr><td>&nbsp;</td></tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Invalid Network School Leads</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td>' + (dates[i].InvalidSchoolLeadsNetwork > 0 ? dates[i].InvalidSchoolLeadsNetwork : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Total</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company total">' + dates[i].CompanyInvalidSchoolLeadsNetwork + '</td>';
+            }
+        }
+        html += '<tr>';
+
+
+
+
+
+
+
+        //------------ LEAD RETENTION HEADER -------------
+        html += '<tr><td class="sectionlabel"><h2>Student Lead Retention</h2></td></tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Unique Students</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td>' + (dates[i].UniqueStudents > 0 ? dates[i].UniqueStudents : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Avg. Retention Rate</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="' + (dates[i].AvgRetentionSchoolLeads > dates[i].CompanyAvgRetentionSchoolLeads ? 'worse' : 'better') + '">' + (dates[i].AvgRetentionSchoolLeads > 0 ? dates[i].AvgRetentionSchoolLeads.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Average</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company average">' + (dates[i].CompanyAvgRetentionSchoolLeads > 0 ? dates[i].CompanyAvgRetentionSchoolLeads.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+
+
+
+
+        //------------ RELATIVE PERFORMANCE HEADER -------------
+        html += '<tr><td class="sectionlabel"><h2>Relative Performance Rate - Leads/Hour</h2></td></tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Best</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company">' + (dates[i].CompanyAvgLPHMax > 0 ? dates[i].CompanyAvgLPHMax.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Mean</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company">' + (dates[i].CompanyAvgLPHMean > 0 ? dates[i].CompanyAvgLPHMean.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">Company Worst</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td class="company">' + (dates[i].CompanyAvgLPHMin > 0 ? dates[i].CompanyAvgLPHMin.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+
+        html += '<tr>';
+        html += '<td class="rowlabel">' + agent + '</td>';
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].Hours > 0) {
+                html += '<td>' + (dates[i].AvgLPH > 0 ? dates[i].AvgLPH.toFixed(1) : '') + '</td>';
+            }
+        }
+        html += '<tr>';
+        
+        html += '<tr>';
+        html += '<td class="rowlabel">Production Chart</td>';
+        html += '<td colspan="' + numberofdaysshown + '" style="text-align: left;"><div  id="chartContainer' + agent + '" style="height: 500px; width: 1200px;"></div></td>';
+        html += '<tr>';
+
+        html += '</table>';
+        return html;
+    }
+
+
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function renderchart(agent, agentdata, companymax, companymin, companymean) {
+        //minimum: getMinYValue(companymin), maximum: getMaxYValue(companymax)
+
+            var chart = new CanvasJS.Chart("chartContainer" + agent,
+		        {
+		            axisX: { gridColor: "Silver", tickColor: "silver" },
+		            toolTip: { shared: true },
+		            axisY: { gridColor: "#red", tickColor: "silver" },
+		            legend: { verticalAlign: "center", horizontalAlign: "right" },
+		            
+		            data: [
+			        {
+			            type: "line",
+			            showInLegend: true,
+			            lineThickness: 1,
+			            name: agent,
+			            markerType: "square",
+			            color: "#F08080",
+			            dataPoints: agentdata
+			        },
+			        {
+			            type: "line",
+			            showInLegend: true,
+			            name: "Company's Best",
+			            color: "#20B2AA",
+			            lineThickness: 1,
+			            dataPoints: companymax
+			        },
+			        {
+			            type: "line",
+			            showInLegend: true,
+			            name: "Company's Mean",
+			            color: "#20B2AA",
+			            lineThickness: 1,
+			            dataPoints: companymean
+			        },
+			        {
+			            type: "line",
+			            showInLegend: true,
+			            name: "Company's Worst",
+			            color: "#20B2AA",
+			            lineThickness: 1,
+			            dataPoints: companymin
+			        }
+			        ]
+		        });
+
+		        
+		        chart.render();
+
+		    }
+
+		    function renderchart2(agent, agentdata, companymax, companymin, companymean) {
+
+		        //minimum: getMinYValue(companymin), maximum: getMaxYValue(companymax)
+
+		        var chart = new CanvasJS.Chart("chartContainer",
+                {
+                    title: {
+                        text: "Multi-Series Line Chart"
+                    },
+                    data: [
+                  {
+                      type: "line",
+                      dataPoints: [
+                    { x: 10, y: 21 },
+                    { x: 20, y: 25 },
+                    { x: 30, y: 20 },
+                    { x: 40, y: 25 },
+                    { x: 50, y: 27 },
+                    { x: 60, y: 28 },
+                    { x: 70, y: 28 },
+                    { x: 80, y: 24 },
+                    { x: 90, y: 26 }
+
+                    ]
+                  },
+                    {
+                        type: "line",
+                        dataPoints: [
+                    { x: 10, y: 31 },
+                    { x: 20, y: 35 },
+                    { x: 30, y: 30 },
+                    { x: 40, y: 35 },
+                    { x: 50, y: 35 },
+                    { x: 60, y: 38 },
+                    { x: 70, y: 38 },
+                    { x: 80, y: 34 },
+                    { x: 90, y: 44 }
+
+                    ]
+                    },
+                    {
+                        type: "line",
+                        dataPoints: [
+                    { x: 10, y: 45 },
+                    { x: 20, y: 50 },
+                    { x: 30, y: 40 },
+                    { x: 40, y: 45 },
+                    { x: 50, y: 45 },
+                    { x: 60, y: 48 },
+                    { x: 70, y: 43 },
+                    { x: 80, y: 41 },
+                    { x: 90, y: 28 }
+
+                    ]
+                    },
+                    {
+                        type: "line",
+                        dataPoints: [
+                    { x: 10, y: 71 },
+                    { x: 20, y: 55 },
+                    { x: 30, y: 50 },
+                    { x: 40, y: 65 },
+                    { x: 50, y: 95 },
+                    { x: 60, y: 68 },
+                    { x: 70, y: 28 },
+                    { x: 80, y: 34 },
+                    { x: 90, y: 14 }
+
+                    ]
+                    }
+                  ]
+                });
+                
+		        chart.render();
+
+		    }
+
+    function getMinYValue(data) {
+        var result = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0 || data[i].y < result) {
+                result = data[i].y;
+            }
+        }
+        return result;
+    }
+    function getMaxYValue(data) {
+        var result = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0 || data[i].y > result) {
+                result = data[i].y;
+            }
+        }
+        return result;
+    }
+  </script>

@@ -1,0 +1,779 @@
+﻿@{
+    ViewBag.SuppressNavigation = true;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Thesaurus</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+
+    
+    <script src='/scripts/thesaurus/helperfunctions.js'></script>
+    <script src='/scripts/thesaurus/similars.js'></script>
+    <script src='/scripts/thesaurus/progressions.js'></script>
+    <script src='/scripts/thesaurus/data.js'></script>
+    <script src='/scripts/thesaurus/descriptions.js'></script>
+    <script src='/scripts/thesaurus/alternatetitles.js'></script>
+
+    <script src='/scripts/thesaurus/professions.js'></script>
+    <script src='/scripts/thesaurus/professions_functions.js'></script>
+
+    <script src='/scripts/thesaurus/reconciliation.js'></script>
+
+</head>
+<body>
+    
+    <div style="position: absolute; top: 7px; right: 10px; background-color: rgba(255,255,255,0.5); padding: 5px; border-radius: 5px 5px;">
+        Yo wassup @ViewBag.UserFirstName, <a href="thesaurus/logoff">Log off</a>
+    </div>
+
+    <div id="main" style="position: relative; background-color: rgba(255,255,255,1); padding: 20px; margin-top: 40px;">
+        
+    </div>
+    <div class="" style="background-color: rgba(255,255,255,0.8); padding: 20px; margin: top: 20px;">
+        <p id="comparisons"></p>
+    </div>
+</body>
+</html>
+<style>
+    * { vertical-align: top; font-family: Arial; }
+    h1 {}
+    table {margin: 5px; margin: 0px; padding: 0px;}
+    table tr {margin: 0px; padding: 0px;}
+    table td {margin: 0px; padding: 0px;}
+    ul {list-style-type: none; color: #888; margin: 0; padding: 0;}
+    li {margin: 0;}
+    div.columns
+    {
+        column-width:460px;
+        -moz-column-width:460px; /* Firefox */
+        -webkit-column-width:460px; /* Safari and Chrome */
+        column-gap: 2em;
+        -moz-column-gap: 2em;
+        -webkit-column-gap: 2em;
+        column-rule: 1px dotted #eee;
+        -moz-column-rule: 1px dotted #eee;
+        -webkit-column-rule: 1px dotted gray;
+    }
+    div.popup {display: none; background-color: White; color: Black; position: fixed; padding: 20px; 
+              -webkit-box-shadow: 7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              -moz-box-shadow:    7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              box-shadow:         7px 7px 30px 0px rgba(50, 50, 50, 0.75);
+              border-radius: 5px 5px;
+              border: thin solid #aaa;
+              }
+    div.path h1 {margin-top: 0}
+    div.path input[type='button'] {position: absolute; top: 20px; right: 20px; }
+    div.path span {display: inline-block; margin-right: 10px;}
+    
+    sup {color: Red; }
+    div.count {min-width: 30px; display: inline-block; text-align: center;}
+    h2 {color: black; display: inline-block; margin: 0;}
+    span.salary {margin-left: 5px;}
+    input[type='text'] {font-size: 10pt; padding: 5px; border-radius: 5px; border: thin solid #ddd;}
+    div.dimension {}
+    div.dimension div.label {width: 110px; display: inline-block; margin-top: 5px;}
+    div.dimension span { display: inline-block; padding: 5px; margin: 0 1px 1px 0; background-color: rgba(64,64,128,0.1); border-radius: 5px; cursor: pointer; }
+    div.dimension span.active { background-color: rgba(64,64,128,0.8); color: White; }
+    
+    div.importantthings span { display: inline-block; padding: 5px; margin: 0 1px 1px 0; background-color: rgba(64,64,128,0.1); border-radius: 5px; cursor: pointer; }
+    div.importantthings span.active { background-color: rgba(64,64,128,0.8); color: White; }
+    
+</style>
+<script>
+    var profession = '@ViewBag.Profession';
+    var highlight = '@ViewBag.Highlight';
+    var manualentries = new Array();
+    var titledescription = '';
+
+    var professionindex = -1;
+    var currentsalary = 0;
+
+    var alttitles = new Array();
+    var col1 = new Array();
+    var col2 = new Array();
+    var col3 = new Array();
+
+    $(document).ready(function () {
+
+    
+        profession = htmlDecode(profession);
+        
+        if (profession != '') {
+            for (var i = 0; i < professions.length; i++) {
+                if ($.trim(professions[i].title.toLowerCase()) == $.trim(profession.toLowerCase())) {
+                    professionindex = i;
+
+                    break;
+                }
+            }
+        }
+
+        loadDictionaries();
+    });
+
+    
+    function getapprovalentry(title) {
+        for (var i = 0; i < approvals.length; i++) {
+            if (approvals[i].title == title) {
+                return approvals[i];
+            }
+        }
+        return null;
+    }
+
+    function showProfessions() {
+
+        try {
+            renderData('main', 'Profession Index',
+            {
+                itemshoulddisplay: function (profession) {
+                    return true;
+                },
+                onitemclick: function (title, keyword) { window.open('/thesaurus/index?p=' + title.replace(/&/g,'%26') + '&highlight=' + keyword); }
+            }
+        );
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
+
+    var mentionedindescription = new Array();
+    function showSingleProfession() {
+
+        var pagetitle = professions[professionindex].title;
+        if (highlight.length > 0) {
+            pagetitle = professions[professionindex].title.replace(new RegExp(highlight, "i"), '<span style="background-color: yellow">' + highlight + '</span>')
+        }
+
+        var titleapproved = isapproved(professions[professionindex].title);
+        
+        if (titleapproved) {
+            var approvalstamp = '<img style="width: 100px;" src="/content/images/approved.jpg">';
+            $('#main').append('<div style="position: absolute; top: 10px; right: 10px">'+approvalstamp+'</div>');
+        }
+
+        $('#main').append('<a href="/thesaurus">Back to Index</a><h1>' + pagetitle + ' ' + getdata(professions[professionindex].title) + ' ' + (titleapproved ? '<a href="javascript:removeEntry(\'approvals\',\'' + getapprovalentry(professions[professionindex].title).rowkey + '\')">disapprove</a>' : '<a href="javascript:addEntry(\'approvals\',\'add\',\'' + professions[professionindex].title + '\',\'' + professions[professionindex].title + '\')">approve</a>') + ' </h1>');
+
+        var akatitles = findbycode(alternatetitles, professions[professionindex].code);
+        if (akatitles != null) {
+
+            var subtractions = filterManualEntries("aka", "remove", professions[professionindex].title);
+
+            alttitles = akatitles.titles.split(',');
+            var akalinks = '';
+            for (var i = 0; i < alttitles.length; i++) {
+                var style = '';
+                var p = findbytitle(professions, alttitles[i]);
+                var action = '';
+                if (p != null) {
+                    style = 'color: red;';
+                    var subtraction = manuallyRemoved(alttitles[i], subtractions);
+
+                    if (subtraction == null) {
+                        action = ' <a style="color: red;" href="javascript:addEntry(\'aka\',\'remove\',\'' + alttitles[i] + '\');">block</a>';
+                    }
+                    else {
+                        action = ' <a style="color: red;" href="javascript:removeEntry(\'aka\',\'' + subtraction.rowkey + '\');">undo block</a>';
+                        style += 'text-decoration:line-through;';
+                    }
+                    akalinks += '<a style="' + style + '" href="/thesaurus/index?p=' + $.trim(alttitles[i].replace(/&/g, '%26')) + '">' + $.trim(alttitles[i]) + '</a>' + action;
+                }
+                else {
+                    akalinks += $.trim(alttitles[i]);
+                }
+
+                
+                if (i < alttitles.length - 1) {
+                    akalinks += ', ';
+                }
+            }
+            $('#main').append('<div style="color: #888">a.k.a. ' + akalinks + '</div>');
+        }
+
+        var desc = findbycode(descriptions, professions[professionindex].code);
+        if (desc != null) {
+            var cnt=0;
+            while (desc.description.indexOf("(") > 0 && desc.description.indexOf(")") > 0) {
+                var openpos = desc.description.indexOf("(");
+                var closepos = desc.description.indexOf(")")+1;
+                var embeddedcode = desc.description.substring(openpos, closepos);
+                var regex1 = /\(\d\d\-\d\d\d\d\)/;
+                if (regex1.test(embeddedcode)) {
+                    
+                    var code = embeddedcode.substring(1, embeddedcode.length - 1);
+                    var excludedprofession = findbycode(professions, code);
+                    if (excludedprofession != null) {
+                        desc.description = desc.description.replace(embeddedcode, ' <i>see <a style="color:red" href="/thesaurus/index?p=' + excludedprofession.title.replace(/&/g, '%26') + '">' + excludedprofession.title + '</a></i>');
+                        mentionedindescription.push(excludedprofession.title);
+                    }
+                    else {
+                        desc.description = desc.description.replace(embeddedcode, '');
+                    }
+
+                } else {
+                    desc.description = desc.description.replace(embeddedcode, embeddedcode.substring(1,embeddedcode.length-1));
+                }
+                cnt++;
+                if (cnt > 100) {
+                    break;
+                }
+            }
+            if (highlight.length > 0) {
+                desc.description = desc.description.replace(new RegExp(highlight, "i"), '<span style="background-color: yellow">' + highlight + '</span>')
+            }
+            $('#main').append('<p id="descriptioncontainer">' + desc.description + '</p>');
+        }
+
+        var d = findone(data, professions[professionindex].title);
+        if (d != null) {
+            currentsalary = d.salary;
+        }
+
+        var additions = filterManualEntriesTo("progressions", "add", professions[professionindex].title)
+        var subtractions = filterManualEntriesTo("progressions", "remove", professions[professionindex].title);
+        
+        var predecessorshtml = '';
+
+        //Manual Entries
+        predecessorshtml += '<br><a style="color: rgb(0,128,255);" href="javascript:window.open(\'/thesaurus/createentry?dictionary=progressions&addremove=add&from=&to=' + professions[professionindex].title.replace(/\'/g, '^').replace(/&/g, '%26') + '\');">Add Predecessor [+]</a>';
+
+        if (additions.length > 0) {
+            predecessorshtml += '<br><br>Manual Predecessors<br><br><ul>';
+            for (var j = 0; j < additions.length; j++) {
+
+                var buttons = '<a style="color: red;" href="javascript:removeEntry(\'progressions\',\'' + additions[j].rowkey + '\');">undo add</a> | ';
+                buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'similars\', \'' + additions[j].from + '\', \'' + professions[professionindex].title + '\', \'' + professions[professionindex].title + '\', \'' + additions[j].from + '\');">similar</a> | ';
+                buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'progressions\', \'' + additions[j].from + '\', \'' + professions[professionindex].title + '\', \'' + professions[professionindex].title + '\', \'' + additions[j].from + '\');">next&raquo;</a>';
+
+                predecessorshtml += '<li><nobr><a ' + generateDescriptionAttributes(additions[j].from) + ' style="font-weight: bold;" href="javascript:window.open(\'/thesaurus/index?p=' + additions[j].from.replace(/&/g, '%26') + '\')">+ ' + additions[j].from + ' ' + getdata(additions[j].from, function (d) { return parseFloat(d.salary) > currentsalary; }) + '</a> ' + buttons + '</nobr></li>';
+                col1.push(additions[j].from);
+            }
+            predecessorshtml += '</ul>';
+        }
+
+        var predecessors = findpredecessors(professions[professionindex].title);
+        if (predecessors.length > 0) {
+            predecessorshtml += '<br><br>Predecessors<br><br><ul>';
+            for (var j = 0; j < predecessors.length; j++) {
+                var subtraction = manuallyRemovedFrom(predecessors[j], subtractions);
+                if (subtraction == null) {
+                    var buttons = '<a style="color: red;" href="javascript:addEntry(\'progressions\',\'remove\',\'' + predecessors[j] + '\',true);">X</a> | ';
+                    buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'similars\', \'' + predecessors[j] + '\', \'' + professions[professionindex].title + '\', \'' + professions[professionindex].title + '\', \'' + predecessors[j] + '\');">similar</a> | ';
+                    buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'progressions\', \'' + predecessors[j] + '\', \'' + professions[professionindex].title + '\', \'' + professions[professionindex].title + '\', \'' + predecessors[j] + '\');">next&raquo;</a>';
+                    predecessorshtml += '<li><nobr><a ' + generateDescriptionAttributes(predecessors[j]) + ' href="javascript:window.open(\'/thesaurus/index?p=' + predecessors[j].replace(/&/g, '%26') + '\')">' + predecessors[j] + '</a></nobr> ' + getdata(predecessors[j], function (d) { return parseFloat(d.salary) > currentsalary; }) + ' ' + buttons + '</li>';
+                    col1.push(predecessors[j]);
+                }
+                else {
+                    predecessorshtml += '<li><nobr><a ' + generateDescriptionAttributes(predecessors[j]) + ' style="text-decoration:line-through;color: red;" href="javascript:window.open(\'/thesaurus/index?p=' + predecessors[j].replace(/&/g, '%26') + '\')">' + predecessors[j] + '</a></nobr> ' + getdata(predecessors[j], function (d) { return parseFloat(d.salary) > currentsalary; }) + ' <a style="color: red;" href="javascript:removeEntry(\'progressions\',\'' + subtraction.rowkey + '\');">undo block</a></li>';
+                }
+            }
+            predecessorshtml += '</ul>';
+        }
+
+        var crumbs = new Array();
+        var html = '<table cellpadding=0 cellspacing=0><tr><td style="min-width: 300px;">' + predecessorshtml + '</td><td>' + careerhtmlnextlevel(professions[professionindex].title, professions[professionindex].title, 0, crumbs, null) + '</td></tr></table>';
+        $('#main').append(html);
+
+        highlightDupes();
+    }
+    function highlightDupes() {
+        findDupes(col1, col2, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+        findDupes(col1, col3, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+        findDupes(col2, col1, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+        findDupes(col2, col3, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+        findDupes(col3, col1, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+        findDupes(col3, col2, function (title) { $("a:contains('" + title + "')").css("background-color", "rgba(255,128,0,0.5)"); })
+    }
+    function findDupes(arr1, arr2, predicate) {
+        for (var i = 0; i < arr1.length; i++) {
+            for (var j = 0; j < arr2.length; j++) {
+                if (arr1[i] === arr2[j]) {
+                    predicate(arr1[i]);
+                }
+            }
+        }
+    }
+
+    function loadDictionaries() {
+
+        $.ajax({
+            url: appserverurl + "/Thesaurus/GetEntries",
+            type: "POST",
+            data: {}
+        }).done(function (response) {
+            if (response.result == 'ok') {
+                manualentries = response.entries;
+                
+                loadApprovals();
+            }
+        }).fail(function () {
+        });
+    }
+
+    function loadApprovals() {
+        $.ajax({
+            url: appserverurl + "/Thesaurus/GetApprovals",
+            type: "POST",
+            data: {}
+        }).done(function (response) {
+            if (response.result == 'ok') {
+                approvals = response.entries;
+                
+                if (professionindex == -1) {
+                    showProfessions();
+                }
+                else {
+                    showSingleProfession();
+                }
+            }
+        }).fail(function () {
+        });
+    }
+
+    function moveEntry(origind, targetd, oldorigin, oldtarget, neworigin, newtarget) {
+        $.ajax({ url: appserverurl + "/Thesaurus/AddEntry", type: "POST", data: { d: origind, t: 'remove', from: oldorigin, to: oldtarget} }
+        ).done(function (response) {
+            $.ajax({ url: appserverurl + "/Thesaurus/AddEntry", type: "POST", data: { d: targetd, t: 'add', from: neworigin, to: newtarget} }
+            ).done(function (response) {
+                document.location = '/thesaurus?p=' + profession.replace(/&/g, '%26');
+            });
+        });
+    }
+
+    function addEntry(d,t,to,reverse) {
+        $.ajax({
+            url: appserverurl + "/Thesaurus/AddEntry",
+            type: "POST",
+            data: {
+                d: d,
+                t: t,
+                from: (reverse ? to : profession),
+                to: (reverse ? profession : to)
+            }
+        }).done(function (response) {
+            document.location = '/thesaurus?p=' + profession.replace(/&/g, '%26');
+        }).fail(function () {
+        });
+    }
+
+    function removeEntry(d,rowkey) {
+        $.ajax({
+            url: appserverurl + "/Thesaurus/DeleteEntry",
+            type: "POST",
+            data: {
+                d: d,
+                rowkey: rowkey
+            }
+        }).done(function (response) {
+            document.location = '/thesaurus?p=' + profession.replace(/&/g, '%26');
+        }).fail(function () {
+        });
+    }
+
+</script>
+
+<script>
+    function careerhtmlnextlevel(root, name, level, crumbs, prevsalary) {
+
+        var d = findone(data, name);
+        var cursalary = null;
+        if (d != null) {
+            cursalary = d.salary;
+        }
+        if (prevsalary != null && parseInt(prevsalary) > parseInt(cursalary)) {
+            return '';
+        }
+
+        var html = '';
+
+        var circularreference = iscircularreference(crumbs, name);
+
+        try {
+            var similarshtml = '';
+            if (level == 0) {
+
+                var additions = filterManualEntries("similars", "add", name)
+                var subtractions = filterManualEntries("similars", "remove", name);
+
+                //Manual Entries
+                similarshtml = '<br><a style="color: rgb(0,128,255);" href="javascript:window.open(\'/thesaurus/createentry?dictionary=similars&addremove=add&from=' + name.replace(/\'/g, '^') + '&to=\');">Add Similar [+]</a>';
+
+                if (additions.length > 0) {
+                    similarshtml += '<br><br>Manual Similars<br><br><ul>';
+                    for (var j = 0; j < additions.length; j++) {
+
+                        var buttons = '<a style="color: red;" href="javascript:removeEntry(\'similars\',\'' + additions[j].rowkey + '\');">undo add</a> | ';
+                        buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + additions[j].to + '\', \'' + additions[j].to + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                        buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + additions[j].to + '\', \'' + name + '\', \'' + additions[j].to + '\');">next&raquo;</a>';
+
+                        similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(additions[j].to) + ' style="font-weight: bold;" href="javascript:window.open(\'/thesaurus/index?p=' + additions[j].to.replace(/&/g, '%26') + '\')">+ ' + additions[j].to + ' ' + getdata(additions[j].to, function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.5; }) + '</a> ' + buttons + '</nobr></li>';
+                        col2.push(additions[j].to);
+                    }
+                    similarshtml += '</ul>';
+                }
+
+                var similars = findsimilars(name, '');
+                if (similars.length > 0) {
+                    similarshtml += '<br><br>Similar<br><br><ul>';
+                    for (var j = 0; j < similars.length; j++) {
+                        var subtraction = manuallyRemoved(similars[j], subtractions);
+                        if (subtraction == null) {
+                            var buttons = '<a style="color: red;" href="javascript:addEntry(\'similars\',\'remove\',\'' + similars[j] + '\');">X</a> | ';
+                            buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + similars[j] + '\', \'' + similars[j] + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                            buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + similars[j] + '\', \'' + name + '\', \'' + similars[j] + '\');">next&raquo;</a>';
+
+                            similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(similars[j]) + ' style="" href="javascript:window.open(\'/thesaurus/index?p=' + similars[j].replace(/&/g, '%26') + '\')">' + similars[j] + ' ' + getdata(similars[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> ' + buttons + '</nobr></li>';
+                            col2.push(similars[j]);
+                        }
+                        else {
+                            similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(similars[j]) + ' style="text-decoration:line-through;color:red" href="javascript:window.open(\'/thesaurus/index?p=' + similars[j].replace(/&/g, '%26') + '\')">- ' + similars[j] + ' ' + getdata(similars[j]) + '</a> <a style="color: red;" href="javascript:removeEntry(\'similars\',\'' + subtraction.rowkey + '\');">undo block</a></nobr></li>';
+                        }
+                    }
+                    similarshtml += '</ul>';
+                }
+                var possiblysimilar = findsimilars(name, '?');
+                if (possiblysimilar.length > 0) {
+                    similarshtml += '<br>Possibly Similar<br><br><ul>';
+                    for (var j = 0; j < possiblysimilar.length; j++) {
+                        var subtraction = manuallyAdded(possiblysimilar[j], additions);
+                        if (subtraction != null) {
+                            if (subtraction == null) {
+                                var buttons = '<a style="color: red;" href="javascript:addEntry(\'similars\',\'add\',\'' + possiblysimilar[j] + '\');">include</a> | ';
+                                buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + possiblysimilar[j] + '\', \'' + possiblysimilar[j] + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                                buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + possiblysimilar[j] + '\', \'' + name + '\', \'' + possiblysimilar[j] + '\');">next&raquo;</a>';
+                                similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(possiblysimilar[j]) + ' href="javascript:window.open(\'/thesaurus/index?p=' + possiblysimilar[j].replace(/&/g, '%26') + '\')">' + possiblysimilar[j] + ' ' + getdata(possiblysimilar[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> ' + buttons + '</nobr></li>';
+                                col2.push(possiblysimilar[j]);
+                            }
+                            else {
+                                similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(possiblysimilar[j]) + ' style="text-decoration:line-through;color:red; " href="javascript:window.open(\'/thesaurus/index?p=' + possiblysimilar[j].replace(/&/g, '%26') + '\')">- ' + possiblysimilar[j] + ' ' + getdata(possiblysimilar[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> <a style="color: red;" href="javascript:removeEntry(\'similars\',\'' + subtraction.rowkey + '\');">undo block</a></nobr></li>';
+                            }
+                        }
+                        else {
+                            var addition = manuallyAdded(possiblysimilar[j], additions);
+                            if (addition == null) {
+                                var buttons = '<a style="color: red;" href="javascript:addEntry(\'similars\',\'add\',\'' + possiblysimilar[j] + '\');">include</a> | ';
+                                buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + possiblysimilar[j] + '\', \'' + possiblysimilar[j] + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                                buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + possiblysimilar[j] + '\', \'' + name + '\', \'' + possiblysimilar[j] + '\');">next&raquo;</a>';
+                                similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(possiblysimilar[j]) + ' href="/thesaurus/index?p=' + possiblysimilar[j].replace(/&/g, '%26') + '">' + possiblysimilar[j] + ' ' + getdata(possiblysimilar[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> ' + buttons + '</nobr></li>';
+                                col2.push(possiblysimilar[j]);
+                            }
+                            else {
+                                similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(possiblysimilar[j]) + ' style="text-decoration:line-through;color:red; " href="javascript:window.open(\'/thesaurus/index?p=' + possiblysimilar[j].replace(/&/g, '%26') + '\')">- ' + possiblysimilar[j] + ' ' + getdata(possiblysimilar[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> <a style="color: red;" href="javascript:removeEntry(\'similars\',\'' + addition.rowkey + '\');">undo include</a></nobr></li>';
+                            }
+                        }
+                        
+                    }
+                    similarshtml += '</ul>';
+                }
+                var excludedsimilars = findsimilars(name, 'x');
+                if (excludedsimilars.length > 0) {
+                    similarshtml += '<br>Excluded<br><br><ul>';
+                    for (var j = 0; j < excludedsimilars.length; j++) {
+
+                        
+                        var subtraction = manuallyRemoved(excludedsimilars[j], subtractions);
+                        if (subtraction == null) {
+                            var buttons = '';
+                            buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + excludedsimilars[j] + '\', \'' + excludedsimilars[j] + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                            buttons += '<a style="color: red;" href="javascript:moveEntry(\'similars\', \'progressions\', \'' + name + '\', \'' + excludedsimilars[j] + '\', \'' + name + '\', \'' + excludedsimilars[j] + '\');">next&raquo;</a>';
+                            similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(excludedsimilars[j]) + ' style="" href="javascript:window.open(\'/thesaurus/index?p=' + excludedsimilars[j].replace(/&/g, '%26') + '\')">' + excludedsimilars[j] + ' ' + getdata(excludedsimilars[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> ' + buttons + '</nobr></li>';
+                            col2.push(excludedsimilars[j]);
+                        }
+                        else {
+                            similarshtml += '<li><nobr><a ' + generateDescriptionAttributes(excludedsimilars[j]) + ' style="text-decoration:line-through;color:red" href="javascript:window.open(\'/thesaurus/index?p=' + excludedsimilars[j].replace(/&/g, '%26') + '\')">- ' + excludedsimilars[j] + ' ' + getdata(excludedsimilars[j], function (d) { return Math.abs(parseFloat(d.salary) / currentsalary - 1) > 0.2; }) + '</a> <a style="color: red;" href="javascript:removeEntry(\'similars\',\'' + subtraction.rowkey + '\');">undo block</a></nobr></li>';
+                        }
+                        
+                        
+                    }
+                    similarshtml += '</ul>';
+                }
+            }
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+
+        var d = findone(data, name);
+        var cursalary = null;
+        if (d != null) {
+            cursalary = d.salary;
+        }
+
+
+        try {
+            var successors = findsuccessors(name);
+            var additions = filterManualEntries("progressions", "add", name)
+            var subtractions = filterManualEntries("progressions", "remove", name);
+                
+            var successorshtml = '';
+
+            var style = 'font-weight: bold; cursor: pointer;';
+
+            successorshtml = '<br><a style="color: rgb(0,128,255);" href="javascript:window.open(\'/thesaurus/createentry?dictionary=progressions&addremove=add&from=' + name.replace(/\'/g, '^') + '&to=\');">Add Progression [+]</a>';
+            
+            //Manual Entries
+            if (additions.length > 0) {
+                successorshtml += '<br><br>Manual Progressions<br><br><ul>';
+                for (var j = 0; j < additions.length; j++) {
+
+                    var buttons = '<a style="color: red;" href="javascript:removeEntry(\'progressions\',\'' + additions[j].rowkey + '\');">undo add</a> | ';
+                    buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'progressions\', \'' + name + '\', \'' + additions[j].to + '\', \'' + additions[j].to + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                    buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'similars\', \'' + name + '\', \'' + additions[j].to + '\', \'' + name + '\', \'' + additions[j].to + '\');">similar</a>';
+
+                    successorshtml += '<li><nobr><a ' + generateDescriptionAttributes(additions[j].to) + ' style="font-weight: bold;" href="javascript:window.open(\'/thesaurus/index?p=' + additions[j].to.replace(/&/g, '%26') + '\')">+ ' + additions[j].to + ' ' + getdata(additions[j].to, function (d) { return parseFloat(d.salary) < currentsalary; }) + '</a> ' + buttons + '</nobr></li>';
+                    col3.push(additions[j].to);
+                }
+                successorshtml += '</ul>';
+            }
+
+            var successors = findsuccessors(name);
+            if (successors.length > 0) {
+                successorshtml += '<br>Progressions<br><br><ul>';
+                for (var j = 0; j < successors.length; j++) {
+                    var subtraction = manuallyRemoved(successors[j], subtractions);
+                    if (subtraction == null) {
+
+                        var buttons = '<a style="color: red;" href="javascript:addEntry(\'progressions\',\'remove\',\'' + successors[j] + '\');">X</a> | ';
+                        buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'progressions\', \'' + name + '\', \'' + successors[j] + '\', \'' + successors[j] + '\', \'' + name + '\');">&laquo;pre</a> | ';
+                        buttons += '<a style="color: red;" href="javascript:moveEntry(\'progressions\', \'similars\', \'' + name + '\', \'' + successors[j] + '\', \'' + name + '\', \'' + successors[j] + '\');">similar</a>';
+
+                        successorshtml += '<li><nobr><a ' + generateDescriptionAttributes(successors[j]) + ' href="javascript:window.open(\'/thesaurus/index?p=' + successors[j].replace(/&/g, '%26') + '\')">' + successors[j] + '</a></nobr> ' + getdata(successors[j], function (d) { return parseFloat(d.salary) < currentsalary; }) + ' ' + buttons + '</li>';
+                    }
+                    else {
+                        successorshtml += '<li><nobr><a ' + generateDescriptionAttributes(successors[j]) + ' style="text-decoration:line-through;color: red;" href="javascript:window.open(\'/thesaurus/index?p=' + successors[j].replace(/&/g, '%26') + '\')">' + successors[j] + '</a></nobr> ' + getdata(successors[j], function (d) { return parseFloat(d.salary) < currentsalary; }) + ' <a style="color: red;" href="javascript:removeEntry(\'progressions\',\'' + subtraction.rowkey + '\');">undo block</a></li>';
+                    }
+                    col3.push(successors[j]);
+                }
+                successorshtml += '</ul>';
+            }
+
+
+            var divid = guid();
+
+            html = '<table cellpadding=0 cellspacing=0 style="background-color: ' + bgcolor(level) + '; "><tr><td style="min-width: 300px;">' + similarshtml + '</td><td style="min-width: 300px;">' + successorshtml + '</td></tr></table>';
+            
+        } catch (ex) {
+            alert(ex.message);
+        }
+        return html;
+    }
+    
+</script>
+
+
+<script>
+    function manuallyRemovedFrom(p, subtractions) {
+        for (var j = 0; j < subtractions.length; j++) {
+            if (subtractions[j].from == p) {
+                return subtractions[j];
+            }
+        }
+        return null;
+    }
+    function manuallyAddedFrom(p, additions) {
+        for (var j = 0; j < additions.length; j++) {
+            if (additions[j].from == p) {
+                return additions[j];
+            }
+        }
+        return null;
+    }
+    
+    function manuallyRemoved(p, subtractions) {
+        for (var j = 0; j < subtractions.length; j++) {
+            if (subtractions[j].to == p) {
+                return subtractions[j];
+            }
+        }
+        return null;
+    }
+    function manuallyAdded(p, additions) {
+        for (var j = 0; j < additions.length; j++) {
+            if (additions[j].to == p) {
+                return additions[j];
+            }
+        }
+        return null;
+    }
+    function filterManualEntries(d, t, f) {
+        var results = new Array();
+        for (var j = 0; j < manualentries.length; j++) {
+            if (manualentries[j].dictionary === d && manualentries[j].action === t && manualentries[j].from === f) {
+                results.push(manualentries[j]);
+            }
+        }
+        return results;
+    }
+    function filterManualEntriesTo(d, t, to) {
+        
+        var results = new Array();
+        for (var j = 0; j < manualentries.length; j++) {
+            if ($.trim(manualentries[j].dictionary.toLowerCase()) === $.trim(d.toLowerCase()) && $.trim(manualentries[j].action.toLowerCase()) === $.trim(t.toLowerCase()) && $.trim(manualentries[j].to.toLowerCase()) === $.trim(to.toLowerCase())) {
+                results.push(manualentries[j]);
+            }
+        }
+        return results;
+    }
+    
+    function getpath(crumbs, divid, name) {
+        var path = '';
+        
+        var prevsalary = 0;
+
+        for (var i = 0; i < crumbs.length; i++) {
+            if (i > 0) {
+                path += '&nbsp;<span>' + crumbs[i] + ' ' + getdata(crumbs[i]) + '<br>' + levelLabel(i + 1) + '</span>';
+            }
+            else {
+                path += '<span>' + crumbs[i] + ' ' + getdata(crumbs[i]) + '<br>' + levelLabel(i + 1) + '</span>';
+            }
+            var d = findone(data, crumbs[i]);
+            if (d != null) {
+                prevsalary = d.salary;
+            }
+            else {
+                prevsalary = 0;
+            }
+        }
+        return '<div id="div' + divid + '" class="path"><h1>Path to ' + name + '</h1><input type="button" value="close" onmouseup="hidepath(event, \'' + divid + '\');"/><nobr>' + path + '</nobr></div>';
+    }
+
+    function levelLabel(level) {
+        return '<b>Level ' + level + '</b>';
+        switch (level) {
+            case 1:
+                return "I";
+            case 2:
+                return "II";
+            case 3:
+                return "III";
+            case 4:
+                return "IV";
+            case 5:
+                return "V";
+            case 6:
+                return "VI";
+            case 7:
+                return "VII";
+            case 8:
+                return "VIII";
+            case 9:
+                return "IX";
+            case 10:
+                return "X";
+            case 11:
+                return "XI";
+            case 12:
+                return "XII";
+            case 13:
+                return "XIII";
+            case 14:
+                return "XIV";
+            case 15:
+                return "XV";
+            case 16:
+                return "XVI";
+            case 17:
+                return "XVII";
+            case 18:
+                return "XVIII";
+            case 19:
+                return "XIX";
+            case 20:
+                return "XX";
+            default:
+                return level;
+        }
+    }
+    function bgcolor(level) {
+        var opacity = Math.min(1, parseFloat(level) / 15);
+        return 'rgba(0,128,0,' + opacity.toFixed(2) + ')';
+    }
+    function iscircularreference(crumbs, name) {
+        var circularreference = false;
+        for (var i = 0; i < crumbs.length; i++) {
+            if (crumbs[i] == name) {
+                circularreference = true;
+                break;
+            }
+        }
+        if (!circularreference) {
+            crumbs.push(name);
+        }
+        return circularreference;
+    }
+
+
+
+
+
+    //Popup description
+
+    function generateDescriptionAttributes(itemtitle) {
+        var item = findbytitle(professions, itemtitle);
+        if (item != null) {
+            return 'onmouseover="showpopupdescription(event, \'' + item.code + '\')" onmouseout="hidepopupdescription(event)"';
+        }
+        else {
+            return '';
+        }
+    }
+
+    var popupdescriptioncreated = false;
+    var displayedcode = '';
+    function showpopupdescription(event, code) {
+        if (!popupdescriptioncreated) {
+            $('#main').append('<div id="popupdescription" style="position: fixed; z-index: 99999; background-color: rgba(255,255,220,1);" class="popup">Hello!</div>');
+            popupdescriptioncreated = true;
+        }
+        if (displayedcode != code) {
+            //process code
+            var desc = findbycode(descriptions, code);
+            if (desc != null) {
+
+                $('#popupdescription').html('<h1>' + findbycode(professions,code).title + '</h1>' + desc.description);
+                var matchedwords = matchDescriptionKeywords(seeddescription, desc.description, 'popupdescription');
+            }
+            displayedcode = code;
+        }
+
+        var x = event.clientX;
+        var y = event.clientY;
+
+        $('#popupdescription').css('width', document.documentElement.clientWidth * 0.75);
+        $('#popupdescription').css('left', Math.min(Math.max(x - $('#popupdescription').outerWidth() / 2, 40), document.documentElement.clientWidth - $('#popupdescription').outerWidth() - 40));
+        $('#popupdescription').css('top', y - $('#popupdescription').outerHeight() - 20);
+        $('#popupdescription').show();
+    }
+    function hidepopupdescription(event) {
+        $('#popupdescription').hide();
+        event.preventDefault();
+    }
+
+    function matchDescriptionKeywords(desc1, desc2, previewcontainerid1, previewcontainerid2) {
+        var matchcount = 0;
+        var seedtokens = desc1.split(' ');
+
+        for (var i = 0; i < seedtokens.length; i++) {
+            var kw = seedtokens[i].replace(/(\(|\)|\.|\;|\,|\?|\!\bthe\b|\ba\b|\bof\b|\bas\b|\bto\b|\band\b|\bare\b|\bis\b|\bhave\b|\bgot\b|\bget\b|\byou\b|\bour\b|\byour\b|\bbe\b|\bby\b|\bcan\b|\bmay\b|\bwill\b|\bin\b|\bwhile\b|\bwhen\b|\bwhy\b|\bwith\b|\bor\b|\balso\b|\binto\b|\ban\b|\bthen\b|\bthan\b|\bany\b|\bjob\b|\bfor\b|\ball\b|\bthis\b|\bsuch\b|\bwho\b|\bmust\b|\bboth\b|\bwant\b|\bthat\b|\bnew\b|\byork\b|\bexperience\b|\blooking\b|\bwork\b|\bjoin\b|\bseeking\b|\byears\b|\btheir\b|\bnot\b|\bcall\b|\brequired\b|\employer\b|\bour\b|\bits\b|\bllp\b|\bwhich\b|\baren't\b|\binc\b|\btop\b|\bgpa\b|\bfrom\b|\babout\b|\bplease\b|\bsees\b|\bhas\b|\bposition\b|\bseeks\b|\bbecome\b|\bper\b|\bfull\b|\bout\b|\bwe\b|\bthrough\b|\bhow\b|\bbased\b|\bskills\b|\bprovide\b|\bdescription\b|\bon\b|\brole\b|\bother\b|\bability\b|\bensure\b|\bstrong\b|\bproviding\b|\bsupporting\b|\bassigned\b|\bworking\b|\bincluding\b|\bcommitted\b|\bapply\b|\bnow\b|\benjoy\b|\bup\b|\bno\b|\bavailable\b|\bat\b|\bwww\b|\bcom\b|\bvisit\b|\bmore\b|\blearn\b|\bresponsible\b|\includes\b|\excludes\b)/gi, '');
+            if (kw.length >= 2) {
+                var wholekw = '\\b' + kw + '\\b';
+
+                if ((new RegExp(wholekw)).test(desc2)) {
+                    if (previewcontainerid1 != null) {
+                        $('#' + previewcontainerid1).html($('#' + previewcontainerid1).html().replace(new RegExp(wholekw, "ig"), '<span style="background-color: yellow;">' + kw + '</span>'));
+                    }
+                    if (previewcontainerid2 != null) {
+                        $('#' + previewcontainerid2).html($('#' + previewcontainerid2).html().replace(new RegExp(wholekw, "ig"), '<span style="background-color: yellow;">' + kw + '</span>'));
+                    }
+                    matchcount++;
+                }
+            }
+        }
+        return matchcount;
+    }
+</script>

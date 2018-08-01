@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Thankyou";
+}
+<!--===========================Thank you Page after signing up for newsletter========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/About/newsletter.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div id="newsletterThankyouPage" class="pageContainer aboutContainer whiteBgPage">
+    <div class="container">
+        <div class="centerBox">
+            <h1>Thank you for signing up!</h1>
+            <p>We will be in touch when we have new and exciting info for you!</p>
+        </div>
+        @*<div class="directions">
+            <div><p>Take me to explore my careers</p><a href="/Careers/ByPersonality">Go to career list</a></div>
+            <div><p>If you took a test, review your results</p><a href="/Analytics/StudentReport">Go to report card</a></div>
+        </div>*@
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        $(".messageContainer").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+
+        //newHeight = $(window).height() - 150;
+        //$('#newsletterThankyouPage .container').css('min-height', newHeight);
+
+        //$(window).resize(function () {
+        //    newHeight = $(window).height() - 150;
+        //    $('#newsletterThankyouPage .container').css('min-height', newHeight);
+        //})
+    }
+</script>

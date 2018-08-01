@@ -1,0 +1,93 @@
+﻿@Model SkillCowResponsive.Models;
+@using SkillCowResponsive.Models;
+@using System.Web.Script.Serialization;
+@{
+    JavaScriptSerializer js = new JavaScriptSerializer();
+    ViewBag.Title = "Students";
+}
+
+<div class="pageContainer" id="studentListPage">
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Email Confirmed</th>
+                        <th>
+                            Counselor
+                            <select id="counselors" onchange="renderStudents(this.value);">
+                            </select>
+                        </th>
+                        <th>Counselor email</th>
+                        <th># of interests</th>
+                        <th># of attributes</th>
+                        <th># of careers rated</th>
+                        <th># of careers consider</th>
+                        <th># of careers NOT consider</th>
+                    </tr>
+                </thead>
+                <tbody id="students">
+                    @*@{
+                        foreach (StudentReportEntry student in Model)
+                        {
+                            <tr>
+                                <td>@student.firstname @student.lastname</td>
+                                <td>@student.email</td>
+                                <td>@student.counselorname</td>
+                                <td>@student.counseloremail</td>
+                                <td>@student.interests</td>
+                                <td>@student.traits</td>
+                                <td>@(student.likecareers + student.dislikecareers)</td>
+                                <td>@student.likecareers</td>
+                                <td>@student.dislikecareers</td>
+                            </tr>
+                        }
+                    }*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var data = @Html.Raw(js.Serialize(Model));
+    var counselors = [];
+    function document_ready() {
+        counselors = data.map(function(x) { var y = { email: x.counseloremail, name: x.counselorname }; return y; }).filter(unique);
+        var html = '<option selected value="">All</option>';
+        for (var i = 0; i < counselors.length; i++) {
+            html += '<option value="' + counselors[i].email + '">' + counselors[i].name + '</option>';
+        }
+        $('#counselors').html(html);
+        renderStudents();
+    }
+    function unique(value, index, self) {
+        var current = self.map(function (x) { return x.email; }).indexOf(value.email);
+        if (current != index) {
+            return false;
+        }
+        return true;
+    }
+    function renderStudents(filter) {
+        var students = filter ? data.filter(function(x) {return x.counseloremail == filter;}) : data;
+        var html = '';
+        for (var i = 0; i < students.length; i++) {
+            var student = students[i];
+            html += '<tr>' + 
+                        '<td>' + student.firstname + ' ' + student.lastname + '</td>' +
+                        '<td>' + student.email + '</td>' +
+                        '<td>' + (student.emailconfirmed ? 'Yes' :'No') + '</td>' +
+                        '<td>' + student.counselorname + '</td>' +
+                        '<td>' + student.counseloremail+ '</td>' +
+                        '<td>' + student.interests + '</td>' +
+                        '<td>' + student.traits + '</td>' +
+                        '<td>' + (student.likecareers + student.dislikecareers) + '</td>' +
+                        '<td>' + student.likecareers + '</td>' +
+                        '<td>' + student.dislikecareers + '</td>' +
+                    '</tr>';
+        }
+        $('#students').html(html);
+    }
+</script>

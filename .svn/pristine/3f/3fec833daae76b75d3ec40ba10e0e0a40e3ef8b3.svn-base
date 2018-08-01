@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Advertise";
+}
+
+<!--===========================Newsletter signup form========================================-->
+<link href="~/Content/css/About/newsletter.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+<link href="~/Content/css/About/advertise.css?v=@ViewBag.AppVersion" rel="stylesheet" />
+
+<div id="advertisePage" class="pageContainer aboutContainer whiteBgPage">
+    <div class="container">
+
+        <form id="advertiseForm" method="post">
+            <h2>Advertise with us</h2>
+            <div class="form-group row">
+                <label class="shortLabel required col-lg-3 col-md-4" for="name">Your Name</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="text" class=" form-control required" name="name" id="name" value="">
+                    <p class="displayError">Please enter a valid name</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="shortLabel required col-lg-3 col-md-4" for="email">Your E-mail</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <input type="email" class=" form-control required" name="email" id="email" value="">
+                    <p class="displayError">Please enter a valid email</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="shortLabel required col-lg-3 col-md-4" for="message">Your message</label>
+                <div class="shortField col-lg-9 col-md-8">
+                    <textarea id="message" name="message" class=" form-control required" rows="6"></textarea>
+                    <p class="displayError">Please enter a message</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="button" id="advertiseBtn" class="btn btn-default">Submit</button>
+            </div>
+            <p class="errorMsg"></p>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+        $("form").velocity("transition.slideLeftIn", { stagger: 250 }).velocity({ opacity: 1 }, 500);
+
+        //newHeight = $(window).height() - 150;
+        //$('#advertisePage .container').css('min-height', newHeight);
+
+        //$(window).resize(function () {
+        //    newHeight = $(window).height() - 150;
+        //    $('#advertisePage .container').css('min-height', newHeight);
+        //})
+
+        //$('#advertiseBtn').click(function () {
+        //    if (validateName($('#name').val()) && validateEmail($('#email').val()) && validateMessage($('#message').val())) {
+        //        $('form').submit();
+        //    } else {
+        //        $('.errorMsg').text('One of the fields is not valid.');
+        //    }
+        //});
+
+        $('#advertiseBtn').click(function () {
+            var valid = true;
+            $('.required').each(function (index, element) {
+                var name = $(element).attr('name');
+                switch(name) {
+                    case 'name':
+                        if (!validateName($('#name').val())) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'email' :
+                        if (!validateEmail($('#email').val())) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                    case 'message':
+                        if (!validateMessage($('#message').val())) {
+                            valid = false;
+                            $(element).closest('.shortField').find('.displayError').show();
+                            $(element).addClass('hasError');
+                        }
+                        else {
+                            $(element).closest('.shortField').find('.displayError').hide();
+                            $(element).removeClass('hasError');
+                        }
+                        break;
+                }
+            })
+
+            if (!valid) {
+                return false;
+            }
+
+            $('form').submit();
+        })
+
+    }
+    function validateEmail(email) {
+        if (email) {
+            var reg = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return reg.test(email);
+        }
+        return false;
+    }
+    function validateName(name) {
+        if (name)
+            if (name.length > 0)
+                return true;
+        return false;
+    }
+
+    function validateMessage(message) {
+        if (message)
+            if (message.length > 0)
+                return true;
+        return false;
+    }
+</script>

@@ -1,0 +1,268 @@
+﻿#emailResultsPage {
+    background-image: url('/Content/Images/black-and-gray-diagonal-stripe-bg-output-50-150.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: 170px;
+    min-height:100%;
+}
+
+#emailResultsPage .container {
+    background-color:#fff;
+    min-height:100%;
+}
+
+h1 {
+    font-weight:600;
+    text-align:center;
+}
+
+form {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding:20px;
+    opacity:0;    
+    background-color: rgb(143, 214, 228);
+}
+
+#joinNewsletterBtn, #advertiseBtn {
+    margin:0 auto;
+    font-size: 15px;
+    background-color: rgb(23, 184, 214);
+    color:#fff;
+    width: 150px;
+    height: 60px;
+    text-transform: uppercase;
+    border:none;
+    font-weight:600;
+}
+
+.no-touch #joinNewsletterBtn:hover, #joinNewsletterBtn:focus, #joinNewsletterBtn:active, .no-touch #advertiseBtn:hover, #advertiseBtn:focus, #advertiseBtn:active {
+    background-color: #129DB7;
+}
+
+.form-group {
+    padding: 6px 20px;
+}
+
+.form-group label {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 50px;
+    text-align:left;
+    font-family:'open sans condensed';
+    margin:0;
+}
+
+.smallFont {
+    padding: 10px 15px;
+    color: #666;
+    font-size: 12px;
+}
+
+.errorMsg {
+    color: rgb(207, 2, 2);
+    font-size: 16px;
+    text-align:center;
+    margin:15px 0;
+    padding:0;
+}
+
+p.displayError {
+    display: none;
+    font-size: 14px;
+    color: rgb(207, 2, 2);
+    line-height: 30px;
+    text-align: left;
+}
+
+.hasError {
+    border: 1px solid red;
+}
+
+#checkboxError {
+    color:rgb(207, 2, 2);
+    display:none;
+    font-size: 16px;
+    text-align:center;
+}
+
+
+.checkboxRow p {
+      display: inline-block;
+      margin: 0;
+      font-size:11px;
+      margin-left:30px;
+}
+
+.checkboxRow {
+    padding-top:20px;
+    position: relative;
+}
+
+#termsCheckBox {
+    position:absolute;
+    left:30px;
+    top:20px;
+    margin:0;
+}
+
+.termsRow {
+    font-size:12px;
+    margin-top:20px;
+}
+
+.adsenseResponsive {
+    width:80%;
+    height:200px;
+    margin:0 auto;
+}
+
+.extraMargin {
+    margin: 50px auto;
+    width:80%;
+    text-align:right;
+}
+
+.divider {
+    width:200px;
+    margin: 0  auto;
+    background-color:rgb(23, 184, 214);
+    height:1px;
+    margin:50px auto;
+}
+
+a {
+    text-transform: uppercase;
+}
+
+#percentageProgress {
+    position: fixed;
+    height: 90px;
+    width: 90px;
+    left: 15px;
+    top: 60px;
+    z-index: 100;
+    color: #fff;
+    font-size: 24px;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 50%;
+    line-height: 90px;
+    text-align: center;
+    border: 2px solid #fff;
+}
+
+
+@media screen and (max-width:992px) {
+    form {
+        width: 100%;
+        margin-top:15px;
+    }
+
+    .extraMargin {
+        width:100%;
+    }
+
+    .pageContainer .container {
+        width: 90%;
+    }
+
+    h1 {
+        font-size:30px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    h1 {
+        font-size:30px;
+        padding:10px;
+    }
+
+    .form-group label {
+        font-size:22px;
+        line-height:26px;
+        padding-bottom: 6px;
+    }
+
+    .form-group {
+        padding:8px 15px;
+    }
+
+    .extraMargin {
+        padding: 0 10px;
+    }
+
+    .adsenseResponsive {
+        width:100%;
+    }
+
+    #emailResultsPage .container {
+        margin-top:50px;
+        padding:10px;
+    }
+
+    form {
+        margin-top:0;
+    }
+
+    .divider {
+        display:none;
+    }
+
+}
+
+@media screen and (max-width:500px) {
+    h1 {
+        font-size:20px;
+        padding:0;
+    }
+
+    .form-group {
+        padding:6px 0;
+    }
+
+   .form-group label {
+        font-size:16px;
+        line-height:18px;
+        padding: 0 0 6px 0;
+    }
+
+   .shortField {
+       padding:0;
+   }
+
+   #joinNewsletterBtn {
+       height:50px;
+       margin-top:15px;
+   }
+
+   .divider {
+       margin:30px auto;
+   }
+
+   .extraMargin {
+       margin:20px 0;
+   }
+
+   #emailResultsPage .container {
+       margin:0;
+       width:100%;
+   }
+
+   #percentageProgress {
+       display:none;
+   }
+
+   .checkboxRow p {
+       font-size:10px;
+   }
+
+   #termsCheckBox {
+       top:10px;
+       left:0;
+   }
+
+    .termsRow {
+        font-size: 11px;
+    }
+}

@@ -1,0 +1,228 @@
+﻿@{
+    ViewBag.SuppressNavigation = true;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Merge</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+
+    
+    <script src='/scripts/thesaurus/helperfunctions.js'></script>
+    <script src='/scripts/thesaurus/similars.js'></script>
+    <script src='/scripts/thesaurus/progressions.js'></script>
+    <script src='/scripts/thesaurus/data.js'></script>
+    <script src='/scripts/thesaurus/descriptions.js'></script>
+    <script src='/scripts/thesaurus/alternatetitles.js'></script>
+
+    <script src='/scripts/thesaurus/professions.js'></script>
+    <script src='/scripts/thesaurus/professions_functions.js'></script>
+
+    <script src='/scripts/thesaurus/reconciliation.js'></script>
+
+</head>
+<body>
+    <div style="position: absolute; top: 7px; right: 10px; background-color: rgba(255,255,255,0.5); padding: 5px; border-radius: 5px 5px;">
+        Yo wassup @ViewBag.UserFirstName, <a href="thesaurus/logoff">Log off</a>
+    </div>
+
+    <div id="main" style="position: relative; background-color: rgba(255,255,255,1); padding: 20px; margin-top: 40px;">
+        <table id="table">
+            <tr>
+                <th>#</th>
+                <th>#</th>
+                <th>Dictionary</th>
+                <th>From</th>
+                <th>From Salary</th>
+                <th>To</th>
+                <th>To Salary</th>
+                <th>status</th>
+                <th>rowkey</th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    var manualentries;
+    var similaradditions = new Array();
+    var similarsubtractions = new Array();
+    var progressionadditions = new Array();
+    var progressionsubtractions = new Array();
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: appserverurl + "/Thesaurus/GetEntries",
+            type: "POST",
+            data: {}
+        }).done(function (response) {
+            if (response.result == 'ok') {
+                manualentries = response.entries;
+
+                for (var j = 0; j < manualentries.length; j++) {
+                    if (manualentries[j].dictionary === 'similars') {
+                        if(manualentries[j].action === 'add') {
+                            similaradditions.push(manualentries[j]);
+                        } 
+                        else if(manualentries[j].action === 'remove') {
+                            similarsubtractions.push(manualentries[j]);
+                        }
+                    }
+                    else if (manualentries[j].dictionary === 'progressions') {
+                        if(manualentries[j].action === 'add') {
+                            progressionadditions.push(manualentries[j]);
+                        } 
+                        else if(manualentries[j].action === 'remove') {
+                            progressionsubtractions.push(manualentries[j]);
+                        }
+                    }
+                }
+                renderMerge();
+                //renderEntries();
+            }
+        }).fail(function () {
+
+        });
+
+    });
+
+    function isSimilarManuallyRemoved(from, to) {
+        for (var j = 0; j < similarsubtractions.length; j++) {
+            if (similarsubtractions[j].from == from && similarsubtractions[j].to == to) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function manuallyAddedSimilars(from) {
+        var results = new Array();
+        for (var j = 0; j < similaradditions.length; j++) {
+            if (similaradditions[j].from == from) {
+                results.push(similaradditions[j]);
+            }
+        }
+        return results;
+    }
+    
+    function isProgressionManuallyRemoved(from, to) {
+        for (var j = 0; j < progressionsubtractions.length; j++) {
+            if (progressionsubtractions[j].from == from && progressionsubtractions[j].to == to) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function manuallyAddedProgressions(from) {
+        var results = new Array();
+        for (var j = 0; j < progressionadditions.length; j++) {
+            if (progressionadditions[j].from == from) {
+                results.push(progressionadditions[j]);
+            }
+        }
+        return results;
+    }
+
+
+    function renderMerge() {
+
+        var cnt = 0;
+
+        //Render similars and exclude manuals
+        for (var i = 0; i < similars.length; i++) {
+            if (similars[i].status == '') {
+                var style = '';
+                if(!isSimilarManuallyRemoved(similars[i].profession, similars[i].similar)) {
+                    
+                    $('#table').append('<tr style="' + style + '">' +
+                    '<td>' + (++cnt) + '</td>' +
+                    '<td>' + i + '</td>' +
+                    '<td>similars</td>' +
+                    '<td>' + similars[i].profession + '</td>' +
+                    '<td>' + findbytitle(professions, similars[i].profession).salary + '</td>' +
+                    '<td>' + similars[i].similar + '</td>' +
+                    '<td>' + findbytitle(professions, similars[i].similar).salary + '</td>' +
+                    '<td>' + similars[i].status + '</td>' +
+                    '<td></td>' +
+                    '</tr>');
+                }
+                
+            }
+        }
+
+        //Render manual additions
+        for (var i = 0; i < similaradditions.length; i++) {
+            var style = '';
+            style = 'color:blue';
+            $('#table').append('<tr style="' + style + '">' +
+            '<td>' + (++cnt) + '</td>' +
+            '<td>' + i + '</td>' +
+            '<td>similars</td>' +
+            '<td>' + similaradditions[i].from + '</td>' +
+            '<td>' + findbytitle(professions, similaradditions[i].from).salary + '</td>' +
+            '<td>' + similaradditions[i].to + '</td>' +
+            '<td>' + findbytitle(professions, similaradditions[i].to).salary + '</td>' +
+            '<td>manually added</td>' +
+            '<td>' + similaradditions[i].rowkey + '</td>' +
+            '</tr>');
+        }
+
+        //Render progressions and exclude manuals
+        for (var i = 0; i < progressions.length; i++) {
+            
+            var style = '';
+            if (!isProgressionManuallyRemoved(progressions[i].profession, progressions[i].nextlevel)) {
+                
+                $('#table').append('<tr style="' + style + '">' +
+                '<td>' + (++cnt) + '</td>' +
+                '<td>' + i + '</td>' +
+                '<td>progressions</td>' +
+                '<td>' + progressions[i].profession + '</td>' +
+                '<td>' + findbytitle(professions, progressions[i].profession).salary + '</td>' +
+                '<td>' + progressions[i].nextlevel + '</td>' +
+                '<td>' + findbytitle(professions, progressions[i].nextlevel).salary + '</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '</tr>');
+            }
+            
+            
+        }
+
+        //Render manual additions
+        for (var i = 0; i < progressionadditions.length; i++) {
+            var style = '';
+            style = 'color:blue';
+            $('#table').append('<tr style="' + style + '">' +
+            '<td>' + (++cnt) + '</td>' +
+            '<td>' + i + '</td>' +
+            '<td>progressions</td>' +
+            '<td>' + progressionadditions[i].from + '</td>' +
+            '<td>' + findbytitle(professions, progressionadditions[i].from).salary + '</td>' +
+            '<td>' + progressionadditions[i].to + '</td>' +
+            '<td>' + findbytitle(professions, progressionadditions[i].to).salary + '</td>' +
+            '<td>manually added</td>' +
+            '<td>' + similaradditions[i].rowkey + '</td>' +
+            '</tr>');
+        }
+    }
+
+    function renderEntries() {
+        var cnt = 0;
+        //Render similars and exclude manuals
+        for (var i = 0; i < manualentries.length; i++) {
+            $('#table').append('<tr>' +
+            '<td>' + (++cnt) + '</td>' +
+            '<td>' + manualentries[i].dictionary + '</td>' +
+            '<td>' + manualentries[i].action + '</td>' +
+            '<td>' + manualentries[i].from + '</td>' +
+            '<td>' + manualentries[i].to + '</td>' +
+            '</tr>');
+            
+        }
+    }
+
+</script>

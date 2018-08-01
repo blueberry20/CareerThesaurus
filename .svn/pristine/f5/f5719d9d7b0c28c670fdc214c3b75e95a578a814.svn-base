@@ -1,0 +1,654 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools
+@model SkillCow.Classes.Cloud.TableStorage.DirectClients.Schools.DirectSchoolClientCampusProgram
+
+<style>
+    input[type="text"] {width: 400px; padding: 5px; font-size: 14pt;}
+    select {width: 412px; padding: 5px 5px 5px 2px; font-size: 14pt;}
+    textarea {width: 400px; font-family: Arial; padding: 5px;}
+    fieldset {border: none; margin-bottom: 20px;}
+    legend {font-size: 16pt; font-weight: bold; margin: 0;}
+    input[type="button"],input[type="submit"] {padding: 10px; min-width: 100px;}
+    .editor-label {position: relative; float: left; width: 200px; clear: left; padding-top: 10px; margin-left: 2px;}
+    .editor-field {position: relative; float: left; clear: right;}
+    p {clear: both; margin-top: 100px;}
+        
+    th {text-align: center}
+    .numberinput input[type="text"] {width: 100%; padding: 5px; font-size: 14pt;text-align: center}
+    div.smallnumberinput input[type="text"] {width: 100px; padding: 5px; font-size: 14pt;text-align: center}
+    
+    h2, h3, h4, h5 {color: #333;}
+</style>
+
+<script src="@Url.Content("~/Scripts/jtextarea/jtextarea.js?v=" + ViewBag.AppVersion)" type="text/javascript"></script>
+
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.7); text-align: left; padding: 20px;">
+
+    <!--Breadcrumbs-->    
+    <div>
+        @Html.ActionLink("Client Index", "Index", "directschoolclients") > 
+        @Html.ActionLink(((DirectSchoolClient)ViewBag.Client).Name, "Edit", "directschoolclients", new { id = ((DirectSchoolClient)ViewBag.Client).RowKey }, null) > 
+        @Html.ActionLink(((DirectSchoolClientCampus)ViewBag.Campus).Name, "Edit", "directschoolclientcampuses", new { id = ((DirectSchoolClientCampus)ViewBag.Campus).RowKey }, null)
+    </div>
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        
+        <table width=100% cellspacing=0>
+            <tr style="background-color: rgba(@(Model.Status == "Paused" ? 255 : 0),@(Model.Status == "Live" ? 255 : 0),0,0.3); border-radius: 10px 10px;">
+                <td style="font-size: 24pt; padding: 5px;">Edit Program for <span style="color: rgba(0,0,255,1)">@(((DirectSchoolClient)ViewBag.Client).Name)</span> - <span style="color: rgba(255,128,0,1)">@(((DirectSchoolClientCampus)ViewBag.Campus).Name)</span></td>
+                <td style="padding: 5px;"><input type="submit" value="Save" style="float: right;"/></td>
+            </tr>
+        </table>
+        
+        <br />
+        @Html.ValidationSummary(true)
+        
+        <fieldset>
+            <legend>Status</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.Status,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "Paused", Text = "Paused" },
+                                        new { Value = "Live", Text = "Live" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Program Details</legend>
+
+            <div class="editor-label">
+                Program Id
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ProgramId)
+                @Html.ValidationMessageFor(model => model.ProgramId)
+            </div>
+
+            <div class="editor-label">
+                Program Type
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ProgramType,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "AS", Text = "Associates" },
+                                        new { Value = "BA", Text = "Bachelor of Art" },
+                                        new { Value = "BS", Text = "Bachelor of Science" },
+                                        new { Value = "MA", Text = "Master's" },
+                                        new { Value = "PHD", Text = "PhD Program" },
+                                        new { Value = "CRT", Text = "Certificate" },
+                                        new { Value = "DIP", Text = "Diploma" },
+                                        new { Value = "GED", Text = "GED" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.ProgramType)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+    
+        </fieldset>
+        <fieldset>
+            <legend>Payout</legend>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Payout)
+            </div>
+            <div class="editor-field" class="smallnumberinput">
+                <input type="text" name="Payout" value="@(Model != null ? Model.Payout.ToString() : "")" style="width: 100px; text-align: center" />
+                @Html.ValidationMessageFor(model => model.Payout)
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Caps</legend>
+        
+            <div class="editor-label">
+                Caps by period
+            </div>
+            <div class="editor-field">
+                <table width="400px">
+                    <tr>
+                        <th>Total</th>
+                        <th>Annual</th>
+                        <th>Monthly</th>
+                        <th>Weekly</th>
+                        <th>Daily</th>
+                    </tr>
+                    <tr>
+                        <td class="numberinput"><input type="text" name="TotalCap" value="@(Model != null ? Model.TotalCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="AnnualCap" value="@(Model != null ? Model.AnnualCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="MonthlyCap" value="@(Model != null ? Model.MonthlyCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="WeeklyCap" value="@(Model != null ? Model.WeeklyCap.ToString() : "0")" /></td>
+                        <td class="numberinput"><input type="text" name="DailyCap" value="@(Model != null ? Model.DailyCap.ToString() : "0")" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan=5>
+                            @Html.ValidationMessageFor(model => model.TotalCap)
+                            @Html.ValidationMessageFor(model => model.AnnualCap)
+                            @Html.ValidationMessageFor(model => model.MonthlyCap)
+                            @Html.ValidationMessageFor(model => model.WeeklyCap)
+                            @Html.ValidationMessageFor(model => model.DailyCap)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Is it National Coverage?</legend>
+    
+            <div class="editor-label">
+                
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.GeoAddNational,
+                                    new SelectList(new List<object>
+                                    {
+                                        new { Value = "", Text = "" },
+                                        new { Value = "National", Text = "National" }
+                                    }, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.GeoAddNational)
+            </div>
+    
+        </fieldset>
+        <fieldset>
+            <legend style="font-size: 24pt;">+</legend>
+        
+            <div><b>NOTE:</b> values must be comma delimited e.g NY, NJ, PA or 10005, 11230, 10314</div><br />
+            
+
+            <div class="editor-label" >
+                + states
+            </div>
+            <div class="editor-field">
+                <textarea id="GeoAddStateseditor" onkeydown="updatehiddenvariable('GeoAddStates', 'GeoAddStateseditor')" onchange="updatehiddenvariable('GeoAddStates', 'GeoAddStateseditor')" >@ViewBag.GeoAddStates</textarea>
+                <input type="hidden" name="GeoAddStates" id="GeoAddStates" value="@ViewBag.GeoAddStates" />
+                @Html.ValidationMessageFor(model => model.GeoAddStates)
+            </div>
+    
+            <div class="editor-label">
+                + zips
+            </div>
+            <div class="editor-field">
+                <textarea id="GeoAddZipseditor" style="height: 300px;" onkeydown="updatehiddenvariable('GeoAddZips', 'GeoAddZipseditor')" onchange="updatehiddenvariable('GeoAddZips', 'GeoAddZipseditor')" >@ViewBag.GeoAddZips</textarea>
+                <input type="hidden" name="GeoAddZips" id="GeoAddZips" value="@ViewBag.GeoAddZips" />
+                @Html.ValidationMessageFor(model => model.GeoAddZips)
+            </div>
+
+        </fieldset>
+        
+        <fieldset>
+            <legend style="font-size: 24pt;">-</legend>
+            
+            <div class="editor-label">
+                - states        
+            </div>
+            <div class="editor-field">
+                <textarea id="GeoSubtractStateseditor" onkeydown="updatehiddenvariable('GeoSubtractStates', 'GeoSubtractStateseditor')" onchange="updatehiddenvariable('GeoSubtractStates', 'GeoSubtractStateseditor')" >@ViewBag.GeoSubtractStates</textarea>
+                <input type="hidden" name="GeoSubtractStates" id="GeoSubtractStates" value="@ViewBag.GeoSubtractStates" />
+                @Html.ValidationMessageFor(model => model.GeoSubtractStates)
+            </div>
+    
+            <div class="editor-label">
+                - zips
+            </div>
+            <div class="editor-field">
+                <textarea id="GeoSubtractZipseditor" style="height: 300px;" onkeydown="updatehiddenvariable('GeoSubtractZips', 'GeoSubtractZipseditor')" onchange="updatehiddenvariable('GeoSubtractZips', 'GeoSubtractZipseditor')" >@ViewBag.GeoSubtractZips</textarea>
+                <input type="hidden" name="GeoSubtractZips" id="GeoSubtractZips" value="@ViewBag.GeoSubtractZips" />
+                @Html.ValidationMessageFor(model => model.GeoSubtractZips)
+            </div>
+
+
+        </fieldset>
+        <fieldset>
+            <legend>Program Category Mapping</legend>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ProgramCategories)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ProgramCategories) <a onclick="showProgramSelector()">Add a Program</a>
+                @Html.ValidationMessageFor(model => model.ProgramCategories)
+            </div>
+    
+            @Html.Hidden("ClientRowKey", ((DirectSchoolClient)ViewBag.Client).RowKey)     
+            @Html.Hidden("ClientId", ((DirectSchoolClient)ViewBag.Client).ClientId)     
+
+            @Html.Hidden("CampusRowKey", ((DirectSchoolClientCampus)ViewBag.Campus).RowKey)     
+            @Html.Hidden("CampusId", ((DirectSchoolClientCampus)ViewBag.Campus).CampusId)     
+
+        </fieldset>
+        
+        @Html.HiddenFor(model => model.RowKey)
+    }
+    
+</div>
+
+<div id="programpicker" class="boxcenter" style="position:fixed; top: 0px; left: 0px; width: 100%; height: 100%; text-align: center; display: none; background-color: rgba(0,0,0,0.8);">
+    <div id="" class="graygradientdf rounded10 shadow50" style="position: relative; width: 600px; height: 270px; background-color: #fff; text-align: left; padding: 1px 20px 20px 20px; opacity: 1; margin: 100px auto;">
+        <h1>Program picker</h1>
+        <table style="width=100%">
+            <tr>
+                <td width=50%>Select Career Vertical</td>
+                <td>
+                    <select id="programpickercareer" style="">
+                        <option value=""></option>
+                        <option value="1" >Arts / Design / Fashion</option>
+                        <option value="9" >Aviation</option>
+                        <option value="413" >Beauty</option>
+                        <option value="2" >Business</option>
+                        <option value="279" >Criminal Justice</option>
+                        <option value="3" >Culinary Arts</option>
+                        <option value="287" >Education</option>
+                        <option value="4" >Health Care / Human Services</option>
+                        <option value="343" >Liberal Arts</option>
+                        <option value="256" >Massage / Wellness</option>
+                        <option value="5" >Technology / Computer / IT</option>
+                        <option value="286" >Trade</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Select Program</td>
+                <td>
+                    <select id="programpickerdegree" style="">
+                        <option value="">Select Vertical First</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div style="position: absolute; bottom: 20px; right: 20px;">
+            <input type="button" onclick="addProgramSelectorValue()" value="Add"/>
+            <input type="button" onclick="dismissProgramSelector()" value="Cancel"/>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function document_ready() {
+        $('textarea').jtextarea();
+
+        $('#programpickercareer').change(function () {
+            $('#programpickerdegree').html('<option value=""></option>');
+            var degrees = getDegreesForCareer($('#programpickercareer').val());
+            for (var i = 0; i < degrees.length; i++) {
+                $('#programpickerdegree').append('<option value="' + degrees[i].degreeid + '">' + degrees[i].degreename + '</option>');
+            }
+        });
+    }
+
+    function updatehiddenvariable(fieldname, editorname) {
+        $('#' + fieldname).val($('#' + editorname).val());
+    }
+
+    function showProgramSelector() {
+        $('#programpicker').show();
+    }
+    function dismissProgramSelector() {
+        $('#programpicker').hide();
+    }
+    function addProgramSelectorValue() {
+        var curval = $.trim($('#ProgramCategories').val());
+        if (curval.length > 0) {
+            $('#ProgramCategories').val(curval + ',' + $('#programpickerdegree').val());
+        }
+        else {
+            $('#ProgramCategories').val($('#programpickerdegree').val());
+        }
+
+        dismissProgramSelector()
+    }
+</script>
+
+<script>
+
+    var degreetaxonomy = [
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 289, "degreename": "Acting" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 13, "degreename": "Advertising & Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 187, "degreename": "Animation" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 210, "degreename": "Architecture" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 199, "degreename": "Arts & Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 242, "degreename": "Audio Engineering" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 137, "degreename": "Broadcasting" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 14, "degreename": "Commercial Art" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 27, "degreename": "Computer Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 16, "degreename": "Computer Drafting" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 485, "degreename": "Dance" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 17, "degreename": "Digital Arts & Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 18, "degreename": "Fashion Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 19, "degreename": "Fashion Marketing" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 176, "degreename": "Fashion Merchandising" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 20, "degreename": "Film & Video" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 22, "degreename": "Fine Arts" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 21, "degreename": "Game Art & Development" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 12, "degreename": "Graphic Art & Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 23, "degreename": "Industrial Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 24, "degreename": "Interactive Media" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 25, "degreename": "Interior Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 513, "degreename": "Jewelry Design" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 28, "degreename": "Media Arts" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 29, "degreename": "Media Production" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 235, "degreename": "Music" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 290, "degreename": "Musical Theatre" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 32, "degreename": "Painting" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 33, "degreename": "Photography" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 107, "degreename": "Recording Arts" },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 35, "degreename": "Visual Arts & Comm." },
+        { "careerid": 1, "careername": "Arts / Design / Fashion", "degreeid": 30, "degreename": "Web Design & Multimedia" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 380, "degreename": "Aircraft Dispatcher" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 194, "degreename": "Airframe and Powerplant" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 196, "degreename": "Aviation Maintenance Technician" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 195, "degreename": "Avionics" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 82, "degreename": "General Aviation" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 325, "degreename": "Helicopter Flight" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 212, "degreename": "Professional Flight" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 515, "degreename": "Professional Pilot" },
+        { "careerid": 9, "careername": "Aviation", "degreeid": 213, "degreename": "Quality Control" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 327, "degreename": "Beauty - Advanced Training" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 181, "degreename": "Cosmetology" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 406, "degreename": "Electrology" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 263, "degreename": "Esthetics / Skincare" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 183, "degreename": "Hair Design / Barbering" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 293, "degreename": "Instructor Training" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 265, "degreename": "Makeup" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 264, "degreename": "Nail Technician / Hand & Foot Therapist" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 394, "degreename": "Permanent Makeup" },
+        { "careerid": 413, "careername": "Beauty", "degreeid": 294, "degreename": "Spa" },
+        { "careerid": 2, "careername": "Business", "degreeid": 134, "degreename": "Accounting/Payroll Administrator" },
+        { "careerid": 2, "careername": "Business", "degreeid": 132, "degreename": "Administrative" },
+        { "careerid": 2, "careername": "Business", "degreeid": 203, "degreename": "Administrative Support Specialist" },
+        { "careerid": 2, "careername": "Business", "degreeid": 133, "degreename": "Advertising" },
+        { "careerid": 2, "careername": "Business", "degreeid": 140, "degreename": "Auditing" },
+        { "careerid": 2, "careername": "Business", "degreeid": 224, "degreename": "Bookkeeping" },
+        { "careerid": 2, "careername": "Business", "degreeid": 138, "degreename": "Business Admin. & Mgmt." },
+        { "careerid": 2, "careername": "Business", "degreeid": 139, "degreename": "Call Center Mgmt." },
+        { "careerid": 2, "careername": "Business", "degreeid": 159, "degreename": "Communications Mgmt." },
+        { "careerid": 2, "careername": "Business", "degreeid": 141, "degreename": "Computer Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 237, "degreename": "Customer Support" },
+        { "careerid": 2, "careername": "Business", "degreeid": 189, "degreename": "Database Admin. / Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 146, "degreename": "E-Commerce / E-Business" },
+        { "careerid": 2, "careername": "Business", "degreeid": 384, "degreename": "Economics" },
+        { "careerid": 2, "careername": "Business", "degreeid": 148, "degreename": "Entertainment Business" },
+        { "careerid": 2, "careername": "Business", "degreeid": 149, "degreename": "Executive Assistant" },
+        { "careerid": 2, "careername": "Business", "degreeid": 135, "degreename": "Finance" },
+        { "careerid": 2, "careername": "Business", "degreeid": 188, "degreename": "Financial Planning" },
+        { "careerid": 2, "careername": "Business", "degreeid": 150, "degreename": "Global Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 865, "degreename": "Healthcare Admin. / Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 398, "degreename": "Hospitality Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 334, "degreename": "Human Resources" },
+        { "careerid": 2, "careername": "Business", "degreeid": 153, "degreename": "Information Security" },
+        { "careerid": 2, "careername": "Business", "degreeid": 155, "degreename": "International Business" },
+        { "careerid": 2, "careername": "Business", "degreeid": 154, "degreename": "IT Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 75, "degreename": "Law and Justice" },
+        { "careerid": 2, "careername": "Business", "degreeid": 156, "degreename": "Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 157, "degreename": "Marketing" },
+        { "careerid": 2, "careername": "Business", "degreeid": 158, "degreename": "Merchandising" },
+        { "careerid": 2, "careername": "Business", "degreeid": 31, "degreename": "Network Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 861, "degreename": "Nonprofit Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 160, "degreename": "Office Admin. / Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 228, "degreename": "Office Clerical" },
+        { "careerid": 2, "careername": "Business", "degreeid": 161, "degreename": "Operations Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 162, "degreename": "Project Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 313, "degreename": "Public Administration" },
+        { "careerid": 2, "careername": "Business", "degreeid": 872, "degreename": "Public Relations" },
+        { "careerid": 2, "careername": "Business", "degreeid": 163, "degreename": "Sales" },
+        { "careerid": 2, "careername": "Business", "degreeid": 177, "degreename": "Small Business Mgmt." },
+        { "careerid": 2, "careername": "Business", "degreeid": 273, "degreename": "Sports Management" },
+        { "careerid": 2, "careername": "Business", "degreeid": 124, "degreename": "Supply Chain Mgmt. / Logistics" },
+        { "careerid": 2, "careername": "Business", "degreeid": 34, "degreename": "System Admin." },
+        { "careerid": 2, "careername": "Business", "degreeid": 166, "degreename": "Telecommunications" },
+        { "careerid": 2, "careername": "Business", "degreeid": 167, "degreename": "Travel and Tourism" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 858, "degreename": "CART/Captioning" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 391, "degreename": "Corrections" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 269, "degreename": "Court Reporting" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 142, "degreename": "Criminal Justice" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 867, "degreename": "Forensics" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 151, "degreename": "Homeland Security" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 813, "degreename": "International Law" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 869, "degreename": "Investigation" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 26, "degreename": "Justice Business Tech." },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 341, "degreename": "Law" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 390, "degreename": "Law Enforcement / Police" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 190, "degreename": "Legal Nurse Consultant" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 204, "degreename": "Legal Office Admin. / Technology" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 814, "degreename": "Legal Studies" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 192, "degreename": "Paralegal / Legal Assistant" },
+        { "careerid": 279, "careername": "Criminal Justice & Law", "degreeid": 857, "degreename": "Stenography" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 300, "degreename": "Baking and Pastry" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 79, "degreename": "Catering Management" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 76, "degreename": "Culinary Arts" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 78, "degreename": "Culinary Management" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 476, "degreename": "Hospitality Management" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 77, "degreename": "Restaurant Management" },
+        { "careerid": 3, "careername": "Culinary Arts", "degreeid": 243, "degreename": "Wine Studies" },
+        { "careerid": 287, "careername": "Education", "degreeid": 144, "degreename": "Curriculum & Instruction" },
+        { "careerid": 287, "careername": "Education", "degreeid": 296, "degreename": "Early Childhood Education" },
+        { "careerid": 287, "careername": "Education", "degreeid": 147, "degreename": "Education" },
+        { "careerid": 287, "careername": "Education", "degreeid": 866, "degreename": "Educational Leadership" },
+        { "careerid": 287, "careername": "Education", "degreeid": 315, "degreename": "ESL - Teaching" },
+        { "careerid": 287, "careername": "Education", "degreeid": 174, "degreename": "General Studies" },
+        { "careerid": 287, "careername": "Education", "degreeid": 868, "degreename": "Instructional Leadership" },
+        { "careerid": 287, "careername": "Education", "degreeid": 870, "degreename": "Leadership Studies" },
+        { "careerid": 287, "careername": "Education", "degreeid": 871, "degreename": "Organizational Leadership" },
+        { "careerid": 287, "careername": "Education", "degreeid": 297, "degreename": "Secondary Education" },
+        { "careerid": 287, "careername": "Education", "degreeid": 873, "degreename": "Social Work" },
+        { "careerid": 287, "careername": "Education", "degreeid": 874, "degreename": "Special Education" },
+        { "careerid": 287, "careername": "Education", "degreeid": 295, "degreename": "Teaching" },
+        { "careerid": 287, "careername": "Education", "degreeid": 331, "degreename": "Theology / Ministry / Religion" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 240, "degreename": "Addictions Worker" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 283, "degreename": "Alternative Medicine" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 775, "degreename": "Animal Grooming" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 397, "degreename": "Animal Study" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 455, "degreename": "Animal Training" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 226, "degreename": "Cardio-Phlebotomy Technician" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 40, "degreename": "Cardiovascular Tech." },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 209, "degreename": "Chiropractic" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 42, "degreename": "Clinical Medical Assistant" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 55, "degreename": "Conflict Resolution" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 54, "degreename": "Counseling" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 211, "degreename": "Dental Assisting" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 43, "degreename": "Dental Hygienist" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 835, "degreename": "Dental Lab Technician" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 45, "degreename": "Dialysis Technician" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 46, "degreename": "Echocardiographer" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 238, "degreename": "Electrocardiography" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 514, "degreename": "EMS / Paramedic" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 332, "degreename": "Gerontology" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 48, "degreename": "Health Care Admin. / Management" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 51, "degreename": "Health Care Reimbursement" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 49, "degreename": "Health Information Tech." },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 50, "degreename": "Health Unit Coordinator" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 39, "degreename": "Health/Biomedical Informatics" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 136, "degreename": "Human Services" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 178, "degreename": "Insurance Billing / Coding" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 52, "degreename": "Legal Nurse Consultant" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 683, "degreename": "LPN to RN" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 469, "degreename": "LPN/PN - Practical Nursing" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 169, "degreename": "Marriage & Family Therapy" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 680, "degreename": "Masters of Science in Nursing" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 56, "degreename": "Medical Admin. & Mgmt." },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 57, "degreename": "Medical Assisting" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 58, "degreename": "Medical Billing and Coding" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 60, "degreename": "Medical Clinical Specialist" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 44, "degreename": "Medical Diagnostics" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 62, "degreename": "Medical Laboratory Technician" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 227, "degreename": "Medical Office Assistant" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 53, "degreename": "Medical Radiography" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 207, "degreename": "Medical Sonographer" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 63, "degreename": "Medical Specialization" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 64, "degreename": "Medical Transcription" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 171, "degreename": "Mental Health Counseling" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 863, "degreename": "Nurse Practitioner " },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 65, "degreename": "Nursing" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 326, "degreename": "Nursing - RN to BSN" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 41, "degreename": "Nursing Assistant (CNA)" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 840, "degreename": "Nutritionist" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 239, "degreename": "Orthopedic" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 67, "degreename": "Patient Care" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 68, "degreename": "Pharmacy Technician" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 69, "degreename": "Phlebotomy" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 205, "degreename": "Physical Therapist" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 168, "degreename": "Psychology" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 70, "degreename": "Radiology" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 236, "degreename": "Rehabilitation Therapy Assistant" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 71, "degreename": "Respiratory Care & Therapy" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 328, "degreename": "Skin Care" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 170, "degreename": "Sport-Exercise Psychology" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 73, "degreename": "Surgical Technology" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 206, "degreename": "Ultrasound Technologist" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 175, "degreename": "Veterinary" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 471, "degreename": "Vocational Nursing (LVN)" },
+        { "careerid": 4, "careername": "Health Care / Human Services", "degreeid": 74, "degreename": "X-Ray Technician" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 836, "degreename": "Agriculture" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 344, "degreename": "American Studies" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 345, "degreename": "Anthropology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 346, "degreename": "Archaeology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 347, "degreename": "Art History" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 876, "degreename": "Astronomy" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 349, "degreename": "Biochemistry &  Molecular Biology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 350, "degreename": "Bioinformatics" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 352, "degreename": "Biology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 353, "degreename": "Chemistry" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 862, "degreename": "Christian Studies" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 355, "degreename": "English / Creative Writing" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 356, "degreename": "English Literature" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 357, "degreename": "Environmental Science" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 841, "degreename": "ESL" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 358, "degreename": "General Arts and Sciences" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 360, "degreename": "General Studies" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 361, "degreename": "Geography" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 362, "degreename": "History" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 363, "degreename": "Human Biology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 411, "degreename": "Italian" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 367, "degreename": "Languages and Literature" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 368, "degreename": "Languages Other than English" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 371, "degreename": "Liberal Arts" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 373, "degreename": "Library Science" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 374, "degreename": "Literature" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 385, "degreename": "Mathematics" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 838, "degreename": "Physics" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 386, "degreename": "Political Science" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 375, "degreename": "Psychology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 376, "degreename": "Social Sciences" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 377, "degreename": "Sociology" },
+        { "careerid": 343, "careername": "Liberal Arts", "degreeid": 410, "degreename": "Spanish" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 257, "degreename": "Acupuncture & Oriental Medicine" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 291, "degreename": "Alternative Medicine" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 259, "degreename": "Chiropractic" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 260, "degreename": "Holistic Health / Homeopathy" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 268, "degreename": "Hypnotherapy / Polarity / Reiki" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 412, "degreename": "Manual Medicine" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 37, "degreename": "Massage Therapy" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 266, "degreename": "Massage Therapy CEUs" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 276, "degreename": "Metaphysics / Healtheology / Divinity" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 47, "degreename": "Personal Training / Fitness" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 258, "degreename": "Physical Therapy" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 262, "degreename": "Reflexology" },
+        { "careerid": 256, "careername": "Massage / Wellness", "degreeid": 72, "degreename": "Spa Therapies" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 83, "degreename": "A+ Certification" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 81, "degreename": "Advanced Electronics" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 84, "degreename": "Architectural Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 274, "degreename": "Audio Technology" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 38, "degreename": "Biomedical Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 87, "degreename": "Cable Network Technician" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 185, "degreename": "Certified Internet Webmaster" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 90, "degreename": "Cisco&reg;" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 214, "degreename": "Communication Technician" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 186, "degreename": "CompTIA" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 92, "degreename": "Computer & Telecom. Electronics" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 93, "degreename": "Computer Aided Design Tech." },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 85, "degreename": "Computer Applications" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 94, "degreename": "Computer Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 105, "degreename": "Computer Hardware" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 330, "degreename": "Computer Information Systems - CIS/IT" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 95, "degreename": "Computer Networking" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 96, "degreename": "Computer Office Technologies" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 97, "degreename": "Computer Programming" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 98, "degreename": "Computer Repair" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 99, "degreename": "Computer Science" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 100, "degreename": "Computer Systems Security" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 102, "degreename": "Computer Systems Technician" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 103, "degreename": "Computer Technical Support" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 104, "degreename": "Computer Technology" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 106, "degreename": "Computerized Office Applications" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 179, "degreename": "Database Development" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 285, "degreename": "Desktop & Web Publishing" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 837, "degreename": "Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 220, "degreename": "Engineering Management" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 111, "degreename": "Enterprise Applications Developer" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 112, "degreename": "Game Software Development" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 832, "degreename": "Information Technology" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 117, "degreename": "Instructional Technology" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 118, "degreename": "Internet  Programmer" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 119, "degreename": "Java Programming" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 335, "degreename": "MCSE" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 121, "degreename": "Mechanical Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 122, "degreename": "Microsoft Certification" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 829, "degreename": "Mobile App Development" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 218, "degreename": "Network Administration Security" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 184, "degreename": "Oracle" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 125, "degreename": "PC Support Specialist" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 127, "degreename": "Programming" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 129, "degreename": "Robotics" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 101, "degreename": "Software Development" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 219, "degreename": "Software Engineering" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 130, "degreename": "Software Technologies" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 180, "degreename": "Technology Management" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 131, "degreename": "Visual Communications" },
+        { "careerid": 5, "careername": "Technology / Computer / IT", "degreeid": 89, "degreename": "Web Development" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 128, "degreename": "Air Conditioning / Refrigeration" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 86, "degreename": "Auto Body Technology" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 173, "degreename": "Automotive Technology" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 468, "degreename": "CDL/Commercial Driving" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 304, "degreename": "Construction Management" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 320, "degreename": "Diving - Commercial" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 339, "degreename": "Diving - Scuba" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 108, "degreename": "Electrical Engineering" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 109, "degreename": "Electrician" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 110, "degreename": "Electronic  Engineering" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 221, "degreename": "Electronic Service Technician" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 342, "degreename": "Fire Science" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 827, "degreename": "Green Technology" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 336, "degreename": "Gunsmithing" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 653, "degreename": "Heavy Equipment Training" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 329, "degreename": "Home Inspection Training" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 826, "degreename": "Horticulture" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 172, "degreename": "HVAC" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 113, "degreename": "Industrial Technology" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 120, "degreename": "Marine Mechanics" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 382, "degreename": "Motorcycle Mechanics" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 383, "degreename": "NASCAR Technician" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 126, "degreename": "Plumber" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 684, "degreename": "Real Estate Appraisal" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 828, "degreename": "Solar Technology" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 381, "degreename": "Watch-Clock Making / Repair" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 241, "degreename": "Welding" },
+        { "careerid": 286, "careername": "Trade", "degreeid": 788, "degreename": "Wind Turbine" }
+    ];
+
+    function getDegreesForCareer(careerid) {
+        var results = new Array();
+
+        for (var i = 0; i < degreetaxonomy.length; i++) {
+            if (degreetaxonomy[i].careerid == careerid) {
+                results.push(degreetaxonomy[i]);
+            }
+        }
+        return results;
+    }
+
+</script>
+
+

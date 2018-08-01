@@ -1,0 +1,358 @@
+﻿
+
+* {
+    font-family:'open sans';
+}
+
+.container {
+    padding:0;
+}
+
+.pageContainer {
+    min-height:100%;
+}
+
+.welcomeSection {
+    background-color:rgb(23, 184, 214);
+}
+
+.blue {
+    background-color:rgb(23, 184, 214);
+}
+
+.section {
+    min-height:500px;
+    padding:100px 15px;
+    background-position: center top;
+    margin:0;
+    background-size:cover;
+}
+
+h1 {
+    color:#fff !important;
+    text-align:center;
+}
+
+.enterBtn {
+    border: 2px solid #fff;
+    border-radius: 15px;
+    width: 300px;
+    height: 70px;
+    line-height: 66px;
+    padding: 0;
+    color: #fff;
+    font-size: 23px;
+    font-family: 'open sans';
+    text-transform: uppercase;
+    position:relative;
+}
+
+.enterBtn.blue:hover, .enterBtn.blue:focus, .enterBtn.blue:active {
+    background-color: rgb(79, 206, 229);
+}
+
+.enterBtn:hover, .enterBtn:focus, .enterBtn:active {
+    background-color: rgb(230,230,230);
+    background-color: rgba(255,255,255, 0.3);
+    color:#fff;
+}
+
+.enterBtn .fa-angle-right {
+    position:absolute;
+    top:50%;
+    font-size:26px;
+    margin-top:-13px;
+    margin-left:15px;
+}
+
+.jumbotron {
+    position:relative;
+    margin-bottom:0;
+}
+
+.jumbotron p {
+    color: #fff !important;
+    font-size: 28px;
+    margin: 40px 20px;
+    text-align:center;
+}
+
+.section p {
+    color: #fff !important;
+    font-size: 26px;
+    margin: 40px 20px;
+    text-align:center;
+    font-weight:300;
+}
+
+.sectionTwo {
+    background-image: url(/Content/images/blackboard.jpg);
+}
+
+.section h2 {
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+h3 {
+    margin: 0;
+    background-color: rgb(23, 184, 214);
+    padding: 40px;
+    color: #fff;
+    font-weight: 300;
+    text-align: center;
+    font-size: 40px;
+}
+
+.sectionThree {
+    background-image: url('/Content/images/welcome/img1.jpg');
+    background-position: center top;
+}
+
+.sectionFour {
+    background-image: url('/Content/images/welcome/img2.jpg');
+    background-position: center top;
+}
+
+.sectionFive {
+    background-image: url('/Content/images/welcome/img3.jpg');
+    background-position: center top;
+}
+
+.sectionSix {
+    background-image: url('/Content/images/welcome/img4.jpg');
+}
+
+.sectionSeven {
+    background-image: url('/Content/images/welcome/img5.jpg');
+}
+
+.sectionEight {
+    background-image: url('/Content/images/welcome/img6.jpg');
+}
+
+.sectionNine {
+    background-image: url('/Content/images/welcome/img7.jpg');
+}
+
+.sectionTen {
+    background-image: url('/Content/images/welcome/img8.jpg');
+}
+
+.sectionEleven {
+    background-image: url('/Content/images/welcome/img9.jpg');
+}
+
+.sectionEleven .enterBtn {
+   margin-top:100px;
+}
+
+.sectionTwelve h2, .sectionTwelve p , .sectionFourteen p {
+    color: #000 !important;
+}
+
+.sectionTwelve h2 {
+    text-transform: none;
+    text-decoration: none;
+    font-size: 56px;
+}
+
+.sectionTwelve .enterBtn {
+    font-size:19px;
+}
+
+.sectionThirteen h2 {
+    font-size:63px;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.sectionFourteen {
+    padding-top: 130px;
+}
+
+.sectionFourteen p {
+    font-size:30px;
+    margin-bottom:80px;
+}
+
+
+.IN-widget, .inline-div, .fb-like, .g-plus, #___plus_0 {
+    display:inline-block !important;
+    vertical-align:middle !important;
+    line-height:22px !important;
+    height:22px !important;
+    margin-bottom:20px !important;
+}
+
+.fb_iframe_widget span {
+    height:22px !important;
+    line-height:22px !important;
+}
+
+.socialIconsHolder {
+    text-align: center;
+    padding: 80px 20px 40px;
+    margin:0;
+}
+
+.section.sectionFooter {
+    background-color: #000;
+    text-align: center;
+}
+
+.sectionFooter img {
+    display:inline-block;
+    text-align:center;
+    margin-bottom:50px;
+}
+
+
+ .sectionFooter p {
+     margin-bottom:0;
+ }
+
+ .sectionFooter .row {
+    padding: 0;
+    margin: 0;
+}
+
+
+ /*MIN WIDTH*/
+ @media only screen and (min-width: 0px) and (max-width:1200px) {
+    .container {
+        width: initial; 
+    }
+ }
+
+
+ /*MAX WIDTH*/
+@media only screen and (max-width:992px) {
+    .jumbotron h1, .jumbotron .h1, .sectionThirteen h2 {
+        font-size: 56px;
+    }
+
+    .logoText {
+        width:80%;
+    }
+
+    .section {
+        min-height:400px;
+    }
+
+    .sectionFourteen {
+        padding-top:100px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .jumbotron h1, .jumbotron .h1, .sectionThirteen h2 {
+        font-size: 46px;
+    }
+
+    h2 {
+        font-size:26px;
+    }
+
+    h3 {
+        font-size:30px;
+        padding:30px 20px;
+    }
+
+    .section p {
+        font-size:20px;
+    }
+
+    .enterBtn {
+        width:250px;
+        font-size:18px;
+    }
+
+    .sectionTwelve h2 {
+        font-size: 40px;
+    }
+
+    .enterBtn .fa-angle-right {
+        font-size: 20px;
+        margin-top: -10px;
+    }
+
+    .sectionTwelve .enterBtn {
+        font-size: 15px;
+    }
+
+    .logoText {
+        width:80%;
+    }
+
+    .sectionFooter p {
+        font-size:14px;
+    }
+}
+
+@media only screen and (max-width:500px) {
+    .jumbotron h1, .jumbotron .h1, .sectionThirteen h2 {
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 20px;
+        padding: 20px;
+    }
+
+    .section {
+        padding: 50px 10px;
+        min-height:initial;
+    }
+
+    .section p {
+        font-size: 16px;
+        margin:30px 15px;
+    }
+
+    .enterBtn {
+        height:60px;
+        line-height:60px;
+        font-size:14px;
+    }
+
+    .welcomeSection {
+        padding: 20px 10px;
+    }
+
+    .sectionTwelve h2 {
+        font-size: 28px;
+    }
+
+    .sectionFourteen {
+        min-height:300px;
+    }
+
+    .sectionFourteen p {
+        font-size: 20px;
+    }
+
+    .pictureSection {
+        min-height: 200px;
+        background-size: cover;
+    }
+
+    .sectionEleven {
+        min-height:160px;
+    }
+
+    .sectionFooter p {
+        font-size: 14px;
+        margin: 40px 0;
+    }
+
+    .socialIconsHolder {
+        padding: 30px 5px 0;
+    }
+}

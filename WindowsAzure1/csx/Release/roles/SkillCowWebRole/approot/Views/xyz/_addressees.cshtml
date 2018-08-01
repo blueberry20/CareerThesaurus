@@ -1,0 +1,46 @@
+﻿@using SkillCow.Classes.Cloud.TableStorage
+@using Microsoft.WindowsAzure.StorageClient
+@using Newtonsoft.Json.Linq
+@using System.Text;
+@model AddresseeClient
+@{
+    ViewBag.Title = "Addressees";
+}
+
+@{
+    List<Addressee> allrecords = new List<Addressee>();
+    CloudTableQuery<Addressee> query = Model.GetAll();
+    allrecords.AddRange(query.Execute().OrderByDescending(x => x.Timestamp));
+
+    int cnt = 0;
+}
+<br />
+<div class="pagecontent rounded20" style="margin: 0 auto; background-color: rgba(255,255,255,0.5); text-align: left; padding: 20px;">
+    <h1>Addressees</h1>
+    <br />
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Registered Date</th>
+            <th>Unsubscribed</th>
+            <th>Unsubscribed Date</th>
+        </tr>
+    @foreach (var addressee in allrecords)
+    {
+        <tr>
+            <td align="right">@(++cnt)</td>
+            <td>@(addressee.Name)</td>
+            <td>@(addressee.Email)</td>
+            <td>@(addressee.Timestamp)</td>
+            <td>@(addressee.Unsubscribed)</td>
+            <td>@(addressee.UnsubscribedUTCDate)</td>
+        </tr>
+    }
+    </table>
+</div>
+<style>
+    th { text-align: left;}   
+    td {padding: 0 10px 0 1px; color: #000;}
+</style>

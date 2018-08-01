@@ -1,0 +1,395 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    
+    div.result_panel { position:relative; margin: 0 0 0 @(ViewBag.IsMobileDevice?"40px":"80px"); float: left; border: thin none yellow; }
+    div.result_panel .smalltitle { position: relative; font-size: 12pt; margin: 10px 10px 20px 0; padding-right: 10px; }
+    div.result_panel .title { position: relative; font-size: 18pt; margin: 10px 10px 20px 0; padding-right: 10px; }
+    div.result_panel .titlesuffix { position: relative; font-size: 12pt; margin: 5px 10px 20px 0; padding-right: 10px; }
+    div.result_panel .titlesuffix img { position: absolute; right: -31px; top: -6px;  }
+    
+    .result_attribute { position: relative; background-color: rgba(0,0,0,0.9); width: @(ViewBag.IsMobileDevice ? "200px" : "300px"); margin-bottom: 1px; padding: @(ViewBag.IsMobileDevice ? "11px" : "10px") 15px @(ViewBag.IsMobileDevice ? "7px" : "16px") 15px; font-size: @(ViewBag.IsMobileDevice?"12pt":"16pt"); cursor: pointer;}
+    .result_attribute_active { background-color: rgba(0,176,240,1);}
+    .result_attribute img {position: absolute; right: 10px; top: @(ViewBag.IsMobileDevice ? "3px" : "13px"); }
+
+    
+</style>
+
+<div id="_test_results" style="position: fixed; width: 100%; top: 0px; bottom: 0px; z-index: 99999; display: none;" class="backdrop">
+    
+    <h1 style="@(ViewBag.IsMobileDevice?"font-size: 18pt":""); margin: @(ViewBag.IsMobileDevice?"30px":"20px") 0 0 @(ViewBag.IsMobileDevice?"100px":"390px");">Your Recommended Professions by Category</h1>
+                
+    <div id="_test_results_viewport" style="position: absolute; width: 100%; border: thin none red; bottom: 0px; height: @(ViewBag.IsMobileDevice?"560px":"800px"); overflow-x: scroll; display: none;">
+        <div id="_test_results_scrollablecontent" style="overflow-y: hidden; border: thin none yellow; height: @(ViewBag.IsMobileDevice?"560px":"800px"); margin-left: 100px; opacity: 0; vertical-align: top;">
+            
+            <!--TEST RESULTS GO HERE-->
+
+            <div class="result_panel" style="margin-left: @(ViewBag.IsMobileDevice ? "40px" : "125px"); height: 700px;">
+                <div id="result_attributes"></div>
+            </div>
+
+            <div class="result_panel" style="height: 700px; min-width: 300px; display: none;">    
+                <div class="title">Matched Jobs</div>
+                <div id="matchedjobs" style="margin-left: -10px; @(ViewBag.IsMobileDevice ? "" : "")"></div>
+            </div>
+
+            <div class="result_panel" style="height: 700px; min-width: 300px; ">
+                <div class="title">Select a Field</div>
+                <div id="recommendedprofessions" style="margin-left: -10px; @(ViewBag.IsMobileDevice ? "" : "")"></div>
+            </div>
+
+        </div>
+    </div>
+        
+    <div id="_test_results_backbutton" class="backbutton" ></div>
+</div>
+
+@Html.Partial("_attribute_description")
+@Html.Partial("_profession_branch")
+
+<script>
+    var _test_results_loaded = false;
+    var trboxwidth = @(ViewBag.IsMobileDevice?"287":"280");
+    var adjustment = -90;
+    var trboxheight = trboxwidth + 54;
+    var trboxsizeadjusted=false;
+    var trROWS = @(ViewBag.IsMobileDevice ? "1" :"2");
+    
+    function showTestResults() {
+        
+        $('#recommendedprofessions').html('<img src="/content/preloaders/25.gif"/>');
+
+        showOverlay('_test_results');
+
+        setTimeout(doShowTestResultsWork, @(ViewBag.IsMobileDevice ? "500" :"0"));
+    }
+
+    function doShowTestResultsWork()
+    {
+        var inputs = getinputs();
+
+        loadResulAttributes(inputs);
+        
+        var professionmatches = matchprofessions(inputs);
+        var professionsscrollablewidth = 0;
+        if (professionmatches.length > 0) {
+            professionsscrollablewidth = showmatchedprofessions(professionmatches);
+        }
+
+        //matchFeaturedJobs();
+                
+        $('#_test_results_scrollablecontent').css('width', professionsscrollablewidth*1.5);
+        $("#_test_results_viewport").niceScroll("#_test_results_scrollablecontent", { cursorcolor: "rgba(0,0,0,0)" });
+        $("#_test_results_viewport").getNiceScroll().resize();
+        $("#_test_results_viewport").show();
+        $('#_test_results_scrollablecontent').animate({ 'margin-left': '0px', 'opacity': 1 }, 1500);
+
+        if (!_test_results_loaded) {
+            $('#_test_results_backbutton').press(function () {
+                hideOverlay('_test_results');
+            });
+
+            $(document).keydown(function (e) {
+                if (e.keyCode == 27) {
+                    hideOverlay('_test_results');
+                }
+            });
+
+            _test_results_loaded = true;
+        }
+
+        if(ismobile)
+        {
+            //Formatting
+            $('#_test_results_viewport').css('height', document.documentElement.clientHeight - 90);
+            $('#_test_results_scrollablecontent').css('height', document.documentElement.clientHeight - 90);
+        }
+    }
+
+    function loadResulAttributes(inputs) {
+
+        $('#result_attributes').html('');
+        for (var i = 0; i < inputs.length; i++) {
+            
+            addAttribute(i, inputs[i]);
+        }
+
+        $('.result_attribute').press(function () {
+            $(this).addClass('result_attribute_active');
+            showAttributeDescription(this);
+        });
+    }
+
+    function addAttribute(sequence, input) {
+        $('#result_attributes').append('<div class="result_attribute" attributecaption="' + widgetattributename(input.dimension, input.value) + '" dimension="' + input.dimension + '" value="' + input.value + '">' + widgetattributename(input.dimension, input.value) + '<img src="/content/images/kiosk/icons/disc_31.png" /></div>');
+    }
+
+    function sortbyrelevance(a, b) {
+        if (highestRelevance(a) < highestRelevance(b))
+            return 1;
+        if (highestRelevance(a) > highestRelevance(b))
+            return -1;
+        return 0;
+    }
+    function highestRelevance(branch) {
+        var max = 0;
+        for (var i = 0; i < branch.matches.length; i++) {
+            max = branch.matches[i].relevance > max ? branch.matches[i].relevance : max;
+        }
+        return max;
+    }
+
+    function showmatchedprofessions(matches) {
+
+        var branches = groupmatchesbybranch(matches);
+        branches.sort(sortbyrelevance);
+
+        $('#recommendedprofessions').html('');
+
+        //See if we can fit two rows of smaller boxed on mobile screen
+        if(branches.length > 3 && trboxsizeadjusted==false && @(ViewBag.IsMobileDevice ? "true" :"false"))
+        {
+            var smallerboxsize = trboxheight + adjustment;
+            //Check if we can fit 3 rows
+            if(document.documentElement.clientHeight - 90 - 80 > smallerboxsize * 3 + 20)
+            {
+                trROWS = 3;
+                trboxwidth = trboxwidth + adjustment;
+                trboxheight = trboxwidth + 54;
+                trboxsizeadjusted=true;
+            }
+            else if(document.documentElement.clientHeight - 90 - 80 > smallerboxsize * 2 + 10)
+            {
+                trROWS = 2;
+                trboxwidth = trboxwidth + adjustment;
+                trboxheight = trboxwidth + 54;
+                trboxsizeadjusted=true;
+            }
+        }
+                
+        
+        var B2 = branches.length;
+        var E2 = (B2 + 2) % trROWS;
+        var itemsperrow = Math.max(2, (B2 - E2 + 2) / trROWS);
+        
+        //Initial width is set to attributes panel width
+        var totalwidth = @(ViewBag.IsMobileDevice ? "200" : "300") + 30 + @(ViewBag.IsMobileDevice ? "40" : "125");
+
+        var cnt = 0;
+        var calculatewidth=true;
+        for (var v = 0; v < branches.length; v++) {
+            if (branches[v].name != '') {
+                cnt++;
+
+                var linebreak = false;
+
+                if (cnt % itemsperrow == 0) {
+                    linebreak = true;
+                }
+                
+                if(linebreak) {
+                    calculatewidth=false;
+                }
+
+                if(calculatewidth) {
+                    totalwidth += trboxwidth + 2 + 10;
+                }
+
+                var addreflection = trROWS == 1;
+                addBranch(v, branches[v], linebreak, addreflection);
+
+
+            }
+        }
+
+        $('.clickableprofessionbranch').click(function () {
+            showProfessionBranch(this);
+        });
+
+        return totalwidth;
+    }
+
+    function addBranch(sequence, branch, linebreak, addreflection) {
+        $('#recommendedprofessions').append('<div class="flipbox-container box100" style="position: relative; display: inline-block; margin-left: 10px;"><div class="flipbox" style="position: relative; display: inline-block; width:' + trboxwidth + 'px; height: ' + trboxheight + 'px; ">' +
+            '<div style="position: absolute; top: 0; left: 0; width:' + trboxwidth + 'px; height: ' + trboxheight + 'px; border: thin @(ViewBag.IsMobileDevice?"none":"solid") black;" class="">' +
+            '<img src="/content/images/careerassessment/covers/bybranch/' + branch.name.replace(/\s/g, '').replace(/\,/g, '') + '.jpg" style="position: absolute; top: 26px; left:0px; width: ' + trboxwidth + 'px; height: ' + trboxwidth + 'px;" />' +
+            '<div style="position: absolute; top: 0px; left: 0px; width: ' + (trboxwidth - 10) + 'px; height: 22; text-align: left; font-size: 10pt; padding: 5px; color: #fff; background-color: rgba(0,0,0,1);">' + branch.name + '</div>' +
+            '<div style="position: absolute; top: ' + (trboxwidth + 26) + 'px; left: 0px; width: ' + (trboxwidth - 10) + 'px; height: 22; text-align: left; font-size: 10pt; padding: 5px; color: #fff; background-color: #000;">' + branch.matches.length + ' professions</div>' +
+            '</div>' +
+            '<div branch="' + branch.name + '" id="panel' + sequence + '" style="position: absolute; left: 0px; top: 0px; width:' + (trboxwidth + 2) + 'px; height: ' + trboxheight + 'px;">' +
+            '<@(ViewBag.IsMobileDevice?"div":"input") type="button" class="invisiblebutton clickableprofessionbranch" value="" branch="' + branch.name + '" style="position: absolute; top: 0px; left: 0px; width: ' + (trboxwidth + 2) + 'px; height: ' + trboxheight + 'px; outline: none;" @(ViewBag.IsMobileDevice?"></div>":"/>")' +
+            '</div>'+
+            (addreflection ? '<div class="whitereflection" style="position: absolute; top: '+(trboxheight + 5)+'px; left: 0px; width: '+trboxwidth+'px; height: 150px;"></div>' : '') +
+            '</div>');
+
+        if (linebreak) {
+            $('#recommendedprofessions').append('<div style="clear: both;"></div>');
+        }
+    }
+
+    function matchFeaturedJobs() { 
+
+        var results = new Array();    
+        var RESULT_SEQUENCE = 0;
+        var startingresultnumber = 0;
+
+        var dimensionsjson = getCookie("testresults2");
+        var importantthingsjson = getCookie("importantthings2");
+
+        if (dimensionsjson == null || dimensionsjson == '' || importantthingsjson == null || importantthingsjson == '') {
+            return results;
+        }
+
+        $.ajax({
+            url: appserverurl + "/jobs/matchjobs",
+            type: "POST",
+            dataType: "json",
+            data: {
+                zip: getCookie('zip'),
+                a: dimensionsjson,
+                t: importantthingsjson,
+                g: getCookie('gender')
+            }
+        }).success(function (response) {
+            if (response.result == 'ok') {
+                
+                debugalert('Got jobs');
+
+                try{
+                    var jobs = response.results.sort(sortbyjobmatchscore);
+
+                    if (jobs.length > 0) {
+                        showmatchedjobs(jobs);
+                    }
+
+                    debugalert('jobs added');
+                }
+                catch(e)
+                {
+                    debugalert(e.message);
+                }
+
+            }
+                
+        }).error(function (response) {
+            
+        });
+    }
+
+    
+    function sortbyjobmatchscore(a, b) {
+        if ((a.attributescore + a.importantthingsscore) < (b.attributescore + b.importantthingsscore))
+            return 1;
+        if ((a.attributescore + a.importantthingsscore) > (b.attributescore + b.importantthingsscore))
+            return -1;
+        return 0;
+    }
+
+    function showmatchedjobs(jobs) {
+    
+        $('#matchedjobs').html('');
+
+        var submitted = getCookie("school_submitted");
+        var submittedlist = new Array();
+        if (submitted != null && submitted != "") {
+            submittedlist = submitted.split(',');
+        }
+
+        var B2 = jobs.length;
+        var E2 = (B2 + 2) % trROWS;
+        var itemsperrow = Math.max(2, (B2 - E2 + 2) / trROWS);
+        
+        var cnt = 0;
+        var calculatewidth=true;
+
+        for (var v = 0; v < jobs.length; v++) {
+            if (jobs[v].name != '') {
+                
+                cnt++;
+
+                var linebreak = false;
+
+                if (cnt % itemsperrow == 0) {
+                    linebreak = true;
+                }
+                
+                if(linebreak) {
+                    calculatewidth=false;
+                }
+
+                if(calculatewidth) {
+                    totalwidth += trboxwidth + 2 + 10;
+                }
+
+                var addreflection = trROWS == 1;
+
+                debugalert('Adding a job');
+                addMatchedJob(v, jobs[v], submittedlist, linebreak);
+            }
+        }
+
+        $('.clickablematchedjob').click(function () {
+            showProfessionBranch(this);
+        });
+
+        return totalwidth;
+    }
+
+    function addFeaturedJobResult(sequence, branch, linebreak, addreflection) {
+        
+
+        var html = '<div class="flipbox-container box100" style="position: relative; display: inline-block; margin-left: 10px;"><div class="flipbox" style="position: relative; display: inline-block; width:' + trboxwidth + 'px; height: ' + trboxheight + 'px; ">' +
+            '<div style="position: absolute; top: 0; left: 0; width:' + trboxwidth + 'px; height: ' + trboxheight + 'px; border: thin @(ViewBag.IsMobileDevice ? "none" : "solid") black;" class="">' +
+
+            '<img src="/content/images/careerassessment/covers/bybranch/' + branch.name.replace(/\s/g, '').replace(/\,/g, '') + '.jpg" style="position: absolute; top: 26px; left:0px; width: ' + trboxwidth + 'px; height: ' + trboxwidth + 'px;" />' +
+            '<div style="position: absolute; top: 0px; left: 0px; width: ' + (trboxwidth - 10) + 'px; height: 22; text-align: left; font-size: 10pt; padding: 5px; color: #fff; background-color: rgba(0,0,0,1);">' + branch.name + '</div>' +
+            '<div style="position: absolute; top: ' + (trboxwidth + 26) + 'px; left: 0px; width: ' + (trboxwidth - 10) + 'px; height: 22; text-align: left; font-size: 10pt; padding: 5px; color: #fff; background-color: #000;">' + branch.matches.length + ' professions</div>' +
+            '</div>' +
+
+            '<div branch="' + branch.name + '" id="panel' + sequence + '" style="position: absolute; left: 0px; top: 0px; width:' + (trboxwidth + 2) + 'px; height: ' + trboxheight + 'px;">' +
+
+                '<@(ViewBag.IsMobileDevice?"div":"input") type="button" class="invisiblebutton clickableprofessionbranch" value="" branch="' + branch.name + '" style="position: absolute; top: 0px; left: 0px; width: ' + (trboxwidth + 2) + 'px; height: ' + trboxheight + 'px; outline: none;" @(ViewBag.IsMobileDevice?"></div>":"/>")' +
+            
+            '</div>'+
+
+            ( addreflection ? '<div class="whitereflection" style="position: absolute; top: ' + (trboxheight + 5) + 'px; left: 0px; width: ' + trboxwidth + 'px; height: 150px;"></div>' : '' ) +
+            
+            '</div>';
+
+        if (linebreak) {
+            $('#recommendedprofessions').append('<div style="clear: both;"></div>');
+        }
+
+
+    }
+
+    function addMatchedJob(sequence, x, submittedlist, linebreak) {
+    
+        var timestamp = getTimestampFromIndeedTime(x.date);
+
+        var html = '<div id="panel' + sequence + '" style="position: relative; display: inline-block;  margin-top: ' + _job_search_results_itemstopmargin + 'px; margin-left: ' + margin + 'px; width:' + _job_search_results_resultwidth + 'px; height: 480px;" class="">' +
+        '<div style="position: absolute; top: 0; left: 0; width:' + (_job_search_results_resultwidth - 20) + 'px; height: ' + (_job_search_results_resultheight - 20) + 'px; border: thin solid black; font-family: ' + (ismobile ? 'Arial' : 'Arial') + '; font-size: 10pt; color: #333; padding: 10px;" class="diagonalwhitegradient">' +
+
+        '    <img src="/content/images/kiosk/check.png" style="position: absolute; bottom: 50px; left: ' + (_job_search_results_resultwidth / 2 - 162 / 2) + 'px; opacity: 0.3; display: ' + (recordSubmitted(submittedlist, x.jobkey) ? '' : 'none') + '" class="x_indeedjob' + x.jobkey + '"/>' +
+        '<div style="position:absolute; left:10px; top: 70px; width:' + (_job_search_results_resultwidth - 20) + 'px; height:' + (_job_search_results_resultheight - 20) + 'px; text-align: center;" class="boxcenter">' +
+        '    <img src="' + x.companylogo + '" style="max-width: ' + (_job_search_results_resultwidth - 100) + 'px; max-height:' + (_job_search_results_resultheight - 100) + 'px; margin: 0 auto;"/>' +
+        '</div>' +
+        '    <span style="font-size: 12pt; font-weight: 400;"><b>' + x.jobtitle + '</b></span><br /><br />' +
+        '    <div style="position: absolute; bottom: 5px; left: 0px; width: ' + (_job_search_results_resultwidth - 5) + 'px; text-align:right; padding: 0 0px 5px 0; " class="age" timestamp="' + timestamp + '">' + getElapsedTime(timestamp) + '</div>' +
+        '</div>' +
+        '<div class="whitereflection" style="position: absolute; top: ' + (_job_search_results_resultheight) + 'px; left: 1px; width: ' + (_job_search_results_resultwidth) + 'px; height: 100px;"></div>' +
+
+        '<@(ViewBag.IsMobileDevice ? "div" : "input") type="button" class="invisiblebutton clickablematchedjob" value="" style="position: absolute; top: 0px; left: 0px; width: ' + (_job_search_results_resultwidth + 2) + 'px; height: ' + (_job_search_results_resultheight + 2) + 'px; outline:none;" clienttype="' + x.clienttype + '" logoclientid="' + x.clientid + '" clientid="' + x.clientid + '" frontendname="'+x.company+'" listingtype="scjob" jobkey="' + x.jobkey + '" formid="' + x.formid + '"@Html.Raw(ViewBag.IsMobileDevice?"></div>":"/>")' +
+
+        '</div>';
+
+        $('#matchedjobs').append(html);
+
+        if (linebreak) {
+            $('#matchedjobs').append('<div style="clear: both;"></div>');
+        }
+    }
+
+</script>

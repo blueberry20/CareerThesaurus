@@ -1,0 +1,341 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.School;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroupPinCode;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.AssessmentGroup;
+@{
+    SchoolAccountClient sac = new SchoolAccountClient();
+    AssessmentGroupClient agc = new AssessmentGroupClient();
+    AssessmentGroupPinCodeClient agpcc = new AssessmentGroupPinCodeClient();
+    ViewBag.Title = "School";
+}
+
+<!--========================School Page========================================-->
+
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer whiteBgPage blueBackground" id="schoolPage">
+
+    <div class="container">
+        @{
+            if (ViewBag.Demo != null)
+            {
+                <div class="demoContainer row">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 col1">
+                            <h2>Your School</h2>
+                            <p>Create student groups and send a link with a pincode to your students to join.</p>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 col2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder leftButton">
+                                <a href="@ViewBag.DemoNextStep" class="btn btn-default demoBtn">Next Slide</a>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 demoButtonHolder rightButton">
+                                <a href="/Signup/Administrator" class="btn btn-default btn-success">Sign up now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="directArrow row">
+                        <i class="fa fa-angle-down bottomArrow"></i>
+                        <div class="smalltext">Scroll down to view</div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="row orgRow">
+            <div class="classificationCrumbs col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="pull-right">
+                        <span class="welcomeMsg">Welcome @ViewBag.Name!</span>
+                        <span class="changePw">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </span>
+                    </li>
+                    <li class="active activeTab"><a href="/AdminPortal">Administrator Portal</a></li>
+                    <li><a href="/Analytics">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="row">
+            <ol class="breadcrumb">
+                <li><a href="/AdminPortal">Home</a></li>
+                <li class="active">School</li>
+            </ol>
+        </div>*@
+
+        <div class="row topRow">
+            @{
+                string schoolRowKey = ViewBag.School;
+                string teacher = ViewBag.Email;
+                SchoolAccount school = sac.GetByPartitionAndRowKey("school", schoolRowKey);
+                <h1 class="schoolName">@school.SchoolName</h1>
+                <p class="schoolAddress">@school.Address @school.City, @school.State @school.ZipCode</p>
+            }
+        </div>
+
+        <div class="row belowMargin">
+            @*<img class="questionIcon" src="../../Content/images/questionIcon2.png" alt="question icon" data-toggle="tooltip" data-placement="top" title="Show instructions" />*@
+            <p class="showInstructions">Show instructions<i class="fa fa-angle-down arrowDown" style="display: inline;"></i><i class="fa fa-angle-up arrowUp" style="display: none;"></i></p>
+       </div>
+
+        <div class="row schoolInstructions">
+            <p class="italic">Now you are ready to invite your students to participate in Career Assessment and Research.  The process is simple.</p>
+            <p>1. Create a group.<p>
+            <p>2. Instruct your students to go to www.careerthesaurus.com/SignUp/Student to register using 5 digit PIN code associated with the group. Alternatively, you can send a link to students to register.</p>
+        </div>
+
+        <div class="row">
+            <div class="row bottomMargin">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 addLineHeight nopadding">
+                    <h2>My Assessment Groups</h2>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right nopadding">
+                    <button class="btn btn-success addClassBtn">Create A Group</button>
+                </div>
+            </div>
+
+            <!--Hidable div-->
+            <div class="hidable row">
+                <div class="row">
+                    <div class="form-group col-lg-5 col-md-5">
+                        <label>Enter your assessment group name:</label>
+                    </div>
+                    <div class="form-group col-lg-7 col-md-7">
+                        <input type="text" class="form-control" id="newClassName">
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="form-group col-lg-5 col-md-5">
+                            <label>Pin Code:</label>
+                        </div>
+                        <div class="form-group col-lg-7 col-md-7">
+                            <input type="text" class="form-control" id="pincode" disabled>
+                        </div>
+                    </div>*@
+                @*<div class="row">
+                        <div class="form-group col-lg-4 col-md-4">
+                            <label>Select your role:</label>
+                        </div>
+                        <div class="form-group col-lg-8 col-md-8">
+                            <select class="form-control required" id="roleSelect" name="role">
+                                <option value="teacher">I am a teacher</option>
+                                <option value="counselor">I am a guidance counselor</option>
+                                <option value="administrator">I am an administrator</option>
+                            </select>
+                        </div>
+                    </div>*@
+                <div class="row extraMargin">
+                    <button class="btn btn-info createClassBtn pull-right">Create</button>
+                    <button type="button" class="btn btn-default cancelBtn pull-right">Cancel</button>
+                </div>
+            </div>
+            <div class="groups">
+                @{
+                    List<AssessmentGroup> groups = new List<AssessmentGroup>(agc.GetAllBySchoolAndTeacher(schoolRowKey, teacher));
+                    if (groups.Count == 0)
+                    {
+                        <div class="noGroupsAdded row">
+                            <div class="tableCell">
+                                <p>You haven't created any assessment groups yet</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (AssessmentGroup group in groups)
+                        {
+                            AssessmentGroupPinCode pinCode = agpcc.GetGuidForPinCode(group.RowKey, group.PartitionKey, group.Teacher, group.Group);
+                            <div class="classDiv row">
+                                <h3 class="schoolName">@group.Group</h3>
+                                <p class="pinCode">Student pincode: @group.RowKey</p>
+                                @*<p>Student link: <a href="http://CareerThesaurus.com/SignUp/Student?school=@(schoolRowKey)&code=@(group.RowKey)">http://CareerThesaurus.com/SignUp/Student?school=@(schoolRowKey)&code=@(group.RowKey)</a></p>*@
+                                <p>Student link: <a href="http://CareerThesaurus.com/SignUp/Student/@pinCode.RowKey">http://CareerThesaurus.com/SignUp/Student/@pinCode.RowKey</a></p>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            @*<div class="classDiv row">
+                    <div class="col-lg-12">
+                        <h3 class="schoolName">HTML</h3>
+                    </div>
+                </div>
+
+                <div class="classDiv row">
+                    <div class="col-lg-12">
+                        <h3 class="schoolName">Principles of Web Development</h3>
+                    </div>
+                </div>
+
+                <div class="classDiv row">
+                    <div class="col-lg-12">
+                        <h3 class="schoolName">Graphic Design</h3>
+                    </div>
+                </div>*@
+
+
+
+        </div>
+        @*<div class="row text-left">
+            <button class="btn btn-default removeSchoolBtn">Delete this school from my account</button>
+        </div>*@
+
+        <div class="modal fade twoButtonsModal" id="deleteSchoolModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove this school from your account?</p>
+                        <p class="smallerFont">You will have no access to groups associated with this school.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default twoButtons" id="CancelRemoval" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-default twoButtons" id="confirmRemoval" data-dismiss="modal" data-rowkey="@schoolRowKey" onclick="confirmSchoolRemoval(this);">Yes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <div class="modal fade oneButtonModal" id="schoolDeletedlModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>The school has been removed from your account.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="schoolDeletedBtn" class="btn btn-default oneButton" data-dismiss="modal">Ok</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div>
+</div>
+
+<script>
+    var school = '@ViewBag.School';
+    var teacher = '@ViewBag.Email';
+    var oddClick = false;
+
+    function document_ready() {
+        //center demo heading
+        if ($(window).width() > 750) {
+            $('.col1').css({ 'margin-top': ($('.col1').innerHeight() / 2 * -1) + 'px' });
+        }
+        $(window).resize(function () {
+            if ($(window).width() > 750) {
+                $('.col1').css({ 'margin-top': ($('.col1').height() / 2 * -1) + 'px', 'position': 'absolute' });
+            }
+            else {
+                $('.col1').css({ 'margin-top': '0', 'position': 'static' });
+            }
+        });
+
+        $('.noGroupsAdded').css('display', 'table');
+        $('.addClassBtn').click(function () {
+            //$(this).velocity({ height: '200px' });
+            $('.hidable').velocity('fadeIn', { duration: 500 });
+
+           // $('#pincode').val(generatePinCode);
+            // $('.hidable').show();
+        });
+
+        $('.cancelBtn').click(function () {
+            $('.hidable').velocity('fadeOut', { duration: 500 });
+        });
+        $('.createClassBtn').click(function () {
+            //var pin = $('#pincode').val();
+            var groupName = $('#newClassName').val();
+            createGroup(groupName).done(function (response) {
+                if (response.result == 'ok') {
+                    var html = '<div class="classDiv row">' +
+                                    '<h3 class="schoolName">' + groupName + '</h3>' +
+                                    '<p class="pinCode">Student pincode:' + response.pincode + '</p>' +
+                                    //'<p>Student link: <a href="http://CareerThesaurus.com/SignUp/Student?school=' + school + '&code=' + response.pincode + '">http://CareerThesaurus.com/SignUp/Student?school=' + school + '&code=' + response.pincode + '</a></p>' +
+                                    '<p>Student link: <a href="http://CareerThesaurus.com/SignUp/Student/' + response.url + '">http://CareerThesaurus.com/SignUp/Student/' + response.url + '</a></p>' +
+                            '</div>';
+                    $('.noGroupsAdded').css('display', 'none');
+                    $('.groups').append(html);
+                    $('.hidable').velocity('fadeOut', { duration: 500 });
+                } else {
+                    //error couldnt create group
+                    console.log(response);
+                }
+            });
+        });
+
+        $('.removeSchoolBtn').click(function () {
+            $('#deleteSchoolModal').modal();
+        });
+
+        $('.questionIcon').tooltip();
+
+        $('.showInstructions').click(function () {
+            if (oddClick == false) {
+                $('.schoolInstructions').velocity('fadeIn', { duration: 500 });
+                $('.arrowDown').hide();
+                $('.arrowUp').show();
+                oddClick = true;
+            } else {
+                $('.schoolInstructions').velocity('fadeOut', { duration: 500 });
+                $('.arrowDown').show();
+                $('.arrowUp').hide();
+                oddClick = false;
+            }
+        })
+
+    }
+    function checkPinCode(pincode) {
+        for (var i = 1; i < pincode.length; i++) {
+            if (Math.abs(pincode.charCodeAt(i) - pincode.charCodeAt(i - 1)) == 1) {
+                return false;
+            }
+        }
+        var reg = new RegExp(/^(?:([A-Za-z0-9])(?!.*\1))*$/);
+        var regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{5,}$/);
+        if (reg.test(pincode) && regex.test(pincode)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function createGroup(group) {
+        return $.ajax({
+            url: appserverurl + '/AdminPortal/CreateGroup',
+            type: 'POST',
+            data: {
+                school: school,
+                teacher: teacher,
+                group: group
+            }
+        });
+    }
+    function changePinCode(group, oldpin, newpin) {
+        return $.ajax({
+            url: appserverurl + '/AdminPortal/ChangePinCode',
+            type: 'POST',
+            data: {
+                school: school,
+                group: group,
+                oldpin: oldpin,
+                newpin: newpin
+            }
+        });
+    }
+    function confirmSchoolRemoval(element) {
+        var rowkey = $(element).data('rowkey');
+        $.post('/adminportal/DeleteSchool', { rowkey: rowkey }, function (response) {
+            if (response.result == 'done') {
+                $('#schoolDeletedlModal p').html("The school has been removed from your account.");
+            } else if (response.result == 'not found') {
+                $('#schoolDeletedlModal p').html("The school you are trying to delete has not been found.");
+            } else if (response.result == 'fail') {
+                $('#schoolDeletedlModal p').html("Server error!");
+            }
+
+            $('#schoolDeletedlModal').modal();
+            $('#schoolDeletedBtn').click(function () {
+                window.location.href = '/AdminPortal';
+            });
+        });
+    }
+</script>
+

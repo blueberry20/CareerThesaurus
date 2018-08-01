@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/css/Analytics/analytics.css" rel="Stylesheet" />
+
+<div class="pageContainer" id="analyticsPage">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+                <h2 class="reportHeader special">ANALYTICS REPORTS</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <div class="reportDiv careers">
+                        <img class="graphicon  pull-left" src="~/Content/images/analyticsicon3.png" />
+                   
+
+                        <div class="reportWrapper">
+                            <a href="/Analytics/ByTrait"><h3>Personality Traits Summary</h3></a>
+                            <p>View the breakdown by personality traits. E.g. Extroverts vs. Introverts etc.</p>
+                        </div>
+                </div>
+                <div class="reportDiv careers">
+                   
+                        <img class="graphicon pull-left" src="~/Content/images/analyticsicon3.png" />
+                        <div class="reportWrapper">
+                            <a href="/Analytics/careers"><h3>Best and Worst Career Picks</h3></a>
+                            <p>View which careers generate the most and the least amount of interest.</p>
+                        </div>
+            </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                <div class="reportDiv careers">
+
+                    <img class="graphicon pull-left" src="~/Content/images/analyticsicon3.png" />
+                    <div class="reportWrapper">
+                        <a href="/Analytics/Byinterest"><h3>Life interests</h3></a>
+
+                        <p>View which things in life matter the most to your test takers.</p>
+                    </div>
+                </div>
+
+                <div class="reportDiv careers">
+                    <img class="graphicon pull-left" src="~/Content/images/analyticsicon3.png" />
+                    <div class="reportWrapper">
+                        <a href="#"><h3>Individual reports</h3></a>
+                    
+                        <p>Find and View individual results by Person’s Name</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "By Personality";
+}
+
+@section menuPlaceholder {
+    @*<div class="closeIcon menuIcon">Done</div>*@
+}
+
+<link href="../../Content/css/Custom.css" rel="Stylesheet" />
+<link href="~/Content/css/Careers/Careers.css" rel="stylesheet" />
+
+<script src='/scripts/thesaurus/testattributes.js'></script>
+<script src='/scripts/thesaurus/helperfunctions.js'></script>
+<script src="/Scripts/Thesaurus/ctProfessions.js"></script>
+<script src="~/Scripts/Thesaurus/ctProfessionsCodes.js"></script>
+<script src="~/Scripts/Thesaurus/professionsKeywordsAndAlternatetitles.js"></script>
+<script src='/scripts/thesaurus/professions_functions.js'></script>
+
+@*<script src='/scripts/thesaurus/reconciliation.js'></script>*@
+
+
+
+
+<div class="pageContainer" id="testResultsPage">
+
+    @*<div class="jumbotron taketestJumbotron">
+            <div class="row imageStretch">
+                @*<img src="~/Content/images/manstaringatcomp.jpg" />
+                <h1 class="transitionElement">Is your current career the best choice for you?</h1>
+                <div class="jumbotronText transitionElement">
+                    <p>Take our interactive 9-question test and find out!</p>
+                    <a href="/Skilltest" class="circleGoBtnTest">Go</a>
+                </div>
+                <div class="arrowdownIcon">
+                    <i class="fa fa-angle-down"></i>
+                </div>
+            </div>
+        </div>*@
+
+    <div class="container">
+        <div id="main" class="row">
+        </div>
+        @*<div class="overlay">
+                <h3>Select keywords to narrow down the results</h3>
+                <div class="insert">
+                </div>
+            </div>*@
+    </div>
+</div>
+
+<script>
+    ////plus icon toggle
+    //    var clicked = false;
+    //    function toggleplus(h2) {
+    //        if ($(window).width() < 992) {
+    //            if (clicked == false) {
+    //                // odd clicks - expand
+    //                $(h2).closest('.collapsingWrapper').removeClass('closed').addClass('open').find('.collapsableDiv').css('display', 'block');
+    //                // $(h2).closest('.collapsableDiv').css('display', 'block');
+    //                clicked = true;
+    //            } else {
+    //                // even clicks - close
+    //                $(h2).closest('.collapsingWrapper').removeClass('open').addClass('closed').find('.collapsableDiv').css('display', 'none');
+    //                // $(h2).closest('.collapsableDiv').css('display', 'none');
+    //                clicked = false;
+    //            }
+    //        }
+    //    }
+
+
+</script>
+
+
+
+<script>
+    var user = '@ViewBag.Email';
+    var profileType = '@ViewBag.ProfileType';
+    var importantthings = { beauty: 1, helping: 1, adventure: 1, safety: 1, people: 1, science: 1, duty: 1, admiration: 1, creativity: 1, competition: 1, animals: 1, politics: 1, technology: 1, machinery: 1, gender: "", handlabor: 1, strength: 1, drafting: 1, coordinating: 1, numbers: 1, critical: 1, salesy: 1 };
+    var ratedCareers;
+    function document_ready() {
+        /* ----------------------use backstretch to center image------------- */
+        $('.imageStretch').height($(window).height() * 0.80);
+        $('.imageStretch').backstretch("/Content/images/mansurprised_cropped.jpg");
+
+        $(window).scroll(function () {
+            $('.full-bg-image').stop().css({ backgroundPosition: 'center ' + (Math.floor($(window).scrollTop() * .5 * -1)) + 'px' });
+        });
+
+        $(".transitionElement").velocity("transition.slideLeftIn", { stagger: 500 }).velocity({ opacity: 1 }, 500);
+
+        //resize only on not mobile devices
+        $(window).resize(function () {
+            if (Modernizr.no - touch) {
+                if ($(window).width() >= 751) {
+                    $('.importantthings').show();
+                    $('#dimensionscontainer').show();
+                }
+                else {
+                    $('.importantthings').hide();
+                    $('#dimensionscontainer').hide();
+                }
+            }
+        });
+
+        $('.arrowdownIcon').click(function () {
+            $('html,body').animate({
+                scrollTop: $("#main").offset().top
+            });
+        });
+
+
+        //for (var property in dimensions) {
+        //    if (dimensions.hasOwnProperty(property)) {
+        //        if (dimensions[property] != "") {
+        //            alert('took test');
+        //        }
+        //    }
+        //}
+        if (profileType == 'student') {
+            $('.pageContainer').addClass('studentLoggedin');
+            $.ajax({
+                url: appserverurl + '/Careers/GetCareerRatings',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user: user
+                }
+            }).success(function (response) {
+                ratedCareers = response.results;
+                console.log(ratedCareers);
+                renderPage();
+            }).fail(function () {
+                ratedCareers = [];
+                renderPage();
+            });
+        } else {
+            ratedCareers = [];
+            renderPage();
+        }
+        //renderPage();
+    }
+
+    function renderPage(callback) {
+
+        for (var i = 0; i < 9; i++) {
+            setDimensionValue(dimensiondefinitions[i].name, getCookie(dimensiondefinitions[i].name));
+        }
+
+        //professions.sort(sortbysalary);
+
+        renderData('main', 'Profession Index',
+            {
+                itemshoulddisplay: function (profession) {
+                    return true;
+                },
+                onitemclick: function (title, keyword) { window.open('/thesaurus/index?p=' + title.replace(/&/g, '%26') + '&highlight=' + keyword); },
+
+                callback: applyResultDimensions,
+
+                htmlforitem: function (title, formattedtitle, salary, onclick, aka, dolcode, ratedHtml) { return '<div><a data-dolcode="' + dolcode + '" href="' + appserverurl + '/Career/' + title.replace(/[^a-zA-Z0-9]+/g, '-') + '" ' + onclick + ' >' + ratedHtml + '<span class="professionName">' + formattedtitle + '<span class="professionAKA">' + aka + '</span></span><span class="professionSalary">' + Math.round(salary / 1000) + 'K per year</span><i class="fa fa-angle-right pull-right"></i></a></div>'; }
+            });
+        if (callback) {
+            callback();
+        }
+    }
+
+    function applyResultDimensions() {
+        var spans = $('.dimension > div');
+        for (var i = 0; i < spans.length; i++) {
+            var value = '';
+            switch ($(spans[i]).attr('dimension')) {
+                case 'attitude': value = dimensions.attitude; break;
+                case 'information': value = dimensions.information; break;
+                case 'processing': value = dimensions.processing; break;
+                case 'action': value = dimensions.action; break;
+                case 'endurance': value = dimensions.endurance; break;
+                case 'presence': value = dimensions.presence; break;
+                case 'concentration': value = dimensions.concentration; break;
+                case 'patterns': value = dimensions.patterns; break;
+                case 'compensation': value = dimensions.compensation; break;
+                default: break;
+            }
+            if (value == $(spans[i]).data('value')) {
+                //if (value == $(spans[i]).html()) {
+                //$(spans[i]).trigger('click');//addClass('active');
+                $(spans[i]).addClass('active');
+                $(spans[i]).siblings().addClass('notActive');
+            }
+        }
+
+    }
+    //----------------------- working with cookies ---------------------------------
+    function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        for (i = 0; i < ARRcookies.length; i++) {
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x == c_name) {
+                return unescape(y);
+            }
+        }
+    }
+
+    function setCookie(c_name, value, exdays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value;
+        c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value + "; path=/"; //------------------------------------- added path=/ ---------------------------
+    }
+</script>

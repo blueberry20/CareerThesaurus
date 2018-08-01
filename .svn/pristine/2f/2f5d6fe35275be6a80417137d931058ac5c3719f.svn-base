@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Form";
+}
+
+<!--================================= Form Template ============================== -->
+
+<div class="pageContainer">
+    <div class="container fullPage">
+
+        <div class="row">
+
+            <!--************************Left Sidebar***********************************-->
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebarDiv">
+                    <div class="shadedHeader">
+                        <h2 id="tagsHeader">Tags</h2>
+                    </div>
+                    <div id="professionTags">
+                        <a href="#" class="profTag1">Retail</a>
+                        <a href="#" class="profTag2">Responsibility</a>
+                        <a href="#" class="profTag3">Responsible</a>
+                        <a href="#" class="profTag4">Retail</a>
+                        <a href="#" class="profTag5">Role</a>
+                        <a href="#" class="profTag6">Route</a>
+                        <a href="#" class="profTag7">Safe</a>
+                        <a href="#" class="profTag8">Safety</a>
+                        <a href="#" class="profTag9">Sales</a>
+                        <a href="#" class="profTag10">Scanning</a>
+                        <a href="#" class="profTag11">Schedule</a>
+                        <a href="#" class="profTag12">School</a>
+                        <a href="#" class="profTag13">Searching</a>
+                        <a href="#" class="profTag14">Seeks</a>
+                        <a href="#" class="profTag15">Sense</a>
+                        <a href="#" class="profTag16">Responsibility</a>
+                        <a href="#" class="profTag17">Responsible</a>
+                        <a href="#" class="profTag18">Retail</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--************************Center***********************************-->
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <form role="form" class="formTemplate">
+                    <h2 class="text-center">Join Our Newsletter</h2>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputText">Text</label>
+                        <input type="text" class="form-control" id="exampleInputText" placeholder="Enter text here">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputText">Comments</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox">Send me job alerts
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-info">Submit</button>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search anything">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="button">Go</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </form>
+            </div>
+
+            <!--************************Right Sidebar***********************************-->
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebarDiv banner1">
+                    <p>Bust-a-verse.</p>
+                    <p>Launching soon</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

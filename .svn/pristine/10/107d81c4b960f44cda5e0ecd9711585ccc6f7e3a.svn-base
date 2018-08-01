@@ -1,0 +1,1204 @@
+﻿#roleResultsPage {
+    /*background-image: url('/Content/Images/white-grey-diagonal-stripe-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;*/
+    background-color:#fff;
+    overflow-x: hidden;
+}
+
+#roleResultsPage .container {
+    min-height:initial;
+    min-height:auto;
+}
+
+.jumbotron {
+    padding: 0;
+    font-size: 10pt;
+    line-height: 1.3;
+    background-image: url('/Content/images/manstaringatcomp.jpg');
+    background-size: cover;
+    background-position:50% 20%;
+    margin:0;
+}
+
+.graySeparator {
+    background-image: url('/Content/Images/white-grey-diagonal-stripe-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    height:10px;
+ }
+
+#roleHeader {
+    text-align: center;
+    padding: 4em 0 7em;
+    background-color: rgba(0,0,0,0.2);
+    color: #fff;
+    background-image: url('/Content/images/overlay-pattern.png');
+}
+
+
+h2#compositetitle {
+    font-weight: 700;
+    font-size: 33pt;
+    color:#fff;
+}
+
+#roledescription {
+    font-size:20pt;
+}
+
+ul.social-icons li a {
+    width: 50px;
+    height: 50px;
+    line-height:50px;
+    border-radius:50%;
+}
+
+ul.social-icons li i {
+    font-size: 18px;
+    line-height: 50px;
+}
+
+.coloredSocialIcons ul.social-icons li i:hover,.coloredSocialIcons ul.social-icons li i:focus,.coloredSocialIcons ul.social-icons li i:active {
+    line-height:50px;
+    font-size:18px;
+}
+
+
+a {
+    text-transform:none;
+}
+
+.attributes {
+    text-align: center;
+}
+
+.btn-group {
+    margin-bottom: 5px;
+    display: block;
+}
+
+.btn-group>.btn, .btn-group-vertical>.btn {
+  position: relative;
+  float:none;
+}
+
+.choice {
+    padding: 0;
+    width: 110px;
+    min-width:initial;
+    line-height:50px;
+    border-color: #B7E3E4;
+}
+
+.choice:hover, .choice:focus, .choice:active, .interest:hover, .interest:focus, .interest:active {
+    background-color: #D1F6FC;
+    border-color: #B3DDE8;
+}
+
+#matchingroles {
+    padding:0;
+}
+
+.interests {
+    text-align:center;
+}
+
+.interest {
+    padding: 0 10px;
+    margin-right: 2px;
+    margin-bottom: 5px;
+    width: initial;
+    min-width: initial;
+    border-color:#B7E3E4;
+}
+
+.panel {
+    position:relative;
+    border-radius:0;
+    border:none;
+    background-color: transparent;
+    margin:0;
+    box-shadow:none;
+}
+
+.panel-heading {
+    border: none;
+    border-radius: 0;
+    padding:15px;
+    color: #fff;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.panel-title {
+    font-size: 45px;
+    font-weight: 700;
+    padding: 20px 0;
+    font-family: 'open sans condensed';
+}
+
+.panel-body {
+    padding:0;
+}
+
+.panel-body p {
+    margin: 0 0 15px;
+    color: #fff;
+    text-align: center;
+}
+
+.btn-primary {
+      background-color: #7AE1EB;
+      border: 1px solid #6BBBC3;
+      color:#000;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #36C8D6;
+    border-color: #3396C2;
+}
+
+.jumbotron p {
+    line-height: 1.4;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #f0f0f0;
+    letter-spacing: 0.5px;
+    font-family: 'open sans condensed';
+    font-weight:700;
+}
+
+h4.panel-title {
+    font-size: 18px;
+    padding: 30px 0 20px;
+    font-family: 'open sans';
+    font-weight: 400;
+}
+
+ul {
+    padding-left:0;
+}
+
+.booksDiv {
+    margin-top:36px;
+}
+
+.bookInfo {
+    width:120px;
+    display: inline-block;
+    vertical-align:top;
+}
+
+/*select all but the first 3*/
+.bookInfo:nth-child(n+5) {
+    display:none;
+}
+
+.panel:nth-child(n+4) {
+    display:none;
+}
+
+.bookInfo span {
+    display: block;
+    padding-top: 6px;
+    padding-right: 10px;
+    padding: 5px 10px 20px 0;
+    font-size: 13px;
+}
+
+.bookInfo img {
+    max-width:95px;
+}
+
+.viewAllAudioBooks, .hideAudioBooks {
+    color: #666;
+    text-transform: uppercase;
+    float: right;
+    margin-top: 18px;
+    cursor:pointer;
+    height:40px;
+    line-height:40px;
+    border:1px solid #666;
+    padding: 0 10px;
+}
+
+.viewAllAudioBooks:hover, .viewAllAudioBooks:focus, .viewAllAudioBooks:active, .hideAudioBooks:hover, .hideAudioBooks:focus, .hideAudioBooks:active, .showMore:hover, .showLess:hover, .showMore:focus, .showLess:focus, .showMore:active, .showLess:active {
+    background-color: rgb(0,0,0);
+    color:#fff;
+}
+
+.viewAllAudioBooks i, .hideAudioBooks {
+    padding-left:10px;
+    text-align:center;
+}
+
+.hideAudioBooks {
+    display:none;
+}
+
+/*change selection section*/
+.roleContainer.body-content {
+    position: relative;
+}
+
+#changeTestSelection, #emailResultsSection {
+    background-color: rgb(110, 188, 202);
+    padding: 4em 0 12em;
+    display:none;
+}
+
+#changeTestSelection::before, #emailResultsSection:before {
+    background-color: rgb(110, 188, 202);
+}
+
+#changeTestSelectionBtn {
+    position: absolute;
+    top: 0;
+    height: 60px;
+    z-index: 10;
+    line-height: 60px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    right: 18%;
+    margin-top: -126px;
+    -ms-transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+}
+
+.changeTestSelectionBtn, .emailResultsBtn {
+    background-color: rgb(100, 223, 231);
+}
+
+.changeTestSelectionBtn:hover, .changeTestSelectionBtn:focus, .changeTestSelectionBtn:active, .emailResultsBtn:hover, .emailResultsBtn:focus, .emailResultsBtn:active {
+    background-color: rgb(84, 194, 201);
+}
+
+#emailResultsBtn {
+    position: absolute;
+    top: -14px;
+    height: 60px;
+    z-index: 10;
+    line-height: 60px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    right: 4%;
+    margin-top: -126px;
+    -ms-transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+}
+
+.emailResultsBtn, #changeTestSelectionBtn2 {
+    display:none;
+}
+
+#changeTestSelectionBtn2 {
+    position: absolute;
+    top: 0;
+    height: 60px;
+    z-index: 10;
+    line-height: 60px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    right: 50%;
+    margin-top: -30px;
+    margin-right: 10px;
+    background-color: rgb(100, 223, 231);
+}
+
+#emailResultsBtn2 {
+    position: absolute;
+  top: 0;
+  height: 60px;
+  z-index: 10;
+  line-height: 60px;
+  padding: 0 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  left: 50%;
+  margin-top: -30px;
+  margin-left: 10px;
+  background-color: rgb(100, 223, 231);
+}
+
+#showMoreRolesBtn {
+  height: 60px;
+  background-color: transparent;
+  border: 1px solid #000;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 0 15px;
+}
+
+#showMoreRoles {
+  background-color: #E4F141;
+  padding: 6em;
+  text-align: center;
+}
+
+#crossIcon {
+    position: absolute;
+    right: 50px;
+    height: 60px;
+    top: 25px;
+    cursor: pointer;
+    z-index:10;
+}
+
+form {
+    opacity:1;
+    background-color:#fff;
+}
+
+#message p {
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 300;
+}
+
+
+.roleProfession {
+    font-size: 20px;
+    font-weight: 300;
+    list-style: none;
+    border-bottom: 1px solid #999;
+    min-height: 44px;
+    position: relative;
+    padding: 7px 162px 7px 0;
+}
+
+.roleProfession:last-child {
+    border:none;
+}
+
+
+.viewJobsBtn {
+    float: right;
+    background-color: #000;
+    padding: 4px 7px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    right: 0;
+    font-size: 14px;
+    padding-right:45px;
+    height:28px;
+    text-transform: uppercase;
+    width:151px;
+}
+
+.rightAlign .viewJobsBtn:hover, .rightAlign .viewJobsBtn:focus, .rightAlign .viewJobsBtn:active {
+    text-decoration:none;
+    color: #fff;
+    background-color: rgb(100, 223, 231);
+}
+
+
+.leftAlign .viewJobsBtn:hover, .leftAlign .viewJobsBtn:focus, .leftAlign .viewJobsBtn:active {
+    text-decoration:none;
+    color: #fff;
+    background-color: #696E6F;
+}
+
+
+.roleProfession .fa-angle-right {
+    padding:0 0 0 5px;
+}
+
+.viewJobsBtn .badge {
+    background-color: #fff;
+    color: #000;
+    margin-left: 10px;
+    padding: 3px 6px;
+    font-size: 11px;
+    position: absolute;
+    top: 6px;
+    right:8px;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border-bottom: 1px solid #B7E3E4;
+}
+
+.panel>.list-group .list-group-item:last-child {
+    border-bottom: 1px solid #B7E3E4;
+}
+
+.jobLink {
+    display:block;
+    height:50px;
+    line-height:50px;
+    background: url(/Content/images/stripespattern8.png);
+    color:#000;
+    text-align:right;
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.jobLink .fa-angle-right {
+    padding-left:10px;
+    font-size:20px;
+}
+
+.jobLink:hover, .jobLink:focus, .jobLink:active {
+    text-decoration:none;
+    color:#000;
+    background: url(/Content/images/stripespattern7.png);
+}
+
+.panel-default>.panel-heading {
+    text-transform: uppercase;
+    background-color: #8E8E8E;
+    color:#fff;
+    font-weight:600;
+    cursor: pointer;
+}
+
+h4 {
+    font-weight:600;
+    margin:20px 0;
+}
+
+
+.fa-plus, .fa-minus {
+    float: right;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+}
+
+.showMore, .showLess, .showAllCareers, .hideAllCareers {
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    color:rgb(111, 116, 118);
+    line-height:40px;
+    text-transform:uppercase;
+    border: 1px solid #666;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.showAllCareers, .hideAllCareers {
+    margin-top:10px;
+}
+
+.leftAlign .showLess, .leftAlign .showMore {
+    color: #666;
+}
+
+.showLess, .hideAllCareers {
+    display:none;
+    margin-top:10px;
+}
+
+.showBtnWrapper, .showButtonWrapper {
+    min-height: 40px;
+}
+
+.showButtonWrapper {
+    display:none;
+}
+
+
+.panel-heading .fa {
+    float:right;
+    color: #fff;
+    padding-top:3px;
+}
+
+.sideDiv p {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.divider {
+    width: 200px;
+    background-color: #fff;
+    height: 1px;
+    margin: 20px auto;
+}
+
+#sidebar {
+    display:none;
+}
+
+.panelSide {
+    padding:0 25px;
+}
+
+.panel .img-responsive {
+    height:360px;
+}
+
+.rightAlign .img-responsive {
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    margin-top: -240px;
+}
+
+.leftAlign .img-responsive {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    margin-top: -240px;
+}
+
+.schoolList {
+    padding:15px 0;
+}
+
+.schoolLink img {
+    width:110px;
+    margin-top:45px;
+}
+
+.schoolLink {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #F4F2F2;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    margin-right: 10px;
+    background-color:#fff;
+}
+
+.leftAlign .schoolLink {
+    border: none;
+}
+
+.careerLink {
+    color: #0375D7;
+}
+
+.careerLink:hover, .careerLink:focus, .careerLink:active {
+    
+}
+
+/* Common style for pseudo-elements */
+.panel::before,
+.panel::after {
+	position: absolute;
+	content: '';
+	pointer-events: none;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Double Diagonal line */
+
+.ss-style-doublediagonal {
+	z-index: 1;
+	padding:10em 2em 14em;
+    padding: 160px 50px 200px;
+	background:#E4F141;
+}
+
+.ss-style-doublediagonal:nth-child(odd) {
+    background-color: #fff;
+}
+
+.ss-style-doublediagonal::before {
+    top: 0;
+	left: -25%;
+	z-index: -1;
+	width: 150%;
+	height: 75%;
+	background: inherit;
+	-webkit-transform: rotate(-2deg);
+	transform: rotate(-2deg);
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	height: 50%;
+	background: #E4F141;
+	-webkit-transform: rotate(-3deg);
+	transform: rotate(-3deg);
+	-webkit-transform-origin: 4% 0;
+	transform-origin: 4% 0;
+}
+
+.rightAlign::before {
+    background-color: #fff;
+}
+
+.leftAlign.ss-style-doublediagonal::before {
+    top: 0;
+	left: -25%;
+	z-index: -1;
+	width: 150%;
+	height: 75%;
+	background: inherit;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	height: 50%;
+	background: #E4F141;
+	-webkit-transform: rotate(3deg);
+	transform: rotate(3deg);
+	-webkit-transform-origin: 90% 0;
+	transform-origin: 90% 0;
+}
+
+.noPadding {
+    padding: 4px 6px !important;
+}
+
+.pageFooter {
+    background-color: #1c2029;
+    color: #fff;
+    text-align:center;
+    padding:6em 0;
+    position:relative;
+}
+
+.pageFooter p {
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'open sans condensed';
+    text-transform: uppercase;
+}
+
+.p1 {
+    margin:0;
+}
+
+.pageFooter .coloredSocialIcons {
+    padding-bottom: 50px;
+}
+
+.startOver:hover, .startOver:focus, .startOver:active {
+    text-decoration:none;
+}
+
+p.footerP {
+  font-size: 14px !important;
+  text-transform: none !important;
+  font-family: 'open sans' !important;
+  display:block !important;
+}
+
+.footerPWrapper {
+    margin-top:20px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.jobPlacementRow p {
+    text-transform: none;
+    font-size: 20px;
+}
+
+#joinNewsletterBtn {
+    margin: 20px auto 0;
+}
+
+@media screen and (max-width:1600px) {
+    #changeTestSelectionBtn {
+        margin-top: -110px;
+        right:23%;
+        top:7px;
+    }
+
+    #emailResultsBtn {
+        top:7px;
+        right:5%;
+    }
+}
+
+
+
+@media screen and (max-width:1400px) {
+    #changeTestSelectionBtn {
+        margin-top: -100px;
+    }
+
+    #emailResultsBtn {
+        margin-top: -114px;
+    }
+}
+
+@media screen and (max-width:1300px) {
+    #changeTestSelectionBtn {
+        margin-top: -95px;
+    }
+
+    #emailResultsBtn {
+        margin-top: -107px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    #changeTestSelectionBtn {
+        margin-top: -90px;
+        right:28%;
+    }
+
+     #emailResultsBtn {
+        margin-top: -105px;
+    }
+
+    .rightAlign .img-responsive, .leftAlign .img-responsive {
+        float:none;
+    }
+
+    .ss-style-doublediagonal::before {
+        -webkit-transform-origin: 0% 0;
+	    transform-origin: 0% 0;
+    }
+
+    .panel-title {
+        font-size:35px;
+    }
+
+    .roleProfession {
+        font-size:18px;
+    }
+
+    .schoolLink img {
+        width:100px;
+        margin-top:42px;
+    }
+
+    .schoolLink {
+        width:134px;
+        height:134px;
+    }
+
+    h4.panel-title {
+        font-size: 21px;
+    }
+
+    #roledescription {
+        font-size: 18pt;
+    }
+}
+
+@media screen and (max-width:1100px) {
+    #changeTestSelectionBtn {
+        margin-top: -85px;
+    }
+
+    #emailResultsBtn {
+        margin-top: -98px;
+    }
+}
+
+@media screen and (max-width:992px) {
+     #changeTestSelectionBtn {
+        margin-top: -80px;
+        right:32%;
+    }
+
+     #emailResultsBtn {
+        margin-top: -92px;
+    }
+
+    #changeTestSelection {
+        padding: 4em 0 8em;
+    }
+
+    #crossIcon {
+        right: 30px;
+        height: 40px;
+        top: 25px;  
+    }
+
+    #roleResultsPage .container {
+      min-height: initial;
+      min-height:auto;
+      width: 100%;
+    }
+
+    #roleHeader .container {
+        width: 90% !important;
+    }
+
+    .schoolLink {
+      width: 120px;
+      height: 120px;
+    }
+
+    .schoolLink img {
+        width: 90px;
+        margin-top: 36px;
+    }
+
+    .rightAlign .img-responsive {
+        right: 10%;
+    }
+
+    .leftAlign .img-responsive {
+        left: 10%;
+    }
+
+    h2#compositetitle {
+        font-size: 30pt;
+    }
+
+    #roledescription {
+        font-size: 16pt;
+    }
+
+    .jumbotron p {
+        font-size:25px;
+    }
+
+    .pageFooter p {
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width:900px) {
+    #changeTestSelectionBtn {
+        margin-top: -75px;
+    }
+
+    #emailResultsBtn {
+      margin-top: -88px;
+    }
+}
+
+@media screen and (max-width:800px) {
+    #changeTestSelectionBtn {
+        margin-top: -70px;
+        right:36%;
+    }
+
+    #emailResultsBtn {
+        margin-top: -83px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    #message p {
+        font-size:22px;
+    }
+
+    #changeTestSelection, #emailResultsSection {
+        background-color: rgb(110, 188, 202);
+        padding: 6em 0 6em;
+        display: none;
+    }
+
+     #changeTestSelectionBtn {
+          margin-top: -62px;
+          right: 50%;
+          margin-right: -105px;
+    }
+
+     #emailResultsBtn {
+        margin-top: -75px;
+    }
+
+    .rightAlign .img-responsive {
+        right: 50%;
+        top: 10px;
+        margin: 0;
+        height: 150px;
+        margin-right: -32px;
+    }
+
+    .leftAlign .img-responsive {
+        left:50%;
+        top:10px;
+        margin:0;
+        height:150px;
+        margin-left: -32px;
+    }
+
+   .ss-style-doublediagonal {
+       padding: 170px 50px 110px;
+    }    
+   
+   .graySeparator {
+        display:none;
+    }
+
+    h2#compositetitle {
+        font-size: 25pt;
+    }
+
+    #roledescription {
+        font-size: 13pt;
+    }
+
+     ul.social-icons li a {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+    }
+
+     ul.social-icons li i {
+        font-size: 18px;
+        line-height: 50px;
+    }
+
+     .coloredSocialIcons ul.social-icons li i:hover,.coloredSocialIcons ul.social-icons li i:focus,.coloredSocialIcons ul.social-icons li i:active {
+        line-height:50px;
+        font-size:18px;
+    }
+
+    .panelSide {
+        width:100%;
+    }
+
+    .panel-heading {
+        padding:5px;
+    }
+
+    #changeTestSelection .panel:nth-child(2) {
+        padding-top:20px;
+    }
+
+}
+
+@media screen and (max-width:730px) {
+    #changeTestSelectionBtn {
+        right: 60%;
+    }
+}
+
+@media screen and (max-width:600px) {
+   #changeTestSelectionBtn {
+      margin-top: -52px;
+      right: 60%;
+      padding: 0 7px;
+      font-size: 13px;
+      margin-right:0;
+    }
+
+   #emailResultsBtn {
+        font-size: 13px;
+        padding: 0 7px;
+        margin-top: -68px;
+    }
+
+
+   #changeTestSelectionBtn2, #emailResultsBtn2 {
+       font-size:13px;
+       padding:0 7px;
+   }
+
+}
+
+@media screen and (max-width:500px) {
+    #compositetitle span {
+        display:block;
+    }
+
+    .panel-title {
+        font-size: 20px;
+        padding:10px 0;
+        text-align:center;
+    }
+
+    .panelSide {
+        padding: 0 10px;
+    }
+
+    .roleProfession {
+        font-size: 14px;
+        padding: 12px 142px 7px 0;
+    }
+
+    .viewJobsBtn {
+        font-size:12px;
+        padding: 6px 7px;
+        width:122px;
+    }
+
+    .noPadding {
+        padding: 6px 7px !important;
+    }
+
+    h4.panel-title {
+        font-size: 17px;
+        padding:15px 0;
+    }
+
+    .schoolLink {
+        width: 92px;
+        height: 92px;
+        margin:3px;
+    }
+
+    .schoolLink img {
+        width: 70px;
+        margin-top: 25px;
+    }
+
+    .schoolList {
+        text-align:center;
+    }
+
+    #roleHeader {
+        padding: 1em 0 4em;
+    }
+
+    h2#compositetitle {
+        font-size: 19pt;
+    }
+
+    #roledescription {
+        font-size: 11pt;
+    }
+
+    ul.social-icons li i {
+        font-size: 18px;
+        line-height: 50px;
+    }
+
+    .coloredSocialIcons ul.social-icons li i:hover,.coloredSocialIcons ul.social-icons li i:focus,.coloredSocialIcons ul.social-icons li i:active {
+        line-height:50px;
+        font-size:18px;
+    }
+
+     ul.social-icons li a {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+    }
+
+    .ss-style-doublediagonal {
+        padding: 150px 0 6em;
+    }
+
+    .rightAlign .img-responsive {
+        height:120px;
+        margin-right:-20px;
+        top:30px;
+    }
+
+    .leftAlign .img-responsive {
+        height:120px;
+        margin-left:-20px;
+        top:30px;
+    }
+
+    .showMore, .showLess {
+        font-size:12px;
+    }
+
+    #changeTestSelectionBtn {
+        margin-top: -39px;
+        margin-right: -78px;
+        height:50px;
+        line-height:50px;
+        padding: 0 7px;
+        font-size:12px;
+        right:auto;
+        left:5px;
+    }
+
+    #emailResultsBtn {
+        height:50px;
+        line-height:50px;
+        margin-top:-47px;
+        right: 5px;
+        font-size: 12px;
+        padding: 0 7px;
+    }
+
+    #changeTestSelectionBtn2, #emailResultsBtn2 {
+      font-size: 12px;
+      padding: 0 7px;
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .panel-heading {
+        font-size:28px;
+    }
+
+    .panel-body p {
+        margin: 0 0 10px;
+        font-size: 12px;
+    }
+
+    .choice {
+        width:32%;
+    }
+
+    .choice, .interest {
+        font-size:12px;
+    }
+
+    #crossIcon {
+        height: 30px;
+    }
+
+    #changeTestSelection {
+        padding: 2em 0 4em;
+    }
+
+    .jumbotron p {
+        font-size: 20px;
+    }
+
+    .pageFooter p {
+        font-size: 18px;
+    }
+
+    .pageFooter .footerP {
+        font-size: 12px !important;
+    }
+
+    .pageFooter {
+        padding:3em 0;
+    }
+
+    .pageFooter .coloredSocialIcons {
+        padding-bottom: 25px;
+    }
+
+     #message p {
+        font-size:16px;
+    }
+
+     #showMoreRolesBtn {
+         font-size:14px;
+     }
+
+     .bookInfo {
+         width:100px;
+     }
+
+     .bookInfo img {
+         max-width:90px;
+     }
+
+     .divider {
+         display:block;
+     }
+
+}

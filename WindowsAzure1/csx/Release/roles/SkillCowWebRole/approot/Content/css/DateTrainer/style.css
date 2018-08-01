@@ -1,0 +1,62 @@
+﻿html,body {background-color: #000; padding: 0; margin: 0; overflow:hidden;}
+.videoholder {position: absolute; display: ; left: -2px; top: 0px; width: 100%; height: 100%; border: 0 none #000; }
+
+.leftcurtain 
+{
+    position: absolute; top: 0px; left: 0px; width: 300px; height:100%;
+        
+    background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+    
+.rightcurtain 
+{
+    position: absolute; top: 0px; right: 0px; width: 300px; height:100%;
+        
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
+}
+    
+div.overlay {position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgba(0,0,0,1);}
+div.overlay h1 {color: #fff;}
+div.boxcenter
+{
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+div.controls {position: absolute;  width: 100%; height: 100%; top: 0px; left: 0px; text-align: center;}
+div.controls input[type='button'] {font-size: 24pt; padding: 5px 20px 5px 20px; font-family: Roboto; cursor: pointer;}
+
+
+div.buttonholder {display: inline-block; width: 250px; height: 90px; text-align: center; margin: 0 5px 0 5px;}
+div.answerbutton {position: relative; display: inline-block; width: 250px; height: 90px; cursor: pointer; padding-top: 20px; background-repeat: no-repeat; }
+div.highlight {position: absolute; background-image: url('/Content/Images/DateTrainer/Buttons/blue.png');  opacity: 0; width: 250px; height: 90px; top: 0px; left:0px;}
+div.answerbutton span {position: relative; color: White; font-size: 14pt; font-family: Arial; }
+div.button_red {background-image: url('/Content/Images/DateTrainer/Buttons/grey.png'); }
+div.button_yellow {background-image: url('/Content/Images/DateTrainer/Buttons/grey.png');}
+div.button_green {background-image: url('/Content/Images/DateTrainer/Buttons/grey.png');}
+div.button_red:active {background-image: url('/Content/Images/DateTrainer/Buttons/red.png');}
+div.button_yellow:active {background-image: url('/Content/Images/DateTrainer/Buttons/yellow.png');}
+div.button_green:active {background-image: url('/Content/Images/DateTrainer/Buttons/green.png');}

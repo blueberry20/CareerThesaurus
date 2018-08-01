@@ -1,0 +1,177 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Helpers;
+using Microsoft.WindowsAzure.StorageClient;
+using SkillCowResponsive.Classes.Cloud.BlobStorage;
+using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+using System.Text.RegularExpressions;
+
+namespace SkillCowResponsive.Controllers
+{
+    public class BlogController : AuthenticatedControllerController
+    {
+        //
+        // GET: /Blog/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Post(string year, string month, string day, string title)
+        {
+            if (year != null && month != null && day != null && title != null)
+            {
+                BlogPostClient bpc = new BlogPostClient();
+                string rowkey = year + month + day + title;
+                BlogPost post = bpc.GetByPartitionAndRowKey("blogPost", rowkey);
+                if (post != null)
+                {
+                    if (post.Public == false || post.Removed == true)
+                    {
+                        return RedirectToAction("Index", "Blog"); 
+                    }
+                    ViewBag.PostTitle = post.Title;
+                    ViewBag.Category = post.Category;
+                    ViewBag.Date = monthName(month) + " " + day + ", " + year;
+                    string text = post.Article1 + post.Article2 + post.Article3 + post.Article4;
+                    ViewBag.Article = text.Replace("\n", "").Replace("\r", "");
+
+                }
+                return View();
+            }
+            else if (year.ToLower() == "admin")
+            {
+                return RedirectToAction("Admin", "Blog"); 
+            }
+            return RedirectToAction("Index", "Blog"); 
+        }
+        private string monthName(string month)
+        {
+            switch (month)
+            {
+                case "01":
+                    return "January";
+                case "02":
+                    return "February";
+                case "03":
+                    return "March";
+                case "04":
+                    return "April";
+                case "05":
+                    return "May";
+                case "06":
+                    return "June";
+                case "07":
+                    return "July";
+                case "08":
+                    return "August";
+                case "09":
+                    return "Septemper";
+                case "10":
+                    return "October";
+                case "11":
+                    return "November";
+                case "12":
+                    return "December";
+                default:
+                    return month;
+            }
+        }
+        [HttpGet]
+        public ActionResult Admin()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateInput(false)] 
+        public ActionResult Admin(IEnumerable<HttpPostedFileBase> inputFile, IEnumerable<string> inputCode, string inputTitle, string category, string text, string author)
+        {
+            BlogCategoryClient bcc = new BlogCategoryClient();
+            BlogPostClient bpc = new BlogPostClient();
+            string article1 = "";
+            string article2 = "";
+            string article3 = "";
+            string article4 = "";
+            if (text.Length < 32768)
+            {
+                article1 = text;
+            }
+            else if (text.Length > 32768 && text.Length < 65536)
+            {
+                article1 = text.Substring(0, 32768);
+                article2 = text.Substring(32768);
+            }
+            else if (text.Length > 65536 && text.Length < 98304)
+            {
+                article1 = text.Substring(0, 32768);
+                article2 = text.Substring(32768, 32768);
+                article3 = text.Substring(65536);
+            }
+            else if (text.Length > 98304 && text.Length < 131072)
+            {
+                article1 = text.Substring(0, 32768);
+                article2 = text.Substring(32768, 32768);
+                article3 = text.Substring(65536, 32768);
+                article2 = text.Substring(98304);
+            }
+            string patt = @"yyyyMMdd";
+            string rowkey = DateTime.UtcNow.ToString(patt) + Regex.Replace(inputTitle.ToLower(), @"[^a-zA-z0-9]+", "-");
+            bpc.AddNewItem(new BlogPost { Author = author, Category = category.ToLower(), Title = inputTitle, Public = false, Removed = false, Date = DateTime.UtcNow, Article1 = article1, Article2 = article2, Article3 = article3, Article4 = article4, RowKey = rowkey });
+            BlogCategory categoryToUpdate = bcc.GetByPartitionAndRowKey("blogCategory", category.ToLower());
+            categoryToUpdate.TotalPosts++;
+            bcc.Update(categoryToUpdate);
+            PictureManager pm = new PictureManager();
+            List<HttpPostedFileBase> files = inputFile.ToList();
+            List<string> codes = inputCode.ToList();
+            for (var i = 0; i < files.Count; i++)
+            {
+                if (files[i] != null)
+                {
+                    WebImage image = new WebImage(files[i].InputStream);
+                    pm.UploadPictureToBlobStorage(image, codes[i].Substring(2, 4), "blog", rowkey, 640, 640, 50, 50, false, false);
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public HttpResponse newcategory(string newcategory)
+        {
+            string result = "";
+            BlogCategoryClient bcc = new BlogCategoryClient();
+            BlogCategory category = bcc.GetByPartitionAndRowKey("blogCategory", newcategory.ToLower());
+            if (category == null)
+            {
+                bcc.AddNewItem(new BlogCategory { RowKey = newcategory.ToLower(), Category = newcategory, PublicPosts = 0, TotalPosts = 0 });
+                result = "ok";
+            }
+            else
+            {
+                result = "exist";
+            }
+            Response.ContentType = "application/json";
+            Response.Write("{\"result\": \"" + result + "\"}");
+            Response.End();
+            return null;
+        }
+        public void deleteCategories()
+        {
+            BlogCategoryClient bcc = new BlogCategoryClient();
+            BlogPostClient bpc = new BlogPostClient();
+            //bcc.DeleteTable();
+            //bpc.DeleteTable();
+        }
+        public HttpResponse deleteImage(string id)
+        {
+            PictureManager pm = new PictureManager();
+            bool deleted = pm.DeletePicture(id, "blog", "images");
+            Response.ContentType = "application/json";
+            Response.Write("{\"result\": \"" + deleted.ToString() + "\"}");
+            Response.End();
+            return null;
+        }
+    }
+}

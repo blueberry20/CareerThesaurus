@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "School Submitted";
+}
+
+<!--========================School request submitted========================================-->
+<link href="~/Content/css/Assessment/assessment.css?v=@ViewBag.AppVersion" rel="Stylesheet" />
+
+<div class="pageContainer blueBackground" id="schoolSubmittedPage">
+
+    <div class="container">
+        <div class="centerBox">
+            <div class="row">
+                <h1>Thank you for submitting your school!</h1>
+                <p>Your request will be reviewed and checked for duplicates and accuracy. You will receive an email with our response shortly.</p>
+                <p>If you have any questions or fail to receive our confirmation email within 24 hours feel free to email us at <a href="mailto:admin@careerthesaurus.com">admin@careerthesaurus.com</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+
+    }
+</script>

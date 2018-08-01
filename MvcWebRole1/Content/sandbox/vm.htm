@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="/Scripts/jQuery/jquery.tools.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jQuery/jquery-ui.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <table width=100% border=1>
+        <tr>
+            <td width=50%></td>
+            <td width=50%></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+
+            <h1 style="margin: 40px 0 0px 23px;">Schools near you Enrolling Now!</h1>
+                <div id="intestvmlistings" style="position: relative; left: -40px; width: 400px;">
+                    <div class="vm-container-three" style="background-color: Yellow; width:200px;">
+                        <div class="vm-container-five" style="background-color: Yellow; width:200px;">
+                            <!-- **************** Brokers Web **************** -->
+                            <script type="text/javascript" src="http://www.bwserver.net/scripts/vmGeoLocation.v1.php"></script>
+                            <script type="text/javascript" src="http://www.bwserver.net/12300/12368/scripts/bw-load-edu-fr-7587.js"></script>
+                            <script type="text/javascript">
+                            </script>
+                            <!-- **************** End Brokers Web **************** -->
+                            <script>
+                                function showInTestVMSchoolsForCareer(prodid) {
+                                    //Show VM listings
+                                    vm_loadListings({
+                                        prodId: prodid, //
+                                        aid: 12368, //
+                                        cid: 7871,
+                                        adSource: ''
+                                    });
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+            </td>
+        </tr>
+    </table>
+    
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        showInTestVMSchoolsForCareer(601);
+    })
+    
+</script>

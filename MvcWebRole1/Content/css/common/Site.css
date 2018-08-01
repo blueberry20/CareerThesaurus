@@ -1,0 +1,846 @@
+html
+{
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+html,body
+{
+    background-color: #fff; padding:0; font-family: Arial; color: #333; font-size: 10pt; 
+    background-image: url("/Content/Images/cows_field_background2.jpg");
+    background-attachment: fixed;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+h1,h2,h3,h4,h5 {
+    color: #333;
+}
+
+a
+{
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-size: small;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover
+{
+    text-decoration: underline;
+}
+
+
+input[type="button"], input[type="submit"]
+{
+    padding:5px 10px 5px 10px; 
+    border: thin solid #000; 
+    border-radius: 3px 3px;
+    
+    font-family: Helvetica;
+    font-size: 10pt;
+    
+    background: #f5f5f5; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#bbbbbb', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#bbbbbb)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #bbbbbb); /* for firefox 3.6+ */ 
+ 
+    cursor:pointer;
+    color:#333;
+    vertical-align: middle;   
+    text-align:center;
+}
+input[type="button"]:active, input[type="submit"]:active
+{
+    background: #cccccc; /* for non-css3 browsers */
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ffaaaa;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ffaaaa;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-size:10pt;
+    color: #ffaaaa;
+    font-weight: bold;
+}
+.validation-summary-errors li
+{
+    font-weight: normal;
+    color: #ffaaaa;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+#logo
+{
+    position: absolute;
+    float:left;
+    cursor: pointer;
+    
+    
+}
+
+div.wrapper{
+	display:table;
+	height:100%;
+	width:100%;
+}
+div.centered{ 
+	display: table-cell;
+}
+
+div.centered table{
+	
+}
+
+div.thumbnails
+{
+    border-width: thin;
+    border-style: solid;
+    border-color: gray;
+    margin: 5px;
+    width: 425px;
+    height: 85px;
+}
+div.videocontainer
+{
+    background-color:#ffffff; 
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    width: 120px;
+    height:90px; 
+    text-align:center;
+    float: left;
+    vertical-align: middle;	
+}
+
+div.thumbnail
+{
+    float: left;
+    margin: 5px 5px 5px 10px;
+    
+    vertical-align: middle;	
+    cursor: hand;
+    
+}
+
+img.ratingbar 
+{
+    height:3px;
+    margin: 0;
+    padding:0;
+    float:left;
+}
+
+div.ratingcontainer
+{
+    width:120px;
+    height:15px;
+    text-align:right;
+    vertical-align:top;
+    margin: 0;
+    padding: 0;
+}
+.ratingannotation
+{
+    font: Arial normal;
+    font-size: 7pt;
+    color: #555555;
+    float:right;
+}
+div.connectionspacer
+{
+    width: 382px;
+    height: 120px;
+    float:left;
+    padding:5px;
+}
+div.connectioncontainer
+{
+    position:relative;
+    width: 386px;
+    height: 110px;
+    text-align: left;
+        
+    background: #eeeeee; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f5f5f5', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f5f5f5)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ffffff,  #f5f5f5); /* for firefox 3.6+ */ 
+    
+    /* rounded corners */
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+}
+div.connectioncontaineroverlay
+{
+    background-image: url("/Content/Images/ConnectionDivOverlay.png");
+    /*display:none;*/
+    width: 796px;
+    height: 115px;
+    background-repeat: no-repeat; 
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.connectioncontainer .info
+{
+    width: 385px;
+    height: 80px;
+    padding: 13px 0 15px 13px;
+    text-align:left;
+    float: left;
+}
+div.connectioncontainer .info .username
+{
+    margin: 0 0 0 13px;
+    font-weight: bold;
+}
+div.connectioncontainer .info img {width:80px; height:80px;}
+div.connectioncontainer .info a
+{
+    margin: 0 0 0 13px;
+}
+div.connectioncontainer .info .chatbutton
+{
+    position:absolute;
+    height:22px;
+    width:120px;
+    bottom:15px;
+    left:105px;
+    margin: 0 auto;
+    
+    background: #0080ff; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00aaff', endColorstr='#0033cc', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#00aaff), to(#0033cc)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #00aaff,  #0033cc); /* for firefox 3.6+ */ 
+    
+    /* rounded corners */
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    
+    padding:7px 0 0 0;
+    font-family: Arial;
+    text-align:center;
+    color: #fff;
+    font-size:10pt;
+    font-weight: bold;
+    
+    cursor: pointer;
+    
+    border-color: #ddd;
+     
+    -moz-box-shadow: 1px 1px 1px #888888;
+    -webkit-box-shadow: 1px 1px 1px #888888;
+    box-shadow: 1px 1px 1px #888888;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#888888')";
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#888888');
+}
+div.connectioncontainer .info .chatbutton:active {background:#0033cc;}
+div.connectioncontainer .badges
+{
+    width: 385px;
+    height: 80px;
+    padding: 13px 0 15px 13px;
+    text-align:left;
+    float: right;
+}
+div.connectioncontainer .badges a
+{
+    float: left;
+    margin: 0 0 0 5px;
+}
+div.connectioncontainer .badges a.twitterbutton
+{
+    margin: 5px 0 0 5px;
+}
+div.profilepic
+{
+    background-color: #eeeeee;
+    width:80px;
+    height:80px;
+    float: left;
+}
+#pagelinkbar
+{
+    background-color: #ffffff;
+    width:796px;
+    height: 20px;
+}
+#pagelinkbar span
+{
+    float:left;
+    height:20px;
+    margin: 0 0 0 10px;
+    font: Arial normal small ;
+    color: #555555;
+}
+#pagelinkbar a
+{
+    float: left;
+    width: 20px;
+    height: 30px;
+    font: x-small Arial normal;
+    color: #555555;
+    margin: 0 0 0px 3px;
+    padding: 4px 0 0 0;
+}
+#pagelinkbar a.active
+{
+    background-image: url("/Content/Images/pagelinkactive.png");
+    background-repeat: no-repeat;
+}
+#pagelinkbar a.inactive
+{
+    background-image: url("/Content/Images/pagelinkinactive.png");
+    background-repeat: no-repeat;
+}
+
+
+#pagelinkbar a:hover
+{
+    text-decoration: none;
+    background-image: url("/Content/Images/pagelinkactive.png");
+}
+
+#facebox {
+
+		/* overlay is hidden before loading */
+		display:none;
+
+		/* standard decorations */
+		width:400px;
+		border:10px solid #666;
+
+		/* for modern browsers use semi-transparent color on the border. nice! */
+		border:10px solid rgba(82, 82, 82, 0.698);
+
+		/* hot CSS3 features for mozilla and webkit-based browsers (rounded borders) */
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+	}
+	
+	#facebox div {
+		padding:10px;
+		border:1px solid #3B5998;
+		background-color:#fff;
+		font-family:"lucida grande",Arial,Helvetica,sans-serif
+	}
+
+	#facebox h2 {
+		margin:-11px;
+		margin-bottom:0px;
+		color:#fff;
+		background-color:#6D84B4;
+		padding:5px 10px;
+		border:1px solid #3B5998;
+		font-size:20px;
+	}
+	
+
+div.centered .topnavigation
+{
+    position: relative;
+    width:800px;
+    height: 50px;
+	margin: 20px auto;
+	margin-bottom: 30px;
+}
+div.centered .topnavigation span
+{
+    float: left;
+}
+
+div.centered .bottomnavigation
+{
+    width:100%;
+    margin: 0 auto;
+	text-align:center;
+}
+div.centered .bottomnavigation a { color: #555; font-weight: bold; text-decoration: none;}
+div.centered .bottomnavigation a:hover { color: #ff3300; }
+.copyright
+{
+    position: fixed;
+    bottom: 0px;
+    right: 0;
+    color: #fff;
+    text-align: right;
+    padding: 0 10px 0 10px;
+}
+div.centered .bottomnavigation .pane
+{
+    position:relative;
+    width:800px;
+    margin: 0 auto;
+	text-align: left;
+}
+div.centered .bottomnavigation .pane ol
+{
+    margin:0px 0 0 0;
+}
+div.centered .bottomnavigation .pane li
+{
+    margin:0px;
+    list-style-type: none;
+    
+}
+div.centered .bottomnavigation .pane .left
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:226px;
+    padding: 10px;
+}
+div.centered .bottomnavigation .pane .middle
+{
+    position:absolute;
+    top:0px;
+    left:247px;
+    width:267px;
+    height: 100px;
+    padding: 10px;
+}
+div.centered .bottomnavigation .pane .right
+{
+    position:absolute;
+    top:0px;
+    left:535px;
+    width:245px;
+    padding: 10px;
+}
+
+div.centered .centeredcontent
+{
+    position: relative;
+    width: 800px;
+    margin: 0 auto;    
+    
+}
+div.centered .centeredcontent .leftpane 
+{
+    position: relative; 
+    left:0px; 
+    top:0px; 
+    width:110px; 
+    padding: 0px 0 0 0px; 
+    margin: 0 0 0 20px; 
+    
+    float: left;
+}
+div.centered .centeredcontent .leftpane ul { padding: 10px ; list-style-type: none;}
+div.centered .centeredcontent .mainpane 
+{
+    position: relative; 
+    
+    top:0px; 
+    width:580px; 
+    min-height:600px; 
+    text-align: left; 
+    padding: 5px 10px 10px 10px; 
+    margin: 0 0 0 20px;
+    float: left;
+    
+    
+}
+div.centered .centeredcontent .mainpane .content
+{
+    margin: 10px 10px 10px 10px;
+    
+}
+div.centered .centeredcontent .mainpane .content .pictures
+{
+    width: 550px;
+    border: 5px solid #eeeeee;
+    text-align: left;
+}
+div.centered .centeredcontent .mainpane .content .pictures img
+{
+    width: 120px;
+    height: 90px;
+    border: 1px solid #333333;
+    margin: 5px 0 5px 10px;
+    
+}
+
+div.centered .formcontent
+{
+    position: relative;
+    width: 800px;
+    height: 500px;
+ 	margin: 0 auto;
+ 	
+	
+	background: #f5f5f5; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#dddddd', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#dddddd)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #f5f5f5,  #dddddd); /* for firefox 3.6+ */ 
+    
+    
+    /* rounded corners */
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-left-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
+    
+    border-color: #ddd;
+     
+    -moz-box-shadow: 2px 2px 2px #888888;
+    -webkit-box-shadow: 2px 2px 2px #888888;
+    box-shadow: 2px 2px 2px #888888;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#888888')";
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#888888');
+    text-align:center;
+    
+}
+
+.fb-signin-button
+{
+    position:absolute;
+    width: 250px;
+    height: 70px;
+ 	
+ 	position: absolute;
+    right:0;
+    top: 45%;
+    
+ 	vertical-align: middle;
+ 	
+ 	cursor: pointer;
+ 	color: #fff;
+	background: #6b89c8; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b89c8', endColorstr='#3b5998', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#6b89c8), to(#3b5998)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #6b89c8,  #3b5998); /* for firefox 3.6+ */ 
+    
+    border: thin solid #5b79b8;
+    
+    -moz-box-shadow: 2px 2px 2px #888888;
+    -webkit-box-shadow: 2px 2px 2px #888888;
+    box-shadow: 2px 2px 2px #888888;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#888888')";
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#888888');
+}
+.fb-signin-button input.checkbox {position:absolute; border:0; top:50px; left:0px;}
+.fb-signin-button .iaccept {position:absolute; border:0; top:53px; left:25px; font-size:8pt;}
+.fb-signin-button .iaccept a {color:#fff;font-size:8pt; text-decoration:underline;}
+.fb-signin-button img {border:0;}
+.fb-signin-button .icon {float:left;}
+.fb-signin-button .action {float:left; margin: 12px 0 0 12px;}
+.fb-signin-button span {float: left; margin: 17px 0 0 15px; color: white;}
+
+div.centered .footer
+{
+    width: 800px;
+    height: 40px;
+    margin: 5px auto 0 auto;
+    padding: 5px 0 0 0;
+}
+
+.fb-like
+{
+    float: left;
+    padding: 2px;
+}
+
+div.usersonline
+{
+    padding:9px 5px 0 0;
+    float:right;
+}
+
+
+misc
+{
+    /* rounded corners */
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-left-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
+    
+    
+    /* background gradient */
+    background: #fff; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#dddddd'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#dddddd)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #eeeeee,  #dddddd); /* for firefox 3.6+ */ 
+    
+    /* box shadow */
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
+    box-shadow: 3px 3px 4px #000;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}
+
+div.textblock
+{
+    width:780px;
+    text-align: left;
+}
+
+div.formwidget 
+{
+    background: #eeeeee; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#bbbbbb', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#bbbbbb)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #eeeeee,  #bbbbbb); /* for firefox 3.6+ */ 
+    
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+}
+div.formwidget .header 
+{
+    background: #444444; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#555566', endColorstr='#111122', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#555566), to(#111122)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #555566,  #111122); /* for firefox 3.6+ */ 
+    
+    position:absolute; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px;
+}
+div.formwidget .footer {position:absolute; border-bottom-left-radius: 5px 5px; border-bottom-right-radius: 5px 5px;}
+div.orangebutton
+{
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    
+    background: #ff9900; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff9900', endColorstr='#ff5500', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ff9900), to(#ff5500)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ff9900,  #ff5500); /* for firefox 3.6+ */ 
+ 
+    cursor: pointer;
+    color:White;
+    vertical-align: middle;   
+    text-align:center;
+}
+div.orangebutton span {position:absolute;}
+div.orangebutton:active
+{
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    
+    background: #ff5500; /* for non-css3 browsers */
+}
+div.loading_small
+{
+    background-image: url("/Content/Images/Animated/preloader5097a1.gif");
+    margin-left:5px;
+    background-repeat: no-repeat;
+}
+
+
+div.buttondatinglounge
+{
+    margin: 0 auto;
+    padding: 5px 0 5px 0;
+    background: #ff4000; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff9900', endColorstr='#ff4000', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ff9900), to(#ff4000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #ff9900,  #ff4000); /* for firefox 3.6+ */ 
+    
+    /* rounded corners */
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    
+    font-family: Verdana;
+    text-align:center;
+    color: #fff;
+    font-size:11pt;
+    
+    cursor: pointer;
+    
+    border-color: #ff0000;
+     
+    -moz-box-shadow: 3px 3px 3px #aaaaaa;
+    -webkit-box-shadow: 3px 3px 3px #aaaaaa;
+    box-shadow: 3px 3px 3px #aaaaaa;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#aaaaaa')";
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#aaaaaa');
+}
+div.buttondatinglounge:active {background: #ff4000;}
+
+div.standartbutton
+{
+    height:22px;
+    margin: 0 auto;
+    
+    background: #dddddd; /* for non-css3 browsers */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#bbbbbb', enabled='true'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#bbbbbb)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #dddddd,  #bbbbbb); /* for firefox 3.6+ */ 
+        
+    padding:7px 0 0 0;
+    font-family: Arial;
+    text-align:center;
+    color: #000;
+    font-size:10pt;
+    font-weight: bold;
+    
+    cursor: pointer;
+    
+    border-color: #000;
+     
+    -moz-box-shadow: 1px 1px 1px #888888;
+    -webkit-box-shadow: 1px 1px 1px #888888;
+    box-shadow: 1px 1px 1px #888888;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#888888')";
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#888888');
+}
+div.standartbutton:active {background: #888888; color:#fff;}
+
+.whiteform 
+{
+    position: relative;
+    margin: 0 auto;
+    padding: 40px;
+    width:720px;
+    min-height: 460px;
+    background-color: #fff;
+    border: thin solid #333;
+    color: #333;
+    font-size: 10pt;
+}
+.whiteform h1,h2 {margin: 0 0 20px 0;color: #333;}
+.whiteform table {border: thin none #ddd; width: 100%; font-size: 10pt; margin: 0 0 20px 0; cellspacing:0;}
+.whiteform a {color: #333;}
+
+.transparentform 
+{
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    width:760px;
+    min-height: 460px;
+    font-size: 12pt;
+    color: #333;
+}
+.transparentform h1,h2 {margin: 0 0 20px 0;}
+.transparentform table {border: thin solid #ddd; width: 100%; font-size: 10pt; margin: 0 0 20px 0;}
+.transparentform h1, h2, h3, h4, h5 {color: #fff; margin-top: 0px;}
+
+.translucentform
+{
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    width:760px;
+    min-height: 500px;
+    color: #eee;
+    
+    background-color: rgba(0,0,0,0.3);
+    
+        
+    font-size: 10pt;
+}
+.translucentform h1, h2, h3, h4, h5 {color: #fff; margin-top: 0px;}
+
+
+div.simple
+{
+    position: relative;
+    font-family: Arial;
+    font-size: 9pt;
+    color: #333;
+}
+
+div.badge
+{
+    position: absolute;
+    min-height: 10px;
+    min-width: 8px;
+    top: -20px;
+    right: 2px;
+    color: #fff;
+    background-color: #ff3300;
+    font-family: Arial;
+    font-size: 9pt;
+    
+    border: 2px solid #fff;
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
+    border-bottom-left-radius: 10px 10px;
+    padding: 0 6px 1px 6px;
+        
+    -moz-box-shadow: 1px 1px 1px #333;
+    -webkit-box-shadow: 1px 1px 1px #333;
+    box-shadow: 1px 1px 1px #333;
+    
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#333333')";
+    
+    /* For IE 5.5 - 7 */
+    filter:progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='#333333');
+}
+
+#loadingoverlay
+{
+    display: none;
+    position: fixed;
+    top:0px;
+    left:0px;
+    padding:3px; 
+    background-image: url("/Content/Images/Translucent/blackdotalpha60.png");
+    background-repeat: repeat;
+    border: thin solid #fff; 
+    
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+}
+#loadingoverlay img {position:absolute; margin-top: 50%; margin-left: 50%; top: -64px; left: -64px; }
+#loadingoverlay div.label {position:absolute; margin-top: 50%; margin-left: 50%; top: 64px; left: -64px;  color: #fff; font-size: 20px; text-align: center; }
+
+.creditscanvas
+{
+    position: absolute;
+    top: 0px;
+    right: 185px;
+    float:right;
+    padding: 10px;
+                
+}

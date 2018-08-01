@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SkillCow.Classes.Cloud.TableStorage.SiteVisit>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table>
+        <tr>
+            <th>
+                Controller
+            </th>
+            <th>
+                Action
+            </th>
+            <th>
+                IP
+            </th>
+            <th>
+                Browser
+            </th>
+            <th>
+                Timestamp
+            </th>
+            <th>
+                PartitionKey
+            </th>
+            <th>
+                RowKey
+            </th>
+            
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Controller)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Browser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartitionKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowKey)
+            </td>
+
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

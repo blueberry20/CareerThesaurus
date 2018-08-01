@@ -1,0 +1,249 @@
+﻿@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogPost;
+@using SkillCowResponsive.Classes.Cloud.TableStorage.BlogCategory;
+@using System.Text.RegularExpressions;
+
+<link href="/Content/css/Blog/Index.css" rel="Stylesheet" />
+<link href="~/Content/css/Blog/blog.css" rel="stylesheet" />
+
+@{
+    BlogCategoryClient bcc = new BlogCategoryClient();
+    ViewBag.Title = "Article";
+}
+
+<!--================================= Blog Page ============================== -->
+
+
+<div class="pageContainer blogPage">
+    <div class="container">
+        <div class="row">
+            <!--================================= Main section ============================== -->
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 blogPostsWrapper">
+                <div class="blogPostShort">
+                    <div class="row">
+                        <img class="img-responsive" src="../../Content/images/19-3011.jpg" alt="" />
+                    </div>
+                    <h2>7 Ways You're Getting in the Way of Your Own Success</h2>
+                    <div class="shareRowText">
+                        <p class="blogDate">February 20, 2015</p><span>|</span>
+                        <a href="" class="blogCategory">Careers</a><span>|</span>
+                        <p class="blogComments">25 comments</p>
+                    </div>
+                    <div id="tagRow">
+                        <a class="blogTag">Success</a>
+                        <a class="blogTag">Self-improvement</a>
+                    </div>
+                        <div class="shareDiv row coloredSocialIcons text-left">
+                            <ul class="social-icons">
+                                <li class="share twitter"><a href="http://twitter.com/intent/tweet?text=What career fits your personality? Find out at:&url=http://CareerThesaurus.com/careertest" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li class="share facebook"><a href='https://www.facebook.com/dialog/feed?app_id=153111284881428&link=http://CareerThesaurus.com/CareerTest&redirect_uri=https://facebook.com&name=What career fits your personality? &action=%5B%7B"name"%3a"What%20career%20fits%20your%20personality"%3F%20Find%20out%20at:"link"%3A"http://CareerThesaurus.com%2F"%7D%5D' target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li class="share gplus"><a href="https://plus.google.com/share?url=CareerThesaurus.com/CareerTest" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                    
+                    <p class="blogParagraph">
+                        There’s no one secret to success, but it doesn’t happen by accident, either. Successful people work hard at themselves and their business. Importantly, they learn to stop hindering their efforts by avoiding these seven things:
+                    </p>
+                    <h3>1. Dwelling on Regrets</h3>
+                    <p class="blogParagraph">
+                        Sure, it’s important to understand your mistakes and failures and learn from them. Dwelling on them, however, is a sure way to make yourself unable to move forward.Stop looking back, and file those lessons you’ve learned. You’ll need them on your path to success.
+                    </p>
+                    <p class="blogParagraph">
+                        There’s no one secret to success, but it doesn’t happen by accident, either. Successful people work hard at themselves and their business. Importantly, they learn to stop hindering their efforts by avoiding these seven things:
+                    </p>
+                    <h3>1. Dwelling on Regrets</h3>
+                    <p class="blogParagraph">
+                        Sure, it’s important to understand your mistakes and failures and learn from them. Dwelling on them, however, is a sure way to make yourself unable to move forward.Stop looking back, and file those lessons you’ve learned. You’ll need them on your path to success.
+                    </p>
+                    <h3>2. Envying Successful People</h3>
+                    <p class="blogParagraph">
+                        Look up to people who are successful in your space, whether in work or in life. Keep jealousy and envy in check.Here’s what you should do: Emulate them. Analyze what they’ve done right and how you can use their teachings to propel you to success of your own. But beware the negativity that festers inside if you allow yourself to get envious—there’s a reason they call envy the green-eyed monster.
+                    </p>
+                    <h3>3. Surrounding Themselves With Turkeys</h3>
+                    <p class="blogParagraph">
+                        There’s an old saying a friend in college shared with me: You can’t soar like an eagle if you’re surrounded by a bunch of turkeys. Avoid negative people, complainers, and those who suck the life out of you by taking without giving. It’s hard to move forward with your plans when you’re constantly bombarded by the negativity of people around you. Instead, surround yourself with successful, positive people.
+                    </p>
+                    <h3>4. Second-Guessing Themselves Incessantly</h3>
+                    <p class="blogParagraph">
+                        It’s good to have a plan and to revisit it from time to time to ensure you’re on track. However, second-guessing and questioning every decision you make will keep you firmly in first gear, spinning your wheels. Trust in your own experience and abilities. Remember all those lessons you learned and filed away? They’re driving your every decision, whether you realize it or not. Don’t become so paralyzed with overthinking and analysis that you can’t act on what you need to do to experience success.
+                    </p>
+                    <h3>5. Becoming Complacent</h3>
+
+                    <p class="blogParagraph">
+                        It’s one thing to experience happiness and be content with yourself—that’s a really good thing. But don’t let yourself get so comfortable that you’re not hungry for change. If you didn’t need to change anything, you would already be wildly successful. What you’re doing today can always be improved on and expanded. Keep your hunger sharp and your drive strong. You can always afford to learn something new.
+                    </p>
+                    <h3>6. Talking the Talk Without Taking the Next Steps</h3>
+                    <p class="blogParagraph">
+                        Again, having a plan is great, and it’s important that you have a clear vision of how it’s going to play out. If you find yourself constantly talking about the plan without making any meaningful achievements toward accomplishing it, you’re guilty of not walking your walk. In business, we often have to talk a big game, but that can’t be all there is to it. Set clear, measurable goals to ensure you’re always moving forward.
+                    </p>
+                    <h3>7. Equating Money with Success</h3>
+                    <p class="blogParagraph">
+                        As much as we recite the old mantra “money won’t buy you happiness,” most of us (especially in business) still default to money as the primary measure of success. Whether you’re an entrepreneur or an employee, your revenue or salary can drive a lot of your feeling of self-worth—if you let it. Focus instead on providing a great service, building a better product, inspiring others on your team. There are a million ways to measure success, but focusing on money as a metric is sure to bring a constant feeling that you’re less than worthy. That’s not a place from which to build a successful anything.
+                    </p>
+                </div>
+
+               
+
+                <ul class="pager">
+                    <li class="previous disabled"><a href="Blog">&larr; Older Articles</a></li>
+                    <li class="next"><a href="Blog/Page/">Newer Articles &rarr;</a></li>
+                </ul>
+
+            </div>
+            <!--================================= Right sidebar ============================== -->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 blogSidebar">
+                <div class="sidebarWidget" id="signupWidget">
+                    <h3>Sign up to receive our new blog posts!</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter your email" />
+                    </div>
+                    <button type="submit" class="btn greenBorderBtn">Sign up</button>
+                </div>
+
+                <!--Categories-->
+                <div class="sidebarWidget categoriesWidget">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li>
+                            <a href="Blog/Category/">Careers<i class="fa fa-angle-right pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a href="Blog/Category/">Inspiration<i class="fa fa-angle-right pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a href="Blog/Category/">Jobs<i class="fa fa-angle-right pull-right"></i></a>
+                        </li>
+                        <li>
+                            <a href="Blog/Category/">Education<i class="fa fa-angle-right pull-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sidebarWidget">
+                    <h3>Archive</h3>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="archive" data-toggle="dropdown">
+                            Select Month and Year
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            @{
+                                DateTime startDate = new DateTime(2014, 09, 01);
+                                while (startDate <= DateTime.Today)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/Blog/Archive/@startDate.Year/@startDate.ToString("MM")">@startDate.ToString("MMMMMMMMM") @startDate.Year</a></li>
+                                    startDate = startDate.AddMonths(1);
+                                }
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+                <!--Tags-->
+                <div class="sidebarWidget" id="tagsWidget">
+                    <h3>Tags</h3>
+                    <div class="tagCloud">
+                        <a>Business</a>
+                        <a>Web Development</a>
+                        <a>Quitting your job</a>
+                        <a>Find your passion</a>
+                    </div>
+                </div>
+
+                <!--Recent Posts-->
+                <div class="sidebarWidget">
+                    <h3>Recent Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to start?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What to do?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!--Most Popular Posts-->
+                <div class="sidebarWidget">
+                    <h3>Most Popular Posts</h3>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/books_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>Where to study?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man2_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>How to grow?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                    <a href="#" class="articleEntry row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 articleImageHolder">
+                            <img class="img-responsive" src='@Url.Content("~/Content/images/man_sm.jpg")' alt="" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 articleInfo">
+                            <h4>What careers are popular?</h4>
+                            <p class="blogDate">December 25, 2013</p>
+                            <p class="blogComments">38 Comments</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="sidebarWidget advertisementWidget">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- CareerThesaurus -->
+                    <h6 class="advertisement">Advertisement</h6>
+                    <ins class="adsbygoogle adslot_1"
+                         style="display:block"
+                         data-ad-client="ca-pub-3486420009474810"
+                         data-ad-slot="6576327288"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function document_ready() {
+        //$('.blogImageHolder').each(function (index, element) {
+        //    var regex = new RegExp(/\{\{[a-z0-9]{4}\}\}/g);
+        //    var code = $(element).text();
+        //    if (regex.test(code)) {
+        //        var path = $(element).data('path');
+        //        $(element).html('<img src="https://careerthesaurus.blob.core.windows.net/blog/' + path + '/' + code.substring(2, 6) + '">');
+        //    } else {
+        //        $(element).hide();
+        //    }
+        //});
+    }
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+<script src="//platform.linkedin.com/in.js" type="text/javascript" async defer>
+    lang: en_US
+</script>

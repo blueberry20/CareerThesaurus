@@ -1,0 +1,167 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Rhyme</title>
+    <script src='http://code.jquery.com/jquery-2.0.3.min.js'></script>
+    <script src='/scripts/bustaverse/words.js'></script>
+
+    <script src='/scripts/bustaverse/common/data.js'></script>
+    <script src='/scripts/bustaverse/common/utility.js'></script>
+    <script src='/scripts/bustaverse/rhyme/rules.js'></script>
+    <script src='/scripts/bustaverse/rhyme/exceptions.js'></script>
+    <script src='/scripts/bustaverse/rhyme/autophoneme.js'></script>
+    <script src='/scripts/bustaverse/rhyme/findrhyme.js'></script>
+    <script src='/scripts/bustaverse/syllablecounter/code.js'></script>
+</head>
+<body>
+    <div id="main">
+        
+    </div>
+    <div id="panel" style="background-color: #eee; position: absolute; top: 0px; right: 0px; width: 400px; padding: 10px;">
+        
+    </div>
+    <div id="status" style="position: fixed; top: 0; right: 0;">   
+        
+    </div>
+</body>
+</html>
+
+<style>
+    div.cell{min-width: 160px;  display: inline-block}
+    div.headline{ display: inline-block; font-size: 34pt; margin-right: 20px;}
+</style>
+
+<script>
+
+    var debugword = 'be';
+    $(document).ready(function () {
+
+        //trace = true;
+        //var result = findRhyme('ballroom');
+        //var result = endsWith('kudos', 'Vs');
+        //alert(result.word + ' ' + result.phoneme + ' ' + result.autophoneme);
+        //return;
+
+        var i = 0;
+        var results = new Array();
+
+        var wordscontaining = '';
+        var rangemin = 0, rangemax = 2000;
+
+
+        try {
+            var cnt = 0;
+            for (var i = 0; i < words.length; i++) {
+                if (i >= rangemin && i <= rangemax) {
+
+                    if (wordscontaining == '' || (words[i].indexOf(wordscontaining) >= 0)) {
+                        $('#status').html(i + ' out of ' + words.length + ', ' + words[i]);
+
+                        //alert(words[i]);
+
+                        var result = findRhyme(words[i]);
+
+                        results.push(result);
+                    }
+
+                }
+            }
+
+            results.sort(sortbytranslation);
+
+
+            var solophoneme = '';
+
+            var excludedphonemes = ''; // ',tee,shan,see,lee,shal,nes,lay,ley,mant,les,let,ism,ing,key,if,iayt,ens,edzh,dam,ayz,adzh,ayf,fay,fi,';
+
+            var cnt = 0;
+            var phonemes = 0;
+
+            var endings = new Array();
+
+            $('#main').append('<table id="results"></table>');
+
+            for (var i = 0; i < results.length; i++) {
+                //if (results[i].ruletype == 'auto') {
+                //$('#main').append('<div><div class="cell">' + results[i].word + '</div><div class="cell">-' + results[i].ending + '</div><div class="cell">#' + results[i].phoneme + '</div></div>');
+
+                //var result = countSyllables(results[i].autophoneme);
+                //$('#main').append('<div>#' + results[i].autophoneme + '(' + result.count + ') : ' + results[i].word + ' </div>');
+                //$('#main').append('<div>' + results[i].word + ' y is a vowel: ' + isYaVowelIn(results[i].word) + ' y is a consonant: ' + isYaConsonantIn(results[i].word) + '</div>');
+
+                $('#results').append('<tr>' +
+                        '<td>' + i + '</sup></td>' +
+                        '<td>' + results[i].word + '<sup>' + countSyllables(results[i].word).count + '</sup></td>' +
+                        '<td>' + results[i].ruletype + '</td>' +
+                        '<td>' + results[i].rule + '</td>' +
+                        '<td>' + results[i].phoneme + '</td>' +
+                        '<td>' + results[i].translation + '<sup>' + countSyllables(results[i].translation).count + '</sup></td>' +
+                        '<td>' + results[i].trace + '</td>' +
+                        '</tr>');
+                //}
+
+
+
+
+                cnt++;
+                if (results[i].phoneme != '') {
+                    phonemes++;
+                }
+                else {
+                    if (results[i].word.length >= 2) {
+                        var ending = results[i].word.substring(results[i].word.length - 2);
+                        var found = false;
+
+
+                        for (var j = 0; j < endings.length; j++) {
+                            if (endings[j].code == ending) {
+                                endings[j].rank++;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            endings.push({ code: ending, rank: 1 });
+                        }
+                    }
+                }
+
+            }
+            //$('#panel').append('Completeness: ' + (phonemes / cnt * 100).toFixed(2) + '%');
+            //$('#panel').append('<br>' + phonemes + ' out of ' + cnt);
+
+            endings.sort(sortbyrank);
+
+            //for (var j = 0; j < endings.length; j++) {
+            //    $('#panel').append('<br>' + endings[j].rank + ' : ' + endings[j].code);
+            //}
+
+        }
+        catch (e) {
+            alert('document.ready():\n\n' + e.message);
+        }
+    });
+
+    function sortbytranslation(a, b) {
+        if (a.translation > b.translation)
+            return -1;
+        if (a.translation < b.translation)
+            return 1;
+        return 0;
+    }
+
+    function sortbyrank(a, b) {
+        if (a.rank > b.rank)
+            return -1;
+        if (a.rank < b.rank)
+            return 1;
+        return 0;
+    }
+
+</script>

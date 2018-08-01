@@ -1,0 +1,803 @@
+﻿<link href="/Content/css/Careers/In.css" rel="Stylesheet" />
+
+@{
+    ViewBag.Title = "In";
+}
+<!--================================= Careers In Page ============================== -->
+@section menuPlaceholder {
+   <div class="filterIcon"><i class="icon-filter"></i></div>
+   <div class="tagsIcon"><p>Tags</p></div>
+}
+
+<div class="pageContainer" id="careersInPage">
+    <div class="container">       
+                              
+           
+<!--================================= Alphabetical Index ============================== -->
+        <div id="indexHolder">
+            <!--Index handle-->
+            <div id="abc">
+                Index
+            </div>
+
+            <!--Alphabetical Indexx To be shown vertically-->
+            <div id="alphabetIndex" role="navigation">
+                <div class="list-group nav">
+                    <a href="#letterA" class="scroll list-group-item active" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>A</p></a> 
+                    <a href="#letterB" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>B</p></a> 
+                    <a href="#letterC" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>C</p></a> 
+                    <a href="#letterD" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>D</p></a> 
+                    <a href="#letterE" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>E</p></a> 
+                    <a href="#letterF" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>F</p></a> 
+                    <a href="#letterG" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>G</p></a> 
+                    <a href="#letterH" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>H</p></a> 
+                    <a href="#letterI" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>I</p></a> 
+                    <a href="#letterJ" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>J</p></a>
+                    <a href="#letterK" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>K</p></a> 
+                    <a href="#letterL" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>L</p></a> 
+                    <a href="#letterM" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>M</p></a> 
+                    <a href="#letterN" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>N</p></a> 
+                    <a href="#letterO" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>O</p></a> 
+                    <a href="#letterP" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>P</p></a> 
+                    <a href="#letterQ" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>Q</p></a> 
+                    <a href="#letterR" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>R</p></a> 
+                    <a href="#letterS" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>S</p></a> 
+                    <a href="#letterT" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>T</p></a>
+                    <a href="#letterU" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>U</p></a> 
+                    <a href="#letterV" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>V</p></a> 
+                    <a href="#letterW" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>W</p></a> 
+                    <a href="#letterX" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>X</p></a> 
+                    <a href="#letterY" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>Y</p></a> 
+                    <a href="#letterZ" class="scroll list-group-item" data-speed="500" data-easing="easeInOutCunic" data-url="false"><p>Z</p></a> 
+                </div>
+            </div> 
+        </div>
+
+<!--================================= Career Listings============================== -->
+        <div class ="row" data-spy="scroll" data-target="#alphabetIndex" data-offset="100">
+
+<!--================================= Left Side ============================== -->
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3" id="careerLeftBar">
+
+                <!--Salary Select-->
+                <div class="collapseDiv">
+
+                    <div class="shadedHeader open" data-toggle="collapse" data-target="#careerSalarySelect">
+                        <div class="caretHolder"><span class="caret"></span></div> 
+                        <h2>Salary</h2>
+                      <!--<p class="collapseValue pull-right">Any</p> -->
+                    </div>
+
+                    <div id="careerSalarySelect" class="collapse in">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="40000">
+                                $40,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="60000">
+                                $60,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="80000">
+                                $80,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="100000">
+                                $100,000+
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="salaryRadios" value="120000">
+                                $120,000+
+                            </label>
+                        </div>
+                    </div>
+                </div>
+           
+
+                <!--Min Education level Radio Buttons-->
+                 <div class="collapseDiv">
+                    <div class="shadedHeader open" data-toggle="collapse" data-target="#educationRadio">             
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Min Education Level</h2>                     
+                    </div>
+
+                    <div id="educationRadio" class="collapse in">
+                        <div class="radio">
+                          <label>
+                                <input type="radio" name="educationRadios" value="none">
+                                None                        
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="highSchool">
+                                High School
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="someCollege">
+                                Some College
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="certificate">
+                                Certificate
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="associate">
+                                Associate's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="bachelors">
+                                Bachelor's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="masters">
+                                Master's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="educationRadios" value="phd">
+                                PHD
+                          </label>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Experience Level Radio Buttons-->
+                 <div class="collapseDiv">
+                    <div class="shadedHeader open" data-toggle="collapse" data-target="#experienceRadio">                                    
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Experience Level</h2>                      
+                    </div>
+
+                    <div id="experienceRadio" class="collapse in">
+                        <div class="radio">
+                          <label>
+                                <input type="radio" name="experienceRadios" value="none">
+                                None                        
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="experienceRadios" value="lessThan5">
+                                Less than 5 years
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                              <input type="radio" name="experienceRadios" value="moreThan5">
+                                More than 5 years
+                          </label>
+                        </div>                        
+                    </div>
+                </div>
+
+                <div class="sidebarDiv">
+                    <div class="shadedHeader">
+                        <h2 id="tagsHeader">Tags</h2>
+                    </div>
+                    <div id="professionTags">                                   
+                        <a href="#" class="profTag1">Retail</a> 
+                        <a href="#" class="profTag2">Responsibility</a>
+                        <a href="#" class="profTag3">Responsible</a>
+                        <a href="#" class="profTag4">Retail</a> 
+                        <a href="#" class="profTag5">Role</a> 
+                        <a href="#" class="profTag6">Route</a> 
+                        <a href="#" class="profTag7">Safe</a> 
+                        <a href="#" class="profTag8">Safety</a>
+                        <a href="#" class="profTag9">Sales</a> 
+                        <a href="#" class="profTag10">Scanning</a> 
+                        <a href="#" class="profTag11">Schedule</a> 
+                        <a href="#" class="profTag12">School</a> 
+                        <a href="#" class="profTag13">Searching</a>
+                        <a href="#" class="profTag14">Seeks</a>
+                        <a href="#" class="profTag15">Sense</a> 
+                        <a href="#" class="profTag16">Responsibility</a>
+                        <a href="#" class="profTag17">Responsible</a>
+                        <a href="#" class="profTag18">Retail</a> 
+                        <a href="#" class="profTag19">Role</a> 
+                        <a href="#" class="profTag20">Route</a> 
+                        <a href="#" class="profTag21">Safe</a> 
+                        <a href="#" class="profTag22">Safety</a>
+                        <a href="#" class="profTag23">Sales</a> 
+                        <a href="#" class="profTag1">Retail</a> 
+                        <a href="#" class="profTag2">Responsibility</a>
+                        <a href="#" class="profTag3">Responsible</a>
+                        <a href="#" class="profTag4">Retail</a> 
+                        <a href="#" class="profTag5">Role</a> 
+                        <a href="#" class="profTag6">Route</a> 
+                        <a href="#" class="profTag7">Safe</a> 
+                        <a href="#" class="profTag8">Safety</a>
+                        <a href="#" class="profTag9">Sales</a> 
+                        <a href="#" class="profTag10">Scanning</a> 
+                        <a href="#" class="profTag11">Schedule</a> 
+                        <a href="#" class="profTag12">School</a> 
+                        <a href="#" class="profTag13">Searching</a>
+                        <a href="#" class="profTag14">Seeks</a>
+                        <a href="#" class="profTag15">Sense</a> 
+                        <a href="#" class="profTag16">Responsibility</a>
+                        <a href="#" class="profTag17">Responsible</a>
+                        <a href="#" class="profTag18">Retail</a> 
+                        <a href="#" class="profTag19">Role</a> 
+                        <a href="#" class="profTag20">Route</a> 
+                        <a href="#" class="profTag21">Safe</a> 
+                        <a href="#" class="profTag22">Safety</a>
+                        <a href="#" class="profTag23">Sales</a> 
+                    </div>
+                </div>
+            </div><!--careerLeftBar-->
+
+            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12"  id="careerListingsSection">
+                <h1>Careers in Business</h1>
+
+
+<!--================================= Letter A ============================== -->
+  <div class="letterSection shadowBorderSection" id="letterA">   
+                <h2>A</h2>       
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+             </div><!--letterSection-->
+            
+<!--================================= Letter B ============================== -->
+     
+      <div class="letterSection shadowBorderSection" id="letterB">   
+                <h2>B</h2>       
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+             </div><!--letterSection-->      
+            
+<!--================================= Letter C============================== -->
+             <div class="letterSection shadowBorderSection" id="letterC">   
+                <h2>C</h2>       
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+             </div><!--letterSection-->
+
+<!--================================= Letter D ============================== -->
+             <div class="letterSection shadowBorderSection" id="letterD">   
+                <h2>D</h2>       
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+             </div><!--letterSection-->
+<!--================================= Letter E ============================== -->
+            <div class="letterSection shadowBorderSection" id="letterE">   
+                <h2>E</h2>       
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="listing">
+                    <h3>Human Resource Manager</h3>
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <p>This job requires a can do attitude as it has many facets and responsibilities. The job requires that you oversee all of the people working at a particular company or institution.</p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="/Career"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+             </div><!--letterSection-->
+            </div>
+<!--================================= Right Side ============================== -->
+
+            <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-offset-4 col-sm-8 col-xs-12" id="careerRightBar">
+                <div class="sidebarDiv banner1">
+                    <p>Bust-a-verse.</p>
+                    <p>Launching soon</p>
+                </div>
+
+                <div class="sidebarDiv banner2">
+                    <p>ChainDate. <br/>
+                    New and Exciting Way To Meet People</p>                  
+                </div>
+            </div>
+        </div><!--row-->
+
+<!--================================= Mobile Version ============================== -->
+       <div id="mobileCareerTags">
+            
+                <div class="searchQueryDiv">
+                    <h1>Add a keyword to your search query:</h1>       
+                        <a class="tag">Web Developer<span class="glyphicon glyphicon-remove"></span></a> 
+                        <a class="tag">Finance<span class="glyphicon glyphicon-remove"></span></a>        
+                </div>    
+               
+                <div class="scrollableDiv">
+                    <div id="topCareerKeywordsMobile">            
+                        <h2>Top Keywords</h2>            
+                        <a class="mobileKeyword">Seeks</a>
+                        <a class="mobileKeyword">Sense</a> 
+                        <a class="mobileKeyword">Responsibility</a>
+                        <a class="mobileKeyword">Responsible</a>
+                        <a class="mobileKeyword">Retail</a> 
+                        <a class="mobileKeyword">Role</a> 
+                        <a class="mobileKeyword">Route</a> 
+                        <a class="mobileKeyword">Safe</a> 
+                        <a class="mobileKeyword">Safety</a>
+                        <a class="mobileKeyword">Sales</a> 
+                        <a class="mobileKeyword">Scanning</a> 
+                        <a class="mobileKeyword">Schedule</a> 
+                        <a class="mobileKeyword">School</a>                              
+                        <a class="mobileKeyword">Seeks</a>
+                        <a class="mobileKeyword">Sense</a> 
+                        <a class="mobileKeyword">Responsibility</a>
+                        <a class="mobileKeyword">Responsible</a>
+                        <a class="mobileKeyword">Retail</a> 
+                        <a class="mobileKeyword">Role</a> 
+                        <a class="mobileKeyword">Route</a> 
+                        <a class="mobileKeyword">Safe</a> 
+                        <a class="mobileKeyword">Safety</a>
+                        <a class="mobileKeyword">Sales</a>   
+                        <a class="mobileKeyword">Seeks</a>
+                        <a class="mobileKeyword">Sense</a> 
+                        <a class="mobileKeyword">Responsibility</a>
+                        <a class="mobileKeyword">Responsible</a>
+                        <a class="mobileKeyword">Retail</a> 
+                        <a class="mobileKeyword">Role</a> 
+                        <a class="mobileKeyword">Route</a> 
+                        <a class="mobileKeyword">Safe</a> 
+                        <a class="mobileKeyword">Safety</a>
+                        <a class="mobileKeyword">Sales</a> 
+                        <a class="mobileKeyword">Scanning</a> 
+                        <a class="mobileKeyword">Schedule</a> 
+                        <a class="mobileKeyword">School</a>                              
+                        <a class="mobileKeyword">Seeks</a>
+                        <a class="mobileKeyword">Sense</a> 
+                        <a class="mobileKeyword">Responsibility</a>
+                        <a class="mobileKeyword">Responsible</a>
+                        <a class="mobileKeyword">Retail</a> 
+                        <a class="mobileKeyword">Role</a> 
+                        <a class="mobileKeyword">Route</a> 
+                        <a class="mobileKeyword">Safe</a> 
+                        <a class="mobileKeyword">Safety</a>
+                        <a class="mobileKeyword">Sales</a>     
+                   </div>                            
+            </div>
+       </div>
+
+       <div id="mobileCareerFilter">
+            <h1>Advanced Search</h1>
+            <div class="scrollableDiv">
+             
+                <!--Salary Select-->
+                <div class="collapseDivMobile">
+                    <div data-toggle="collapse" data-target="#careerSalaryMobile">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Salary</h2>
+                      <p class="collapseValueMobile pull-right">Any</p>
+                    </div>
+                    <div id="careerSalaryMobile" class="collapse">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                            $60,000+
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                            $80,000+
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                            $100,000+
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                            $120,000+
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                            $120,000+
+                          </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Education Select-->
+                <div class="collapseDivMobile">
+                    <div data-toggle="collapse" data-target="#careerEducationMobile">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Min Education Level</h2>
+                      <p class="collapseValueMobile pull-right">Any</p>                     
+                    </div>
+                    <div id="careerEducationMobile" class="collapse">
+                                                <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios" value="none">
+                            None                        
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios" value="highSchool">
+                            High School
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="someCollege">
+                            Some College
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="certificate">
+                            Certificate
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="associate">
+                            Associate's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="bachelors">
+                            Bachelor's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="masters">
+                            Master's Degree
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="phd">
+                            PHD
+                          </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Experience Select-->
+                <div class="collapseDivMobile">
+                    <div data-toggle="collapse" data-target="#experienceSelectMobile">
+                        <div class="caretHolder"><span class="caret"></span></div>
+                        <h2>Jop Type</h2>
+                      <p class="collapseValueMobile pull-right">Any</p>                    
+                    </div>
+                    <div id="experienceSelectMobile" class="collapse">
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios" value="none">
+                            None                        
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios" value="lessThan5">
+                            Less than 5 years
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="optionsRadios"  value="moreThan5">
+                            More than 5 years
+                          </label>
+                        </div> 
+                    </div>
+                </div>
+
+  
+            </div><!--scrollableDiv-->
+       </div><!--mobile career filter-->
+
+
+
+   </div><!--container-->
+</div><!--pageContainer-->
+
+<script>
+    function document_ready() {
+        //activate bootstrap scrollspy
+        $('body').scrollspy({
+            offset: 300
+        });
+
+        //redirect to career description page
+        $('.listing').click(function () {
+            location.href = '@Url.Content("~/Career")';
+        })
+
+
+        //Mobile version. Activate nicescroll
+        $(".scrollableDiv").niceScroll({ cursoropacitymin: 0.9 });
+
+
+        //Show mobile tags overlay on click of icon
+        $('.tagsIcon').click(function () {
+
+            //if closed
+            if ($('#mobileCareerTags').is(':visible')) {
+                $('#mobileCareerTags').hide();
+                $('.navbar-toggle').css('display', 'block'); //menu icon
+                $('.filterIcon').css('display', 'block');
+                $('.tagsIcon p').text("Tags");
+            } else { //if open
+                $('#mobileCareerTags').show();
+                $('.navbar-toggle').css('display', 'none');
+                $('.filterIcon').css('display', 'none');
+                $('.tagsIcon p').text("Done");
+            };
+        });
+
+        /*show advanced search on click of icon*/
+        $('.filterIcon').click(function () {
+            //if closed
+            if ($('#mobileCareerFilter').is(':visible')) {
+                $('#mobileCareerFilter').hide();
+                $('.navbar-toggle').css('display', 'block');
+                $('.tagsIcon').css('display', 'block');
+                $('.filterIcon i').removeClass("icon-cancel").addClass("icon-filter");
+            } else {//if open
+                $('#mobileCareerFilter').show();
+                $('.navbar-toggle').css('display', 'none');
+                $('.tagsIcon').css('display', 'none');
+                $('.filterIcon i').removeClass("icon-filter").addClass("icon-cancel");
+            };
+        });
+
+        //Tags mobile page. On click of keyword, add to search query
+        $(".mobileKeyword").click(function () {
+            //adds class selected to the element that was clicked
+            $(this).addClass("selected");
+            //create a duplicate of the element that was clicked
+            var cloneKeyword = $(this).clone();
+            cloneKeyword.addClass('tag');
+
+            cloneKeyword.click(function () {
+                $(this).remove();
+            });
+
+            //place the duplicate inside the top div after last tag and add close glyphicon
+            cloneKeyword.insertAfter('#mobileCareerTags .searchQueryDiv a:last-child').removeClass('selected').removeClass('mobileKeyword').append('<span class="glyphicon glyphicon-remove"></span>');
+        });
+
+        //delete keyword on click in the query section
+        $('.tag').click(function () {
+            $(this).remove();
+        });
+    };
+</script>
